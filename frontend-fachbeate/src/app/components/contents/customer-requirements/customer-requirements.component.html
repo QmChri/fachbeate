@@ -1,0 +1,87 @@
+<h3>Anforderungen Technologische Unterstützung</h3>
+<hr>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header  text-white bg-danger">Anforderungen durch</div>
+            <div class="card-body">
+                <div class="center-items">
+                    <div>
+                        <label id="customerRequirements">Firma</label>
+                        <input type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
+                    </div>
+                    <div>
+                        <label id="customerRequirements">Ansprechpartner</label>
+                        <input type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header  text-white bg-danger">Technologe</div>
+            <div class="card-body">
+                <div class="center-items">
+                    <div>
+                        <label id="technologe">Anforderter Technologe</label>
+                        <mat-select>
+                            <mat-option *ngFor="let technologe of technologenList"
+                                [value]="technologe.firstName + ' ' + technologe.lastName">
+                                {{technologe.firstName }} {{ technologe.lastName }}
+                            </mat-option>
+                        </mat-select>
+                    </div>
+                    <div>
+                        <label id="">Datum von</label>
+                        <input type="datetime-local" class="form-control" placeholder="Eingabe ... "
+                            aria-label="Username">
+                    </div>
+                    <div>
+                        <label id="">Datum bis</label>
+                        <input type="datetime-local" class="form-control" placeholder="Eingabe ... "
+                            aria-label="Username">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header  text-white bg-danger">Reiseplanung</div>
+            <div class="card-body">
+                <div class="center-items">
+                    <div>
+                        <label>Flugbuchung</label>
+                        <mat-form-field>
+                            <mat-select>
+                                <mat-option value="option1">Almi</mat-option>
+                                <mat-option value="option2">Kunde</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div>
+                        <label id="customerRequirements">Hotelbuchung</label>
+                        <mat-form-field>
+                            <mat-select>
+                                <mat-option value="option1">Almi</mat-option>
+                                <mat-option value="option2">Kunde</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div>
+                        <label id="customerRequirements">Sonstige Anmerkungen</label>
+                        <input type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
+                    </div>
+                    <div>
+                        <label id="customerRequirements">Interne Notiz</label>
+                        <input type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -19,16 +19,16 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatTabsModule } from '@angular/material/tabs'
 import { MatButtonModule } from '@angular/material/button';
-import {MatDialogModule} from '@angular/material/dialog';
-import { MatPaginatorModule} from '@angular/material/paginator';
-import { MatSortModule} from '@angular/material/sort';
-import { MatTableModule} from '@angular/material/table';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 
 @NgModule({
   declarations: [
-    AppComponent, 
+    AppComponent,
     BodyComponent,
     SidenavComponent,
     SublevelMenuComponent,
@@ -42,6 +42,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     BrowserAnimationsModule,
     MatSlideToggleModule,
     MatCheckboxModule,
+    MatSelectModule,
     MatSelectModule,
     MatFormFieldModule,
     MatInputModule,
