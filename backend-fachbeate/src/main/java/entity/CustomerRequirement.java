@@ -21,9 +21,6 @@ public class CustomerRequirement extends TechnologistAppointment {
     public String hotelBooking;
     public String furtherNotes;
 
-    public LocalDate releaseManagement;
-    public LocalDate releaseSupervisor;
-
     public String internalNote;
 
     public CustomerRequirement() {
