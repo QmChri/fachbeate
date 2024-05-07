@@ -1,9 +1,7 @@
 .center-items {
     display: flex;
     flex-direction: column;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-    align-items: stretch;
+    flex-wrap: wrap;
 }
 
 .card-body {
@@ -12,4 +10,19 @@
     flex-wrap: nowrap;
     justify-content: space-evenly;
     min-height: 15em;
+}
+
+.flugHotel {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.multiple-select {
+    min-width: 20rem;
+    max-width: 20rem;
+}
+
+.mat-option {
+    display: block;
 }
