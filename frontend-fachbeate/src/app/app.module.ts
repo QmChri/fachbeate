@@ -6,7 +6,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, provideHttpClient } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SublevelMenuComponent } from './components/sidenav/sublevel-menu.component';
 
@@ -24,7 +24,20 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { CommonModule, registerLocaleData } from '@angular/common';
 
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { CustomerRequirementsComponent } from './components/contents/customer-requirements/customer-requirements.component';
+import { NZ_I18N } from 'ng-zorro-antd/i18n';
+import { de_DE } from 'ng-zorro-antd/i18n';
+import de from '@angular/common/locales/de';
+import { MatOptionModule } from '@angular/material/core';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
+
+registerLocaleData(de);
 
 @NgModule({
   declarations: [
@@ -32,9 +45,12 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     BodyComponent,
     SidenavComponent,
     SublevelMenuComponent,
-    DashboardComponent
+    DashboardComponent,
+    CustomerRequirementsComponent,
   ],
   imports: [
+    CommonModule,
+    FormsModule,
     BrowserModule,
     AppRoutingModule,
     FormsModule,
@@ -56,9 +72,19 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
+    NzTableModule,
+    NzInputModule,
+    NzButtonModule,
+    NzPopconfirmModule,
+    FormsModule,
+    CommonModule,
+    MatOptionModule,
+    NzEmptyModule
   ],
   providers: [
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    { provide: NZ_I18N, useValue: de_DE },
+    provideHttpClient()
   ],
   bootstrap: [AppComponent]
 })

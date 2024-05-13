@@ -7,12 +7,12 @@
             <div class="card-header  text-white bg-danger">Anforderungen durch</div>
             <div class="card-body">
                 <div class="center-items">
-                    <div>
-                        <label id="customerRequirements">Firma</label>
+                    <div class=" mb-3">
+                        <label>Firma</label>
                         <input type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
                     </div>
-                    <div>
-                        <label id="customerRequirements">Ansprechpartner</label>
+                    <div class=" mb-3">
+                        <label>Ansprechpartner</label>
                         <input type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
                     </div>
                 </div>
@@ -22,25 +22,16 @@
 
     <div class="col-md-3">
         <div class="card">
-            <div class="card-header  text-white bg-danger">Technologe</div>
+            <div class="card-header  text-white bg-danger">Anforderter Technologe</div>
             <div class="card-body">
                 <div class="center-items">
-                    <div>
-                        <label id="technologe">Anforderter Technologe</label>
-                        <mat-select>
-                            <mat-option *ngFor="let technologe of technologenList"
-                                [value]="technologe.firstName + ' ' + technologe.lastName">
-                                {{technologe.firstName }} {{ technologe.lastName }}
-                            </mat-option>
-                        </mat-select>
-                    </div>
-                    <div>
-                        <label id="">Datum von</label>
+                    <div class=" mb-3">
+                        <label>Datum von</label>
                         <input type="datetime-local" class="form-control" placeholder="Eingabe ... "
                             aria-label="Username">
                     </div>
-                    <div>
-                        <label id="">Datum bis</label>
+                    <div class=" mb-3">
+                        <label>Datum bis</label>
                         <input type="datetime-local" class="form-control" placeholder="Eingabe ... "
                             aria-label="Username">
                     </div>
@@ -49,35 +40,53 @@
         </div>
     </div>
 
-    <div class="col-md-6">
+    <div class="col-md-3">
         <div class="card">
             <div class="card-header  text-white bg-danger">Reiseplanung</div>
             <div class="card-body">
                 <div class="center-items">
-                    <div>
+                    <div class="mb-3">
                         <label>Flugbuchung</label>
-                        <mat-form-field>
-                            <mat-select>
-                                <mat-option value="option1">Almi</mat-option>
-                                <mat-option value="option2">Kunde</mat-option>
-                            </mat-select>
-                        </mat-form-field>
+                        <div class="flugHotel">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                <label class="form-check-label" for="flexCheckDefault">Almi</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                                <label class="form-check-label" for="flexCheckChecked">Kunde</label>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <label id="customerRequirements">Hotelbuchung</label>
-                        <mat-form-field>
-                            <mat-select>
-                                <mat-option value="option1">Almi</mat-option>
-                                <mat-option value="option2">Kunde</mat-option>
-                            </mat-select>
-                        </mat-form-field>
+                    <div class="mb-3">
+                        <label>Hotelbuchung</label>
+                        <div class="flugHotel">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                <label class="form-check-label" for="flexCheckDefault">Almi</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                                <label class="form-check-label" for="flexCheckChecked">Kunde</label>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <label id="customerRequirements">Sonstige Anmerkungen</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header  text-white bg-danger">sonstiges</div>
+            <div class="card-body">
+                <div class="center-items">
+                    <div class=" mb-3">
+                        <label>Sonstige Anmerkungen</label>
                         <input type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
                     </div>
-                    <div>
-                        <label id="customerRequirements">Interne Notiz</label>
+                    <div class=" mb-3">
+                        <label>Interne Notiz</label>
                         <input type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
                     </div>
                 </div>
@@ -85,3 +94,82 @@
         </div>
     </div>
 </div>
+
+<br>
+<br>
+<br>
+<div class="centerHeader">
+
+    <h5>Geplante Kundebesuche</h5>
+    <button nz-button (click)="addRow()" nzType="primary">Neuer Kundenbesuch</button>
+</div>
+<hr>
+
+<nz-table #editRowTable nzBordered [nzData]="listOfData">
+    <thead>
+        <tr>
+            <th>Name des Unternehmens</th>
+            <th>Adresse</th>
+            <th>Kontakt Person</th>
+            <th>Datum des Besuchs</th>
+            <th>Kundenbesuch</th>
+            <th>Produktion Tonnen/Tag</th>
+            <th>Bearbeiten/Entfernen</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let data of editRowTable.data" class="editable-row">
+            <td>
+                <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
+                    {{ data.companyName }}
+                </div>
+                <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.companyName" />
+            </td>
+            <td>
+                <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
+                    {{ data.address }}
+                </div>
+                <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.address" />
+            </td>
+            <td>
+                <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
+                    {{ data.contactPerson }}
+                </div>
+                <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.contactPerson" />
+            </td>
+            <td>
+                <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
+                    {{data.dateOfVisit}}
+                </div>
+                <input [hidden]="editId !== data.id" type="datetime-local" nz-input [(ngModel)]="data.dateOfVisit" />
+            </td>
+            <td class="multiple-select">
+                <mat-select multiple placeholder="Auswählen . . . " (selectionChange)="selChange($event, data.id)">
+                    <mat-option value="1">Vorstellung neuer Produkte</mat-option>
+                    <mat-option value="2">Problemlösung - bestehende Produkten</mat-option>
+                    <mat-option value="3">Rezepturoptimierung</mat-option>
+                    <mat-option value="4">Musterproduktion</mat-option>
+                    <mat-option value="5">Schulung</mat-option>
+                </mat-select>
+            </td>
+            <td>
+                <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
+                    {{data.productionAmount}}
+                </div>
+                <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.productionAmount" />
+            </td>
+            <td class="buttons">
+                <button class="btn btn-success" (click)="startEdit(data.id)" [hidden]="editId === data.id">
+                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                </button>
+                <button class="btn btn-success" (click)="stopEdit()" [hidden]="editId !== data.id">
+                    <i class="fa fa-save" aria-hidden="true"></i>
+                </button>
+                <button class="btn btn-danger" nz-popconfirm nzPopconfirmShowArrow="false"
+                    nzPopconfirmTitle="Sind Sie sicher?" (nzOnConfirm)="deleteRow(data.id)">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</nz-table>
