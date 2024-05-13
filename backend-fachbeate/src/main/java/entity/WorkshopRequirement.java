@@ -46,7 +46,7 @@ public class WorkshopRequirement extends TechnologistAppointment{
     public int[] mealWishes;
     public boolean customerPresent;
     public boolean diploma;
-    public String otherRequests
+    public String otherRequests;
 
     public WorkshopRequirement() {
     }
