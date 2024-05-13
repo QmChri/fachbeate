@@ -1,0 +1,213 @@
+<h3>Anmeldung für Kundenseminare</h3>
+<hr>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header  text-white bg-danger">Seminar</div>
+            <div class="card-body">
+                <div class="center-items">
+                    <div class="mb-3">
+                        <label>Seminarthema</label>
+                        <input type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
+                    </div>
+                    <div class="mb-3">
+                        <label>Firma/Kunde</label>
+                        <input type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
+                    </div>
+                    <div class="flugHotel">
+                        <div class=" mb-3">
+                            <label>Datum von</label>
+                            <input type="datetime-local" class="form-control" placeholder="Eingabe ... "
+                                aria-label="Username">
+                        </div>
+                        <div class=" mb-3">
+                            <label>Datum bis</label>
+                            <input type="datetime-local" class="form-control" placeholder="Eingabe ... "
+                                aria-label="Username">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header  text-white bg-danger">Seminarteilnehmer</div>
+            <div class="card-body">
+                <div class="center-items">
+
+                    <div class=" mb-3">
+                        <label>Anreise aus (Land)</label>
+                        <input type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
+                    </div>
+                    <div class=" mb-3">
+                        <label>Anreise Art (Auto, Zug, ...)</label>
+                        <input type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
+                    </div>
+                    <div class="flugHotel">
+                        <div class=" mb-3">
+                            <label>Anzahl Seminarteilnehmer</label>
+                            <input type="number" class="form-control" placeholder="Eingabe ... " aria-label="Username">
+                        </div>
+                        <div class=" mb-3">
+                            <label>Datum bis</label>
+                            <input type="datetime-local" class="form-control" placeholder="Eingabe ... "
+                                aria-label="Username">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header  text-white bg-danger">Reiseplanung</div>
+            <div class="card-body">
+                <div class="center-items">
+                    <div class=" mb-3">
+                        <label>Seminarleiter</label>
+                        <input type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
+                    </div>
+                    <div class="mb-3">
+                        <label>Zuständiger Fachberater</label>
+                        <input type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
+                    </div>
+                    <div class="mb-3 reiseplanung">
+                        <div class="mb-3" style="min-width: 12rem;">
+                            <label>Sprache</label>
+                            <div class="flugHotel">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="flexCheckDefault">
+                                    <label class="form-check-label" for="flexCheckDefault">EN</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="flexCheckChecked">
+                                    <label class="form-check-label" for="flexCheckChecked">DE</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="flexCheckChecked">
+                                    <label class="form-check-label" for="flexCheckChecked">RU</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label>Übersetzer erforderlich</label>
+                            <div class="flugHotel">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="flexCheckDefault">
+                                    <label class="form-check-label" for="flexCheckDefault">Ja</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="flexCheckChecked">
+                                    <label class="form-check-label" for="flexCheckChecked">Nein</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<br>
+
+<!--TODO sollte nur ausklappen wenn checkbox angekreuzt-->
+
+<div class="row">
+    <div class="col-md-4">
+        <mat-accordion class="card">
+            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                <mat-expansion-panel-header class="card-header text-white bg-danger">
+                    <mat-panel-description>
+                        Hotelbuchung
+                        <input type="checkbox" checked>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <div class="card-body">
+                    <div class="center-items">
+                        <div class=" mb-3">
+                            <label>Ort und gewünschte Lage</label>
+                            <input type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
+                        </div>
+                        <div class="flugHotel">
+                            <div class=" mb-3">
+                                <label>Datum von</label>
+                                <input type="datetime-local" class="form-control" placeholder="Eingabe ... "
+                                    aria-label="Username">
+                            </div>
+                            <div class=" mb-3">
+                                <label>Datum bis</label>
+                                <input type="datetime-local" class="form-control" placeholder="Eingabe ... "
+                                    aria-label="Username">
+                            </div>
+                        </div>
+                        <div class="center-items">
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    <label class="form-check-label" for="flexCheckDefault">Ja</label>
+                                    <input class="form-check-input" type="checkbox" id="flexCheckDefault">
+                                </div>
+                                <div class=" mb-3">
+                                    <label>Anzahl</label>
+                                    <input type="number" class="form-control" placeholder="Eingabe ... "
+                                        aria-label="Username">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header  text-white bg-danger">Reiseplanung</div>
+            <div class="card-body">
+                <div class="center-items">
+                    <div class="mb-3">
+                        <label>Ort und gewünschte Lage</label>
+                        <input type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
+                    </div>
+                    <div class="flugHotel">
+                        <div class=" mb-3">
+                            <label>Datum von</label>
+                            <input type="datetime-local" class="form-control" placeholder="Eingabe ... "
+                                aria-label="Username">
+                        </div>
+                        <div class=" mb-3">
+                            <label>Datum bis</label>
+                            <input type="datetime-local" class="form-control" placeholder="Eingabe ... "
+                                aria-label="Username">
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="mb-3 reiseplanung">
+                        <div class="form-group">
+                            <div>
+                                <input type="checkbox" id="singleRoom">
+                                <label style="padding-left: 1rem;" for="singleRoom">Einzelzimmer</label>
+                            </div>
+                            <div>
+                                <label for="singleRoom">Anzahl</label>
+                                <input class="form-control" type="number" id="singleRoom">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div>
+                                <input type="checkbox" id="singleRoom">
+                                <label style="padding-left: 1rem;" for="singleRoom">Doppelzimmer</label>
+                            </div>
+                            <div>
+                                <label for="singleRoom">Anzahl</label>
+                                <input class="form-control" type="number" id="singleRoom">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

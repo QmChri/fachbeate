@@ -59,7 +59,6 @@ registerLocaleData(de);
     MatSlideToggleModule,
     MatCheckboxModule,
     MatSelectModule,
-    MatSelectModule,
     MatFormFieldModule,
     MatInputModule,
     MatExpansionModule,
@@ -69,9 +68,7 @@ registerLocaleData(de);
     MatDialogModule,
     MatTableModule,
     MatPaginatorModule,
-    MatTableModule,
     MatSortModule,
-    MatPaginatorModule,
     NzTableModule,
     NzInputModule,
     NzButtonModule,
@@ -79,7 +76,7 @@ registerLocaleData(de);
     FormsModule,
     CommonModule,
     MatOptionModule,
-    NzEmptyModule
+    NzEmptyModule,
   ],
   providers: [
     provideAnimationsAsync(),

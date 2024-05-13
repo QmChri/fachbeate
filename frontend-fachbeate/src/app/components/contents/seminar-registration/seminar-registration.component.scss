@@ -1,0 +1,38 @@
+.center-items {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    min-height: 15em;
+}
+
+.flugHotel {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.reiseplanung {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+
+.mat-option {
+    display: block;
+}
+
+mat-form-field {
+    height: 5rem;
+}
+
+.countPeople{
+    width: 5rem;;
+}
