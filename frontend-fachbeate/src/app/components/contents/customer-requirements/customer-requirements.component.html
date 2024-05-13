@@ -9,11 +9,11 @@
                 <div class="center-items">
                     <div class=" mb-3">
                         <label>Firma</label>
-                        <input type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
+                        <input [(ngModel)]="inputCustomerRequirement.company" type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
                     </div>
                     <div class=" mb-3">
                         <label>Ansprechpartner</label>
-                        <input type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
+                        <input [(ngModel)]="inputCustomerRequirement.contact" type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
                     </div>
                 </div>
             </div>
@@ -27,12 +27,12 @@
                 <div class="center-items">
                     <div class=" mb-3">
                         <label>Datum von</label>
-                        <input type="datetime-local" class="form-control" placeholder="Eingabe ... "
+                        <input [(ngModel)]="inputCustomerRequirement.startDate" type="datetime-local" class="form-control" placeholder="Eingabe ... "
                             aria-label="Username">
                     </div>
                     <div class=" mb-3">
                         <label>Datum bis</label>
-                        <input type="datetime-local" class="form-control" placeholder="Eingabe ... "
+                        <input [(ngModel)]="inputCustomerRequirement.endDate" type="datetime-local" class="form-control" placeholder="Eingabe ... "
                             aria-label="Username">
                     </div>
                 </div>
@@ -48,27 +48,21 @@
                     <div class="mb-3">
                         <label>Flugbuchung</label>
                         <div class="flugHotel">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                <label class="form-check-label" for="flexCheckDefault">Almi</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                <label class="form-check-label" for="flexCheckChecked">Kunde</label>
-                            </div>
+                            <select name="flightBooking" id="flightBooking" [(ngModel)]="inputCustomerRequirement.flightBooking">
+                                <option value="''">Auswahl...</option>
+                                <option value="Almi">Almi</option>
+                                <option value="Kunde">Kunde</option>
+                            </select>
                         </div>
                     </div>
                     <div class="mb-3">
                         <label>Hotelbuchung</label>
                         <div class="flugHotel">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                <label class="form-check-label" for="flexCheckDefault">Almi</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                <label class="form-check-label" for="flexCheckChecked">Kunde</label>
-                            </div>
+                            <select name="hotelBooking" id="hotelBooking" [(ngModel)]="inputCustomerRequirement.hotelBooking">
+                                <option value="''">Auswahl...</option>
+                                <option value="Almi">Almi</option>
+                                <option value="Kunde">Kunde</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -83,11 +77,11 @@
                 <div class="center-items">
                     <div class=" mb-3">
                         <label>Sonstige Anmerkungen</label>
-                        <input type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
+                        <input [(ngModel)]="inputCustomerRequirement.furtherNotes" type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
                     </div>
                     <div class=" mb-3">
                         <label>Interne Notiz</label>
-                        <input type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
+                        <input [(ngModel)]="inputCustomerRequirement.internalNote" type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
                     </div>
                 </div>
             </div>
@@ -105,7 +99,7 @@
 </div>
 <hr>
 
-<nz-table #editRowTable nzBordered [nzData]="listOfData">
+<nz-table #editRowTable nzBordered [nzData]="inputCustomerRequirement.customerVisits!">
     <thead>
         <tr>
             <th>Name des Unternehmens</th>

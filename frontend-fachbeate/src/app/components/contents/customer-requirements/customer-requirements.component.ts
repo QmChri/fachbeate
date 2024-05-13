@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CustomerVisit } from '../../../models/customer-visit';
 import { MatSelectChange } from '@angular/material/select';
+import { CustomerRequirement } from '../../../models/customer-requirement';
 
 
 @Component({
@@ -11,20 +12,23 @@ import { MatSelectChange } from '@angular/material/select';
 export class CustomerRequirementsComponent implements OnInit {
   i = 0;
   editId: number | null = null;
-  listOfData: CustomerVisit[] = [];
+
+  inputCustomerRequirement: CustomerRequirement = {
+    customerVisits: []
+  };
 
   startEdit(id: number): void {
     this.editId = id;
   }
 
   stopEdit(): void {
-    console.log(this.listOfData)
+    console.log(this.inputCustomerRequirement.customerVisits)
     this.editId = null;
   }
 
   addRow(): void {
-    this.listOfData = [
-      ...this.listOfData,
+    this.inputCustomerRequirement.customerVisits = [
+      ...this.inputCustomerRequirement.customerVisits!,
       {
         id: this.i++,
         companyName: '',
@@ -42,7 +46,7 @@ export class CustomerRequirementsComponent implements OnInit {
   }
 
   deleteRow(id: number): void {
-    this.listOfData = this.listOfData.filter(d => d.id !== id);
+    this.inputCustomerRequirement.customerVisits! = this.inputCustomerRequirement.customerVisits!.filter(d => d.id !== id);
   }
 
 
@@ -50,7 +54,7 @@ export class CustomerRequirementsComponent implements OnInit {
     console.log(event)
     console.log(this.editId)
 
-    var editVisit = this.listOfData.find(o => o.id === id);
+    var editVisit = this.inputCustomerRequirement.customerVisits!.find(o => o.id === id);
     if (editVisit != null || editVisit != undefined) {
       editVisit.presentationOfNewProducts = event.value.includes('1');
       editVisit.existingProducts = event.value.includes('2');
