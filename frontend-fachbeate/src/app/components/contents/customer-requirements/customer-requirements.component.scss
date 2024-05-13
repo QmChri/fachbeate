@@ -19,10 +19,43 @@
 }
 
 .multiple-select {
-    min-width: 20rem;
-    max-width: 20rem;
+    min-width: 10rem;
+    max-width: 10rem;
 }
 
 .mat-option {
     display: block;
+}
+
+.editable-cell {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    min-height: 2rem;
+    min-width: 10rem;
+    padding: 4px 11px;
+    color: rgba(0, 0, 0, .85);
+    font-size: 14px;
+    border-radius: 2px;
+    transition: all .3s;
+}
+
+.editable-row:hover .editable-cell {
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    padding: 4px 11px;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+}
+
+.centerHeader {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
 }

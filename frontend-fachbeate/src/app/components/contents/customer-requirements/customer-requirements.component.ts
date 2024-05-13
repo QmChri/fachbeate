@@ -1,43 +1,64 @@
-import { Component } from '@angular/core';
-import { MatSelectChange, MatSelectModule } from '@angular/material/select';
+import { Component, OnInit } from '@angular/core';
 import { CustomerVisit } from '../../../models/customer-visit';
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { MatSelectChange } from '@angular/material/select';
+
 
 @Component({
   selector: 'app-customer-requirements',
-  standalone: true,
-  imports: [MatSelectModule,FormsModule,CommonModule],
   templateUrl: './customer-requirements.component.html',
   styleUrl: './customer-requirements.component.scss'
 })
-export class CustomerRequirementsComponent {
-  customerVisitList:  CustomerVisit[] = []  
+export class CustomerRequirementsComponent implements OnInit {
+  i = 0;
+  editId: number | null = null;
+  listOfData: CustomerVisit[] = [];
 
-  inputCustomer:  CustomerVisit = 
-  {
-    companyName: "",
-    address: "",
-    contactPerson: "",
-    dateOfVisit: new Date(),
-    productionAmount: "",
-    presentationOfNewProducts: false,
-    existingProducts: false,
-    recipeOptimization: false,
-    sampleProduction: false,
-    training: false,
+  startEdit(id: number): void {
+    this.editId = id;
   }
 
-  insert(){
-    this.customerVisitList = [...this.customerVisitList, this.inputCustomer]
-    console.log(this.customerVisitList)
+  stopEdit(): void {
+    console.log(this.listOfData)
+    this.editId = null;
   }
 
-  selChange(event: MatSelectChange){
-    this.inputCustomer.presentationOfNewProducts = event.value.includes('1');
-    this.inputCustomer.existingProducts = event.value.includes('2');
-    this.inputCustomer.recipeOptimization = event.value.includes('3');
-    this.inputCustomer.sampleProduction = event.value.includes('4');
-    this.inputCustomer.training = event.value.includes('5');
+  addRow(): void {
+    this.listOfData = [
+      ...this.listOfData,
+      {
+        id: this.i++,
+        companyName: '',
+        address: '',
+        contactPerson: '',
+        dateOfVisit: undefined,
+        presentationOfNewProducts: false,
+        existingProducts: false,
+        recipeOptimization: false,
+        sampleProduction: false,
+        training: false
+      }
+    ];
+    this.editId = this.i;
+  }
+
+  deleteRow(id: number): void {
+    this.listOfData = this.listOfData.filter(d => d.id !== id);
+  }
+
+
+  selChange(event: MatSelectChange, id: number) {
+    console.log(event)
+    console.log(this.editId)
+
+    var editVisit = this.listOfData.find(o => o.id === id);
+    if (editVisit != null || editVisit != undefined) {
+      editVisit.presentationOfNewProducts = event.value.includes('1');
+      editVisit.existingProducts = event.value.includes('2');
+      editVisit.recipeOptimization = event.value.includes('3');
+      editVisit.sampleProduction = event.value.includes('4');
+      editVisit.training = event.value.includes('5');
+    }
+  }
+  ngOnInit(): void {
   }
 }

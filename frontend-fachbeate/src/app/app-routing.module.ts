@@ -6,7 +6,7 @@ import { CustomerRequirementsComponent } from './components/contents/customer-re
 const routes: Routes = [
   {path: 'dashboard', component: DashboardComponent},
   {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
-  {path: 'app-customer-requirements', component: CustomerRequirementsComponent},
+  {path: 'customer-requirements', component: CustomerRequirementsComponent},
 ];
 
 @NgModule({

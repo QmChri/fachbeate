@@ -96,46 +96,55 @@
 </div>
 
 <br>
-<h4>Geplante Kundebesuche</h4>
 <br>
+<br>
+<div class="centerHeader">
 
-<table class="table table-striped">
-    <thead style="background-color: #dc3545;" class="text-white">
-        <th>Name des Unternehmens</th>
-        <th>Adresse</th>
-        <th>Kontakt Person</th>
-        <th>Datum des Besuchs</th>
-        <th>Kundenbesuch</th>
-        <th>Produktion Tonnen/Tag</th>
-        <th></th>
+    <h5>Geplante Kundebesuche</h5>
+    <button nz-button (click)="addRow()" nzType="primary">Neuer Kundenbesuch</button>
+</div>
+<hr>
+
+<nz-table #editRowTable nzBordered [nzData]="listOfData">
+    <thead>
+        <tr>
+            <th>Name des Unternehmens</th>
+            <th>Adresse</th>
+            <th>Kontakt Person</th>
+            <th>Datum des Besuchs</th>
+            <th>Kundenbesuch</th>
+            <th>Produktion Tonnen/Tag</th>
+            <th>Bearbeiten/Entfernen</th>
+        </tr>
     </thead>
     <tbody>
-        <ng-container *ngFor="let item of customerVisitList">
-            <tr>
-                <td>{{item.companyName}}</td>
-                <td>{{item.address}}</td>
-                <td>{{item.contactPerson}}</td>
-                <td>{{item.dateOfVisit}}</td>
-                <td>
-                    <mat-select placeholder="Select ..." multiple>
-                        <mat-option value="1">Vorstellung neuer Produkte</mat-option>
-                        <mat-option value="2">Problemlösung - b. Produkten</mat-option>
-                        <mat-option value="3">Rezepturoptimierung</mat-option>
-                        <mat-option value="4">Musterproduktion</mat-option>
-                        <mat-option value="5">Schulung</mat-option>
-                    </mat-select>
-                </td>
-                <td>{{item.productionAmount}}</td>
-                <td></td>
-            </tr>
-        </ng-container>
-        <tr>
-            <td><input class="form-control" type="text" [(ngModel)]="inputCustomer.companyName"></td>
-            <td><input class="form-control" type="text" [(ngModel)]="inputCustomer.address"></td>
-            <td><input class="form-control" type="text" [(ngModel)]="inputCustomer.contactPerson"></td>
-            <td><input class="form-control" type="datetime-local" [(ngModel)]="inputCustomer.dateOfVisit"></td>
+        <tr *ngFor="let data of editRowTable.data" class="editable-row">
+            <td>
+                <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
+                    {{ data.companyName }}
+                </div>
+                <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.companyName" />
+            </td>
+            <td>
+                <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
+                    {{ data.address }}
+                </div>
+                <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.address" />
+            </td>
+            <td>
+                <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
+                    {{ data.contactPerson }}
+                </div>
+                <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.contactPerson" />
+            </td>
+            <td>
+                <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
+                    {{data.dateOfVisit}}
+                </div>
+                <input [hidden]="editId !== data.id" type="datetime-local" nz-input [(ngModel)]="data.dateOfVisit" />
+            </td>
             <td class="multiple-select">
-                <mat-select multiple placeholder="Auswählen . . . " (selectionChange)="selChange($event)">
+                <mat-select multiple placeholder="Auswählen . . . " (selectionChange)="selChange($event, data.id)">
                     <mat-option value="1">Vorstellung neuer Produkte</mat-option>
                     <mat-option value="2">Problemlösung - bestehende Produkten</mat-option>
                     <mat-option value="3">Rezepturoptimierung</mat-option>
@@ -143,8 +152,24 @@
                     <mat-option value="5">Schulung</mat-option>
                 </mat-select>
             </td>
-            <td><input class="form-control" type="text" [(ngModel)]="inputCustomer.productionAmount"></td>
-            <td><button class="btn btn-primary" (click)="insert()">Sichern</button></td>
+            <td>
+                <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
+                    {{data.productionAmount}}
+                </div>
+                <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.productionAmount" />
+            </td>
+            <td class="buttons">
+                <button class="btn btn-success" (click)="startEdit(data.id)" [hidden]="editId === data.id">
+                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                </button>
+                <button class="btn btn-success" (click)="stopEdit()" [hidden]="editId !== data.id">
+                    <i class="fa fa-save" aria-hidden="true"></i>
+                </button>
+                <button class="btn btn-danger" nz-popconfirm nzPopconfirmShowArrow="false"
+                    nzPopconfirmTitle="Sind Sie sicher?" (nzOnConfirm)="deleteRow(data.id)">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                </button>
+            </td>
         </tr>
     </tbody>
-</table>
+</nz-table>
