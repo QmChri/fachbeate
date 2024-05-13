@@ -10,7 +10,7 @@ public class CustomerRequirement extends TechnologistAppointment {
 
     public String company;
     public String contact;
-
+    public String requestedTechnologies;
     // Customer Visits
     @OneToMany(cascade = CascadeType.ALL)
     public List<CustomerVisit> customerVisits;
@@ -19,8 +19,8 @@ public class CustomerRequirement extends TechnologistAppointment {
     // Travel Planing
     public String flightBooking;
     public String hotelBooking;
-    public String furtherNotes;
 
+    public String furtherNotes;
     public String internalNote;
 
     public CustomerRequirement() {
