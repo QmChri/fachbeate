@@ -21,6 +21,7 @@
     "@angular/platform-browser-dynamic": "^17.3.0",
     "@angular/router": "^17.3.0",
     "@daypilot/daypilot-lite-angular": "^3.21.0",
+    "angular-calendar": "^0.31.1",
     "bootstrap": "^5.3.3",
     "ng-zorro-antd": "^17.4.0",
     "rxjs": "~7.8.0",
