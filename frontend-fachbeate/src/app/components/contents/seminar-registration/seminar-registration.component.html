@@ -117,14 +117,14 @@
     <div class="col-md-4">
         <div class="card">
             <div class="card-header  text-white bg-danger">Reiseplanung</div>
-            <mat-button-toggle-group vertical multiple style="display: flex; align-items: baseline;">
-                <mat-button-toggle value="option1">Hotelbuchung</mat-button-toggle>
-                <mat-button-toggle value="option2">Buchung Flughafen Transfer - Zug</mat-button-toggle>
-                <mat-button-toggle value="option3">Ausflug</mat-button-toggle>
-                <mat-button-toggle value="option3">Betriebsführung</mat-button-toggle>
-                <mat-button-toggle value="option3">Mittagessen</mat-button-toggle>
-                <mat-button-toggle value="option3">Kundengeschenke</mat-button-toggle>
-                <mat-button-toggle value="option3">Diplome</mat-button-toggle>
+            <mat-button-toggle-group [(ngModel)]="buttonSelect" vertical multiple style="display: flex; align-items: baseline;">
+                <mat-button-toggle value="1">Hotelbuchung</mat-button-toggle>
+                <mat-button-toggle value="2">Buchung Flughafen Transfer - Zug</mat-button-toggle>
+                <mat-button-toggle value="3">Ausflug</mat-button-toggle>
+                <mat-button-toggle value="4">Betriebsführung</mat-button-toggle>
+                <mat-button-toggle value="5">Mittagessen</mat-button-toggle>
+                <mat-button-toggle value="6">Kundengeschenke</mat-button-toggle>
+                <mat-button-toggle value="7">Diplome</mat-button-toggle>
             </mat-button-toggle-group>
        </div>
     </div>

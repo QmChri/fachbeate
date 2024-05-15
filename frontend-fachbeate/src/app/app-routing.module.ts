@@ -4,6 +4,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CustomerRequirementsComponent } from './components/contents/customer-requirements/customer-requirements.component';
 import { TravelreportComponent } from './components/contents/travelreport/travelreport.component';
 import { SeminarRegistrationComponent } from './components/contents/seminar-registration/seminar-registration.component';
+import { CalendarComponent } from './components/contents/calendar/calendar.component';
 
 const routes: Routes = [
   {path: 'dashboard', component: DashboardComponent},
@@ -11,6 +12,7 @@ const routes: Routes = [
   {path: 'customer-requirements', component: CustomerRequirementsComponent},
   {path: 'travelreport', component: TravelreportComponent},
   {path: 'seminar-registration', component: SeminarRegistrationComponent},
+  {path: 'calendar', component: CalendarComponent},
 ];
 
 @NgModule({
