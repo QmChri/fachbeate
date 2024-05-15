@@ -10,7 +10,7 @@ import { HttpClientModule, provideHttpClient } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SublevelMenuComponent } from './components/sidenav/sublevel-menu.component';
 
-import {MatButtonToggleModule} from '@angular/material/button-toggle'; 
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';

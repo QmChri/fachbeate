@@ -1,6 +1,7 @@
 export class CustomerVisit {
     id: number;
     companyName?: string;
+    customerNr?: string;
     address?: string;
     contactPerson?: string;
     dateOfVisit?: Date;
@@ -14,6 +15,7 @@ export class CustomerVisit {
 
     constructor(id: number,
         companyName: string,
+        customerNr: string,
         address: string,
         contactPerson: string,
         dateOfVisit: Date,
@@ -26,6 +28,7 @@ export class CustomerVisit {
     ) {
         this.id = id,
         this.companyName = companyName,
+        this.customerNr = customerNr,
             this.address = address,
             this.contactPerson = contactPerson,
             this.dateOfVisit = dateOfVisit,

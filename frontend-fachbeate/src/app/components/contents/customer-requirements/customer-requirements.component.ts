@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { CustomerVisit } from '../../../models/customer-visit';
-import { MatSelectChange } from '@angular/material/select';
 import { CustomerRequirement } from '../../../models/customer-requirement';
-
+import { MatSelectChange } from '@angular/material/select';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-customer-requirements',
@@ -12,6 +11,15 @@ import { CustomerRequirement } from '../../../models/customer-requirement';
 export class CustomerRequirementsComponent implements OnInit {
   i = 0;
   editId: number | null = null;
+  tohaControl = new FormControl<Toechterhaeandler | null>(null, Validators.required);
+
+  selectedValue?: string;
+
+  toha: Toechterhaeandler[] = [
+    { value: 'Active-1', viewValue: 'Active' },
+    { value: 'Active-2', viewValue: 'Active2' },
+    { value: 'Tester-1', viewValue: 'Tester' },
+  ];
 
   inputCustomerRequirement: CustomerRequirement = {
     customerVisits: []
@@ -65,4 +73,9 @@ export class CustomerRequirementsComponent implements OnInit {
   }
   ngOnInit(): void {
   }
+}
+
+interface Toechterhaeandler {
+  value: string;
+  viewValue: string;
 }
