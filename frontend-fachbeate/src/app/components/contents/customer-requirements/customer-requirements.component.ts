@@ -14,6 +14,7 @@ export class CustomerRequirementsComponent implements OnInit {
   i = 0;
   editId: number | null = null;
   tohaControl = new FormControl<Toechterhaeandler | null>(null, Validators.required);
+
   selectedValue?: string;
 
   constructor(private dialog: MatDialog) { }

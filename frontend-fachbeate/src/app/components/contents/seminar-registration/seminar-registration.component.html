@@ -117,193 +117,176 @@
     <div class="col-md-4">
         <div class="card">
             <div class="card-header  text-white bg-danger">Reiseplanung</div>
-            <!--
-            <mat-button-toggle-group vertical multiple style="display: flex; align-items: baseline;">
-                <mat-button-toggle value="option1">Hotelbuchung</mat-button-toggle>
-                <mat-button-toggle value="option2">Buchung Flughafen Transfer - Zug</mat-button-toggle>
-                <mat-button-toggle value="option3">Ausflug</mat-button-toggle>
-                <mat-button-toggle value="option3">Betriebsführung</mat-button-toggle>
-                <mat-button-toggle value="option3">Mittagessen</mat-button-toggle>
-                <mat-button-toggle value="option3">Kundengeschenke</mat-button-toggle>
-                <mat-button-toggle value="option3">Diplome</mat-button-toggle>
-            </mat-button-toggle-group>-->
-        </div>
+            <mat-button-toggle-group [(ngModel)]="buttonSelect" vertical multiple style="display: flex; align-items: baseline;">
+                <mat-button-toggle value="1">Hotelbuchung</mat-button-toggle>
+                <mat-button-toggle value="2">Buchung Flughafen Transfer - Zug</mat-button-toggle>
+                <mat-button-toggle value="3">Ausflug</mat-button-toggle>
+                <mat-button-toggle value="4">Betriebsführung</mat-button-toggle>
+                <mat-button-toggle value="5">Mittagessen</mat-button-toggle>
+                <mat-button-toggle value="6">Kundengeschenke</mat-button-toggle>
+                <mat-button-toggle value="7">Diplome</mat-button-toggle>
+            </mat-button-toggle-group>
+       </div>
     </div>
     <div class="col-md-8">
         <div class="card">
-            <div class="card-header  text-white bg-danger">Reiseplanung</div>
-            <div class="card-body">
-                <div class="center-items">
-                    <div class="mb-3">
-                        <label>Ort und gewünschte Lage</label>
-                        <input type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
-                    </div>
-                    <div class="flugHotel">
-                        <div class=" mb-3">
-                            <label>Datum von</label>
-                            <input type="datetime-local" class="form-control" placeholder="Eingabe ... "
-                                aria-label="Username">
-                        </div>
-                        <div class=" mb-3">
-                            <label>Datum bis</label>
-                            <input type="datetime-local" class="form-control" placeholder="Eingabe ... "
-                                aria-label="Username">
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="mb-3 reiseplanung">
-                        <div class="form-group">
-                            <div>
-                                <label for="singleRoom">Einzelzimmer</label>
-                                <input class="form-control countPeople" placeholder="Anzahl ..." type="number"
-                                    id="singleRoom">
+            <div class="card-header  text-white bg-danger">Weiteres</div>
+            <mat-tab-group>
+                <mat-tab *ngIf="buttonSelect.includes('1')" label="Hotelbuchung">
+                    <div class="card-body">
+                        <div class="center-items">
+                            <div class="mb-3">
+                                <label>Ort und gewünschte Lage</label>
+                                <input type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <div>
-                                <label for="singleRoom">Doppelzimmer</label>
-                                <input class="form-control countPeople" placeholder="Anzahl ..." type="number"
-                                    id="singleRoom">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-header  text-white bg-danger">Buchung Flughafen Transfer-Zug</div>
-            <div class="card-body">
-                <div class="center-items">
-                    <div class="flugHotel">
-                        <div class="mb-3">
-                            <label>Von</label>
-                            <input type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
-                        </div>
-                        <div class="mb-3">
-                            <label>Nach</label>
-                            <input type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
-                        </div>
-                    </div>
-                    <div class="flugHotel">
-                        <div class=" mb-3">
-                            <label>Datum von</label>
-                            <input type="datetime-local" class="form-control" placeholder="Eingabe ... "
-                                aria-label="Username">
-                        </div>
-                        <div class=" mb-3">
-                            <label>Datum bis</label>
-                            <input type="datetime-local" class="form-control" placeholder="Eingabe ... "
-                                aria-label="Username">
-                        </div>
-                    </div>
-                    <div class="center-items">
-                        <label>Sonstige Reiseanforderungen</label>
-                        <textarea rows="4" placeholder="Eingabe ... "></textarea>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-header  text-white bg-danger">Ausflug</div>
-            <div class="card-body">
-                <div class="center-items">
-                    <div class="flugHotel">
-                        <div class="mb-3">
-                            <label>Datum/Uhrzeit</label>
-                            <input type="datetime-local" class="form-control" placeholder="Eingabe ... "
-                                aria-label="Username">
-                        </div>
-                        <div class="mb-3">
-                            <label>gewünschtes Ausflugsziel</label>
-                            <input type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
-                        </div>
-                    </div>
-                    <div class="center-items">
-                        <label>Sonstige Reiseanforderungen</label>
-                        <textarea rows="3" placeholder="Eingabe ... "></textarea>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-header  text-white bg-danger">Betriebsführung erforderlich</div>
-            <div class="card-body">
-                <div class="center-items">
-                    <div class="flugHotel">
-                        <div class="mb-3">
-                            <label>Personenanzahl + Betreuer</label>
-                            <input type="number" class="form-control" placeholder="Eingabe ... " aria-label="Username">
-                        </div>
-                        <div class="mb-3">
-                            <label>Datum/Uhrzeit</label>
-                            <input type="datetime-local" class="form-control" placeholder="Eingabe ... "
-                                aria-label="Username">
-                        </div>
-                        <div class="mb-3">
-                            <label>Sprache</label>
                             <div class="flugHotel">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="flexCheckDefault">
-                                    <label class="form-check-label" for="flexCheckDefault">EN</label>
+                                <div class=" mb-3">
+                                    <label>Datum von</label>
+                                    <input type="datetime-local" class="form-control" placeholder="Eingabe ... "
+                                        aria-label="Username">
+                                </div>
+                                <div class=" mb-3">
+                                    <label>Datum bis</label>
+                                    <input type="datetime-local" class="form-control" placeholder="Eingabe ... "
+                                        aria-label="Username">
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="mb-3 reiseplanung">
+                                <div class="form-group">
+                                    <div>
+                                        <label for="singleRoom">Einzelzimmer</label>
+                                        <input class="form-control countPeople" placeholder="Anzahl ..."  type="number" id="singleRoom">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div>
+                                        <label for="singleRoom">Doppelzimmer</label>
+                                        <input class="form-control countPeople" placeholder="Anzahl ..."  type="number" id="singleRoom">
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-header  text-white bg-danger">Mittagessen erforderlich</div>
-            <div class="card-body">
-                <div class="center-items">
-                    <div class="flugHotel">
-                        <div class="mb-3">
-                            <label>Personenanzahl + Betreuer</label>
-                            <input type="number" class="form-control" placeholder="Eingabe ... " aria-label="Username">
-                        </div>
-                        <div class="mb-3">
-                            <label>Datum/Uhrzeit</label>
-                            <input type="datetime-local" class="form-control" placeholder="Eingabe ... "
-                                aria-label="Username">
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                <div class="mb-3 reiseplanung">
-                    <div class="form-group">
-                        <div>
-                            <label for="singleRoom">Vegan </label>
-                            <input class="form-control countPeople" type="number" placeholder="Anzahl ..."
-                                id="singleRoom">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div>
-                            <label for="singleRoom">Vegetarisch </label>
-                            <input class="form-control countPeople" type="number" placeholder="Anzahl ..."
-                                id="singleRoom">
+                </mat-tab>
+                <mat-tab *ngIf="buttonSelect.includes('2')" label="Flughafen / Transfer">
+                    <div class="card-body">
+                        <div class="center-items">
+                            <div class="flugHotel">
+                                <div class="mb-3">
+                                    <label>Von</label>
+                                    <input type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
+                                </div>
+                                <div class="mb-3">
+                                    <label>Nach</label>
+                                    <input type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
+                                </div>
+                            </div>
+                            <div class="flugHotel">
+                                <div class=" mb-3">
+                                    <label>Datum von</label>
+                                    <input type="datetime-local" class="form-control" placeholder="Eingabe ... "
+                                        aria-label="Username">
+                                </div>
+                                <div class=" mb-3">
+                                    <label>Datum bis</label>
+                                    <input type="datetime-local" class="form-control" placeholder="Eingabe ... "
+                                        aria-label="Username">
+                                </div>
+                            </div>
+                            <div class="center-items">
+                                <label>Sonstige Reiseanforderungen</label>
+                                <textarea rows="4" placeholder="Eingabe ... "></textarea>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <div>
-                            <input class="form-control countPeople" type="text" placeholder="Sonstige" id="singleRoom">
-                            <input class="form-control countPeople" type="number" placeholder="Anzahl ..."
-                                id="singleRoom">
+                </mat-tab>
+                <mat-tab *ngIf="buttonSelect.includes('3')" label="Ausflug">
+                    <div class="card-body">
+                        <div class="center-items">
+                            <div class="flugHotel">
+                                <div class="mb-3">
+                                    <label>Datum/Uhrzeit</label>
+                                    <input type="datetime-local" class="form-control" placeholder="Eingabe ... "
+                                        aria-label="Username">
+                                </div>
+                                <div class="mb-3">
+                                    <label>gewünschtes Ausflugsziel</label>
+                                    <input type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
+                                </div>
+                            </div>
+                            <div class="center-items">
+                                <label>Sonstige Reiseanforderungen</label>
+                                <textarea rows="3" placeholder="Eingabe ... "></textarea>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                </mat-tab>
+                <mat-tab *ngIf="buttonSelect.includes('4')" label="Betriebsführung">
+                    <div class="card-body">
+                        <div class="center-items">
+                            <div class="flugHotel">
+                                <div class="mb-3">
+                                    <label>Personenanzahl + Betreuer</label>
+                                    <input type="number" class="form-control" placeholder="Eingabe ... " aria-label="Username">
+                                </div>
+                                <div class="mb-3">
+                                    <label>Datum/Uhrzeit</label>
+                                    <input type="datetime-local" class="form-control" placeholder="Eingabe ... "
+                                        aria-label="Username">
+                                </div>
+                                <div class="mb-3">
+                                    <label>Sprache</label>
+                                    <div class="flugHotel">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="flexCheckDefault">
+                                            <label class="form-check-label" for="flexCheckDefault">EN</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+                <mat-tab *ngIf="buttonSelect.includes('5')" label="Mittagessen">
+                    <div class="card-body">
+                        <div class="center-items">
+                            <div class="flugHotel">
+                                <div class="mb-3">
+                                    <label>Personenanzahl + Betreuer</label>
+                                    <input type="number" class="form-control" placeholder="Eingabe ... " aria-label="Username">
+                                </div>
+                                <div class="mb-3">
+                                    <label>Datum/Uhrzeit</label>
+                                    <input type="datetime-local" class="form-control" placeholder="Eingabe ... "
+                                        aria-label="Username">
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="mb-3 reiseplanung">
+                            <div class="form-group">
+                                <div>
+                                    <label for="singleRoom">Vegan </label>
+                                    <input class="form-control countPeople" type="number" placeholder="Anzahl ..."  id="singleRoom">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div>
+                                    <label for="singleRoom">Vegetarisch </label>
+                                    <input class="form-control countPeople" type="number" placeholder="Anzahl ..."  id="singleRoom">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div>
+                                    <input class="form-control countPeople" type="text" placeholder="Sonstige" id="singleRoom">
+                                    <input class="form-control countPeople" type="number" placeholder="Anzahl ..." id="singleRoom">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+            </mat-tab-group>
         </div>
     </div>
 </div>

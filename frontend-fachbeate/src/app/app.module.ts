@@ -9,6 +9,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule, provideHttpClient } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SublevelMenuComponent } from './components/sidenav/sublevel-menu.component';
+
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
@@ -37,6 +39,8 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { SeminarRegistrationComponent } from './components/contents/seminar-registration/seminar-registration.component';
+import { CalendarComponent } from './components/contents/calendar/calendar.component';
 
 registerLocaleData(de);
 
@@ -48,6 +52,8 @@ registerLocaleData(de);
     SublevelMenuComponent,
     DashboardComponent,
     CustomerRequirementsComponent,
+    SeminarRegistrationComponent,
+    CalendarComponent
   ],
   imports: [
     MatTooltipModule,
@@ -84,6 +90,7 @@ registerLocaleData(de);
     CommonModule,
     MatOptionModule,
     NzEmptyModule,
+    MatButtonToggleModule,
   ],
   providers: [
     provideAnimationsAsync(),

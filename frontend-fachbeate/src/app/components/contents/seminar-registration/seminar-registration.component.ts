@@ -8,14 +8,8 @@ import {MatExpansionPanel} from '@angular/material/expansion';
   templateUrl: './seminar-registration.component.html',
   styleUrl: './seminar-registration.component.scss'
 })
-export class SeminarRegistrationComponent implements OnInit {
+export class SeminarRegistrationComponent {
 
-  panelState: boolean = false;
+  buttonSelect: string[] = []
 
-  ngOnInit(): void {
-  }
-
-  changePanelState(panel: MatExpansionPanel) {
-
-  }
 }
