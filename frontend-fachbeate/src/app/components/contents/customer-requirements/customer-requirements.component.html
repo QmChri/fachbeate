@@ -55,8 +55,8 @@
                             <mat-label>Angeforderter Technologe</mat-label>
                             <mat-select [(ngModel)]="selectedValue" required>
                                 <mat-option>--</mat-option>
-                                @for (t of toha; track toha) {
-                                <mat-option [value]="t">{{t.viewValue}}</mat-option>
+                                @for (t of technologists; track technologists) {
+                                <mat-option [value]="t">{{t.firstName}} + " " +{{t.lastName}}</mat-option>
                                 }
                             </mat-select>
                             @if (tohaControl.hasError('required')) {
@@ -220,3 +220,5 @@
         </tr>
     </tbody>
 </nz-table>
+
+<button (click)="postCustomerRequirement()">Absenden</button>

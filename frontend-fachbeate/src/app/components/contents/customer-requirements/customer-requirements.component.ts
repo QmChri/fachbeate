@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CustomerRequirement } from '../../../models/customer-requirement';
 import { MatSelectChange } from '@angular/material/select';
 import { FormControl, Validators } from '@angular/forms';
+import { HttpService } from '../../../services/http.service';
+import { Technologist } from '../../../models/technologist';
 
 @Component({
   selector: 'app-customer-requirements',
@@ -14,6 +16,8 @@ export class CustomerRequirementsComponent implements OnInit {
   tohaControl = new FormControl<Toechterhaeandler | null>(null, Validators.required);
 
   selectedValue?: string;
+  technologists: Technologist[] = [];
+
 
   toha: Toechterhaeandler[] = [
     { value: 'Active-1', viewValue: 'Active' },
@@ -73,7 +77,27 @@ export class CustomerRequirementsComponent implements OnInit {
   }
   ngOnInit(): void {
     this.addRow();
+
+    this.getTechnologist();
   }
+
+  constructor(private http: HttpService){}
+
+  postCustomerRequirement(){
+    this.http.postCustomerRequirement(this.inputCustomerRequirement).subscribe()
+  }
+
+  getTechnologist(){
+    this.http.getTechnologist().subscribe({
+      next: data => {
+        this.technologists = data;
+      },
+      error: err => {
+        console.log(err);
+      }
+    });
+  }
+
 }
 
 interface Toechterhaeandler {
