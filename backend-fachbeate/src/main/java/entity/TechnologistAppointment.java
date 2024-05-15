@@ -14,7 +14,10 @@ public class TechnologistAppointment extends PanacheEntity {
     public LocalDate startDate;
     public LocalDate endDate;
 
+    public String releaserManagement;
     public LocalDate releaseManagement;
+
+    public String releaserSupervisor;
     public LocalDate releaseSupervisor;
 
     public TechnologistAppointment(String requestedTechnologist, LocalDate startDate, LocalDate endDate) {

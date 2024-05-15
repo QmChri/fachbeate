@@ -4,7 +4,7 @@ import { TechnologistAppointment } from "./technologist-appointment";
 export interface CustomerRequirement extends TechnologistAppointment {
     company?: string;
     contact?: string;
-    customerVisits?: CustomerVisit[];
+    customerVisits: CustomerVisit[];
     flightBooking?: string;
     hotelBooking?: string;
     furtherNotes?: string;
