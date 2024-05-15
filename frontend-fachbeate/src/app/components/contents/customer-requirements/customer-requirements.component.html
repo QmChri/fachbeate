@@ -1,4 +1,9 @@
-<h1 class="h3">Anforderungen Technologische Unterstützung</h1>
+<div class="centerHeader">
+    <h1 class="h3">Anforderungen Technologische Unterstützung</h1>
+    <button class="btn btn-secondary" matTooltip="interne Notiz" (click)="openDialog(editId!)">
+        User-0192
+        <i class="fa fa-comment"></i></button>
+</div>
 <hr>
 
 <div class="row">
@@ -7,7 +12,7 @@
             <div class="card-header  text-white bg-danger">Anforderungen durch</div>
             <div class="card-body">
                 <div class="center-items">
-                    <div class=" mb-3 center-items ">
+                    <div class="center-items ">
                         <mat-form-field>
                             <mat-label>Töchter/Händler</mat-label>
                             <mat-select [(ngModel)]="selectedValue" required>
@@ -21,7 +26,7 @@
                             }
                         </mat-form-field>
                     </div>
-                    <div class=" mb-3 center-items ">
+                    <div class="center-items ">
                         <mat-form-field>
                             <mat-label>Vertreter</mat-label>
                             <mat-select [(ngModel)]="selectedValue" required>
@@ -35,11 +40,6 @@
                             }
                         </mat-form-field>
                     </div>
-                    <div class=" mb-3">
-                        <label>Ansprechpartner</label>
-                        <input [(ngModel)]="inputCustomerRequirement.contact" type="text" class="form-control"
-                            placeholder="Eingabe ... " aria-label="Username">
-                    </div>
                 </div>
             </div>
         </div>
@@ -50,7 +50,7 @@
             <div class="card-header  text-white bg-danger">Angeforderter Technologe</div>
             <div class="card-body">
                 <div class="center-items">
-                    <div class=" mb-3 center-items ">
+                    <div class="center-items ">
                         <mat-form-field>
                             <mat-label>Angeforderter Technologe</mat-label>
                             <mat-select [(ngModel)]="selectedValue" required>
@@ -64,9 +64,11 @@
                             }
                         </mat-form-field>
                     </div>
+                </div>
+                <div class="centerHeader">
                     <div class=" mb-3">
                         <label>Datum von</label>
-                        <input [(ngModel)]="inputCustomerRequirement.startDate" type="date" class="form-control"
+                        <input [(ngModel)]="inputCustomerRequirement.endDate" type="date" class="form-control"
                             placeholder="Eingabe ... " aria-label="Username">
                     </div>
                     <div class=" mb-3">
@@ -84,7 +86,7 @@
             <div class="card-header  text-white bg-danger">Reiseplanung</div>
             <div class="card-body">
                 <div class="center-items">
-                    <div class=" mb-3 center-items ">
+                    <div class="center-items ">
                         <mat-form-field>
                             <mat-label>Flugbuchung</mat-label>
                             <mat-select [(ngModel)]="selectedValue" required>
@@ -97,7 +99,7 @@
                             }
                         </mat-form-field>
                     </div>
-                    <div class=" mb-3 center-items ">
+                    <div class="center-items ">
                         <mat-form-field>
                             <mat-label>Hotelbuchung</mat-label>
                             <mat-select [(ngModel)]="selectedValue" required>
@@ -120,16 +122,15 @@
             <div class="card-header  text-white bg-danger">sonstiges</div>
             <div class="card-body">
                 <div class="center-items">
-                    <div class=" mb-3">
-                        <label>Sonstige Anmerkungen</label>
-                        <input [(ngModel)]="inputCustomerRequirement.furtherNotes" type="text" class="form-control"
-                            placeholder="Eingabe ... " aria-label="Username">
-                    </div>
-                    <div class=" mb-3">
-                        <label>Interne Notiz</label>
-                        <input [(ngModel)]="inputCustomerRequirement.internalNote" type="text" class="form-control"
-                            placeholder="Eingabe ... " aria-label="Username">
-                    </div>
+                    <mat-form-field>
+                        <mat-label>Sonstige Anmerkungen</mat-label>
+                        <input matInput placeholder="Ex. 1,5h Anfahrt">
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Ansprechpartner</mat-label>
+                        <input matInput placeholder="Ex. Karl Reingruber">
+                    </mat-form-field>
                 </div>
             </div>
         </div>
@@ -162,30 +163,45 @@
         <tr *ngFor="let data of editRowTable.data" class="editable-row">
             <td>
                 <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
+                    @if (data.companyName == '') {
+                    <p>Hier eingeben ...</p>
+                    }
                     {{ data.companyName }}
                 </div>
                 <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.companyName" />
             </td>
             <td>
                 <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
+                    @if (data.customerNr == '') {
+                    <p>Hier eingeben ...</p>
+                    }
                     {{ data.customerNr }}
                 </div>
                 <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.customerNr" />
             </td>
             <td>
                 <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
+                    @if (data.address == '') {
+                    <p>Hier eingeben ...</p>
+                    }
                     {{ data.address }}
                 </div>
                 <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.address" />
             </td>
             <td>
                 <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
+                    @if (data.contactPerson == '') {
+                    <p>Hier eingeben ...</p>
+                    }
                     {{ data.contactPerson }}
                 </div>
                 <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.contactPerson" />
             </td>
             <td>
                 <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
+                    @if (data.dateOfVisit == null) {
+                    <p>Hier eingeben ...</p>
+                    }
                     {{data.dateOfVisit}}
                 </div>
                 <input [hidden]="editId !== data.id" type="date" nz-input [(ngModel)]="data.dateOfVisit" />
@@ -201,20 +217,28 @@
             </td>
             <td>
                 <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
+                    @if (data.productionAmount == null) {
+                    <p>Hier eingeben ...</p>
+                    }
                     {{data.productionAmount}}
                 </div>
                 <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.productionAmount" />
             </td>
             <td class="buttons">
-                <button class="btn btn-success" (click)="startEdit(data.id)" [hidden]="editId === data.id">
-                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                <button matTooltip="Bearbeiten" class="btn btn-success" (click)="startEdit(data.id)"
+                    [hidden]="editId === data.id">
+                    <i class="fa fa-pencil"></i>
                 </button>
-                <button class="btn btn-success" (click)="stopEdit()" [hidden]="editId !== data.id">
-                    <i class="fa fa-save" aria-hidden="true"></i>
+                <button matTooltip="Speichern" class="btn btn-success" (click)="stopEdit()"
+                    [hidden]="editId !== data.id">
+                    <i class="fa fa-save"></i>
                 </button>
-                <button class="btn btn-danger" nz-popconfirm nzPopconfirmShowArrow="false"
+                <button matTooltip="Entfernen" class="btn btn-danger" nz-popconfirm nzPopconfirmShowArrow="false"
                     nzPopconfirmTitle="Sind Sie sicher?" (nzOnConfirm)="deleteRow(data.id)">
-                    <i class="fa fa-trash" aria-hidden="true"></i>
+                    <i class="fa fa-trash"></i>
+                </button>
+                <button class="btn btn-success" matTooltip="Abschlussbericht" (click)="openDialog(data.id)">
+                    <i class="fa fa-file"></i>
                 </button>
             </td>
         </tr>

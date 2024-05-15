@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CustomerRequirement } from '../../../models/customer-requirement';
 import { MatSelectChange } from '@angular/material/select';
 import { FormControl, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { AbschlussBerichtComponent } from '../abschluss-bericht/abschluss-bericht.component';
 
 @Component({
   selector: 'app-customer-requirements',
@@ -12,8 +14,12 @@ export class CustomerRequirementsComponent implements OnInit {
   i = 0;
   editId: number | null = null;
   tohaControl = new FormControl<Toechterhaeandler | null>(null, Validators.required);
-
   selectedValue?: string;
+
+  constructor(private dialog: MatDialog) { }
+
+  ngOnInit(): void {
+  }
 
   toha: Toechterhaeandler[] = [
     { value: 'Active-1', viewValue: 'Active' },
@@ -71,7 +77,19 @@ export class CustomerRequirementsComponent implements OnInit {
       editVisit.training = event.value.includes('5');
     }
   }
-  ngOnInit(): void {
+
+
+  public openDialog(dataId: number) {
+    const dialogRef = this.dialog.open(AbschlussBerichtComponent, {
+      height: '40rem',
+      width: '60rem',
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(
+      data => {
+        null;
+      });
   }
 }
 
