@@ -10,9 +10,6 @@ import {MatExpansionPanel} from '@angular/material/expansion';
 })
 export class SeminarRegistrationComponent {
 
-  buttonSelect: number[] = []
-
-
-  
+  buttonSelect: string[] = []
 
 }
