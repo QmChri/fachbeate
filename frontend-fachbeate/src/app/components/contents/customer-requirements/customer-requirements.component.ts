@@ -72,6 +72,7 @@ export class CustomerRequirementsComponent implements OnInit {
     }
   }
   ngOnInit(): void {
+    this.addRow();
   }
 }
 
