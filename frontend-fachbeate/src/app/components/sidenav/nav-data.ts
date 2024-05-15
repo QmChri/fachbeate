@@ -7,6 +7,11 @@ export const navbarData: INavbarData[] = [
         label: 'Übersicht'
     },
     {
+        routeLink: 'mainList',
+        icon: 'fal fa-list',
+        label: 'Liste'
+    },
+    {
         routeLink: 'customer-requirements',
         icon: 'fal fa-star',
         label: 'Anforderungen Technologische Unterstützung'

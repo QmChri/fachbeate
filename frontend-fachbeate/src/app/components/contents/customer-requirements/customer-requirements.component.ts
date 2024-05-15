@@ -20,6 +20,7 @@ export class CustomerRequirementsComponent implements OnInit {
   constructor(private dialog: MatDialog) { }
 
   ngOnInit(): void {
+    this.addRow();
   }
 
   toha: Toechterhaeandler[] = [
