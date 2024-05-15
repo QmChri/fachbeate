@@ -1,4 +1,4 @@
-<h3>Anforderungen Technologische Unterstützung</h3>
+<h1 class="h3">Anforderungen Technologische Unterstützung</h1>
 <hr>
 
 <div class="row">
@@ -7,13 +7,38 @@
             <div class="card-header  text-white bg-danger">Anforderungen durch</div>
             <div class="card-body">
                 <div class="center-items">
-                    <div class=" mb-3">
-                        <label>Firma</label>
-                        <input [(ngModel)]="inputCustomerRequirement.company" type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
+                    <div class=" mb-3 center-items ">
+                        <mat-form-field>
+                            <mat-label>Töchter/Händler</mat-label>
+                            <mat-select [(ngModel)]="selectedValue" required>
+                                <mat-option>--</mat-option>
+                                @for (t of toha; track toha) {
+                                <mat-option [value]="t">{{t.viewValue}}</mat-option>
+                                }
+                            </mat-select>
+                            @if (tohaControl.hasError('required')) {
+                            <mat-error>Bitte auswählen</mat-error>
+                            }
+                        </mat-form-field>
+                    </div>
+                    <div class=" mb-3 center-items ">
+                        <mat-form-field>
+                            <mat-label>Vertreter</mat-label>
+                            <mat-select [(ngModel)]="selectedValue" required>
+                                <mat-option>--</mat-option>
+                                @for (t of toha; track toha) {
+                                <mat-option [value]="t">{{t.viewValue}}</mat-option>
+                                }
+                            </mat-select>
+                            @if (tohaControl.hasError('required')) {
+                            <mat-error>Bitte auswählen</mat-error>
+                            }
+                        </mat-form-field>
                     </div>
                     <div class=" mb-3">
                         <label>Ansprechpartner</label>
-                        <input [(ngModel)]="inputCustomerRequirement.contact" type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
+                        <input [(ngModel)]="inputCustomerRequirement.contact" type="text" class="form-control"
+                            placeholder="Eingabe ... " aria-label="Username">
                     </div>
                 </div>
             </div>
@@ -25,15 +50,29 @@
             <div class="card-header  text-white bg-danger">Angeforderter Technologe</div>
             <div class="card-body">
                 <div class="center-items">
+                    <div class=" mb-3 center-items ">
+                        <mat-form-field>
+                            <mat-label>Angeforderter Technologe</mat-label>
+                            <mat-select [(ngModel)]="selectedValue" required>
+                                <mat-option>--</mat-option>
+                                @for (t of toha; track toha) {
+                                <mat-option [value]="t">{{t.viewValue}}</mat-option>
+                                }
+                            </mat-select>
+                            @if (tohaControl.hasError('required')) {
+                            <mat-error>Bitte auswählen</mat-error>
+                            }
+                        </mat-form-field>
+                    </div>
                     <div class=" mb-3">
                         <label>Datum von</label>
-                        <input [(ngModel)]="inputCustomerRequirement.startDate" type="datetime-local" class="form-control" placeholder="Eingabe ... "
-                            aria-label="Username">
+                        <input [(ngModel)]="inputCustomerRequirement.startDate" type="date" class="form-control"
+                            placeholder="Eingabe ... " aria-label="Username">
                     </div>
                     <div class=" mb-3">
                         <label>Datum bis</label>
-                        <input [(ngModel)]="inputCustomerRequirement.endDate" type="datetime-local" class="form-control" placeholder="Eingabe ... "
-                            aria-label="Username">
+                        <input [(ngModel)]="inputCustomerRequirement.endDate" type="date" class="form-control"
+                            placeholder="Eingabe ... " aria-label="Username">
                     </div>
                 </div>
             </div>
@@ -45,25 +84,31 @@
             <div class="card-header  text-white bg-danger">Reiseplanung</div>
             <div class="card-body">
                 <div class="center-items">
-                    <div class="mb-3">
-                        <label>Flugbuchung</label>
-                        <div class="flugHotel">
-                            <select name="flightBooking" id="flightBooking" [(ngModel)]="inputCustomerRequirement.flightBooking">
-                                <option value="''">Auswahl...</option>
-                                <option value="Almi">Almi</option>
-                                <option value="Kunde">Kunde</option>
-                            </select>
-                        </div>
+                    <div class=" mb-3 center-items ">
+                        <mat-form-field>
+                            <mat-label>Flugbuchung</mat-label>
+                            <mat-select [(ngModel)]="selectedValue" required>
+                                <mat-option>--</mat-option>
+                                <mat-option>Almi</mat-option>
+                                <mat-option>Kunde</mat-option>
+                            </mat-select>
+                            @if (tohaControl.hasError('required')) {
+                            <mat-error>Bitte auswählen</mat-error>
+                            }
+                        </mat-form-field>
                     </div>
-                    <div class="mb-3">
-                        <label>Hotelbuchung</label>
-                        <div class="flugHotel">
-                            <select name="hotelBooking" id="hotelBooking" [(ngModel)]="inputCustomerRequirement.hotelBooking">
-                                <option value="''">Auswahl...</option>
-                                <option value="Almi">Almi</option>
-                                <option value="Kunde">Kunde</option>
-                            </select>
-                        </div>
+                    <div class=" mb-3 center-items ">
+                        <mat-form-field>
+                            <mat-label>Hotelbuchung</mat-label>
+                            <mat-select [(ngModel)]="selectedValue" required>
+                                <mat-option>--</mat-option>
+                                <mat-option>Almi</mat-option>
+                                <mat-option>Kunde</mat-option>
+                            </mat-select>
+                            @if (tohaControl.hasError('required')) {
+                            <mat-error>Bitte auswählen</mat-error>
+                            }
+                        </mat-form-field>
                     </div>
                 </div>
             </div>
@@ -77,11 +122,13 @@
                 <div class="center-items">
                     <div class=" mb-3">
                         <label>Sonstige Anmerkungen</label>
-                        <input [(ngModel)]="inputCustomerRequirement.furtherNotes" type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
+                        <input [(ngModel)]="inputCustomerRequirement.furtherNotes" type="text" class="form-control"
+                            placeholder="Eingabe ... " aria-label="Username">
                     </div>
                     <div class=" mb-3">
                         <label>Interne Notiz</label>
-                        <input [(ngModel)]="inputCustomerRequirement.internalNote" type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
+                        <input [(ngModel)]="inputCustomerRequirement.internalNote" type="text" class="form-control"
+                            placeholder="Eingabe ... " aria-label="Username">
                     </div>
                 </div>
             </div>
@@ -93,8 +140,7 @@
 <br>
 <br>
 <div class="centerHeader">
-
-    <h5>Geplante Kundebesuche</h5>
+    <h1>Geplante Kundebesuche</h1>
     <button nz-button (click)="addRow()" nzType="primary">Neuer Kundenbesuch</button>
 </div>
 <hr>
@@ -103,6 +149,7 @@
     <thead>
         <tr>
             <th>Name des Unternehmens</th>
+            <th>Kundenummer</th>
             <th>Adresse</th>
             <th>Kontakt Person</th>
             <th>Datum des Besuchs</th>
@@ -121,6 +168,12 @@
             </td>
             <td>
                 <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
+                    {{ data.customerNr }}
+                </div>
+                <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.customerNr" />
+            </td>
+            <td>
+                <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
                     {{ data.address }}
                 </div>
                 <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.address" />
@@ -135,7 +188,7 @@
                 <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
                     {{data.dateOfVisit}}
                 </div>
-                <input [hidden]="editId !== data.id" type="datetime-local" nz-input [(ngModel)]="data.dateOfVisit" />
+                <input [hidden]="editId !== data.id" type="date" nz-input [(ngModel)]="data.dateOfVisit" />
             </td>
             <td class="multiple-select">
                 <mat-select multiple placeholder="Auswählen . . . " (selectionChange)="selChange($event, data.id)">

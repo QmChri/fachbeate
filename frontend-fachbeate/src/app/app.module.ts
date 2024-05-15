@@ -9,7 +9,6 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule, provideHttpClient } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SublevelMenuComponent } from './components/sidenav/sublevel-menu.component';
-
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
@@ -25,7 +24,6 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { CommonModule, registerLocaleData } from '@angular/common';
-
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -36,6 +34,7 @@ import { de_DE } from 'ng-zorro-antd/i18n';
 import de from '@angular/common/locales/de';
 import { MatOptionModule } from '@angular/material/core';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
+
 
 registerLocaleData(de);
 
