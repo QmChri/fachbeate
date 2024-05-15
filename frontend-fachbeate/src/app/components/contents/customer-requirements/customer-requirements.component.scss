@@ -3,6 +3,7 @@
     flex-direction: column;
     flex-wrap: wrap;
 }
+
 .card-body {
     display: flex;
     flex-direction: column;
@@ -53,4 +54,9 @@
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: space-between;
+    align-items: flex-end;
+}
+
+.notizHeader {
+    display: flex;
 }

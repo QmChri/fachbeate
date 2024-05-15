@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { CustomerRequirement } from '../../../models/customer-requirement';
 import { MatSelectChange } from '@angular/material/select';
 import { FormControl, Validators } from '@angular/forms';
-import { HttpService } from '../../../services/http.service';
-import { Technologist } from '../../../models/technologist';
 
 @Component({
   selector: 'app-customer-requirements',
@@ -18,6 +16,11 @@ export class CustomerRequirementsComponent implements OnInit {
   selectedValue?: string;
   technologists: Technologist[] = [];
 
+
+  constructor(private dialog: MatDialog) { }
+
+  ngOnInit(): void {
+  }
 
   toha: Toechterhaeandler[] = [
     { value: 'Active-1', viewValue: 'Active' },
@@ -85,6 +88,19 @@ export class CustomerRequirementsComponent implements OnInit {
 
   postCustomerRequirement(){
     this.http.postCustomerRequirement(this.inputCustomerRequirement).subscribe()
+
+
+  public openDialog(dataId: number) {
+    const dialogRef = this.dialog.open(AbschlussBerichtComponent, {
+      height: '40rem',
+      width: '60rem',
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(
+      data => {
+        null;
+      });
   }
 
   getTechnologist(){

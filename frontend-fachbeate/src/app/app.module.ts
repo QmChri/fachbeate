@@ -26,7 +26,6 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { CommonModule, registerLocaleData } from '@angular/common';
-
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -37,6 +36,9 @@ import { de_DE } from 'ng-zorro-antd/i18n';
 import de from '@angular/common/locales/de';
 import { MatOptionModule } from '@angular/material/core';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, } from '@angular/material/dialog';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { SeminarRegistrationComponent } from './components/contents/seminar-registration/seminar-registration.component';
 import { CalendarComponent } from './components/contents/calendar/calendar.component';
 
@@ -54,6 +56,12 @@ registerLocaleData(de);
     CalendarComponent
   ],
   imports: [
+    MatTooltipModule,
+    MatDialogTitle,
+    MatDialogContent,
+    MatDialogActions,
+    MatDialogClose,
+    MatButtonToggleModule,
     CommonModule,
     FormsModule,
     BrowserModule,
