@@ -115,51 +115,20 @@
 
 <div class="row">
     <div class="col-md-4">
-        <mat-accordion class="card">
-            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-                <mat-expansion-panel-header class="card-header text-white bg-danger">
-                    <mat-panel-description>
-                        Hotelbuchung
-                        <input type="checkbox" checked>
-                    </mat-panel-description>
-                </mat-expansion-panel-header>
-                <div class="card-body">
-                    <div class="center-items">
-                        <div class=" mb-3">
-                            <label>Ort und gewünschte Lage</label>
-                            <input type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
-                        </div>
-                        <div class="flugHotel">
-                            <div class=" mb-3">
-                                <label>Datum von</label>
-                                <input type="datetime-local" class="form-control" placeholder="Eingabe ... "
-                                    aria-label="Username">
-                            </div>
-                            <div class=" mb-3">
-                                <label>Datum bis</label>
-                                <input type="datetime-local" class="form-control" placeholder="Eingabe ... "
-                                    aria-label="Username">
-                            </div>
-                        </div>
-                        <div class="center-items">
-                            <div class="mb-3">
-                                <div class="form-check">
-                                    <label class="form-check-label" for="flexCheckDefault">Ja</label>
-                                    <input class="form-check-input" type="checkbox" id="flexCheckDefault">
-                                </div>
-                                <div class=" mb-3">
-                                    <label>Anzahl</label>
-                                    <input type="number" class="form-control" placeholder="Eingabe ... "
-                                        aria-label="Username">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </mat-expansion-panel>
-        </mat-accordion>
+        <div class="card">
+            <div class="card-header  text-white bg-danger">Reiseplanung</div>
+            <mat-button-toggle-group vertical multiple style="display: flex; align-items: baseline;">
+                <mat-button-toggle value="option1">Hotelbuchung</mat-button-toggle>
+                <mat-button-toggle value="option2">Buchung Flughafen Transfer - Zug</mat-button-toggle>
+                <mat-button-toggle value="option3">Ausflug</mat-button-toggle>
+                <mat-button-toggle value="option3">Betriebsführung</mat-button-toggle>
+                <mat-button-toggle value="option3">Mittagessen</mat-button-toggle>
+                <mat-button-toggle value="option3">Kundengeschenke</mat-button-toggle>
+                <mat-button-toggle value="option3">Diplome</mat-button-toggle>
+            </mat-button-toggle-group>
+       </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-8">
         <div class="card">
             <div class="card-header  text-white bg-danger">Reiseplanung</div>
             <div class="card-body">

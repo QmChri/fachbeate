@@ -10,6 +10,7 @@ import { HttpClientModule, provideHttpClient } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SublevelMenuComponent } from './components/sidenav/sublevel-menu.component';
 
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
@@ -35,54 +36,4 @@ import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { de_DE } from 'ng-zorro-antd/i18n';
 import de from '@angular/common/locales/de';
 import { MatOptionModule } from '@angular/material/core';
-import { NzEmptyModule } from 'ng-zorro-antd/empty';
-
-registerLocaleData(de);
-
-@NgModule({
-  declarations: [
-    AppComponent,
-    BodyComponent,
-    SidenavComponent,
-    SublevelMenuComponent,
-    DashboardComponent,
-    CustomerRequirementsComponent,
-  ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    MatSlideToggleModule,
-    MatCheckboxModule,
-    MatSelectModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatExpansionModule,
-    ScrollingModule,
-    MatTabsModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
-    NzTableModule,
-    NzInputModule,
-    NzButtonModule,
-    NzPopconfirmModule,
-    FormsModule,
-    CommonModule,
-    MatOptionModule,
-    NzEmptyModule,
-  ],
-  providers: [
-    provideAnimationsAsync(),
-    { provide: NZ_I18N, useValue: de_DE },
-    provideHttpClient()
-  ],
-  bootstrap: [AppComponent]
-})
-export class AppModule { }
+import { NzEmptyModule } from 'ng-zorro-antd/empty'
