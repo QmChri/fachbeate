@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CustomerRequirement } from '../../../models/customer-requirement';
 import { MatSelectChange } from '@angular/material/select';
 import { FormControl, Validators } from '@angular/forms';
-import { AbschlussBerichtComponent } from '../abschluss-bericht/abschluss-bericht.component';
 import { MatDialog } from '@angular/material/dialog';
+import { AbschlussBerichtComponent } from '../abschluss-bericht/abschluss-bericht.component';
 import { HttpService } from '../../../services/http.service';
 import { Technologist } from '../../../models/technologist';
 
@@ -20,9 +20,7 @@ export class CustomerRequirementsComponent implements OnInit {
   selectedValue?: string;
   technologists: Technologist[] = [];
 
-
   constructor(private dialog: MatDialog, private http: HttpService) { }
-
 
   toha: Toechterhaeandler[] = [
     { value: 'Active-1', viewValue: 'Active' },

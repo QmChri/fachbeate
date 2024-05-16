@@ -19,7 +19,7 @@ export class CalendarComponent {
       { title: 'Mandi', date: '2024-04-01', },
       { title: 'Fandi', date: '2024-04-02' }
     ],
-    
+
   };
 
   handleDateClick(arg: any) {
