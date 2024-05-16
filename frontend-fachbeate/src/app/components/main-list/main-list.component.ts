@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { elementAt } from 'rxjs';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { CustomerRequirementsComponent } from '../contents/customer-requirements/customer-requirements.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main-list',
@@ -126,23 +128,79 @@ export class MainListComponent {
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.abschlussbericht.valueOf().toString().localeCompare(b.abschlussbericht.valueOf().toString()),
       listOfFilter: [
-        { text: 'false', value: 'false' },
-        { text: 'true', value: 'true' }
+        { text: 'erledigt', value: 'true' },
+        { text: 'nicht erledigt', value: 'false' }
       ],
       filterFn: (list: string[], item: DataItem) => list.some(name => item.abschlussbericht.valueOf().toString().indexOf(name.valueOf().toString()) !== -1)
     },
   ];
 
+  constructor(private router: Router) { }
+
+  openCRC(dateNr: string) {
+    //this.router.navigate(['/customer-requirements', dateNr]);
+    this.router.navigate(['/customer-requirements']);
+    console.log('Selected Field:', dateNr);
+  }
+
+
+  resetFilters(): void {
+    this.listOfColumn.forEach(item => {
+      if (item.name === 'Status') {
+        item.listOfFilter = [
+          { text: 'open', value: 'open' },
+          { text: 'in-progress', value: 'in-progress' }
+        ];
+      } else if (item.name === 'Händler/Töchter') {
+        item.listOfFilter = [
+          { text: 'Toha A', value: 'Toha A' },
+          { text: 'Toha B', value: 'Toha B' },
+          { text: 'Toha C', value: 'Toha C' }
+        ];
+      } else if (item.name === 'Vertreter') {
+        item.listOfFilter = [
+          { text: 'Vertreter W', value: 'Vertreter W' },
+          { text: 'Vertreter X', value: 'Vertreter X' }
+        ];
+      } else if (item.name === 'Fachberater') {
+        item.listOfFilter = [
+          { text: 'Fachberater W', value: 'Fachberater W' },
+          { text: 'Fachberater X', value: 'Fachberater X' }
+        ];
+      } else if (item.name === 'Abschlussbericht') {
+        item.listOfFilter = [
+          { text: 'erledigt', value: 'true' },
+          { text: 'nicht erledigt', value: 'false' }
+        ];
+      }
+    });
+  }
+
+  resetSortAndFilters(): void {
+    this.listOfColumn.forEach(item => {
+      item.sortOrder = null;
+    });
+    this.resetFilters();
+  }
 
   reset(): void {
     this.searchValue = '';
     this.search();
   }
 
-  //TODO hier in jeder Spalte suchen
   search(): void {
     this.visible = false;
-    this.listOfDisplayData = this.listOfData.filter((item: DataItem) => item.abschlussbericht.valueOf().toString().indexOf(this.searchValue) !== -1);
+    this.listOfDisplayData = this.listOfData.filter((item: DataItem) =>
+    (
+      item.nr.toLocaleLowerCase().indexOf(this.searchValue.toLocaleLowerCase()) !== -1 ||
+      item.createDate.valueOf().toString().indexOf(this.searchValue.valueOf().toString()) !== -1 ||
+      item.status.toLocaleLowerCase().indexOf(this.searchValue.toLocaleLowerCase()) !== -1 ||
+      item.toha.toLocaleLowerCase().indexOf(this.searchValue.toLocaleLowerCase()) !== -1 ||
+      item.vertreter.toLocaleLowerCase().indexOf(this.searchValue.toLocaleLowerCase()) !== -1 ||
+      item.fachberater.toLocaleLowerCase().indexOf(this.searchValue.toLocaleLowerCase()) !== -1 ||
+      item.timespan.valueOf().toString().indexOf(this.searchValue.valueOf().toString()) !== -1 ||
+      item.abschlussbericht.toString().indexOf(this.searchValue.toString()) !== -1
+    ));
   }
 }
 
