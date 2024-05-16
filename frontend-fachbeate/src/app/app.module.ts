@@ -36,7 +36,6 @@ import { de_DE } from 'ng-zorro-antd/i18n';
 import de from '@angular/common/locales/de';
 import { MatOptionModule } from '@angular/material/core';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SeminarRegistrationComponent } from './components/contents/seminar-registration/seminar-registration.component';
