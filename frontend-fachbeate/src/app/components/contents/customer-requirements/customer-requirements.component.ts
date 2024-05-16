@@ -80,7 +80,6 @@ export class CustomerRequirementsComponent implements OnInit {
   }
   ngOnInit(): void {
     this.addRow();
-
     this.getTechnologist();
   }
 
@@ -91,9 +90,9 @@ export class CustomerRequirementsComponent implements OnInit {
 
   openDialog(dataId: number) {
     const dialogRef = this.dialog.open(AbschlussBerichtComponent, {
-      height: '40rem',
-      width: '60rem',
-      disableClose: true
+      height: '20rem',
+      width: '50rem',
+      disableClose: true,
     });
 
     dialogRef.afterClosed().subscribe(

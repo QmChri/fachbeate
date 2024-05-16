@@ -1,11 +1,17 @@
-<div class="centerHeader">
-    <h1 class="h3">Anforderungen Technologische Unterstützung</h1>
-    <button class="btn btn-secondary" matTooltip="interne Notiz" (click)="openDialog(editId!)">
-        User-0192
-        <i class="fa fa-comment"></i></button>
+<div class="header">
+    <div>
+        <h1 class="paddingSearch">Anforderungen Technologische Unterstützung:
+            <button style="margin-left: 10px;" class="btn btn-secondary" matTooltip="interne Notiz"
+                (click)="openDialog(editId!)">
+                <i class="fa fa-comment"></i></button>
+        </h1>
+
+    </div>
+    <div>
+        <button class="btn btn-success" (click)="postCustomerRequirement()">Beantragen</button>
+    </div>
 </div>
 <hr>
-
 <div class="row">
     <div class="col-md-3">
         <div class="card">
@@ -65,13 +71,13 @@
                         </mat-form-field>
                     </div>
                 </div>
-                <div class="centerHeader">
-                    <div class=" mb-3">
+                <div class="header smallmedia">
+                    <div class="mb-3">
                         <label>Datum von</label>
                         <input [(ngModel)]="inputCustomerRequirement.startDate" type="date" class="form-control"
                             placeholder="Eingabe ... " aria-label="Username">
                     </div>
-                    <div class=" mb-3">
+                    <div class="mb-3">
                         <label>Datum bis</label>
                         <input [(ngModel)]="inputCustomerRequirement.endDate" type="date" class="form-control"
                             placeholder="Eingabe ... " aria-label="Username">
@@ -124,7 +130,8 @@
                 <div class="center-items">
                     <mat-form-field>
                         <mat-label>Sonstige Anmerkungen</mat-label>
-                        <input matInput placeholder="Ex. 1,5h Anfahrt" [(ngModel)]="inputCustomerRequirement.furtherNotes">
+                        <input matInput placeholder="Ex. 1,5h Anfahrt"
+                            [(ngModel)]="inputCustomerRequirement.furtherNotes">
                     </mat-form-field>
 
                     <mat-form-field>
@@ -140,109 +147,116 @@
 <br>
 <br>
 <br>
-<div class="centerHeader">
-    <h1>Geplante Kundebesuche</h1>
-    <button nz-button (click)="addRow()" nzType="primary">Neuer Kundenbesuch</button>
+<div class="header">
+    <div>
+        <h1 class="paddingSearch">Geplante Kundebesuche</h1>
+    </div>
+    <div>
+        <button nz-button (click)="addRow()" nzType="primary">Neuer Kundenbesuch</button>
+    </div>
 </div>
 <hr>
 
-<nz-table #editRowTable nzBordered [nzData]="inputCustomerRequirement.customerVisits!">
-    <thead>
-        <tr>
-            <th>Name des Unternehmens</th>
-            <th>Kundenummer</th>
-            <th>Adresse</th>
-            <th>Kontakt Person</th>
-            <th>Datum des Besuchs</th>
-            <th>Kundenbesuch</th>
-            <th>Produktion Tonnen/Tag</th>
-            <th>Bearbeiten/Entfernen</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let data of editRowTable.data" class="editable-row">
-            <td>
-                <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
-                    @if (data.companyName == '') {
-                    <p>Hier eingeben ...</p>
-                    }
-                    {{ data.companyName }}
-                </div>
-                <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.companyName" />
-            </td>
-            <td>
-                <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
-                    @if (data.customerNr == '') {
-                    <p>Hier eingeben ...</p>
-                    }
-                    {{ data.customerNr }}
-                </div>
-                <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.customerNr" />
-            </td>
-            <td>
-                <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
-                    @if (data.address == '') {
-                    <p>Hier eingeben ...</p>
-                    }
-                    {{ data.address }}
-                </div>
-                <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.address" />
-            </td>
-            <td>
-                <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
-                    @if (data.contactPerson == '') {
-                    <p>Hier eingeben ...</p>
-                    }
-                    {{ data.contactPerson }}
-                </div>
-                <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.contactPerson" />
-            </td>
-            <td>
-                <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
-                    @if (data.dateOfVisit == null) {
-                    <p>Hier eingeben ...</p>
-                    }
-                    {{data.dateOfVisit}}
-                </div>
-                <input [hidden]="editId !== data.id" type="date" nz-input [(ngModel)]="data.dateOfVisit" />
-            </td>
-            <td class="multiple-select">
-                <mat-select multiple placeholder="Auswählen . . . " (selectionChange)="selChange($event, data.id)">
-                    <mat-option value="1">Vorstellung neuer Produkte</mat-option>
-                    <mat-option value="2">Problemlösung - bestehende Produkten</mat-option>
-                    <mat-option value="3">Rezepturoptimierung</mat-option>
-                    <mat-option value="4">Musterproduktion</mat-option>
-                    <mat-option value="5">Schulung</mat-option>
-                </mat-select>
-            </td>
-            <td>
-                <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
-                    @if (data.productionAmount == null) {
-                    <p>Hier eingeben ...</p>
-                    }
-                    {{data.productionAmount}}
-                </div>
-                <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.productionAmount" />
-            </td>
-            <td>
-                <button matTooltip="Bearbeiten" class="btn btn-success" (click)="startEdit(data.id)"
-                    [hidden]="editId === data.id">
-                    <i class="fa fa-pencil"></i>
-                </button>
-                <button matTooltip="Speichern" class="btn btn-success" (click)="stopEdit()"
-                    [hidden]="editId !== data.id">
-                    <i class="fa fa-save"></i>
-                </button>
-                <button matTooltip="Entfernen" class="btn btn-danger" nz-popconfirm nzPopconfirmShowArrow="false"
-                    nzPopconfirmTitle="Sind Sie sicher?" (nzOnConfirm)="deleteRow(data.id)">
-                    <i class="fa fa-trash"></i>
-                </button>
-                <button class="btn btn-success" matTooltip="Abschlussbericht" (click)="openDialog(data.id)">
-                    <i class="fa fa-file"></i>
-                </button>
-            </td>
-        </tr>
-    </tbody>
-</nz-table>
+<!-- TODO Liste untern formatieren sodass sofort etwas dort steht und die input felde rniht zu groß sind bei kleinem
+Bildschirm -->
+<div class="row">
+    <nz-table class="col" #editRowTable nzTableLayout="fixed" nzBordered
+        [nzData]="inputCustomerRequirement.customerVisits!">
+        <thead>
+            <tr>
+                <th>Name des Unternehmens</th>
+                <th>Kundenummer</th>
+                <th>Adresse</th>
+                <th>Kontakt Person</th>
+                <th>Datum des Besuchs</th>
+                <th>Kundenbesuch</th>
+                <th>Produktion Tonnen/Tag</th>
+                <th>Bearbeiten/Entfernen</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of editRowTable.data" class="editable-row">
+                <td>
+                    <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
+                        @if (data.companyName == '') {
+                        }
+                        {{ data.companyName }}
+                    </div>
+                    <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.companyName" />
+                </td>
+                <td>
+                    <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
+                        @if (data.customerNr == '') {
 
-<button (click)="postCustomerRequirement()">Absenden</button>
+                        }
+                        {{ data.customerNr }}
+                    </div>
+                    <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.customerNr" />
+                </td>
+                <td>
+                    <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
+                        @if (data.address == '') {
+
+                        }
+                        {{ data.address }}
+                    </div>
+                    <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.address" />
+                </td>
+                <td>
+                    <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
+                        @if (data.contactPerson == '') {
+
+                        }
+                        {{ data.contactPerson }}
+                    </div>
+                    <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.contactPerson" />
+                </td>
+                <td>
+                    <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
+                        @if (data.dateOfVisit == null) {
+
+                        }
+                        {{data.dateOfVisit}}
+                    </div>
+                    <input [hidden]="editId !== data.id" type="date" nz-input [(ngModel)]="data.dateOfVisit" />
+                </td>
+                <td class="multiple-select">
+                    <mat-select multiple placeholder="Auswählen . . . " (selectionChange)="selChange($event, data.id)">
+                        <!-- <mat-option value="1">Vorstellung neuer Produkte</mat-option> -->
+                        <mat-option value="1">Vorstellung</mat-option>
+                        <!-- <mat-option value="2">Problemlösung - bestehende Produkten</mat-option> -->
+                        <mat-option value="2">Problemlösung</mat-option>
+                        <mat-option value="3">Rezepturopt.</mat-option>
+                        <mat-option value="4">Musterproduktion</mat-option>
+                        <mat-option value="5">Schulung</mat-option>
+                    </mat-select>
+                </td>
+                <td>
+                    <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
+                        @if (data.productionAmount == null) {
+                        }
+                        {{data.productionAmount}}
+                    </div>
+                    <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.productionAmount" />
+                </td>
+                <td class="flugHotel">
+                    <button matTooltip="Bearbeiten" class="btn btn-success" (click)="startEdit(data.id)"
+                        [hidden]="editId === data.id">
+                        <i class="fa fa-pencil"></i>
+                    </button>
+                    <button matTooltip="Speichern" class="btn btn-success" (click)="stopEdit()"
+                        [hidden]="editId !== data.id">
+                        <i class="fa fa-save"></i>
+                    </button>
+                    <button matTooltip="Entfernen" class="btn btn-danger" nz-popconfirm nzPopconfirmShowArrow="false"
+                        nzPopconfirmTitle="Sind Sie sicher?" (nzOnConfirm)="deleteRow(data.id)">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                    <button class="btn btn-success" matTooltip="Abschlussbericht" (click)="openDialog(data.id)">
+                        <i class="fa fa-file"></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
@@ -10,7 +10,7 @@ export class AbschlussBerichtComponent {
   constructor(
     public dialogRef: MatDialogRef<AbschlussBerichtComponent>,
   ) { }
-  onNoClick(): void {
+  closeDialog() {
     this.dialogRef.close();
   }
 }
