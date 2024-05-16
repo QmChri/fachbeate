@@ -1,0 +1,41 @@
+<div class="row">
+    <div class="col-4 form-control" style="display: flex; flex-direction: column;">
+        <mat-form-field>
+            <mat-label>Vorname</mat-label>
+            <input matInput [(ngModel)]="inputTechnologist.firstName">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Nachname</mat-label>
+            <input matInput [(ngModel)]="inputTechnologist.lastName">
+        </mat-form-field>
+        <div class="form-check">
+            <label class="form-check-label" for="isActive" style="margin-right: 1rem;">Aktiv</label>
+            <input calss="form-check-input" type="checkbox" [(ngModel)]="inputTechnologist.active" id="isActive">
+        </div>
+        <br>
+        <button class="btn btn-success" (click)="postTechnologist()"><i class="fa fa-save"></i></button>
+    </div>
+    <div class="col-8">
+        <table  class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Vorname</th>
+                    <th>Nachname</th>
+                    <th>Aktiv</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let technologist of technologistList" (click)="editRow(technologist)" >
+                    <td>{{technologist.id}}</td>
+                    <td>{{technologist.firstName}}</td>
+                    <td>{{technologist.lastName}}</td>
+                    <td>
+                        <span *ngIf="technologist.active" class="text-success">&#10004;</span>
+                        <span *ngIf="!technologist.active" class="text-danger">&#10005;</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
