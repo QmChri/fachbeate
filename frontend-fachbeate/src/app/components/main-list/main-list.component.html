@@ -1,13 +1,16 @@
-<div class="table-operations">
-  <button nz-button (click)="resetSortAndFilters()">Clear filters and sorters</button>
-  <h1 nzCustomFilter>Main List Filter:
-    <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="searchValue.length > 0" [nzDropdownMenu]="menu">
+<div class="table-operations header">
+  <div>
+    <h1 class="paddingSearch">Liste der Termine</h1>
+  </div>
+  <div>
+    <nz-filter-trigger class="paddingSearch" [(nzVisible)]="visible" [nzActive]="searchValue.length > 0"
+      [nzDropdownMenu]="menu">
       <i class="fa fa-search"></i>
     </nz-filter-trigger>
-  </h1>
+    <button class="btn btn-secondary" (click)="resetSortAndFilters()">Filter/Sortierung aufheben</button>
+  </div>
 </div>
-
-
+<hr>
 
 <nz-table #nzTable nzBordered nzSimple nzSize="default" nzTableLayout="auto" [nzData]="listOfDisplayData"
   nzTableLayout="fixed">
@@ -37,7 +40,8 @@
   <tbody>
     <tr *ngFor="let data of nzTable.data">
       <td (dblclick)="openCRC(data.nr)">{{ data.nr }}</td>
-      <td (dblclick)="openCRC(data.nr)">{{ data.createDate.getDay() }}/{{ data.createDate.getDate() }}/{{ data.createDate.getFullYear() }}</td>
+      <td (dblclick)="openCRC(data.nr)">{{ data.createDate.getDay() }}/{{ data.createDate.getDate() }}/{{
+        data.createDate.getFullYear() }}</td>
       <td (dblclick)="openCRC(data.nr)">{{ data.status }}</td>
       <td (dblclick)="openCRC(data.nr)">{{ data.toha }}</td>
       <td (dblclick)="openCRC(data.nr)">{{ data.vertreter }}</td>

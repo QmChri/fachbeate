@@ -224,7 +224,7 @@
                 </div>
                 <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.productionAmount" />
             </td>
-            <td class="buttons">
+            <td>
                 <button matTooltip="Bearbeiten" class="btn btn-success" (click)="startEdit(data.id)"
                     [hidden]="editId === data.id">
                     <i class="fa fa-pencil"></i>

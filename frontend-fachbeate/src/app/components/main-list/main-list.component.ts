@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { CustomerRequirementsComponent } from '../contents/customer-requirements/customer-requirements.component';
 import { Router } from '@angular/router';
 
 @Component({
@@ -143,7 +141,6 @@ export class MainListComponent {
     console.log('Selected Field:', dateNr);
   }
 
-
   resetFilters(): void {
     this.listOfColumn.forEach(item => {
       if (item.name === 'Status') {
@@ -181,6 +178,8 @@ export class MainListComponent {
       item.sortOrder = null;
     });
     this.resetFilters();
+    this.searchValue = '';
+    this.search();
   }
 
   reset(): void {

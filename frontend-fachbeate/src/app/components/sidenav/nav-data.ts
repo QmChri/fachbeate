@@ -25,5 +25,5 @@ export const navbarData: INavbarData[] = [
         routeLink: 'seminar-registration',
         icon: 'fal fa-book',
         label: 'Seminar Anmeldung'
-    },
+    }
 ];
