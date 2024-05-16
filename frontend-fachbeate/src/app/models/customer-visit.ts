@@ -1,3 +1,5 @@
+import { FinalReport } from "./final-report";
+
 export class CustomerVisit {
     id: number;
     companyName?: string;
@@ -11,6 +13,9 @@ export class CustomerVisit {
     recipeOptimization: boolean;
     sampleProduction: boolean;
     training: boolean;
+
+    finalReport: FinalReport;
+
     selection?: string[];
 
     constructor(id: number,
@@ -29,14 +34,15 @@ export class CustomerVisit {
         this.id = id,
         this.companyName = companyName,
         this.customerNr = customerNr,
-            this.address = address,
-            this.contactPerson = contactPerson,
-            this.dateOfVisit = dateOfVisit,
-            this.presentationOfNewProducts = presentationOfNewProducts,
-            this.existingProducts = existingProducts,
-            this.recipeOptimization = recipeOptimization,
-            this.sampleProduction = sampleProduction,
-            this.training = training,
-            this.productionAmount = productionAmount
+        this.address = address,
+        this.contactPerson = contactPerson,
+        this.dateOfVisit = dateOfVisit,
+        this.presentationOfNewProducts = presentationOfNewProducts,
+        this.existingProducts = existingProducts,
+        this.recipeOptimization = recipeOptimization,
+        this.sampleProduction = sampleProduction,
+        this.training = training,
+        this.productionAmount = productionAmount
+        this.finalReport = {}
     }
 }

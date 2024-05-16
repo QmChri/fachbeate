@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FinalReport } from '../../../models/final-report';
 
 @Component({
   selector: 'app-abschluss-bericht',
@@ -9,6 +10,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 export class AbschlussBerichtComponent {
   constructor(
     public dialogRef: MatDialogRef<AbschlussBerichtComponent>,
+    @Inject(MAT_DIALOG_DATA) public finalReport: FinalReport
   ) { }
   closeDialog() {
     this.dialogRef.close();

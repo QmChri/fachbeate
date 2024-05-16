@@ -5,13 +5,13 @@
                 (click)="openDialog(editId!)">
                 <i class="fa fa-comment"></i></button>
         </h1>
-
     </div>
     <div>
         <button class="btn btn-success" (click)="postCustomerRequirement()">Beantragen</button>
     </div>
 </div>
 <hr>
+
 <div class="row">
     <div class="col-md-3">
         <div class="card">
@@ -71,13 +71,13 @@
                         </mat-form-field>
                     </div>
                 </div>
-                <div class="header smallmedia">
-                    <div class="mb-3">
+                <div class="centerHeader">
+                    <div class=" mb-3">
                         <label>Datum von</label>
                         <input [(ngModel)]="inputCustomerRequirement.startDate" type="date" class="form-control"
                             placeholder="Eingabe ... " aria-label="Username">
                     </div>
-                    <div class="mb-3">
+                    <div class=" mb-3">
                         <label>Datum bis</label>
                         <input [(ngModel)]="inputCustomerRequirement.endDate" type="date" class="form-control"
                             placeholder="Eingabe ... " aria-label="Username">
@@ -130,8 +130,7 @@
                 <div class="center-items">
                     <mat-form-field>
                         <mat-label>Sonstige Anmerkungen</mat-label>
-                        <input matInput placeholder="Ex. 1,5h Anfahrt"
-                            [(ngModel)]="inputCustomerRequirement.furtherNotes">
+                        <input matInput placeholder="Ex. 1,5h Anfahrt" [(ngModel)]="inputCustomerRequirement.furtherNotes">
                     </mat-form-field>
 
                     <mat-form-field>
@@ -147,13 +146,9 @@
 <br>
 <br>
 <br>
-<div class="header">
-    <div>
-        <h1 class="paddingSearch">Geplante Kundebesuche</h1>
-    </div>
-    <div>
-        <button nz-button (click)="addRow()" nzType="primary">Neuer Kundenbesuch</button>
-    </div>
+<div class="centerHeader">
+    <h1>Geplante Kundebesuche</h1>
+    <button nz-button (click)="addRow()" nzType="primary">Neuer Kundenbesuch</button>
 </div>
 <hr>
 

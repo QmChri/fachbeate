@@ -6,6 +6,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { AbschlussBerichtComponent } from '../abschluss-bericht/abschluss-bericht.component';
 import { HttpService } from '../../../services/http.service';
 import { Technologist } from '../../../models/technologist';
+import { FinalReport } from '../../../models/final-report';
+import { CustomerVisit } from '../../../models/customer-visit';
 
 @Component({
   selector: 'app-customer-requirements',
@@ -54,7 +56,19 @@ export class CustomerRequirementsComponent implements OnInit {
         existingProducts: false,
         recipeOptimization: false,
         sampleProduction: false,
-        training: false
+        training: false,
+        finalReport: {
+          technologist: undefined,
+          company: "",
+          dateOfVisit: undefined,
+          reason: [],
+
+          customerFeedback: "",
+          nextSteps: "",
+          nextStepsTechnologist: "",
+          nextStepsUntil: "",
+          furtherInformations: "",
+        }
       }
     ];
     this.editId = this.i;
@@ -80,6 +94,7 @@ export class CustomerRequirementsComponent implements OnInit {
   }
   ngOnInit(): void {
     this.addRow();
+
     this.getTechnologist();
   }
 
@@ -88,11 +103,23 @@ export class CustomerRequirementsComponent implements OnInit {
     this.http.postCustomerRequirement(this.inputCustomerRequirement).subscribe()
   }
 
-  openDialog(dataId: number) {
+  openDialog(customerVisit: CustomerVisit) {
+
+      var finalReport: FinalReport = {
+      technologist: this.inputCustomerRequirement.requestedTechnologist,
+      company: customerVisit.companyName,
+      reason: [
+        customerVisit.presentationOfNewProducts,
+        customerVisit.existingProducts,
+        customerVisit.recipeOptimization,
+        customerVisit.sampleProduction
+        ]
+    }
+
     const dialogRef = this.dialog.open(AbschlussBerichtComponent, {
-      height: '20rem',
-      width: '50rem',
-      disableClose: true,
+      height: '40rem',
+      width: '60rem',
+      data: finalReport
     });
 
     dialogRef.afterClosed().subscribe(

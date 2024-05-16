@@ -1,47 +1,28 @@
-<div class="margin">
-    <div class="align-header">
-        <h1 class="h4">Mehr Details</h1>
-        <button class="btn" aria-label="Close" (click)="closeDialog()">
-        <span class="fa fa-close"></span>
-        </button>
-    </div>
-    <hr>
-    <!--TODO richtige Felder im ngModel eintragen-->
+<div class="container">
+    <h2>Abschlussbericht</h2>
+    <hr/>
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="row">
-                <div class="col">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class=" title">Informationen</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="center-items">
-                                <div>
-                                    <label id="idNumber">Identnummer</label>
-                                    <input class="form-control" readonly type="text" />
-                                </div>
-                                <div>
-                                    <label id="searchKey">Suchwort</label>
-                                    <input id="searchKey" class="form-control" readonly type="text" />
-                                </div>
-                                <div>
-                                    <label id="searchTermExt">Suchworterweiterung</label>
-                                    <input id="searchTermExt" class="form-control" readonly type="text" />
-                                </div>
-                                <div>
-                                    <label id="contrDate">Kontrolldatum</label>
-                                    <input id="contrDate" class="form-control" readonly type="datetime-local" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">Last updated 3 mins ago</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <form>
+        <div class="form-group">
+            <label>Fachberater Name</label>
+            <input class="form-control" type="text">
         </div>
-    </div>
+
+        <div class="form-group">
+            <label>Name des Unternehmens</label>
+            <input class="form-control" type="text">
+        </div>
+
+        <div class="form-group">
+            <label>Datum des Besuches</label>
+            <input class="form-control" type="text">
+        </div>
+
+        <div class="form-group">
+            <label>Grund des Besuches</label>
+            <input class="form-control" type="text">
+        </div>
+    </form>
+    <hr/>
+
 </div>
