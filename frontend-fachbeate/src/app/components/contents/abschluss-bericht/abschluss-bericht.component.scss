@@ -1,0 +1,29 @@
+.center-items {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    min-height: 15em;
+}
+
+.card-body-memos {
+    min-height: 39.4rem;
+}
+
+.margin {
+    margin: 1.5rem;
+}
+
+.align-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

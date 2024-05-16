@@ -4,6 +4,22 @@
     flex-wrap: wrap;
 }
 
+.paddingSearch {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: auto;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .card-body {
     display: flex;
     flex-direction: column;
@@ -18,9 +34,10 @@
     justify-content: space-evenly;
 }
 
-.multiple-select {
-    min-width: 20rem;
-    max-width: 20rem;
+@media (max-width: 1600px) {
+    input {
+        width: 8rem;
+    }
 }
 
 .editable-cell {
@@ -47,14 +64,6 @@
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: space-evenly;
-}
-
-.centerHeader {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-    align-items: flex-end;
 }
 
 .notizHeader {
