@@ -1,5 +1,8 @@
+import { Technologist } from "./technologist";
+
 export interface TechnologistAppointment {
-    requestedTechnologist?: string;
+    id?: number;
+    requestedTechnologist?: Technologist;
     startDate?: Date;
     endDate?: Date;
     releaseManagement?: Date;

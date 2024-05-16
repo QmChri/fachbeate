@@ -15,7 +15,6 @@ public class CustomerRequirement extends TechnologistAppointment {
     @OneToMany(cascade = CascadeType.ALL)
     public List<CustomerVisit> customerVisits;
 
-
     // Travel Planing
     public String flightBooking;
     public String hotelBooking;

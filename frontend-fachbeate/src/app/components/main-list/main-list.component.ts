@@ -1,66 +1,31 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { HttpService } from '../../services/http.service';
+import { Technologist } from '../../models/technologist';
 
 @Component({
   selector: 'app-main-list',
   templateUrl: './main-list.component.html',
   styleUrls: ['./main-list.component.css']
 })
-export class MainListComponent {
+export class MainListComponent implements OnInit{
   searchValue = '';
   visible = false;
-  listOfData: DataItem[] = [
-    {
-      nr: '001',
-      createDate: new Date('2021-02-15T09:30:00Z'),
-      status: 'open',
-      toha: 'Toha A',
-      vertreter: 'Vertreter X',
-      fachberater: 'Fachberater W',
-      timespan: calculateTimeDifference(new Date(2023, 5, 12), new Date(2023, 5, 20)),
-      abschlussbericht: false
-    },
-    {
-      nr: '002',
-      createDate: new Date('2022-02-15T09:30:00Z'),
-      status: 'open',
-      toha: 'Toha B',
-      vertreter: 'Vertreter W',
-      fachberater: 'Fachberater X',
-      timespan: calculateTimeDifference(new Date(2022, 5, 12, 2), new Date(2023, 5, 20, 4)),
-      abschlussbericht: true
-    },
-    {
-      nr: '003',
-      createDate: new Date('2023-03-10T10:45:00Z'),
-      status: 'open',
-      toha: 'Toha C',
-      vertreter: 'Vertreter W',
-      fachberater: 'Fachberater W',
-      timespan: calculateTimeDifference(new Date(2023, 1, 12, 1), new Date(2023, 5, 20, 1)),
-      abschlussbericht: false
-    },
-    {
-      nr: '004',
-      createDate: new Date('2024-04-20T11:15:00Z'),
-      status: 'in-progress',
-      toha: 'Toha A',
-      vertreter: 'Vertreter W',
-      fachberater: 'Fachberater X',
-      timespan: calculateTimeDifference(new Date(2023, 5, 1, 13), new Date(2023, 5, 24, 10)),
-      abschlussbericht: true
-    }
-  ];
-  listOfDisplayData = [...this.listOfData];
-  listOfColumn = [
+  listOfData: DataItem[] = [];
+
+  technologistList: Technologist[] = [];
+
+  listOfDisplayData: DataItem[] = [];
+  listOfColumn: ColumnDefinition[]  = [
     {
       name: 'Kundennummer',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.status.localeCompare(b.status),
+      sortFn: (a: DataItem, b: DataItem) => a.nr.toString().localeCompare(b.nr.toString()),
       listOfFilter: [
         { text: ' ', value: ' ' },
       ],
-      filterFn: null
+      filterFn: (list: string[], item: DataItem) => true
     },
     {
       name: 'Erstelldatum',
@@ -69,7 +34,7 @@ export class MainListComponent {
       listOfFilter: [
         { text: ' ', value: ' ' },
       ],
-      filterFn: null
+      filterFn: (list: string[], item: DataItem) => true
     },
     {
       name: 'Status',
@@ -97,8 +62,7 @@ export class MainListComponent {
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.vertreter.localeCompare(b.vertreter),
       listOfFilter: [
-        { text: 'Vertreter W', value: 'Vertreter W' },
-        { text: 'Vertreter X', value: 'Vertreter X' }
+        { text: ' ', value: ' ' }
       ],
       filterFn: (list: string[], item: DataItem) => list.some(name => item.vertreter.indexOf(name) !== -1)
     },
@@ -107,8 +71,7 @@ export class MainListComponent {
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.fachberater.localeCompare(b.fachberater),
       listOfFilter: [
-        { text: 'Fachberater W', value: 'Fachberater W' },
-        { text: 'Fachberater X', value: 'Fachberater X' }
+        { text: '', value: '' }
       ],
       filterFn: (list: string[], item: DataItem) => list.some(name => item.fachberater.indexOf(name) !== -1)
     },
@@ -119,7 +82,7 @@ export class MainListComponent {
       listOfFilter: [
         { text: ' ', value: ' ' },
       ],
-      filterFn: null
+      filterFn: (list: string[], item: DataItem) => true
     },
     {
       name: 'Abschlussbericht',
@@ -133,13 +96,71 @@ export class MainListComponent {
     },
   ];
 
-  constructor(private router: Router) { }
 
-  openCRC(dateNr: string) {
+  constructor(private router: Router, private http: HttpService) { }
+
+  ngOnInit(): void {
+    this.loadData();
+  }
+
+  loadData(){
+
+    this.loadTechnologists();
+
+    this.http.getCustomerRequirements().subscribe({
+      next: data => {
+        data.forEach(element => {
+
+          var tmpStatus = "in-progress";
+          if((element.releaseManagement != null && element.releaseManagement != undefined)
+            || (element.releaseSupervisor != null && element.releaseSupervisor != undefined)){
+              tmpStatus = "open";
+          }
+
+          console.log(new Date(element.endDate!).toDateString());
+
+
+          this.listOfData = [...this.listOfData, {
+            nr: element.id!,
+            createDate: new Date(),
+            status: "ToDo",
+            toha: element.company!,
+            vertreter: element.representative!,
+            fachberater: element.requestedTechnologist!.firstName + " " + element.requestedTechnologist!.lastName,
+            timespan: {
+              days:  Math.round(Math.abs(new Date(element.endDate!).getTime() - new Date(element.startDate!).getTime()) / 86400000),
+              hours:0,
+              minutes:0,
+              seconds:0
+            },
+            abschlussbericht: false
+          }];
+        });
+
+        this.resetFilters()
+
+        this.listOfDisplayData = [...this.listOfData];
+      },
+      error: err => {
+
+      }
+    });
+  }
+
+  loadTechnologists(){
+    this.http.getAllTechnologist().subscribe({
+      next: data =>  { this.technologistList = data },
+      error: err => {console.log(err);
+      }
+    })
+  }
+
+  openCRC(dateNr: number) {
     //this.router.navigate(['/customer-requirements', dateNr]);
     this.router.navigate(['/customer-requirements']);
     console.log('Selected Field:', dateNr);
   }
+
 
   resetFilters(): void {
     this.listOfColumn.forEach(item => {
@@ -160,10 +181,13 @@ export class MainListComponent {
           { text: 'Vertreter X', value: 'Vertreter X' }
         ];
       } else if (item.name === 'Fachberater') {
-        item.listOfFilter = [
-          { text: 'Fachberater W', value: 'Fachberater W' },
-          { text: 'Fachberater X', value: 'Fachberater X' }
-        ];
+        var tmp: {text: string; value: string}[] = [];
+
+        this.technologistList.forEach(technolgist => {
+          tmp = [...tmp, {text: technolgist.firstName + " " + technolgist.lastName, value: technolgist.firstName + " " + technolgist.lastName}]
+        })
+
+        item.listOfFilter! = tmp;
       } else if (item.name === 'Abschlussbericht') {
         item.listOfFilter = [
           { text: 'erledigt', value: 'true' },
@@ -191,7 +215,7 @@ export class MainListComponent {
     this.visible = false;
     this.listOfDisplayData = this.listOfData.filter((item: DataItem) =>
     (
-      item.nr.toLocaleLowerCase().indexOf(this.searchValue.toLocaleLowerCase()) !== -1 ||
+      item.nr.toString().indexOf(this.searchValue.toLocaleLowerCase()) !== -1 ||
       item.createDate.valueOf().toString().indexOf(this.searchValue.valueOf().toString()) !== -1 ||
       item.status.toLocaleLowerCase().indexOf(this.searchValue.toLocaleLowerCase()) !== -1 ||
       item.toha.toLocaleLowerCase().indexOf(this.searchValue.toLocaleLowerCase()) !== -1 ||
@@ -219,7 +243,7 @@ function calculateTimeDifference(startDate: Date, endDate: Date): TimeSpan {
 }
 
 interface DataItem {
-  nr: string;
+  nr: number;
   createDate: Date;
   status: string;
   toha: string;
@@ -228,6 +252,7 @@ interface DataItem {
   timespan: TimeSpan;
   abschlussbericht: boolean;
 }
+
 interface TimeSpan {
   days: number;
   hours: number;
@@ -235,3 +260,10 @@ interface TimeSpan {
   seconds: number;
 }
 
+interface ColumnDefinition {
+  name: string;
+  sortOrder: any;
+  sortFn: (a: DataItem, b: DataItem) => number;
+  listOfFilter: {text: string, value: string}[];
+  filterFn?: (list: string[], item: DataItem) => boolean;
+}
