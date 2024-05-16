@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { CustomerRequirement } from '../models/customer-requirement';
 import { Observable } from 'rxjs';
 import { Technologist } from '../models/technologist';
+import { WorkshopRequirement } from '../models/workshop-requirement';
 
 
 
@@ -13,6 +14,7 @@ const API_URL = "http://localhost:8080/"
   providedIn: 'root'
 })
 export class HttpService {
+  
 
   constructor(private http: HttpClient) { }
 
@@ -20,6 +22,14 @@ export class HttpService {
     return this.http.post<CustomerRequirement>(API_URL + "appointment/customerRequirement", customerRequirement);
   }
 
+  getCustomerRequirements() {
+    return this.http.get<CustomerRequirement[]>(API_URL + "appointment/customerRequirement");
+  }
+
+
+  getWorkshopRequirements(){
+    return this.http.get<WorkshopRequirement[]>(API_URL + "appointment/workshop");
+  }
 
 
   getAllTechnologist() : Observable<Technologist[]> {
