@@ -43,6 +43,7 @@ import { CalendarComponent } from './components/contents/calendar/calendar.compo
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { MainListComponent } from './components/main-list/main-list.component';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { CreateTechnologistComponent } from './components/contents/create-technologist/create-technologist.component';
 
 registerLocaleData(de);
 
@@ -56,7 +57,8 @@ registerLocaleData(de);
     CustomerRequirementsComponent,
     SeminarRegistrationComponent,
     CalendarComponent,
-    MainListComponent
+    MainListComponent,
+    CreateTechnologistComponent,
   ],
   imports: [
     MatTooltipModule,

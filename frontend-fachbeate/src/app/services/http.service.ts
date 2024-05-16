@@ -14,7 +14,6 @@ const API_URL = "http://localhost:8080/"
 })
 export class HttpService {
 
-
   constructor(private http: HttpClient) { }
 
   postCustomerRequirement(customerRequirement: CustomerRequirement): Observable<CustomerRequirement>{
@@ -22,8 +21,17 @@ export class HttpService {
   }
 
 
-  getTechnologist(): Observable<Technologist[]>{
+
+  getAllTechnologist() : Observable<Technologist[]> {
+    return this.http.get<Technologist[]>(API_URL+ "technologist");
+  }
+
+  getActiveTechnologist(): Observable<Technologist[]>{
     return this.http.get<Technologist[]>(API_URL + "technologist/allActive");
+  }
+
+  postTechnologist(technologist: Technologist) {
+    return this.http.post(API_URL + "technologist", technologist);
   }
 
 }

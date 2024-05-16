@@ -103,7 +103,7 @@ export class CustomerRequirementsComponent implements OnInit {
   }
 
   getTechnologist(){
-    this.http.getTechnologist().subscribe({
+    this.http.getActiveTechnologist().subscribe({
       next: data => {
         this.technologists = data;
       },

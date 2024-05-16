@@ -1,8 +1,6 @@
 package boundary;
 
-import entity.CustomerRequirement;
-import entity.TechnologistAppointment;
-import entity.WorkshopRequirement;
+import entity.*;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.GET;
@@ -22,10 +20,13 @@ public class AppointmentResource {
     @Transactional
     public void postCustomerRequirement(CustomerRequirement customerRequirement){
 
-        log.info(customerRequirement);
+        //Technologist technologist = Technologist.findById(customerRequirement.requestedTechnologist.id);
+
+        for(CustomerVisit v : customerRequirement.customerVisits){
+            v.id = null;
+        }
 
         customerRequirement.persist();
-
     }
 
     @POST

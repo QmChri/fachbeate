@@ -6,6 +6,7 @@ import { TravelreportComponent } from './components/contents/travelreport/travel
 import { SeminarRegistrationComponent } from './components/contents/seminar-registration/seminar-registration.component';
 import { CalendarComponent } from './components/contents/calendar/calendar.component';
 import { MainListComponent } from './components/main-list/main-list.component';
+import { CreateTechnologistComponent } from './components/contents/create-technologist/create-technologist.component';
 
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'seminar-registration', component: SeminarRegistrationComponent },
   { path: 'calendar', component: CalendarComponent },
   { path: 'mainList', component: MainListComponent },
+  {path: 'create-technologist', component: CreateTechnologistComponent}
 ];
 
 @NgModule({

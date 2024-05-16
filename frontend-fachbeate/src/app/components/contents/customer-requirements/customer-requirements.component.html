@@ -15,10 +15,10 @@
                     <div class="center-items ">
                         <mat-form-field>
                             <mat-label>Töchter/Händler</mat-label>
-                            <mat-select [(ngModel)]="selectedValue" required>
+                            <mat-select [(ngModel)]="inputCustomerRequirement.company" required>
                                 <mat-option>--</mat-option>
                                 @for (t of toha; track toha) {
-                                <mat-option [value]="t">{{t.viewValue}}</mat-option>
+                                <mat-option [value]="t.value">{{t.viewValue}}</mat-option>
                                 }
                             </mat-select>
                             @if (tohaControl.hasError('required')) {
@@ -29,10 +29,10 @@
                     <div class="center-items ">
                         <mat-form-field>
                             <mat-label>Vertreter</mat-label>
-                            <mat-select [(ngModel)]="selectedValue" required>
+                            <mat-select [(ngModel)]="inputCustomerRequirement.representative" required>
                                 <mat-option>--</mat-option>
                                 @for (t of toha; track toha) {
-                                <mat-option [value]="t">{{t.viewValue}}</mat-option>
+                                <mat-option [value]="t.value">{{t.viewValue}}</mat-option>
                                 }
                             </mat-select>
                             @if (tohaControl.hasError('required')) {
@@ -53,10 +53,10 @@
                     <div class="center-items ">
                         <mat-form-field>
                             <mat-label>Angeforderter Technologe</mat-label>
-                            <mat-select [(ngModel)]="selectedValue" required>
+                            <mat-select [(ngModel)]="inputCustomerRequirement.requestedTechnologist" required>
                                 <mat-option>--</mat-option>
                                 @for (t of technologists; track technologists) {
-                                <mat-option [value]="t">{{t.firstName}} + " " +{{t.lastName}}</mat-option>
+                                <mat-option [value]="t.value">{{t.firstName}} {{t.lastName}}</mat-option>
                                 }
                             </mat-select>
                             @if (tohaControl.hasError('required')) {
@@ -68,7 +68,7 @@
                 <div class="centerHeader">
                     <div class=" mb-3">
                         <label>Datum von</label>
-                        <input [(ngModel)]="inputCustomerRequirement.endDate" type="date" class="form-control"
+                        <input [(ngModel)]="inputCustomerRequirement.startDate" type="date" class="form-control"
                             placeholder="Eingabe ... " aria-label="Username">
                     </div>
                     <div class=" mb-3">
@@ -89,10 +89,10 @@
                     <div class="center-items ">
                         <mat-form-field>
                             <mat-label>Flugbuchung</mat-label>
-                            <mat-select [(ngModel)]="selectedValue" required>
+                            <mat-select [(ngModel)]="inputCustomerRequirement.flightBooking" required>
                                 <mat-option>--</mat-option>
-                                <mat-option>Almi</mat-option>
-                                <mat-option>Kunde</mat-option>
+                                <mat-option value="Almi">Almi</mat-option>
+                                <mat-option value="Kunde">Kunde</mat-option>
                             </mat-select>
                             @if (tohaControl.hasError('required')) {
                             <mat-error>Bitte auswählen</mat-error>
@@ -102,10 +102,10 @@
                     <div class="center-items ">
                         <mat-form-field>
                             <mat-label>Hotelbuchung</mat-label>
-                            <mat-select [(ngModel)]="selectedValue" required>
+                            <mat-select [(ngModel)]="inputCustomerRequirement.hotelBooking" required>
                                 <mat-option>--</mat-option>
-                                <mat-option>Almi</mat-option>
-                                <mat-option>Kunde</mat-option>
+                                <mat-option value="Almi">Almi</mat-option>
+                                <mat-option value="Kunde">Kunde</mat-option>
                             </mat-select>
                             @if (tohaControl.hasError('required')) {
                             <mat-error>Bitte auswählen</mat-error>
@@ -124,12 +124,12 @@
                 <div class="center-items">
                     <mat-form-field>
                         <mat-label>Sonstige Anmerkungen</mat-label>
-                        <input matInput placeholder="Ex. 1,5h Anfahrt">
+                        <input matInput placeholder="Ex. 1,5h Anfahrt" [(ngModel)]="inputCustomerRequirement.furtherNotes">
                     </mat-form-field>
 
                     <mat-form-field>
                         <mat-label>Ansprechpartner</mat-label>
-                        <input matInput placeholder="Ex. Karl Reingruber">
+                        <input matInput [(ngModel)]="inputCustomerRequirement.contact">
                     </mat-form-field>
                 </div>
             </div>
