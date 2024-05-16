@@ -56,7 +56,7 @@
                             <mat-select [(ngModel)]="inputCustomerRequirement.requestedTechnologist" required>
                                 <mat-option>--</mat-option>
                                 @for (t of technologists; track technologists) {
-                                <mat-option [value]="t.value">{{t.firstName}} {{t.lastName}}</mat-option>
+                                <mat-option [value]="t">{{t.firstName}} {{t.lastName}}</mat-option>
                                 }
                             </mat-select>
                             @if (tohaControl.hasError('required')) {
@@ -224,7 +224,7 @@
                 </div>
                 <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.productionAmount" />
             </td>
-            <td>
+            <td class="buttons">
                 <button matTooltip="Bearbeiten" class="btn btn-success" (click)="startEdit(data.id)"
                     [hidden]="editId === data.id">
                     <i class="fa fa-pencil"></i>

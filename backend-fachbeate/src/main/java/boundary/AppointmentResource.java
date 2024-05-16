@@ -28,19 +28,24 @@ public class AppointmentResource {
 
         customerRequirement.persist();
     }
+    @GET
+    @Path("/customerRequirement")
+    public Response getCustomerRequirement(){
+        return Response.ok(CustomerRequirement.listAll()).build();
+    }
 
     @POST
     @Path("/workshop")
     @Transactional
     public void postWorkshopRequirement(WorkshopRequirement workshopRequirement){
         workshopRequirement.persist();
-
     }
-
 
     @GET
-    public Response getAll(){
-        return Response.ok(TechnologistAppointment.listAll()).build();
+    @Path("/workshop")
+    public Response getWorkshopRequirement(){
+        return Response.ok(WorkshopRequirement.listAll()).build();
     }
+
 
 }

@@ -39,10 +39,10 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SeminarRegistrationComponent } from './components/contents/seminar-registration/seminar-registration.component';
-import { CalendarComponent } from './components/contents/calendar/calendar.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { MainListComponent } from './components/main-list/main-list.component';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { CreateTechnologistComponent } from './components/contents/create-technologist/create-technologist.component';
 
 registerLocaleData(de);
 
@@ -55,7 +55,6 @@ registerLocaleData(de);
     DashboardComponent,
     CustomerRequirementsComponent,
     SeminarRegistrationComponent,
-    CalendarComponent,
     MainListComponent,
     CreateTechnologistComponent,
   ],
@@ -65,9 +64,6 @@ registerLocaleData(de);
     MatDialogContent,
     MatDialogActions,
     MatDialogClose,
-    MatButtonToggleModule,
-    CommonModule,
-    FormsModule,
     BrowserModule,
     AppRoutingModule,
     FormsModule,
@@ -91,7 +87,6 @@ registerLocaleData(de);
     NzButtonModule,
     NzPopconfirmModule,
     NzDropDownModule,
-    FormsModule,
     CommonModule,
     MatOptionModule,
     NzEmptyModule,
