@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { CustomerRequirementsComponent } from '../contents/customer-requirements/customer-requirements.component';
 import { Router } from '@angular/router';
 import { HttpService } from '../../services/http.service';
 import { Technologist } from '../../models/technologist';
@@ -99,7 +98,7 @@ export class MainListComponent implements OnInit{
 
 
   constructor(private router: Router, private http: HttpService) { }
-  
+
   ngOnInit(): void {
     this.loadData();
   }
@@ -119,7 +118,7 @@ export class MainListComponent implements OnInit{
           }
 
           console.log(new Date(element.endDate!).toDateString());
-          
+
 
           this.listOfData = [...this.listOfData, {
             nr: element.id!,
@@ -127,7 +126,7 @@ export class MainListComponent implements OnInit{
             status: "ToDo",
             toha: element.company!,
             vertreter: element.representative!,
-            fachberater: element.requestedTechnologist!.firstName + " " + element.requestedTechnologist!.lastName, 
+            fachberater: element.requestedTechnologist!.firstName + " " + element.requestedTechnologist!.lastName,
             timespan: {
               days:  Math.round(Math.abs(new Date(element.endDate!).getTime() - new Date(element.startDate!).getTime()) / 86400000),
               hours:0,
@@ -139,7 +138,7 @@ export class MainListComponent implements OnInit{
         });
 
         this.resetFilters()
-        
+
         this.listOfDisplayData = [...this.listOfData];
       },
       error: err => {
@@ -183,8 +182,8 @@ export class MainListComponent implements OnInit{
         ];
       } else if (item.name === 'Fachberater') {
         var tmp: {text: string; value: string}[] = [];
-        
-        this.technologistList.forEach(technolgist => { 
+
+        this.technologistList.forEach(technolgist => {
           tmp = [...tmp, {text: technolgist.firstName + " " + technolgist.lastName, value: technolgist.firstName + " " + technolgist.lastName}]
         })
 
@@ -203,6 +202,8 @@ export class MainListComponent implements OnInit{
       item.sortOrder = null;
     });
     this.resetFilters();
+    this.searchValue = '';
+    this.search();
   }
 
   reset(): void {

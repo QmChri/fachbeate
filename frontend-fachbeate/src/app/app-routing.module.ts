@@ -15,7 +15,7 @@ const routes: Routes = [
   { path: 'travelreport', component: TravelreportComponent },
   { path: 'seminar-registration', component: SeminarRegistrationComponent },
   { path: 'mainList', component: MainListComponent },
-  {path: 'create-technologist', component: CreateTechnologistComponent}
+  { path: 'create-technologist', component: CreateTechnologistComponent }
 ];
 
 @NgModule({

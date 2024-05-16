@@ -1,5 +1,5 @@
-import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FinalReport } from '../../../models/final-report';
 
 @Component({
@@ -10,7 +10,7 @@ import { FinalReport } from '../../../models/final-report';
 export class AbschlussBerichtComponent {
   constructor(
     public dialogRef: MatDialogRef<AbschlussBerichtComponent>,
-    @Inject(MAT_DIALOG_DATA) public finalReport: FinalReport 
+    @Inject(MAT_DIALOG_DATA) public finalReport: FinalReport
   ) { }
 
 

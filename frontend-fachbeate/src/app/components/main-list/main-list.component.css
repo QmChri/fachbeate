@@ -1,3 +1,8 @@
+.paddingSearch {
+  padding-right: 2rem;
+  margin: auto;
+}
+
 .search-box {
   padding: 8px;
 }
@@ -14,6 +19,14 @@
 
 .search-button {
   margin-right: 8px;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .centerRow {
