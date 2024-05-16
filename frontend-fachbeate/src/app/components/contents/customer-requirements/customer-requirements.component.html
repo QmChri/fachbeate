@@ -1,6 +1,6 @@
 <div class="centerHeader">
     <h1 class="h3">Anforderungen Technologische Unterstützung</h1>
-    <button class="btn btn-secondary" matTooltip="interne Notiz" (click)="openDialog(editId!)">
+    <button class="btn btn-secondary" matTooltip="interne Notiz">
         User-0192
         <i class="fa fa-comment"></i></button>
 </div>
@@ -237,7 +237,7 @@
                     nzPopconfirmTitle="Sind Sie sicher?" (nzOnConfirm)="deleteRow(data.id)">
                     <i class="fa fa-trash"></i>
                 </button>
-                <button class="btn btn-success" matTooltip="Abschlussbericht" (click)="openDialog(data.id)">
+                <button class="btn btn-success" matTooltip="Abschlussbericht" (click)="openDialog(data)">
                     <i class="fa fa-file"></i>
                 </button>
             </td>

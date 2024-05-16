@@ -6,6 +6,7 @@ import { TravelreportComponent } from './components/contents/travelreport/travel
 import { SeminarRegistrationComponent } from './components/contents/seminar-registration/seminar-registration.component';
 import { MainListComponent } from './components/main-list/main-list.component';
 import { CreateTechnologistComponent } from './components/contents/create-technologist/create-technologist.component';
+import { AbschlussBerichtComponent } from './components/contents/abschluss-bericht/abschluss-bericht.component';
 
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
