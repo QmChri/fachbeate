@@ -1,10 +1,10 @@
 <div class="header">
     <div>
         <h1 class="paddingSearch">Anforderungen Technologische Unterstützung:
-            <button style="margin-left: 10px;" class="btn btn-secondary" matTooltip="interne Notiz"
-                (click)="openDialog(editId!)">
+            <button style="margin-left: 10px;" class="btn btn-secondary" matTooltip="interne Notiz">
                 <i class="fa fa-comment"></i></button>
         </h1>
+        <!-- TODO Click event bei button setzen -->
     </div>
     <div>
         <button class="btn btn-success" (click)="postCustomerRequirement()">Beantragen</button>
@@ -71,7 +71,7 @@
                         </mat-form-field>
                     </div>
                 </div>
-                <div class="centerHeader">
+                <div class="header">
                     <div class=" mb-3">
                         <label>Datum von</label>
                         <input [(ngModel)]="inputCustomerRequirement.startDate" type="date" class="form-control"
@@ -130,7 +130,7 @@
                 <div class="center-items">
                     <mat-form-field>
                         <mat-label>Sonstige Anmerkungen</mat-label>
-                        <input matInput placeholder="Ex. 1,5h Anfahrt" [(ngModel)]="inputCustomerRequirement.furtherNotes">
+                        <input matInput [(ngModel)]="inputCustomerRequirement.furtherNotes">
                     </mat-form-field>
 
                     <mat-form-field>
@@ -146,8 +146,8 @@
 <br>
 <br>
 <br>
-<div class="centerHeader">
-    <h1>Geplante Kundebesuche</h1>
+<div class="header">
+    <h1 style="margin: 0%;">Geplante Kundebesuche</h1>
     <button nz-button (click)="addRow()" nzType="primary">Neuer Kundenbesuch</button>
 </div>
 <hr>
@@ -247,7 +247,7 @@ Bildschirm -->
                         nzPopconfirmTitle="Sind Sie sicher?" (nzOnConfirm)="deleteRow(data.id)">
                         <i class="fa fa-trash"></i>
                     </button>
-                    <button class="btn btn-success" matTooltip="Abschlussbericht" (click)="openDialog(data.id)">
+                    <button class="btn btn-success" matTooltip="Abschlussbericht" (click)="openDialog(data)">
                         <i class="fa fa-file"></i>
                     </button>
                 </td>
