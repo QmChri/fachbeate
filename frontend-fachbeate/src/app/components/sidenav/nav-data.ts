@@ -17,9 +17,9 @@ export const navbarData: INavbarData[] = [
         label: 'Anforderungen Technologische Unterstützung'
     },
     {
-        routeLink: 'travelreport',
-        icon: 'fal fa-plane',
-        label: 'Reisebericht'
+        routeLink: 'visitorRegistration',
+        icon: 'fal fa-users',
+        label: 'Besucheranmeldung'
     },
     {
         routeLink: 'seminar-registration',

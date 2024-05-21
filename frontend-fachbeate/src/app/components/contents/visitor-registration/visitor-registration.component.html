@@ -1,0 +1,106 @@
+<div class="header">
+    <div>
+        <h1 class="paddingSearch">Besucheranmeldung für Kunden und Mitarbeiter:
+            <button style="margin-left: 10px;" class="btn btn-secondary" matTooltip="interne Notiz">
+                <i class="fa fa-comment"></i></button>
+        </h1>
+        <!-- TODO Click event bei button setzen -->
+    </div>
+    <div>
+        <button class="btn btn-success">Beantragen</button>
+    </div>
+</div>
+<hr>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header  text-white bg-danger">Anmeldung Vertreter oder Mitarbeiter</div>
+            <div class="card-body">
+                <div class="center-items">
+                    <div class="center-items">
+                        <mat-form-field>
+                            <mat-label>Name</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Grund des Besuchs</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+                    </div>
+                    <div class="center-items">
+                        <mat-form-field>
+                            <mat-label>Von - Bis</mat-label>
+                            <mat-date-range-input [rangePicker]="picker">
+                                <input matStartDate placeholder="Start date">
+                                <input matEndDate placeholder="End date">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-date-range-picker #picker></mat-date-range-picker>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header  text-white bg-danger">Anmeldung von Kundenbesuchen</div>
+            <div class="card-body">
+                <div class="center-items">
+                    <div class="center-items">
+                        <mat-form-field>
+                            <mat-label>Kunde/Unternehmen</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+                        <div class="header">
+                            <mat-form-field>
+                                <mat-label>Anreise aus (Land)</mat-label>
+                                <input matInput>
+                            </mat-form-field>
+                            <div style="display: flex;
+                            flex-direction: column;
+                            flex-wrap: nowrap;
+                            align-items: center;">
+                                <mat-label>Sprache Engl.</mat-label>
+                                <mat-checkbox></mat-checkbox>
+                            </div>
+                        </div>
+                        <mat-form-field>
+                            <mat-label>Grund des Besuchs</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card" style="min-height: 20rem;">
+            <div class="card-header  text-white bg-danger">Aufenthaltszeitraum in Oftering</div>
+            <div class="card-body">
+                <div class="center-items">
+                    <mat-form-field>
+                        <mat-label>Ansprechpartner intern</mat-label>
+                        <input matInput>
+                    </mat-form-field>
+                    <div class="center-items">
+                        <mat-form-field>
+                            <mat-label>Von - Bis</mat-label>
+                            <mat-date-range-input [rangePicker]="picker2">
+                                <input matStartDate placeholder="Start date">
+                                <input matEndDate placeholder="End date">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                            <mat-date-range-picker #picker2></mat-date-range-picker>
+                        </mat-form-field>
+                    </div>
+                    <mat-form-field>
+                        <mat-label>sonstige Reiseanforderungen</mat-label>
+                        <input matInput>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

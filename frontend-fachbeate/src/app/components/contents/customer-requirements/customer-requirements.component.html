@@ -71,17 +71,16 @@
                         </mat-form-field>
                     </div>
                 </div>
-                <div class="header">
-                    <div class=" mb-3">
-                        <label>Datum von</label>
-                        <input [(ngModel)]="inputCustomerRequirement.startDate" type="date" class="form-control"
-                            placeholder="Eingabe ... " aria-label="Username">
-                    </div>
-                    <div class=" mb-3">
-                        <label>Datum bis</label>
-                        <input [(ngModel)]="inputCustomerRequirement.endDate" type="date" class="form-control"
-                            placeholder="Eingabe ... " aria-label="Username">
-                    </div>
+                <div class="center-items">
+                    <mat-form-field>
+                        <mat-label>Von - Bis</mat-label>
+                        <mat-date-range-input [rangePicker]="picker">
+                            <input matStartDate placeholder="Start date">
+                            <input matEndDate placeholder="End date">
+                        </mat-date-range-input>
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-date-range-picker #picker></mat-date-range-picker>
+                    </mat-form-field>
                 </div>
             </div>
         </div>
