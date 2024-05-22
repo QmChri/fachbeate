@@ -1,8 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { CalendarOptions, EventSourceInput } from '@fullcalendar/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
+import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { HttpService } from '../../services/http.service';
-import { Identity } from '@fullcalendar/core/internal';
+import { Router } from '@angular/router';
+
+import interactionPlugin from '@fullcalendar/interaction';
+import { MatDialog } from '@angular/material/dialog';
+import { NewDateEntryComponent } from '../contents/new-date-entry/new-date-entry.component';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -13,13 +18,15 @@ export class DashboardComponent implements OnInit {
 
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
-    plugins: [dayGridPlugin],
+    plugins: [dayGridPlugin, interactionPlugin],
     height: 600,
     eventClick: (arg) => this.handleEventClick(arg),
+    selectable: true,
+    select: (arg) => this.handleSelect(arg),
     events: [],
   };
 
-  constructor(private http: HttpService){
+  constructor(private http: HttpService,private router: Router, private dialog: MatDialog){
 
   }
 
@@ -41,12 +48,27 @@ export class DashboardComponent implements OnInit {
       },
       error: err => {
         console.log(err);
-        
       }
     })
   }
 
-  handleEventClick(clickInfo: any): void {
-    console.log(clickInfo.event.id);
+  handleSelect(clickInfo: any){
+    console.log(clickInfo);
+    
+    this.openDialog({start: clickInfo.startStr, end: clickInfo.endStr})
   }
+
+  handleEventClick(clickInfo: any): void {
+    this.router.navigate(['/customer-requirements', clickInfo.event.id]);
+  }
+
+  
+  openDialog(timeSpan: {start: string, end: string}) {
+    const dialogRef = this.dialog.open(NewDateEntryComponent, {
+      height: '40rem',
+      width: '60rem',
+      data: timeSpan
+    });
+  }
+  
 }

@@ -48,6 +48,9 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {provideNativeDateAdapter} from '@angular/material/core';
 import { AbschlussBerichtComponent } from './components/contents/abschluss-bericht/abschluss-bericht.component';
 
+import dayGridPlugin from '@fullcalendar/daygrid';
+import { NewDateEntryComponent } from './components/contents/new-date-entry/new-date-entry.component';
+
 registerLocaleData(de);
 
 @NgModule({
@@ -62,7 +65,8 @@ registerLocaleData(de);
     MainListComponent,
     CreateTechnologistComponent,
     VisitorRegistrationComponent,
-    AbschlussBerichtComponent
+    AbschlussBerichtComponent,
+    NewDateEntryComponent
   ],
   imports: [
     MatTooltipModule,
