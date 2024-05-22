@@ -1,4 +1,4 @@
-<div class="header">
+<div class="displayBySide">
     <div>
         <h1 class="paddingSearch">Seminaranmeldung</h1>
     </div>
@@ -8,29 +8,26 @@
 <div class="row">
     <div class="col-md-4">
         <div class="card">
-            <div class="card-header  text-white bg-danger">Seminar</div>
+            <div class="card-header text-white bg-danger">Seminar</div>
             <div class="card-body">
                 <div class="center-items">
-                    <div class="mb-3">
-                        <label>Seminarthema</label>
-                        <input type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
-                    </div>
-                    <div class="mb-3">
-                        <label>Firma/Kunde</label>
-                        <input type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
-                    </div>
-                    <div class="flugHotel">
-                        <div class=" mb-3">
-                            <label>Datum von</label>
-                            <input type="datetime-local" class="form-control" placeholder="Eingabe ... "
-                                aria-label="Username">
-                        </div>
-                        <div class=" mb-3">
-                            <label>Datum bis</label>
-                            <input type="datetime-local" class="form-control" placeholder="Eingabe ... "
-                                aria-label="Username">
-                        </div>
-                    </div>
+                    <mat-form-field>
+                        <mat-label>Seminarthema</mat-label>
+                        <input matInput>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Firma/Kunde</mat-label>
+                        <input matInput>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Von - Bis</mat-label>
+                        <mat-date-range-input [rangePicker]="picker">
+                            <input matStartDate placeholder="Start date">
+                            <input matEndDate placeholder="End date">
+                        </mat-date-range-input>
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-date-range-picker #picker></mat-date-range-picker>
+                    </mat-form-field>
                 </div>
             </div>
         </div>
@@ -40,71 +37,67 @@
             <div class="card-header  text-white bg-danger">Seminarteilnehmer</div>
             <div class="card-body">
                 <div class="center-items">
-                    <div class=" mb-3">
-                        <label>Anreise aus (Land)</label>
-                        <input type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
+                    <mat-form-field>
+                        <mat-label>Anreise aus (Land)</mat-label>
+                        <input matInput>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Anreise Art (Auto, Zug, ...)</mat-label>
+                        <input matInput>
+                    </mat-form-field>
+                    <div class="displayBySide">
+                        <mat-form-field class="smallInput">
+                            <mat-label>Datum bis</mat-label>
+                            <input matInput [matDatepicker]="picker2">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                        </mat-form-field>
+                        <mat-form-field class="smallInput">
+                            <mat-label>Seminarteilnehmer</mat-label>
+                            <input type="number" min="0" matInput>
+                        </mat-form-field>
                     </div>
-                    <div class=" mb-3">
-                        <label>Anreise Art (Auto, Zug, ...)</label>
-                        <input type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
-                    </div>
-                    <div class="flugHotel">
-                        <div class=" mb-3">
-                            <label>Anzahl Seminarteilnehmer</label>
-                            <input type="number" class="form-control" placeholder="Eingabe ... " aria-label="Username">
-                        </div>
-                        <div class=" mb-3">
-                            <label>Datum bis</label>
-                            <input type="datetime-local" class="form-control" placeholder="Eingabe ... "
-                                aria-label="Username">
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </div>
     </div>
     <div class="col-md-4">
         <div class="card">
-            <div class="card-header  text-white bg-danger">Reiseplanung</div>
+            <div class="card-header  text-white bg-danger">Semiarleitung</div>
             <div class="card-body">
                 <div class="center-items">
-                    <div class=" mb-3">
-                        <label>Seminarleiter</label>
-                        <input type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
-                    </div>
-                    <div class="mb-3">
-                        <label>Zuständiger Fachberater</label>
-                        <input type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
-                    </div>
-                    <div class="mb-3 reiseplanung">
-                        <div class="mb-3" style="min-width: 12rem;">
-                            <label>Sprache</label>
-                            <div class="flugHotel">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="flexCheckDefault">
-                                    <label class="form-check-label" for="flexCheckDefault">EN</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="flexCheckChecked">
-                                    <label class="form-check-label" for="flexCheckChecked">DE</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="flexCheckChecked">
-                                    <label class="form-check-label" for="flexCheckChecked">RU</label>
-                                </div>
+                    <mat-form-field>
+                        <mat-label>Seminarleiter</mat-label>
+                        <input matInput>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Zuständiger Fachberater</mat-label>
+                        <input matInput>
+                    </mat-form-field>
+                    <div class="displayBySide">
+                        <div class="center-items">
+                            <mat-label>Sprache</mat-label>
+                            <div class="displayBySide">
+                                <label>
+                                    <mat-checkbox color="warn"></mat-checkbox>EN
+                                </label>
+                                <label>
+                                    <mat-checkbox color="warn"></mat-checkbox>DE
+                                </label>
+                                <label>
+                                    <mat-checkbox color="warn"></mat-checkbox>RU
+                                </label>
                             </div>
                         </div>
-                        <div class="mb-3">
-                            <label>Übersetzer erforderlich</label>
-                            <div class="flugHotel">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="flexCheckDefault">
-                                    <label class="form-check-label" for="flexCheckDefault">Ja</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="flexCheckChecked">
-                                    <label class="form-check-label" for="flexCheckChecked">Nein</label>
-                                </div>
+                        <div class="center-items">
+                            <mat-label>Übersetzer erforderlich</mat-label>
+                            <div class="displayBySide">
+                                <label>
+                                    <mat-checkbox color="warn"></mat-checkbox>Ja
+                                </label> <label>
+                                    <mat-checkbox color="warn"></mat-checkbox>Nein
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -115,15 +108,12 @@
 </div>
 <br>
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-2">
         <div class="card">
             <div class="card-header text-white bg-danger">Weiteres</div>
-            <mat-button-toggle-group [(ngModel)]="buttonSelect" vertical multiple style="display: flex;
-                flex-direction: column;
-                flex-wrap: nowrap;
-                align-items: stretch;">
-                <mat-button-toggle value="1">Hotelbuchung</mat-button-toggle>
-                <mat-button-toggle value="2">Buchung Flughafen Transfer - Zug</mat-button-toggle>
+            <mat-button-toggle-group [(ngModel)]="buttonSelect" vertical multiple>
+                <mat-button-toggle matTooltip="Hinzufügen" value="1">Hotelbuchung</mat-button-toggle>
+                <mat-button-toggle value="2">Flughafen Transfer - Zug</mat-button-toggle>
                 <mat-button-toggle value="3">Ausflug</mat-button-toggle>
                 <mat-button-toggle value="4">Betriebsführung</mat-button-toggle>
                 <mat-button-toggle value="5">Mittagessen</mat-button-toggle>
@@ -154,19 +144,19 @@
                                 </mat-form-field>
                             </div>
                             <hr>
-                            <div class="mb-3 reiseplanung">
+                            <div class="mb-3 displayBySide">
                                 <div class="form-group">
                                     <div>
                                         <label for="singleRoom">Einzelzimmer</label>
-                                        <input class="form-control countPeople" placeholder="Anzahl ..." type="number"
-                                            id="singleRoom">
+                                        <input class="form-control  " placeholder="Anzahl ..." min="0" type="number"
+                                            min="0" id="singleRoom">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div>
                                         <label for="singleRoom">Doppelzimmer</label>
-                                        <input class="form-control countPeople" placeholder="Anzahl ..." type="number"
-                                            id="singleRoom">
+                                        <input class="form-control  " placeholder="Anzahl ..." min="0" type="number"
+                                            min="0" id="singleRoom">
                                     </div>
                                 </div>
                             </div>
@@ -176,7 +166,7 @@
                 <mat-tab *ngIf="buttonSelect.includes('2')" label="Flughafen / Transfer">
                     <div class="card-body">
                         <div class="center-items">
-                            <div class="flugHotel">
+                            <div class="displayBySide">
                                 <div class="mb-3">
                                     <label>Von</label>
                                     <input type="text" class="form-control" placeholder="Eingabe ... "
@@ -188,7 +178,7 @@
                                         aria-label="Username">
                                 </div>
                             </div>
-                            <div class="flugHotel">
+                            <div class="displayBySide">
                                 <div class=" mb-3">
                                     <label>Datum von</label>
                                     <input type="datetime-local" class="form-control" placeholder="Eingabe ... "
@@ -210,7 +200,7 @@
                 <mat-tab *ngIf="buttonSelect.includes('3')" label="Ausflug">
                     <div class="card-body">
                         <div class="center-items">
-                            <div class="flugHotel">
+                            <div class="displayBySide">
                                 <div class="mb-3">
                                     <label>Datum/Uhrzeit</label>
                                     <input type="datetime-local" class="form-control" placeholder="Eingabe ... "
@@ -228,14 +218,13 @@
                             </div>
                         </div>
                     </div>
-                </mat-tab>
-                <mat-tab *ngIf="buttonSelect.includes('4')" label="Betriebsführung">
+                </mat-tab> <mat-tab *ngIf="buttonSelect.includes('4')" label="Betriebsführung">
                     <div class="card-body">
                         <div class="center-items">
-                            <div class="flugHotel">
+                            <div class="displayBySide">
                                 <div class="mb-3">
                                     <label>Personenanzahl + Betreuer</label>
-                                    <input type="number" class="form-control" placeholder="Eingabe ... "
+                                    <input type="number" min="0" min="0" class="form-control" placeholder="Eingabe ... "
                                         aria-label="Username">
                                 </div>
                                 <div class="mb-3">
@@ -245,7 +234,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label>Sprache</label>
-                                    <div class="flugHotel">
+                                    <div class="displayBySide">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="flexCheckDefault">
                                             <label class="form-check-label" for="flexCheckDefault">EN</label>
@@ -259,10 +248,10 @@
                 <mat-tab *ngIf="buttonSelect.includes('5')" label="Mittagessen">
                     <div class="card-body">
                         <div class="center-items">
-                            <div class="flugHotel">
+                            <div class="displayBySide">
                                 <div class="mb-3">
                                     <label>Personenanzahl + Betreuer</label>
-                                    <input type="number" class="form-control" placeholder="Eingabe ... "
+                                    <input type="number" min="0" min="0" class="form-control" placeholder="Eingabe ... "
                                         aria-label="Username">
                                 </div>
                                 <div class="mb-3">
@@ -273,26 +262,25 @@
                             </div>
                         </div>
                         <hr>
-                        <div class="mb-3 reiseplanung">
+                        <div class="mb-3 displayBySide">
                             <div class="form-group">
                                 <div>
                                     <label for="singleRoom">Vegan </label>
-                                    <input class="form-control countPeople" type="number" placeholder="Anzahl ..."
+                                    <input class="form-control  " type="number" min="0" placeholder="Anzahl ..."
                                         id="singleRoom">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div>
                                     <label for="singleRoom">Vegetarisch </label>
-                                    <input class="form-control countPeople" type="number" placeholder="Anzahl ..."
+                                    <input class="form-control  " type="number" min="0" placeholder="Anzahl ..."
                                         id="singleRoom">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div>
-                                    <input class="form-control countPeople" type="text" placeholder="Sonstige"
-                                        id="singleRoom">
-                                    <input class="form-control countPeople" type="number" placeholder="Anzahl ..."
+                                    <input class="form-control  " type="text" placeholder="Sonstige" id="singleRoom">
+                                    <input class="form-control  " type="number" min="0" placeholder="Anzahl ..."
                                         id="singleRoom">
                                 </div>
                             </div>
