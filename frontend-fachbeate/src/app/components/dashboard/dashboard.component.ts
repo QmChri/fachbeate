@@ -1,28 +1,74 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import { HttpService } from '../../services/http.service';
+import { Router } from '@angular/router';
+
+import interactionPlugin from '@fullcalendar/interaction';
+import { MatDialog } from '@angular/material/dialog';
+import { NewDateEntryComponent } from '../contents/new-date-entry/new-date-entry.component';
+
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
 
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
-    plugins: [dayGridPlugin],
-    selectable: true,
-    select: (arg) => this.handleDateClick(arg),
+    plugins: [dayGridPlugin, interactionPlugin],
     height: 600,
-    events: [
-      { title: 'Mandi', date: '2024-04-01', },
-      { title: 'Fandi', date: '2024-04-02' }
-    ],
-
+    eventClick: (arg) => this.handleEventClick(arg),
+    selectable: true,
+    select: (arg) => this.handleSelect(arg),
+    events: [],
   };
 
-  handleDateClick(arg: any) {
-    alert('date click! ' + arg);
+  constructor(private http: HttpService,private router: Router, private dialog: MatDialog){
+
   }
+
+  ngOnInit(): void {
+    this.loadEvents();
+  }
+  
+  loadEvents(){
+    this.http.getCustomerRequirements().subscribe({
+      next: data => { 
+        this.calendarOptions.events = data.map(value => ({
+          id: ""+value.id,
+          title: value.requestedTechnologist!.firstName + " " + value.requestedTechnologist!.lastName,
+          start: value.startDate,
+          end: value.endDate,
+          backgroundColor: value.requestedTechnologist!.color,
+          borderColor: value.requestedTechnologist!.color
+      }));
+      },
+      error: err => {
+        console.log(err);
+      }
+    })
+  }
+
+  handleSelect(clickInfo: any){
+    console.log(clickInfo);
+    
+    this.openDialog({start: clickInfo.startStr, end: clickInfo.endStr})
+  }
+
+  handleEventClick(clickInfo: any): void {
+    this.router.navigate(['/customer-requirements', clickInfo.event.id]);
+  }
+
+  
+  openDialog(timeSpan: {start: string, end: string}) {
+    const dialogRef = this.dialog.open(NewDateEntryComponent, {
+      height: '40rem',
+      width: '60rem',
+      data: timeSpan
+    });
+  }
+  
 }

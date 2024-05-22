@@ -11,6 +11,7 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: 'customer-requirements', component: CustomerRequirementsComponent },
+  { path: 'customer-requirements/:id', component: CustomerRequirementsComponent },
   { path: 'seminar-registration', component: SeminarRegistrationComponent },
   { path: 'mainList', component: MainListComponent },
   { path: 'create-technologist', component: CreateTechnologistComponent },

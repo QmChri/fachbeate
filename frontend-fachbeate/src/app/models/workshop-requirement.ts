@@ -10,14 +10,14 @@ export interface WorkshopRequirement extends TechnologistAppointment {
     shouldBeTranslated?: boolean;
     seminarPresenter?: string;
 
-    hotelBooking?: boolean;
+    
     locationAndDesiredPlace?: string;
     locationFromDate?: Date;
     locationToDate?: Date;
     amountSingleRooms?: number;
     amountDoubleRooms?: number;
 
-    flightBooking?: boolean;
+    
     flightHereDateTime?: Date;
     flightReturnDateTime?: Date;
     flightFrom?: string;

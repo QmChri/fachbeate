@@ -8,11 +8,18 @@ import { FinalReport } from '../../../models/final-report';
   styleUrl: './abschluss-bericht.component.scss'
 })
 export class AbschlussBerichtComponent {
+
+  inputFinalReport: FinalReport = {}
+
   constructor(
     public dialogRef: MatDialogRef<AbschlussBerichtComponent>,
     @Inject(MAT_DIALOG_DATA) public finalReport: FinalReport
-  ) { }
-  closeDialog() {
-    this.dialogRef.close();
+  ) { 
+    this.inputFinalReport = finalReport;
+    
   }
+  closeDialog(save: boolean) {
+    this.dialogRef.close({finalReport: this.finalReport, save: save});
+  }
+
 }

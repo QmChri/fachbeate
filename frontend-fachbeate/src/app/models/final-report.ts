@@ -1,14 +1,17 @@
 import { Technologist } from "./technologist";
 
 export interface FinalReport {
-    technologist?: Technologist;
+
+    id?: number;
+
+    technologist?: string;
     company?: string;
     dateOfVisit?: Date;
-    reason?: boolean[];
+    reason?: number[];
 
     customerFeedback?: string;
     nextSteps?: string;
     nextStepsTechnologist?: string;
     nextStepsUntil?: string;
-    furtherInformations?: string;
+    furtherInformation?: string;
 }

@@ -1,7 +1,7 @@
 import { FinalReport } from "./final-report";
 
 export class CustomerVisit {
-    id: number;
+    id?: number;
     companyName?: string;
     customerNr?: string;
     address?: string;
@@ -14,9 +14,10 @@ export class CustomerVisit {
     sampleProduction: boolean;
     training: boolean;
 
-    finalReport: FinalReport;
+    finalReport?: FinalReport;
 
-    selection?: string[];
+    editId: number;
+    selection?: number[];
 
     constructor(id: number,
         companyName: string,
@@ -31,6 +32,7 @@ export class CustomerVisit {
         training: boolean,
         productionAmount: string
     ) {
+        this.editId = 0;
         this.id = id,
         this.companyName = companyName,
         this.customerNr = customerNr,

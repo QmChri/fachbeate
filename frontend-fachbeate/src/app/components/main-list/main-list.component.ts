@@ -156,8 +156,8 @@ export class MainListComponent implements OnInit{
   }
 
   openCRC(dateNr: number) {
-    //this.router.navigate(['/customer-requirements', dateNr]);
-    this.router.navigate(['/customer-requirements']);
+    this.router.navigate(['/customer-requirements', dateNr]);
+    //this.router.navigate(['/customer-requirements']);
     console.log('Selected Field:', dateNr);
   }
 

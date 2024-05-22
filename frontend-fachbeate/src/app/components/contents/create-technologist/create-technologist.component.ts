@@ -8,11 +8,12 @@ import { HttpService } from '../../../services/http.service';
   styleUrl: './create-technologist.component.scss'
 })
 export class CreateTechnologistComponent implements OnInit {
-
   inputTechnologist: Technologist = {
+    id: 0,
     firstName: "",
     lastName: "",
-    active: true
+    active: true,
+    color: "#ff0000"
   }
 
   technologistList: Technologist[] = [];
@@ -42,7 +43,8 @@ export class CreateTechnologistComponent implements OnInit {
           id: 0,
           firstName: "",
           lastName: "",
-          active: true
+          active: true,
+          color: ""
         }
 
         this.loadTechnologists();
@@ -54,10 +56,21 @@ export class CreateTechnologistComponent implements OnInit {
     });
   }
 
+  cancelEdit(){
+    this.inputTechnologist = {
+      id: 0,
+      firstName: "",
+      lastName: "",
+      active: true,
+      color: ""
+    }
+  }
+
   editRow(technologist: Technologist){
     this.inputTechnologist.firstName = technologist.firstName;
     this.inputTechnologist.id = technologist.id;
     this.inputTechnologist.lastName = technologist.lastName;
     this.inputTechnologist.active = technologist.active;
+    this.inputTechnologist.color = technologist.color;
   }
 }

@@ -46,6 +46,10 @@ import { CreateTechnologistComponent } from './components/contents/create-techno
 import { VisitorRegistrationComponent } from './components/contents/visitor-registration/visitor-registration.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {provideNativeDateAdapter} from '@angular/material/core';
+import { AbschlussBerichtComponent } from './components/contents/abschluss-bericht/abschluss-bericht.component';
+
+import dayGridPlugin from '@fullcalendar/daygrid';
+import { NewDateEntryComponent } from './components/contents/new-date-entry/new-date-entry.component';
 
 registerLocaleData(de);
 
@@ -60,7 +64,9 @@ registerLocaleData(de);
     SeminarRegistrationComponent,
     MainListComponent,
     CreateTechnologistComponent,
-    VisitorRegistrationComponent
+    VisitorRegistrationComponent,
+    AbschlussBerichtComponent,
+    NewDateEntryComponent
   ],
   imports: [
     MatTooltipModule,

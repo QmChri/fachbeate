@@ -7,4 +7,6 @@ export interface TechnologistAppointment {
     endDate?: Date;
     releaseManagement?: Date;
     releaseSupervisor?: Date;
+    flightBooking?: boolean;
+    hotelBooking?: boolean;
 }
