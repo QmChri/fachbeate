@@ -24,6 +24,8 @@ export class DashboardComponent implements OnInit {
     selectable: true,
     select: (arg) => this.handleSelect(arg),
     events: [],
+    firstDay: 1,
+    
   };
 
   constructor(private http: HttpService,private router: Router, private dialog: MatDialog){
@@ -39,11 +41,11 @@ export class DashboardComponent implements OnInit {
       next: data => { 
         this.calendarOptions.events = data.map(value => ({
           id: ""+value.id,
-          title: value.requestedTechnologist!.firstName + " " + value.requestedTechnologist!.lastName,
+          title: value.requestedTechnologist!.firstName + " " + value.requestedTechnologist!.lastName + " - " + value.company,
           start: value.startDate,
           end: value.endDate,
           backgroundColor: value.requestedTechnologist!.color,
-          borderColor: value.requestedTechnologist!.color
+          borderColor: value.requestedTechnologist!.color,
       }));
       },
       error: err => {
