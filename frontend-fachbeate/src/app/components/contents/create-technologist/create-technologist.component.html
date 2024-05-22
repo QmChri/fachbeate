@@ -19,7 +19,7 @@
         <br>
         <div style="display: flex;justify-content: space-around;">
             <button class="btn btn-success" (click)="postTechnologist()"><i class="fa fa-save"></i></button>
-            <button class="btn btn-danger" [hidden]="this.edit===false" (click)="cancelEdit()"><i class="fa fa-times"></i></button>
+            <button class="btn btn-danger" [hidden]="inputTechnologist.id===0" (click)="cancelEdit()"><i class="fa fa-times"></i></button>
         </div>
     </div>
     <div class="col-8">
@@ -37,6 +37,11 @@
                     <td>{{technologist.id}}</td>
                     <td>{{technologist.firstName}}</td>
                     <td>{{technologist.lastName}}</td>
+                    <td>
+                        <div [ngStyle]="{'background-color': technologist.color}" style="width: 1rem;
+                        height: 1rem;
+                        border: 1px solid #000;"></div>
+                    </td>
                     <td>
                         <span *ngIf="technologist.active" class="text-success">&#10004;</span>
                         <span *ngIf="!technologist.active" class="text-danger">&#10005;</span>

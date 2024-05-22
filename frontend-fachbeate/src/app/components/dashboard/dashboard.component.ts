@@ -36,7 +36,7 @@ export class DashboardComponent implements OnInit {
           start: value.startDate,
           end: value.endDate,
           backgroundColor: value.requestedTechnologist!.color,
-          borderColor: "black"
+          borderColor: value.requestedTechnologist!.color
       }));
       },
       error: err => {

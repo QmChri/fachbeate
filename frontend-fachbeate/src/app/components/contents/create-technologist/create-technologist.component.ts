@@ -8,10 +8,8 @@ import { HttpService } from '../../../services/http.service';
   styleUrl: './create-technologist.component.scss'
 })
 export class CreateTechnologistComponent implements OnInit {
-
-  edit: boolean = false;
-
   inputTechnologist: Technologist = {
+    id: 0,
     firstName: "",
     lastName: "",
     active: true,
@@ -59,8 +57,6 @@ export class CreateTechnologistComponent implements OnInit {
   }
 
   cancelEdit(){
-    this.edit = false;
-
     this.inputTechnologist = {
       id: 0,
       firstName: "",
@@ -71,7 +67,6 @@ export class CreateTechnologistComponent implements OnInit {
   }
 
   editRow(technologist: Technologist){
-    this.edit = true;
     this.inputTechnologist.firstName = technologist.firstName;
     this.inputTechnologist.id = technologist.id;
     this.inputTechnologist.lastName = technologist.lastName;
