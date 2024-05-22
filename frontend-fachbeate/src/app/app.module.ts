@@ -44,12 +44,12 @@ import { MainListComponent } from './components/main-list/main-list.component';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { CreateTechnologistComponent } from './components/contents/create-technologist/create-technologist.component';
 import { VisitorRegistrationComponent } from './components/contents/visitor-registration/visitor-registration.component';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {provideNativeDateAdapter} from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { provideNativeDateAdapter } from '@angular/material/core';
 import { AbschlussBerichtComponent } from './components/contents/abschluss-bericht/abschluss-bericht.component';
-
-import dayGridPlugin from '@fullcalendar/daygrid';
 import { NewDateEntryComponent } from './components/contents/new-date-entry/new-date-entry.component';
+import { MatIconModule } from '@angular/material/icon';
+
 
 registerLocaleData(de);
 
@@ -103,6 +103,7 @@ registerLocaleData(de);
     NzEmptyModule,
     MatButtonToggleModule,
     FullCalendarModule,
+    MatIconModule,
   ],
   providers: [
     provideNativeDateAdapter(),

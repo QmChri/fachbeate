@@ -1,7 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import {MatExpansionPanel} from '@angular/material/expansion';
-
-
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-seminar-registration',
@@ -9,7 +6,9 @@ import {MatExpansionPanel} from '@angular/material/expansion';
   styleUrl: './seminar-registration.component.scss'
 })
 export class SeminarRegistrationComponent {
-
+  panelOpenState = false;
+  panelOpenState2 = false;
+  panelOpenState3 = false;
   buttonSelect: string[] = []
 
 }
