@@ -19,14 +19,12 @@ public class WorkshopRequirement extends TechnologistAppointment{
     public String seminarPresenter;
 
 
-    public boolean hotelBooking;
     public String locationAndDesiredPlace;
     public LocalDate locationFromDate;
     public LocalDate locationToDate;
     public int amountSingleRooms;
     public int amountDoubleRooms;
 
-    public boolean flightBooking;
     public LocalDateTime flightHereDateTime;
     public LocalDateTime flightReturnDateTime;
     public String flightFrom;

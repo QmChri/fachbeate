@@ -15,6 +15,7 @@ import { CustomerVisit } from '../../../models/customer-visit';
   styleUrl: './customer-requirements.component.scss'
 })
 export class CustomerRequirementsComponent implements OnInit {
+
   i = 0;
   editId: number | null = null;
   tohaControl = new FormControl<Toechterhaeandler | null>(null, Validators.required);
@@ -47,7 +48,7 @@ export class CustomerRequirementsComponent implements OnInit {
     this.inputCustomerRequirement.customerVisits = [
       ...this.inputCustomerRequirement.customerVisits!,
       {
-        id: this.i++,
+        editId: this.i++,
         companyName: '',
         address: '',
         contactPerson: '',
@@ -57,18 +58,6 @@ export class CustomerRequirementsComponent implements OnInit {
         recipeOptimization: false,
         sampleProduction: false,
         training: false,
-        finalReport: {
-          technologist: undefined,
-          company: "",
-          dateOfVisit: undefined,
-          reason: [],
-
-          customerFeedback: "",
-          nextSteps: "",
-          nextStepsTechnologist: "",
-          nextStepsUntil: "",
-          furtherInformations: "",
-        }
       }
     ];
     this.editId = this.i;
@@ -85,11 +74,11 @@ export class CustomerRequirementsComponent implements OnInit {
 
     var editVisit = this.inputCustomerRequirement.customerVisits!.find(o => o.id === id);
     if (editVisit != null || editVisit != undefined) {
-      editVisit.presentationOfNewProducts = event.value.includes('1');
-      editVisit.existingProducts = event.value.includes('2');
-      editVisit.recipeOptimization = event.value.includes('3');
-      editVisit.sampleProduction = event.value.includes('4');
-      editVisit.training = event.value.includes('5');
+      editVisit.presentationOfNewProducts = event.value.includes(1);
+      editVisit.existingProducts = event.value.includes(2);
+      editVisit.recipeOptimization = event.value.includes(3);
+      editVisit.sampleProduction = event.value.includes(4);
+      editVisit.training = event.value.includes(5);
     }
   }
   ngOnInit(): void {
@@ -100,20 +89,47 @@ export class CustomerRequirementsComponent implements OnInit {
 
 
   postCustomerRequirement(){
-    this.http.postCustomerRequirement(this.inputCustomerRequirement).subscribe()
+    this.http.postCustomerRequirement(this.inputCustomerRequirement).subscribe({
+      next: data => {
+        this.inputCustomerRequirement = data;
+        
+        data.customerVisits.forEach((element, index) => {
+          element.selection = [
+            (element.presentationOfNewProducts)?1:0,
+            (element.existingProducts)?2:0,
+            (element.recipeOptimization)?3:0,
+            (element.sampleProduction)?4:0,
+            (element.training)?5:0
+          ];
+          element.editId = index;
+        });
+
+      },
+      error: err => {
+        console.log(err);
+      }
+    });
   }
 
   openDialog(customerVisit: CustomerVisit) {
-
-      var finalReport: FinalReport = {
-      technologist: this.inputCustomerRequirement.requestedTechnologist,
-      company: customerVisit.companyName,
-      reason: [
-        customerVisit.presentationOfNewProducts,
-        customerVisit.existingProducts,
-        customerVisit.recipeOptimization,
-        customerVisit.sampleProduction
-        ]
+    var finalReport: FinalReport = {}
+    if(customerVisit.finalReport === null || customerVisit.finalReport === undefined || customerVisit.finalReport.id === 0){
+      finalReport = {
+        technologist: this.inputCustomerRequirement.requestedTechnologist!.firstName + " " + this.inputCustomerRequirement.requestedTechnologist!.lastName,
+        company: customerVisit.companyName,
+        dateOfVisit: customerVisit.dateOfVisit,
+        reason: [
+          (customerVisit.presentationOfNewProducts)?1:0,
+          (customerVisit.existingProducts)?2:0,
+          (customerVisit.recipeOptimization)?3:0,
+          (customerVisit.sampleProduction)?4:0,
+          (customerVisit.training)?5:0,
+          ]
+      }
+    }else{
+      if(customerVisit.finalReport != undefined){
+        finalReport = customerVisit.finalReport!
+      }
     }
 
     const dialogRef = this.dialog.open(AbschlussBerichtComponent, {
@@ -124,7 +140,10 @@ export class CustomerRequirementsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(
       data => {
-        null;
+        if(data.save){
+          customerVisit.finalReport = data.finalReport;
+          this.postCustomerRequirement();
+        }
       });
   }
 
@@ -137,6 +156,12 @@ export class CustomerRequirementsComponent implements OnInit {
         console.log(err);
       }
     });
+  }
+
+  changeTechnolgist($event: any) {
+    this.inputCustomerRequirement.requestedTechnologist = this.technologists.find(elemnt => elemnt.id === $event);
+    console.log(this.inputCustomerRequirement);
+    
   }
 
 }

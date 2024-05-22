@@ -18,15 +18,28 @@ public class AppointmentResource {
     @POST
     @Path("/customerRequirement")
     @Transactional
-    public void postCustomerRequirement(CustomerRequirement customerRequirement){
+    public Response postCustomerRequirement(CustomerRequirement customerRequirement){
 
         //Technologist technologist = Technologist.findById(customerRequirement.requestedTechnologist.id);
 
-        for(CustomerVisit v : customerRequirement.customerVisits){
-            v.id = null;
+
+        if(customerRequirement.id == null || customerRequirement.id == 0) {
+            customerRequirement.persist();
+
+            for (CustomerVisit v : customerRequirement.customerVisits) {
+                v.persist();
+                if(v.finalReport != null) {
+                    v.finalReport.id = null;
+                    v.finalReport.persist();
+                }
+            }
+
+            return Response.ok(customerRequirement).build();
         }
 
-        customerRequirement.persist();
+        CustomerRequirement persistedCR = CustomerRequirement.findById(customerRequirement.id);
+        persistedCR.updateEntity(customerRequirement);
+        return Response.ok(persistedCR).build();
     }
     @GET
     @Path("/customerRequirement")
@@ -46,6 +59,5 @@ public class AppointmentResource {
     public Response getWorkshopRequirement(){
         return Response.ok(WorkshopRequirement.listAll()).build();
     }
-
 
 }
