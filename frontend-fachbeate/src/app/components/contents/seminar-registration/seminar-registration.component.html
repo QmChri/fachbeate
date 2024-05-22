@@ -1,4 +1,8 @@
-<h3>Anmeldung für Kundenseminare</h3>
+<div class="header">
+    <div>
+        <h1 class="paddingSearch">Seminaranmeldung</h1>
+    </div>
+</div>
 <hr>
 
 <div class="row">
@@ -110,14 +114,14 @@
     </div>
 </div>
 <br>
-
-<!--TODO sollte nur ausklappen wenn checkbox angekreuzt-->
-
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div class="card">
-            <div class="card-header  text-white bg-danger">Reiseplanung</div>
-            <mat-button-toggle-group [(ngModel)]="buttonSelect" vertical multiple style="display: flex; align-items: baseline;">
+            <div class="card-header text-white bg-danger">Weiteres</div>
+            <mat-button-toggle-group [(ngModel)]="buttonSelect" vertical multiple style="display: flex;
+                flex-direction: column;
+                flex-wrap: nowrap;
+                align-items: stretch;">
                 <mat-button-toggle value="1">Hotelbuchung</mat-button-toggle>
                 <mat-button-toggle value="2">Buchung Flughafen Transfer - Zug</mat-button-toggle>
                 <mat-button-toggle value="3">Ausflug</mat-button-toggle>
@@ -126,43 +130,43 @@
                 <mat-button-toggle value="6">Kundengeschenke</mat-button-toggle>
                 <mat-button-toggle value="7">Diplome</mat-button-toggle>
             </mat-button-toggle-group>
-       </div>
+        </div>
     </div>
-    <div class="col-md-8">
+    <div class="col-md-9">
         <div class="card">
-            <div class="card-header  text-white bg-danger">Weiteres</div>
             <mat-tab-group>
-                <mat-tab *ngIf="buttonSelect.includes('1')" label="Hotelbuchung">
+                <mat-tab class="card-header" *ngIf="buttonSelect.includes('1')" label="Hotelbuchung">
                     <div class="card-body">
                         <div class="center-items">
-                            <div class="mb-3">
-                                <label>Ort und gewünschte Lage</label>
-                                <input type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
-                            </div>
-                            <div class="flugHotel">
-                                <div class=" mb-3">
-                                    <label>Datum von</label>
-                                    <input type="datetime-local" class="form-control" placeholder="Eingabe ... "
-                                        aria-label="Username">
-                                </div>
-                                <div class=" mb-3">
-                                    <label>Datum bis</label>
-                                    <input type="datetime-local" class="form-control" placeholder="Eingabe ... "
-                                        aria-label="Username">
-                                </div>
+                            <mat-form-field>
+                                <mat-label>Ansprechpartner intern</mat-label>
+                                <input matInput>
+                            </mat-form-field>
+                            <div class="center-items">
+                                <mat-form-field>
+                                    <mat-label>Von - Bis</mat-label>
+                                    <mat-date-range-input [rangePicker]="picker2">
+                                        <input matStartDate placeholder="Start date">
+                                        <input matEndDate placeholder="End date">
+                                    </mat-date-range-input>
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                                    <mat-date-range-picker #picker2></mat-date-range-picker>
+                                </mat-form-field>
                             </div>
                             <hr>
                             <div class="mb-3 reiseplanung">
                                 <div class="form-group">
                                     <div>
                                         <label for="singleRoom">Einzelzimmer</label>
-                                        <input class="form-control countPeople" placeholder="Anzahl ..."  type="number" id="singleRoom">
+                                        <input class="form-control countPeople" placeholder="Anzahl ..." type="number"
+                                            id="singleRoom">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div>
                                         <label for="singleRoom">Doppelzimmer</label>
-                                        <input class="form-control countPeople" placeholder="Anzahl ..."  type="number" id="singleRoom">
+                                        <input class="form-control countPeople" placeholder="Anzahl ..." type="number"
+                                            id="singleRoom">
                                     </div>
                                 </div>
                             </div>
@@ -175,11 +179,13 @@
                             <div class="flugHotel">
                                 <div class="mb-3">
                                     <label>Von</label>
-                                    <input type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
+                                    <input type="text" class="form-control" placeholder="Eingabe ... "
+                                        aria-label="Username">
                                 </div>
                                 <div class="mb-3">
                                     <label>Nach</label>
-                                    <input type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
+                                    <input type="text" class="form-control" placeholder="Eingabe ... "
+                                        aria-label="Username">
                                 </div>
                             </div>
                             <div class="flugHotel">
@@ -212,7 +218,8 @@
                                 </div>
                                 <div class="mb-3">
                                     <label>gewünschtes Ausflugsziel</label>
-                                    <input type="text" class="form-control" placeholder="Eingabe ... " aria-label="Username">
+                                    <input type="text" class="form-control" placeholder="Eingabe ... "
+                                        aria-label="Username">
                                 </div>
                             </div>
                             <div class="center-items">
@@ -228,7 +235,8 @@
                             <div class="flugHotel">
                                 <div class="mb-3">
                                     <label>Personenanzahl + Betreuer</label>
-                                    <input type="number" class="form-control" placeholder="Eingabe ... " aria-label="Username">
+                                    <input type="number" class="form-control" placeholder="Eingabe ... "
+                                        aria-label="Username">
                                 </div>
                                 <div class="mb-3">
                                     <label>Datum/Uhrzeit</label>
@@ -254,7 +262,8 @@
                             <div class="flugHotel">
                                 <div class="mb-3">
                                     <label>Personenanzahl + Betreuer</label>
-                                    <input type="number" class="form-control" placeholder="Eingabe ... " aria-label="Username">
+                                    <input type="number" class="form-control" placeholder="Eingabe ... "
+                                        aria-label="Username">
                                 </div>
                                 <div class="mb-3">
                                     <label>Datum/Uhrzeit</label>
@@ -268,19 +277,23 @@
                             <div class="form-group">
                                 <div>
                                     <label for="singleRoom">Vegan </label>
-                                    <input class="form-control countPeople" type="number" placeholder="Anzahl ..."  id="singleRoom">
+                                    <input class="form-control countPeople" type="number" placeholder="Anzahl ..."
+                                        id="singleRoom">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div>
                                     <label for="singleRoom">Vegetarisch </label>
-                                    <input class="form-control countPeople" type="number" placeholder="Anzahl ..."  id="singleRoom">
+                                    <input class="form-control countPeople" type="number" placeholder="Anzahl ..."
+                                        id="singleRoom">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div>
-                                    <input class="form-control countPeople" type="text" placeholder="Sonstige" id="singleRoom">
-                                    <input class="form-control countPeople" type="number" placeholder="Anzahl ..." id="singleRoom">
+                                    <input class="form-control countPeople" type="text" placeholder="Sonstige"
+                                        id="singleRoom">
+                                    <input class="form-control countPeople" type="number" placeholder="Anzahl ..."
+                                        id="singleRoom">
                                 </div>
                             </div>
                         </div>

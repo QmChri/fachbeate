@@ -10,7 +10,7 @@ import { HttpClientModule, provideHttpClient } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SublevelMenuComponent } from './components/sidenav/sublevel-menu.component';
 
-import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
@@ -43,6 +43,9 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { MainListComponent } from './components/main-list/main-list.component';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { CreateTechnologistComponent } from './components/contents/create-technologist/create-technologist.component';
+import { VisitorRegistrationComponent } from './components/contents/visitor-registration/visitor-registration.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {provideNativeDateAdapter} from '@angular/material/core';
 import { AbschlussBerichtComponent } from './components/contents/abschluss-bericht/abschluss-bericht.component';
 
 registerLocaleData(de);
@@ -58,10 +61,12 @@ registerLocaleData(de);
     SeminarRegistrationComponent,
     MainListComponent,
     CreateTechnologistComponent,
+    VisitorRegistrationComponent
     AbschlussBerichtComponent
   ],
   imports: [
     MatTooltipModule,
+    MatDatepickerModule,
     MatDialogTitle,
     MatDialogContent,
     MatDialogActions,
@@ -96,6 +101,7 @@ registerLocaleData(de);
     FullCalendarModule,
   ],
   providers: [
+    provideNativeDateAdapter(),
     provideAnimationsAsync(),
     { provide: NZ_I18N, useValue: de_DE },
     provideHttpClient()

@@ -4,6 +4,7 @@
             <button style="margin-left: 10px;" class="btn btn-secondary" matTooltip="interne Notiz">
                 <i class="fa fa-comment"></i></button>
         </h1>
+        <!-- TODO Click event bei button setzen -->
     </div>
     <div>
         <button class="btn btn-success" (click)="postCustomerRequirement()">Beantragen</button>
@@ -70,17 +71,16 @@
                         </mat-form-field>
                     </div>
                 </div>
-                <div class="centerHeader">
-                    <div class=" mb-3">
-                        <label>Datum von</label>
-                        <input [(ngModel)]="inputCustomerRequirement.startDate" type="date" class="form-control"
-                            placeholder="Eingabe ... " aria-label="Username">
-                    </div>
-                    <div class=" mb-3">
-                        <label>Datum bis</label>
-                        <input [(ngModel)]="inputCustomerRequirement.endDate" type="date" class="form-control"
-                            placeholder="Eingabe ... " aria-label="Username">
-                    </div>
+                <div class="center-items">
+                    <mat-form-field>
+                        <mat-label>Von - Bis</mat-label>
+                        <mat-date-range-input [rangePicker]="picker">
+                            <input matStartDate placeholder="Start date">
+                            <input matEndDate placeholder="End date">
+                        </mat-date-range-input>
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-date-range-picker #picker></mat-date-range-picker>
+                    </mat-form-field>
                 </div>
             </div>
         </div>
@@ -129,7 +129,7 @@
                 <div class="center-items">
                     <mat-form-field>
                         <mat-label>Sonstige Anmerkungen</mat-label>
-                        <input matInput placeholder="Ex. 1,5h Anfahrt" [(ngModel)]="inputCustomerRequirement.furtherNotes">
+                        <input matInput [(ngModel)]="inputCustomerRequirement.furtherNotes">
                     </mat-form-field>
 
                     <mat-form-field>
@@ -145,8 +145,8 @@
 <br>
 <br>
 <br>
-<div class="centerHeader">
-    <h1>Geplante Kundebesuche</h1>
+<div class="header">
+    <h1 style="margin: 0%;">Geplante Kundebesuche</h1>
     <button nz-button (click)="addRow()" nzType="primary">Neuer Kundenbesuch</button>
 </div>
 <hr>

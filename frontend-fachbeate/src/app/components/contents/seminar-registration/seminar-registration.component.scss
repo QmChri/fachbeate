@@ -12,6 +12,22 @@
     min-height: 15em;
 }
 
+.paddingSearch {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: auto;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .flugHotel {
     display: flex;
     flex-direction: row;
@@ -33,6 +49,7 @@ mat-form-field {
     height: 5rem;
 }
 
-.countPeople{
-    width: 7rem;;
+.countPeople {
+    width: 7rem;
+    ;
 }
