@@ -61,7 +61,7 @@ registerLocaleData(de);
     SeminarRegistrationComponent,
     MainListComponent,
     CreateTechnologistComponent,
-    VisitorRegistrationComponent
+    VisitorRegistrationComponent,
     AbschlussBerichtComponent
   ],
   imports: [

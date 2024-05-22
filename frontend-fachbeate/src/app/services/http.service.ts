@@ -15,7 +15,6 @@ const API_URL = "http://localhost:8080/"
   providedIn: 'root'
 })
 export class HttpService {
-  
 
   constructor(private http: HttpClient) { }
 
@@ -29,6 +28,9 @@ export class HttpService {
     return this.http.get<CustomerRequirement[]>(API_URL + "appointment/customerRequirement");
   }
 
+  getCustomerById(id: number) {
+    return this.http.get<CustomerRequirement>(API_URL + "appointment/customerRequirement/id", {params: {id: id}});
+  }
 
   getWorkshopRequirements(){
     return this.http.get<WorkshopRequirement[]>(API_URL + "appointment/workshop");
@@ -46,4 +48,6 @@ export class HttpService {
   postTechnologist(technologist: Technologist) {
     return this.http.post(API_URL + "technologist", technologist);
   }
+
+
 }

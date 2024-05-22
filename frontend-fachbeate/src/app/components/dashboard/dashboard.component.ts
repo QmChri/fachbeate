@@ -1,28 +1,52 @@
-import { Component } from '@angular/core';
-import { CalendarOptions } from '@fullcalendar/core';
+import { Component, OnInit } from '@angular/core';
+import { CalendarOptions, EventSourceInput } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import { HttpService } from '../../services/http.service';
+import { Identity } from '@fullcalendar/core/internal';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
 
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
     plugins: [dayGridPlugin],
-    selectable: true,
-    select: (arg) => this.handleDateClick(arg),
     height: 600,
-    events: [
-      { title: 'Mandi', date: '2024-04-01', },
-      { title: 'Fandi', date: '2024-04-02' }
-    ],
-
+    eventClick: (arg) => this.handleEventClick(arg),
+    events: [],
   };
 
-  handleDateClick(arg: any) {
-    alert('date click! ' + arg);
+  constructor(private http: HttpService){
+
+  }
+
+  ngOnInit(): void {
+    this.loadEvents();
+  }
+  
+  loadEvents(){
+    this.http.getCustomerRequirements().subscribe({
+      next: data => { 
+        this.calendarOptions.events = data.map(value => ({
+          id: ""+value.id,
+          title: value.requestedTechnologist!.firstName + " " + value.requestedTechnologist!.lastName,
+          start: value.startDate,
+          end: value.endDate,
+          backgroundColor: value.requestedTechnologist!.color,
+          borderColor: "black"
+      }));
+      },
+      error: err => {
+        console.log(err);
+        
+      }
+    })
+  }
+
+  handleEventClick(clickInfo: any): void {
+    console.log(clickInfo.event.id);
   }
 }

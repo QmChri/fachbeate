@@ -3,4 +3,5 @@ export interface Technologist {
     firstName: String;
     lastName: String;
     active: boolean;
+    color: string;
 }

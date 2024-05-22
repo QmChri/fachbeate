@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, input } from '@angular/core';
 import { CustomerRequirement } from '../../../models/customer-requirement';
 import { MatSelectChange } from '@angular/material/select';
 import { FormControl, Validators } from '@angular/forms';
@@ -8,6 +8,7 @@ import { HttpService } from '../../../services/http.service';
 import { Technologist } from '../../../models/technologist';
 import { FinalReport } from '../../../models/final-report';
 import { CustomerVisit } from '../../../models/customer-visit';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-customer-requirements',
@@ -23,7 +24,7 @@ export class CustomerRequirementsComponent implements OnInit {
   selectedValue?: string;
   technologists: Technologist[] = [];
 
-  constructor(private dialog: MatDialog, private http: HttpService) { }
+  constructor(private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute) { }
 
   toha: Toechterhaeandler[] = [
     { value: 'Active-1', viewValue: 'Active' },
@@ -68,11 +69,11 @@ export class CustomerRequirementsComponent implements OnInit {
   }
 
 
-  selChange(event: MatSelectChange, id: number) {
+  selChange(event: MatSelectChange, editId: number) {
     console.log(event)
     console.log(this.editId)
 
-    var editVisit = this.inputCustomerRequirement.customerVisits!.find(o => o.id === id);
+    var editVisit = this.inputCustomerRequirement.customerVisits!.find(o => o.editId === editId);
     if (editVisit != null || editVisit != undefined) {
       editVisit.presentationOfNewProducts = event.value.includes(1);
       editVisit.existingProducts = event.value.includes(2);
@@ -82,9 +83,37 @@ export class CustomerRequirementsComponent implements OnInit {
     }
   }
   ngOnInit(): void {
-    this.addRow();
 
     this.getTechnologist();
+
+    this.route.paramMap.subscribe(params => {
+      if(params.get('id') != null){
+        this.http.getCustomerById(parseInt(params.get('id')!)).subscribe({
+          next: data => {
+            if(data != null){
+              this.inputCustomerRequirement = data;
+
+              this.inputCustomerRequirement.customerVisits.forEach((element, index) => {
+                element.selection = [
+                  (element.presentationOfNewProducts)?1:0,
+                  (element.existingProducts)?2:0,
+                  (element.recipeOptimization)?3:0,
+                  (element.sampleProduction)?4:0,
+                  (element.training)?5:0
+                ];
+                element.editId = index;
+              });
+            }
+          },
+          error: err => {
+            console.log(err);
+          }
+        });
+      } else {
+        this.addRow();
+      }
+    });
+
   }
 
 
