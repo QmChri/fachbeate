@@ -7,6 +7,13 @@ import { FormControl, FormGroup } from '@angular/forms';
   styleUrl: './visitor-registration.component.scss'
 })
 export class VisitorRegistrationComponent implements OnInit {
+  panelOpenState = false;
+  panelOpenState1 = false;
+  panelOpenState2 = false;
+  panelOpenState3 = false;
+  panelOpenState4 = false;
+  panelOpenState5 = false;
+
   campaignOne = new FormGroup({
     start: new FormControl(new Date(year, month, 13)),
     end: new FormControl(new Date(year, month, 16)),
@@ -15,8 +22,6 @@ export class VisitorRegistrationComponent implements OnInit {
     start: new FormControl(new Date(year, month, 15)),
     end: new FormControl(new Date(year, month, 19)),
   });
-
-
   ngOnInit(): void {
     throw new Error('Method not implemented.');
   }
