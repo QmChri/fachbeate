@@ -1,106 +1,158 @@
-<div class="container">
-    <h2>Abschlussbericht</h2>
-    <hr/>
-
-    <form>
-
-        <div class="form-group">
-            <label>Name des Unternehmens</label>
-            <input class="form-control" type="text" [(ngModel)]="inputFinalReport.company"  name="company">
-        </div>
-
-        <div class="form-group">
-            <label>Kundennummer</label>
-            <input class="form-control" type="text" [(ngModel)]="inputFinalReport.companyNr"  name="companyNr">
-        </div>
-
-        <div class="form-group">
-            <label>Fachberater Name</label>
-            <input class="form-control" type="text" [(ngModel)]="inputFinalReport.technologist" name="technologist">
-        </div>
-
-        <div class="form-group">
-            <label>Datum des Besuchs</label>
-            <input class="form-control" type="text" [(ngModel)]="inputFinalReport.dateOfVisit" name="dateOfVisit">
-        </div>
-
-
-        <div>
-            <label>Vertreter Name</label>
-            <input class="form-control" type="text" [(ngModel)]="inputFinalReport.representative" name="representative">
-        </div>
-
-        <div class="form-group">
-            <label>Grund des Besuches</label>
-            <mat-select multiple placeholder="Auswählen . . . " [ngModel]="reasonSelect" name="resons">
-                <mat-option [value]="1">Vorstellung</mat-option>
-                <mat-option [value]="2">Problemlösung</mat-option>
-                <mat-option [value]="3">Rezepturopt.</mat-option>
-                <mat-option [value]="4">Musterproduktion</mat-option>
-                <mat-option [value]="5">Schulung</mat-option>
-            </mat-select>
-        </div>
-
-        <br>
-        <hr/>
-
-        <ng-container *ngFor="let d of inputFinalReport.reasonReports">
-            <div>
-               <input type="text" [(ngModel)]="d.carriedOutActivity" name="carriedOutActivity{{d.reason}}">               
-               <input type="text" [(ngModel)]="d.presentedArticle" name="presentedAricle{{d.reason}}">
-               <input type="checkbox" [(ngModel)]="d.reworkByTechnologist" name="reworkByTechnologist{{d.reason}}">
-               <input type="date" [(ngModel)]="d.reworkByTechnologistDoneUntil" name="reworkByTechnologistDoneUntil{{d.reason}}">
-               <input type="text" [(ngModel)]="d.state" name="state{{d.reason}}">
-               <input type="checkbox" [(ngModel)]="d.reworkByRepresentive" name="reworkByRepresentive{{d.reason}}">
-               <input type="date" [(ngModel)]="d.reworkByRepresentativeDoneUntil" name="reworkByRepresentativeDoneUntil{{d.reason}}">
-            </div>
-        </ng-container>
-
-        <br>
+<div style="background-color: #f4f4f4;">
+    <div class="mainView">
+        <h1 class="paddingSearch">Abschlussbericht</h1>
         <hr>
 
-        <div>
-            <label>Kunde kontaktiert am</label>
-            <input class="form-control" type="date" [(ngModel)]="inputFinalReport.customerContactDate" name="contactDate">
+        <div class="row">
+            <div class="col-md-7 paddingBottom">
+                <div class="card">
+                    <div class="card-header text-white bg-danger">Allgemeines</div>
+                    <div class="card-body">
+                        <div class="center-items">
+                            <div class="displayBySide">
+                                <mat-form-field class="smallInput">
+                                    <mat-label>Fachberater</mat-label>
+                                    <input matInput type="text" [(ngModel)]="inputFinalReport.technologist"
+                                        name="technologist">
+                                </mat-form-field>
+                                <mat-form-field class="smallInput">
+                                    <mat-label>Unternehmen</mat-label>
+                                    <input matInput type="text" [(ngModel)]="inputFinalReport.company" name="company">
+                                </mat-form-field>
+                                <mat-form-field class="smallInput">
+                                    <mat-label>Kundennummer</mat-label>
+                                    <input matInput type="text" [(ngModel)]="inputFinalReport.companyNr"
+                                        name="companyNr">
+                                </mat-form-field>
+                            </div>
+                            <div class="displayBySide">
+                                <mat-form-field class="smallInput">
+                                    <mat-label>Vertreter</mat-label>
+                                    <input matInput type="text" [(ngModel)]="inputFinalReport.representative"
+                                        name="representative">
+                                </mat-form-field>
+                                <mat-form-field class="smallInputSide">
+                                    <mat-label>Datum Besuch</mat-label>
+                                    <input matInput [matDatepicker]="picker1" type="text"
+                                        [(ngModel)]="inputFinalReport.dateOfVisit" name="dateOfVisit">
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker1></mat-datepicker>
+                                </mat-form-field>
+                                <mat-form-field class="smallInput">
+                                    <mat-label>Grund des Besuchs</mat-label>
+                                    <mat-select required multiple placeholder="Auswählen . . . "
+                                        [ngModel]="reasonSelect" name="resons">
+                                        <mat-option [value]="1">Vorstellung</mat-option>
+                                        <mat-option [value]="2">Problemlösung</mat-option>
+                                        <mat-option [value]="3">Rezepturopt.</mat-option>
+                                        <mat-option [value]="4">Musterproduktion</mat-option>
+                                        <mat-option [value]="5">Schulung</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 paddingBottom">
+                <div class="card">
+                    <div class="card-header text-white bg-danger">Kunden Kommunikation</div>
+                    <div class="card-body">
+                        <div class="center-items">
+                            <div class="displayBySide">
+                                <mat-form-field class="smallInputSide">
+                                    <mat-label>Kontaktiert am</mat-label>
+                                    <input matInput [matDatepicker]="picker2" type="text"
+                                        [(ngModel)]="inputFinalReport.customerContactDate" name="contactDate">
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker2></mat-datepicker>
+                                </mat-form-field>
+                                <mat-form-field class="smallInput">
+                                    <mat-label>Rückmeldung Kunde</mat-label>
+                                    <input matInput type="text" [(ngModel)]="inputFinalReport.responseCustomer"
+                                        name="responseCustomer">
+                                </mat-form-field>
+                            </div>
+                            <div class="displayBySide">
+                                <mat-form-field class="smallInput">
+                                    <mat-label>Weitere Maßnahmen vereinbart</mat-label>
+                                    <mat-select required placeholder="Auswählen . . . "
+                                        [ngModel]="inputFinalReport.furtherActivities" name="furtherActivities">
+                                        <mat-option [value]="1">Ja</mat-option>
+                                        <mat-option [value]="2">Nein</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field class="smallInputSide">
+                                    <mat-label>Zu erledigen bis</mat-label>
+                                    <input matInput [matDatepicker]="picker3" type="text"
+                                        [(ngModel)]="inputFinalReport.doneUntil" name="doneUntil">
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker3></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <div>
-            <label>Rückmeldung Kunde</label>
-            <input class="form-control" type="text" [(ngModel)]="inputFinalReport.responseCustomer" name="responseCustomer">
+        <div class="row">
+            <div class="col-md-5 paddingBottom">
+                <div class="card">
+                    <div class="card-header text-white bg-danger">Anforderungen / Zusammenfassung</div>
+                    <div class="card-body">
+                        <div class="center-items">
+                            <div class="displayBySide">
+                                <mat-form-field class="smallInput">
+                                    <mat-label>Weitere Produkte</mat-label>
+                                    <input matInput type="text" [(ngModel)]="inputFinalReport.interestingProducts"
+                                        name="interestingProducts">
+                                </mat-form-field>
+                                <mat-form-field class="smallInputSide">
+                                    <mat-label>Abgeschlossen</mat-label>
+                                    <mat-select required placeholder="Auswählen . . . "
+                                        [ngModel]="inputFinalReport.requestCompleted" name="requestCompleted">
+                                        <mat-option [value]="1">Ja</mat-option>
+                                        <mat-option [value]="2">Nein</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <mat-form-field class="smallInput">
+                                <mat-label>Zusammenfassung Vertreter</mat-label>
+                                <input matInput type="text" [(ngModel)]="inputFinalReport.summaryFinalReport"
+                                    name="summaryFinalReport">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7 paddingBottom">
+                <div class="card">
+                    <div class="card-header text-white bg-danger">Bericht per Grund</div>
+                    <div class="card-body">
+                        <div class="center-items">
+                            <mat-form-field *ngFor="let d of inputFinalReport.reasonReports">
+                                <input matInput type="text" [(ngModel)]="d.carriedOutActivity"
+                                    name="carriedOutActivity{{d.reason}}">
+                                <input matInput type="text" [(ngModel)]="d.presentedArticle"
+                                    name="presentedAricle{{d.reason}}">
+                                <input matInput type="checkbox" [(ngModel)]="d.reworkByTechnologist"
+                                    name="reworkByTechnologist{{d.reason}}">
+                                <input matInput type="date" [(ngModel)]="d.reworkByTechnologistDoneUntil"
+                                    name="reworkByTechnologistDoneUntil{{d.reason}}">
+                                <input matInput type="text" [(ngModel)]="d.state" name="state{{d.reason}}">
+                                <input matInput type="checkbox" [(ngModel)]="d.reworkByRepresentive"
+                                    name="reworkByRepresentive{{d.reason}}">
+                                <input matInput type="date" [(ngModel)]="d.reworkByRepresentativeDoneUntil"
+                                    name="reworkByRepresentativeDoneUntil{{d.reason}}">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <div>
-            <label>Weitere Maßnahmen vereinbart</label>
-            <input class="form-control" type="checkbox" [(ngModel)]="inputFinalReport.furtherActivities" name="furtherActivities">
+        <div class="header">
+            <div> <button (click)="closeDialog(false)" class="btn btn-secondary">Abbrechen</button></div>
+            <div> <button (click)="closeDialog(true)" class="btn btn-success">Speichern</button></div>
         </div>
-
-        <div>
-            <label>Zu erledigen bis</label>
-            <input class="form-control" type="date" [(ngModel)]="inputFinalReport.doneUntil" name="doneUntil">
-        </div>
-
-        <br>
-        <hr/>
-
-        <div>
-            <label>Welche Produkte sind für den Kunden weiter interessant</label>
-            <input class="form-control" type="text" [(ngModel)]="inputFinalReport.interestingProducts" name="interestingProducts">
-        </div>
-        
-        <div>
-            <label>Anforderung abgeschlossen</label>
-            <input class="form-control" type="checkbox" [(ngModel)]="inputFinalReport.requestCompleted" name="requestCompleted">
-        </div>
-
-        <div>
-            <label>Zusammenfassung Abschlussbericht durch Vertreter</label>
-            <input class="form-control" type="text" [(ngModel)]="inputFinalReport.summaryFinalReport" name="summaryFinalReport">
-        </div>
-
-    </form>
-    <hr/>
-
-
-    <button (click)="closeDialog(true)">Speichern</button>
-    <button (click)="closeDialog(false)">Abbrechen</button>
+    </div>
 </div>
