@@ -6,7 +6,7 @@
 <hr>
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div class="card">
             <div class="card-header text-white bg-danger">Seminar</div>
             <div class="card-body">
@@ -32,7 +32,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div class="card">
             <div class="card-header  text-white bg-danger">Seminarteilnehmer</div>
             <div class="card-body">
@@ -46,13 +46,13 @@
                         <input matInput>
                     </mat-form-field>
                     <div class="displayBySide">
-                        <mat-form-field>
+                        <mat-form-field class="smallInputSide">
+                            <mat-label>Teilnehmer</mat-label>
+                            <input type="number" min="0" matInput>
+                        </mat-form-field>
+                        <mat-form-field class="smallInputSide">
                             <mat-label>Andere</mat-label>
                             <input matInput>
-                        </mat-form-field>
-                        <mat-form-field class="smallInput">
-                            <mat-label>Seminarteilnehmer</mat-label>
-                            <input type="number" min="0" matInput>
                         </mat-form-field>
                     </div>
 
@@ -60,7 +60,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div class="card">
             <div class="card-header  text-white bg-danger">Semiarleitung</div>
             <div class="card-body">
@@ -77,24 +77,25 @@
                         <div class="center-items">
                             <mat-label>Sprache</mat-label>
                             <div class="displayBySide">
-                                <label>
+                                <label class="languageBox">
                                     <mat-checkbox color="warn"></mat-checkbox>EN
                                 </label>
-                                <label>
+                                <label class="languageBox">
                                     <mat-checkbox color="warn"></mat-checkbox>DE
                                 </label>
-                                <label>
+                                <label class="languageBox">
                                     <mat-checkbox color="warn"></mat-checkbox>RU
                                 </label>
                             </div>
                         </div>
                         <div class="center-items">
-                            <mat-label>Übersetzer erforderlich</mat-label>
-                            <div class="displayBySide">
-                                <label>
+                            <mat-label>Übersetzer</mat-label>
+                            <div style="display: flex;">
+                                <label class="languageBox">
                                     <mat-checkbox color="warn"></mat-checkbox>Ja
-                                </label> <label>
-                                    <mat-checkbox color="warn"></mat-checkbox>Nein
+                                </label>
+                                <label class="languageBox">
+                                    <mat-checkbox color=" warn"></mat-checkbox>Nein
                                 </label>
                             </div>
                         </div>
@@ -103,33 +104,47 @@
             </div>
         </div>
     </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header text-white bg-danger">Weiteres</div>
+            <mat-button-toggle-group [(ngModel)]="buttonSelect" vertical multiple>
+                <mat-button-toggle matTooltip="Hinzufügen" value="1">Hotelbuchung</mat-button-toggle>
+                <mat-button-toggle value="2">Flughafen Transfer - Zug</mat-button-toggle>
+                <mat-button-toggle value="3">Ausflug</mat-button-toggle>
+                <mat-button-toggle value="4">Betriebsführung</mat-button-toggle>
+                <mat-button-toggle value="5">Mittagessen</mat-button-toggle>
+            </mat-button-toggle-group>
+            <mat-button-toggle-group class="toogleGroup" [(ngModel)]="geDip" multiple>
+                <mat-button-toggle style="width: 15rem;" value="6">Kundengeschenke</mat-button-toggle>
+                <mat-button-toggle style="width: 15rem;" value="7">Diplome</mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
+    </div>
 </div>
 <br>
 
 <div class="row">
-    <div class="col-md-3">
-        <mat-accordion class="card" hideToggle>
-            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-                <mat-expansion-panel-header class="card-header bg-danger text-white">
-                    <mat-panel-title class="text-white">
-                        Hotelbuchung
-                    </mat-panel-title>{{panelOpenState ? 'Entfernen' : 'Hinzufügen'}}
-                </mat-expansion-panel-header>
-                <div class="center-items" style="padding-top: 1.5rem;">
-                    <mat-form-field>
-                        <mat-label>Ort / gewünschte Lage</mat-label>
-                        <input matInput>
-                    </mat-form-field>
-                    <mat-form-field>
-                        <mat-label>Von - Bis</mat-label>
-                        <mat-date-range-input [rangePicker]="picker3">
-                            <input matStartDate placeholder="Start date">
-                            <input matEndDate placeholder="End date">
-                        </mat-date-range-input>
-                        <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
-                        <mat-date-range-picker #picker3></mat-date-range-picker>
-                    </mat-form-field>
-                    <div class="displayBySide">
+    <div class="col-md-4 paddingBottom" *ngIf="buttonSelect.includes('1')">
+        <div class="card">
+            <div class="card-header text-white bg-danger">Hotelbuchung</div>
+            <div class="card-body minheigtCard">
+                <div class="displayBySide">
+                    <div class="center-items">
+                        <mat-form-field class="smallInput">
+                            <mat-label>Ort / Lage</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+                        <mat-form-field class="smallInput">
+                            <mat-label>Von - Bis</mat-label>
+                            <mat-date-range-input [rangePicker]="picker3">
+                                <input matStartDate placeholder="Start date">
+                                <input matEndDate placeholder="End date">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
+                            <mat-date-range-picker #picker3></mat-date-range-picker>
+                        </mat-form-field>
+                    </div>
+                    <div class="center-items">
                         <mat-form-field class="smallInput">
                             <mat-label>Einzelzimmer</mat-label>
                             <input type="number" min="0" matInput>
@@ -140,19 +155,30 @@
                         </mat-form-field>
                     </div>
                 </div>
-            </mat-expansion-panel>
-        </mat-accordion>
+            </div>
+        </div>
     </div>
-    <div class="col-md-3">
-        <mat-accordion class="card" hideToggle>
-            <mat-expansion-panel (opened)="panelOpenState2 = true" (closed)="panelOpenState2 = false">
-                <mat-expansion-panel-header class="card-header bg-danger text-white">
-                    <mat-panel-title class="text-white">
-                        Flughafen / Transfer
-                    </mat-panel-title>{{panelOpenState2? 'Entfernen' : 'Hinzufügen'}}
-                </mat-expansion-panel-header>
-                <div class="center-items" style="padding-top: 1.5rem;">
-                    <div class="displayBySide">
+    <div class="col-md-4 paddingBottom" *ngIf="buttonSelect.includes('2')">
+        <div class="card" hideToggle>
+            <div class="card-header bg-danger text-white">Flughafen / Transfer</div>
+            <div class="card-body minheigtCard">
+                <div class="displayBySide">
+                    <div class="center-items">
+                        <mat-form-field class="smallInput">
+                            <mat-label>Von - Bis</mat-label>
+                            <mat-date-range-input [rangePicker]="picker4">
+                                <input matStartDate placeholder="Start date">
+                                <input matEndDate placeholder="End date">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matIconSuffix [for]="picker4"></mat-datepicker-toggle>
+                            <mat-date-range-picker #picker4></mat-date-range-picker>
+                        </mat-form-field>
+                        <mat-form-field class="smallInput">
+                            <mat-label>Sonstige Reiseanf.</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+                    </div>
+                    <div class="center-items">
                         <mat-form-field class="smallInput">
                             <mat-label>Von</mat-label>
                             <input matInput>
@@ -162,37 +188,26 @@
                             <input matInput>
                         </mat-form-field>
                     </div>
-                    <mat-form-field>
-                        <mat-label>Von - Bis</mat-label>
-                        <mat-date-range-input [rangePicker]="picker4">
-                            <input matStartDate placeholder="Start date">
-                            <input matEndDate placeholder="End date">
-                        </mat-date-range-input>
-                        <mat-datepicker-toggle matIconSuffix [for]="picker4"></mat-datepicker-toggle>
-                        <mat-date-range-picker #picker4></mat-date-range-picker>
-                    </mat-form-field>
-                    <mat-form-field>
-                        <mat-label>Sonstige Reiseanforderungen</mat-label>
-                        <input matInput>
-                    </mat-form-field>
                 </div>
-            </mat-expansion-panel>
-        </mat-accordion>
+            </div>
+        </div>
     </div>
-    <div class="col-md-3">
-        <mat-accordion class="card" hideToggle>
-            <mat-expansion-panel (opened)="panelOpenState3 = true" (closed)="panelOpenState3 = false">
-                <mat-expansion-panel-header class="card-header bg-danger text-white">
-                    <mat-panel-title class="text-white">
-                        Ausflug
-                    </mat-panel-title>{{panelOpenState3 ? 'Entfernen' : 'Hinzufügen'}}
-                </mat-expansion-panel-header>
-                <div class="center-items" style="padding-top: 1.5rem;">
-                    <mat-form-field>
-                        <mat-label>gewünschtes Ausflugsziel</mat-label>
-                        <input matInput>
-                    </mat-form-field>
-                    <div class="displayBySide">
+    <div class="col-md-4 paddingBottom" *ngIf="buttonSelect.includes('3')">
+        <div class="card" hideToggle>
+            <div class="card-header bg-danger text-white">Ausflug</div>
+            <div class="card-body minheigtCard">
+                <div class="displayBySide">
+                    <div class="center-items">
+                        <mat-form-field class="smallInput">
+                            <mat-label>Ausflugsziel</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+                        <mat-form-field class="smallInput">
+                            <mat-label>Sonstige Anmerkung</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+                    </div>
+                    <div class="center-items">
                         <mat-form-field class="smallInput">
                             <mat-label>Datum</mat-label>
                             <input matInput [matDatepicker]="picker5">
@@ -204,197 +219,86 @@
                             <input type="time" matInput>
                         </mat-form-field>
                     </div>
-                    <mat-form-field>
-                        <mat-label>Sonstige Anmerkungen</mat-label>
-                        <input matInput>
-                    </mat-form-field>
                 </div>
-            </mat-expansion-panel>
-        </mat-accordion>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 paddingBottom" *ngIf="buttonSelect.includes('4')">
+        <div class="card" hideToggle>
+            <div class="card-header bg-danger text-white">Ausflug</div>
+            <div class="card-body minheigtCard">
+                <div class="displayBySide">
+                    <div class="center-items">
+                        <mat-form-field class="smallInput">
+                            <mat-label>Personenanzahl</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+                        <mat-form-field class="smallInput">
+                            <mat-label>Sprache - EN</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+                    </div>
+                    <div class="center-items">
+                        <mat-form-field class="smallInput">
+                            <mat-label>Datum</mat-label>
+                            <input matInput [matDatepicker]="picker5">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
+                            <mat-datepicker #picker5></mat-datepicker>
+                        </mat-form-field>
+                        <mat-form-field class="smallInput">
+                            <mat-label>Uhrzeit</mat-label>
+                            <input type="time" matInput>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8 paddingBottom" *ngIf="buttonSelect.includes('5')">
+        <div class="card" hideToggle>
+            <div class="card-header bg-danger text-white">Mittagessen</div>
+            <div class="card-body minheigtCard">
+                <div class="displayBySide">
+                    <div class="mittagCenter">
+                        <mat-form-field class="smallInputMittagAnz">
+                            <mat-label>Anzahl</mat-label>
+                            <input type="number" min="0" matInput>
+                        </mat-form-field>
+                        <mat-form-field class="smallInput">
+                            <mat-label>Datum</mat-label>
+                            <input matInput [matDatepicker]="picker7">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker7"></mat-datepicker-toggle>
+                            <mat-datepicker #picker7></mat-datepicker>
+                        </mat-form-field>
+                        <mat-form-field style="max-width: 6rem;">
+                            <mat-label>Uhrzeit</mat-label>
+                            <input type="time" matInput>
+                        </mat-form-field>
+                    </div>
+                    <div class="center-items">
+                        <div class="displayBySide">
+                            <mat-form-field class="smallInput">
+                                <mat-label>Vegan</mat-label>
+                                <input type="number" min="0" matInput>
+                            </mat-form-field>
+                            <mat-form-field class="smallInput">
+                                <mat-label>Vegetarisch</mat-label>
+                                <input type="number" min="0" matInput>
+                            </mat-form-field>
+                        </div>
+                        <div class="displayBySide">
+                            <mat-form-field class="smallInput">
+                                <mat-label>Sonstige</mat-label>
+                                <input type="text" matInput>
+                            </mat-form-field>
+                            <mat-form-field class="smallInput">
+                                <mat-label>Anzahl</mat-label>
+                                <input type="number" min="0" matInput>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-<!-- 
-<div class="row">
-    <div class="col-md-2">
-        <div class="card">
-            <div class="card-header text-white bg-danger">Weiteres</div>
-            <mat-button-toggle-group [(ngModel)]="buttonSelect" vertical multiple>
-                <mat-button-toggle matTooltip="Hinzufügen" value="1">Hotelbuchung</mat-button-toggle>
-                <mat-button-toggle value="2">Flughafen Transfer - Zug</mat-button-toggle>
-                <mat-button-toggle value="3">Ausflug</mat-button-toggle>
-                <mat-button-toggle value="4">Betriebsführung</mat-button-toggle>
-                <mat-button-toggle value="5">Mittagessen</mat-button-toggle>
-                <mat-button-toggle value="6">Kundengeschenke</mat-button-toggle>
-                <mat-button-toggle value="7">Diplome</mat-button-toggle>
-            </mat-button-toggle-group>
-        </div>
-    </div>
-    <div class="col-md-9">
-        <div class="card">
-            <mat-tab-group>
-                <mat-tab class="card-header" *ngIf="buttonSelect.includes('1')" label="Hotelbuchung">
-                    <div class="card-body">
-                        <div class="center-items">
-                            <mat-form-field>
-                                <mat-label>Ansprechpartner intern</mat-label>
-                                <input matInput>
-                            </mat-form-field>
-                            <div class="center-items">
-                                <mat-form-field>
-                                    <mat-label>Von - Bis</mat-label>
-                                    <mat-date-range-input [rangePicker]="picker2">
-                                        <input matStartDate placeholder="Start date">
-                                        <input matEndDate placeholder="End date">
-                                    </mat-date-range-input>
-                                    <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
-                                    <mat-date-range-picker #picker2></mat-date-range-picker>
-                                </mat-form-field>
-                            </div>
-                            <hr>
-                            <div class="mb-3 displayBySide">
-                                <div class="form-group">
-                                    <div>
-                                        <label for="singleRoom">Einzelzimmer</label>
-                                        <input class="form-control  " placeholder="Anzahl ..." min="0" type="number"
-                                            min="0" id="singleRoom">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div>
-                                        <label for="singleRoom">Doppelzimmer</label>
-                                        <input class="form-control  " placeholder="Anzahl ..." min="0" type="number"
-                                            min="0" id="singleRoom">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </mat-tab>
-                <mat-tab *ngIf="buttonSelect.includes('2')" label="Flughafen / Transfer">
-                    <div class="card-body">
-                        <div class="center-items">
-                            <div class="displayBySide">
-                                <div class="mb-3">
-                                    <label>Von</label>
-                                    <input type="text" class="form-control" placeholder="Eingabe ... "
-                                        aria-label="Username">
-                                </div>
-                                <div class="mb-3">
-                                    <label>Nach</label>
-                                    <input type="text" class="form-control" placeholder="Eingabe ... "
-                                        aria-label="Username">
-                                </div>
-                            </div>
-                            <div class="displayBySide">
-                                <div class=" mb-3">
-                                    <label>Datum von</label>
-                                    <input type="datetime-local" class="form-control" placeholder="Eingabe ... "
-                                        aria-label="Username">
-                                </div>
-                                <div class=" mb-3">
-                                    <label>Datum bis</label>
-                                    <input type="datetime-local" class="form-control" placeholder="Eingabe ... "
-                                        aria-label="Username">
-                                </div>
-                            </div>
-                            <div class="center-items">
-                                <label>Sonstige Reiseanforderungen</label>
-                                <textarea rows="4" placeholder="Eingabe ... "></textarea>
-                            </div>
-                        </div>
-                    </div>
-                </mat-tab>
-                <mat-tab *ngIf="buttonSelect.includes('3')" label="Ausflug">
-                    <div class="card-body">
-                        <div class="center-items">
-                            <div class="displayBySide">
-                                <div class="mb-3">
-                                    <label>Datum/Uhrzeit</label>
-                                    <input type="datetime-local" class="form-control" placeholder="Eingabe ... "
-                                        aria-label="Username">
-                                </div>
-                                <div class="mb-3">
-                                    <label>gewünschtes Ausflugsziel</label>
-                                    <input type="text" class="form-control" placeholder="Eingabe ... "
-                                        aria-label="Username">
-                                </div>
-                            </div>
-                            <div class="center-items">
-                                <label>Sonstige Reiseanforderungen</label>
-                                <textarea rows="3" placeholder="Eingabe ... "></textarea>
-                            </div>
-                        </div>
-                    </div>
-                </mat-tab> <mat-tab *ngIf="buttonSelect.includes('4')" label="Betriebsführung">
-                    <div class="card-body">
-                        <div class="center-items">
-                            <div class="displayBySide">
-                                <div class="mb-3">
-                                    <label>Personenanzahl + Betreuer</label>
-                                    <input type="number" min="0" min="0" class="form-control" placeholder="Eingabe ... "
-                                        aria-label="Username">
-                                </div>
-                                <div class="mb-3">
-                                    <label>Datum/Uhrzeit</label>
-                                    <input type="datetime-local" class="form-control" placeholder="Eingabe ... "
-                                        aria-label="Username">
-                                </div>
-                                <div class="mb-3">
-                                    <label>Sprache</label>
-                                    <div class="displayBySide">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="flexCheckDefault">
-                                            <label class="form-check-label" for="flexCheckDefault">EN</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </mat-tab>
-                <mat-tab *ngIf="buttonSelect.includes('5')" label="Mittagessen">
-                    <div class="card-body">
-                        <div class="center-items">
-                            <div class="displayBySide">
-                                <div class="mb-3">
-                                    <label>Personenanzahl + Betreuer</label>
-                                    <input type="number" min="0" min="0" class="form-control" placeholder="Eingabe ... "
-                                        aria-label="Username">
-                                </div>
-                                <div class="mb-3">
-                                    <label>Datum/Uhrzeit</label>
-                                    <input type="datetime-local" class="form-control" placeholder="Eingabe ... "
-                                        aria-label="Username">
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="mb-3 displayBySide">
-                            <div class="form-group">
-                                <div>
-                                    <label for="singleRoom">Vegan </label>
-                                    <input class="form-control  " type="number" min="0" placeholder="Anzahl ..."
-                                        id="singleRoom">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div>
-                                    <label for="singleRoom">Vegetarisch </label>
-                                    <input class="form-control  " type="number" min="0" placeholder="Anzahl ..."
-                                        id="singleRoom">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div>
-                                    <input class="form-control  " type="text" placeholder="Sonstige" id="singleRoom">
-                                    <input class="form-control  " type="number" min="0" placeholder="Anzahl ..."
-                                        id="singleRoom">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </mat-tab>
-            </mat-tab-group>
-        </div>
-    </div>
-</div>-->
