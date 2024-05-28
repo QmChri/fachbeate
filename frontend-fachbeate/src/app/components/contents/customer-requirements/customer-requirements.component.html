@@ -37,7 +37,7 @@
                             <mat-label>Vertreter</mat-label>
                             <mat-select [(ngModel)]="inputCustomerRequirement.representative" required>
                                 <mat-option>--</mat-option>
-                                @for (t of toha; track toha) {
+                                @for (t of representative; track toha) {
                                 <mat-option [value]="t.value">{{t.viewValue}}</mat-option>
                                 }
                             </mat-select>

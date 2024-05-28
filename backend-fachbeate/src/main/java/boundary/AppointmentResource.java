@@ -18,28 +18,14 @@ public class AppointmentResource {
 
     @POST
     @Path("/customerRequirement")
-    @Transactional
+    @Transactional(Transactional.TxType.REQUIRED)
     public Response postCustomerRequirement(CustomerRequirement customerRequirement){
-
-        //Technologist technologist = Technologist.findById(customerRequirement.requestedTechnologist.id);
-
-        if(customerRequirement.id == null || customerRequirement.id == 0) {
-            customerRequirement.persist();
-
-            for (CustomerVisit v : customerRequirement.customerVisits) {
-                v.persist();
-                if(v.finalReport != null) {
-                    v.finalReport.id = null;
-                    v.finalReport.persist();
-                }
-            }
-
-            return Response.ok(customerRequirement).build();
+        CustomerRequirement responseCustomerRequirement = customerRequirement.persistOrUpdate();
+        if(responseCustomerRequirement == null){
+            return Response.serverError().build();
         }
-
-        CustomerRequirement persistedCR = CustomerRequirement.findById(customerRequirement.id);
-        persistedCR.updateEntity(customerRequirement);
-        return Response.ok(persistedCR).build();
+        responseCustomerRequirement.customerVisits.size();
+        return Response.ok(responseCustomerRequirement).build();
     }
     @GET
     @Path("/customerRequirement")

@@ -3,10 +3,6 @@
     <hr/>
 
     <form>
-        <div class="form-group">
-            <label>Fachberater Name</label>
-            <input class="form-control" type="text" [(ngModel)]="inputFinalReport.technologist" name="first">
-        </div>
 
         <div class="form-group">
             <label>Name des Unternehmens</label>
@@ -14,22 +10,93 @@
         </div>
 
         <div class="form-group">
-            <label>Datum des Besuches</label>
-            <input class="form-control" type="date" [(ngModel)]="inputFinalReport.dateOfVisit" name="date">
+            <label>Kundennummer</label>
+            <input class="form-control" type="text" [(ngModel)]="inputFinalReport.companyNr"  name="companyNr">
+        </div>
+
+        <div class="form-group">
+            <label>Fachberater Name</label>
+            <input class="form-control" type="text" [(ngModel)]="inputFinalReport.technologist" name="technologist">
+        </div>
+
+        <div class="form-group">
+            <label>Datum des Besuchs</label>
+            <input class="form-control" type="text" [(ngModel)]="inputFinalReport.dateOfVisit" name="dateOfVisit">
+        </div>
+
+
+        <div>
+            <label>Vertreter Name</label>
+            <input class="form-control" type="text" [(ngModel)]="inputFinalReport.representative" name="representative">
         </div>
 
         <div class="form-group">
             <label>Grund des Besuches</label>
-            <mat-select multiple placeholder="Auswählen . . . " [(ngModel)]="inputFinalReport.reason" name="resons">
-                <!-- <mat-option value="1">Vorstellung neuer Produkte</mat-option> -->
+            <mat-select multiple placeholder="Auswählen . . . " [ngModel]="reasonSelect" name="resons">
                 <mat-option [value]="1">Vorstellung</mat-option>
-                <!-- <mat-option value="2">Problemlösung - bestehende Produkten</mat-option> -->
                 <mat-option [value]="2">Problemlösung</mat-option>
                 <mat-option [value]="3">Rezepturopt.</mat-option>
                 <mat-option [value]="4">Musterproduktion</mat-option>
                 <mat-option [value]="5">Schulung</mat-option>
             </mat-select>
         </div>
+
+        <br>
+        <hr/>
+
+        <ng-container *ngFor="let d of inputFinalReport.reasonReports">
+            <div>
+               <input type="text" [(ngModel)]="d.carriedOutActivity" name="carriedOutActivity{{d.reason}}">               
+               <input type="text" [(ngModel)]="d.presentedArticle" name="presentedAricle{{d.reason}}">
+               <input type="checkbox" [(ngModel)]="d.reworkByTechnologist" name="reworkByTechnologist{{d.reason}}">
+               <input type="date" [(ngModel)]="d.reworkByTechnologistDoneUntil" name="reworkByTechnologistDoneUntil{{d.reason}}">
+               <input type="text" [(ngModel)]="d.state" name="state{{d.reason}}">
+               <input type="checkbox" [(ngModel)]="d.reworkByRepresentive" name="reworkByRepresentive{{d.reason}}">
+               <input type="date" [(ngModel)]="d.reworkByRepresentativeDoneUntil" name="reworkByRepresentativeDoneUntil{{d.reason}}">
+            </div>
+        </ng-container>
+
+        <br>
+        <hr>
+
+        <div>
+            <label>Kunde kontaktiert am</label>
+            <input class="form-control" type="date" [(ngModel)]="inputFinalReport.customerContactDate" name="contactDate">
+        </div>
+
+        <div>
+            <label>Rückmeldung Kunde</label>
+            <input class="form-control" type="text" [(ngModel)]="inputFinalReport.responseCustomer" name="responseCustomer">
+        </div>
+
+        <div>
+            <label>Weitere Maßnahmen vereinbart</label>
+            <input class="form-control" type="checkbox" [(ngModel)]="inputFinalReport.furtherActivities" name="furtherActivities">
+        </div>
+
+        <div>
+            <label>Zu erledigen bis</label>
+            <input class="form-control" type="date" [(ngModel)]="inputFinalReport.doneUntil" name="doneUntil">
+        </div>
+
+        <br>
+        <hr/>
+
+        <div>
+            <label>Welche Produkte sind für den Kunden weiter interessant</label>
+            <input class="form-control" type="text" [(ngModel)]="inputFinalReport.interestingProducts" name="interestingProducts">
+        </div>
+        
+        <div>
+            <label>Anforderung abgeschlossen</label>
+            <input class="form-control" type="checkbox" [(ngModel)]="inputFinalReport.requestCompleted" name="requestCompleted">
+        </div>
+
+        <div>
+            <label>Zusammenfassung Abschlussbericht durch Vertreter</label>
+            <input class="form-control" type="text" [(ngModel)]="inputFinalReport.summaryFinalReport" name="summaryFinalReport">
+        </div>
+
     </form>
     <hr/>
 
