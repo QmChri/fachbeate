@@ -23,7 +23,4 @@ export interface FinalReport {
     interestingProducts?: string;
     requestCompleted?: boolean;
     summaryFinalReport?: string;
-
-    
-    reason?: number[];
 }

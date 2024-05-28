@@ -3,7 +3,7 @@ export interface ReasonReport {
     reason?: number;
 
     carriedOutActivity?: string;
-    //presentedArticle?: Map<number, string>;
+    presentedArticle?: string;
     
     reworkByTechnologist?: boolean;
     reworkByTechnologistDoneUntil?: Date;

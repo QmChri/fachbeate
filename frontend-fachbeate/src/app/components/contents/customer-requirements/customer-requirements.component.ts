@@ -9,6 +9,7 @@ import { Technologist } from '../../../models/technologist';
 import { FinalReport } from '../../../models/final-report';
 import { CustomerVisit } from '../../../models/customer-visit';
 import { ActivatedRoute } from '@angular/router';
+import { ReasonReport } from '../../../models/reason-report';
 
 @Component({
   selector: 'app-customer-requirements',
@@ -152,20 +153,28 @@ export class CustomerRequirementsComponent implements OnInit {
 
   openDialog(customerVisit: CustomerVisit) {
     var finalReport: FinalReport = {}
+
     if(customerVisit.finalReport === null || customerVisit.finalReport === undefined || customerVisit.finalReport.id === 0){
+      
+      var rRepo: ReasonReport[] =  [
+        (customerVisit.presentationOfNewProducts)?{reason: 1}:{reason:0},
+        (customerVisit.existingProducts)?{reason: 2}:{reason:0},
+        (customerVisit.recipeOptimization)?{reason: 3}:{reason:0},
+        (customerVisit.sampleProduction)?{reason: 4}:{reason:0},
+        (customerVisit.training)?{reason: 5}:{reason:0}
+      ];
+
+      console.log("reasonReports");
+      console.log(rRepo);
+      
+
       finalReport = {
         technologist: this.inputCustomerRequirement.requestedTechnologist!.firstName + " " + this.inputCustomerRequirement.requestedTechnologist!.lastName,
         company: customerVisit.companyName,
         companyNr: customerVisit.customerNr,
         representative: this.inputCustomerRequirement.representative,
         dateOfVisit: customerVisit.dateOfVisit,
-        reason: [
-          (customerVisit.presentationOfNewProducts)?1:0,
-          (customerVisit.existingProducts)?2:0,
-          (customerVisit.recipeOptimization)?3:0,
-          (customerVisit.sampleProduction)?4:0,
-          (customerVisit.training)?5:0,
-          ]
+        reasonReports: rRepo
       }
     }else{
       if(customerVisit.finalReport != undefined){

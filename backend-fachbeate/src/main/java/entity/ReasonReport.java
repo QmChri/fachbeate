@@ -14,8 +14,7 @@ public class ReasonReport extends PanacheEntity {
     public int reason;
     public String carriedOutActivity;
 
-//    @ElementCollection
-//    public Map<Integer, String> presentedArticle;
+    public String presentedArticle;
     public boolean reworkByTechnologist;
     public LocalDate reworkByTechnologistDoneUntil;
     public boolean state;

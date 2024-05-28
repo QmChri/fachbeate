@@ -11,19 +11,30 @@ export class AbschlussBerichtComponent {
 
   inputFinalReport: FinalReport = {}
 
+  reasonSelect: number[] = []
+
   constructor(
     public dialogRef: MatDialogRef<AbschlussBerichtComponent>,
     @Inject(MAT_DIALOG_DATA) public finalReport: FinalReport
   ) { 
     this.inputFinalReport = finalReport;
-    this.inputFinalReport.reasonReports=[];
-    this.inputFinalReport.reason?.forEach(element => {
-      if(element !== 0){
-        this.inputFinalReport.reasonReports = [...this.inputFinalReport.reasonReports!, {reason: element}]
-      }
-    });
-    
+
+    console.log("finalReport: ");
+    console.log(finalReport.reasonReports);
+
+    if(finalReport.reasonReports !== undefined){
+      this.inputFinalReport.reasonReports = this.inputFinalReport.reasonReports!.filter(element => element.reason !== 0);
+      this.reasonSelect = this.inputFinalReport.reasonReports!.map(element => element.reason)
+                        .filter((reason): reason is number => reason !== undefined);
+;
+
+      console.log("resonselect")
+      console.log(this.reasonSelect);
+    }
+  
   }
+
+
   closeDialog(save: boolean) {
     this.dialogRef.close({finalReport: this.finalReport, save: save});
   }
