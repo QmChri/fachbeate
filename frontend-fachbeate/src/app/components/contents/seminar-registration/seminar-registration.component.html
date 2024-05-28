@@ -113,8 +113,10 @@
                 <mat-button-toggle value="3">Ausflug</mat-button-toggle>
                 <mat-button-toggle value="4">Betriebsführung</mat-button-toggle>
                 <mat-button-toggle value="5">Mittagessen</mat-button-toggle>
-                <mat-button-toggle value="6">Kundengeschenke</mat-button-toggle>
-                <mat-button-toggle value="7">Diplome</mat-button-toggle>
+            </mat-button-toggle-group>
+            <mat-button-toggle-group class="toogleGroup" [(ngModel)]="geDip" multiple>
+                <mat-button-toggle style="width: 15rem;" value="6">Kundengeschenke</mat-button-toggle>
+                <mat-button-toggle style="width: 15rem;" value="7">Diplome</mat-button-toggle>
             </mat-button-toggle-group>
         </div>
     </div>

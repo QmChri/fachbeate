@@ -46,10 +46,11 @@
             padding-right: 0.5rem;
         }
 
-        .smallInputMittagAnz{
+        .smallInputMittagAnz {
             max-width: 8rem;
             padding-right: 0.5rem;
         }
+
         .smallInputSide {
             max-width: 8rem;
             padding-right: 0.5rem;
@@ -57,9 +58,10 @@
     }
 }
 
-.smallInputMittagAnz{
+.smallInputMittagAnz {
     padding-right: 0.5rem;
 }
+
 .smallInputSide {
     max-width: 11rem;
 }
@@ -80,4 +82,10 @@
 .minheigtCard {
     min-height: 10rem;
     max-height: 11.5rem;
+}
+
+.toogleGroup {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
 }

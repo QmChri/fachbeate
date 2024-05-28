@@ -12,5 +12,6 @@ export class SeminarRegistrationComponent {
   panelOpenState4 = false;
   panelOpenState5 = false;
   buttonSelect: string[] = []
+  geDip: string[] = []
 
 }
