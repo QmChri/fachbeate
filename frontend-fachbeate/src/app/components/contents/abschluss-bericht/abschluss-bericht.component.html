@@ -3,10 +3,6 @@
     <hr/>
 
     <form>
-        <div class="form-group">
-            <label>Fachberater Name</label>
-            <input class="form-control" type="text" [(ngModel)]="inputFinalReport.technologist" name="first">
-        </div>
 
         <div class="form-group">
             <label>Name des Unternehmens</label>
@@ -14,8 +10,24 @@
         </div>
 
         <div class="form-group">
-            <label>Datum des Besuches</label>
-            <input class="form-control" type="date" [(ngModel)]="inputFinalReport.dateOfVisit" name="date">
+            <label>Kundennummer</label>
+            <input class="form-control" type="text" [(ngModel)]="inputFinalReport.companyNr"  name="companyNr">
+        </div>
+
+        <div class="form-group">
+            <label>Fachberater Name</label>
+            <input class="form-control" type="text" [(ngModel)]="inputFinalReport.technologist" name="technologist">
+        </div>
+
+        <div class="form-group">
+            <label>Datum des Besuchs</label>
+            <input class="form-control" type="text" [(ngModel)]="inputFinalReport.dateOfVisit" name="dateOfVisit">
+        </div>
+
+
+        <div>
+            <label>Vertreter Name</label>
+            <input class="form-control" type="text" [(ngModel)]="inputFinalReport.representative" name="representative">
         </div>
 
         <div class="form-group">
@@ -30,6 +42,46 @@
                 <mat-option [value]="5">Schulung</mat-option>
             </mat-select>
         </div>
+
+        <hr/>
+
+        <div>
+            <label>Kunde kontaktiert am</label>
+            <input class="form-control" type="date" [(ngModel)]="inputFinalReport.customerContactDate" name="contactDate">
+        </div>
+
+        <div>
+            <label>Rückmeldung Kunde</label>
+            <input class="form-control" type="text" [(ngModel)]="inputFinalReport.responseCustomer" name="responseCustomer">
+        </div>
+
+        <div>
+            <label>Weitere Maßnahmen vereinbart</label>
+            <input class="form-control" type="checkbox" [(ngModel)]="inputFinalReport.furtherActivities" name="furtherActivities">
+        </div>
+
+        <div>
+            <label>Zu erledigen bis</label>
+            <input class="form-control" type="date" [(ngModel)]="inputFinalReport.doneUntil" name="doneUntil">
+        </div>
+
+        <hr/>
+
+        <div>
+            <label>Welche Produkte sind für den Kunden weiter interessant</label>
+            <input class="form-control" type="text" [(ngModel)]="inputFinalReport.interestingProducts" name="interestingProducts">
+        </div>
+        
+        <div>
+            <label>Anforderung abgeschlossen</label>
+            <input class="form-control" type="checkbox" [(ngModel)]="inputFinalReport.requestCompleted" name="requestCompleted">
+        </div>
+
+        <div>
+            <label>Zusammenfassung Abschlussbericht durch Vertreter</label>
+            <input class="form-control" type="text" [(ngModel)]="inputFinalReport.summaryFinalReport" name="summaryFinalReport">
+        </div>
+
     </form>
     <hr/>
 

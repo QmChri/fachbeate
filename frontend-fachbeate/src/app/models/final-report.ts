@@ -1,17 +1,29 @@
+import { ReasonReport } from "./reason-report";
 import { Technologist } from "./technologist";
 
 export interface FinalReport {
 
     id?: number;
+    state?: string;
 
     technologist?: string;
-    company?: string;
+    representative?: string;
     dateOfVisit?: Date;
-    reason?: number[];
+    company?: string;
+    companyNr?: string;
 
-    customerFeedback?: string;
-    nextSteps?: string;
-    nextStepsTechnologist?: string;
-    nextStepsUntil?: string;
-    furtherInformation?: string;
+    reasonReports?: ReasonReport[];
+
+    customerContactDate?: Date;
+    responseCustomer?: string;
+    furtherActivities?: string;
+    doneUntil?: Date;
+    // Mit Plus Möglichkeit noch einmal dasselbe einzugeben (Folge Nacharbeit)??
+
+    interestingProducts?: string;
+    requestCompleted?: boolean;
+    summaryFinalReport?: string;
+
+    
+    reason?: number[];
 }
