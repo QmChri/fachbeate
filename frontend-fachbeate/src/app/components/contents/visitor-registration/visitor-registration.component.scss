@@ -5,19 +5,19 @@
     justify-content: space-between;
 }
 
-.header {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-    align-items: center;
-}
 .card-body {
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
     justify-content: space-evenly;
     min-height: 18rem;
+}
+
+.languageBox {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
 }
 
 .paddingSearch {
@@ -28,14 +28,18 @@
     margin: auto;
 }
 
+.header {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .displayBySide {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-
-    label {
-        margin-right: 1rem;
-    }
 }
 
 @media (max-width: 1600px) {
@@ -46,11 +50,51 @@
         flex-wrap: nowrap;
 
         .smallInput {
-            max-width: 8.1rem;
+            max-width: 12rem;
+            padding-right: 0.5rem;
+        }
+
+        .smallInputMittagAnz {
+            max-width: 8rem;
+            padding-right: 0.5rem;
+        }
+
+        .smallInputSide {
+            max-width: 8rem;
+            padding-right: 0.5rem;
         }
     }
 }
 
+.smallInputMittagAnz {
+    padding-right: 0.5rem;
+}
+
+.smallInputSide {
+    max-width: 11rem;
+}
+
 .smallInput {
-    max-width: 10rem;
+    padding-right: 0.5rem;
+}
+
+.mittagCenter {
+    display: flex;
+    align-items: center;
+}
+
+.paddingBottom {
+    padding-bottom: 1rem;
+}
+
+.minheigtCard {
+    min-height: 10rem;
+    max-height: 11.1rem;
+}
+
+.besprechunsraum {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
 }

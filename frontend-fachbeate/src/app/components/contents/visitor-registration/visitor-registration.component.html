@@ -1,39 +1,49 @@
 <div class="header">
     <div>
-        <h1 class="paddingSearch">Besucheranmeldung für Kunden und Mitarbeiter:
-            <button style="margin-left: 10px;" class="btn btn-secondary" matTooltip="interne Notiz">
-                <i class="fa fa-comment"></i></button>
-        </h1>
-        <!-- TODO Click event bei button setzen -->
-    </div><button class="btn btn-success">Beantragen</button>
+        <h1 class="paddingSearch">Besucheranmeldung</h1>
+    </div>
+    <button class="btn btn-success">Beantragen</button>
 </div>
 <hr>
 
 <div class="row">
     <div class="col-md-3">
         <div class="card">
-            <div class="card-header  text-white bg-danger">Anmeldung Vertreter oder Mitarbeiter</div>
+            <div class="card-header text-white bg-danger">Vertreter oder Mitarbeiter</div>
             <div class="card-body">
                 <div class="center-items">
-                    <div class="center-items">
-                        <mat-form-field>
+                    <div class="displayBySide">
+                        <mat-form-field class="smallInputSide">
                             <mat-label>Name</mat-label>
                             <input matInput>
                         </mat-form-field>
-                        <mat-form-field>
-                            <mat-label>Grund des Besuchs</mat-label>
+                        <mat-form-field class="smallInputSide">
+                            <mat-label>Grund</mat-label>
                             <input matInput>
                         </mat-form-field>
                     </div>
-                    <div class="center-items">
-                        <mat-form-field>
-                            <mat-label>Von - Bis</mat-label>
-                            <mat-date-range-input [rangePicker]="picker">
-                                <input matStartDate placeholder="Start date">
-                                <input matEndDate placeholder="End date">
-                            </mat-date-range-input>
-                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                            <mat-date-range-picker #picker></mat-date-range-picker>
+                    <div class="displayBySide">
+                        <mat-form-field class="smallInput">
+                            <mat-label>Von</mat-label>
+                            <input matInput [matDatepicker]="picker1">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                            <mat-datepicker #picker1></mat-datepicker>
+                        </mat-form-field>
+                        <mat-form-field style="max-width: 5rem;">
+                            <mat-label>Uhrzeit</mat-label>
+                            <input type="time" matInput>
+                        </mat-form-field>
+                    </div>
+                    <div class="displayBySide">
+                        <mat-form-field class="smallInput">
+                            <mat-label>Bis</mat-label>
+                            <input matInput [matDatepicker]="picker2">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                        </mat-form-field>
+                        <mat-form-field style="max-width: 5rem;">
+                            <mat-label>Uhrzeit</mat-label>
+                            <input type="time" matInput>
                         </mat-form-field>
                     </div>
                 </div>
@@ -42,149 +52,99 @@
     </div>
     <div class="col-md-3">
         <div class="card">
-            <div class="card-header  text-white bg-danger">Anmeldung von Kundenbesuchen</div>
+            <div class="card-header  text-white bg-danger">Kundenbesuch</div>
             <div class="card-body">
                 <div class="center-items">
-                    <div class="center-items">
-                        <mat-form-field>
-                            <mat-label>Kunde/Unternehmen</mat-label>
-                            <input matInput>
-                        </mat-form-field>
-                        <div class="header">
-                            <mat-form-field>
-                                <mat-label>Anreise aus (Land)</mat-label>
-                                <input matInput>
-                            </mat-form-field>
-                            <label class="languageBox">Sprache - EN
-                                <mat-checkbox color="warn"></mat-checkbox>
-                            </label>
-                        </div>
+                    <mat-form-field>
+                        <mat-label>Kunde/Unternehmen</mat-label>
+                        <input matInput>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Anreise aus (Land)</mat-label>
+                        <input matInput>
+                    </mat-form-field>
+                    <div class="displayBySide">
                         <mat-form-field>
                             <mat-label>Grund des Besuchs</mat-label>
                             <input matInput>
                         </mat-form-field>
+                        <label class="languageBox">EN
+                            <mat-checkbox color="warn"></mat-checkbox>
+                        </label>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="col-md-3">
-        <div class="card" style="min-height: 20rem;">
+        <div class="card">
             <div class="card-header  text-white bg-danger">Aufenthaltszeitraum in Oftering</div>
             <div class="card-body">
                 <div class="center-items">
                     <mat-form-field>
-                        <mat-label>Ansprechpartner intern</mat-label>
+                        <mat-label>Zuständiger Betreuer</mat-label>
                         <input matInput>
                     </mat-form-field>
-                    <div class="center-items">
-                        <mat-form-field>
-                            <mat-label>Von - Bis</mat-label>
-                            <mat-date-range-input [rangePicker]="picker2">
-                                <input matStartDate placeholder="Start date">
-                                <input matEndDate placeholder="End date">
-                            </mat-date-range-input>
-                            <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
-                            <mat-date-range-picker #picker2></mat-date-range-picker>
+
+                    <div class="displayBySide">
+                        <mat-form-field class="smallInput">
+                            <mat-label>Von</mat-label>
+                            <input matInput [matDatepicker]="picker3">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
+                            <mat-datepicker #picker3></mat-datepicker>
+                        </mat-form-field>
+                        <mat-form-field style="max-width: 5rem;">
+                            <mat-label>Uhrzeit</mat-label>
+                            <input type="time" matInput>
                         </mat-form-field>
                     </div>
-                    <mat-form-field>
-                        <mat-label>sonstige Reiseanforderungen</mat-label>
-                        <input matInput>
-                    </mat-form-field>
+                    <div class="displayBySide">
+                        <mat-form-field class="smallInput">
+                            <mat-label>Bis</mat-label>
+                            <input matInput [matDatepicker]="picker4">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker4"></mat-datepicker-toggle>
+                            <mat-datepicker #picker4></mat-datepicker>
+                        </mat-form-field>
+                        <mat-form-field style="max-width: 5rem;">
+                            <mat-label>Uhrzeit</mat-label>
+                            <input type="time" matInput>
+                        </mat-form-field>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header text-white bg-danger">Weiteres</div>
+            <mat-button-toggle-group [(ngModel)]="buttonSelect" vertical multiple>
+                <mat-button-toggle value="1">Betriebsführung</mat-button-toggle>
+                <mat-button-toggle value="2">Besprechungsraum</mat-button-toggle>
+                <mat-button-toggle value="3">Hotelbuchung</mat-button-toggle>
+                <mat-button-toggle value="4">Mittagessen</mat-button-toggle>
+                <mat-button-toggle value="5">Flughafen Transfer - Zug</mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
+    </div>
 </div>
+<br>
 
-<div class="row-1">
-    <div class="col-md-3">
-        <mat-accordion class="card" hideToggle>
-            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-                <mat-expansion-panel-header class="card-header bg-danger text-white">
-                    <mat-panel-title class="text-white">
-                        Hotelbuchung
-                    </mat-panel-title>{{panelOpenState ? 'Entfernen' : 'Hinzufügen'}}
-                </mat-expansion-panel-header>
-                <div class="center-items" style="padding-top: 1.5rem;">
-                    <mat-form-field>
-                        <mat-label>Ort / gewünschte Lage</mat-label>
-                        <input matInput>
-                    </mat-form-field>
-                    <mat-form-field>
-                        <mat-label>Von - Bis</mat-label>
-                        <mat-date-range-input [rangePicker]="picker3">
-                            <input matStartDate placeholder="Start date">
-                            <input matEndDate placeholder="End date">
-                        </mat-date-range-input>
-                        <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
-                        <mat-date-range-picker #picker3></mat-date-range-picker>
-                    </mat-form-field>
-                    <div class="displayBySide">
+<div class="row">
+    <div class="col-md-4 paddingBottom" *ngIf="buttonSelect.includes('1')">
+        <div class="card" hideToggle>
+            <div class="card-header bg-danger text-white">Betriebsführung</div>
+            <div class="card-body minheigtCard">
+                <div class="displayBySide">
+                    <div class="center-items">
                         <mat-form-field class="smallInput">
-                            <mat-label>Einzelzimmer</mat-label>
-                            <input type="number" min="0" matInput>
-                        </mat-form-field>
-                        <mat-form-field class="smallInput">
-                            <mat-label>Doppelzimmer</mat-label>
-                            <input type="number" min="0" matInput>
-                        </mat-form-field>
-                    </div>
-                </div>
-            </mat-expansion-panel>
-        </mat-accordion>
-    </div>
-    <div class="col-md-3">
-        <mat-accordion class="card" hideToggle>
-            <mat-expansion-panel (opened)="panelOpenState2 = true" (closed)="panelOpenState2 = false">
-                <mat-expansion-panel-header class="card-header bg-danger text-white">
-                    <mat-panel-title class="text-white">
-                        Flughafen / Transfer
-                    </mat-panel-title>{{panelOpenState2? 'Entfernen' : 'Hinzufügen'}}
-                </mat-expansion-panel-header>
-                <div class="center-items" style="padding-top: 1.5rem;">
-                    <div class="displayBySide">
-                        <mat-form-field class="smallInput">
-                            <mat-label>Von</mat-label>
+                            <mat-label>Personenanzahl</mat-label>
                             <input matInput>
                         </mat-form-field>
-                        <mat-form-field class="smallInput">
-                            <mat-label>Nach</mat-label>
-                            <input matInput>
-                        </mat-form-field>
+                        <label class="languageBox">Sprache - EN
+                            <mat-checkbox color="warn"></mat-checkbox>
+                        </label>
                     </div>
-                    <mat-form-field>
-                        <mat-label>Von - Bis</mat-label>
-                        <mat-date-range-input [rangePicker]="picker4">
-                            <input matStartDate placeholder="Start date">
-                            <input matEndDate placeholder="End date">
-                        </mat-date-range-input>
-                        <mat-datepicker-toggle matIconSuffix [for]="picker4"></mat-datepicker-toggle>
-                        <mat-date-range-picker #picker4></mat-date-range-picker>
-                    </mat-form-field>
-                    <mat-form-field>
-                        <mat-label>Sonstige Reiseanforderungen</mat-label>
-                        <input matInput>
-                    </mat-form-field>
-                </div>
-            </mat-expansion-panel>
-        </mat-accordion>
-    </div>
-    <div class="col-md-3">
-        <mat-accordion class="card" hideToggle>
-            <mat-expansion-panel (opened)="panelOpenState3 = true" (closed)="panelOpenState3 = false">
-                <mat-expansion-panel-header class="card-header bg-danger text-white">
-                    <mat-panel-title class="text-white">
-                        Ausflug
-                    </mat-panel-title>{{panelOpenState3 ? 'Entfernen' : 'Hinzufügen'}}
-                </mat-expansion-panel-header>
-                <div class="center-items" style="padding-top: 1.5rem;">
-                    <mat-form-field>
-                        <mat-label>Ausflugsziel</mat-label>
-                        <input matInput>
-                    </mat-form-field>
-                    <div class="displayBySide">
+                    <div class="center-items">
                         <mat-form-field class="smallInput">
                             <mat-label>Datum</mat-label>
                             <input matInput [matDatepicker]="picker5">
@@ -196,77 +156,93 @@
                             <input type="time" matInput>
                         </mat-form-field>
                     </div>
-                    <mat-form-field>
-                        <mat-label>Sonstige Anmerkungen</mat-label>
-                        <input matInput>
-                    </mat-form-field>
                 </div>
-            </mat-expansion-panel>
-        </mat-accordion>
+            </div>
+        </div>
     </div>
-    <div class="col-md-3">
-        <mat-accordion class="card" hideToggle>
-            <mat-expansion-panel (opened)="panelOpenState4 = true" (closed)="panelOpenState4 = false">
-                <mat-expansion-panel-header class="card-header bg-danger text-white">
-                    <mat-panel-title class="text-white">
-                        Betriebsführung
-                    </mat-panel-title>{{panelOpenState4 ? 'Entfernen' : 'Hinzufügen'}}
-                </mat-expansion-panel-header>
-                <div class="center-items" style="padding-top: 1.5rem;">
-                    <div class="displayBySide">
-                        <mat-form-field>
+    <div class="col-md-4 paddingBottom" *ngIf="buttonSelect.includes('2')">
+        <div class="card" hideToggle>
+            <div class="card-header bg-danger text-white">Besprechungsraum</div>
+            <div class="card-body minheigtCard">
+                <div class="displayBySide">
+                    <div class="besprechunsraum">
+                        <mat-form-field class="smallInput">
                             <mat-label>Personenanzahl</mat-label>
-                            <input type="number" min="0" matInput>
+                            <input matInput>
                         </mat-form-field>
-                        <!-- TODO formatieren-->
-                        <label class="languageBox">Sprache - EN
-                            <mat-checkbox color="warn"></mat-checkbox>
-                        </label>
                     </div>
-                    <div class="displayBySide">
+                    <div class="center-items">
                         <mat-form-field class="smallInput">
                             <mat-label>Datum</mat-label>
-                            <input matInput [matDatepicker]="picker6">
-                            <mat-datepicker-toggle matIconSuffix [for]="picker6"></mat-datepicker-toggle>
-                            <mat-datepicker #picker6></mat-datepicker>
+                            <input matInput [matDatepicker]="picker5">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
+                            <mat-datepicker #picker5></mat-datepicker>
                         </mat-form-field>
                         <mat-form-field class="smallInput">
                             <mat-label>Uhrzeit</mat-label>
                             <input type="time" matInput>
                         </mat-form-field>
                     </div>
-
                 </div>
-            </mat-expansion-panel>
-        </mat-accordion>
+            </div>
+        </div>
     </div>
-    <div class="col-md-3">
-        <mat-accordion class="card" hideToggle>
-            <mat-expansion-panel (opened)="panelOpenState5 = true" (closed)="panelOpenState5 = false">
-                <mat-expansion-panel-header class="card-header bg-danger text-white">
-                    <mat-panel-title class="text-white">
-                        Mittagessen
-                    </mat-panel-title>{{panelOpenState5 ? 'Entfernen' : 'Hinzufügen'}}
-                </mat-expansion-panel-header>
-                <div class="center-items" style="padding-top: 1.5rem;">
-                    <mat-form-field>
-                        <mat-label>Personenanzahl </mat-label>
-                        <input type="number" min="0" matInput>
-                    </mat-form-field>
-                    <div class="displayBySide">
+    <div class="col-md-4 paddingBottom" *ngIf="buttonSelect.includes('3')">
+        <div class="card">
+            <div class="card-header text-white bg-danger">Hotelbuchung</div>
+            <div class="card-body minheigtCard">
+                <div class="displayBySide">
+                    <div class="center-items">
+                        <mat-form-field class="smallInput">
+                            <mat-label>Ort / Lage</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+                        <mat-form-field class="smallInput">
+                            <mat-label>Von - Bis</mat-label>
+                            <mat-date-range-input [rangePicker]="picker3">
+                                <input matStartDate placeholder="Start date">
+                                <input matEndDate placeholder="End date">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
+                            <mat-date-range-picker #picker3></mat-date-range-picker>
+                        </mat-form-field>
+                    </div>
+                    <div class="center-items">
+                        <mat-form-field class="smallInput">
+                            <mat-label>Einzelzimmer</mat-label>
+                            <input type="number" min="0" matInput>
+                        </mat-form-field>
+                        <mat-form-field class="smallInput">
+                            <mat-label>Doppelzimmer</mat-label>
+                            <input type="number" min="0" matInput>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8 paddingBottom" *ngIf="buttonSelect.includes('4')">
+        <div class="card" hideToggle>
+            <div class="card-header bg-danger text-white">Mittagessen</div>
+            <div class="card-body minheigtCard">
+                <div class="displayBySide">
+                    <div class="mittagCenter">
+                        <mat-form-field class="smallInputMittagAnz">
+                            <mat-label>Anzahl</mat-label>
+                            <input type="number" min="0" matInput>
+                        </mat-form-field>
                         <mat-form-field class="smallInput">
                             <mat-label>Datum</mat-label>
                             <input matInput [matDatepicker]="picker7">
                             <mat-datepicker-toggle matIconSuffix [for]="picker7"></mat-datepicker-toggle>
                             <mat-datepicker #picker7></mat-datepicker>
                         </mat-form-field>
-                        <mat-form-field class="smallInput">
+                        <mat-form-field style="max-width: 6rem;">
                             <mat-label>Uhrzeit</mat-label>
                             <input type="time" matInput>
                         </mat-form-field>
                     </div>
                     <div class="center-items">
-                        <mat-label>Spezielle Ernährungswünsche</mat-label>
                         <div class="displayBySide">
                             <mat-form-field class="smallInput">
                                 <mat-label>Vegan</mat-label>
@@ -289,7 +265,41 @@
                         </div>
                     </div>
                 </div>
-            </mat-expansion-panel>
-        </mat-accordion>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 paddingBottom" *ngIf="buttonSelect.includes('5')">
+        <div class="card" hideToggle>
+            <div class="card-header bg-danger text-white">Flughafen Transfer - Zug</div>
+            <div class="card-body minheigtCard">
+                <div class="displayBySide">
+                    <div class="center-items">
+                        <mat-form-field class="smallInput">
+                            <mat-label>Von - Bis</mat-label>
+                            <mat-date-range-input [rangePicker]="picker4">
+                                <input matStartDate placeholder="Start date">
+                                <input matEndDate placeholder="End date">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matIconSuffix [for]="picker4"></mat-datepicker-toggle>
+                            <mat-date-range-picker #picker4></mat-date-range-picker>
+                        </mat-form-field>
+                        <mat-form-field class="smallInput">
+                            <mat-label>Sonstige Reiseanf.</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+                    </div>
+                    <div class="center-items">
+                        <mat-form-field class="smallInput">
+                            <mat-label>Von</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+                        <mat-form-field class="smallInput">
+                            <mat-label>Nach</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

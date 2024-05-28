@@ -13,6 +13,8 @@ export class VisitorRegistrationComponent implements OnInit {
   panelOpenState3 = false;
   panelOpenState4 = false;
   panelOpenState5 = false;
+  buttonSelect: String[] = []
+  geDip: String[] = []
 
   campaignOne = new FormGroup({
     start: new FormControl(new Date(year, month, 13)),

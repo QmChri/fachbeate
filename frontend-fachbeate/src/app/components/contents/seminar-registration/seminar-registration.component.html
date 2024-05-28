@@ -1,7 +1,8 @@
-<div class="displayBySide">
+<div class="header">
     <div>
         <h1 class="paddingSearch">Seminaranmeldung</h1>
     </div>
+    <button class="btn btn-success">Beantragen</button>
 </div>
 <hr>
 
@@ -95,7 +96,7 @@
                                     <mat-checkbox color="warn"></mat-checkbox>Ja
                                 </label>
                                 <label class="languageBox">
-                                    <mat-checkbox color=" warn"></mat-checkbox>Nein
+                                    <mat-checkbox color="warn"></mat-checkbox>Nein
                                 </label>
                             </div>
                         </div>
@@ -108,15 +109,15 @@
         <div class="card">
             <div class="card-header text-white bg-danger">Weiteres</div>
             <mat-button-toggle-group [(ngModel)]="buttonSelect" vertical multiple>
-                <mat-button-toggle matTooltip="Hinzufügen" value="1">Hotelbuchung</mat-button-toggle>
+                <mat-button-toggle value="1">Hotelbuchung</mat-button-toggle>
                 <mat-button-toggle value="2">Flughafen Transfer - Zug</mat-button-toggle>
                 <mat-button-toggle value="3">Ausflug</mat-button-toggle>
                 <mat-button-toggle value="4">Betriebsführung</mat-button-toggle>
                 <mat-button-toggle value="5">Mittagessen</mat-button-toggle>
             </mat-button-toggle-group>
-            <mat-button-toggle-group class="toogleGroup" [(ngModel)]="geDip" multiple>
-                <mat-button-toggle style="width: 15rem;" value="6">Kundengeschenke</mat-button-toggle>
-                <mat-button-toggle style="width: 15rem;" value="7">Diplome</mat-button-toggle>
+            <mat-button-toggle-group style="height: 2.7rem;" [(ngModel)]="geDip" multiple>
+                <mat-button-toggle style="width: 15rem;" value="1">Kundengeschenke</mat-button-toggle>
+                <mat-button-toggle style="width: 15rem;" value="2">Diplome</mat-button-toggle>
             </mat-button-toggle-group>
         </div>
     </div>
@@ -160,7 +161,7 @@
     </div>
     <div class="col-md-4 paddingBottom" *ngIf="buttonSelect.includes('2')">
         <div class="card" hideToggle>
-            <div class="card-header bg-danger text-white">Flughafen / Transfer</div>
+            <div class="card-header bg-danger text-white">Flughafen Transfer - Zug</div>
             <div class="card-body minheigtCard">
                 <div class="displayBySide">
                     <div class="center-items">
@@ -225,7 +226,7 @@
     </div>
     <div class="col-md-4 paddingBottom" *ngIf="buttonSelect.includes('4')">
         <div class="card" hideToggle>
-            <div class="card-header bg-danger text-white">Ausflug</div>
+            <div class="card-header bg-danger text-white">Betriebsführung</div>
             <div class="card-body minheigtCard">
                 <div class="displayBySide">
                     <div class="center-items">
@@ -233,10 +234,9 @@
                             <mat-label>Personenanzahl</mat-label>
                             <input matInput>
                         </mat-form-field>
-                        <mat-form-field class="smallInput">
-                            <mat-label>Sprache - EN</mat-label>
-                            <input matInput>
-                        </mat-form-field>
+                        <label class="languageBox">Sprache - EN
+                            <mat-checkbox color="warn"></mat-checkbox>
+                        </label>
                     </div>
                     <div class="center-items">
                         <mat-form-field class="smallInput">

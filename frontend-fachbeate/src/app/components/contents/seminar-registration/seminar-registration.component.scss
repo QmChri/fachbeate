@@ -28,6 +28,14 @@
     margin: auto;
 }
 
+.header {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .displayBySide {
     display: flex;
     flex-direction: row;
@@ -81,11 +89,5 @@
 
 .minheigtCard {
     min-height: 10rem;
-    max-height: 11.5rem;
-}
-
-.toogleGroup {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
+    max-height: 11.1rem;
 }
