@@ -16,6 +16,12 @@ export class AbschlussBerichtComponent {
     @Inject(MAT_DIALOG_DATA) public finalReport: FinalReport
   ) { 
     this.inputFinalReport = finalReport;
+    this.inputFinalReport.reasonReports=[];
+    this.inputFinalReport.reason?.forEach(element => {
+      if(element !== 0){
+        this.inputFinalReport.reasonReports = [...this.inputFinalReport.reasonReports!, {reason: element}]
+      }
+    });
     
   }
   closeDialog(save: boolean) {

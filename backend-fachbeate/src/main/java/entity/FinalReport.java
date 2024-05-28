@@ -1,34 +1,80 @@
 package entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.OneToMany;
+import jakarta.transaction.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
 public class FinalReport extends PanacheEntity {
+    public String state;
     public String technologist;
-    public String company;
+    public String representative;
     public LocalDate dateOfVisit;
-    public List<Integer> reason;
-    public String customerFeedback;
-    public String nextSteps;
-    public String nextStepsTechnologist;
-    public String nextStepsUntil;
-    public String furtherInformation;
+    public String company;
+    public String companyNr;
+
+    @OneToMany( fetch = FetchType.EAGER)
+    public List<ReasonReport> reasonReports;
+    public LocalDate customerContactDate;
+    public String responseCustomer;
+    public String furtherActivities;
+    public LocalDate doneUntil;
+    public String interestingProducts;
+    public Boolean requestCompleted;
+    public String summaryFinalReport;
+
 
     public FinalReport() {
     }
+
+    @Transactional(Transactional.TxType.REQUIRED)
     public void updateEntity(FinalReport newFinalReport) {
+        this.state = newFinalReport.state;
         this.technologist = newFinalReport.technologist;
-        this.company = newFinalReport.company;
+        this.representative = newFinalReport.representative;
         this.dateOfVisit = newFinalReport.dateOfVisit;
-        this.reason = newFinalReport.reason;
-        this.customerFeedback = newFinalReport.customerFeedback;
-        this.nextSteps = newFinalReport.nextSteps;
-        this.nextStepsTechnologist = newFinalReport.nextStepsTechnologist;
-        this.nextStepsUntil = newFinalReport.nextStepsUntil;
-        this.furtherInformation = newFinalReport.furtherInformation;
+        this.company = newFinalReport.company;
+        this.companyNr = newFinalReport.companyNr;
+
+        this.customerContactDate = newFinalReport.customerContactDate;
+        this.responseCustomer = newFinalReport.responseCustomer;
+        this.furtherActivities = newFinalReport.furtherActivities;
+        this.doneUntil = newFinalReport.doneUntil;
+        this.interestingProducts = newFinalReport.interestingProducts;
+        this.requestCompleted = newFinalReport.requestCompleted;
+        this.summaryFinalReport = newFinalReport.summaryFinalReport;
+
+        for(ReasonReport r: newFinalReport.reasonReports){
+            if(r.id == null || r.id == 0){
+                reasonReports.add(r.persistOrUpdate());
+            }else {
+                r.persistOrUpdate();
+            }
+        }
+
     }
+
+    @Transactional(Transactional.TxType.REQUIRED)
+    public FinalReport persistOrUpdate(){
+        if(this.id == null || this.id == 0) {
+            this.id = null;
+            this.persist();
+
+            for (ReasonReport reasonReport : this.reasonReports) {
+                reasonReport.persistOrUpdate();
+            }
+            return this;
+        }else{
+            FinalReport finalReport = FinalReport.findById(this.id);
+            finalReport.updateEntity(this);
+            return finalReport;
+        }
+    }
+
 }

@@ -3,7 +3,9 @@ package entity;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToOne;
+import jakarta.transaction.Transactional;
 
 import java.time.LocalDate;
 
@@ -16,19 +18,20 @@ public class CustomerVisit extends PanacheEntity {
     public String contactPerson;
     public LocalDate dateOfVisit;
     public String productionAmount;
+
     public boolean presentationOfNewProducts;
     public boolean existingProducts;
     public boolean recipeOptimization;
     public boolean sampleProduction;
     public boolean training;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     public FinalReport finalReport;
 
     public CustomerVisit() {
     }
 
-
+    @Transactional(Transactional.TxType.REQUIRED)
     public void updateEntity(CustomerVisit newCustomerVisit){
         this.companyName = newCustomerVisit.companyName;
         this.customerNr = newCustomerVisit.customerNr;
@@ -41,14 +44,26 @@ public class CustomerVisit extends PanacheEntity {
         this.sampleProduction = newCustomerVisit.sampleProduction;
         this.training = newCustomerVisit.training;
 
-        if(newCustomerVisit.finalReport != null && (newCustomerVisit.finalReport.id == null || newCustomerVisit.finalReport.id == 0)){
-            newCustomerVisit.finalReport.persist();
-            this.finalReport = newCustomerVisit.finalReport;
-            return;
-        }
-        if(newCustomerVisit.finalReport != null) {
-            finalReport.updateEntity(newCustomerVisit.finalReport);
-        }
+        this.finalReport = (newCustomerVisit.finalReport != null)?newCustomerVisit.finalReport.persistOrUpdate():null;
 
     }
+
+    @Transactional(Transactional.TxType.REQUIRED)
+    public CustomerVisit persistOrUpdate(){
+        if(this.id == null || this.id == 0) {
+            this.id = null;
+            this.persist();
+
+            if(this.finalReport != null){
+                this.finalReport = this.finalReport.persistOrUpdate();
+            }
+
+            return this;
+        }else{
+            CustomerVisit customerVisit = CustomerVisit.findById(this.id);
+            customerVisit.updateEntity(this);
+            return customerVisit;
+        }
+    }
+
 }

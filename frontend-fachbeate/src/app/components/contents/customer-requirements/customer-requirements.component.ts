@@ -32,6 +32,13 @@ export class CustomerRequirementsComponent implements OnInit {
     { value: 'Tester-1', viewValue: 'Tester' },
   ];
 
+  representative: {value: string, viewValue: string}[] = [
+    {value:"Karl Reingruber", viewValue:"Karl Reingruber"},
+    {value:"Karl Mösenbichler", viewValue:"Karl Mösenbichler"},
+    {value:"Grazia Maria Perner", viewValue:"Grazia Maria Perner"},
+    {value:"Reinhard Schatz", viewValue:"Reinhard Schatz"}
+  ]
+
   inputCustomerRequirement: CustomerRequirement = {
     customerVisits: []
   };
@@ -101,8 +108,11 @@ export class CustomerRequirementsComponent implements OnInit {
                   (element.sampleProduction)?4:0,
                   (element.training)?5:0
                 ];
+                
                 element.editId = index;
+                this.i = index;
               });
+              this.i++;
             }
           },
           error: err => {
@@ -146,6 +156,8 @@ export class CustomerRequirementsComponent implements OnInit {
       finalReport = {
         technologist: this.inputCustomerRequirement.requestedTechnologist!.firstName + " " + this.inputCustomerRequirement.requestedTechnologist!.lastName,
         company: customerVisit.companyName,
+        companyNr: customerVisit.customerNr,
+        representative: this.inputCustomerRequirement.representative,
         dateOfVisit: customerVisit.dateOfVisit,
         reason: [
           (customerVisit.presentationOfNewProducts)?1:0,
@@ -162,8 +174,8 @@ export class CustomerRequirementsComponent implements OnInit {
     }
 
     const dialogRef = this.dialog.open(AbschlussBerichtComponent, {
-      height: '40rem',
-      width: '60rem',
+      height: '50rem',
+      width: '90rem',
       data: finalReport
     });
 

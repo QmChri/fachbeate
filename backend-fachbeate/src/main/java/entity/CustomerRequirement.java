@@ -1,6 +1,7 @@
 package entity;
 
 import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -12,7 +13,7 @@ public class CustomerRequirement extends TechnologistAppointment {
     public String contact;
     public String representative;
     // Customer Visits
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     public List<CustomerVisit> customerVisits;
 
     // Travel Planing
@@ -21,6 +22,8 @@ public class CustomerRequirement extends TechnologistAppointment {
 
     public CustomerRequirement() {
     }
+
+    @Transactional(Transactional.TxType.REQUIRED)
     public void updateEntity(CustomerRequirement newCustomerRequirement){
         this.company = newCustomerRequirement.company;
         this.contact = newCustomerRequirement.contact;
@@ -30,24 +33,33 @@ public class CustomerRequirement extends TechnologistAppointment {
 
         super.updateEntity( (TechnologistAppointment) newCustomerRequirement);
 
-        for(CustomerVisit visit : newCustomerRequirement.customerVisits){
-            if(visit.id == null || visit.id == 0){
-                visit.id = null;
-                visit.persist();
-                this.customerVisits.add(visit);
-
-                if(visit.finalReport != null){
-                    visit.finalReport.id = null;
-                    visit.finalReport.persist();
-                }
-            }else {
-                customerVisits.stream().filter(v -> v.id.equals(visit.id)).findFirst().ifPresentOrElse(
-                        v -> v.updateEntity(visit),
-                        () -> System.out.println("not found")
-                );
+        for (CustomerVisit visit : newCustomerRequirement.customerVisits) {
+            if(visit.id == null || visit.id == 0) {
+                this.customerVisits.add(visit.persistOrUpdate());
+            }else{
+                visit.persistOrUpdate();
             }
         }
-
     }
+
+
+    @Transactional(Transactional.TxType.REQUIRED)
+    public CustomerRequirement persistOrUpdate(){
+        if(this.id == null || this.id == 0) {
+            this.id = null;
+            this.persist();
+
+            for (CustomerVisit visit : this.customerVisits) {
+                visit.persistOrUpdate();
+            }
+
+            return this;
+        }else{
+            CustomerRequirement customerRequirement = CustomerRequirement.findById(this.id);
+            customerRequirement.updateEntity(this);
+            return customerRequirement;
+        }
+    }
+
 
 }
