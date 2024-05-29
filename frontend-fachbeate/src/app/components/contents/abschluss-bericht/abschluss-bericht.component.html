@@ -130,21 +130,21 @@
                     <div class="card-header text-white bg-danger">Bericht per Grund</div>
                     <div class="card-body">
                         <div class="center-items">
-                            <mat-form-field *ngFor="let d of inputFinalReport.reasonReports">
-                                <input matInput type="text" [(ngModel)]="d.carriedOutActivity"
-                                    name="carriedOutActivity{{d.reason}}">
-                                <input matInput type="text" [(ngModel)]="d.presentedArticle"
-                                    name="presentedAricle{{d.reason}}">
-                                <input matInput type="checkbox" [(ngModel)]="d.reworkByTechnologist"
-                                    name="reworkByTechnologist{{d.reason}}">
-                                <input matInput type="date" [(ngModel)]="d.reworkByTechnologistDoneUntil"
-                                    name="reworkByTechnologistDoneUntil{{d.reason}}">
-                                <input matInput type="text" [(ngModel)]="d.state" name="state{{d.reason}}">
-                                <input matInput type="checkbox" [(ngModel)]="d.reworkByRepresentive"
-                                    name="reworkByRepresentive{{d.reason}}">
-                                <input matInput type="date" [(ngModel)]="d.reworkByRepresentativeDoneUntil"
-                                    name="reworkByRepresentativeDoneUntil{{d.reason}}">
-                            </mat-form-field>
+                                <mat-form-field *ngFor="let d of inputFinalReport.reasonReports">
+                                    <input matInput type="text" [(ngModel)]="d.carriedOutActivity"
+                                        name="carriedOutActivity{{d.reason}}">
+                                    <input matInput type="text" [(ngModel)]="d.presentedArticle"
+                                        name="presentedAricle{{d.reason}}">
+                                    <input type="checkbox" [(ngModel)]="d.reworkByTechnologist"
+                                        name="reworkByTechnologist{{d.reason}}">
+                                    <input matInput type="date" [(ngModel)]="d.reworkByTechnologistDoneUntil"
+                                        name="reworkByTechnologistDoneUntil{{d.reason}}">
+                                    <input matInput type="text" [(ngModel)]="d.state" name="state{{d.reason}}">
+                                    <input type="checkbox" [(ngModel)]="d.reworkByRepresentive"
+                                        name="reworkByRepresentive{{d.reason}}">
+                                    <input matInput type="date" [(ngModel)]="d.reworkByRepresentativeDoneUntil"
+                                        name="reworkByRepresentativeDoneUntil{{d.reason}}">
+                                </mat-form-field>
                         </div>
                     </div>
                 </div>
