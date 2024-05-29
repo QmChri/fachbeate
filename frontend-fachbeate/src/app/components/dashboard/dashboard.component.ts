@@ -40,24 +40,23 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.loadEvents();
   }
 
-  
+
   ngAfterViewInit(): void {
 
 
-    
-    
+
+
   }
-  
+
   loadEvents(){
     this.http.getCustomerRequirements().subscribe({
-      next: data => { 
+      next: data => {
         data.forEach(value => {
-          var newDate = this.adjustEndDate(value.endDate!.toString().slice(0,10))
           this.calendarEvnts = [...this.calendarEvnts, {
             id: ""+value.id,
             title: value.requestedTechnologist!.firstName + " " + value.requestedTechnologist!.lastName + " - " + value.company,
             start: value.startDate,
-            end: (newDate !== null)?newDate:value.endDate,
+            end: value.endDate,
             backgroundColor: value.requestedTechnologist!.color,
             borderColor: value.requestedTechnologist!.color,
           }]
@@ -68,7 +67,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           id: ""+value.id,
           title: value.title,
           start: value.start,
-          end: new Date(value.end!.getDate() + 1),
+          end: value.end,
           backgroundColor: value.backgroundColor,
           borderColor: value.borderColor,
         }));
@@ -77,33 +76,32 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         console.log(err);
       }
     })
-    
-    this.http.getWorkshopRequirements().subscribe({
-      next: data => { 
-        data.forEach(value => {
 
-          var newDate = this.adjustEndDate(value.endDate!.toString().slice(0,10))
+    this.http.getWorkshopRequirements().subscribe({
+      next: data => {
+        data.forEach(value => {
           this.calendarEvnts = [...this.calendarEvnts, {
             id: ""+value.id,
             title: value.requestedTechnologist!.firstName + " " + value.requestedTechnologist!.lastName + " - " + value.company,
             start: value.startDate,
-            end: (newDate !== null)?newDate:value.endDate,
+            end: value.endDate,
             backgroundColor: value.requestedTechnologist!.color,
             borderColor: value.requestedTechnologist!.color,
           }]
 
+          this.calendarOptions.events = this.calendarEvnts.map(value => ({
+            id: ""+value.id,
+            title: value.title,
+            start: value.start,
+            end: value.end,
+            backgroundColor: value.backgroundColor,
+            borderColor: value.borderColor,
+          }));
+
         })
-    
-        this.calendarOptions.events = this.calendarEvnts.map(value => ({
-          id: ""+value.id,
-          title: value.title,
-          start: value.start,
-          end: value.end,
-          backgroundColor: value.backgroundColor,
-          borderColor: value.borderColor,
-        }));
+
       this.workshopRequriementIds = data.map(value => ""+value.id);
-    
+
     },
       error: err => {
         console.log(err);
@@ -113,7 +111,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   handleSelect(clickInfo: any){
     console.log(clickInfo);
-    
+
     this.openDialog({start: clickInfo.startStr, end: clickInfo.endStr})
   }
 
@@ -127,11 +125,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     }
   }
 
-  
+
   openDialog(timeSpan: {start: string, end: string}) {
     const dialogRef = this.dialog.open(NewDateEntryComponent, {
-      height: '40rem',
-      width: '60rem',
+      height: '26rem',
+      width: '25rem',
       data: timeSpan
     });
   }
@@ -141,7 +139,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     date.setDate(date.getDate() + 1);
     return new Date(date.toISOString().split('T')[0]);
   }
-  
+
 }
 
 interface CalendarEvent{
