@@ -1,8 +1,10 @@
 import { TechnologistAppointment } from "./technologist-appointment";
 
 export interface WorkshopRequirement extends TechnologistAppointment {
-    subject: string;
-    company: string;
+    id?: number;
+
+    subject?: string;
+    company?: string;
     amountParticipants?: number;
     travelFrom?: string;
     travelType?: string;
@@ -29,10 +31,17 @@ export interface WorkshopRequirement extends TechnologistAppointment {
     tripLocation?: string;
     otherTripRequests?: string;
 
+    companyTour?: boolean;
+    tourAmount?: number;
+    tourDateTime?: Date;
+    languageEnglish?: boolean;
+
     meal?: boolean;
     mealAmount?: number;
     mealDateTime?: Date;
     mealWishes?: number[];
+    otherMealWishes?: string;
+
     customerPresent?: boolean;
     diploma?: boolean;
     otherRequests?: string;

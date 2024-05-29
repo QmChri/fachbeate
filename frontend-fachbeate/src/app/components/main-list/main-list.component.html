@@ -39,15 +39,15 @@
   </thead>
   <tbody>
     <tr *ngFor="let data of nzTable.data">
-      <td (dblclick)="openCRC(data.nr)">{{ data.nr }}</td>
-      <td (dblclick)="openCRC(data.nr)">{{ data.createDate.getDay() }}/{{ data.createDate.getDate() }}/{{
+      <td (dblclick)="openCRC(data.nr, data.type)">{{ data.nr }}</td>
+      <td (dblclick)="openCRC(data.nr, data.type)">{{ data.createDate.getDay() }}/{{ data.createDate.getDate() }}/{{
         data.createDate.getFullYear() }}</td>
-      <td (dblclick)="openCRC(data.nr)">{{ data.status }}</td>
-      <td (dblclick)="openCRC(data.nr)">{{ data.toha }}</td>
-      <td (dblclick)="openCRC(data.nr)">{{ data.vertreter }}</td>
-      <td (dblclick)="openCRC(data.nr)">{{ data.fachberater }}</td>
-      <td (dblclick)="openCRC(data.nr)">{{ data.timespan.days }}/{{ data.timespan.hours }}</td>
-      <td (dblclick)="openCRC(data.nr)" class="centerRow">
+      <td (dblclick)="openCRC(data.nr, data.type)">{{ data.status }}</td>
+      <td (dblclick)="openCRC(data.nr, data.type)">{{ data.toha }}</td>
+      <td (dblclick)="openCRC(data.nr, data.type)">{{ data.vertreter }}</td>
+      <td (dblclick)="openCRC(data.nr, data.type)">{{ data.fachberater }}</td>
+      <td (dblclick)="openCRC(data.nr, data.type)">{{ data.timespan.days }}/{{ data.timespan.hours }}</td>
+      <td (dblclick)="openCRC(data.nr, data.type)" class="centerRow">
         <span *ngIf="data.abschlussbericht" class="text-success">&#10004;</span>
         <span *ngIf="!data.abschlussbericht" class="text-danger">&#10008;</span>
       </td>

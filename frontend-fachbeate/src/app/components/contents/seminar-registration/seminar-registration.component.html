@@ -2,7 +2,7 @@
     <div>
         <h1 class="paddingSearch">Seminaranmeldung</h1>
     </div>
-    <button class="btn btn-success">Beantragen</button>
+    <button class="btn btn-success" (click)="postWorkshopRequest()">Beantragen</button>
 </div>
 <hr>
 
@@ -14,19 +14,19 @@
                 <div class="center-items">
                     <mat-form-field>
                         <mat-label>Seminarthema</mat-label>
-                        <input matInput>
+                        <input matInput [(ngModel)]="inputWorkshop.subject">
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>Firma/Kunde</mat-label>
-                        <input matInput>
+                        <input matInput [(ngModel)]="inputWorkshop.company">
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>Von - Bis</mat-label>
                         <mat-date-range-input [rangePicker]="picker">
-                            <input matStartDate placeholder="Start date">
-                            <input matEndDate placeholder="End date">
+                            <input matStartDate placeholder="Start date" [(ngModel)]="inputWorkshop.startDate">
+                            <input matEndDate placeholder="End date" [(ngModel)]="inputWorkshop.endDate">
                         </mat-date-range-input>
-                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker-toggle matIconSuffix [for]="picker" ></mat-datepicker-toggle>
                         <mat-date-range-picker #picker></mat-date-range-picker>
                     </mat-form-field>
                 </div>
@@ -40,23 +40,16 @@
                 <div class="center-items">
                     <mat-form-field>
                         <mat-label>Anreise aus (Land)</mat-label>
-                        <input matInput>
+                        <input matInput [(ngModel)]="inputWorkshop.travelFrom">
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>Anreise Art (Auto, Zug, ...)</mat-label>
-                        <input matInput>
+                        <input matInput [(ngModel)]="inputWorkshop.travelType">
                     </mat-form-field>
-                    <div class="displayBySide">
-                        <mat-form-field class="smallInputSide">
-                            <mat-label>Teilnehmer</mat-label>
-                            <input type="number" min="0" matInput>
-                        </mat-form-field>
-                        <mat-form-field class="smallInputSide">
-                            <mat-label>Andere</mat-label>
-                            <input matInput>
-                        </mat-form-field>
-                    </div>
-
+                    <mat-form-field>
+                        <mat-label>Teilnehmer</mat-label>
+                        <input type="number" min="0" matInput [(ngModel)]="inputWorkshop.amountParticipants">
+                    </mat-form-field>
                 </div>
             </div>
         </div>
@@ -68,35 +61,35 @@
                 <div class="center-items">
                     <mat-form-field>
                         <mat-label>Seminarleiter</mat-label>
-                        <input matInput>
+                        <input matInput [(ngModel)]="inputWorkshop.seminarPresenter">
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>Zuständiger Fachberater</mat-label>
-                        <input matInput>
+                        <mat-select [ngModel]="(inputWorkshop.requestedTechnologist === undefined)?undefined:inputWorkshop.requestedTechnologist.id" (valueChange)="changeTechnolgist($event)" required>
+                            <mat-option>--</mat-option>
+                            @for (t of technologists; track technologists) {
+                            <mat-option [value]="t.id">{{t.firstName}} {{t.lastName}}</mat-option>
+                            }
+                        </mat-select>
                     </mat-form-field>
                     <div class="displayBySide">
                         <div class="center-items">
-                            <mat-label>Sprache</mat-label>
                             <div class="displayBySide">
-                                <label class="languageBox">
-                                    <mat-checkbox color="warn"></mat-checkbox>EN
-                                </label>
-                                <label class="languageBox">
-                                    <mat-checkbox color="warn"></mat-checkbox>DE
-                                </label>
-                                <label class="languageBox">
-                                    <mat-checkbox color="warn"></mat-checkbox>RU
-                                </label>
+                                <mat-form-field class="smallInputSide">
+                                    <mat-label>Sprache</mat-label>
+                                    <!---TODO unter eingabefeld ein ART Select wo englisch deutsch und russisch zur auswahl stehen-->
+                                    <input matInput [(ngModel)]="inputWorkshop.language">
+                                </mat-form-field>
                             </div>
                         </div>
                         <div class="center-items">
                             <mat-label>Übersetzer</mat-label>
                             <div style="display: flex;">
                                 <label class="languageBox">
-                                    <mat-checkbox color="warn"></mat-checkbox>Ja
+                                    <mat-checkbox color="warn" [ngModel]="inputWorkshop.shouldBeTranslated" (change)="inputWorkshop.shouldBeTranslated=inputWorkshop.shouldBeTranslated?false:true;"></mat-checkbox>Ja
                                 </label>
                                 <label class="languageBox">
-                                    <mat-checkbox color="warn"></mat-checkbox>Nein
+                                    <mat-checkbox color="warn" [ngModel]="!inputWorkshop.shouldBeTranslated" (change)="inputWorkshop.shouldBeTranslated=inputWorkshop.shouldBeTranslated?false:true"></mat-checkbox>Nein
                                 </label>
                             </div>
                         </div>
@@ -108,16 +101,16 @@
     <div class="col-md-3">
         <div class="card">
             <div class="card-header text-white bg-danger">Weiteres</div>
-            <mat-button-toggle-group [(ngModel)]="buttonSelect" vertical multiple>
+            <mat-button-toggle-group [ngModel]="buttonSelect" (change)="changeSelections($event, 0)" vertical multiple>
                 <mat-button-toggle value="1">Hotelbuchung</mat-button-toggle>
                 <mat-button-toggle value="2">Flughafen Transfer - Zug</mat-button-toggle>
                 <mat-button-toggle value="3">Ausflug</mat-button-toggle>
                 <mat-button-toggle value="4">Betriebsführung</mat-button-toggle>
                 <mat-button-toggle value="5">Mittagessen</mat-button-toggle>
             </mat-button-toggle-group>
-            <mat-button-toggle-group style="height: 2.7rem;" [(ngModel)]="geDip" multiple>
-                <mat-button-toggle style="width: 15rem;" value="1">Kundengeschenke</mat-button-toggle>
-                <mat-button-toggle style="width: 15rem;" value="2">Diplome</mat-button-toggle>
+            <mat-button-toggle-group style="height: 2.7rem;" [ngModel]="buttonSelect" (change)="changeSelections($event, 1)" multiple>
+                <mat-button-toggle style="width: 15rem;" value="6">Kundengeschenke</mat-button-toggle>
+                <mat-button-toggle style="width: 15rem;" value="7">Diplome</mat-button-toggle>
             </mat-button-toggle-group>
         </div>
     </div>
@@ -133,13 +126,13 @@
                     <div class="center-items">
                         <mat-form-field class="smallInput">
                             <mat-label>Ort / Lage</mat-label>
-                            <input matInput>
+                            <input matInput [(ngModel)]="inputWorkshop.locationAndDesiredPlace">
                         </mat-form-field>
                         <mat-form-field class="smallInput">
                             <mat-label>Von - Bis</mat-label>
                             <mat-date-range-input [rangePicker]="picker3">
-                                <input matStartDate placeholder="Start date">
-                                <input matEndDate placeholder="End date">
+                                <input matStartDate placeholder="Start date" [(ngModel)]="inputWorkshop.locationFromDate">
+                                <input matEndDate placeholder="End date" [(ngModel)]="inputWorkshop.locationToDate">
                             </mat-date-range-input>
                             <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
                             <mat-date-range-picker #picker3></mat-date-range-picker>
@@ -148,11 +141,11 @@
                     <div class="center-items">
                         <mat-form-field class="smallInput">
                             <mat-label>Einzelzimmer</mat-label>
-                            <input type="number" min="0" matInput>
+                            <input type="number" min="0" matInput  [(ngModel)]="inputWorkshop.amountSingleRooms">
                         </mat-form-field>
-                        <mat-form-field class="smallInput">
+                        <mat-form-field class="smallInput"  >
                             <mat-label>Doppelzimmer</mat-label>
-                            <input type="number" min="0" matInput>
+                            <input type="number" min="0" matInput [(ngModel)]="inputWorkshop.amountDoubleRooms">
                         </mat-form-field>
                     </div>
                 </div>
@@ -168,25 +161,25 @@
                         <mat-form-field class="smallInput">
                             <mat-label>Von - Bis</mat-label>
                             <mat-date-range-input [rangePicker]="picker4">
-                                <input matStartDate placeholder="Start date">
-                                <input matEndDate placeholder="End date">
+                                <input matStartDate placeholder="Start date" [(ngModel)]="inputWorkshop.flightHereDateTime">
+                                <input matEndDate placeholder="End date" [(ngModel)]="inputWorkshop.flightReturnDateTime">
                             </mat-date-range-input>
                             <mat-datepicker-toggle matIconSuffix [for]="picker4"></mat-datepicker-toggle>
                             <mat-date-range-picker #picker4></mat-date-range-picker>
                         </mat-form-field>
                         <mat-form-field class="smallInput">
                             <mat-label>Sonstige Reiseanf.</mat-label>
-                            <input matInput>
+                            <input matInput [(ngModel)]="inputWorkshop.otherTravelRequests">
                         </mat-form-field>
                     </div>
                     <div class="center-items">
                         <mat-form-field class="smallInput">
                             <mat-label>Von</mat-label>
-                            <input matInput>
+                            <input matInput [(ngModel)]="inputWorkshop.flightFrom">
                         </mat-form-field>
                         <mat-form-field class="smallInput">
                             <mat-label>Nach</mat-label>
-                            <input matInput>
+                            <input matInput [(ngModel)]="inputWorkshop.flightTo">
                         </mat-form-field>
                     </div>
                 </div>
@@ -201,23 +194,23 @@
                     <div class="center-items">
                         <mat-form-field class="smallInput">
                             <mat-label>Ausflugsziel</mat-label>
-                            <input matInput>
+                            <input matInput [(ngModel)]="inputWorkshop.tripLocation">
                         </mat-form-field>
                         <mat-form-field class="smallInput">
                             <mat-label>Sonstige Anmerkung</mat-label>
-                            <input matInput>
+                            <input matInput [(ngModel)]="inputWorkshop.otherTripRequests">
                         </mat-form-field>
                     </div>
                     <div class="center-items">
                         <mat-form-field class="smallInput">
                             <mat-label>Datum</mat-label>
-                            <input matInput [matDatepicker]="picker5">
+                            <input matInput [matDatepicker]="picker5" [(ngModel)]="inputWorkshop.tripDateTime">
                             <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
                             <mat-datepicker #picker5></mat-datepicker>
                         </mat-form-field>
                         <mat-form-field class="smallInput">
                             <mat-label>Uhrzeit</mat-label>
-                            <input type="time" matInput>
+                            <input type="time" matInput [(ngModel)]="inputWorkshop.tripDateTime">
                         </mat-form-field>
                     </div>
                 </div>
@@ -232,7 +225,7 @@
                     <div class="center-items">
                         <mat-form-field class="smallInput">
                             <mat-label>Personenanzahl</mat-label>
-                            <input matInput>
+                            <input matInput  [(ngModel)]="inputWorkshop.tourAmount">
                         </mat-form-field>
                         <label class="languageBox">Sprache - EN
                             <mat-checkbox color="warn"></mat-checkbox>
@@ -241,13 +234,13 @@
                     <div class="center-items">
                         <mat-form-field class="smallInput">
                             <mat-label>Datum</mat-label>
-                            <input matInput [matDatepicker]="picker5">
+                            <input matInput [matDatepicker]="picker5"  [(ngModel)]="inputWorkshop.tourDateTime">
                             <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
                             <mat-datepicker #picker5></mat-datepicker>
                         </mat-form-field>
                         <mat-form-field class="smallInput">
                             <mat-label>Uhrzeit</mat-label>
-                            <input type="time" matInput>
+                            <input type="time" matInput  [(ngModel)]="inputWorkshop.tourDateTime">
                         </mat-form-field>
                     </div>
                 </div>
@@ -262,38 +255,38 @@
                     <div class="mittagCenter">
                         <mat-form-field class="smallInputMittagAnz">
                             <mat-label>Anzahl</mat-label>
-                            <input type="number" min="0" matInput>
+                            <input type="number" min="0" matInput  [(ngModel)]="inputWorkshop.mealAmount">
                         </mat-form-field>
                         <mat-form-field class="smallInput">
                             <mat-label>Datum</mat-label>
-                            <input matInput [matDatepicker]="picker7">
+                            <input matInput [matDatepicker]="picker7"  [(ngModel)]="inputWorkshop.mealDateTime">
                             <mat-datepicker-toggle matIconSuffix [for]="picker7"></mat-datepicker-toggle>
                             <mat-datepicker #picker7></mat-datepicker>
                         </mat-form-field>
                         <mat-form-field style="max-width: 6rem;">
                             <mat-label>Uhrzeit</mat-label>
-                            <input type="time" matInput>
+                            <input type="time" matInput  [(ngModel)]="inputWorkshop.mealDateTime">
                         </mat-form-field>
                     </div>
                     <div class="center-items">
                         <div class="displayBySide">
                             <mat-form-field class="smallInput">
                                 <mat-label>Vegan</mat-label>
-                                <input type="number" min="0" matInput>
+                                <input type="number" min="0" matInput  [(ngModel)]="inputWorkshop.mealWishes![0]">
                             </mat-form-field>
                             <mat-form-field class="smallInput">
                                 <mat-label>Vegetarisch</mat-label>
-                                <input type="number" min="0" matInput>
+                                <input type="number" min="0" matInput [(ngModel)]="inputWorkshop.mealWishes![1]">
                             </mat-form-field>
                         </div>
                         <div class="displayBySide">
                             <mat-form-field class="smallInput">
                                 <mat-label>Sonstige</mat-label>
-                                <input type="text" matInput>
+                                <input type="text" matInput [(ngModel)]="inputWorkshop.otherMealWishes">
                             </mat-form-field>
                             <mat-form-field class="smallInput">
                                 <mat-label>Anzahl</mat-label>
-                                <input type="number" min="0" matInput>
+                                <input type="number" min="0" matInput [(ngModel)]="inputWorkshop.mealWishes![2]">
                             </mat-form-field>
                         </div>
                     </div>

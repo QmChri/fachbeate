@@ -8,6 +8,7 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Response;
+import org.hibernate.jdbc.Work;
 import org.jboss.logging.Logger;
 
 @Path("appointment")
@@ -42,8 +43,14 @@ public class AppointmentResource {
     @POST
     @Path("/workshop")
     @Transactional
-    public void postWorkshopRequirement(WorkshopRequirement workshopRequirement){
+    public Response postWorkshopRequirement(WorkshopRequirement workshopRequirement){
+        if(workshopRequirement.id != null && workshopRequirement.id != 0){
+            WorkshopRequirement persisted = WorkshopRequirement.findById(workshopRequirement.id);
+            persisted.updateEntity(workshopRequirement);
+            return  Response.ok(persisted).build();
+        }
         workshopRequirement.persist();
+        return Response.ok(workshopRequirement).build();
     }
 
     @GET
@@ -53,7 +60,7 @@ public class AppointmentResource {
     }
 
     @GET
-    @Path("/workshop")
+    @Path("/workshop/id")
     public Response getWorkshopPerId(@QueryParam("id") Long id){
         return Response.ok(WorkshopRequirement.findById(id)).build();
     }

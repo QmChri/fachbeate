@@ -133,7 +133,8 @@ export class MainListComponent implements OnInit{
               minutes:0,
               seconds:0
             },
-            abschlussbericht: false
+            abschlussbericht: false,
+            type: 0
           }];
         });
 
@@ -145,6 +146,48 @@ export class MainListComponent implements OnInit{
 
       }
     });
+
+    this.http.getWorkshopRequirements().subscribe({
+      next: data => {
+        data.forEach(element => {
+
+          var tmpStatus = "in-progress";
+          if((element.releaseManagement != null && element.releaseManagement != undefined)
+            || (element.releaseSupervisor != null && element.releaseSupervisor != undefined)){
+              tmpStatus = "open";
+          }
+
+          console.log(new Date(element.endDate!).toDateString());
+
+
+          this.listOfData = [...this.listOfData, {
+            nr: element.id!,
+            createDate: new Date(),
+            status: "ToDo",
+            toha: element.company!,
+            vertreter: element.seminarPresenter!,
+            fachberater: element.requestedTechnologist!.firstName + " " + element.requestedTechnologist!.lastName,
+            timespan: {
+              days:  Math.round(Math.abs(new Date(element.endDate!).getTime() - new Date(element.startDate!).getTime()) / 86400000),
+              hours:0,
+              minutes:0,
+              seconds:0
+            },
+            abschlussbericht: false,
+            type: 1
+          }];
+          
+        });
+
+        this.resetFilters()
+
+        this.listOfDisplayData = [...this.listOfData];
+      },
+      error: err => {
+
+      }
+    });
+
   }
 
   loadTechnologists(){
@@ -155,9 +198,13 @@ export class MainListComponent implements OnInit{
     })
   }
 
-  openCRC(dateNr: number) {
-    this.router.navigate(['/customer-requirements', dateNr]);
-    //this.router.navigate(['/customer-requirements']);
+  openCRC(dateNr: number, type: number) {
+    if(type === 0){
+      this.router.navigate(['/customer-requirements', dateNr]);
+    }else if(type === 1){
+      this.router.navigate(['/seminar-registration', dateNr])
+    }
+
     console.log('Selected Field:', dateNr);
   }
 
@@ -251,6 +298,7 @@ interface DataItem {
   fachberater: string;
   timespan: TimeSpan;
   abschlussbericht: boolean;
+  type: number;
 }
 
 interface TimeSpan {

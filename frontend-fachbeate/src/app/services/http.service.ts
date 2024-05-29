@@ -32,8 +32,18 @@ export class HttpService {
     return this.http.get<CustomerRequirement>(API_URL + "appointment/customerRequirement/id", {params: {id: id}});
   }
 
+
+
+  postWorkshop(workshop: WorkshopRequirement): Observable<WorkshopRequirement>{
+    return this.http.post<WorkshopRequirement>(API_URL + "appointment/workshop", workshop);
+  }
+
   getWorkshopRequirements(){
     return this.http.get<WorkshopRequirement[]>(API_URL + "appointment/workshop");
+  }
+
+  getWorkshopById(id:number){
+    return this.http.get<WorkshopRequirement>(API_URL + "appointment/workshop/id", {params: {id: id}});
   }
 
 
