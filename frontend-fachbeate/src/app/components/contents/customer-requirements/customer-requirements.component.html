@@ -4,7 +4,6 @@
             <button style="margin-left: 10px;" class="btn btn-secondary" matTooltip="interne Notiz">
                 <i class="fa fa-comment"></i></button>
         </h1>
-        <!-- TODO Click event bei button setzen -->
     </div>
     <div>
         <button class="btn btn-success" (click)="postCustomerRequirement()">Beantragen</button>
@@ -59,7 +58,9 @@
                     <div class="center-items ">
                         <mat-form-field>
                             <mat-label>Angeforderter Technologe</mat-label>
-                            <mat-select [ngModel]="(inputCustomerRequirement.requestedTechnologist === undefined)?undefined:inputCustomerRequirement.requestedTechnologist.id" (valueChange)="changeTechnolgist($event)" required>
+                            <mat-select
+                                [ngModel]="(inputCustomerRequirement.requestedTechnologist === undefined)?undefined:inputCustomerRequirement.requestedTechnologist.id"
+                                (valueChange)="changeTechnolgist($event)" required>
                                 <mat-option>--</mat-option>
                                 @for (t of technologists; track technologists) {
                                 <mat-option [value]="t.id">{{t.firstName}} {{t.lastName}}</mat-option>
@@ -75,7 +76,8 @@
                     <mat-form-field>
                         <mat-label>Von - Bis</mat-label>
                         <mat-date-range-input [rangePicker]="picker">
-                            <input matStartDate placeholder="Start date" [(ngModel)]="inputCustomerRequirement.startDate">
+                            <input matStartDate placeholder="Start date"
+                                [(ngModel)]="inputCustomerRequirement.startDate">
                             <input matEndDate placeholder="End date" [(ngModel)]="inputCustomerRequirement.endDate">
                         </mat-date-range-input>
                         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
@@ -214,7 +216,8 @@ Bildschirm -->
                     <input [hidden]="editId !== data.editId" type="date" nz-input [(ngModel)]="data.dateOfVisit" />
                 </td>
                 <td class="multiple-select">
-                    <mat-select multiple placeholder="Auswählen . . . " [ngModel]="data.selection" (selectionChange)="selChange($event, data.editId)">
+                    <mat-select multiple placeholder="Auswählen . . . " [ngModel]="data.selection"
+                        (selectionChange)="selChange($event, data.editId)">
                         <!-- <mat-option value="1">Vorstellung neuer Produkte</mat-option> -->
                         <mat-option [value]="1">Vorstellung</mat-option>
                         <!-- <mat-option value="2">Problemlösung - bestehende Produkten</mat-option> -->
