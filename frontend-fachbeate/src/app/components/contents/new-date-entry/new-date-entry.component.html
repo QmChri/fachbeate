@@ -1,6 +1,37 @@
-<div class="container">
-    <input type="date" [(ngModel)]="inputDate.start">
-    <input type="date" [(ngModel)]="inputDate.end">
-    <input type="text" [(ngModel)]="inputDate.text">
-    <button (click)="test()">test</button>
+<div class="mainView">
+    <h1 class="paddingSearch">Eintrag für: "Name"</h1>
+    <hr>
+
+    <div class="center-items">
+        <mat-form-field>
+            <mat-label>Grund</mat-label>
+            <mat-select required placeholder="Auswählen . . . " [ngModel]="reasonSelect" name="resons">
+
+                @for (re of reasons; track reasons) {
+                <mat-option [value]="re">{{re}}</mat-option>
+                }
+                <div class="paddings">
+                    <input type="text" [(ngModel)]="addItem" name="addItem">
+                    <button type="button" mat-raised-button (click)="addToList(addItem)">Hinzufügen</button>
+                </div>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Von - Datum</mat-label>
+            <input matInput [matDatepicker]="picker1" type="text" [(ngModel)]="inputDate.start" name="start">
+            <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Bis - Datum</mat-label>
+            <input matInput [matDatepicker]="picker2" type="text" [(ngModel)]="inputDate.end" name="end">
+            <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
+    </div>
+    <br>
+    <div class="header">
+        <div> <button (click)="closeDialog(false)" class="btn btn-secondary">Abbrechen</button></div>
+        <div> <button (click)="test()" class="btn btn-success">Speichern</button></div>
+    </div>
 </div>
