@@ -52,11 +52,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.http.getCustomerRequirements().subscribe({
       next: data => { 
         data.forEach(value => {
+          var newDate = this.adjustEndDate(value.endDate!.toString().slice(0,10))
           this.calendarEvnts = [...this.calendarEvnts, {
             id: ""+value.id,
             title: value.requestedTechnologist!.firstName + " " + value.requestedTechnologist!.lastName + " - " + value.company,
             start: value.startDate,
-            end: value.endDate,
+            end: (newDate !== null)?newDate:value.endDate,
             backgroundColor: value.requestedTechnologist!.color,
             borderColor: value.requestedTechnologist!.color,
           }]
@@ -67,7 +68,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           id: ""+value.id,
           title: value.title,
           start: value.start,
-          end: value.end,
+          end: new Date(value.end!.getDate() + 1),
           backgroundColor: value.backgroundColor,
           borderColor: value.borderColor,
         }));
@@ -80,26 +81,27 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.http.getWorkshopRequirements().subscribe({
       next: data => { 
         data.forEach(value => {
+
+          var newDate = this.adjustEndDate(value.endDate!.toString().slice(0,10))
           this.calendarEvnts = [...this.calendarEvnts, {
             id: ""+value.id,
             title: value.requestedTechnologist!.firstName + " " + value.requestedTechnologist!.lastName + " - " + value.company,
             start: value.startDate,
-            end: value.endDate,
+            end: (newDate !== null)?newDate:value.endDate,
             backgroundColor: value.requestedTechnologist!.color,
             borderColor: value.requestedTechnologist!.color,
           }]
-          
-          this.calendarOptions.events = this.calendarEvnts.map(value => ({
-            id: ""+value.id,
-            title: value.title,
-            start: value.start,
-            end: value.end,
-            backgroundColor: value.backgroundColor,
-            borderColor: value.borderColor,
-          }));
 
         })
     
+        this.calendarOptions.events = this.calendarEvnts.map(value => ({
+          id: ""+value.id,
+          title: value.title,
+          start: value.start,
+          end: value.end,
+          backgroundColor: value.backgroundColor,
+          borderColor: value.borderColor,
+        }));
       this.workshopRequriementIds = data.map(value => ""+value.id);
     
     },
@@ -132,6 +134,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       width: '60rem',
       data: timeSpan
     });
+  }
+
+  adjustEndDate(endDate: string): Date {
+    const date = new Date(endDate);
+    date.setDate(date.getDate() + 1);
+    return new Date(date.toISOString().split('T')[0]);
   }
   
 }

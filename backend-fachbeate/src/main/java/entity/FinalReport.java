@@ -8,6 +8,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.transaction.Transactional;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -15,18 +16,18 @@ public class FinalReport extends PanacheEntity {
     public String state;
     public String technologist;
     public String representative;
-    public LocalDate dateOfVisit;
+    public Date dateOfVisit;
     public String company;
     public String companyNr;
 
     @OneToMany( fetch = FetchType.EAGER)
     public List<ReasonReport> reasonReports;
-    public LocalDate customerContactDate;
+    public Date customerContactDate;
     public String responseCustomer;
     public String furtherActivities;
-    public LocalDate doneUntil;
+    public Date doneUntil;
     public String interestingProducts;
-    public Boolean requestCompleted;
+    public boolean requestCompleted;
     public String summaryFinalReport;
 
 

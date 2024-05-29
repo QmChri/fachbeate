@@ -3,8 +3,7 @@ package entity;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 public class WorkshopRequirement extends TechnologistAppointment{
@@ -19,33 +18,33 @@ public class WorkshopRequirement extends TechnologistAppointment{
     public String seminarPresenter;
 
     public String locationAndDesiredPlace;
-    public LocalDate locationFromDate;
-    public LocalDate locationToDate;
+    public Date locationFromDate;
+    public Date locationToDate;
     public int amountSingleRooms;
     public int amountDoubleRooms;
 
-    public LocalDateTime flightHereDateTime;
-    public LocalDateTime flightReturnDateTime;
+    public Date flightHereDateTime;
+    public Date flightReturnDateTime;
     public String flightFrom;
     public String flightTo;
     public String otherTravelRequests;
 
     // Ausflug
     public boolean trip;
-    public LocalDateTime tripDateTime;
+    public Date tripDateTime;
     public String tripLocation;
     public String otherTripRequests;
 
     // Tour
     public boolean companyTour;
     public int tourAmount;
-    public LocalDateTime tourDateTime;
+    public Date tourDateTime;
     public boolean languageEnglish;
 
     //Meal
     public boolean meal;
     public int mealAmount;
-    public LocalDateTime mealDateTime;
+    public Date mealDateTime;
     public int[] mealWishes;
     public String otherMealWishes;
 

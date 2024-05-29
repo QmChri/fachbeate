@@ -202,7 +202,7 @@ export class MainListComponent implements OnInit{
     if(type === 0){
       this.router.navigate(['/customer-requirements', dateNr]);
     }else if(type === 1){
-      this.router.navigate(['/seminar-registration', dateNr])
+      this.router.navigate(['/seminar-registration', dateNr]);
     }
 
     console.log('Selected Field:', dateNr);

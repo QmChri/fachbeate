@@ -3,22 +3,22 @@ package entity;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 public class TechnologistAppointment extends PanacheEntity {
 
     @ManyToOne
     public Technologist requestedTechnologist;
-    public LocalDate startDate;
-    public LocalDate endDate;
+    public Date startDate;
+    public Date endDate;
 
 
     public String releaserManagement;
-    public LocalDate releaseManagement;
+    public Date releaseManagement;
 
     public String releaserSupervisor;
-    public LocalDate releaseSupervisor;
+    public Date releaseSupervisor;
 
     public boolean hotelBooking;
     public boolean flightBooking;

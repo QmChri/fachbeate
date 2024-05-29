@@ -70,7 +70,7 @@ export class SeminarRegistrationComponent implements OnInit{
   changeSelections(event: any, section: number){   
     this.buttonSelect = (section === 0)?this.buttonSelect.filter(number => Number(number) >= 6 && Number(number) <= 7):this.buttonSelect.filter(number => Number(number) >= 1 && Number(number) <= 5);
     this.buttonSelect = [...this.buttonSelect, ...event.value]
-    
+
     this.inputWorkshop.hotelBooking = this.buttonSelect.includes("1");
     this.inputWorkshop.flightBooking = this.buttonSelect.includes("2");
     this.inputWorkshop.trip = this.buttonSelect.includes("3");
@@ -81,6 +81,10 @@ export class SeminarRegistrationComponent implements OnInit{
   }
 
   postWorkshopRequest(){
+
+    console.log(this.inputWorkshop);
+
+
     this.http.postWorkshop(this.inputWorkshop).subscribe({
       next: data => {
         this.inputWorkshop = data;
@@ -89,6 +93,11 @@ export class SeminarRegistrationComponent implements OnInit{
         console.log(err);
       }
     })
+  }
+
+  changeDate(event: any, date?: Date){
+    console.log(event);
+    
   }
 
 }

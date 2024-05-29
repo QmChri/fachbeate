@@ -8,6 +8,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.transaction.Transactional;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 public class CustomerVisit extends PanacheEntity {
@@ -16,7 +17,7 @@ public class CustomerVisit extends PanacheEntity {
     public String customerNr;
     public String address;
     public String contactPerson;
-    public LocalDate dateOfVisit;
+    public Date dateOfVisit;
     public String productionAmount;
 
     public boolean presentationOfNewProducts;

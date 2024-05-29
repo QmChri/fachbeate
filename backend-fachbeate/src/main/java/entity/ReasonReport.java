@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.transaction.Transactional;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.Map;
 import java.util.Random;
 
@@ -16,11 +17,11 @@ public class ReasonReport extends PanacheEntity {
 
     public String presentedArticle;
     public boolean reworkByTechnologist;
-    public LocalDate reworkByTechnologistDoneUntil;
+    public Date reworkByTechnologistDoneUntil;
     public boolean state;
 
     public boolean reworkByRepresentative;
-    public LocalDate reworkByRepresentativeDoneUntil;
+    public Date reworkByRepresentativeDoneUntil;
 
     @Transactional(Transactional.TxType.REQUIRED)
     public void updateEntity(ReasonReport newEntity) {
