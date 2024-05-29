@@ -6,6 +6,7 @@ import { SeminarRegistrationComponent } from './components/contents/seminar-regi
 import { MainListComponent } from './components/main-list/main-list.component';
 import { CreateTechnologistComponent } from './components/contents/create-technologist/create-technologist.component';
 import { VisitorRegistrationComponent } from './components/contents/visitor-registration/visitor-registration.component';
+import { AbschlussBerichtComponent } from './components/contents/abschluss-bericht/abschluss-bericht.component';
 
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
@@ -15,7 +16,8 @@ const routes: Routes = [
   { path: 'seminar-registration', component: SeminarRegistrationComponent },
   { path: 'mainList', component: MainListComponent },
   { path: 'create-technologist', component: CreateTechnologistComponent },
-  { path: 'visitorRegistration', component:  VisitorRegistrationComponent}
+  { path: 'visitorRegistration', component: VisitorRegistrationComponent },
+  { path: 'ab', component: AbschlussBerichtComponent }
 ];
 
 @NgModule({

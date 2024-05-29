@@ -33,11 +33,11 @@ export class CustomerRequirementsComponent implements OnInit {
     { value: 'Tester-1', viewValue: 'Tester' },
   ];
 
-  representative: {value: string, viewValue: string}[] = [
-    {value:"Karl Reingruber", viewValue:"Karl Reingruber"},
-    {value:"Karl Mösenbichler", viewValue:"Karl Mösenbichler"},
-    {value:"Grazia Maria Perner", viewValue:"Grazia Maria Perner"},
-    {value:"Reinhard Schatz", viewValue:"Reinhard Schatz"}
+  representative: { value: string, viewValue: string }[] = [
+    { value: "Karl Reingruber", viewValue: "Karl Reingruber" },
+    { value: "Karl Mösenbichler", viewValue: "Karl Mösenbichler" },
+    { value: "Grazia Maria Perner", viewValue: "Grazia Maria Perner" },
+    { value: "Reinhard Schatz", viewValue: "Reinhard Schatz" }
   ]
 
   inputCustomerRequirement: CustomerRequirement = {
@@ -95,21 +95,21 @@ export class CustomerRequirementsComponent implements OnInit {
     this.getTechnologist();
 
     this.route.paramMap.subscribe(params => {
-      if(params.get('id') != null){
+      if (params.get('id') != null) {
         this.http.getCustomerById(parseInt(params.get('id')!)).subscribe({
           next: data => {
-            if(data != null){
+            if (data != null) {
               this.inputCustomerRequirement = data;
 
               this.inputCustomerRequirement.customerVisits.forEach((element, index) => {
                 element.selection = [
-                  (element.presentationOfNewProducts)?1:0,
-                  (element.existingProducts)?2:0,
-                  (element.recipeOptimization)?3:0,
-                  (element.sampleProduction)?4:0,
-                  (element.training)?5:0
+                  (element.presentationOfNewProducts) ? 1 : 0,
+                  (element.existingProducts) ? 2 : 0,
+                  (element.recipeOptimization) ? 3 : 0,
+                  (element.sampleProduction) ? 4 : 0,
+                  (element.training) ? 5 : 0
                 ];
-                
+
                 element.editId = index;
                 this.i = index;
               });
@@ -128,18 +128,18 @@ export class CustomerRequirementsComponent implements OnInit {
   }
 
 
-  postCustomerRequirement(){
+  postCustomerRequirement() {
     this.http.postCustomerRequirement(this.inputCustomerRequirement).subscribe({
       next: data => {
         this.inputCustomerRequirement = data;
-        
+
         data.customerVisits.forEach((element, index) => {
           element.selection = [
-            (element.presentationOfNewProducts)?1:0,
-            (element.existingProducts)?2:0,
-            (element.recipeOptimization)?3:0,
-            (element.sampleProduction)?4:0,
-            (element.training)?5:0
+            (element.presentationOfNewProducts) ? 1 : 0,
+            (element.existingProducts) ? 2 : 0,
+            (element.recipeOptimization) ? 3 : 0,
+            (element.sampleProduction) ? 4 : 0,
+            (element.training) ? 5 : 0
           ];
           element.editId = index;
         });
@@ -154,19 +154,19 @@ export class CustomerRequirementsComponent implements OnInit {
   openDialog(customerVisit: CustomerVisit) {
     var finalReport: FinalReport = {}
 
-    if(customerVisit.finalReport === null || customerVisit.finalReport === undefined || customerVisit.finalReport.id === 0){
-      
-      var rRepo: ReasonReport[] =  [
-        (customerVisit.presentationOfNewProducts)?{reason: 1}:{reason:0},
-        (customerVisit.existingProducts)?{reason: 2}:{reason:0},
-        (customerVisit.recipeOptimization)?{reason: 3}:{reason:0},
-        (customerVisit.sampleProduction)?{reason: 4}:{reason:0},
-        (customerVisit.training)?{reason: 5}:{reason:0}
+    if (customerVisit.finalReport === null || customerVisit.finalReport === undefined || customerVisit.finalReport.id === 0) {
+
+      var rRepo: ReasonReport[] = [
+        (customerVisit.presentationOfNewProducts) ? { reason: 1 } : { reason: 0 },
+        (customerVisit.existingProducts) ? { reason: 2 } : { reason: 0 },
+        (customerVisit.recipeOptimization) ? { reason: 3 } : { reason: 0 },
+        (customerVisit.sampleProduction) ? { reason: 4 } : { reason: 0 },
+        (customerVisit.training) ? { reason: 5 } : { reason: 0 }
       ];
 
       console.log("reasonReports");
       console.log(rRepo);
-      
+
 
       finalReport = {
         technologist: this.inputCustomerRequirement.requestedTechnologist!.firstName + " " + this.inputCustomerRequirement.requestedTechnologist!.lastName,
@@ -176,28 +176,28 @@ export class CustomerRequirementsComponent implements OnInit {
         dateOfVisit: customerVisit.dateOfVisit,
         reasonReports: rRepo
       }
-    }else{
-      if(customerVisit.finalReport != undefined){
+    } else {
+      if (customerVisit.finalReport != undefined) {
         finalReport = customerVisit.finalReport!
       }
     }
 
     const dialogRef = this.dialog.open(AbschlussBerichtComponent, {
-      height: '50rem',
-      width: '90rem',
+      height: '42.5rem',
+      width: '80rem',
       data: finalReport
     });
 
     dialogRef.afterClosed().subscribe(
       data => {
-        if(data.save){
+        if (data.save) {
           customerVisit.finalReport = data.finalReport;
           this.postCustomerRequirement();
         }
       });
   }
 
-  getTechnologist(){
+  getTechnologist() {
     this.http.getActiveTechnologist().subscribe({
       next: data => {
         this.technologists = data;
@@ -211,7 +211,7 @@ export class CustomerRequirementsComponent implements OnInit {
   changeTechnolgist($event: any) {
     this.inputCustomerRequirement.requestedTechnologist = this.technologists.find(elemnt => elemnt.id === $event);
     console.log(this.inputCustomerRequirement);
-    
+
   }
 
 }
