@@ -36,12 +36,19 @@ public class WorkshopRequirement extends TechnologistAppointment{
     public String tripLocation;
     public String otherTripRequests;
 
+    // Tour
+    public boolean companyTour;
+    public int tourAmount;
+    public LocalDateTime tourDateTime;
+    public boolean languageEnglish;
+
     //Meal
     public boolean meal;
     public int mealAmount;
     public LocalDateTime mealDateTime;
     public int[] mealWishes;
     public String otherMealWishes;
+
 
     public boolean customerPresent;
     public boolean diploma;

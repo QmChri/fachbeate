@@ -14,6 +14,7 @@ const routes: Routes = [
   { path: 'customer-requirements', component: CustomerRequirementsComponent },
   { path: 'customer-requirements/:id', component: CustomerRequirementsComponent },
   { path: 'seminar-registration', component: SeminarRegistrationComponent },
+  { path: 'seminar-registration/:id', component: SeminarRegistrationComponent },
   { path: 'mainList', component: MainListComponent },
   { path: 'create-technologist', component: CreateTechnologistComponent },
   { path: 'visitorRegistration', component: VisitorRegistrationComponent },
