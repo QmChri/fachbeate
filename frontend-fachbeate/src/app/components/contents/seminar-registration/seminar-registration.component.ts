@@ -12,6 +12,15 @@ import { ActivatedRoute } from '@angular/router';
 export class SeminarRegistrationComponent implements OnInit{
   buttonSelect: string[] = []
 
+  addItem: string = "";
+  reasonSelect: number = 0;
+  languages: string[] = ['DE','EN','RU'];
+
+
+  addToList(addItem: string){
+    this.languages.push(addItem);
+  }
+
   inputWorkshop: WorkshopRequirement = {
     //0- Vegan, 1- Vegetarisch, 2- Sonstige
     mealWishes: [undefined!, undefined!, undefined!]
@@ -24,6 +33,8 @@ export class SeminarRegistrationComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    console.log(this.inputWorkshop.tripDateTime);
+    
     this.route.paramMap.subscribe(params => {
       if(params.get('id') != null){
         this.http.getWorkshopById(parseInt(params.get('id')!)).subscribe({
