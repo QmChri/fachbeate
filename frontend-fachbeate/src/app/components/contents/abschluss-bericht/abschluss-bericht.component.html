@@ -125,27 +125,70 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-7 paddingBottom">
+            <div class="col-md-2 paddingBottom">
                 <div class="card">
                     <div class="card-header text-white bg-danger">Bericht per Grund</div>
-                    <div class="card-body">
-                        <div class="center-items">
-                                <mat-form-field *ngFor="let d of inputFinalReport.reasonReports">
-                                    <input matInput type="text" [(ngModel)]="d.carriedOutActivity"
-                                        name="carriedOutActivity{{d.reason}}">
-                                    <input matInput type="text" [(ngModel)]="d.presentedArticle"
-                                        name="presentedAricle{{d.reason}}">
-                                    <input type="checkbox" [(ngModel)]="d.reworkByTechnologist"
-                                        name="reworkByTechnologist{{d.reason}}">
-                                    <input matInput type="date" [(ngModel)]="d.reworkByTechnologistDoneUntil"
-                                        name="reworkByTechnologistDoneUntil{{d.reason}}">
-                                    <input matInput type="text" [(ngModel)]="d.state" name="state{{d.reason}}">
-                                    <input type="checkbox" [(ngModel)]="d.reworkByRepresentive"
-                                        name="reworkByRepresentive{{d.reason}}">
-                                    <input matInput type="date" [(ngModel)]="d.reworkByRepresentativeDoneUntil"
-                                        name="reworkByRepresentativeDoneUntil{{d.reason}}">
-                                </mat-form-field>
-                        </div>
+                    <mat-button-toggle-group [ngModel]="buttonSelect" (change)="changeSelections($event, 0)" vertical
+                        multiple>
+                        <mat-button-toggle value="1">Vorstellung</mat-button-toggle>
+                        <mat-button-toggle value="2">Problemlösung</mat-button-toggle>
+                        <mat-button-toggle value="3">Rezepturopt.</mat-button-toggle>
+                        <mat-button-toggle value="4">Musterproduktion</mat-button-toggle>
+                    </mat-button-toggle-group>
+                </div>
+            </div>
+            <div class="col-md-5 paddingBottom" *ngIf="buttonSelect.includes('1')">
+                <div class="card" hideToggle>
+                    <div class="card-header bg-danger text-white">Vorstellung</div>
+                    <div class="card-body  ">
+                        <mat-form-field *ngFor="let d of inputFinalReport.reasonReports">
+                            <input matInput type="text" [(ngModel)]="d.carriedOutActivity"
+                                name="carriedOutActivity{{d.reason}}">
+                            <input matInput type="text" [(ngModel)]="d.presentedArticle"
+                                name="presentedAricle{{d.reason}}">
+                            <input type="checkbox" [(ngModel)]="d.reworkByTechnologist"
+                                name="reworkByTechnologist{{d.reason}}">
+                            <input matInput type="date" [(ngModel)]="d.reworkByTechnologistDoneUntil"
+                                name="reworkByTechnologistDoneUntil{{d.reason}}">
+                            <input matInput type="text" [(ngModel)]="d.state" name="state{{d.reason}}">
+                            <input type="checkbox" [(ngModel)]="d.reworkByRepresentive"
+                                name="reworkByRepresentive{{d.reason}}">
+                            <input matInput type="date" [(ngModel)]="d.reworkByRepresentativeDoneUntil"
+                                name="reworkByRepresentativeDoneUntil{{d.reason}}">
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 paddingBottom" *ngIf="buttonSelect.includes('2')">
+                <div class="card" hideToggle>
+                    <div class="card-header bg-danger text-white">Problemlösung</div>
+                    <div class="card-body  ">
+                        <mat-form-field class="smallInput">
+                            <mat-label>Sonstige Reiseanf.</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 paddingBottom" *ngIf="buttonSelect.includes('3')">
+                <div class="card" hideToggle>
+                    <div class="card-header bg-danger text-white">Rezepturopt.</div>
+                    <div class="card-body  ">
+                        <mat-form-field class="smallInput">
+                            <mat-label>Sonstige Reiseanf.</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 paddingBottom" *ngIf="buttonSelect.includes('4')">
+                <div class="card" hideToggle>
+                    <div class="card-header bg-danger text-white">Musterproduktion</div>
+                    <div class="card-body  ">
+                        <mat-form-field class="smallInput">
+                            <mat-label>Sonstige Reiseanf.</mat-label>
+                            <input matInput>
+                        </mat-form-field>
                     </div>
                 </div>
             </div>
