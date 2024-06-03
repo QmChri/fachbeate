@@ -54,10 +54,12 @@ export class CustomerRequirementsComponent implements OnInit {
   }
 
   addRow(): void {
+    this.i = this.i + 1;
+
     this.inputCustomerRequirement.customerVisits = [
       ...this.inputCustomerRequirement.customerVisits!,
       {
-        editId: this.i++,
+        editId: this.i,
         companyName: '',
         address: '',
         contactPerson: '',
@@ -69,6 +71,9 @@ export class CustomerRequirementsComponent implements OnInit {
         training: false,
       }
     ];
+
+    console.log(this.inputCustomerRequirement);
+    
     this.editId = this.i;
   }
 

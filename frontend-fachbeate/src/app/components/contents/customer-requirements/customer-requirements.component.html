@@ -173,45 +173,32 @@ Bildschirm -->
             <tr *ngFor="let data of editRowTable.data" class="editable-row">
                 <td>
                     <div class="editable-cell" [hidden]="editId === data.editId" (click)="startEdit(data.editId)">
-                        @if (data.companyName == '') {
-                        }
-                        {{ data.companyName }}
+                        <input [disabled]="editId !== data.editId" type="text" nz-input [ngModel]="data.companyName" />
                     </div>
                     <input [hidden]="editId !== data.editId" type="text" nz-input [(ngModel)]="data.companyName" />
                 </td>
                 <td>
                     <div class="editable-cell" [hidden]="editId === data.editId" (click)="startEdit(data.editId)">
-                        @if (data.customerNr == '') {
-
-                        }
-                        {{ data.customerNr }}
+                        <input [disabled]="editId !== data.editId" type="text" nz-input [ngModel]="data.customerNr" />
                     </div>
                     <input [hidden]="editId !== data.editId" type="text" nz-input [(ngModel)]="data.customerNr" />
                 </td>
                 <td>
                     <div class="editable-cell" [hidden]="editId === data.editId" (click)="startEdit(data.editId)">
-                        @if (data.address == '') {
-
-                        }
-                        {{ data.address }}
+                        <input [disabled]="editId !== data.editId" type="text" nz-input [ngModel]="data.address" />
                     </div>
                     <input [hidden]="editId !== data.editId" type="text" nz-input [(ngModel)]="data.address" />
                 </td>
                 <td>
                     <div class="editable-cell" [hidden]="editId === data.editId" (click)="startEdit(data.editId)">
-                        @if (data.contactPerson == '') {
-
-                        }
-                        {{ data.contactPerson }}
+                        <input [disabled]="editId !== data.editId" type="text" nz-input
+                            [ngModel]="data.contactPerson" />
                     </div>
                     <input [hidden]="editId !== data.editId" type="text" nz-input [(ngModel)]="data.contactPerson" />
                 </td>
                 <td>
                     <div class="editable-cell" [hidden]="editId === data.editId" (click)="startEdit(data.editId)">
-                        @if (data.dateOfVisit == null) {
-
-                        }
-                        {{data.dateOfVisit}}
+                        <input [disabled]="editId !== data.editId" type="text" nz-input [ngModel]="data.dateOfVisit" />
                     </div>
                     <input [hidden]="editId !== data.editId" type="date" nz-input [(ngModel)]="data.dateOfVisit" />
                 </td>
@@ -229,28 +216,29 @@ Bildschirm -->
                 </td>
                 <td>
                     <div class="editable-cell" [hidden]="editId === data.editId" (click)="startEdit(data.editId)">
-                        @if (data.productionAmount == null) {
-                        }
-                        {{data.productionAmount}}
+                        <input [disabled]="editId !== data.editId" type="text" nz-input
+                            [ngModel]="data.productionAmount" />
                     </div>
                     <input [hidden]="editId !== data.editId" type="text" nz-input [(ngModel)]="data.productionAmount" />
                 </td>
-                <td class="flugHotel">
-                    <button matTooltip="Bearbeiten" class="btn btn-success" (click)="startEdit(data.editId)"
-                        [hidden]="editId === data.editId">
-                        <i class="fa fa-pencil"></i>
-                    </button>
-                    <button matTooltip="Speichern" class="btn btn-success" (click)="stopEdit()"
-                        [hidden]="editId !== data.editId">
-                        <i class="fa fa-save"></i>
-                    </button>
-                    <button matTooltip="Entfernen" class="btn btn-danger" nz-popconfirm nzPopconfirmShowArrow="false"
-                        nzPopconfirmTitle="Sind Sie sicher?" (nzOnConfirm)="deleteRow(data.editId)">
-                        <i class="fa fa-trash"></i>
-                    </button>
-                    <button class="btn btn-success" matTooltip="Abschlussbericht" (click)="openDialog(data)">
-                        <i class="fa fa-file"></i>
-                    </button>
+                <td>
+                    <div class="flugHotel"> <button matTooltip="Bearbeiten" class="btn btn-success"
+                            (click)="startEdit(data.editId)" [hidden]="editId === data.editId">
+                            <i class="fa fa-pencil"></i>
+                        </button>
+                        <button matTooltip="Speichern" class="btn btn-success" (click)="stopEdit()"
+                            [hidden]="editId !== data.editId">
+                            <i class="fa fa-save"></i>
+                        </button>
+                        <button matTooltip="Entfernen" class="btn btn-danger" nz-popconfirm
+                            nzPopconfirmShowArrow="false" nzPopconfirmTitle="Sind Sie sicher?"
+                            (nzOnConfirm)="deleteRow(data.editId)">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                        <button class="btn btn-success" matTooltip="Abschlussbericht" (click)="openDialog(data)">
+                            <i class="fa fa-file"></i>
+                        </button>
+                    </div>
                 </td>
             </tr>
         </tbody>

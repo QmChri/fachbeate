@@ -18,14 +18,14 @@ export class CreateTechnologistComponent implements OnInit {
 
   technologistList: Technologist[] = [];
 
-  constructor(private http: HttpService){
+  constructor(private http: HttpService) {
   }
 
   ngOnInit(): void {
     this.loadTechnologists();
   }
 
-  loadTechnologists(){
+  loadTechnologists() {
     this.http.getAllTechnologist().subscribe({
       next: data => {
         this.technologistList = data
@@ -36,7 +36,7 @@ export class CreateTechnologistComponent implements OnInit {
     })
   }
 
-  postTechnologist(){
+  postTechnologist() {
     return this.http.postTechnologist(this.inputTechnologist).subscribe({
       next: data => {
         this.inputTechnologist = {
@@ -56,7 +56,7 @@ export class CreateTechnologistComponent implements OnInit {
     });
   }
 
-  cancelEdit(){
+  cancelEdit() {
     this.inputTechnologist = {
       id: 0,
       firstName: "",
@@ -66,7 +66,7 @@ export class CreateTechnologistComponent implements OnInit {
     }
   }
 
-  editRow(technologist: Technologist){
+  editRow(technologist: Technologist) {
     this.inputTechnologist.firstName = technologist.firstName;
     this.inputTechnologist.id = technologist.id;
     this.inputTechnologist.lastName = technologist.lastName;

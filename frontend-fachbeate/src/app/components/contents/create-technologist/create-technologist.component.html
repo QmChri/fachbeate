@@ -1,46 +1,57 @@
 <div class="row">
-    <div class="col-4 form-control" style="display: flex; flex-direction: column;">
-        <mat-form-field>
-            <mat-label>Vorname</mat-label>
-            <input matInput [(ngModel)]="inputTechnologist.firstName">
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Nachname</mat-label>
-            <input matInput [(ngModel)]="inputTechnologist.lastName">
-        </mat-form-field>
-        <div class="form-check">
-            <label class="form-check-label" for="isActive" style="margin-right: 1rem;">Aktiv</label>
-            <input calss="form-check-input" type="checkbox" [(ngModel)]="inputTechnologist.active" id="isActive">
-        </div>
-        <div class="form-check">
-            <label class="form-check-label" for="color" style="margin-right: 1rem;">Kalender-Farbe</label>
-            <input class="form-check-input" type="color" [(ngModel)]="inputTechnologist.color" id="color">
-        </div>
-        <br>
-        <div style="display: flex;justify-content: space-around;">
-            <button class="btn btn-success" (click)="postTechnologist()"><i class="fa fa-save"></i></button>
-            <button class="btn btn-danger" [hidden]="inputTechnologist.id===0" (click)="cancelEdit()"><i class="fa fa-times"></i></button>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header text-white bg-danger">Allgemeine Daten</div>
+            <div class="card-body">
+                <div class="center-items">
+                    <mat-form-field class="smallInput">
+                        <mat-label>Vorname</mat-label>
+                        <input matInput type="text" [(ngModel)]="inputTechnologist.firstName" name="firstName">
+                    </mat-form-field>
+                    <mat-form-field class="smallInput">
+                        <mat-label>Nachname</mat-label>
+                        <input matInput type="text" [(ngModel)]="inputTechnologist.lastName" name="lastName">
+                    </mat-form-field>
+                    <div class="displayBySide">
+                        <mat-form-field>
+                            <mat-label>Kalender - Farbe</mat-label>
+                            <input type="color" id="color" [(ngModel)]="inputTechnologist.color" matInput>
+                        </mat-form-field>
+                        <label class="languageBox">Aktiv
+                            <mat-checkbox color="warn"></mat-checkbox>
+                        </label>
+                    </div>
+                    <div class="displayBySide">
+                        <button class="btn btn-danger" [hidden]="inputTechnologist.id===0" (click)="cancelEdit()"><i
+                                class="fa fa-times"></i></button>
+                        <button class="btn btn-success" (click)="postTechnologist()"><i class="fa fa-save"></i></button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="col-8">
-        <table  class="table">
+    <div class="col-md-9">
+
+
+        <nz-table class="col" #editRowTable nzTableLayout="fixed" nzBordered>
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>Id</th>
                     <th>Vorname</th>
                     <th>Nachname</th>
+                    <th>Kalender - Farbe</th>
                     <th>Aktiv</th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let technologist of technologistList" (click)="editRow(technologist)" >
+                <tr matTooltip="Zum Bearbeiten klicken ..." *ngFor="let technologist of technologistList"
+                    (click)="editRow(technologist)">
                     <td>{{technologist.id}}</td>
                     <td>{{technologist.firstName}}</td>
                     <td>{{technologist.lastName}}</td>
                     <td>
                         <div [ngStyle]="{'background-color': technologist.color}" style="width: 1rem;
-                        height: 1rem;
-                        border: 1px solid #000;"></div>
+                        height: 1rem; border-radius: 20%;"></div>
                     </td>
                     <td>
                         <span *ngIf="technologist.active" class="text-success">&#10004;</span>
@@ -48,6 +59,6 @@
                     </td>
                 </tr>
             </tbody>
-        </table>
+        </nz-table>
     </div>
 </div>
