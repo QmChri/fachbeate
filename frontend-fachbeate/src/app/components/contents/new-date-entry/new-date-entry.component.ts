@@ -1,6 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AbschlussBerichtComponent } from '../abschluss-bericht/abschluss-bericht.component';
+import { Technologist } from '../../../models/technologist';
+import { HttpService } from '../../../services/http.service';
+import { TechnologistAppointment } from '../../../models/technologist-appointment';
 
 @Component({
   selector: 'app-new-date-entry',
@@ -20,24 +23,50 @@ export class NewDateEntryComponent implements OnInit {
     'Haus Oftering',
     'Kundenbesuch'];
 
-  inputDate: { start?: string, end?: string, text?: String } = {}
+  inputDate: TechnologistAppointment = {};
+  technologists: Technologist[] = [];
 
-  constructor(public dialogRef: MatDialogRef<AbschlussBerichtComponent>, @Inject(MAT_DIALOG_DATA) public timeSpan: { start: string, end: string }) {
+  constructor(public dialogRef: MatDialogRef<AbschlussBerichtComponent>,
+     @Inject(MAT_DIALOG_DATA) public timeSpan: { start: string, end: string },
+     private http: HttpService
+    ) {
   }
   ngOnInit(): void {
-    this.inputDate.start = this.timeSpan.start;
-    this.inputDate.end = this.timeSpan.end;
+    this.inputDate.startDate = new Date(this.timeSpan.start);
+    this.inputDate.endDate = this.adjustEndDate(this.timeSpan.end);
+    this.getTechnologists();
   }
 
   addToList(addItem: string){
     this.reasons.push(addItem);
   }
 
-  test() {
-    console.log(this.inputDate)
+  getTechnologists(){
+    this.http.getActiveTechnologist().subscribe({
+      next: data => {
+        this.technologists = data;
+      },
+      error: err => {
+        console.log(err);
+      }
+    });
   }
   closeDialog(save: boolean) {
     this.dialogRef.close({ dialogRef: this.dialogRef, save: save });
+  }
+
+  save(){
+
+    this.http.postOtherDate(this.inputDate).subscribe({
+
+    });
+
+  }
+
+  adjustEndDate(endDate: string): Date {
+    const date = new Date(endDate);
+    date.setDate(date.getDate() - 1);
+    return new Date(date.toISOString().split('T')[0]);
   }
 
 }

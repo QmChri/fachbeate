@@ -9,4 +9,5 @@ export interface TechnologistAppointment {
     releaseSupervisor?: Date;
     flightBooking?: boolean;
     hotelBooking?: boolean;
+    reason?: string;
 }

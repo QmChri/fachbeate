@@ -4,8 +4,16 @@
 
     <div class="center-items">
         <mat-form-field>
+            <mat-label>Facharbeiter</mat-label>
+            <mat-select required placeholder="Auswählen . . . " [(ngModel)]="inputDate.requestedTechnologist" name="resons">
+                @for (te of technologists; track te) {
+                <mat-option [value]="te">{{te.firstName}} {{te.lastName}}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
             <mat-label>Grund</mat-label>
-            <mat-select required placeholder="Auswählen . . . " [ngModel]="reasonSelect" name="resons">
+            <mat-select required placeholder="Auswählen . . . " [(ngModel)]="inputDate.reason" name="resons">
 
                 @for (re of reasons; track reasons) {
                 <mat-option [value]="re">{{re}}</mat-option>
@@ -18,20 +26,24 @@
         </mat-form-field>
         <mat-form-field>
             <mat-label>Von - Datum</mat-label>
-            <input matInput [matDatepicker]="picker1" type="text" [(ngModel)]="inputDate.start" name="start">
+            <input matInput [matDatepicker]="picker1" type="text" [(ngModel)]="inputDate.startDate" name="start">
             <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker #picker1></mat-datepicker>
         </mat-form-field>
         <mat-form-field>
             <mat-label>Bis - Datum</mat-label>
-            <input matInput [matDatepicker]="picker2" type="text" [(ngModel)]="inputDate.end" name="end">
+            <input matInput [matDatepicker]="picker2" type="text" [(ngModel)]="inputDate.endDate" name="end">
             <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
             <mat-datepicker #picker2></mat-datepicker>
         </mat-form-field>
     </div>
     <br>
+    
     <div class="header">
         <div> <button (click)="closeDialog(false)" class="btn btn-secondary">Abbrechen</button></div>
-        <div> <button (click)="test()" class="btn btn-success">Speichern</button></div>
+        <div> <button (click)="save()" class="btn btn-success">Speichern</button></div>
     </div>
+
+
+
 </div>
