@@ -38,5 +38,9 @@ export class AbschlussBerichtComponent {
   closeDialog(save: boolean) {
     this.dialogRef.close({ finalReport: this.finalReport, save: save });
   }
+
+  changeEvent(event: any){
+    console.log(event)
+  }
   //closeDialog(save: boolean) { }
 }
