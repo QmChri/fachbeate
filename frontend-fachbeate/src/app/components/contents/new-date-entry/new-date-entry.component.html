@@ -4,12 +4,16 @@
 
     <div class="center-items">
         <mat-form-field>
-            <mat-label>Facharbeiter</mat-label>
-            <mat-select required placeholder="Auswählen . . . " [(ngModel)]="inputDate.requestedTechnologist" name="resons">
-                @for (te of technologists; track te) {
-                <mat-option [value]="te">{{te.firstName}} {{te.lastName}}</mat-option>
+            <mat-label>Angeforderter Technologe</mat-label>
+            <mat-select
+                [ngModel]="(inputDate.requestedTechnologist === undefined)?undefined:inputDate.requestedTechnologist.id"
+                (valueChange)="changeTechnolgist($event)" required>
+                <mat-option>--</mat-option>
+                @for (t of technologists; track technologists) {
+                <mat-option [value]="t.id">{{t.firstName}} {{t.lastName}}</mat-option>
                 }
             </mat-select>
+            <mat-error>Bitte auswählen</mat-error>
         </mat-form-field>
         <mat-form-field>
             <mat-label>Grund</mat-label>

@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import interactionPlugin from '@fullcalendar/interaction';
 import { MatDialog } from '@angular/material/dialog';
 import { NewDateEntryComponent } from '../contents/new-date-entry/new-date-entry.component';
+import { TechnologistAppointment } from '../../models/technologist-appointment';
 
 
 @Component({
@@ -57,7 +58,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
             id: ""+value.id,
             title: value.requestedTechnologist!.firstName + " " + value.requestedTechnologist!.lastName + " - " + value.company,
             start: value.startDate,
-            end: value.endDate,
+            end: this.adjustEndDate(value.endDate!.toString()),
             backgroundColor: value.requestedTechnologist!.color,
             borderColor: value.requestedTechnologist!.color,
           }]
@@ -85,7 +86,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
             id: ""+value.id,
             title: value.requestedTechnologist!.firstName + " " + value.requestedTechnologist!.lastName + " - " + value.company,
             start: value.startDate,
-            end: value.endDate,
+            end: this.adjustEndDate(value.endDate!.toString()),
             backgroundColor: value.requestedTechnologist!.color,
             borderColor: value.requestedTechnologist!.color,
           }]
@@ -116,7 +117,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
             id: ""+value.id,
             title: value.requestedTechnologist!.firstName + " " + value.requestedTechnologist!.lastName + " - " + value.reason,
             start: value.startDate,
-            end: value.endDate,
+            end: this.adjustEndDate(value.endDate!.toString()),
             backgroundColor: value.requestedTechnologist!.color,
             borderColor: value.requestedTechnologist!.color,
           }]
@@ -139,8 +140,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   handleSelect(clickInfo: any){
     console.log(clickInfo);
-
-    this.openDialog({start: clickInfo.startStr, end: clickInfo.endStr})
+    
+    this.openDialog({startDate: new Date(clickInfo.startStr), endDate: new Date(clickInfo.endStr)})
   }
   
   handleEventClick(clickInfo: any): void {
@@ -152,11 +153,30 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       this.router.navigate(['/customer-requirements', clickInfo.event.id]);
     }else if(this.workshopRequriementIds.includes(clickInfo.event.id)){
       this.router.navigate(['/seminar-registration', clickInfo.event.id]);
+    }else{
+      var appointment: TechnologistAppointment;
+
+      this.http.getOtherAppointmentById(Number(clickInfo.event.id)).subscribe({
+        next: data => {
+          this.openDialog(data);
+        },
+        error: err => {
+          console.log(err);
+        }
+      });
     }
   }
    
 
-  openDialog(timeSpan: {start: string, end: string}) {
+  openDialog(timeSpan: TechnologistAppointment) {
+    timeSpan.startDate = new Date(timeSpan.startDate!)
+    timeSpan.endDate = new Date(timeSpan.endDate!)
+
+    console.log("click");
+    
+    console.log(timeSpan);
+    
+
     const dialogRef = this.dialog.open(NewDateEntryComponent, {
       height: '31rem',
       width: '25rem',
@@ -166,7 +186,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   adjustEndDate(endDate: string): Date {
     const date = new Date(endDate);
-    date.setDate(date.getDate() + 1);
+    //date.setDate(date.getDate() + 1);
+    date.setHours(5)
+    console.log(date);
     return new Date(date.toISOString().split('T')[0]);
   }
 

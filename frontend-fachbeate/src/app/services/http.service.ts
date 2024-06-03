@@ -69,4 +69,8 @@ export class HttpService {
     return this.http.get<TechnologistAppointment[]>(API_URL + "appointment/other")
   }
 
+  getOtherAppointmentById(id: number): Observable<TechnologistAppointment>{
+    return this.http.get<TechnologistAppointment>(API_URL + "appointment/other/id",{params: {id: id}})
+  }
+
 }

@@ -218,8 +218,6 @@ export class CustomerRequirementsComponent implements OnInit {
 
   changeTechnolgist($event: any) {
     this.inputCustomerRequirement.requestedTechnologist = this.technologists.find(elemnt => elemnt.id === $event);
-    console.log(this.inputCustomerRequirement);
-
   }
 
 }

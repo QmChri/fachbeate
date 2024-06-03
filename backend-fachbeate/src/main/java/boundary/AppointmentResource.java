@@ -69,10 +69,10 @@ public class AppointmentResource {
     @Path("/other")
     @Transactional
     public Response postOtherAppointment(TechnologistAppointment technologistAppointment){
-
         if(technologistAppointment.id != null && technologistAppointment.id != 0) {
             TechnologistAppointment persisted = TechnologistAppointment.findById(technologistAppointment.id);
             persisted.updateEntity(technologistAppointment);
+            return Response.ok(persisted).build();
         }
         technologistAppointment.persist();
 
@@ -87,4 +87,9 @@ public class AppointmentResource {
         )).build();
     }
 
+    @GET
+    @Path("/other/id")
+    public Response getOtherAppointmentPerId(@QueryParam("id") Long id){
+        return Response.ok(TechnologistAppointment.findById(id)).build();
+    }
 }

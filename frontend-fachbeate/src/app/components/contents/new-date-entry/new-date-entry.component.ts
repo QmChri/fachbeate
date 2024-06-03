@@ -27,13 +27,24 @@ export class NewDateEntryComponent implements OnInit {
   technologists: Technologist[] = [];
 
   constructor(public dialogRef: MatDialogRef<AbschlussBerichtComponent>,
-     @Inject(MAT_DIALOG_DATA) public timeSpan: { start: string, end: string },
+     @Inject(MAT_DIALOG_DATA) public timeSpan: TechnologistAppointment,
      private http: HttpService
     ) {
   }
   ngOnInit(): void {
-    this.inputDate.startDate = new Date(this.timeSpan.start);
-    this.inputDate.endDate = this.adjustEndDate(this.timeSpan.end);
+    
+    this.inputDate.startDate = this.timeSpan.startDate;
+
+    if(this.timeSpan.id !== null && this.timeSpan.id !== undefined && this.timeSpan.id !== 0){
+      this.inputDate.id = this.timeSpan.id;
+      this.inputDate.endDate = this.timeSpan.endDate;
+      this.inputDate.reason = this.timeSpan.reason;
+      this.inputDate.requestedTechnologist = this.timeSpan.requestedTechnologist;
+    }else{
+      this.inputDate.endDate = this.adjustEndDate(this.timeSpan.endDate!.toString())
+    }
+
+
     this.getTechnologists();
   }
 
@@ -67,6 +78,11 @@ export class NewDateEntryComponent implements OnInit {
     const date = new Date(endDate);
     date.setDate(date.getDate() - 1);
     return new Date(date.toISOString().split('T')[0]);
+  }
+
+  
+  changeTechnolgist($event: any) {
+    this.inputDate.requestedTechnologist = this.technologists.find(elemnt => elemnt.id === $event);
   }
 
 }

@@ -29,7 +29,7 @@ public class TechnologistAppointment extends PanacheEntity {
     }
 
     public void updateEntity(TechnologistAppointment newTechnologistAppointment) {
-        this.requestedTechnologist = newTechnologistAppointment.requestedTechnologist;
+        this.requestedTechnologist = Technologist.findById(newTechnologistAppointment.requestedTechnologist.id);
         this.startDate = newTechnologistAppointment.startDate;
         this.endDate = newTechnologistAppointment.endDate;
         this.releaserManagement = newTechnologistAppointment.releaserManagement;
