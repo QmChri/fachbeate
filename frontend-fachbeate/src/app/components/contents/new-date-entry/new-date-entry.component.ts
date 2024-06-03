@@ -32,7 +32,7 @@ export class NewDateEntryComponent implements OnInit {
     ) {
   }
   ngOnInit(): void {
-    
+
     this.inputDate.startDate = this.timeSpan.startDate;
 
     if(this.timeSpan.id !== null && this.timeSpan.id !== undefined && this.timeSpan.id !== 0){
@@ -80,7 +80,7 @@ export class NewDateEntryComponent implements OnInit {
     return new Date(date.toISOString().split('T')[0]);
   }
 
-  
+
   changeTechnolgist($event: any) {
     this.inputDate.requestedTechnologist = this.technologists.find(elemnt => elemnt.id === $event);
   }

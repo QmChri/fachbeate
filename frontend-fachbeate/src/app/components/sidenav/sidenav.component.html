@@ -10,8 +10,8 @@
     <ul class="sidenav-nav">
         <li class="sidenav-nav-item" *ngFor="let data of navData">
             <!-- (click)="handleCLick(data)" -->
-            <a class="sidenav-nav-link" *ngIf="data.items && data.items.length > 0"
-                [routerLink]="[data.routeLink]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <a class="sidenav-nav-link" *ngIf="data.items && data.items.length > 0" [routerLink]="[data.routeLink]"
+                routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <i class="sidenav-link-icon" [class]="data.icon"></i>
                 <span class="sidenav-link-text" @fadeInOut *ngIf="collapsed">
                     {{data.label}}
@@ -32,6 +32,12 @@
             </div>
         </li>
         <li class="sidenav-nav-item logout">
+            <a class="sidenav-nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <i class="sidenav-link-icon" [class]="'fal fa-language'"></i>
+                <span class="sidenav-link-text" @fadeInOut *ngIf="collapsed">
+                    Sprach Auswahl
+                </span>
+            </a>
             <a class="sidenav-nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <i class="sidenav-link-icon" [class]="'fal fa-arrow-left'"></i>
                 <span class="sidenav-link-text" @fadeInOut *ngIf="collapsed">

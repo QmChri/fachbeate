@@ -23,7 +23,7 @@
                 <mat-option [value]="re">{{re}}</mat-option>
                 }
                 <div class="paddings">
-                    <input type="text" [(ngModel)]="addItem" name="addItem">
+                    <textarea style="height: 2rem" type="text" [(ngModel)]="addItem" name="addItem"></textarea>
                     <button type="button" mat-raised-button (click)="addToList(addItem)">Hinzufügen</button>
                 </div>
             </mat-select>
@@ -42,7 +42,7 @@
         </mat-form-field>
     </div>
     <br>
-    
+
     <div class="header">
         <div> <button (click)="closeDialog(false)" class="btn btn-secondary">Abbrechen</button></div>
         <div> <button (click)="save()" class="btn btn-success">Speichern</button></div>
