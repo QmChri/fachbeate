@@ -2,6 +2,7 @@
     <div class="mainView">
         <h1 class="paddingSearch">Abschlussbericht</h1>
         <hr>
+        <!-- TODO dropdown fürzuständiger technologe und verstreter -->
 
         <div class="row">
             <div class="col-md-7 paddingBottom">
@@ -125,27 +126,245 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-7 paddingBottom">
+            <div class="col-md-2 paddingBottom">
                 <div class="card">
+                    <!-- TODO nur die anzeigen die auch in selection drinnen stehen -->
                     <div class="card-header text-white bg-danger">Bericht per Grund</div>
-                    <div class="card-body">
-                        <div class="center-items">
-                            <mat-form-field *ngFor="let d of inputFinalReport.reasonReports">
-                                <input matInput type="text" [(ngModel)]="d.carriedOutActivity"
-                                    name="carriedOutActivity{{d.reason}}">
-                                <input matInput type="text" [(ngModel)]="d.presentedArticle"
-                                    name="presentedAricle{{d.reason}}">
-                                <input type="checkbox" [(ngModel)]="d.reworkByTechnologist"
-                                    name="reworkByTechnologist{{d.reason}}">
-                                <input matInput type="date" [(ngModel)]="d.reworkByTechnologistDoneUntil"
-                                    name="reworkByTechnologistDoneUntil{{d.reason}}">
-                                <input matInput type="text" [(ngModel)]="d.state" name="state{{d.reason}}">
-                                <input type="checkbox" [(ngModel)]="d.reworkByRepresentive"
-                                    name="reworkByRepresentive{{d.reason}}">
-                                <input matInput type="date" [(ngModel)]="d.reworkByRepresentativeDoneUntil"
-                                    name="reworkByRepresentativeDoneUntil{{d.reason}}">
+                    <mat-button-toggle-group [ngModel]="buttonSelect" (change)="changeSelections($event, 0)" vertical
+                        multiple>
+                        <mat-button-toggle value="1">Vorstellung</mat-button-toggle>
+                        <mat-button-toggle value="2">Problemlösung</mat-button-toggle>
+                        <mat-button-toggle value="3">Rezepturopt.</mat-button-toggle>
+                        <mat-button-toggle value="4">Musterproduktion</mat-button-toggle>
+                    </mat-button-toggle-group>
+                </div>
+            </div>
+             <!-- TODO nur die gründe anzeigen die auch ausgewählt sind -->
+            <div class="col-md-5 paddingBottom" *ngIf="buttonSelect.includes('1')">
+                <div class="card" hideToggle>
+                    <div class="card-header bg-danger text-white">Vorstellung</div>
+                    <div class="card-body" *ngFor="let d of inputFinalReport.reasonReports">
+                        <mat-form-field class="smallInput">
+                            <mat-label>Zusammenfassung</mat-label>
+                            <textarea matInput type="text" [(ngModel)]="d.carriedOutActivity"
+                                name="carriedOutActivity"></textarea>
+                        </mat-form-field>
+                        <mat-form-field class="smallInput">
+                            <mat-label>Artikel</mat-label>
+                            <input matInput type="text" [(ngModel)]="d.presentedArticle" name="presentedArticle">
+                        </mat-form-field>
+                        <div class="header">
+                            <mat-form-field class="smallInputSide">
+                                <mat-label>Nacharbeit Technologe</mat-label>
+                                <mat-select required placeholder="Auswählen . . . " [(ngModel)]="d.reworkByTechnologist"
+                                    name="reworkByTechnologist">
+                                    <mat-option [value]="true">Ja</mat-option>
+                                    <mat-option [value]="false">Nein</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-form-field class="smallInputSide">
+                                <mat-label>Nacharbeit Vertreter</mat-label>
+                                <mat-select required placeholder="Auswählen . . . " [ngModel]="d.reworkByRepresentive"
+                                    name="reworkByRepresentive">
+                                    <mat-option [value]="true">Ja</mat-option>
+                                    <mat-option [value]="false">Nein</mat-option>
+                                </mat-select>
                             </mat-form-field>
                         </div>
+                        <div class="header" *ngIf="d.reworkByTechnologist">
+                            <mat-form-field class="smallInputSide">
+                                <mat-label>Zu erledigen bis</mat-label>
+                                <input matInput [matDatepicker]="picker5" type="text"
+                                    [(ngModel)]="d.reworkByTechnologistDoneUntil" name="reworkByTechnologistDoneUntil">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
+                                <mat-datepicker #picker5></mat-datepicker>
+                            </mat-form-field>
+                            <mat-form-field class="smallInput">
+                                <mat-label>Status</mat-label>
+                                <mat-select required placeholder="Auswählen . . . " [ngModel]="d.state" name="state">
+                                    <mat-option [value]="1">Status 1</mat-option>
+                                    <mat-option [value]="2">Status 2</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <mat-form-field>
+                            <mat-label>Zu erledigen bis</mat-label>
+                            <input matInput [matDatepicker]="picker6" type="text"
+                                [(ngModel)]="d.reworkByRepresentativeDoneUntil" name="reworkByRepresentativeDoneUntil">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker6"></mat-datepicker-toggle>
+                            <mat-datepicker #picker6></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 paddingBottom" *ngIf="buttonSelect.includes('2')">
+                <div class="card" hideToggle>
+                    <div class="card-header bg-danger text-white">Problemlösung</div>
+                    <div class="card-body" *ngFor="let d of inputFinalReport.reasonReports">
+                        <mat-form-field class="smallInput">
+                            <mat-label>Zusammenfassung</mat-label>
+                            <textarea matInput type="text" [(ngModel)]="d.carriedOutActivity"
+                                name="carriedOutActivity"></textarea>
+                        </mat-form-field>
+                        <mat-form-field class="smallInput">
+                            <mat-label>Artikel</mat-label>
+                            <input matInput type="text" [(ngModel)]="d.presentedArticle" name="presentedArticle">
+                        </mat-form-field>
+                        <div class="header">
+                            <mat-form-field class="smallInputSide">
+                                <mat-label>Nacharbeit Technologe</mat-label>
+                                <mat-select required placeholder="Auswählen . . . " [(ngModel)]="d.reworkByTechnologist"
+                                    name="reworkByTechnologist">
+                                    <mat-option [value]="true">Ja</mat-option>
+                                    <mat-option [value]="false">Nein</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-form-field class="smallInputSide">
+                                <mat-label>Nacharbeit Vertreter</mat-label>
+                                <mat-select required placeholder="Auswählen . . . " [ngModel]="d.reworkByRepresentive"
+                                    name="reworkByRepresentive">
+                                    <mat-option [value]="true">Ja</mat-option>
+                                    <mat-option [value]="false">Nein</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="header" *ngIf="d.reworkByTechnologist">
+                            <mat-form-field class="smallInputSide">
+                                <mat-label>Zu erledigen bis</mat-label>
+                                <input matInput [matDatepicker]="picker5" type="text"
+                                    [(ngModel)]="d.reworkByTechnologistDoneUntil" name="reworkByTechnologistDoneUntil">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
+                                <mat-datepicker #picker5></mat-datepicker>
+                            </mat-form-field>
+                            <mat-form-field class="smallInput">
+                                <mat-label>Status</mat-label>
+                                <mat-select required placeholder="Auswählen . . . " [ngModel]="d.state" name="state">
+                                    <mat-option [value]="1">Status 1</mat-option>
+                                    <mat-option [value]="2">Status 2</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <mat-form-field>
+                            <mat-label>Zu erledigen bis</mat-label>
+                            <input matInput [matDatepicker]="picker6" type="text"
+                                [(ngModel)]="d.reworkByRepresentativeDoneUntil" name="reworkByRepresentativeDoneUntil">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker6"></mat-datepicker-toggle>
+                            <mat-datepicker #picker6></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 paddingBottom" *ngIf="buttonSelect.includes('3')">
+                <div class="card" hideToggle>
+                    <div class="card-header bg-danger text-white">Rezepturopt.</div>
+                    <div class="card-body" *ngFor="let d of inputFinalReport.reasonReports">
+                        <mat-form-field class="smallInput">
+                            <mat-label>Zusammenfassung</mat-label>
+                            <textarea matInput type="text" [(ngModel)]="d.carriedOutActivity"
+                                name="carriedOutActivity"></textarea>
+                        </mat-form-field>
+                        <mat-form-field class="smallInput">
+                            <mat-label>Artikel</mat-label>
+                            <input matInput type="text" [(ngModel)]="d.presentedArticle" name="presentedArticle">
+                        </mat-form-field>
+                        <div class="header">
+                            <mat-form-field class="smallInputSide">
+                                <mat-label>Nacharbeit Technologe</mat-label>
+                                <mat-select required placeholder="Auswählen . . . " [(ngModel)]="d.reworkByTechnologist"
+                                    name="reworkByTechnologist">
+                                    <mat-option [value]="true">Ja</mat-option>
+                                    <mat-option [value]="false">Nein</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-form-field class="smallInputSide">
+                                <mat-label>Nacharbeit Vertreter</mat-label>
+                                <mat-select required placeholder="Auswählen . . . " [ngModel]="d.reworkByRepresentive"
+                                    name="reworkByRepresentive">
+                                    <mat-option [value]="true">Ja</mat-option>
+                                    <mat-option [value]="false">Nein</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="header" *ngIf="d.reworkByTechnologist">
+                            <mat-form-field class="smallInputSide">
+                                <mat-label>Zu erledigen bis</mat-label>
+                                <input matInput [matDatepicker]="picker5" type="text"
+                                    [(ngModel)]="d.reworkByTechnologistDoneUntil" name="reworkByTechnologistDoneUntil">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
+                                <mat-datepicker #picker5></mat-datepicker>
+                            </mat-form-field>
+                            <mat-form-field class="smallInput">
+                                <mat-label>Status</mat-label>
+                                <mat-select required placeholder="Auswählen . . . " [ngModel]="d.state" name="state">
+                                    <mat-option [value]="1">Status 1</mat-option>
+                                    <mat-option [value]="2">Status 2</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <mat-form-field>
+                            <mat-label>Zu erledigen bis</mat-label>
+                            <input matInput [matDatepicker]="picker6" type="text"
+                                [(ngModel)]="d.reworkByRepresentativeDoneUntil" name="reworkByRepresentativeDoneUntil">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker6"></mat-datepicker-toggle>
+                            <mat-datepicker #picker6></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 paddingBottom" *ngIf="buttonSelect.includes('4')">
+                <div class="card" hideToggle>
+                    <div class="card-header bg-danger text-white">Musterproduktion</div>
+                    <div class="card-body" *ngFor="let d of inputFinalReport.reasonReports">
+                        <mat-form-field class="smallInput">
+                            <mat-label>Zusammenfassung</mat-label>
+                            <textarea matInput type="text" [(ngModel)]="d.carriedOutActivity"
+                                name="carriedOutActivity"></textarea>
+                        </mat-form-field>
+                        <mat-form-field class="smallInput">
+                            <mat-label>Artikel</mat-label>
+                            <input matInput type="text" [(ngModel)]="d.presentedArticle" name="presentedArticle">
+                        </mat-form-field>
+                        <div class="header">
+                            <mat-form-field class="smallInputSide">
+                                <mat-label>Nacharbeit Technologe</mat-label>
+                                <mat-select required placeholder="Auswählen . . . " [(ngModel)]="d.reworkByTechnologist"
+                                    name="reworkByTechnologist">
+                                    <mat-option [value]="true">Ja</mat-option>
+                                    <mat-option [value]="false">Nein</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-form-field class="smallInputSide">
+                                <mat-label>Nacharbeit Vertreter</mat-label>
+                                <mat-select required placeholder="Auswählen . . . " [ngModel]="d.reworkByRepresentive"
+                                    name="reworkByRepresentive">
+                                    <mat-option [value]="true">Ja</mat-option>
+                                    <mat-option [value]="false">Nein</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="header" *ngIf="d.reworkByTechnologist">
+                            <mat-form-field class="smallInputSide">
+                                <mat-label>Zu erledigen bis</mat-label>
+                                <input matInput [matDatepicker]="picker5" type="text"
+                                    [(ngModel)]="d.reworkByTechnologistDoneUntil" name="reworkByTechnologistDoneUntil">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
+                                <mat-datepicker #picker5></mat-datepicker>
+                            </mat-form-field>
+                            <mat-form-field class="smallInput">
+                                <mat-label>Status</mat-label>
+                                <mat-select required placeholder="Auswählen . . . " [ngModel]="d.state" name="state">
+                                    <mat-option [value]="1">Status 1</mat-option>
+                                    <mat-option [value]="2">Status 2</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <mat-form-field>
+                            <mat-label>Zu erledigen bis</mat-label>
+                            <input matInput [matDatepicker]="picker6" type="text"
+                                [(ngModel)]="d.reworkByRepresentativeDoneUntil" name="reworkByRepresentativeDoneUntil">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker6"></mat-datepicker-toggle>
+                            <mat-datepicker #picker6></mat-datepicker>
+                        </mat-form-field>
                     </div>
                 </div>
             </div>
