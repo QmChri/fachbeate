@@ -24,12 +24,20 @@ export class NewDateEntryComponent implements OnInit {
     'Kundenbesuch'];
 
   inputDate: TechnologistAppointment = {};
-  technologists: Technologist[] = [];
+  technologists: Technologist[] = [
+    {
+      id: 12,
+      firstName: "asdad",
+      lastName: "sdfsfd",
+      active: true,
+      color: '#f4f4f4'
+    }
+  ];
 
   constructor(public dialogRef: MatDialogRef<AbschlussBerichtComponent>,
-     @Inject(MAT_DIALOG_DATA) public timeSpan: { start: string, end: string },
-     private http: HttpService
-    ) {
+    @Inject(MAT_DIALOG_DATA) public timeSpan: { start: string, end: string },
+    private http: HttpService
+  ) {
   }
   ngOnInit(): void {
     this.inputDate.startDate = new Date(this.timeSpan.start);
@@ -37,11 +45,11 @@ export class NewDateEntryComponent implements OnInit {
     this.getTechnologists();
   }
 
-  addToList(addItem: string){
+  addToList(addItem: string) {
     this.reasons.push(addItem);
   }
 
-  getTechnologists(){
+  getTechnologists() {
     this.http.getActiveTechnologist().subscribe({
       next: data => {
         this.technologists = data;
@@ -55,7 +63,7 @@ export class NewDateEntryComponent implements OnInit {
     this.dialogRef.close({ dialogRef: this.dialogRef, save: save });
   }
 
-  save(){
+  save() {
 
     this.http.postOtherDate(this.inputDate).subscribe({
 
