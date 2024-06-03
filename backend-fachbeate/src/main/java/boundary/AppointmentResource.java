@@ -82,7 +82,9 @@ public class AppointmentResource {
     @GET
     @Path("/other")
     public Response getOtherAppointments(){
-        return Response.ok(TechnologistAppointment.listAll()).build();
+        return Response.ok(TechnologistAppointment.listAll().stream().filter(
+                element -> !(element instanceof WorkshopRequirement) && !(element instanceof CustomerRequirement)
+        )).build();
     }
 
 }
