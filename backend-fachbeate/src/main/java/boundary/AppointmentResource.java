@@ -65,4 +65,24 @@ public class AppointmentResource {
         return Response.ok(WorkshopRequirement.findById(id)).build();
     }
 
+    @POST
+    @Path("/other")
+    @Transactional
+    public Response postOtherAppointment(TechnologistAppointment technologistAppointment){
+
+        if(technologistAppointment.id != null && technologistAppointment.id != 0) {
+            TechnologistAppointment persisted = TechnologistAppointment.findById(technologistAppointment.id);
+            persisted.updateEntity(technologistAppointment);
+        }
+        technologistAppointment.persist();
+
+        return Response.ok(technologistAppointment).build();
+    }
+
+    @GET
+    @Path("/other")
+    public Response getOtherAppointments(){
+        return Response.ok(TechnologistAppointment.listAll()).build();
+    }
+
 }

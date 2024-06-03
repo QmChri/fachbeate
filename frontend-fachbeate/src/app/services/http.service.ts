@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Technologist } from '../models/technologist';
 import { WorkshopRequirement } from '../models/workshop-requirement';
 import { CustomerVisit } from '../models/customer-visit';
+import { TechnologistAppointment } from '../models/technologist-appointment';
 
 
 
@@ -59,5 +60,13 @@ export class HttpService {
     return this.http.post(API_URL + "technologist", technologist);
   }
 
+
+  postOtherDate(date: TechnologistAppointment): Observable<TechnologistAppointment>{
+    return this.http.post<TechnologistAppointment>(API_URL + "appointment/other", date);
+  }
+
+  getOtherAppointments(): Observable<TechnologistAppointment[]>{
+    return this.http.get<TechnologistAppointment[]>(API_URL + "appointment/other")
+  }
 
 }

@@ -129,6 +129,9 @@ export class CustomerRequirementsComponent implements OnInit {
 
 
   postCustomerRequirement() {
+
+    this.inputCustomerRequirement.reason = "Technologen Anforderung"
+
     this.http.postCustomerRequirement(this.inputCustomerRequirement).subscribe({
       next: data => {
         this.inputCustomerRequirement = data;

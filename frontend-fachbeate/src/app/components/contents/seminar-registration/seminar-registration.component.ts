@@ -94,6 +94,7 @@ export class SeminarRegistrationComponent implements OnInit{
   postWorkshopRequest(){
 
     console.log(this.inputWorkshop);
+    this.inputWorkshop.reason = "Seminar"
 
 
     this.http.postWorkshop(this.inputWorkshop).subscribe({

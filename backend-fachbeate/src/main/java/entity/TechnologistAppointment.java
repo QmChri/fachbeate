@@ -22,20 +22,22 @@ public class TechnologistAppointment extends PanacheEntity {
 
     public boolean hotelBooking;
     public boolean flightBooking;
+    public String reason;
 
 
     public TechnologistAppointment() {
     }
 
-    protected void updateEntity(TechnologistAppointment newTechnoloigstAppointment) {
-        this.requestedTechnologist = newTechnoloigstAppointment.requestedTechnologist;
-        this.startDate = newTechnoloigstAppointment.startDate;
-        this.endDate = newTechnoloigstAppointment.endDate;
-        this.releaserManagement = newTechnoloigstAppointment.releaserManagement;
-        this.releaseManagement = newTechnoloigstAppointment.releaseManagement;
-        this.releaserSupervisor = newTechnoloigstAppointment.releaserSupervisor;
-        this.releaseSupervisor = newTechnoloigstAppointment.releaseSupervisor;
-        this.hotelBooking = newTechnoloigstAppointment.hotelBooking;
-        this.flightBooking = newTechnoloigstAppointment.flightBooking;
+    public void updateEntity(TechnologistAppointment newTechnologistAppointment) {
+        this.requestedTechnologist = newTechnologistAppointment.requestedTechnologist;
+        this.startDate = newTechnologistAppointment.startDate;
+        this.endDate = newTechnologistAppointment.endDate;
+        this.releaserManagement = newTechnologistAppointment.releaserManagement;
+        this.releaseManagement = newTechnologistAppointment.releaseManagement;
+        this.releaserSupervisor = newTechnologistAppointment.releaserSupervisor;
+        this.releaseSupervisor = newTechnologistAppointment.releaseSupervisor;
+        this.hotelBooking = newTechnologistAppointment.hotelBooking;
+        this.flightBooking = newTechnologistAppointment.flightBooking;
+        this.reason = newTechnologistAppointment.reason;
     }
 }
