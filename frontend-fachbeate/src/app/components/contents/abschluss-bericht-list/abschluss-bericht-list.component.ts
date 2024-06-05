@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpService } from '../../services/http.service';
-import { Technologist } from '../../models/technologist';
+import { HttpService } from '../../../services/http.service';
+import { Technologist } from '../../../models/technologist';
 
 @Component({
-  selector: 'app-main-list',
-  templateUrl: './main-list.component.html',
-  styleUrls: ['./main-list.component.css']
+  selector: 'app-abschluss-bericht-list',
+  templateUrl: './abschluss-bericht-list.component.html',
+  styleUrl: './abschluss-bericht-list.component.scss'
 })
-export class MainListComponent implements OnInit{
+export class AbschlussBerichtListComponent implements OnInit {
   searchValue = '';
   visible = false;
   listOfData: DataItem[] = [];
@@ -16,7 +16,7 @@ export class MainListComponent implements OnInit{
   technologistList: Technologist[] = [];
 
   listOfDisplayData: DataItem[] = [];
-  listOfColumn: ColumnDefinition[]  = [
+  listOfColumn: ColumnDefinition[] = [
     {
       name: 'Kundennummer',
       sortOrder: null,
@@ -95,14 +95,13 @@ export class MainListComponent implements OnInit{
     },
   ];
 
-
   constructor(private router: Router, private http: HttpService) { }
 
   ngOnInit(): void {
     this.loadData();
   }
 
-  loadData(){
+  loadData() {
 
     this.loadTechnologists();
 
@@ -111,9 +110,9 @@ export class MainListComponent implements OnInit{
         data.forEach(element => {
 
           var tmpStatus = "in-progress";
-          if((element.releaseManagement != null && element.releaseManagement != undefined)
-            || (element.releaseSupervisor != null && element.releaseSupervisor != undefined)){
-              tmpStatus = "open";
+          if ((element.releaseManagement != null && element.releaseManagement != undefined)
+            || (element.releaseSupervisor != null && element.releaseSupervisor != undefined)) {
+            tmpStatus = "open";
           }
 
           console.log(new Date(element.endDate!).toDateString());
@@ -127,10 +126,10 @@ export class MainListComponent implements OnInit{
             vertreter: element.representative!,
             fachberater: element.requestedTechnologist!.firstName + " " + element.requestedTechnologist!.lastName,
             timespan: {
-              days:  Math.round(Math.abs(new Date(element.endDate!).getTime() - new Date(element.startDate!).getTime()) / 86400000),
-              hours:0,
-              minutes:0,
-              seconds:0
+              days: Math.round(Math.abs(new Date(element.endDate!).getTime() - new Date(element.startDate!).getTime()) / 86400000),
+              hours: 0,
+              minutes: 0,
+              seconds: 0
             },
             abschlussbericht: false,
             type: 0
@@ -151,9 +150,9 @@ export class MainListComponent implements OnInit{
         data.forEach(element => {
 
           var tmpStatus = "in-progress";
-          if((element.releaseManagement != null && element.releaseManagement != undefined)
-            || (element.releaseSupervisor != null && element.releaseSupervisor != undefined)){
-              tmpStatus = "open";
+          if ((element.releaseManagement != null && element.releaseManagement != undefined)
+            || (element.releaseSupervisor != null && element.releaseSupervisor != undefined)) {
+            tmpStatus = "open";
           }
 
           console.log(new Date(element.endDate!).toDateString());
@@ -167,15 +166,15 @@ export class MainListComponent implements OnInit{
             vertreter: element.seminarPresenter!,
             fachberater: element.requestedTechnologist!.firstName + " " + element.requestedTechnologist!.lastName,
             timespan: {
-              days:  Math.round(Math.abs(new Date(element.endDate!).getTime() - new Date(element.startDate!).getTime()) / 86400000),
-              hours:0,
-              minutes:0,
-              seconds:0
+              days: Math.round(Math.abs(new Date(element.endDate!).getTime() - new Date(element.startDate!).getTime()) / 86400000),
+              hours: 0,
+              minutes: 0,
+              seconds: 0
             },
             abschlussbericht: false,
             type: 1
           }];
-          
+
         });
 
         this.resetFilters()
@@ -189,24 +188,24 @@ export class MainListComponent implements OnInit{
 
   }
 
-  loadTechnologists(){
+  loadTechnologists() {
     this.http.getAllTechnologist().subscribe({
-      next: data =>  { this.technologistList = data },
-      error: err => {console.log(err);
+      next: data => { this.technologistList = data },
+      error: err => {
+        console.log(err);
       }
     })
   }
 
   openCRC(dateNr: number, type: number) {
-    if(type === 0){
+    if (type === 0) {
       this.router.navigate(['/customer-requirements', dateNr]);
-    }else if(type === 1){
+    } else if (type === 1) {
       this.router.navigate(['/seminar-registration', dateNr]);
     }
 
     console.log('Selected Field:', dateNr);
   }
-
 
   resetFilters(): void {
     this.listOfColumn.forEach(item => {
@@ -227,10 +226,10 @@ export class MainListComponent implements OnInit{
           { text: 'Vertreter X', value: 'Vertreter X' }
         ];
       } else if (item.name === 'Fachberater') {
-        var tmp: {text: string; value: string}[] = [];
+        var tmp: { text: string; value: string }[] = [];
 
         this.technologistList.forEach(technolgist => {
-          tmp = [...tmp, {text: technolgist.firstName + " " + technolgist.lastName, value: technolgist.firstName + " " + technolgist.lastName}]
+          tmp = [...tmp, { text: technolgist.firstName + " " + technolgist.lastName, value: technolgist.firstName + " " + technolgist.lastName }]
         })
 
         item.listOfFilter! = tmp;
@@ -296,6 +295,6 @@ interface ColumnDefinition {
   name: string;
   sortOrder: any;
   sortFn: (a: DataItem, b: DataItem) => number;
-  listOfFilter: {text: string, value: string}[];
+  listOfFilter: { text: string, value: string }[];
   filterFn?: (list: string[], item: DataItem) => boolean;
 }

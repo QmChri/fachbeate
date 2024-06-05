@@ -51,6 +51,8 @@ import { NewDateEntryComponent } from './components/contents/new-date-entry/new-
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import {MatMenuModule} from '@angular/material/menu';
+import { AbschlussBerichtListComponent } from './components/contents/abschluss-bericht-list/abschluss-bericht-list.component';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -72,10 +74,12 @@ registerLocaleData(de);
     CreateTechnologistComponent,
     VisitorRegistrationComponent,
     AbschlussBerichtComponent,
-    NewDateEntryComponent
+    NewDateEntryComponent,
+    AbschlussBerichtListComponent
   ],
   imports: [
     MatTooltipModule,
+    MatMenuModule,
     MatDatepickerModule,
     MatDialogTitle,
     MatDialogContent,

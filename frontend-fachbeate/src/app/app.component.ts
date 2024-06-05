@@ -19,11 +19,6 @@ export class AppComponent {
     this.translate.setDefaultLang('de');
   }
 
-  switchLanguage(language: string){
-    this.translate.use(language);
-  }
-
-
   isSideNavCollapsed = false;
   screenWidth = 0;
 

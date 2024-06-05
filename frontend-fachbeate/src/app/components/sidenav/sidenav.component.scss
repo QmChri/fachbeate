@@ -167,3 +167,18 @@
 .logout {
     margin-top: auto;
 }
+
+.header {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 0.2rem;
+    padding-right: 0.2rem;
+}
+
+.header:hover {
+    background-color: #00000061;
+    color: white;
+}

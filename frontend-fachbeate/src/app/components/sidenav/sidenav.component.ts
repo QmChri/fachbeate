@@ -2,9 +2,6 @@ import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/
 import { navbarData } from './nav-data';
 import { animate, keyframes, style, transition, trigger } from '@angular/animations';
 import { TranslateService } from '@ngx-translate/core';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { LanguageSelectionComponent } from '../contents/language-selection/language-selection.component';
-
 
 interface SideNavToggle {
   screenWidth: number;
@@ -50,15 +47,12 @@ export class SidenavComponent implements OnInit {
   multiple: boolean = false;
   currentUrl = "";
 
-  constructor(private translate: TranslateService, private bottomSheet: MatBottomSheet) {
+  constructor(private translate: TranslateService) {
     this.translate.setDefaultLang('de');
   }
-
-  //TODO language auswahl mit select in der sidebara
-  openBottomSheet(): void {
-    this.bottomSheet.open(LanguageSelectionComponent, {
-      panelClass: 'customWidth',
-    });
+  switchLanguage(language: string) {
+    this.translate.use(language);
+    console.log(language)
   }
 
   @HostListener('window:resize', ['$event'])
@@ -84,21 +78,20 @@ export class SidenavComponent implements OnInit {
     this.collapsed = false;
     this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth });
   }
-
   /*
-  handleCLick(item: INavbarData):void {
-    if(item.routeLink === "app-tab1" || item.routeLink === "app-artikelsprachcode"){
-      console.log(item.routeLink);
-      this.collapsed = true;
-      this.onToggleSideNav.emit({collapsed: this.collapsed, screenWidth: this.screenWidth});
-    }
-    if(!this.multiple){
-      for(let modelItem of this.navData){
-        if(item !== modelItem && modelItem.expanded){
-          modelItem.expanded = false;
+    handleCLick(item: INavbarData): void {
+      if (item.routeLink === "app-tab1" || item.routeLink === "app-artikelsprachcode") {
+        console.log(item.routeLink);
+        this.collapsed = true;
+        this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth });
+      }
+      if (!this.multiple) {
+        for (let modelItem of this.navData) {
+          if (item !== modelItem && modelItem.expanded) {
+            modelItem.expanded = false;
+          }
         }
       }
-    }
-    item.expanded = !item.expanded
-  }*/
+      item.expanded = !item.expanded
+    }*/
 }
