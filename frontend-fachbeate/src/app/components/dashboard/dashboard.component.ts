@@ -182,6 +182,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       width: '25rem',
       data: timeSpan
     });
+
+    dialogRef.afterClosed().subscribe(
+      data => {
+        this.loadEvents()
+      });
   }
 
   adjustEndDate(endDate: string): Date {

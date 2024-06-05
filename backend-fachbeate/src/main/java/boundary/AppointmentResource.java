@@ -92,4 +92,12 @@ public class AppointmentResource {
     public Response getOtherAppointmentPerId(@QueryParam("id") Long id){
         return Response.ok(TechnologistAppointment.findById(id)).build();
     }
+
+
+    @GET
+    @Path("/finalReport")
+    public Response getFinalReports(){
+        return Response.ok(FinalReport.listAll()).build();
+    }
+
 }
