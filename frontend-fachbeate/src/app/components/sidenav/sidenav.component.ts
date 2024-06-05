@@ -54,7 +54,7 @@ export class SidenavComponent implements OnInit {
     this.translate.setDefaultLang('de');
   }
 
-  //TODO language auswahl mit select in der sidebar
+  //TODO language auswahl mit select in der sidebara
   openBottomSheet(): void {
     this.bottomSheet.open(LanguageSelectionComponent, {
       panelClass: 'customWidth',

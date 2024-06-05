@@ -1,3 +1,4 @@
+import { Department } from "./department";
 import { FinalReport } from "./final-report";
 
 export class CustomerVisit {
@@ -34,17 +35,17 @@ export class CustomerVisit {
     ) {
         this.editId = 0;
         this.id = id,
-        this.companyName = companyName,
-        this.customerNr = customerNr,
-        this.address = address,
-        this.contactPerson = contactPerson,
-        this.dateOfVisit = dateOfVisit,
-        this.presentationOfNewProducts = presentationOfNewProducts,
-        this.existingProducts = existingProducts,
-        this.recipeOptimization = recipeOptimization,
-        this.sampleProduction = sampleProduction,
-        this.training = training,
-        this.productionAmount = productionAmount
+            this.companyName = companyName,
+            this.customerNr = customerNr,
+            this.address = address,
+            this.contactPerson = contactPerson,
+            this.dateOfVisit = dateOfVisit,
+            this.presentationOfNewProducts = presentationOfNewProducts,
+            this.existingProducts = existingProducts,
+            this.recipeOptimization = recipeOptimization,
+            this.sampleProduction = sampleProduction,
+            this.training = training,
+            this.productionAmount = productionAmount
         this.finalReport = {}
     }
 }
