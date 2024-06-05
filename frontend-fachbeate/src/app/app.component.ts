@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 interface SideNavToggle {
   screenWidth: number;
@@ -13,6 +14,15 @@ interface SideNavToggle {
 })
 export class AppComponent {
   title = 'Fachberater';
+
+  constructor(private translate: TranslateService){
+    this.translate.setDefaultLang('de');
+  }
+
+  switchLanguage(language: string){
+    this.translate.use(language);
+  }
+
 
   isSideNavCollapsed = false;
   screenWidth = 0;

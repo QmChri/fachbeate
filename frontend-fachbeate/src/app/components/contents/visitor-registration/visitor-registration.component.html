@@ -123,6 +123,7 @@
                 <mat-button-toggle value="3">Hotelbuchung</mat-button-toggle>
                 <mat-button-toggle value="4">Mittagessen</mat-button-toggle>
                 <mat-button-toggle value="5">Flughafen Transfer - Zug</mat-button-toggle>
+                <mat-button-toggle value="6">Geplante Abteilungsbesuche</mat-button-toggle>
             </mat-button-toggle-group>
         </div>
     </div>
@@ -298,6 +299,57 @@
                             <input matInput>
                         </mat-form-field>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8 paddingBottom" *ngIf="buttonSelect.includes('6')">
+        <div class="card" hideToggle>
+            <div class="card-header bg-danger text-white">Geplante Abteilungsbesuche</div>
+            <div class="card-body minheigtCard">
+                <div class="displayBySide">
+                    <nz-table class="col" nzSize="small" nzBordered nzNoResult>
+                        <thead>
+                            <tr>
+                                <th [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
+                                    (nzCheckedChange)="onAllChecked($event)"></th>
+                                <th>Abteilung</th>
+                                <th width="150px">Datum</th>
+                            </tr>
+                        </thead>
+                        <!-- Backend für abteilungsbesuche machen -->
+                        <tbody nzNoResult>
+                            <tr *ngFor="let data of listOfCurrentPageData">
+                                <td [nzChecked]="setOfCheckedId.has(data.id)"
+                                    (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
+                                <td>{{data.name}}</td>
+                                <td>
+                                    <input type="date" [(ngModel)]="data.dateOfVisit" class="form-control">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </nz-table>
+                    <nz-table class="col" nzSize="small" nzBordered nzNoResult>
+                        <thead>
+                            <tr>
+                                <th [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
+                                    (nzCheckedChange)="onAllChecked($event)"></th>
+                                <th width="300px">Abteilung</th>
+                                <th width="150px">Datum</th>
+                            </tr>
+                        </thead>
+                        <!-- Backend für abteilungsbesuche machen -->
+                        <tbody>
+                            <tr *ngFor="let data of listOfCurrentPageData2">
+                                <td [nzChecked]="setOfCheckedId.has(data.id)"
+                                    (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
+                                <td>{{data.name}}</td>
+                                <td>
+                                    <input type="date" [(ngModel)]="data.dateOfVisit" class="form-control">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </nz-table>
                 </div>
             </div>
         </div>

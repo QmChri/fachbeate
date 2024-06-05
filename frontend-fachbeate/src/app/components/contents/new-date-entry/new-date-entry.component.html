@@ -24,7 +24,9 @@
                 }
                 <div class="paddings">
                     <textarea style="height: 2rem" type="text" [(ngModel)]="addItem" name="addItem"></textarea>
-                    <button type="button" mat-raised-button (click)="addToList(addItem)">Hinzufügen</button>
+                    <button style="height: 2rem;" type="button" *ngIf="addItem" mat-raised-button
+                        (click)="addToList(addItem)"><i class="fa fa-plus" aria-hidden="true"></i>
+                    </button>
                 </div>
             </mat-select>
         </mat-form-field>
