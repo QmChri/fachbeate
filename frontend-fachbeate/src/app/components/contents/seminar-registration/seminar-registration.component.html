@@ -46,10 +46,17 @@
                         <mat-label>Anreise Art (Auto, Zug, ...)</mat-label>
                         <input matInput [(ngModel)]="inputWorkshop.travelType">
                     </mat-form-field>
-                    <mat-form-field>
-                        <mat-label>Teilnehmer</mat-label>
-                        <input type="number" min="0" matInput [(ngModel)]="inputWorkshop.amountParticipants">
-                    </mat-form-field>
+                    <div class="paddingSearch">
+                        <mat-form-field style="max-width: 8rem;">
+                            <mat-label>Anzahl</mat-label>
+                            <input type="number" min="0" matInput required
+                                [(ngModel)]="inputWorkshop.amountParticipants">
+                        </mat-form-field>
+                        <button class="btn btn-success teilButton" matTooltip="Teilnehmerliste"
+                            (click)="openDialog(inputWorkshop.amountParticipants!)">
+                            <i class="fas fa-user-friends"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
