@@ -1,7 +1,8 @@
-export interface Technologist {
+export interface Representative {
+
     id?: number;
     firstName?: string;
     lastName?: string;
     active?: boolean;
-    color?: string;
+
 }

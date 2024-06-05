@@ -1,5 +1,6 @@
 package boundary;
 
+import entity.Representative;
 import entity.Technologist;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.GET;
@@ -32,5 +33,33 @@ public class TechnologistResource {
     public Response getActiveTechnologists(){
         return Response.ok(Technologist.find("active",true).list()).build();
     }
+
+
+    @POST
+    @Path("representative")
+    @Transactional
+    public Response postRepresentative(Representative representative){
+        if(representative.id == null || representative.id == 0){
+            representative.id = null;
+            representative.persist();
+            return Response.ok(representative).build();
+        }
+        Representative updateRepresentative = Representative.findById(representative.id);
+        updateRepresentative.updateEntity(representative);
+        return Response.ok(updateRepresentative).build();
+    }
+
+    @GET
+    @Path("representative")
+    public Response getAllRepresentative(){
+        return Response.ok(Representative.listAll()).build();
+    }
+
+    @GET
+    @Path("representative/allActive")
+    public Response getActiveRepresentative(){
+        return Response.ok(Representative.find("active",true).list()).build();
+    }
+
 
 }
