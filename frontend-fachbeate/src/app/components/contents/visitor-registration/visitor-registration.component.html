@@ -308,7 +308,7 @@
             <div class="card-header bg-danger text-white">Geplante Abteilungsbesuche</div>
             <div class="card-body minheigtCard">
                 <div class="displayBySide">
-                    <nz-table class="col" nzSize="small" nzBordered>
+                    <nz-table class="col" nzSize="small" nzBordered nzNoResult>
                         <thead>
                             <tr>
                                 <th [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
@@ -318,7 +318,7 @@
                             </tr>
                         </thead>
                         <!-- Backend für abteilungsbesuche machen -->
-                        <tbody>
+                        <tbody nzNoResult>
                             <tr *ngFor="let data of listOfCurrentPageData">
                                 <td [nzChecked]="setOfCheckedId.has(data.id)"
                                     (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
