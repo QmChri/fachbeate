@@ -46,16 +46,16 @@
     </thead>
     <tbody>
         <tr *ngFor="let data of nzTable.data">
-            <td (dblclick)="openCRC(data.nr, data.type)">{{ data.nr }}</td>
-            <td (dblclick)="openCRC(data.nr, data.type)">{{ data.createDate.getDay() }}/{{ data.createDate.getDate()
+            <td>{{ data.customerNr }}</td>
+            <td>{{ data.createDate.getDay() }}/{{ data.createDate.getDate()
                 }}/{{
                 data.createDate.getFullYear() }}</td>
-            <td (dblclick)="openCRC(data.nr, data.type)">{{ data.status }}</td>
-            <td (dblclick)="openCRC(data.nr, data.type)">{{ data.toha }}</td>
-            <td (dblclick)="openCRC(data.nr, data.type)">{{ data.vertreter }}</td>
-            <td (dblclick)="openCRC(data.nr, data.type)">{{ data.fachberater }}</td>
-            <td (dblclick)="openCRC(data.nr, data.type)">{{ data.timespan.days }}/{{ data.timespan.hours }}</td>
-            <td (dblclick)="openCRC(data.nr, data.type)" class="centerRow">
+            <td>{{ data.status }}</td>
+            <td>{{ data.toha }}</td>
+            <td>{{ data.vertreter }}</td>
+            <td>{{ data.fachberater }}</td>
+            <td>{{ data.timespan.days }}/{{ data.timespan.hours }}</td>
+            <td class="centerRow">
                 <span *ngIf="data.abschlussbericht" class="text-success">&#10004;</span>
                 <span *ngIf="!data.abschlussbericht" class="text-danger">&#10008;</span>
             </td>

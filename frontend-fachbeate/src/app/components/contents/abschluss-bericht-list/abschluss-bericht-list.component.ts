@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpService } from '../../../services/http.service';
-import { Technologist } from '../../../models/technologist';
+import { FinalReport } from '../../../models/final-report';
 
 @Component({
   selector: 'app-abschluss-bericht-list',
@@ -13,14 +13,23 @@ export class AbschlussBerichtListComponent implements OnInit {
   visible = false;
   listOfData: DataItem[] = [];
 
-  technologistList: Technologist[] = [];
+  abschlussList: FinalReport[] = [];
 
   listOfDisplayData: DataItem[] = [];
   listOfColumn: ColumnDefinition[] = [
     {
       name: 'Kundennummer',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.nr.toString().localeCompare(b.nr.toString()),
+      sortFn: (a: DataItem, b: DataItem) => a.customerNr.toString().localeCompare(b.customerNr.toString()),
+      listOfFilter: [
+        { text: ' ', value: ' ' },
+      ],
+      filterFn: (list: string[], item: DataItem) => true
+    },
+    {
+      name: 'Datum Kundenbesuch',
+      sortOrder: null,
+      sortFn: (a: DataItem, b: DataItem) => a.dateOfVisit.valueOf().toString().localeCompare(b.dateOfVisit.valueOf().toString()),
       listOfFilter: [
         { text: ' ', value: ' ' },
       ],
@@ -31,22 +40,13 @@ export class AbschlussBerichtListComponent implements OnInit {
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.createDate.valueOf().toString().localeCompare(b.createDate.valueOf().toString()),
       listOfFilter: [
-        { text: ' ', value: ' ' },
-      ],
-      filterFn: (list: string[], item: DataItem) => true
-    },
-    {
-      name: 'Status',
-      sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.status.localeCompare(b.status),
-      listOfFilter: [
         { text: 'open', value: 'open' },
         { text: 'in-progress', value: 'in-progress' }
       ],
       filterFn: (list: string[], item: DataItem) => list.some(name => item.status.indexOf(name) !== -1)
     },
     {
-      name: 'Händler/Töchter',
+      name: 'Zuständiger Technologe',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.toha.localeCompare(b.toha),
       listOfFilter: [
@@ -57,7 +57,7 @@ export class AbschlussBerichtListComponent implements OnInit {
       filterFn: (list: string[], item: DataItem) => list.some(name => item.toha.indexOf(name) !== -1)
     },
     {
-      name: 'Vertreter',
+      name: 'Zu erledigen bis (Technologe)',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.vertreter.localeCompare(b.vertreter),
       listOfFilter: [
@@ -66,7 +66,7 @@ export class AbschlussBerichtListComponent implements OnInit {
       filterFn: (list: string[], item: DataItem) => list.some(name => item.vertreter.indexOf(name) !== -1)
     },
     {
-      name: 'Fachberater',
+      name: 'Zuständiger Vertreter',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.fachberater.localeCompare(b.fachberater),
       listOfFilter: [
@@ -75,7 +75,7 @@ export class AbschlussBerichtListComponent implements OnInit {
       filterFn: (list: string[], item: DataItem) => list.some(name => item.fachberater.indexOf(name) !== -1)
     },
     {
-      name: 'Zeitraum (d/h)',
+      name: 'Zu erledigen bis (Vertreter)',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.timespan.valueOf().toString().localeCompare(b.timespan.valueOf().toString()),
       listOfFilter: [
@@ -84,7 +84,7 @@ export class AbschlussBerichtListComponent implements OnInit {
       filterFn: (list: string[], item: DataItem) => true
     },
     {
-      name: 'Abschlussbericht',
+      name: 'Fertigstellt',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.abschlussbericht.valueOf().toString().localeCompare(b.abschlussbericht.valueOf().toString()),
       listOfFilter: [
@@ -102,7 +102,6 @@ export class AbschlussBerichtListComponent implements OnInit {
   }
 
   loadData() {
-
     this.loadTechnologists();
 
     this.http.getCustomerRequirements().subscribe({
@@ -119,7 +118,8 @@ export class AbschlussBerichtListComponent implements OnInit {
 
 
           this.listOfData = [...this.listOfData, {
-            nr: element.id!,
+            customerNr: element.nr!,
+            dateOfVisit: element.dateOfVisit!,
             createDate: new Date(),
             status: "ToDo",
             toha: element.company!,
@@ -159,7 +159,7 @@ export class AbschlussBerichtListComponent implements OnInit {
 
 
           this.listOfData = [...this.listOfData, {
-            nr: element.id!,
+            customerNr: element.id!,
             createDate: new Date(),
             status: "ToDo",
             toha: element.company!,
@@ -190,21 +190,11 @@ export class AbschlussBerichtListComponent implements OnInit {
 
   loadTechnologists() {
     this.http.getAllTechnologist().subscribe({
-      next: data => { this.technologistList = data },
+      next: data => { this.abschlussList = data },
       error: err => {
         console.log(err);
       }
     })
-  }
-
-  openCRC(dateNr: number, type: number) {
-    if (type === 0) {
-      this.router.navigate(['/customer-requirements', dateNr]);
-    } else if (type === 1) {
-      this.router.navigate(['/seminar-registration', dateNr]);
-    }
-
-    console.log('Selected Field:', dateNr);
   }
 
   resetFilters(): void {
@@ -228,8 +218,8 @@ export class AbschlussBerichtListComponent implements OnInit {
       } else if (item.name === 'Fachberater') {
         var tmp: { text: string; value: string }[] = [];
 
-        this.technologistList.forEach(technolgist => {
-          tmp = [...tmp, { text: technolgist.firstName + " " + technolgist.lastName, value: technolgist.firstName + " " + technolgist.lastName }]
+        this.abschlussList.forEach(technolgist => {
+          tmp = [...tmp, { text: technolgist.company + " " + technolgist.company, value: technolgist.company + " " + technolgist.company }]
         })
 
         item.listOfFilter! = tmp;
@@ -260,7 +250,8 @@ export class AbschlussBerichtListComponent implements OnInit {
     this.visible = false;
     this.listOfDisplayData = this.listOfData.filter((item: DataItem) =>
     (
-      item.nr.toString().indexOf(this.searchValue.toLocaleLowerCase()) !== -1 ||
+      item.customerNr.toString().indexOf(this.searchValue.toLocaleLowerCase()) !== -1 ||
+      item.dateOfVisit.valueOf().toString().indexOf(this.searchValue.valueOf().toString()) !== -1 ||
       item.createDate.valueOf().toString().indexOf(this.searchValue.valueOf().toString()) !== -1 ||
       item.status.toLocaleLowerCase().indexOf(this.searchValue.toLocaleLowerCase()) !== -1 ||
       item.toha.toLocaleLowerCase().indexOf(this.searchValue.toLocaleLowerCase()) !== -1 ||
@@ -273,7 +264,8 @@ export class AbschlussBerichtListComponent implements OnInit {
 }
 
 interface DataItem {
-  nr: number;
+  customerNr: number;
+  dateOfVisit: Date;
   createDate: Date;
   status: string;
   toha: string;
