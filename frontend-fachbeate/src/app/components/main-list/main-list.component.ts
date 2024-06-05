@@ -116,8 +116,9 @@ export class MainListComponent implements OnInit{
               tmpStatus = "open";
           }
 
-          console.log(new Date(element.endDate!).toDateString());
+          var allFinalReports: boolean = true;
 
+          element.customerVisits.forEach(element => {if(element.finalReport === undefined || element.finalReport === null){allFinalReports === false}});
 
           this.listOfData = [...this.listOfData, {
             nr: element.id!,
@@ -132,7 +133,7 @@ export class MainListComponent implements OnInit{
               minutes:0,
               seconds:0
             },
-            abschlussbericht: false,
+            abschlussbericht: allFinalReports,
             type: 0
           }];
         });

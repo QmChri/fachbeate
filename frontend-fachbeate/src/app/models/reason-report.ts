@@ -9,7 +9,7 @@ export interface ReasonReport {
     reworkByTechnologistDoneUntil?: Date;
     state?: boolean;
 
-    reworkByRepresentive?: boolean;
+    reworkByRepresentative?: boolean;
     reworkByRepresentativeDoneUntil?: Date;
 
 }

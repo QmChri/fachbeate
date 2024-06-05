@@ -164,7 +164,7 @@
                                 </mat-form-field>
                                 <mat-form-field class="smallInputSide">
                                     <mat-label>Nacharbeit Vertreter</mat-label>
-                                    <mat-select required placeholder="Auswählen . . . " [ngModel]="d.reworkByRepresentive"
+                                    <mat-select required placeholder="Auswählen . . . " [(ngModel)]="d.reworkByRepresentative"
                                         name="reworkByRepresentive">
                                         <mat-option [value]="true">Ja</mat-option>
                                         <mat-option [value]="false">Nein</mat-option>
@@ -181,13 +181,10 @@
                                 </mat-form-field>
                                 <mat-form-field class="smallInput">
                                     <mat-label>Status</mat-label>
-                                    <mat-select required placeholder="Auswählen . . . " [ngModel]="d.state" name="state">
-                                        <mat-option [value]="1">Status 1</mat-option>
-                                        <mat-option [value]="2">Status 2</mat-option>
-                                    </mat-select>
+                                    <input matInput type="text" [(ngModel)]="d.state" name="state">
                                 </mat-form-field>
                             </div>
-                            <mat-form-field>
+                            <mat-form-field *ngIf="d.reworkByRepresentative">
                                 <mat-label>Zu erledigen bis</mat-label>
                                 <input matInput [matDatepicker]="picker6" type="text"
                                     [(ngModel)]="d.reworkByRepresentativeDoneUntil" name="reworkByRepresentativeDoneUntil">
@@ -221,7 +218,7 @@
                                 </mat-form-field>
                                 <mat-form-field class="smallInputSide">
                                     <mat-label>Nacharbeit Vertreter</mat-label>
-                                    <mat-select required placeholder="Auswählen . . . " [ngModel]="d.reworkByRepresentive"
+                                    <mat-select required placeholder="Auswählen . . . " [(ngModel)]="d.reworkByRepresentative"
                                         name="reworkByRepresentive">
                                         <mat-option [value]="true">Ja</mat-option>
                                         <mat-option [value]="false">Nein</mat-option>
@@ -238,13 +235,10 @@
                                 </mat-form-field>
                                 <mat-form-field class="smallInput">
                                     <mat-label>Status</mat-label>
-                                    <mat-select required placeholder="Auswählen . . . " [ngModel]="d.state" name="state">
-                                        <mat-option [value]="1">Status 1</mat-option>
-                                        <mat-option [value]="2">Status 2</mat-option>
-                                    </mat-select>
+                                    <input matInput type="text" [(ngModel)]="d.state" name="state">
                                 </mat-form-field>
                             </div>
-                            <mat-form-field>
+                            <mat-form-field *ngIf="d.reworkByRepresentative">
                                 <mat-label>Zu erledigen bis</mat-label>
                                 <input matInput [matDatepicker]="picker6" type="text"
                                     [(ngModel)]="d.reworkByRepresentativeDoneUntil" name="reworkByRepresentativeDoneUntil">
@@ -278,7 +272,7 @@
                                 </mat-form-field>
                                 <mat-form-field class="smallInputSide">
                                     <mat-label>Nacharbeit Vertreter</mat-label>
-                                    <mat-select required placeholder="Auswählen . . . " [ngModel]="d.reworkByRepresentive"
+                                    <mat-select required placeholder="Auswählen . . . " [(ngModel)]="d.reworkByRepresentative"
                                         name="reworkByRepresentive">
                                         <mat-option [value]="true">Ja</mat-option>
                                         <mat-option [value]="false">Nein</mat-option>
@@ -295,13 +289,10 @@
                                 </mat-form-field>
                                 <mat-form-field class="smallInput">
                                     <mat-label>Status</mat-label>
-                                    <mat-select required placeholder="Auswählen . . . " [ngModel]="d.state" name="state">
-                                        <mat-option [value]="1">Status 1</mat-option>
-                                        <mat-option [value]="2">Status 2</mat-option>
-                                    </mat-select>
+                                    <input matInput type="text" [(ngModel)]="d.state" name="state">
                                 </mat-form-field>
                             </div>
-                            <mat-form-field>
+                            <mat-form-field *ngIf="d.reworkByRepresentative">
                                 <mat-label>Zu erledigen bis</mat-label>
                                 <input matInput [matDatepicker]="picker6" type="text"
                                     [(ngModel)]="d.reworkByRepresentativeDoneUntil" name="reworkByRepresentativeDoneUntil">
@@ -335,7 +326,7 @@
                                 </mat-form-field>
                                 <mat-form-field class="smallInputSide">
                                     <mat-label>Nacharbeit Vertreter</mat-label>
-                                    <mat-select required placeholder="Auswählen . . . " [ngModel]="d.reworkByRepresentive"
+                                    <mat-select required placeholder="Auswählen . . . " [ngModel]="d.reworkByRepresentative"
                                         name="reworkByRepresentive">
                                         <mat-option [value]="true">Ja</mat-option>
                                         <mat-option [value]="false">Nein</mat-option>
@@ -352,13 +343,10 @@
                                 </mat-form-field>
                                 <mat-form-field class="smallInput">
                                     <mat-label>Status</mat-label>
-                                    <mat-select required placeholder="Auswählen . . . " [ngModel]="d.state" name="state">
-                                        <mat-option [value]="1">Status 1</mat-option>
-                                        <mat-option [value]="2">Status 2</mat-option>
-                                    </mat-select>
+                                <input matInput type="text" [(ngModel)]="d.presentedArticle" name="presentedArticle">
                                 </mat-form-field>
                             </div>
-                            <mat-form-field>
+                            <mat-form-field *ngIf="d.reworkByRepresentative">
                                 <mat-label>Zu erledigen bis</mat-label>
                                 <input matInput [matDatepicker]="picker6" type="text"
                                     [(ngModel)]="d.reworkByRepresentativeDoneUntil" name="reworkByRepresentativeDoneUntil">
