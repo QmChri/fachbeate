@@ -1,7 +1,4 @@
-ausgesetzt
-<!-- 
-
-    <div class="table-operations header">
+<div class="table-operations header">
     <div>
         <h1 class="paddingSearch">Abschlussberichte</h1>
     </div>
@@ -19,9 +16,11 @@ ausgesetzt
     nzTableLayout="fixed">
     <thead>
         <tr>
-            <th [nzSortFn]="listOfColumn[0].sortFn" [(nzSortOrder)]="listOfColumn[0].sortOrder">{{listOfColumn[0].name}}
+            <th [nzSortFn]="listOfColumn[0].sortFn" [(nzSortOrder)]="listOfColumn[0].sortOrder">
+                {{listOfColumn[0].name}}
             </th>
-            <th [nzSortFn]="listOfColumn[1].sortFn" [(nzSortOrder)]="listOfColumn[1].sortOrder">{{listOfColumn[1].name}}
+            <th [nzSortFn]="listOfColumn[1].sortFn" [(nzSortOrder)]="listOfColumn[1].sortOrder">
+                {{listOfColumn[1].name}}
             </th>
             <th [nzSortFn]="listOfColumn[2].sortFn" [nzFilters]="listOfColumn[2].listOfFilter"
                 [nzFilterFn]="listOfColumn[2].filterFn!" [(nzSortOrder)]="listOfColumn[2].sortOrder">
@@ -49,19 +48,14 @@ ausgesetzt
     </thead>
     <tbody>
         <tr *ngFor="let data of nzTable.data">
-            <td>{{ data.customerNr }}</td>
-            <td>{{ data.createDate.getDay() }}/{{ data.createDate.getDate()
-                }}/{{
-                data.createDate.getFullYear() }}</td>
-            <td>{{ data.status }}</td>
-            <td>{{ data.toha }}</td>
-            <td>{{ data.vertreter }}</td>
-            <td>{{ data.fachberater }}</td>
-            <td>{{ data.timespan.days }}/{{ data.timespan.hours }}</td>
-            <td class="centerRow">
-                <span *ngIf="data.abschlussbericht" class="text-success">&#10004;</span>
-                <span *ngIf="!data.abschlussbericht" class="text-danger">&#10008;</span>
-            </td>
+            <td>{{ data.company }}</td>
+            <td>{{data.dateOfVisit}}</td>
+            <td>{{ data.creationDate }}</td>
+            <td>{{ data.technologist }}</td>
+            <td>{{ data.dateOfReworkTechnologist }}</td>
+            <td>{{ data.representative }}</td>
+            <td>{{data.dateOfReworkRepresentative}}</td>
+            <td>{{data.state}}</td>
         </tr>
     </tbody>
 </nz-table>
@@ -74,4 +68,3 @@ ausgesetzt
         </div>
     </div>
 </nz-dropdown-menu>
--->

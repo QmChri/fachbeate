@@ -62,16 +62,19 @@ export class NewDateEntryComponent implements OnInit {
       }
     });
   }
-  closeDialog(save: boolean) {
-    this.dialogRef.close({ dialogRef: this.dialogRef, save: save });
+  closeDialog() {
+    this.dialogRef.close({});
   }
 
   save(){
-
     this.http.postOtherDate(this.inputDate).subscribe({
-
+      next: data=>{
+        this.closeDialog();
+      },
+      error: err => {
+        console.log(err)
+      }
     });
-
   }
 
   adjustEndDate(endDate: string): Date {

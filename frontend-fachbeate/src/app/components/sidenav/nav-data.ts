@@ -28,7 +28,7 @@ export const navbarData: INavbarData[] = [
     },
     {
         routeLink: 'app-abschluss-bericht-list',
-        icon: 'fal fa-list',
+        icon: 'fal fa-clipboard-list',
         label: 'Abschlussbericht Liste'
     },
     {

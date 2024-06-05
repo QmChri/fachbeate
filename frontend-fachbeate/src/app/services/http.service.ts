@@ -7,6 +7,7 @@ import { WorkshopRequirement } from '../models/workshop-requirement';
 import { CustomerVisit } from '../models/customer-visit';
 import { TechnologistAppointment } from '../models/technologist-appointment';
 import { Representative } from '../models/representative';
+import { FinalReport } from '../models/final-report';
 
 
 
@@ -86,6 +87,11 @@ export class HttpService {
 
   getOtherAppointmentById(id: number): Observable<TechnologistAppointment>{
     return this.http.get<TechnologistAppointment>(API_URL + "appointment/other/id",{params: {id: id}})
+  }
+
+
+  getFinalReports():Observable<FinalReport[]>{
+    return this.http.get<FinalReport[]>(API_URL + "appointment/finalReport");
   }
 
 }
