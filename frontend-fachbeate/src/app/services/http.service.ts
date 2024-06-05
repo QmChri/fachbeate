@@ -6,6 +6,7 @@ import { Technologist } from '../models/technologist';
 import { WorkshopRequirement } from '../models/workshop-requirement';
 import { CustomerVisit } from '../models/customer-visit';
 import { TechnologistAppointment } from '../models/technologist-appointment';
+import { Representative } from '../models/representative';
 
 
 
@@ -58,6 +59,20 @@ export class HttpService {
 
   postTechnologist(technologist: Technologist) {
     return this.http.post(API_URL + "technologist", technologist);
+  }
+
+
+
+  postRepresentative(representative: Representative): Observable<Representative>{
+    return this.http.post(API_URL+ "technologist/representative", representative);
+  }  
+  
+  getAllRepresentative() : Observable<Representative[]> {
+    return this.http.get<Representative[]>(API_URL+ "technologist/representative");
+  }
+
+  getActiveRepresentative(): Observable<Representative[]>{
+    return this.http.get<Representative[]>(API_URL + "technologist/representative/allActive");
   }
 
 

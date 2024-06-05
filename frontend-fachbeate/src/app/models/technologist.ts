@@ -1,7 +1,7 @@
 export interface Technologist {
     id?: number;
-    firstName?: String;
-    lastName?: String;
+    firstName?: string;
+    lastName?: string;
     active?: boolean;
     color?: string;
 }

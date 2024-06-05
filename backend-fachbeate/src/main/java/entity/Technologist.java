@@ -8,7 +8,6 @@ public class Technologist extends PanacheEntity {
 
     public String firstName;
     public String lastName;
-
     public String color;
 
     public boolean active;
