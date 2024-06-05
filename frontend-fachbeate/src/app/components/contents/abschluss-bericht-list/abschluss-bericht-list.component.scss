@@ -1,0 +1,37 @@
+.paddingSearch {
+    padding-right: 2rem;
+    margin: auto;
+  }
+  
+  .search-box {
+    padding: 8px;
+  }
+  
+  .search-box input {
+    width: 188px;
+    margin-bottom: 8px;
+    display: block;
+  }
+  
+  .search-box button {
+    width: 90px;
+  }
+  
+  .search-button {
+    margin-right: 8px;
+  }
+  
+  .header {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .centerRow {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+  }

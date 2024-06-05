@@ -7,6 +7,7 @@ import { MainListComponent } from './components/main-list/main-list.component';
 import { CreateTechnologistComponent } from './components/contents/create-technologist/create-technologist.component';
 import { VisitorRegistrationComponent } from './components/contents/visitor-registration/visitor-registration.component';
 import { AbschlussBerichtComponent } from './components/contents/abschluss-bericht/abschluss-bericht.component';
+import { AbschlussBerichtListComponent } from './components/contents/abschluss-bericht-list/abschluss-bericht-list.component';
 
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'mainList', component: MainListComponent },
   { path: 'create-technologist', component: CreateTechnologistComponent },
   { path: 'visitorRegistration', component: VisitorRegistrationComponent },
+  { path: 'app-abschluss-bericht-list', component: AbschlussBerichtListComponent },
   { path: 'ab', component: AbschlussBerichtComponent }
 ];
 

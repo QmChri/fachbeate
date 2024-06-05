@@ -27,8 +27,28 @@ export const navbarData: INavbarData[] = [
         label: 'Seminar Anmeldung'
     },
     {
+        routeLink: 'app-abschluss-bericht-list',
+        icon: 'fal fa-list',
+        label: 'Abschlussbericht Liste'
+    },
+    {
         routeLink: 'create-technologist',
         icon: 'fal fa-user-plus',
         label: 'Neuen Technologen Anlegen'
+        /*,
+        items: [
+            {
+                routeLink: 'druck/selektion',
+                label: 'Selektion',
+            },
+            {
+                routeLink: 'druck/data',
+                label: 'Sperren / Druck',
+            },
+            {
+                routeLink: 'druck/format',
+                label: 'Werte / Formate',
+            }
+        ] */
     }
 ];

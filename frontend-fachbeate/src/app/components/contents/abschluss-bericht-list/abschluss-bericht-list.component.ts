@@ -1,26 +1,35 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpService } from '../../services/http.service';
-import { Technologist } from '../../models/technologist';
+import { HttpService } from '../../../services/http.service';
+import { FinalReport } from '../../../models/final-report';
 
 @Component({
-  selector: 'app-main-list',
-  templateUrl: './main-list.component.html',
-  styleUrls: ['./main-list.component.css']
+  selector: 'app-abschluss-bericht-list',
+  templateUrl: './abschluss-bericht-list.component.html',
+  styleUrl: './abschluss-bericht-list.component.scss'
 })
-export class MainListComponent implements OnInit{
+export class AbschlussBerichtListComponent implements OnInit {
   searchValue = '';
   visible = false;
   listOfData: DataItem[] = [];
 
-  technologistList: Technologist[] = [];
+  abschlussList: FinalReport[] = [];
 
   listOfDisplayData: DataItem[] = [];
-  listOfColumn: ColumnDefinition[]  = [
+  listOfColumn: ColumnDefinition[] = [
     {
       name: 'Kundennummer',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.nr.toString().localeCompare(b.nr.toString()),
+      sortFn: (a: DataItem, b: DataItem) => a.customerNr.toString().localeCompare(b.customerNr.toString()),
+      listOfFilter: [
+        { text: ' ', value: ' ' },
+      ],
+      filterFn: (list: string[], item: DataItem) => true
+    },
+    {
+      name: 'Datum Kundenbesuch',
+      sortOrder: null,
+      sortFn: (a: DataItem, b: DataItem) => a.dateOfVisit.valueOf().toString().localeCompare(b.dateOfVisit.valueOf().toString()),
       listOfFilter: [
         { text: ' ', value: ' ' },
       ],
@@ -31,22 +40,13 @@ export class MainListComponent implements OnInit{
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.createDate.valueOf().toString().localeCompare(b.createDate.valueOf().toString()),
       listOfFilter: [
-        { text: ' ', value: ' ' },
-      ],
-      filterFn: (list: string[], item: DataItem) => true
-    },
-    {
-      name: 'Status',
-      sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.status.localeCompare(b.status),
-      listOfFilter: [
         { text: 'open', value: 'open' },
         { text: 'in-progress', value: 'in-progress' }
       ],
       filterFn: (list: string[], item: DataItem) => list.some(name => item.status.indexOf(name) !== -1)
     },
     {
-      name: 'Händler/Töchter',
+      name: 'Zuständiger Technologe',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.toha.localeCompare(b.toha),
       listOfFilter: [
@@ -57,7 +57,7 @@ export class MainListComponent implements OnInit{
       filterFn: (list: string[], item: DataItem) => list.some(name => item.toha.indexOf(name) !== -1)
     },
     {
-      name: 'Vertreter',
+      name: 'Zu erledigen bis (Technologe)',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.vertreter.localeCompare(b.vertreter),
       listOfFilter: [
@@ -66,7 +66,7 @@ export class MainListComponent implements OnInit{
       filterFn: (list: string[], item: DataItem) => list.some(name => item.vertreter.indexOf(name) !== -1)
     },
     {
-      name: 'Fachberater',
+      name: 'Zuständiger Vertreter',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.fachberater.localeCompare(b.fachberater),
       listOfFilter: [
@@ -75,7 +75,7 @@ export class MainListComponent implements OnInit{
       filterFn: (list: string[], item: DataItem) => list.some(name => item.fachberater.indexOf(name) !== -1)
     },
     {
-      name: 'Zeitraum (d/h)',
+      name: 'Zu erledigen bis (Vertreter)',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.timespan.valueOf().toString().localeCompare(b.timespan.valueOf().toString()),
       listOfFilter: [
@@ -84,7 +84,7 @@ export class MainListComponent implements OnInit{
       filterFn: (list: string[], item: DataItem) => true
     },
     {
-      name: 'Abschlussbericht',
+      name: 'Fertigstellt',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.abschlussbericht.valueOf().toString().localeCompare(b.abschlussbericht.valueOf().toString()),
       listOfFilter: [
@@ -95,15 +95,13 @@ export class MainListComponent implements OnInit{
     },
   ];
 
-
   constructor(private router: Router, private http: HttpService) { }
 
   ngOnInit(): void {
     this.loadData();
   }
 
-  loadData(){
-
+  loadData() {
     this.loadTechnologists();
 
     this.http.getCustomerRequirements().subscribe({
@@ -111,29 +109,29 @@ export class MainListComponent implements OnInit{
         data.forEach(element => {
 
           var tmpStatus = "in-progress";
-          if((element.releaseManagement != null && element.releaseManagement != undefined)
-            || (element.releaseSupervisor != null && element.releaseSupervisor != undefined)){
-              tmpStatus = "open";
+          if ((element.releaseManagement != null && element.releaseManagement != undefined)
+            || (element.releaseSupervisor != null && element.releaseSupervisor != undefined)) {
+            tmpStatus = "open";
           }
 
-          var allFinalReports: boolean = true;
+          console.log(new Date(element.endDate!).toDateString());
 
-          element.customerVisits.forEach(element => {if(element.finalReport === undefined || element.finalReport === null){allFinalReports === false}});
 
           this.listOfData = [...this.listOfData, {
-            nr: element.id!,
+            customerNr: element.nr!,
+            dateOfVisit: element.dateOfVisit!,
             createDate: new Date(),
             status: "ToDo",
             toha: element.company!,
             vertreter: element.representative!,
             fachberater: element.requestedTechnologist!.firstName + " " + element.requestedTechnologist!.lastName,
             timespan: {
-              days:  Math.round(Math.abs(new Date(element.endDate!).getTime() - new Date(element.startDate!).getTime()) / 86400000),
-              hours:0,
-              minutes:0,
-              seconds:0
+              days: Math.round(Math.abs(new Date(element.endDate!).getTime() - new Date(element.startDate!).getTime()) / 86400000),
+              hours: 0,
+              minutes: 0,
+              seconds: 0
             },
-            abschlussbericht: allFinalReports,
+            abschlussbericht: false,
             type: 0
           }];
         });
@@ -152,31 +150,31 @@ export class MainListComponent implements OnInit{
         data.forEach(element => {
 
           var tmpStatus = "in-progress";
-          if((element.releaseManagement != null && element.releaseManagement != undefined)
-            || (element.releaseSupervisor != null && element.releaseSupervisor != undefined)){
-              tmpStatus = "open";
+          if ((element.releaseManagement != null && element.releaseManagement != undefined)
+            || (element.releaseSupervisor != null && element.releaseSupervisor != undefined)) {
+            tmpStatus = "open";
           }
 
           console.log(new Date(element.endDate!).toDateString());
 
 
           this.listOfData = [...this.listOfData, {
-            nr: element.id!,
+            customerNr: element.id!,
             createDate: new Date(),
             status: "ToDo",
             toha: element.company!,
             vertreter: element.seminarPresenter!,
             fachberater: element.requestedTechnologist!.firstName + " " + element.requestedTechnologist!.lastName,
             timespan: {
-              days:  Math.round(Math.abs(new Date(element.endDate!).getTime() - new Date(element.startDate!).getTime()) / 86400000),
-              hours:0,
-              minutes:0,
-              seconds:0
+              days: Math.round(Math.abs(new Date(element.endDate!).getTime() - new Date(element.startDate!).getTime()) / 86400000),
+              hours: 0,
+              minutes: 0,
+              seconds: 0
             },
             abschlussbericht: false,
             type: 1
           }];
-          
+
         });
 
         this.resetFilters()
@@ -190,24 +188,14 @@ export class MainListComponent implements OnInit{
 
   }
 
-  loadTechnologists(){
+  loadTechnologists() {
     this.http.getAllTechnologist().subscribe({
-      next: data =>  { this.technologistList = data },
-      error: err => {console.log(err);
+      next: data => { this.abschlussList = data },
+      error: err => {
+        console.log(err);
       }
     })
   }
-
-  openCRC(dateNr: number, type: number) {
-    if(type === 0){
-      this.router.navigate(['/customer-requirements', dateNr]);
-    }else if(type === 1){
-      this.router.navigate(['/seminar-registration', dateNr]);
-    }
-
-    console.log('Selected Field:', dateNr);
-  }
-
 
   resetFilters(): void {
     this.listOfColumn.forEach(item => {
@@ -228,10 +216,10 @@ export class MainListComponent implements OnInit{
           { text: 'Vertreter X', value: 'Vertreter X' }
         ];
       } else if (item.name === 'Fachberater') {
-        var tmp: {text: string; value: string}[] = [];
+        var tmp: { text: string; value: string }[] = [];
 
-        this.technologistList.forEach(technolgist => {
-          tmp = [...tmp, {text: technolgist.firstName + " " + technolgist.lastName, value: technolgist.firstName + " " + technolgist.lastName}]
+        this.abschlussList.forEach(technolgist => {
+          tmp = [...tmp, { text: technolgist.company + " " + technolgist.company, value: technolgist.company + " " + technolgist.company }]
         })
 
         item.listOfFilter! = tmp;
@@ -262,7 +250,8 @@ export class MainListComponent implements OnInit{
     this.visible = false;
     this.listOfDisplayData = this.listOfData.filter((item: DataItem) =>
     (
-      item.nr.toString().indexOf(this.searchValue.toLocaleLowerCase()) !== -1 ||
+      item.customerNr.toString().indexOf(this.searchValue.toLocaleLowerCase()) !== -1 ||
+      item.dateOfVisit.valueOf().toString().indexOf(this.searchValue.valueOf().toString()) !== -1 ||
       item.createDate.valueOf().toString().indexOf(this.searchValue.valueOf().toString()) !== -1 ||
       item.status.toLocaleLowerCase().indexOf(this.searchValue.toLocaleLowerCase()) !== -1 ||
       item.toha.toLocaleLowerCase().indexOf(this.searchValue.toLocaleLowerCase()) !== -1 ||
@@ -275,7 +264,8 @@ export class MainListComponent implements OnInit{
 }
 
 interface DataItem {
-  nr: number;
+  customerNr: number;
+  dateOfVisit: Date;
   createDate: Date;
   status: string;
   toha: string;
@@ -297,6 +287,6 @@ interface ColumnDefinition {
   name: string;
   sortOrder: any;
   sortFn: (a: DataItem, b: DataItem) => number;
-  listOfFilter: {text: string, value: string}[];
+  listOfFilter: { text: string, value: string }[];
   filterFn?: (list: string[], item: DataItem) => boolean;
 }
