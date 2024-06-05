@@ -8,8 +8,8 @@ import { FinalReport } from '../../../models/final-report';
   templateUrl: './abschluss-bericht-list.component.html',
   styleUrl: './abschluss-bericht-list.component.scss'
 })
-export class AbschlussBerichtListComponent implements OnInit {
-  searchValue = '';
+export class AbschlussBerichtListComponent { //implements OnInit
+ /* searchValue = '';
   visible = false;
   listOfData: DataItem[] = [];
 
@@ -261,6 +261,7 @@ export class AbschlussBerichtListComponent implements OnInit {
       item.abschlussbericht.toString().indexOf(this.searchValue.toString()) !== -1
     ));
   }
+  */
 }
 
 interface DataItem {

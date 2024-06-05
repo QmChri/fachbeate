@@ -53,6 +53,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import {MatMenuModule} from '@angular/material/menu';
 import { AbschlussBerichtListComponent } from './components/contents/abschluss-bericht-list/abschluss-bericht-list.component';
+import { TeilnehmerListeComponent } from './components/contents/teilnehmer-liste/teilnehmer-liste.component';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -75,7 +76,8 @@ registerLocaleData(de);
     VisitorRegistrationComponent,
     AbschlussBerichtComponent,
     NewDateEntryComponent,
-    AbschlussBerichtListComponent
+    AbschlussBerichtListComponent,
+    TeilnehmerListeComponent
   ],
   imports: [
     MatTooltipModule,

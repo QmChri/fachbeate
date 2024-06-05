@@ -1,0 +1,45 @@
+<button nz-button (click)="addRow()" nzType="primary">Add</button>
+<br />
+<br />
+<nz-table #editRowTable nzBordered [nzData]="listOfData">
+    <thead>
+        <tr>
+            <th nzWidth="30%">Sex</th>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>Funktion im Unternehmen</th>
+            <th>Entfernen</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let data of editRowTable.data" class="editable-row">
+            <td>
+                <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
+                    {{ data.sex }}
+                </div>
+                <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.sex" (blur)="stopEdit()" />
+            </td>
+            <td>
+                <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
+                    {{ data.firstName }}
+                </div>
+                <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.sex" (blur)="stopEdit()" />
+            </td>
+            <td>
+                <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
+                    {{ data.lastName }}
+                </div>
+                <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.sex" (blur)="stopEdit()" />
+            </td>
+            <td>
+                <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
+                    {{ data.function }}
+                </div>
+                <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.sex" (blur)="stopEdit()" />
+            </td>
+            <td>
+                <a nz-popconfirm nzPopconfirmTitle="Sicher löschen?" (nzOnConfirm)="deleteRow(data.id)">Entfernen</a>
+            </td>
+        </tr>
+    </tbody>
+</nz-table>

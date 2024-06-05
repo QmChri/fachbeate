@@ -8,6 +8,7 @@ import { CreateTechnologistComponent } from './components/contents/create-techno
 import { VisitorRegistrationComponent } from './components/contents/visitor-registration/visitor-registration.component';
 import { AbschlussBerichtComponent } from './components/contents/abschluss-bericht/abschluss-bericht.component';
 import { AbschlussBerichtListComponent } from './components/contents/abschluss-bericht-list/abschluss-bericht-list.component';
+import { TeilnehmerListeComponent } from './components/contents/teilnehmer-liste/teilnehmer-liste.component';
 
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'create-technologist', component: CreateTechnologistComponent },
   { path: 'visitorRegistration', component: VisitorRegistrationComponent },
   { path: 'app-abschluss-bericht-list', component: AbschlussBerichtListComponent },
+  { path: 'teilnehmerliste', component: TeilnehmerListeComponent },
   { path: 'ab', component: AbschlussBerichtComponent }
 ];
 
