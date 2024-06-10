@@ -6,7 +6,10 @@
         "req-visitors": "Visit Registration",
         "req-workshop": "Workshop Registration",
         "final-reports": "Final Reports",
-        "new-tech": "Insert New Technological",
+        "new": "Create New",
+        "new-tech": "New Technologist",
+        "new-re": "New Representative",
+        "new-de": "New Dealer",
         "lan-sel": "Language Selection"
     },
     "DATE-LIST": {

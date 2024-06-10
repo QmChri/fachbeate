@@ -19,7 +19,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
             *ngIf="item.items && item.items.length > 0">
             <i class="sublevel-link-icon fa fa-cicrle"></i>
             <span class="sublevel-link-text" *ngIf="collapsed">{{item.label}}</span>
-            <i *ngIf="item.items && collapsed" class="menu-collapse-icon"
+            <i *ngIf="item.items && collapsed" class="menu-collapse-icon" style="color: white;"
               [ngClass]="!item.expanded ? 'fal fa-angle-right' : 'fal fa-angle-down' "
             ></i>
         </a>
@@ -29,8 +29,8 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
           routerLinkActive="active-sublevel"
           [routerLinkActiveOptions]="{exact: true}"
           >
-          <i class="sublevel-link-icon fa fa-cicrle"></i>    
-          <span class="sublevel-link-text" *ngIf="collapsed">{{item.label}}</span>    
+          <i class="sublevel-link-icon fa fa-cicrle" [class]="data.icon"></i>    
+          <span class="sublevel-link-text" *ngIf="collapsed">{{"NAV."+item.label | translate}}</span>    
         </a>
         <div *ngIf="item.items && item.items.length > 0">
           <app-sublevel-menu 
@@ -42,8 +42,8 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
       </li>
     </ul>
   `,
-   styleUrls: ['./sidenav.component.scss'],
-   animations: [
+  styleUrls: ['./sidenav.component.scss'],
+  animations: [
     trigger('submenu', [
       state('hidden', style({
         height: '0',
@@ -52,38 +52,38 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
       state('visible', style({
         height: '*'
       })),
-      transition('visible <=> hidden', [style({overflow: 'hidden'}),
-        animate('{{transitionParams}}')]),
+      transition('visible <=> hidden', [style({ overflow: 'hidden' }),
+      animate('{{transitionParams}}')]),
       transition('void => *', animate(0))
     ])
-   ]
+  ]
 })
 export class SublevelMenuComponent implements OnInit {
 
-@Input() data: INavbarData = {
-  routeLink: '',
-  icon: '',
-  label: '',
-  items: []
-}
+  @Input() data: INavbarData = {
+    routeLink: '',
+    icon: '',
+    label: '',
+    items: []
+  }
 
-@Input() collapsed = false;
-@Input() animating: boolean | undefined;
-@Input() expanded: boolean | undefined;
-@Input() multiple: boolean = false;
+  @Input() collapsed = false;
+  @Input() animating: boolean | undefined;
+  @Input() expanded: boolean | undefined;
+  @Input() multiple: boolean = false;
 
 
 
-constructor(){}
+  constructor() { }
 
   ngOnInit(): void {
   }
-  
-  handleClick(item: any): void{
-    if(!this.multiple){
-      if(this.data.items && this.data.items.length>0){
-        for(let modelItem of this.data.items){
-          if(item !== modelItem && modelItem.expanded){
+
+  handleClick(item: any): void {
+    if (!this.multiple) {
+      if (this.data.items && this.data.items.length > 0) {
+        for (let modelItem of this.data.items) {
+          if (item !== modelItem && modelItem.expanded) {
             modelItem.expanded = false;
           }
         }

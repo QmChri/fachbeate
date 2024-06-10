@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Technologist } from '../../../models/technologist';
-import { HttpService } from '../../../services/http.service';
-import { Representative } from '../../../models/representative';
+import { Technologist } from '../../../../models/technologist';
+import { HttpService } from '../../../../services/http.service';
+import { Representative } from '../../../../models/representative';
 
 @Component({
   selector: 'app-create-technologist',
@@ -49,50 +49,24 @@ export class CreateTechnologistComponent implements OnInit {
     })
   }
 
-  postTechnologist(type: string) {
-    if(type === '0'){
-      this.http.postTechnologist(this.inputTechnologist).subscribe({
-        next: data => {
-          this.inputTechnologist = {
-            id: 0,
-            firstName: "",
-            lastName: "",
-            active: true,
-            color: ""
-          }
-
-          this.loadTechnologists();
-        },
-        error: err => {
-          console.log(err);
-
+  postTechnologist() {
+    this.http.postTechnologist(this.inputTechnologist).subscribe({
+      next: data => {
+        this.inputTechnologist = {
+          id: 0,
+          firstName: "",
+          lastName: "",
+          active: true,
+          color: ""
         }
-      });
-    }else if(type === '1'){
-      this.http.postRepresentative(
-        {
-          id: this.inputTechnologist.id!,
-          firstName: this.inputTechnologist.firstName!,
-          lastName: this.inputTechnologist.lastName,
-           active: this.inputTechnologist.active
-        }).subscribe({
-        next: data => {
-          this.inputTechnologist = {
-            id: 0,
-            firstName: "",
-            lastName: "",
-            active: true,
-            color: ""
-          }
 
-          this.loadTechnologists();
-        },
-        error: err => {
-          console.log(err);
+        this.loadTechnologists();
+      },
+      error: err => {
+        console.log(err);
 
-        }
-      });
-    }
+      }
+    });
   }
 
   cancelEdit() {
@@ -106,14 +80,14 @@ export class CreateTechnologistComponent implements OnInit {
   }
 
   editRow(id: number, type: number) {
-    if(type === 0){
+    if (type === 0) {
       const technologist: Technologist = this.technologistList.find(element => element.id === id)!;
       this.inputTechnologist.firstName = technologist.firstName;
       this.inputTechnologist.id = technologist.id;
       this.inputTechnologist.lastName = technologist.lastName;
       this.inputTechnologist.active = technologist.active;
       this.inputTechnologist.color = technologist.color;
-    }else if(type === 1){
+    } else if (type === 1) {
       const representative: Representative = this.representativeList.find(element => element.id === id)!;
       this.inputTechnologist.firstName = representative.firstName;
       this.inputTechnologist.id = representative.id;
@@ -122,5 +96,5 @@ export class CreateTechnologistComponent implements OnInit {
     }
   }
 
-  test(){console.log(this.typeSelect === '1')}
+  test() { console.log(this.typeSelect === '1') }
 }

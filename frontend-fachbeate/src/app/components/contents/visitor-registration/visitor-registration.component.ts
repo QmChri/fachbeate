@@ -38,6 +38,20 @@ export class VisitorRegistrationComponent implements OnInit {
           });*/
   }
 
+
+  
+  tabs = ['Hotelbuchung'];
+  selected = new FormControl(0);
+
+  addTab() {
+    this.tabs.push('Hotelbuchung: '+ this.tabs.length);
+    this.selected.setValue(this.tabs.length - 1);
+  }
+
+  deleteLast() {
+    if (this.tabs.length != 1)
+      this.tabs.pop();
+  }
   campaignOne = new FormGroup({
     start: new FormControl(new Date(year, month, 13)),
     end: new FormControl(new Date(year, month, 16)),
