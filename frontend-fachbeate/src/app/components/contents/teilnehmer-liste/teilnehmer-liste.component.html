@@ -1,19 +1,19 @@
 <div class="mainView">
     <div class="header">
         <div>
-            <h1 class="paddingSearch">Seminaranmeldung</h1>
+            <h2 class="paddingSearch">Seminaranmeldung</h2>
         </div>
         <button nz-button (click)="addRow()" nzType="primary">Hinzufügen</button>
     </div>
     <hr>
 
-    <nz-table #editRowTable [nzPageSize]="7" nzBordered nzSize="small" [nzData]="listOfData">
+    <nz-table #editRowTable [nzPageSize]="6" nzBordered nzSize="small" [nzData]="listOfData">
         <thead>
             <tr>
                 <th nzWidth="15%">Hr./Fr./Div.</th>
-                <th>Vorname</th>
-                <th>Nachname</th>
-                <th>Funktion im Unternehmen</th>
+                <th nzWidth="28%">Vorname</th>
+                <th nzWidth="28%">Nachname</th>
+                <th nzWidth="28%">Funktion im Unternehmen</th>
                 <th>Entfernen</th>
             </tr>
         </thead>
@@ -45,8 +45,11 @@
                     <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.function" />
                 </td>
                 <td>
-                    <a nz-popconfirm nzPopconfirmTitle="Sicher löschen?"
-                        (nzOnConfirm)="deleteRow(data.id)">Entfernen</a>
+                    <button class="btn btn-danger" nz-popconfirm nzPopconfirmTitle="Sicher löschen?"
+                        (nzOnConfirm)="deleteRow(data.id)">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+
+                    </button>
                 </td>
             </tr>
         </tbody>

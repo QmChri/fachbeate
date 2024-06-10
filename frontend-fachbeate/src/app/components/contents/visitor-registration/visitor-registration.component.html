@@ -304,11 +304,12 @@
         </div>
     </div>
     <div class="col-md-8 paddingBottom" *ngIf="buttonSelect.includes('6')">
-        <div class="card" hideToggle>
+        <div class="card" style="min-height: 30rem;" hideToggle>
             <div class="card-header bg-danger text-white">Geplante Abteilungsbesuche</div>
             <div class="card-body minheigtCard">
                 <div class="displayBySide">
-                    <nz-table class="col" nzSize="small" nzBordered nzNoResult>
+                    <nz-table class="col" [nzShowPagination]="false" [nzData]="buttonSelect" [nzSize]="'small'"
+                        nzBordered nzNoResult>
                         <thead>
                             <tr>
                                 <th [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
@@ -329,7 +330,8 @@
                             </tr>
                         </tbody>
                     </nz-table>
-                    <nz-table class="col" nzSize="small" nzBordered nzNoResult>
+                    <nz-table class="col" [nzShowPagination]="false" [nzData]="buttonSelect" [nzSize]="'small'"
+                        nzBordered nzNoResult>
                         <thead>
                             <tr>
                                 <th [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"

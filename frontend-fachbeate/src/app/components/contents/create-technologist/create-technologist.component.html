@@ -1,9 +1,14 @@
-<div>
-    <h1 class="paddingSearch">Benutzer anlegen</h1>
-    <select [(ngModel)]="typeSelect" (change)="test()">
-        <option [value]="'0'">Technologen</option>
-        <option [value]="'1'">Vertreter</option>
-    </select>
+<div class="header">
+    <h1>Neu anlegen:</h1>
+    <div>
+        <mat-form-field>
+            <mat-label>Technologen/Vertreter</mat-label>
+            <mat-select [(ngModel)]="typeSelect" (change)="test()">
+                <mat-option [value]="'0'">Technologen</mat-option>
+                <mat-option [value]="'1'">Vertreter</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
 </div>
 <hr>
 
@@ -33,7 +38,8 @@
                     <div class="displayBySide">
                         <button class="btn btn-danger" [hidden]="inputTechnologist.id===0" (click)="cancelEdit()"><i
                                 class="fa fa-times"></i></button>
-                        <button class="btn btn-success" (click)="postTechnologist(typeSelect)"><i class="fa fa-save"></i></button>
+                        <button class="btn btn-success" (click)="postTechnologist(typeSelect)"><i
+                                class="fa fa-save"></i></button>
                     </div>
                 </div>
             </div>
@@ -42,7 +48,8 @@
     <div class="col-md-9">
 
         <!--TECHNOLOGIST LIST--->
-        <nz-table *ngIf="typeSelect === '0'" class="col" #editRowTable nzTableLayout="fixed" nzBordered>
+        <nz-table *ngIf="typeSelect === '0'" class="col" #editRowTable nzTableLayout="fixed" nzBordered
+            [nzData]="technologistList">
             <thead>
                 <tr>
                     <th>Id</th>
@@ -71,7 +78,8 @@
         </nz-table>
 
         <!--REPRESENTATIVE LIST-->
-        <nz-table *ngIf="typeSelect === '1'" class="col" #editRowTable nzTableLayout="fixed" nzBordered>
+        <nz-table *ngIf="typeSelect === '1'" class="col" #editRowTable nzTableLayout="fixed" nzBordered
+            [nzData]="representativeList">
             <thead>
                 <tr>
                     <th>Id</th>
@@ -81,7 +89,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr matTooltip="Zum Bearbeiten klicken ..." (click)="editRow(repentative.id!, 1)" *ngFor="let repentative of representativeList">
+                <tr matTooltip="Zum Bearbeiten klicken ..." (click)="editRow(repentative.id!, 1)"
+                    *ngFor="let repentative of representativeList">
                     <td>{{repentative.id}}</td>
                     <td>{{repentative.firstName}}</td>
                     <td>{{repentative.lastName}}</td>

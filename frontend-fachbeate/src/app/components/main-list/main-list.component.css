@@ -35,3 +35,10 @@
   flex-wrap: nowrap;
   justify-content: center;
 }
+
+.freigabe{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: stretch;
+}

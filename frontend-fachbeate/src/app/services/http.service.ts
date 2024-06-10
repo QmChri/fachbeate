@@ -4,14 +4,13 @@ import { CustomerRequirement } from '../models/customer-requirement';
 import { Observable } from 'rxjs';
 import { Technologist } from '../models/technologist';
 import { WorkshopRequirement } from '../models/workshop-requirement';
-import { CustomerVisit } from '../models/customer-visit';
 import { TechnologistAppointment } from '../models/technologist-appointment';
 import { Representative } from '../models/representative';
 import { FinalReport } from '../models/final-report';
 
 
 
-const API_URL = "http://localhost:8080/"
+const API_URL = "http://10.2.3.72:8079/"
 
 
 @Injectable({

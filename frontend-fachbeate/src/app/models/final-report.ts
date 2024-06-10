@@ -1,5 +1,4 @@
 import { ReasonReport } from "./reason-report";
-import { Technologist } from "./technologist";
 
 export interface FinalReport {
 
