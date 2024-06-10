@@ -55,10 +55,16 @@
             <div class="card-header  text-white bg-danger">Kundenbesuch</div>
             <div class="card-body">
                 <div class="center-items">
-                    <mat-form-field>
-                        <mat-label>Kunde/Unternehmen</mat-label>
-                        <input matInput [(ngModel)]="inputVisitRegistration.customerOrCompany">
-                    </mat-form-field>
+                    <div class="paddingSearch">
+                        <mat-form-field style="max-width: 11.5rem;">
+                            <mat-label>Kunde/Unternehmen</mat-label>
+                            <input matInput required>
+                        </mat-form-field>
+                        <button class="btn btn-success teilButton" matTooltip="Teilnehmerliste"
+                            (click)="openDialog(12!)">
+                            <i class="fas fa-user-friends"></i>
+                        </button>
+                    </div>
                     <mat-form-field>
                         <mat-label>Anreise aus (Land)</mat-label>
                         <input matInput [(ngModel)]="inputVisitRegistration.arrivalFromCountry">
@@ -190,35 +196,53 @@
     </div>
     <div class="col-md-4 paddingBottom" *ngIf="buttonSelect.includes('3')">
         <div class="card">
-            <div class="card-header text-white bg-danger">Hotelbuchung</div>
-            <div class="card-body minheigtCard">
-                <div class="displayBySide">
-                    <div class="center-items">
-                        <mat-form-field class="smallInput">
-                            <mat-label>Ort / Lage</mat-label>
-                            <input matInput [(ngModel)]="inputVisitRegistration.hotelLocation">
-                        </mat-form-field>
-                        <mat-form-field class="smallInput">
-                            <mat-label>Von - Bis</mat-label>
-                            <mat-date-range-input [rangePicker]="picker3">
-                                <input matStartDate placeholder="Start date" [(ngModel)]="inputVisitRegistration.hotelStayFromDate">
-                                <input matEndDate placeholder="End date" [(ngModel)]="inputVisitRegistration.hotelStayToDate">
-                            </mat-date-range-input>
-                            <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
-                            <mat-date-range-picker #picker3></mat-date-range-picker>
-                        </mat-form-field>
-                    </div>
-                    <div class="center-items">
-                        <mat-form-field class="smallInput">
-                            <mat-label>Einzelzimmer</mat-label>
-                            <input type="number" min="0" matInput [(ngModel)]="inputVisitRegistration.singleRooms">
-                        </mat-form-field>
-                        <mat-form-field class="smallInput">
-                            <mat-label>Doppelzimmer</mat-label>
-                            <input type="number" min="0" matInput [(ngModel)]="inputVisitRegistration.doubleRooms">
-                        </mat-form-field>
-                    </div>
+            <div class="card-header text-white bg-danger paddingSearch">Hotelbuchung
+                <div>
+                    <button class="btn btn-secondary" (click)="deleteLast()">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                    </button>
+                    <button class="btn btn-success" (click)="addTab()">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                    </button>
                 </div>
+
+            </div>
+            <div class="card-body" style="padding-top: 0; min-height: 13rem;
+            max-height: 13.1rem;">
+                <mat-tab-group [selectedIndex]="selected.value" (selectedIndexChange)="selected.setValue($event)">
+                    @for (tab of tabs; track tab; let index = $index) {
+                    <mat-tab [label]="tab">
+                        <br>
+                        <div class="displayBySide">
+                            <div class="center-items">
+                                <mat-form-field class="smallInputSpecial">
+                                    <mat-label>Ort / Lage</mat-label>
+                                    <input matInput>
+                                </mat-form-field>
+                                <mat-form-field class="smallInputSpecial">
+                                    <mat-label>Von - Bis</mat-label>
+                                    <mat-date-range-input [rangePicker]="picker3">
+                                        <input matStartDate placeholder="Start date">
+                                        <input matEndDate placeholder="End date">
+                                    </mat-date-range-input>
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
+                                    <mat-date-range-picker #picker3></mat-date-range-picker>
+                                </mat-form-field>
+                            </div>
+                            <div class="center-items">
+                                <mat-form-field class="smallInputSpecial">
+                                    <mat-label>Einzelzimmer</mat-label>
+                                    <input type="number" min="0" matInput>
+                                </mat-form-field>
+                                <mat-form-field class="smallInputSpecial">
+                                    <mat-label>Doppelzimmer</mat-label>
+                                    <input type="number" min="0" matInput>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    }
+                </mat-tab-group>
             </div>
         </div>
     </div>

@@ -5,6 +5,7 @@ import { Technologist } from '../../../models/technologist';
 import { ActivatedRoute } from '@angular/router';
 import { TeilnehmerListeComponent } from '../teilnehmer-liste/teilnehmer-liste.component';
 import { MatDialog } from '@angular/material/dialog';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-seminar-registration',
@@ -18,6 +19,18 @@ export class SeminarRegistrationComponent implements OnInit {
   reasonSelect: number = 0;
   languages: string[] = ['DE', 'EN', 'RU'];
 
+  tabs = ['Hotelbuchung'];
+  selected = new FormControl(0);
+
+  addTab() {
+    this.tabs.push('Hotelbuchung: '+ this.tabs.length);
+    this.selected.setValue(this.tabs.length - 1);
+  }
+
+  deleteLast() {
+    if (this.tabs.length != 1)
+      this.tabs.pop();
+  }
   openDialog(cnt: number) {
 
     this.dialog.open(TeilnehmerListeComponent, {
@@ -45,9 +58,7 @@ export class SeminarRegistrationComponent implements OnInit {
   };
 
   technologists: Technologist[] = [];
-  constructor(private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute) {
-
-  }
+  constructor(private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     console.log(this.inputWorkshop.tripDateTime);

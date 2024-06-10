@@ -42,7 +42,7 @@ import { SeminarRegistrationComponent } from './components/contents/seminar-regi
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { MainListComponent } from './components/main-list/main-list.component';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
-import { CreateTechnologistComponent } from './components/contents/create-technologist/create-technologist.component';
+import { CreateTechnologistComponent } from './components/contents/creation-sites/create-technologist/create-technologist.component';
 import { VisitorRegistrationComponent } from './components/contents/visitor-registration/visitor-registration.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
@@ -55,6 +55,8 @@ import {MatMenuModule} from '@angular/material/menu';
 import { AbschlussBerichtListComponent } from './components/contents/abschluss-bericht-list/abschluss-bericht-list.component';
 import { TeilnehmerListeComponent } from './components/contents/teilnehmer-liste/teilnehmer-liste.component';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { CreateRepresentativeComponent } from './components/contents/creation-sites/create-representative/create-representative.component';
+import { CreateDealerComponent } from './components/contents/creation-sites/create-dealer/create-dealer.component';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -78,7 +80,9 @@ registerLocaleData(de);
     AbschlussBerichtComponent,
     NewDateEntryComponent,
     AbschlussBerichtListComponent,
-    TeilnehmerListeComponent
+    TeilnehmerListeComponent,
+    CreateRepresentativeComponent,
+    CreateDealerComponent,
   ],
   imports: [
     MatTooltipModule,

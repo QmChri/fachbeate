@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Department } from '../../../models/department';
 import { VisitorRegistration } from '../../../models/visitor-registration';
+import { MatDialog } from '@angular/material/dialog';
+import { TeilnehmerListeComponent } from '../teilnehmer-liste/teilnehmer-liste.component';
 
 @Component({
   selector: 'app-visitor-registration',
@@ -13,6 +15,57 @@ export class VisitorRegistrationComponent implements OnInit {
   geDip: String[] = []
 
   inputVisitRegistration: VisitorRegistration = {};
+  constructor(private dialog: MatDialog) { }
+
+  openDialog(cnt: number) {
+
+    this.dialog.open(TeilnehmerListeComponent, {
+      height: '36rem',
+      width: '50rem',
+      data: cnt
+    });
+    /*
+        dialogRef.afterClosed().subscribe(
+          data => {
+            if (data.save) {
+              customerVisit.finalReport = data.finalReport;
+              this.postCustomerRequirement();
+            }
+          });*/
+  }
+
+
+  
+  tabs = ['Hotelbuchung'];
+  selected = new FormControl(0);
+
+  addTab() {
+    this.tabs.push('Hotelbuchung: '+ this.tabs.length);
+    this.selected.setValue(this.tabs.length - 1);
+  }
+
+  deleteLast() {
+    if (this.tabs.length != 1)
+      this.tabs.pop();
+  }
+  campaignOne = new FormGroup({
+    start: new FormControl(new Date(year, month, 13)),
+    end: new FormControl(new Date(year, month, 16)),
+  });
+  campaignTwo = new FormGroup({
+    start: new FormControl(new Date(year, month, 15)),
+    end: new FormControl(new Date(year, month, 19)),
+  });
+  languageControl = new FormControl();
+  languageFilterCtrl = new FormControl();
+  languages = [
+    { value: 'en', label: 'English', flag: 'assets/flags/en.png' },
+    { value: 'de', label: 'Deutsch', flag: 'assets/flags/de.png' }
+  ];
+  abteilungen = [
+    { value: 'GL', label: 'Geschäftsleitung' },
+    { value: 'AB', label: 'Auftragsbearbeitung' }
+  ];
 
   checked = false;
   indeterminate = false;

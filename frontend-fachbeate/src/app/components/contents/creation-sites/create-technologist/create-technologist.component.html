@@ -1,14 +1,5 @@
 <div class="header">
-    <h1>Neu anlegen:</h1>
-    <div>
-        <mat-form-field>
-            <mat-label>Technologen/Vertreter</mat-label>
-            <mat-select [(ngModel)]="typeSelect" (change)="test()">
-                <mat-option [value]="'0'">Technologen</mat-option>
-                <mat-option [value]="'1'">Vertreter</mat-option>
-            </mat-select>
-        </mat-form-field>
-    </div>
+    <h1>Neuen Technologen anlegen</h1>
 </div>
 <hr>
 
@@ -16,7 +7,7 @@
     <div class="col-md-3">
         <div class="card">
             <div class="card-header text-white bg-danger">Allgemeine Daten</div>
-            <div class="card-body" *ngIf="typeSelect === '0' || typeSelect === '1'">
+            <div class="card-body">
                 <div class="center-items">
                     <mat-form-field class="smallInput">
                         <mat-label>Vorname</mat-label>
@@ -27,7 +18,7 @@
                         <input matInput type="text" [(ngModel)]="inputTechnologist.lastName" name="lastName">
                     </mat-form-field>
                     <div class="displayBySide">
-                        <mat-form-field *ngIf="typeSelect === '0'">
+                        <mat-form-field>
                             <mat-label>Kalender - Farbe</mat-label>
                             <input type="color" id="color" [(ngModel)]="inputTechnologist.color" matInput>
                         </mat-form-field>
@@ -38,7 +29,7 @@
                     <div class="displayBySide">
                         <button class="btn btn-danger" [hidden]="inputTechnologist.id===0" (click)="cancelEdit()"><i
                                 class="fa fa-times"></i></button>
-                        <button class="btn btn-success" (click)="postTechnologist(typeSelect)"><i
+                        <button class="btn btn-success" (click)="postTechnologist()"><i
                                 class="fa fa-save"></i></button>
                     </div>
                 </div>
@@ -46,9 +37,7 @@
         </div>
     </div>
     <div class="col-md-9">
-
-        <!--TECHNOLOGIST LIST--->
-        <nz-table *ngIf="typeSelect === '0'" class="col" #editRowTable nzTableLayout="fixed" nzBordered
+        <nz-table class="col" #editRowTable nzTableLayout="fixed" nzBordered
             [nzData]="technologistList">
             <thead>
                 <tr>
@@ -72,31 +61,6 @@
                     <td>
                         <span *ngIf="technologist.active" class="text-success">&#10004;</span>
                         <span *ngIf="!technologist.active" class="text-danger">&#10005;</span>
-                    </td>
-                </tr>
-            </tbody>
-        </nz-table>
-
-        <!--REPRESENTATIVE LIST-->
-        <nz-table *ngIf="typeSelect === '1'" class="col" #editRowTable nzTableLayout="fixed" nzBordered
-            [nzData]="representativeList">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Vorname</th>
-                    <th>Nachname</th>
-                    <th>Aktiv</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr matTooltip="Zum Bearbeiten klicken ..." (click)="editRow(repentative.id!, 1)"
-                    *ngFor="let repentative of representativeList">
-                    <td>{{repentative.id}}</td>
-                    <td>{{repentative.firstName}}</td>
-                    <td>{{repentative.lastName}}</td>
-                    <td>
-                        <span *ngIf="repentative.active" class="text-success">&#10004;</span>
-                        <span *ngIf="!repentative.active" class="text-danger">&#10005;</span>
                     </td>
                 </tr>
             </tbody>

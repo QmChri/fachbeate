@@ -1,6 +1,6 @@
 <div class="header">
     <div>
-        <h1 class="paddingSearch">Seminaranmeldung</h1>
+        <h1 class="paddingSearch" style="margin-bottom: 0;">Seminaranmeldung</h1>
     </div>
     <button class="btn btn-success" (click)="postWorkshopRequest()">Beantragen</button>
 </div>
@@ -145,36 +145,55 @@
 <div class="row">
     <div class="col-md-4 paddingBottom" *ngIf="buttonSelect.includes('1')">
         <div class="card">
-            <div class="card-header text-white bg-danger">Hotelbuchung</div>
-            <div class="card-body minheigtCard">
-                <div class="displayBySide">
-                    <div class="center-items">
-                        <mat-form-field class="smallInput">
-                            <mat-label>Ort / Lage</mat-label>
-                            <input matInput [(ngModel)]="inputWorkshop.locationAndDesiredPlace">
-                        </mat-form-field>
-                        <mat-form-field class="smallInput">
-                            <mat-label>Von - Bis</mat-label>
-                            <mat-date-range-input [rangePicker]="picker3">
-                                <input matStartDate placeholder="Start date"
-                                    [(ngModel)]="inputWorkshop.locationFromDate">
-                                <input matEndDate placeholder="End date" [(ngModel)]="inputWorkshop.locationToDate">
-                            </mat-date-range-input>
-                            <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
-                            <mat-date-range-picker #picker3></mat-date-range-picker>
-                        </mat-form-field>
-                    </div>
-                    <div class="center-items">
-                        <mat-form-field class="smallInput">
-                            <mat-label>Einzelzimmer</mat-label>
-                            <input type="number" min="0" matInput [(ngModel)]="inputWorkshop.amountSingleRooms">
-                        </mat-form-field>
-                        <mat-form-field class="smallInput">
-                            <mat-label>Doppelzimmer</mat-label>
-                            <input type="number" min="0" matInput [(ngModel)]="inputWorkshop.amountDoubleRooms">
-                        </mat-form-field>
-                    </div>
+            <div class="card-header text-white bg-danger paddingSearch">Hotelbuchung
+                <div>
+                    <button class="btn btn-secondary" (click)="deleteLast()">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                    </button>
+                    <button class="btn btn-success" (click)="addTab()">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                    </button>
                 </div>
+
+            </div>
+            <div class="card-body" style="padding-top: 0; min-height: 13rem;
+            max-height: 13.1rem;">
+                <mat-tab-group [selectedIndex]="selected.value" (selectedIndexChange)="selected.setValue($event)">
+                    @for (tab of tabs; track tab; let index = $index) {
+                    <mat-tab [label]="tab">
+                        <br>
+                        <div class="displayBySide">
+                            <div class="center-items">
+                                <mat-form-field class="smallInputSpecial">
+                                    <mat-label>Ort / Lage</mat-label>
+                                    <input matInput [(ngModel)]="inputWorkshop.locationAndDesiredPlace">
+                                </mat-form-field>
+                                <mat-form-field class="smallInputSpecial">
+                                    <mat-label>Von - Bis</mat-label>
+                                    <mat-date-range-input [rangePicker]="picker3">
+                                        <input matStartDate placeholder="Start date"
+                                            [(ngModel)]="inputWorkshop.locationFromDate">
+                                        <input matEndDate placeholder="End date"
+                                            [(ngModel)]="inputWorkshop.locationToDate">
+                                    </mat-date-range-input>
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
+                                    <mat-date-range-picker #picker3></mat-date-range-picker>
+                                </mat-form-field>
+                            </div>
+                            <div class="center-items">
+                                <mat-form-field class="smallInputSpecial">
+                                    <mat-label>Einzelzimmer</mat-label>
+                                    <input type="number" min="0" matInput [(ngModel)]="inputWorkshop.amountSingleRooms">
+                                </mat-form-field>
+                                <mat-form-field class="smallInputSpecial">
+                                    <mat-label>Doppelzimmer</mat-label>
+                                    <input type="number" min="0" matInput [(ngModel)]="inputWorkshop.amountDoubleRooms">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    }
+                </mat-tab-group>
             </div>
         </div>
     </div>

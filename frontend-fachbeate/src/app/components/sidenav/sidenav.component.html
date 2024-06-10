@@ -8,16 +8,14 @@
         </button>
     </div>
     <ul class="sidenav-nav">
-        <li class="sidenav-nav-item" *ngFor="let data of navData">
-            <!--   (click)="handleCLick(navData)" -->
-            <a class="sidenav-nav-link" *ngIf="data.items && data.items.length > 0" [routerLink]="[data.routeLink]"
-                routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-                <i class="sidenav-link-icon" [class]="data.icon"></i>
-                <span class="sidenav-link-text" @fadeInOut *ngIf="collapsed">
+        <li class="sidenav-nav-item" *ngFor="let data of navData" (click)="handleCLick(data)">
+            <a class="sidenav-nav-link" *ngIf="data.items && data.items.length > 0">
+                <i (click)="toggleCollapse()" class="sidenav-link-icon" [class]="data.icon"></i>
+                <span (click)="toggleCollapse()" class="sidenav-link-text" @fadeInOut *ngIf="collapsed">
                     {{"NAV."+data.label | translate}}
                 </span>
                 <i *ngIf="data.items && collapsed" class="menu-collapse-icon"
-                    [ngClass]="!data.expanded ? 'fal fa-angle-right' : 'fal fa-angle-down' "></i>
+                    [ngClass]="data.expanded ? 'fal fa-angle-down' : 'fal fa-angle-right' "></i>
             </a>
             <a class="sidenav-nav-link" *ngIf="!data.items || (data.items && data.items.length === 0)"
                 [routerLink]="[data.routeLink]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">

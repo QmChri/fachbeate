@@ -32,23 +32,22 @@ export const navbarData: INavbarData[] = [
         label: 'final-reports'
     },
     {
-        routeLink: 'create-technologist',
+        routeLink: "",
         icon: 'fal fa-user-plus',
-        label: 'new-tech'
-        /*,
+        label: 'new',
         items: [
             {
-                routeLink: 'druck/selektion',
-                label: 'Selektion',
+                routeLink: 'create-technologist',
+                label: 'new-tech',
             },
             {
-                routeLink: 'druck/data',
-                label: 'Sperren / Druck',
+                routeLink: 'create-representative',
+                label: 'new-re',
             },
             {
-                routeLink: 'druck/format',
-                label: 'Werte / Formate',
+                routeLink: 'create-dealer',
+                label: 'new-de',
             }
-        ] */
+        ]
     }
 ];

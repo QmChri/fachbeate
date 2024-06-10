@@ -10,13 +10,12 @@
     flex-direction: column;
     flex-wrap: nowrap;
     justify-content: space-evenly;
-    min-height: 18rem;
+    min-height: 12.5rem;
 }
 
 .languageBox {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     flex-wrap: nowrap;
     align-items: center;
 }
@@ -26,7 +25,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-
+    margin: auto;
 }
 
 .header {
@@ -43,6 +42,14 @@
     justify-content: space-between;
 }
 
+.flexStart{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: baseline;
+}
+
 @media (max-width: 1600px) {
     .displayBySide {
         display: flex;
@@ -52,23 +59,20 @@
 
         .smallInput {
             max-width: 12rem;
-            padding-right: 0.5rem;
         }
 
-        .smallInputSpecial{
-            max-width: 11rem;
-            padding-right: 0.5rem;
-        }
         .smallInputMittagAnz {
             max-width: 8rem;
-            padding-right: 0.5rem;
         }
 
         .smallInputSide {
-            max-width: 8rem;
-            padding-right: 0.5rem;
+            max-width: 12rem;
         }
     }
+}
+
+.mainView {
+    margin: 1.5rem;
 }
 
 .smallInputMittagAnz {
@@ -76,36 +80,9 @@
 }
 
 .smallInputSide {
-    max-width: 11rem;
-}
-
-.smallInput {
-    padding-right: 0.5rem;
-}
-
-.mittagCenter {
-    display: flex;
-    align-items: center;
+    max-width: 13.25rem;
 }
 
 .paddingBottom {
     padding-bottom: 1rem;
-}
-
-.minheigtCard {
-    min-height: 10rem;
-    max-height: 11.1rem;
-}
-
-.paddings {
-    display: flex;
-    justify-content: space-around;
-    padding-left: 10px;
-    padding-right: 10px;
-}
-
-.teilButton {
-    width: 5rem;
-    height: 3rem;
-    margin-bottom: 20px;
 }

@@ -25,7 +25,12 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin: auto;
+}
+
+.teilButton {
+    width: 5rem;
+    height: 3rem;
+    margin-bottom: 20px;
 }
 
 .header {
@@ -56,6 +61,10 @@
 
         .smallInputMittagAnz {
             max-width: 8rem;
+            padding-right: 0.5rem;
+        }
+        .smallInputSpecial{
+            max-width: 11rem;
             padding-right: 0.5rem;
         }
 

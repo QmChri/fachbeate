@@ -4,11 +4,12 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CustomerRequirementsComponent } from './components/contents/customer-requirements/customer-requirements.component';
 import { SeminarRegistrationComponent } from './components/contents/seminar-registration/seminar-registration.component';
 import { MainListComponent } from './components/main-list/main-list.component';
-import { CreateTechnologistComponent } from './components/contents/create-technologist/create-technologist.component';
+import { CreateTechnologistComponent } from './components/contents/creation-sites/create-technologist/create-technologist.component';
 import { VisitorRegistrationComponent } from './components/contents/visitor-registration/visitor-registration.component';
 import { AbschlussBerichtComponent } from './components/contents/abschluss-bericht/abschluss-bericht.component';
 import { AbschlussBerichtListComponent } from './components/contents/abschluss-bericht-list/abschluss-bericht-list.component';
-import { TeilnehmerListeComponent } from './components/contents/teilnehmer-liste/teilnehmer-liste.component';
+import { CreateDealerComponent } from './components/contents/creation-sites/create-dealer/create-dealer.component';
+import { CreateRepresentativeComponent } from './components/contents/creation-sites/create-representative/create-representative.component';
 
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
@@ -21,7 +22,8 @@ const routes: Routes = [
   { path: 'create-technologist', component: CreateTechnologistComponent },
   { path: 'visitorRegistration', component: VisitorRegistrationComponent },
   { path: 'app-abschluss-bericht-list', component: AbschlussBerichtListComponent },
-  { path: 'teilnehmerliste', component: TeilnehmerListeComponent },
+  { path: 'create-dealer', component: CreateDealerComponent },
+  { path: 'create-representative', component: CreateRepresentativeComponent },
   { path: 'ab', component: AbschlussBerichtComponent }
 ];
 
