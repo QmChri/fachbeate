@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Department } from '../../../models/department';
+import { VisitorRegistration } from '../../../models/visitor-registration';
 
 @Component({
   selector: 'app-visitor-registration',
@@ -8,33 +9,10 @@ import { Department } from '../../../models/department';
   styleUrl: './visitor-registration.component.scss'
 })
 export class VisitorRegistrationComponent implements OnInit {
-  panelOpenState = false;
-  panelOpenState1 = false;
-  panelOpenState2 = false;
-  panelOpenState3 = false;
-  panelOpenState4 = false;
-  panelOpenState5 = false;
   buttonSelect: String[] = []
   geDip: String[] = []
 
-  campaignOne = new FormGroup({
-    start: new FormControl(new Date(year, month, 13)),
-    end: new FormControl(new Date(year, month, 16)),
-  });
-  campaignTwo = new FormGroup({
-    start: new FormControl(new Date(year, month, 15)),
-    end: new FormControl(new Date(year, month, 19)),
-  });
-  languageControl = new FormControl();
-  languageFilterCtrl = new FormControl();
-  languages = [
-    { value: 'en', label: 'English', flag: 'assets/flags/en.png' },
-    { value: 'de', label: 'Deutsch', flag: 'assets/flags/de.png' }
-  ];
-  abteilungen = [
-    { value: 'GL', label: 'Geschäftsleitung' },
-    { value: 'AB', label: 'Auftragsbearbeitung' }
-  ];
+  inputVisitRegistration: VisitorRegistration = {};
 
   checked = false;
   indeterminate = false;
