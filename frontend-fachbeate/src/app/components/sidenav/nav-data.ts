@@ -4,37 +4,37 @@ export const navbarData: INavbarData[] = [
     {
         routeLink: 'dashboard',
         icon: 'far fa-calendar-alt',
-        label: 'Terminübersicht'
+        label: 'date-view'
     },
     {
         routeLink: 'mainList',
         icon: 'fal fa-list',
-        label: 'Terminliste'
+        label: 'date-list'
     },
     {
         routeLink: 'customer-requirements',
         icon: 'fas fa-envelope-open-text',
-        label: 'Anforderungen Technologische Unterstützung'
+        label: 'req-tech'
     },
     {
         routeLink: 'visitorRegistration',
         icon: 'fal fa-users',
-        label: 'Besucheranmeldung'
+        label: 'req-visitors'
     },
     {
         routeLink: 'seminar-registration',
         icon: 'fal fa-book',
-        label: 'Seminar Anmeldung'
+        label: 'req-workshop'
     },
     {
         routeLink: 'app-abschluss-bericht-list',
         icon: 'fal fa-clipboard-list',
-        label: 'Abschlussbericht Liste'
+        label: 'final-reports'
     },
     {
         routeLink: 'create-technologist',
         icon: 'fal fa-user-plus',
-        label: 'Neuen Technologen Anlegen'
+        label: 'new-tech'
         /*,
         items: [
             {

@@ -48,11 +48,12 @@ export class SidenavComponent implements OnInit {
   currentUrl = "";
 
   constructor(private translate: TranslateService) {
+    this.translate.addLangs(['en', 'de']);
     this.translate.setDefaultLang('de');
+    this.translate.use('de');
   }
   switchLanguage(language: string) {
     this.translate.use(language);
-    console.log(language)
   }
 
   @HostListener('window:resize', ['$event'])

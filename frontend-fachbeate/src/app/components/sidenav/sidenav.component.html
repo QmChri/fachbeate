@@ -14,7 +14,7 @@
                 routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <i class="sidenav-link-icon" [class]="data.icon"></i>
                 <span class="sidenav-link-text" @fadeInOut *ngIf="collapsed">
-                    {{data.label}}
+                    {{"NAV."+data.label | translate}}
                 </span>
                 <i *ngIf="data.items && collapsed" class="menu-collapse-icon"
                     [ngClass]="!data.expanded ? 'fal fa-angle-right' : 'fal fa-angle-down' "></i>
@@ -23,7 +23,7 @@
                 [routerLink]="[data.routeLink]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <i class="sidenav-link-icon" [class]="data.icon"></i>
                 <span class="sidenav-link-text" @fadeInOut *ngIf="collapsed">
-                    {{data.label}}
+                    {{"NAV."+data.label | translate}}
                 </span>
             </a>
             <div *ngIf="collapsed && data.items && data.items.length > 0">
@@ -36,7 +36,7 @@
                 [matMenuTriggerFor]="menu">
                 <i class="sidenav-link-icon" [class]="'fal fa-language'"></i>
                 <span class="sidenav-link-text" @fadeInOut *ngIf="collapsed">
-                    Sprach Auswahl
+                    {{'NAV.lan-sel' | translate}}
                 </span>
                 <mat-menu #menu="matMenu">
                     <div (click)="switchLanguage('de')" class="header">
