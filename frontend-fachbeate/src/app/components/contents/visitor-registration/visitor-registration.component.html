@@ -55,10 +55,16 @@
             <div class="card-header  text-white bg-danger">Kundenbesuch</div>
             <div class="card-body">
                 <div class="center-items">
-                    <mat-form-field>
-                        <mat-label>Kunde/Unternehmen</mat-label>
-                        <input matInput>
-                    </mat-form-field>
+                    <div class="paddingSearch">
+                        <mat-form-field style="max-width: 11.5rem;">
+                            <mat-label>Kunde/Unternehmen</mat-label>
+                            <input matInput required>
+                        </mat-form-field>
+                        <button class="btn btn-success teilButton" matTooltip="Teilnehmerliste"
+                            (click)="openDialog(12!)">
+                            <i class="fas fa-user-friends"></i>
+                        </button>
+                    </div>
                     <mat-form-field>
                         <mat-label>Anreise aus (Land)</mat-label>
                         <input matInput>

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Department } from '../../../models/department';
+import { MatDialog } from '@angular/material/dialog';
+import { TeilnehmerListeComponent } from '../teilnehmer-liste/teilnehmer-liste.component';
 
 @Component({
   selector: 'app-visitor-registration',
@@ -16,6 +18,25 @@ export class VisitorRegistrationComponent implements OnInit {
   panelOpenState5 = false;
   buttonSelect: String[] = []
   geDip: String[] = []
+
+  constructor(private dialog: MatDialog) { }
+
+  openDialog(cnt: number) {
+
+    this.dialog.open(TeilnehmerListeComponent, {
+      height: '36rem',
+      width: '50rem',
+      data: cnt
+    });
+    /*
+        dialogRef.afterClosed().subscribe(
+          data => {
+            if (data.save) {
+              customerVisit.finalReport = data.finalReport;
+              this.postCustomerRequirement();
+            }
+          });*/
+  }
 
   campaignOne = new FormGroup({
     start: new FormControl(new Date(year, month, 13)),

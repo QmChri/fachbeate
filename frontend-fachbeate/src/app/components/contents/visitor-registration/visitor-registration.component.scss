@@ -25,7 +25,12 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin: auto;
+}
+
+.teilButton {
+    width: 5rem;
+    height: 3rem;
+    margin-bottom: 20px;
 }
 
 .header {

@@ -10,7 +10,7 @@ import { DateLocale } from 'ng-zorro-antd/i18n';
   templateUrl: './main-list.component.html',
   styleUrls: ['./main-list.component.css']
 })
-export class MainListComponent implements OnInit{
+export class MainListComponent implements OnInit {
   searchValue = '';
   visible = false;
   listOfData: DataItem[] = [];
@@ -19,7 +19,7 @@ export class MainListComponent implements OnInit{
 
   //TODO bei listOfFilter gehören jeweils die richtigen text und values von der liste hereingeladen
   listOfDisplayData: DataItem[] = [];
-  listOfColumn: ColumnDefinition[]  = [
+  listOfColumn: ColumnDefinition[] = [
     {
       name: 'customerNr',
       sortOrder: null,
@@ -109,7 +109,7 @@ export class MainListComponent implements OnInit{
     this.loadData();
   }
 
-  loadData(){
+  loadData() {
 
     this.loadTechnologists();
 
@@ -118,14 +118,14 @@ export class MainListComponent implements OnInit{
         data.forEach(element => {
 
           var tmpStatus = "in-progress";
-          if((element.releaseManagement != null && element.releaseManagement != undefined)
-            || (element.releaseSupervisor != null && element.releaseSupervisor != undefined)){
-              tmpStatus = "open";
+          if ((element.releaseManagement != null && element.releaseManagement != undefined)
+            || (element.releaseSupervisor != null && element.releaseSupervisor != undefined)) {
+            tmpStatus = "open";
           }
 
           var allFinalReports: boolean = true;
 
-          element.customerVisits.forEach(element => {if(element.finalReport === undefined || element.finalReport === null){allFinalReports === false}});
+          element.customerVisits.forEach(element => { if (element.finalReport === undefined || element.finalReport === null) { allFinalReports === false } });
 
           this.listOfData = [...this.listOfData, {
             nr: element.id!,
@@ -156,9 +156,9 @@ export class MainListComponent implements OnInit{
         data.forEach(element => {
 
           var tmpStatus = "in-progress";
-          if((element.releaseManagement != null && element.releaseManagement != undefined)
-            || (element.releaseSupervisor != null && element.releaseSupervisor != undefined)){
-              tmpStatus = "open";
+          if ((element.releaseManagement != null && element.releaseManagement != undefined)
+            || (element.releaseSupervisor != null && element.releaseSupervisor != undefined)) {
+            tmpStatus = "open";
           }
 
           console.log(new Date(element.endDate!).toDateString());
@@ -172,10 +172,8 @@ export class MainListComponent implements OnInit{
             vertreter: element.seminarPresenter!,
             fachberater: element.requestedTechnologist!.firstName + " " + element.requestedTechnologist!.lastName,
             timespan: {
-              days:  Math.round(Math.abs(new Date(element.endDate!).getTime() - new Date(element.startDate!).getTime()) / 86400000),
-              hours:0,
-              minutes:0,
-              seconds:0
+              start: element.startDate,
+              end: element.endDate
             },
             abschlussbericht: false,
             type: 1
@@ -194,7 +192,7 @@ export class MainListComponent implements OnInit{
 
   }
 
-  loadTechnologists(){
+  loadTechnologists() {
     this.http.getAllTechnologist().subscribe({
       next: data => { this.technologistList = data },
       error: err => {
@@ -204,9 +202,9 @@ export class MainListComponent implements OnInit{
   }
 
   openCRC(dateNr: number, type: number) {
-    if(type === 0){
+    if (type === 0) {
       this.router.navigate(['/customer-requirements', dateNr]);
-    }else if(type === 1){
+    } else if (type === 1) {
       this.router.navigate(['/seminar-registration', dateNr]);
     }
 
@@ -233,10 +231,10 @@ export class MainListComponent implements OnInit{
           { text: 'Vertreter X', value: 'Vertreter X' }
         ];
       } else if (item.name === 'Fachberater') {
-        var tmp: {text: string; value: string}[] = [];
+        var tmp: { text: string; value: string }[] = [];
 
         this.technologistList.forEach(technolgist => {
-          tmp = [...tmp, {text: technolgist.firstName + " " + technolgist.lastName, value: technolgist.firstName + " " + technolgist.lastName}]
+          tmp = [...tmp, { text: technolgist.firstName + " " + technolgist.lastName, value: technolgist.firstName + " " + technolgist.lastName }]
         })
 
         item.listOfFilter! = tmp;
@@ -300,6 +298,6 @@ interface ColumnDefinition {
   name: string;
   sortOrder: any;
   sortFn: (a: DataItem, b: DataItem) => number;
-  listOfFilter: {text: string, value: string}[];
+  listOfFilter: { text: string, value: string }[];
   filterFn?: (list: string[], item: DataItem) => boolean;
 }
