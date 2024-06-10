@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpService } from '../../services/http.service';
 import { Technologist } from '../../models/technologist';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-main-list',
@@ -18,7 +19,7 @@ export class MainListComponent implements OnInit{
   listOfDisplayData: DataItem[] = [];
   listOfColumn: ColumnDefinition[]  = [
     {
-      name: 'Kundennummer',
+      name: 'customerNr',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.nr.toString().localeCompare(b.nr.toString()),
       listOfFilter: [
@@ -27,7 +28,7 @@ export class MainListComponent implements OnInit{
       filterFn: (list: string[], item: DataItem) => true
     },
     {
-      name: 'Erstelldatum',
+      name: 'creationDate',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.createDate.valueOf().toString().localeCompare(b.createDate.valueOf().toString()),
       listOfFilter: [
@@ -36,7 +37,7 @@ export class MainListComponent implements OnInit{
       filterFn: (list: string[], item: DataItem) => true
     },
     {
-      name: 'Status',
+      name: 'state',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.status.localeCompare(b.status),
       listOfFilter: [
@@ -46,7 +47,7 @@ export class MainListComponent implements OnInit{
       filterFn: (list: string[], item: DataItem) => list.some(name => item.status.indexOf(name) !== -1)
     },
     {
-      name: 'Händler/Töchter',
+      name: 'dealers',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.toha.localeCompare(b.toha),
       listOfFilter: [
@@ -57,7 +58,7 @@ export class MainListComponent implements OnInit{
       filterFn: (list: string[], item: DataItem) => list.some(name => item.toha.indexOf(name) !== -1)
     },
     {
-      name: 'Vertreter',
+      name: 'representative',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.vertreter.localeCompare(b.vertreter),
       listOfFilter: [
@@ -66,7 +67,7 @@ export class MainListComponent implements OnInit{
       filterFn: (list: string[], item: DataItem) => list.some(name => item.vertreter.indexOf(name) !== -1)
     },
     {
-      name: 'Fachberater',
+      name: 'technologist',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.fachberater.localeCompare(b.fachberater),
       listOfFilter: [
@@ -75,7 +76,7 @@ export class MainListComponent implements OnInit{
       filterFn: (list: string[], item: DataItem) => list.some(name => item.fachberater.indexOf(name) !== -1)
     },
     {
-      name: 'Zeitraum (d/h)',
+      name: 'time-frame',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.timespan.valueOf().toString().localeCompare(b.timespan.valueOf().toString()),
       listOfFilter: [
@@ -84,7 +85,7 @@ export class MainListComponent implements OnInit{
       filterFn: (list: string[], item: DataItem) => true
     },
     {
-      name: 'Abschlussbericht',
+      name: 'final-report',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.abschlussbericht.valueOf().toString().localeCompare(b.abschlussbericht.valueOf().toString()),
       listOfFilter: [
@@ -96,7 +97,11 @@ export class MainListComponent implements OnInit{
   ];
 
 
-  constructor(private router: Router, private http: HttpService) { }
+  constructor(private router: Router, private http: HttpService, private translate: TranslateService) {
+    this.translate.addLangs(['en', 'de']);
+    this.translate.setDefaultLang('de');
+    this.translate.use('de');
+  }
 
   ngOnInit(): void {
     this.loadData();
