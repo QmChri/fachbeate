@@ -40,7 +40,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let data of nzTable.data">
+    <tr *ngFor="let data of nzTable.data" matTooltip="Doppelklick um zu bearbeiten ..." >
       <td (dblclick)="openCRC(data.nr, data.type)">{{data.nr}}</td>
       <td (dblclick)="openCRC(data.nr, data.type)">{{ data.createDate.getDay() }}/{{ data.createDate.getDate() }}/{{
         data.createDate.getFullYear() }}</td>
