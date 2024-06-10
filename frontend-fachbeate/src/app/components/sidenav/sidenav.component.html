@@ -15,7 +15,7 @@
                     {{"NAV."+data.label | translate}}
                 </span>
                 <i *ngIf="data.items && collapsed" class="menu-collapse-icon"
-                    [ngClass]="!data.expanded ? 'fal fa-angle-right' : 'fal fa-angle-down' "></i>
+                    [ngClass]="data.expanded ? 'fal fa-angle-down' : 'fal fa-angle-right' "></i>
             </a>
             <a class="sidenav-nav-link" *ngIf="!data.items || (data.items && data.items.length === 0)"
                 [routerLink]="[data.routeLink]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
