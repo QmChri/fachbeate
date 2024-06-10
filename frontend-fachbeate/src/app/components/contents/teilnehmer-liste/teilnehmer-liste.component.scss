@@ -9,3 +9,24 @@
     border-radius: 4px;
     padding: 4px 11px;
   }
+  
+  .mainView {
+    margin: 1.5rem;
+}
+
+
+.paddingSearch {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+}

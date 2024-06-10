@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-teilnehmer-liste',
@@ -6,9 +7,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrl: './teilnehmer-liste.component.scss'
 })
 export class TeilnehmerListeComponent implements OnInit {
-  i = 0;
+  i = 1;
   editId: number | null = null;
   listOfData: ItemData[] = [];
+
+  constructor(
+    public dialogRef: MatDialogRef<TeilnehmerListeComponent>,
+    @Inject(MAT_DIALOG_DATA) public cnt: number
+  ) {
+    for (let i = 1; i <= this.cnt; i++) {
+      this.addRow();
+
+    }
+  }
 
   startEdit(id: number): void {
     this.editId = id;
@@ -37,11 +48,8 @@ export class TeilnehmerListeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.addRow();
-    this.addRow();
   }
 }
-
 
 interface ItemData {
   id: number;

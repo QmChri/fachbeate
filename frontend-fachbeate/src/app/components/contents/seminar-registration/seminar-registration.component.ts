@@ -3,21 +3,39 @@ import { WorkshopRequirement } from '../../../models/workshop-requirement';
 import { HttpService } from '../../../services/http.service';
 import { Technologist } from '../../../models/technologist';
 import { ActivatedRoute } from '@angular/router';
+import { TeilnehmerListeComponent } from '../teilnehmer-liste/teilnehmer-liste.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-seminar-registration',
   templateUrl: './seminar-registration.component.html',
   styleUrl: './seminar-registration.component.scss'
 })
-export class SeminarRegistrationComponent implements OnInit{
+export class SeminarRegistrationComponent implements OnInit {
   buttonSelect: string[] = []
 
   addItem: string = "";
   reasonSelect: number = 0;
-  languages: string[] = ['DE','EN','RU'];
+  languages: string[] = ['DE', 'EN', 'RU'];
 
+  openDialog(cnt: number) {
 
-  addToList(addItem: string){
+    this.dialog.open(TeilnehmerListeComponent, {
+      height: '36rem',
+      width: '50rem',
+      data: cnt
+    });
+    /*
+        dialogRef.afterClosed().subscribe(
+          data => {
+            if (data.save) {
+              customerVisit.finalReport = data.finalReport;
+              this.postCustomerRequirement();
+            }
+          });*/
+  }
+
+  addToList(addItem: string) {
     this.languages.push(addItem);
   }
 
@@ -27,30 +45,29 @@ export class SeminarRegistrationComponent implements OnInit{
   };
 
   technologists: Technologist[] = [];
-
-  constructor(private http: HttpService, private route: ActivatedRoute){
+  constructor(private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute) {
 
   }
 
   ngOnInit(): void {
     console.log(this.inputWorkshop.tripDateTime);
-    
+
     this.route.paramMap.subscribe(params => {
-      if(params.get('id') != null){
+      if (params.get('id') != null) {
         this.http.getWorkshopById(parseInt(params.get('id')!)).subscribe({
           next: data => {
-            if(data != null){
+            if (data != null) {
               this.inputWorkshop = data;
               console.log(data);
-              
+
               this.buttonSelect = [
-                (data.hotelBooking)?"1":"",
-                (data.flightBooking)?"2":"",
-                (data.trip)?"3":"",
-                (data.companyTour)?"4":"",
-                (data.meal)?"5":"",
-                (data.customerPresent)?"6":"",
-                (data.diploma)?"7":""
+                (data.hotelBooking) ? "1" : "",
+                (data.flightBooking) ? "2" : "",
+                (data.trip) ? "3" : "",
+                (data.companyTour) ? "4" : "",
+                (data.meal) ? "5" : "",
+                (data.customerPresent) ? "6" : "",
+                (data.diploma) ? "7" : ""
               ].filter(p => p != "");
             }
           },
@@ -64,7 +81,7 @@ export class SeminarRegistrationComponent implements OnInit{
     this.getTechnologists();
   }
 
-  getTechnologists(){
+  getTechnologists() {
     this.http.getActiveTechnologist().subscribe({
       next: data => {
         this.technologists = data;
@@ -78,8 +95,8 @@ export class SeminarRegistrationComponent implements OnInit{
     this.inputWorkshop.requestedTechnologist = this.technologists.find(elemnt => elemnt.id === $event);
   }
 
-  changeSelections(event: any, section: number){   
-    this.buttonSelect = (section === 0)?this.buttonSelect.filter(number => Number(number) >= 6 && Number(number) <= 7):this.buttonSelect.filter(number => Number(number) >= 1 && Number(number) <= 5);
+  changeSelections(event: any, section: number) {
+    this.buttonSelect = (section === 0) ? this.buttonSelect.filter(number => Number(number) >= 6 && Number(number) <= 7) : this.buttonSelect.filter(number => Number(number) >= 1 && Number(number) <= 5);
     this.buttonSelect = [...this.buttonSelect, ...event.value]
 
     this.inputWorkshop.hotelBooking = this.buttonSelect.includes("1");
@@ -91,7 +108,7 @@ export class SeminarRegistrationComponent implements OnInit{
     this.inputWorkshop.diploma = this.buttonSelect.includes("7");
   }
 
-  postWorkshopRequest(){
+  postWorkshopRequest() {
 
     console.log(this.inputWorkshop);
     this.inputWorkshop.reason = "Seminar"
@@ -107,9 +124,9 @@ export class SeminarRegistrationComponent implements OnInit{
     })
   }
 
-  changeDate(event: any, date?: Date){
+  changeDate(event: any, date?: Date) {
     console.log(event);
-    
+
   }
 
 }

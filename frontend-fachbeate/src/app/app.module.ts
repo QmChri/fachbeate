@@ -54,6 +54,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import {MatMenuModule} from '@angular/material/menu';
 import { AbschlussBerichtListComponent } from './components/contents/abschluss-bericht-list/abschluss-bericht-list.component';
 import { TeilnehmerListeComponent } from './components/contents/teilnehmer-liste/teilnehmer-liste.component';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -96,6 +97,7 @@ registerLocaleData(de);
     MatCheckboxModule,
     MatSelectModule,
     MatFormFieldModule,
+    NzSelectModule,
     MatInputModule,
     MatExpansionModule,
     ScrollingModule,
