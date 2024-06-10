@@ -100,9 +100,6 @@ export class MainListComponent implements OnInit{
 
 
   constructor(private router: Router, private http: HttpService, private translate: TranslateService) {
-    this.translate.addLangs(['en', 'de']);
-    this.translate.setDefaultLang('de');
-    this.translate.use('de');
   }
 
   ngOnInit(): void {
@@ -132,7 +129,7 @@ export class MainListComponent implements OnInit{
             createDate: new Date(),
             status: "ToDo",
             toha: element.company!,
-            vertreter: element.representative!,
+            vertreter: element.representative!.firstName + " " + element.representative!.lastName,
             fachberater: element.requestedTechnologist!.firstName + " " + element.requestedTechnologist!.lastName,
             timespan: {
               start: element.startDate,
@@ -172,10 +169,8 @@ export class MainListComponent implements OnInit{
             vertreter: element.seminarPresenter!,
             fachberater: element.requestedTechnologist!.firstName + " " + element.requestedTechnologist!.lastName,
             timespan: {
-              days:  Math.round(Math.abs(new Date(element.endDate!).getTime() - new Date(element.startDate!).getTime()) / 86400000),
-              hours:0,
-              minutes:0,
-              seconds:0
+              start: element.startDate,
+              end: element.endDate
             },
             abschlussbericht: false,
             type: 1

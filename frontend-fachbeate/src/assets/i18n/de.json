@@ -19,7 +19,9 @@
         "representative": "Vertreter",
         "technologist": "Fachberater",
         "time-frame": "Zeitraum",
-        "final-report": "Abschlussbericht"
+        "final-report": "Abschlussbericht",
+        "tech-req":"Technologen Anforderung",
+        "work-req": "Seminar"
     },
     "REQ-TECH": {
         "title": "Anforderungen Technologische Unterstützung",

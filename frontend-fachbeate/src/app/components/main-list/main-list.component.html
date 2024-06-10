@@ -36,6 +36,7 @@
       <th [nzSortFn]="listOfColumn[7].sortFn" [nzFilters]="listOfColumn[7].listOfFilter"
         [nzFilterFn]="listOfColumn[7].filterFn!" [(nzSortOrder)]="listOfColumn[7].sortOrder">{{'DATE-LIST.'+listOfColumn[7].name | translate}}
       </th>
+      <th>Type</th>
       <th>Freigabe</th>
     </tr>
   </thead>
@@ -55,6 +56,9 @@
           <span *ngIf="data.abschlussbericht" class="text-success">&#10004;</span>
           <span *ngIf="!data.abschlussbericht" class="text-danger">&#10008;</span>
         </div>
+      </td>
+      <td>
+        <span>{{((data.type === 0)?'DATE-LIST.tech-req':'DATE-LIST.work-req') | translate}}</span>
       </td>
       <td>
         <div class="centerRow">

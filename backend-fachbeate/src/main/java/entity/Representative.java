@@ -16,6 +16,17 @@ public class Representative extends PanacheEntity {
         this.active = newRepresentative.active;
     }
 
+    public Representative persistOrUpdate(){
+        if(this.id == null || this.id == 0){
+            this.id = null;
+            this.persist();
+            return this;
+        }
+        Representative representative = Representative.findById(this.id);
+        representative.updateEntity(this);
+        return representative;
+    }
+
     public Representative() {
     }
 

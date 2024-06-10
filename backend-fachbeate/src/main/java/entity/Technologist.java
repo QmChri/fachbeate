@@ -16,7 +16,7 @@ public class Technologist extends PanacheEntity {
     public Technologist() {
     }
 
-    public void update(Technologist technologist) {
+    public void updateEntity(Technologist technologist) {
         this.firstName = technologist.firstName;
         this.lastName = technologist.lastName;
         this.active = technologist.active;

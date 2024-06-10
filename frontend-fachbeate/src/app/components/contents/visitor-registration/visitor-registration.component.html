@@ -15,7 +15,7 @@
                     <div class="displayBySide">
                         <mat-form-field class="smallInputSide">
                             <mat-label>Name</mat-label>
-                            <input matInput>
+                            <input matInput [(ngModel)]="inputVisitRegistration.name">
                         </mat-form-field>
                         <mat-form-field class="smallInputSide">
                             <mat-label>Grund</mat-label>
@@ -25,25 +25,25 @@
                     <div class="displayBySide">
                         <mat-form-field class="smallInput">
                             <mat-label>Von</mat-label>
-                            <input matInput [matDatepicker]="picker1">
+                            <input matInput [matDatepicker]="picker1" [(ngModel)]="inputVisitRegistration.fromDate">
                             <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
                             <mat-datepicker #picker1></mat-datepicker>
                         </mat-form-field>
                         <mat-form-field style="max-width: 5rem;">
                             <mat-label>Uhrzeit</mat-label>
-                            <input type="time" matInput>
+                            <input type="time" matInput [(ngModel)]="inputVisitRegistration.fromTime">
                         </mat-form-field>
                     </div>
                     <div class="displayBySide">
                         <mat-form-field class="smallInput">
                             <mat-label>Bis</mat-label>
-                            <input matInput [matDatepicker]="picker2">
+                            <input matInput [matDatepicker]="picker2" [(ngModel)]="inputVisitRegistration.toDate">
                             <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
                             <mat-datepicker #picker2></mat-datepicker>
                         </mat-form-field>
                         <mat-form-field style="max-width: 5rem;">
                             <mat-label>Uhrzeit</mat-label>
-                            <input type="time" matInput>
+                            <input type="time" matInput [(ngModel)]="inputVisitRegistration.toTime">
                         </mat-form-field>
                     </div>
                 </div>
@@ -57,19 +57,19 @@
                 <div class="center-items">
                     <mat-form-field>
                         <mat-label>Kunde/Unternehmen</mat-label>
-                        <input matInput>
+                        <input matInput [(ngModel)]="inputVisitRegistration.customerOrCompany">
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>Anreise aus (Land)</mat-label>
-                        <input matInput>
+                        <input matInput [(ngModel)]="inputVisitRegistration.arrivalFromCountry">
                     </mat-form-field>
                     <div class="displayBySide">
                         <mat-form-field>
                             <mat-label>Grund des Besuchs</mat-label>
-                            <input matInput>
+                            <input matInput [(ngModel)]="inputVisitRegistration.reasonForVisit">
                         </mat-form-field>
                         <label class="languageBox">EN
-                            <mat-checkbox color="warn"></mat-checkbox>
+                            <mat-checkbox color="warn" [(ngModel)]="inputVisitRegistration.languageEN"></mat-checkbox>
                         </label>
                     </div>
                 </div>
@@ -83,31 +83,31 @@
                 <div class="center-items">
                     <mat-form-field>
                         <mat-label>Zuständiger Betreuer</mat-label>
-                        <input matInput>
+                        <input matInput [(ngModel)]="inputVisitRegistration.responsibleSupervisor">
                     </mat-form-field>
 
                     <div class="displayBySide">
                         <mat-form-field class="smallInput">
                             <mat-label>Von</mat-label>
-                            <input matInput [matDatepicker]="picker3">
+                            <input matInput [matDatepicker]="picker3" [(ngModel)]="inputVisitRegistration.stayFromDate">
                             <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
                             <mat-datepicker #picker3></mat-datepicker>
                         </mat-form-field>
                         <mat-form-field style="max-width: 5rem;">
                             <mat-label>Uhrzeit</mat-label>
-                            <input type="time" matInput>
+                            <input type="time" matInput [(ngModel)]="inputVisitRegistration.stayFromTime">
                         </mat-form-field>
                     </div>
                     <div class="displayBySide">
                         <mat-form-field class="smallInput">
                             <mat-label>Bis</mat-label>
-                            <input matInput [matDatepicker]="picker4">
+                            <input matInput [matDatepicker]="picker4" [(ngModel)]="inputVisitRegistration.stayToDate">
                             <mat-datepicker-toggle matIconSuffix [for]="picker4"></mat-datepicker-toggle>
                             <mat-datepicker #picker4></mat-datepicker>
                         </mat-form-field>
                         <mat-form-field style="max-width: 5rem;">
                             <mat-label>Uhrzeit</mat-label>
-                            <input type="time" matInput>
+                            <input type="time" matInput [(ngModel)]="inputVisitRegistration.stayToTime">
                         </mat-form-field>
                     </div>
                 </div>
@@ -139,22 +139,22 @@
                     <div class="center-items">
                         <mat-form-field class="smallInput">
                             <mat-label>Personenanzahl</mat-label>
-                            <input matInput>
+                            <input matInput [(ngModel)]="inputVisitRegistration.numberOfPeopleTour">
                         </mat-form-field>
                         <label class="languageBox">Sprache - EN
-                            <mat-checkbox color="warn"></mat-checkbox>
+                            <mat-checkbox color="warn" [(ngModel)]="inputVisitRegistration.tourLanguageEN"></mat-checkbox>
                         </label>
                     </div>
                     <div class="center-items">
                         <mat-form-field class="smallInput">
                             <mat-label>Datum</mat-label>
-                            <input matInput [matDatepicker]="picker5">
+                            <input matInput [matDatepicker]="picker5" [(ngModel)]="inputVisitRegistration.toDate">
                             <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
                             <mat-datepicker #picker5></mat-datepicker>
                         </mat-form-field>
                         <mat-form-field class="smallInput">
                             <mat-label>Uhrzeit</mat-label>
-                            <input type="time" matInput>
+                            <input type="time" matInput [(ngModel)]="inputVisitRegistration.toTime">
                         </mat-form-field>
                     </div>
                 </div>
@@ -169,19 +169,19 @@
                     <div class="besprechunsraum">
                         <mat-form-field class="smallInput">
                             <mat-label>Personenanzahl</mat-label>
-                            <input matInput>
+                            <input matInput [(ngModel)]="inputVisitRegistration.numberOfPeopleMeetingRoom">
                         </mat-form-field>
                     </div>
                     <div class="center-items">
                         <mat-form-field class="smallInput">
                             <mat-label>Datum</mat-label>
-                            <input matInput [matDatepicker]="picker5">
+                            <input matInput [matDatepicker]="picker5" [(ngModel)]="inputVisitRegistration.meetingRoomDate">
                             <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
                             <mat-datepicker #picker5></mat-datepicker>
                         </mat-form-field>
                         <mat-form-field class="smallInput">
                             <mat-label>Uhrzeit</mat-label>
-                            <input type="time" matInput>
+                            <input type="time" matInput [(ngModel)]="inputVisitRegistration.meetingRoomTime">
                         </mat-form-field>
                     </div>
                 </div>
@@ -196,13 +196,13 @@
                     <div class="center-items">
                         <mat-form-field class="smallInput">
                             <mat-label>Ort / Lage</mat-label>
-                            <input matInput>
+                            <input matInput [(ngModel)]="inputVisitRegistration.hotelLocation">
                         </mat-form-field>
                         <mat-form-field class="smallInput">
                             <mat-label>Von - Bis</mat-label>
                             <mat-date-range-input [rangePicker]="picker3">
-                                <input matStartDate placeholder="Start date">
-                                <input matEndDate placeholder="End date">
+                                <input matStartDate placeholder="Start date" [(ngModel)]="inputVisitRegistration.hotelStayFromDate">
+                                <input matEndDate placeholder="End date" [(ngModel)]="inputVisitRegistration.hotelStayToDate">
                             </mat-date-range-input>
                             <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
                             <mat-date-range-picker #picker3></mat-date-range-picker>
@@ -211,11 +211,11 @@
                     <div class="center-items">
                         <mat-form-field class="smallInput">
                             <mat-label>Einzelzimmer</mat-label>
-                            <input type="number" min="0" matInput>
+                            <input type="number" min="0" matInput [(ngModel)]="inputVisitRegistration.singleRooms">
                         </mat-form-field>
                         <mat-form-field class="smallInput">
                             <mat-label>Doppelzimmer</mat-label>
-                            <input type="number" min="0" matInput>
+                            <input type="number" min="0" matInput [(ngModel)]="inputVisitRegistration.doubleRooms">
                         </mat-form-field>
                     </div>
                 </div>
@@ -230,38 +230,38 @@
                     <div class="mittagCenter">
                         <mat-form-field class="smallInputMittagAnz">
                             <mat-label>Anzahl</mat-label>
-                            <input type="number" min="0" matInput>
+                            <input type="number" min="0" matInput [(ngModel)]="inputVisitRegistration.lunchNumber">
                         </mat-form-field>
                         <mat-form-field class="smallInput">
                             <mat-label>Datum</mat-label>
-                            <input matInput [matDatepicker]="picker7">
+                            <input matInput [matDatepicker]="picker7" [(ngModel)]="inputVisitRegistration.lunchDate">
                             <mat-datepicker-toggle matIconSuffix [for]="picker7"></mat-datepicker-toggle>
                             <mat-datepicker #picker7></mat-datepicker>
                         </mat-form-field>
                         <mat-form-field style="max-width: 6rem;">
                             <mat-label>Uhrzeit</mat-label>
-                            <input type="time" matInput>
+                            <input type="time" matInput [(ngModel)]="inputVisitRegistration.lunchTime">
                         </mat-form-field>
                     </div>
                     <div class="center-items">
                         <div class="displayBySide">
                             <mat-form-field class="smallInput">
                                 <mat-label>Vegan</mat-label>
-                                <input type="number" min="0" matInput>
+                                <input type="number" min="0" matInput [(ngModel)]="inputVisitRegistration.veganMeals">
                             </mat-form-field>
                             <mat-form-field class="smallInput">
                                 <mat-label>Vegetarisch</mat-label>
-                                <input type="number" min="0" matInput>
+                                <input type="number" min="0" matInput [(ngModel)]="inputVisitRegistration.vegetarianMeals">
                             </mat-form-field>
                         </div>
                         <div class="displayBySide">
                             <mat-form-field class="smallInput">
                                 <mat-label>Sonstige</mat-label>
-                                <input type="text" matInput>
+                                <input type="text" matInput [(ngModel)]="inputVisitRegistration.otherMealsDescription">
                             </mat-form-field>
                             <mat-form-field class="smallInput">
                                 <mat-label>Anzahl</mat-label>
-                                <input type="number" min="0" matInput>
+                                <input type="number" min="0" matInput [(ngModel)]="inputVisitRegistration.otherMealsNumber">
                             </mat-form-field>
                         </div>
                     </div>
@@ -278,25 +278,25 @@
                         <mat-form-field class="smallInput">
                             <mat-label>Von - Bis</mat-label>
                             <mat-date-range-input [rangePicker]="picker4">
-                                <input matStartDate placeholder="Start date">
-                                <input matEndDate placeholder="End date">
+                                <input matStartDate placeholder="Start date" [(ngModel)]="inputVisitRegistration.transferFromDate">
+                                <input matEndDate placeholder="End date" [(ngModel)]="inputVisitRegistration.transferToDate">
                             </mat-date-range-input>
                             <mat-datepicker-toggle matIconSuffix [for]="picker4"></mat-datepicker-toggle>
                             <mat-date-range-picker #picker4></mat-date-range-picker>
                         </mat-form-field>
                         <mat-form-field class="smallInput">
                             <mat-label>Sonstige Reiseanf.</mat-label>
-                            <input matInput>
+                            <input matInput [(ngModel)]="inputVisitRegistration.otherTravelRequirements">
                         </mat-form-field>
                     </div>
                     <div class="center-items">
                         <mat-form-field class="smallInput">
                             <mat-label>Von</mat-label>
-                            <input matInput>
+                            <input matInput [(ngModel)]="inputVisitRegistration.transferFrom">
                         </mat-form-field>
                         <mat-form-field class="smallInput">
                             <mat-label>Nach</mat-label>
-                            <input matInput>
+                            <input matInput [(ngModel)]="inputVisitRegistration.transferTo">
                         </mat-form-field>
                     </div>
                 </div>
