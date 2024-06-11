@@ -3,6 +3,7 @@ import { navbarData } from './nav-data';
 import { animate, keyframes, style, transition, trigger } from '@angular/animations';
 import { TranslateService } from '@ngx-translate/core';
 import { INavbarData } from './helper';
+import { NgIf } from '@angular/common';
 
 interface SideNavToggle {
   screenWidth: number;
@@ -13,6 +14,7 @@ interface SideNavToggle {
   selector: 'app-sidenav',
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.scss'],
+
   animations: [
     trigger('fadeInOut', [
       transition(':enter', [
@@ -72,6 +74,7 @@ export class SidenavComponent implements OnInit {
 
   toggleCollapse(): void {
     this.collapsed = !this.collapsed;
+
     this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth });
   }
 
@@ -81,18 +84,19 @@ export class SidenavComponent implements OnInit {
   }
 
   handleCLick(item: INavbarData): void {
-    if (item.routeLink === "app-tab1" || item.routeLink === "app-artikelsprachcode") {
-      console.log(item.routeLink);
+
+    if(item.items !== null && item.items !== undefined && item.items.length !== 0){
+      
       this.collapsed = true;
       this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth });
     }
-    if (!this.multiple) {
-      for (let modelItem of this.navData) {
-        if (item !== modelItem && modelItem.expanded) {
-          modelItem.expanded = false;
-        }
+
+    for (let modelItem of this.navData) {
+      if (item !== modelItem && modelItem.expanded) {
+        modelItem.expanded = false;
       }
     }
+
     item.expanded = !item.expanded
   }
 }
