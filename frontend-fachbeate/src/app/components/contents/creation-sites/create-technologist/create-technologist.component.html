@@ -1,6 +1,6 @@
 <div class="header">
     <div>
-        <h1 class="paddingSearch" style="margin-bottom: 0;">Neuen Fachberater anlegen</h1>
+        <h1 class="paddingSearch" style="margin-bottom: 0;">{{'CREATE-TECHNOLOGIST.header' | translate}}</h1>
     </div>
 </div>
 <hr>
@@ -8,30 +8,30 @@
 <div class="row">
     <div class="col-md-3">
         <div class="card">
-            <div class="card-header text-white bg-danger">Allgemeine Daten</div>
+            <div class="card-header text-white bg-danger">{{'CREATE-TECHNOLOGIST.allg' | translate}}</div>
             <div class="card-body">
                 <div class="center-items">
                     <mat-form-field class="smallInput">
-                        <mat-label>Vorname</mat-label>
+                        <mat-label>{{'CREATE-TECHNOLOGIST.firstName' | translate}}</mat-label>
                         <input matInput type="text" [(ngModel)]="inputTechnologist.firstName" name="firstName">
                     </mat-form-field>
                     <mat-form-field class="smallInput">
-                        <mat-label>Nachname</mat-label>
+                        <mat-label>{{'CREATE-TECHNOLOGIST.lastName' | translate}}</mat-label>
                         <input matInput type="text" [(ngModel)]="inputTechnologist.lastName" name="lastName">
                     </mat-form-field>
                     <div class="displayBySide">
                         <mat-form-field>
-                            <mat-label>Kalender - Farbe</mat-label>
+                            <mat-label>{{'CREATE-TECHNOLOGIST.calendarColor' | translate}}</mat-label>
                             <input type="color" id="color" [(ngModel)]="inputTechnologist.color" matInput>
                         </mat-form-field>
-                        <label class="languageBox">Aktiv
+                        <label class="languageBox">{{'CREATE-TECHNOLOGIST.active' | translate}}
                             <mat-checkbox color="warn" [(ngModel)]="inputTechnologist.active"></mat-checkbox>
                         </label>
                     </div>
                     <div class="displayBySide">
-                        <button class="btn btn-danger" [hidden]="inputTechnologist.id===0" (click)="cancelEdit()"><i
+                        <button class="btn btn-danger" matTooltip="{{'CREATE-TECHNOLOGIST.cancel' | translate}}" [hidden]="inputTechnologist.id===0" (click)="cancelEdit()"><i
                                 class="fa fa-times"></i></button>
-                        <button class="btn btn-success" (click)="postTechnologist()"><i class="fa fa-save"></i></button>
+                        <button class="btn btn-success" matTooltip="{{'CREATE-TECHNOLOGIST.safe' | translate}}" (click)="postTechnologist()"><i class="fa fa-save"></i></button>
                     </div>
                 </div>
             </div>
@@ -41,15 +41,15 @@
         <nz-table class="col" #editRowTable nzTableLayout="fixed" nzBordered [nzData]="technologistList">
             <thead>
                 <tr>
-                    <th>Id</th>
-                    <th>Vorname</th>
-                    <th>Nachname</th>
-                    <th>Kalender - Farbe</th>
-                    <th>Aktiv</th>
+                    <th>{{'CREATE-TECHNOLOGIST.id' | translate}}</th>
+                    <th>{{'CREATE-TECHNOLOGIST.firstName' | translate}}</th>
+                    <th>{{'CREATE-TECHNOLOGIST.lastName' | translate}}</th>
+                    <th>{{'CREATE-TECHNOLOGIST.calendarColor' | translate}}</th>
+                    <th>{{'CREATE-TECHNOLOGIST.active' | translate}}</th>
                 </tr>
             </thead>
             <tbody>
-                <tr matTooltip="Zum Bearbeiten klicken ..." *ngFor="let technologist of technologistList"
+                <tr matTooltip="{{'CREATE-TECHNOLOGIST.edit' | translate}}" *ngFor="let technologist of technologistList"
                     (click)="editRow(technologist.id!, 0)">
                     <td>{{technologist.id}}</td>
                     <td>{{technologist.firstName}}</td>

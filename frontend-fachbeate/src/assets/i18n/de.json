@@ -128,5 +128,112 @@
         "lastName": "Nachname",
         "companyFunction": "Funktion im Unternehmen",
         "delete": "Entfernen"
+    },
+    "SEMINAR-REGISTRATION":{
+        "seminarRegistration": "Seminaranmeldung",
+        "send": "Beantragen",
+        "seminar": "Seminar",
+        "seminarTopic": "Seminarthema",
+        "companyCustomer": "Firma/Kunde",
+        "fromTo": "Von - Bis",
+        "members": "Seminarteilnehmer",
+        "arrivalFromCountry": "Anreise aus Land",
+        "artOfArrival": "Anreise Art",
+        "count": "Anzahl",
+        "seminarRegistrationMembers": "Teilnehmerliste",
+        "seminarLeader": "Seminarleitung",
+        "seminarBoss": "Seminarleiter",
+        "responsibleConsultants": "Zuständige Fachberater",
+        "choose": "Auswählen ...",
+        "language": "Sprache",
+        "interpreter": "Dolmetscher",
+        "yes": "Ja",
+        "no": "Nein",
+
+        "furtherMore": "Weiteres",
+
+        "hotelBooking": "Hotelbuchung",
+        "place": "Ort/Lage",
+        "singleRoom": "Einzelzimmer",
+        "doubleRoom": "Doppelzimmer",
+        "delete": "Entfernen",
+        "add": "Hinzufügen",
+
+        "mealTime": "Mittagessen",
+        "vegan": "Vegan",
+        "vegetarian": "Vegetarisch",
+        "other": "Sonstige",
+
+        "airportTransferTrain": "Flughafen Transfer - Zug",
+        "from": "Von",
+        "toPlace": "Nach",
+        "otherReq": "Sonstige Reiseanforderungen",
+
+        "trip": "Ausflug",
+        "tripDestination": "Ausflugziel",
+        "date": "Datum",
+        "otherNote": "Sonstige Anmerkungen",
+        "time": "Uhrzeit",
+        
+        "companyGuidance": "Betriebsfürhung",
+        "peopleCount": "Anzahl",
+
+        "customerGifts": "Kundengeschenke",
+        "diploms": "Diplome"
+    },
+    "ABSCHLUSS-BERICHT-LISTE":{
+        "header": "Abschlussberichte",
+        "filter-clear": "Filter/Sortierung aufheben",
+        "customer": "Kunde",
+        "datecustomerVisit": "Datum Kundenbesuch",
+        "createDateVisit": "Erstelldatum Besuch",
+        "responsibleFB": "Zuständiger FB",
+        "toDoTechno": "'Zu Erledigen' - FB",
+        "responsibleRepresentative": "Zuständiger Vertreter",
+        "toDoResp": "'Zu Erledigen' - Vertreter",
+        "state": "Status",
+        "reset": "Zurücksetzen",
+        "search": "Suche",
+        "searchPoints": "Suche ..."
+    },
+    "CREATE-DEALER":{
+        "header": "Neuen Händler anlegen",
+        "allg": "Allgemeine Daten",
+        "dealerName": "Händlerbezeichnung",
+        "active": "Aktiv",
+        "safe": "Speichern",
+        "cancel": "Abbrechen",
+
+        "id": "ID",
+        "calling": "Bezeichnung",
+        "edit": "Zum Bearbeiten klicken ..."
+    },
+
+    "CREATE-REPRESENTATIVE":{
+        "header": "Neuen Vertreter anlegen",
+        "allg": "Allgemeine Daten",
+        "firstName": "Vorname",
+        "lastName": "Nachname",
+        "active": "Aktiv",
+        "safe": "Speichern",
+        "cancel": "Abbrechen",
+        
+        "id": "ID",
+        "edit": "Zum Bearbeiten klicken ..."
+
+    },
+    "CREATE-TECHNOLOGIST":{
+        "header": "Neuen Fachberater anlegen",
+        "allg": "Allgemeine Daten",
+        "firstName": "Vorname",
+        "lastName": "Nachname",
+        "calendarColor": "Kalender - Farbe",
+        "active": "Aktiv",
+        "safe": "Speichern",
+        "cancel": "Abbrechen",
+
+        "id": "ID",
+        "calling": "Bezeichnung",
+        "edit": "Zum Bearbeiten klicken ..."
     }
 }

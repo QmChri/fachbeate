@@ -1,13 +1,14 @@
 <div class="table-operations header">
     <div>
-        <h1 class="paddingSearch">Abschlussberichte</h1>
+        <h1 class="paddingSearch">{{'ABSCHLUSS-BERICHT-LISTE.header' | translate}}</h1>
     </div>
     <div>
         <nz-filter-trigger class="paddingSearch" [(nzVisible)]="visible" [nzActive]="searchValue.length > 0"
             [nzDropdownMenu]="menu">
             <i class="fa fa-search"></i>
         </nz-filter-trigger>
-        <button class="btn btn-secondary" (click)="resetSortAndFilters()">Filter/Sortierung aufheben</button>
+        <button class="btn btn-secondary" (click)="resetSortAndFilters()">{{'ABSCHLUSS-BERICHT-LISTE.filter-clear' |
+            translate}}</button>
     </div>
 </div>
 <hr>
@@ -17,32 +18,34 @@
     <thead>
         <tr>
             <th [nzSortFn]="listOfColumn[0].sortFn" [(nzSortOrder)]="listOfColumn[0].sortOrder">
-                {{listOfColumn[0].name}}
+                {{'ABSCHLUSS-BERICHT-LISTE.'+listOfColumn[0].name| translate}}
             </th>
             <th [nzSortFn]="listOfColumn[1].sortFn" [(nzSortOrder)]="listOfColumn[1].sortOrder">
-                {{listOfColumn[1].name}}
+                {{'ABSCHLUSS-BERICHT-LISTE.'+listOfColumn[1].name| translate}}
             </th>
             <th [nzSortFn]="listOfColumn[2].sortFn" [nzFilters]="listOfColumn[2].listOfFilter"
                 [nzFilterFn]="listOfColumn[2].filterFn!" [(nzSortOrder)]="listOfColumn[2].sortOrder">
-                {{listOfColumn[2].name}}
+                {{'ABSCHLUSS-BERICHT-LISTE.'+listOfColumn[2].name| translate}}
             </th>
             <th [nzSortFn]="listOfColumn[3].sortFn" [nzFilters]="listOfColumn[3].listOfFilter"
                 [nzFilterFn]="listOfColumn[3].filterFn!" [(nzSortOrder)]="listOfColumn[3].sortOrder">
-                {{listOfColumn[3].name}}
+                {{'ABSCHLUSS-BERICHT-LISTE.'+listOfColumn[3].name| translate}}
             </th>
             <th [nzSortFn]="listOfColumn[4].sortFn" [nzFilters]="listOfColumn[4].listOfFilter"
                 [nzFilterFn]="listOfColumn[4].filterFn!" [(nzSortOrder)]="listOfColumn[4].sortOrder">
-                {{listOfColumn[4].name}}
+                {{'ABSCHLUSS-BERICHT-LISTE.'+listOfColumn[4].name| translate}}
             </th>
             <th [nzSortFn]="listOfColumn[5].sortFn" [nzFilters]="listOfColumn[5].listOfFilter"
                 [nzFilterFn]="listOfColumn[5].filterFn!" [(nzSortOrder)]="listOfColumn[5].sortOrder">
-                {{listOfColumn[5].name}}
+                {{'ABSCHLUSS-BERICHT-LISTE.'+listOfColumn[5].name| translate}}
             </th>
-            <th [nzSortFn]="listOfColumn[6].sortFn" [(nzSortOrder)]="listOfColumn[6].sortOrder">{{listOfColumn[6].name}}
+            <th [nzSortFn]="listOfColumn[6].sortFn" [(nzSortOrder)]="listOfColumn[6].sortOrder">
+                {{'ABSCHLUSS-BERICHT-LISTE.'+listOfColumn[6].name| translate}}
+
             </th>
             <th [nzSortFn]="listOfColumn[7].sortFn" [nzFilters]="listOfColumn[7].listOfFilter"
                 [nzFilterFn]="listOfColumn[7].filterFn!" [(nzSortOrder)]="listOfColumn[7].sortOrder">
-                {{listOfColumn[7].name}}
+                {{'ABSCHLUSS-BERICHT-LISTE.'+listOfColumn[7].name| translate}}
             </th>
         </tr>
     </thead>
@@ -62,9 +65,11 @@
 <nz-dropdown-menu #menu="nzDropdownMenu">
     <div class="ant-table-filter-dropdown">
         <div class="search-box">
-            <input type="text" nz-input placeholder="Suche ..." [(ngModel)]="searchValue" />
-            <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">Search</button>
-            <button nz-button nzSize="small" (click)="reset()">Reset</button>
+            <input type="text" nz-input placeholder="{{'ABSCHLUSS-BERICHT-LISTE.searchPoints' | translate}}"
+                [(ngModel)]="searchValue" />
+            <button nz-button nzSize="small" nzType="primary" (click)="search()"
+                class="search-button">{{'ABSCHLUSS-BERICHT-LISTE.search' | translate}}</button>
+            <button nz-button nzSize="small" (click)="reset()">{{'ABSCHLUSS-BERICHT-LISTE.reset' | translate}}</button>
         </div>
     </div>
 </nz-dropdown-menu>

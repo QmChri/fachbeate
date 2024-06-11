@@ -1,33 +1,33 @@
 <div class="header">
     <div>
-        <h1 class="paddingSearch" style="margin-bottom: 0;">Neuen Vertreter anlegen</h1>
+        <h1 class="paddingSearch" style="margin-bottom: 0;">{{'CREATE-REPRESENTATIVE.header' | translate}}</h1>
     </div>
 </div>
 <hr>
 <div class="row">
     <div class="col-md-3">
         <div class="card">
-            <div class="card-header text-white bg-danger">Allgemeine Daten</div>
+            <div class="card-header text-white bg-danger">{{'CREATE-REPRESENTATIVE.allg' | translate}}</div>
             <div class="card-body">
                 <div class="center-items">
                     <mat-form-field class="smallInput">
-                        <mat-label>Vorname</mat-label>
+                        <mat-label>{{'CREATE-REPRESENTATIVE.firstName' | translate}}</mat-label>
                         <input matInput type="text" [(ngModel)]="inputTechnologist.firstName" name="firstName">
                     </mat-form-field>
                     <div class="displayBySide">
                         <mat-form-field class="smallInput">
-                            <mat-label>Nachname</mat-label>
+                            <mat-label>{{'CREATE-REPRESENTATIVE.lastName' | translate}}</mat-label>
                             <input matInput type="text" [(ngModel)]="inputTechnologist.lastName" name="lastName">
                         </mat-form-field>
 
-                        <label class="languageBox">Aktiv
+                        <label class="languageBox">{{'CREATE-REPRESENTATIVE.active' | translate}}
                             <mat-checkbox color="warn" [(ngModel)]="inputTechnologist.active"></mat-checkbox>
                         </label>
                     </div>
                     <div class="displayBySide">
-                        <button class="btn btn-danger" [hidden]="inputTechnologist.id===0" (click)="cancelEdit()"><i
+                        <button class="btn btn-danger" matTooltip="{{'CREATE-REPRESENTATIVE.cancel' | translate}}" [hidden]="inputTechnologist.id===0" (click)="cancelEdit()"><i
                                 class="fa fa-times"></i></button>
-                        <button class="btn btn-success" (click)="postRepresentative()"><i
+                        <button class="btn btn-success" matTooltip="{{'CREATE-REPRESENTATIVE.safe' | translate}}" (click)="postRepresentative()"><i
                                 class="fa fa-save"></i></button>
                     </div>
                 </div>
@@ -38,14 +38,14 @@
         <nz-table class="col" #editRowTable nzTableLayout="fixed" nzBordered [nzData]="representativeList">
             <thead>
                 <tr>
-                    <th>Id</th>
-                    <th>Vorname</th>
-                    <th>Nachname</th>
-                    <th>Aktiv</th>
+                    <th>{{'CREATE-REPRESENTATIVE.id' | translate}}</th>
+                    <th>{{'CREATE-REPRESENTATIVE.firstName' | translate}}</th>
+                    <th>{{'CREATE-REPRESENTATIVE.lastName' | translate}}</th>
+                    <th>{{'CREATE-REPRESENTATIVE.active' | translate}}</th>
                 </tr>
             </thead>
             <tbody>
-                <tr matTooltip="Zum Bearbeiten klicken ..." (click)="editRow(repentative.id!, 1)"
+                <tr matTooltip="{{'CREATE-REPRESENTATIVE.edit' | translate}}" (click)="editRow(repentative.id!, 1)"
                     *ngFor="let repentative of representativeList">
                     <td>{{repentative.id}}</td>
                     <td>{{repentative.firstName}}</td>
