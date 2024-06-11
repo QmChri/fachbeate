@@ -1,8 +1,9 @@
 <div class="header">
-    <h1>Neuen Vertreter anlegen</h1>
+    <div>
+        <h1 class="paddingSearch" style="margin-bottom: 0;">Neuen Vertreter anlegen</h1>
+    </div>
 </div>
 <hr>
-
 <div class="row">
     <div class="col-md-3">
         <div class="card">
@@ -34,8 +35,7 @@
         </div>
     </div>
     <div class="col-md-9">
-        <nz-table class="col" #editRowTable nzTableLayout="fixed" nzBordered
-            [nzData]="representativeList">
+        <nz-table class="col" #editRowTable nzTableLayout="fixed" nzBordered [nzData]="representativeList">
             <thead>
                 <tr>
                     <th>Id</th>

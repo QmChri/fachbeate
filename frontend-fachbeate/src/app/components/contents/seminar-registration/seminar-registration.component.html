@@ -70,11 +70,12 @@
                         <mat-label>Seminarleiter</mat-label>
                         <input matInput [(ngModel)]="inputWorkshop.seminarPresenter">
                     </mat-form-field>
+
                     <mat-form-field>
                         <mat-label>Zuständiger Fachberater</mat-label>
-                        <mat-select
+                        <mat-select required multiple placeholder="Auswählen . . . "
                             [ngModel]="(inputWorkshop.requestedTechnologist === undefined)?undefined:inputWorkshop.requestedTechnologist.id"
-                            (valueChange)="changeTechnolgist($event)" required>
+                            (valueChange)="changeTechnolgist($event)">
                             <mat-option>--</mat-option>
                             @for (t of technologists; track technologists) {
                             <mat-option [value]="t.id">{{t.firstName}} {{t.lastName}}</mat-option>
