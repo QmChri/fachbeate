@@ -1,20 +1,20 @@
 <div class="mainView">
     <div class="header">
         <div>
-            <h2 class="paddingSearch">Seminaranmeldung</h2>
+            <h2 class="paddingSearch">{{'DIALOG-MEMBERS.memberList' | translate}}</h2>
         </div>
-        <button nz-button (click)="addRow()" nzType="primary">Hinzufügen</button>
+        <button nz-button (click)="addRow()" nzType="primary">{{'DIALOG-MEMBERS.add' | translate}}</button>
     </div>
     <hr>
 
     <nz-table #editRowTable [nzPageSize]="6" nzBordered nzSize="small" [nzData]="listOfData">
         <thead>
             <tr>
-                <th nzWidth="15%">Hr./Fr./Div.</th>
-                <th nzWidth="28%">Vorname</th>
-                <th nzWidth="28%">Nachname</th>
-                <th nzWidth="28%">Funktion im Unternehmen</th>
-                <th>Entfernen</th>
+                <th nzWidth="15%">{{'DIALOG-MEMBERS.gender' | translate}}</th>
+                <th nzWidth="28%">{{'DIALOG-MEMBERS.firstName' | translate}}</th>
+                <th nzWidth="28%">{{'DIALOG-MEMBERS.lastName' | translate}}</th>
+                <th nzWidth="28%">{{'DIALOG-MEMBERS.companyFunction' | translate}}</th>
+                <th>{{'DIALOG-MEMBERS.delete' | translate}}</th>
             </tr>
         </thead>
         <tbody>

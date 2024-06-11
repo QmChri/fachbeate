@@ -23,7 +23,7 @@
         "technologist": "Fachberater",
         "time-frame": "Zeitraum",
         "final-report": "Abschlussbericht",
-        "tech-req":"Technologen Anforderung",
+        "tech-req": "Technologen Anforderung",
         "work-req": "Seminar"
     },
     "REQ-TECH": {
@@ -65,6 +65,68 @@
         "select": "Auswählen..."
     },
     "VISITOR-REGISTRATION": {
-       
+        "header": "Besucheranmeldung",
+        "headerButton": "Beantragen",
+        "representativeOrEmployee": "Vertreter oder Mitarbeiter",
+        "name": "Name",
+        "reason": "Grund",
+        "from": "Von",
+        "to": "Bis",
+        "fromTime": "Uhrzeit",
+        "toTime": "Uhrzeit",
+        "customerVisit": "Kundenbesuch",
+        "customerCompany": "Kunde/Unternehmen",
+        "seminarRegistration": "Teilnehmerliste",
+        "arrivalFromCountry": "Anreise aus Land",
+        "reasonOfVisit": "Grund des Besuchs",
+        "periodOfStayOftering": "Aufenthaltszeitraum in Oftering",
+        "responsibleSupervisor": "Zuständiger Betreuer",
+        "furtherMore": "Weiteres",
+
+        "companyGuidance": "Betriebsfürhung",
+        "peopleCount": "Personenanzahl",
+        "date": "Datum",
+        "dateTime": "Uhrzeit",
+        "languageEN": "Sprache - EN",
+        "meetingRoom": "Besprechungsraum",
+
+        "hotelBooking": "Hotelbuchung",
+        "place": "Ort/Lage",
+        "singleRoom": "Einzelzimmer",
+        "doubleRoom": "Doppelzimmer",
+        "fromTo": "Von - Bis",
+
+        "mealTime": "Mittagessen",
+        "count": "Anzahl",
+        "vegan": "Vegan",
+        "vegetarian": "Vegetarisch",
+        "other": "Sonstige",
+
+        "airportTransferTrain": "Flughafen Transfer - Zug",
+        "toPlace": "Nach",
+        "otherReq": "Sonstige Reiseanforderungen",
+
+        "plannedDepartmentVisits": "Geplante Abteilungsbesuche",
+        "department": "Abteilung",
+        "boss": "Geschäftsleitung",
+        "applicationTechnology": "Anwendungstechnik",
+        "productDevelopment": "Produktentwicklung",
+        "marketing": "Marketing",
+        "it": "EDV",
+        "payOffice": "ProdLohnbürouktentwicklung",
+        "orderProcessing": "Auftragsbearbeitung",
+        "qualityMaterialsManagement": "Qualitäts - Rohstoffmanagement",
+        "calculation": "Kalkulation",
+        "legalFinance": "Rechts - Finanzwesen",
+        "innov8Labor": "Innov8 / Labor"
+    },
+    "DIALOG-MEMBERS":{
+        "memberList": "Seminaranmeldung",
+        "add": "Hinzufügen",
+        "gender": "Hr./Fr./Div.",
+        "firstName": "Vorname",
+        "lastName": "Nachname",
+        "companyFunction": "Funktion im Unternehmen",
+        "delete": "Entfernen"
     }
 }

@@ -10,7 +10,7 @@ import { FinalReport } from '../models/final-report';
 
 
 
-const API_URL = "http://localhost:8080/"
+const API_URL = "http://10.2.3.72:8079/"
 
 
 @Injectable({

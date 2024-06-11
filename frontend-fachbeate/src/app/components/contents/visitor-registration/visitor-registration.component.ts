@@ -105,34 +105,34 @@ export class VisitorRegistrationComponent implements OnInit {
     this.listOfCurrentPageData = [
       {
         id: 1,
-        name: 'Geschäftsleitung',
+        name: 'boss',
         checked: false,
       },
       {
         id: 2,
-        name: 'Anwendungstechnik',
+        name: 'applicationTechnology',
         checked: false,
       },
       {
         id: 3,
-        name: 'Produktentwicklung',
+        name: 'productDevelopment',
         checked: false,
       },
       {
         id: 4,
-        name: 'Marketing',
+        name: 'marketing',
         checked: false,
         dateOfVisit: new Date()
       },
       {
         id: 5,
-        name: 'EDV',
+        name: 'it',
         checked: false,
         dateOfVisit: new Date()
       },
       {
         id: 6,
-        name: 'Lohnbüro',
+        name: 'payOffice',
         checked: false,
         dateOfVisit: new Date()
       }
@@ -141,31 +141,31 @@ export class VisitorRegistrationComponent implements OnInit {
     this.listOfCurrentPageData2 = [
       {
         id: 7,
-        name: 'Auftragsbearbeitung',
+        name: 'orderProcessing',
         checked: false,
         dateOfVisit: new Date()
       },
       {
         id: 8,
-        name: 'Qualitäts- Rohstoffmanagement',
+        name: 'qualityMaterialsManagement',
         checked: false,
         dateOfVisit: new Date()
       },
       {
         id: 9,
-        name: 'Kalkulation',
+        name: 'calculation',
         checked: false,
         dateOfVisit: new Date()
       },
       {
         id: 10,
-        name: 'Rechts- / Finanzwesen',
+        name: 'legalFinance',
         checked: false,
         dateOfVisit: new Date()
       },
       {
         id: 11,
-        name: 'Innov8 / Labor',
+        name: 'innov8Labor',
         checked: false,
         dateOfVisit: new Date()
       }

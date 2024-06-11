@@ -1,48 +1,49 @@
 <div class="header">
     <div>
-        <h1 class="paddingSearch" style="margin-bottom: 0;">Besucheranmeldung</h1>
+        <h1 class="paddingSearch" style="margin-bottom: 0;">{{'VISITOR-REGISTRATION.header' | translate}}</h1>
     </div>
-    <button class="btn btn-success">Beantragen</button>
+    <button class="btn btn-success">{{'VISITOR-REGISTRATION.headerButton' | translate}}</button>
 </div>
 <hr>
 
 <div class="row">
     <div class="col-md-3">
         <div class="card">
-            <div class="card-header text-white bg-danger">Vertreter oder Mitarbeiter</div>
+            <div class="card-header text-white bg-danger">{{'VISITOR-REGISTRATION.representativeOrEmployee' |
+                translate}}</div>
             <div class="card-body">
                 <div class="center-items">
                     <div class="displayBySide">
                         <mat-form-field class="smallInputSide">
-                            <mat-label>Name</mat-label>
+                            <mat-label>{{"VISITOR-REGISTRATION.name" | translate}}</mat-label>
                             <input matInput [(ngModel)]="inputVisitRegistration.name">
                         </mat-form-field>
                         <mat-form-field class="smallInputSide">
-                            <mat-label>Grund</mat-label>
+                            <mat-label>{{"VISITOR-REGISTRATION.reason" | translate}}</mat-label>
                             <input matInput>
                         </mat-form-field>
                     </div>
                     <div class="displayBySide">
                         <mat-form-field class="smallInput">
-                            <mat-label>Von</mat-label>
+                            <mat-label>{{"VISITOR-REGISTRATION.from" | translate}}</mat-label>
                             <input matInput [matDatepicker]="picker1" [(ngModel)]="inputVisitRegistration.fromDate">
                             <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
                             <mat-datepicker #picker1></mat-datepicker>
                         </mat-form-field>
                         <mat-form-field style="max-width: 5rem;">
-                            <mat-label>Uhrzeit</mat-label>
+                            <mat-label>{{"VISITOR-REGISTRATION.fromTime" | translate}}</mat-label>
                             <input type="time" matInput [(ngModel)]="inputVisitRegistration.fromTime">
                         </mat-form-field>
                     </div>
                     <div class="displayBySide">
                         <mat-form-field class="smallInput">
-                            <mat-label>Bis</mat-label>
+                            <mat-label>{{"VISITOR-REGISTRATION.to" | translate}}</mat-label>
                             <input matInput [matDatepicker]="picker2" [(ngModel)]="inputVisitRegistration.toDate">
                             <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
                             <mat-datepicker #picker2></mat-datepicker>
                         </mat-form-field>
                         <mat-form-field style="max-width: 5rem;">
-                            <mat-label>Uhrzeit</mat-label>
+                            <mat-label>{{"VISITOR-REGISTRATION.toTime" | translate}}</mat-label>
                             <input type="time" matInput [(ngModel)]="inputVisitRegistration.toTime">
                         </mat-form-field>
                     </div>
@@ -52,26 +53,28 @@
     </div>
     <div class="col-md-3">
         <div class="card">
-            <div class="card-header  text-white bg-danger">Kundenbesuch</div>
+            <div class="card-header  text-white bg-danger">{{"VISITOR-REGISTRATION.customerVisit" | translate}}</div>
             <div class="card-body">
                 <div class="center-items">
                     <div class="paddingSearch">
                         <mat-form-field style="max-width: 11.5rem;">
-                            <mat-label>Kunde/Unternehmen</mat-label>
+                            <mat-label>{{"VISITOR-REGISTRATION.customerCompany" | translate}}</mat-label>
                             <input matInput required>
                         </mat-form-field>
-                        <button class="btn btn-success teilButton" matTooltip="Teilnehmerliste"
-                            (click)="openDialog(12!)">
+                        <!-- TODO bei openDialog nicht eintrage-->
+                        <button class="btn btn-success teilButton"
+                            matTooltip="{{'VISITOR-REGISTRATION.seminarRegistration' | translate}}"
+                            (click)="openDialog(1!)">
                             <i class="fas fa-user-friends"></i>
                         </button>
                     </div>
                     <mat-form-field>
-                        <mat-label>Anreise aus (Land)</mat-label>
+                        <mat-label>{{'VISITOR-REGISTRATION.arrivalFromCountry' | translate}}</mat-label>
                         <input matInput [(ngModel)]="inputVisitRegistration.arrivalFromCountry">
                     </mat-form-field>
                     <div class="displayBySide">
                         <mat-form-field>
-                            <mat-label>Grund des Besuchs</mat-label>
+                            <mat-label>{{'VISITOR-REGISTRATION.reasonOfVisit' | translate}}</mat-label>
                             <input matInput [(ngModel)]="inputVisitRegistration.reasonForVisit">
                         </mat-form-field>
                         <label class="languageBox">EN
@@ -84,35 +87,36 @@
     </div>
     <div class="col-md-3">
         <div class="card">
-            <div class="card-header  text-white bg-danger">Aufenthaltszeitraum in Oftering</div>
+            <div class="card-header  text-white bg-danger">{{'VISITOR-REGISTRATION.periodOfStayOftering' | translate}}
+            </div>
             <div class="card-body">
                 <div class="center-items">
                     <mat-form-field>
-                        <mat-label>Zuständiger Betreuer</mat-label>
+                        <mat-label>{{'VISITOR-REGISTRATION.responsibleSupervisor' | translate}}</mat-label>
                         <input matInput [(ngModel)]="inputVisitRegistration.responsibleSupervisor">
                     </mat-form-field>
 
                     <div class="displayBySide">
                         <mat-form-field class="smallInput">
-                            <mat-label>Von</mat-label>
+                            <mat-label>{{'VISITOR-REGISTRATION.from' | translate}}</mat-label>
                             <input matInput [matDatepicker]="picker3" [(ngModel)]="inputVisitRegistration.stayFromDate">
                             <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
                             <mat-datepicker #picker3></mat-datepicker>
                         </mat-form-field>
                         <mat-form-field style="max-width: 5rem;">
-                            <mat-label>Uhrzeit</mat-label>
+                            <mat-label>{{'VISITOR-REGISTRATION.fromTime' | translate}}</mat-label>
                             <input type="time" matInput [(ngModel)]="inputVisitRegistration.stayFromTime">
                         </mat-form-field>
                     </div>
                     <div class="displayBySide">
                         <mat-form-field class="smallInput">
-                            <mat-label>Bis</mat-label>
+                            <mat-label>{{'VISITOR-REGISTRATION.to' | translate}}</mat-label>
                             <input matInput [matDatepicker]="picker4" [(ngModel)]="inputVisitRegistration.stayToDate">
                             <mat-datepicker-toggle matIconSuffix [for]="picker4"></mat-datepicker-toggle>
                             <mat-datepicker #picker4></mat-datepicker>
                         </mat-form-field>
                         <mat-form-field style="max-width: 5rem;">
-                            <mat-label>Uhrzeit</mat-label>
+                            <mat-label>{{'VISITOR-REGISTRATION.toTime' | translate}}</mat-label>
                             <input type="time" matInput [(ngModel)]="inputVisitRegistration.stayToTime">
                         </mat-form-field>
                     </div>
@@ -122,14 +126,16 @@
     </div>
     <div class="col-md-3">
         <div class="card">
-            <div class="card-header text-white bg-danger">Weiteres</div>
+            <div class="card-header text-white bg-danger">{{'VISITOR-REGISTRATION.furtherMore' | translate}}</div>
             <mat-button-toggle-group [(ngModel)]="buttonSelect" vertical multiple>
-                <mat-button-toggle value="1">Betriebsführung</mat-button-toggle>
-                <mat-button-toggle value="2">Besprechungsraum</mat-button-toggle>
-                <mat-button-toggle value="3">Hotelbuchung</mat-button-toggle>
-                <mat-button-toggle value="4">Mittagessen</mat-button-toggle>
-                <mat-button-toggle value="5">Flughafen Transfer - Zug</mat-button-toggle>
-                <mat-button-toggle value="6">Geplante Abteilungsbesuche</mat-button-toggle>
+                <mat-button-toggle value="1">{{'VISITOR-REGISTRATION.companyGuidance' | translate}}</mat-button-toggle>
+                <mat-button-toggle value="2">{{'VISITOR-REGISTRATION.meetingRoom' | translate}}</mat-button-toggle>
+                <mat-button-toggle value="3">{{'VISITOR-REGISTRATION.hotelBooking' | translate}}</mat-button-toggle>
+                <mat-button-toggle value="4">{{'VISITOR-REGISTRATION.mealTime' | translate}}</mat-button-toggle>
+                <mat-button-toggle value="5">{{'VISITOR-REGISTRATION.airportTransferTrain' |
+                    translate}}</mat-button-toggle>
+                <mat-button-toggle value="6">{{'VISITOR-REGISTRATION.plannedDepartmentVisits' |
+                    translate}}</mat-button-toggle>
             </mat-button-toggle-group>
         </div>
     </div>
@@ -139,27 +145,28 @@
 <div class="row">
     <div class="col-md-4 paddingBottom" *ngIf="buttonSelect.includes('1')">
         <div class="card" hideToggle>
-            <div class="card-header bg-danger text-white">Betriebsführung</div>
+            <div class="card-header bg-danger text-white">{{'VISITOR-REGISTRATION.companyGuidance' | translate}}</div>
             <div class="card-body minheigtCard">
                 <div class="displayBySide">
                     <div class="center-items">
                         <mat-form-field class="smallInput">
-                            <mat-label>Personenanzahl</mat-label>
+                            <mat-label>{{'VISITOR-REGISTRATION.peopleCount' | translate}}</mat-label>
                             <input matInput [(ngModel)]="inputVisitRegistration.numberOfPeopleTour">
                         </mat-form-field>
-                        <label class="languageBox">Sprache - EN
-                            <mat-checkbox color="warn" [(ngModel)]="inputVisitRegistration.tourLanguageEN"></mat-checkbox>
+                        <label class="languageBox">{{'VISITOR-REGISTRATION.languageEN' | translate}}
+                            <mat-checkbox color="warn"
+                                [(ngModel)]="inputVisitRegistration.tourLanguageEN"></mat-checkbox>
                         </label>
                     </div>
                     <div class="center-items">
                         <mat-form-field class="smallInput">
-                            <mat-label>Datum</mat-label>
+                            <mat-label>{{'VISITOR-REGISTRATION.date' | translate}}</mat-label>
                             <input matInput [matDatepicker]="picker5" [(ngModel)]="inputVisitRegistration.toDate">
                             <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
                             <mat-datepicker #picker5></mat-datepicker>
                         </mat-form-field>
                         <mat-form-field class="smallInput">
-                            <mat-label>Uhrzeit</mat-label>
+                            <mat-label>{{'VISITOR-REGISTRATION.dateTime' | translate}}</mat-label>
                             <input type="time" matInput [(ngModel)]="inputVisitRegistration.toTime">
                         </mat-form-field>
                     </div>
@@ -169,24 +176,25 @@
     </div>
     <div class="col-md-4 paddingBottom" *ngIf="buttonSelect.includes('2')">
         <div class="card" hideToggle>
-            <div class="card-header bg-danger text-white">Besprechungsraum</div>
+            <div class="card-header bg-danger text-white">{{'VISITOR-REGISTRATION.meetingRoom' | translate}}</div>
             <div class="card-body minheigtCard">
                 <div class="displayBySide">
                     <div class="besprechunsraum">
                         <mat-form-field class="smallInput">
-                            <mat-label>Personenanzahl</mat-label>
+                            <mat-label>{{'VISITOR-REGISTRATION.peopleCount' | translate}}</mat-label>
                             <input matInput [(ngModel)]="inputVisitRegistration.numberOfPeopleMeetingRoom">
                         </mat-form-field>
                     </div>
                     <div class="center-items">
                         <mat-form-field class="smallInput">
-                            <mat-label>Datum</mat-label>
-                            <input matInput [matDatepicker]="picker5" [(ngModel)]="inputVisitRegistration.meetingRoomDate">
+                            <mat-label>{{'VISITOR-REGISTRATION.date' | translate}}</mat-label>
+                            <input matInput [matDatepicker]="picker5"
+                                [(ngModel)]="inputVisitRegistration.meetingRoomDate">
                             <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
                             <mat-datepicker #picker5></mat-datepicker>
                         </mat-form-field>
                         <mat-form-field class="smallInput">
-                            <mat-label>Uhrzeit</mat-label>
+                            <mat-label>{{'VISITOR-REGISTRATION.dateTime' | translate}}</mat-label>
                             <input type="time" matInput [(ngModel)]="inputVisitRegistration.meetingRoomTime">
                         </mat-form-field>
                     </div>
@@ -196,12 +204,15 @@
     </div>
     <div class="col-md-4 paddingBottom" *ngIf="buttonSelect.includes('3')">
         <div class="card">
-            <div class="card-header text-white bg-danger paddingSearch">Hotelbuchung
+            <div class="card-header text-white bg-danger paddingSearch">{{'VISITOR-REGISTRATION.hotelBooking' |
+                translate}}
                 <div>
-                    <button class="btn btn-secondary" (click)="deleteLast()">
+                    <button class="btn btn-warn" matTooltip="{{'DIALOG-MEMBERS.delete' | translate}}"
+                        (click)="deleteLast()">
                         <i class="fa fa-trash" aria-hidden="true"></i>
                     </button>
-                    <button class="btn btn-success" (click)="addTab()">
+                    <button class="btn btn-success" matTooltip="{{'DIALOG-MEMBERS.add' | translate}}"
+                        (click)="addTab()">
                         <i class="fa fa-plus" aria-hidden="true"></i>
                     </button>
                 </div>
@@ -216,11 +227,11 @@
                         <div class="displayBySide">
                             <div class="center-items">
                                 <mat-form-field class="smallInputSpecial">
-                                    <mat-label>Ort / Lage</mat-label>
+                                    <mat-label>{{'VISITOR-REGISTRATION.place' | translate}}</mat-label>
                                     <input matInput>
                                 </mat-form-field>
                                 <mat-form-field class="smallInputSpecial">
-                                    <mat-label>Von - Bis</mat-label>
+                                    <mat-label>{{'VISITOR-REGISTRATION.fromTo' | translate}}</mat-label>
                                     <mat-date-range-input [rangePicker]="picker3">
                                         <input matStartDate placeholder="Start date">
                                         <input matEndDate placeholder="End date">
@@ -231,11 +242,11 @@
                             </div>
                             <div class="center-items">
                                 <mat-form-field class="smallInputSpecial">
-                                    <mat-label>Einzelzimmer</mat-label>
+                                    <mat-label>{{'VISITOR-REGISTRATION.singleRoom' | translate}}</mat-label>
                                     <input type="number" min="0" matInput>
                                 </mat-form-field>
                                 <mat-form-field class="smallInputSpecial">
-                                    <mat-label>Doppelzimmer</mat-label>
+                                    <mat-label>{{'VISITOR-REGISTRATION.doubleRoom' | translate}}</mat-label>
                                     <input type="number" min="0" matInput>
                                 </mat-form-field>
                             </div>
@@ -248,44 +259,46 @@
     </div>
     <div class="col-md-8 paddingBottom" *ngIf="buttonSelect.includes('4')">
         <div class="card" hideToggle>
-            <div class="card-header bg-danger text-white">Mittagessen</div>
+            <div class="card-header bg-danger text-white">{{'VISITOR-REGISTRATION.mealTime' | translate}}</div>
             <div class="card-body minheigtCard">
                 <div class="displayBySide">
                     <div class="mittagCenter">
                         <mat-form-field class="smallInputMittagAnz">
-                            <mat-label>Anzahl</mat-label>
+                            <mat-label>{{'VISITOR-REGISTRATION.count' | translate}}</mat-label>
                             <input type="number" min="0" matInput [(ngModel)]="inputVisitRegistration.lunchNumber">
                         </mat-form-field>
                         <mat-form-field class="smallInput">
-                            <mat-label>Datum</mat-label>
+                            <mat-label>{{'VISITOR-REGISTRATION.date' | translate}}</mat-label>
                             <input matInput [matDatepicker]="picker7" [(ngModel)]="inputVisitRegistration.lunchDate">
                             <mat-datepicker-toggle matIconSuffix [for]="picker7"></mat-datepicker-toggle>
                             <mat-datepicker #picker7></mat-datepicker>
                         </mat-form-field>
                         <mat-form-field style="max-width: 6rem;">
-                            <mat-label>Uhrzeit</mat-label>
+                            <mat-label>{{'VISITOR-REGISTRATION.dateTime' | translate}}</mat-label>
                             <input type="time" matInput [(ngModel)]="inputVisitRegistration.lunchTime">
                         </mat-form-field>
                     </div>
                     <div class="center-items">
                         <div class="displayBySide">
                             <mat-form-field class="smallInput">
-                                <mat-label>Vegan</mat-label>
+                                <mat-label>{{'VISITOR-REGISTRATION.vegan' | translate}}</mat-label>
                                 <input type="number" min="0" matInput [(ngModel)]="inputVisitRegistration.veganMeals">
                             </mat-form-field>
                             <mat-form-field class="smallInput">
-                                <mat-label>Vegetarisch</mat-label>
-                                <input type="number" min="0" matInput [(ngModel)]="inputVisitRegistration.vegetarianMeals">
+                                <mat-label>{{'VISITOR-REGISTRATION.vegetarian' | translate}}</mat-label>
+                                <input type="number" min="0" matInput
+                                    [(ngModel)]="inputVisitRegistration.vegetarianMeals">
                             </mat-form-field>
                         </div>
                         <div class="displayBySide">
                             <mat-form-field class="smallInput">
-                                <mat-label>Sonstige</mat-label>
+                                <mat-label>{{'VISITOR-REGISTRATION.other' | translate}}</mat-label>
                                 <input type="text" matInput [(ngModel)]="inputVisitRegistration.otherMealsDescription">
                             </mat-form-field>
                             <mat-form-field class="smallInput">
-                                <mat-label>Anzahl</mat-label>
-                                <input type="number" min="0" matInput [(ngModel)]="inputVisitRegistration.otherMealsNumber">
+                                <mat-label>{{'VISITOR-REGISTRATION.count' | translate}}</mat-label>
+                                <input type="number" min="0" matInput
+                                    [(ngModel)]="inputVisitRegistration.otherMealsNumber">
                             </mat-form-field>
                         </div>
                     </div>
@@ -295,31 +308,34 @@
     </div>
     <div class="col-md-4 paddingBottom" *ngIf="buttonSelect.includes('5')">
         <div class="card" hideToggle>
-            <div class="card-header bg-danger text-white">Flughafen Transfer - Zug</div>
+            <div class="card-header bg-danger text-white">{{'VISITOR-REGISTRATION.airportTransferTrain' | translate}}
+            </div>
             <div class="card-body minheigtCard">
                 <div class="displayBySide">
                     <div class="center-items">
                         <mat-form-field class="smallInput">
-                            <mat-label>Von - Bis</mat-label>
+                            <mat-label>{{'VISITOR-REGISTRATION.fromTo' | translate}}</mat-label>
                             <mat-date-range-input [rangePicker]="picker4">
-                                <input matStartDate placeholder="Start date" [(ngModel)]="inputVisitRegistration.transferFromDate">
-                                <input matEndDate placeholder="End date" [(ngModel)]="inputVisitRegistration.transferToDate">
+                                <input matStartDate placeholder="Start date"
+                                    [(ngModel)]="inputVisitRegistration.transferFromDate">
+                                <input matEndDate placeholder="End date"
+                                    [(ngModel)]="inputVisitRegistration.transferToDate">
                             </mat-date-range-input>
                             <mat-datepicker-toggle matIconSuffix [for]="picker4"></mat-datepicker-toggle>
                             <mat-date-range-picker #picker4></mat-date-range-picker>
                         </mat-form-field>
                         <mat-form-field class="smallInput">
-                            <mat-label>Sonstige Reiseanf.</mat-label>
+                            <mat-label>{{'VISITOR-REGISTRATION.otherReq' | translate}}</mat-label>
                             <input matInput [(ngModel)]="inputVisitRegistration.otherTravelRequirements">
                         </mat-form-field>
                     </div>
                     <div class="center-items">
                         <mat-form-field class="smallInput">
-                            <mat-label>Von</mat-label>
+                            <mat-label>{{'VISITOR-REGISTRATION.from' | translate}}</mat-label>
                             <input matInput [(ngModel)]="inputVisitRegistration.transferFrom">
                         </mat-form-field>
                         <mat-form-field class="smallInput">
-                            <mat-label>Nach</mat-label>
+                            <mat-label>{{'VISITOR-REGISTRATION.toPlace' | translate}}</mat-label>
                             <input matInput [(ngModel)]="inputVisitRegistration.transferTo">
                         </mat-form-field>
                     </div>
@@ -329,7 +345,8 @@
     </div>
     <div class="col-md-8 paddingBottom" *ngIf="buttonSelect.includes('6')">
         <div class="card" style="min-height: 30rem;" hideToggle>
-            <div class="card-header bg-danger text-white">Geplante Abteilungsbesuche</div>
+            <div class="card-header bg-danger text-white">{{'VISITOR-REGISTRATION.plannedDepartmentVisits' | translate}}
+            </div>
             <div class="card-body minheigtCard">
                 <div class="displayBySide">
                     <nz-table class="col" [nzShowPagination]="false" [nzData]="buttonSelect" [nzSize]="'small'"
@@ -338,8 +355,8 @@
                             <tr>
                                 <th [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
                                     (nzCheckedChange)="onAllChecked($event)"></th>
-                                <th>Abteilung</th>
-                                <th width="150px">Datum</th>
+                                <th>{{'VISITOR-REGISTRATION.department' | translate}}</th>
+                                <th width="150px">{{'VISITOR-REGISTRATION.date' | translate}}</th>
                             </tr>
                         </thead>
                         <!-- Backend für abteilungsbesuche machen -->
@@ -347,7 +364,7 @@
                             <tr *ngFor="let data of listOfCurrentPageData">
                                 <td [nzChecked]="setOfCheckedId.has(data.id)"
                                     (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
-                                <td>{{data.name}}</td>
+                                <td>{{'VISITOR-REGISTRATION.'+data.name | translate}}</td>
                                 <td>
                                     <input type="date" [(ngModel)]="data.dateOfVisit" class="form-control">
                                 </td>
@@ -360,8 +377,8 @@
                             <tr>
                                 <th [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
                                     (nzCheckedChange)="onAllChecked($event)"></th>
-                                <th width="300px">Abteilung</th>
-                                <th width="150px">Datum</th>
+                                <th width="300px">{{'VISITOR-REGISTRATION.department' | translate}}</th>
+                                <th width="150px">{{'VISITOR-REGISTRATION.date' | translate}}</th>
                             </tr>
                         </thead>
                         <!-- Backend für abteilungsbesuche machen -->
@@ -369,7 +386,7 @@
                             <tr *ngFor="let data of listOfCurrentPageData2">
                                 <td [nzChecked]="setOfCheckedId.has(data.id)"
                                     (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
-                                <td>{{data.name}}</td>
+                                <td>{{'VISITOR-REGISTRATION.'+data.name | translate}}</td>
                                 <td>
                                     <input type="date" [(ngModel)]="data.dateOfVisit" class="form-control">
                                 </td>
