@@ -1,6 +1,6 @@
 <div class="header">
     <div>
-        <h1 class="paddingSearch">Anforderungen Technologische Unterstützung
+        <h1 class="paddingSearch">{{"REQ-TECH.title"|translate}}
             <!-- 
             <button style="margin-left: 10px;" class="btn btn-secondary" matTooltip="interne Notiz">
                 <i class="fa fa-comment"></i></button>
@@ -8,7 +8,7 @@
         </h1>
     </div>
     <div>
-        <button class="btn btn-success" (click)="postCustomerRequirement()">Beantragen</button>
+        <button class="btn btn-success" (click)="postCustomerRequirement()">{{"REQ-TECH.send" | translate}}</button>
     </div>
 </div>
 <hr>
@@ -174,23 +174,28 @@ Bildschirm -->
         <tbody>
             <tr *ngFor="let data of editRowTable.data" class="editable-row">
                 <td>
-                    <label class="input-label" [hidden]="editId === data.editId" (click)="startEdit(data.editId)">{{data.companyName}}</label>
+                    <label class="input-label" [hidden]="editId === data.editId"
+                        (click)="startEdit(data.editId)">{{data.companyName}}</label>
                     <input [hidden]="editId !== data.editId" type="text" nz-input [(ngModel)]="data.companyName" />
                 </td>
                 <td>
-                    <label class="input-label" [hidden]="editId === data.editId" (click)="startEdit(data.editId)">{{data.customerNr}}</label>
+                    <label class="input-label" [hidden]="editId === data.editId"
+                        (click)="startEdit(data.editId)">{{data.customerNr}}</label>
                     <input [hidden]="editId !== data.editId" type="text" nz-input [(ngModel)]="data.customerNr" />
                 </td>
                 <td>
-                    <label class="input-label" [hidden]="editId === data.editId" (click)="startEdit(data.editId)">{{data.address}}</label>
+                    <label class="input-label" [hidden]="editId === data.editId"
+                        (click)="startEdit(data.editId)">{{data.address}}</label>
                     <input [hidden]="editId !== data.editId" type="text" nz-input [(ngModel)]="data.address" />
                 </td>
                 <td>
-                    <label class="input-label" [hidden]="editId === data.editId" (click)="startEdit(data.editId)">{{data.editId}}</label>
+                    <label class="input-label" [hidden]="editId === data.editId"
+                        (click)="startEdit(data.editId)">{{data.editId}}</label>
                     <input [hidden]="editId !== data.editId" type="text" nz-input [(ngModel)]="data.contactPerson" />
                 </td>
                 <td>
-                    <label class="input-label" [hidden]="editId === data.editId" (click)="startEdit(data.editId)">{{ (data.dateOfVisit !== undefined)?data.dateOfVisit!.toString().substring(0,10):''}}</label>
+                    <label class="input-label" [hidden]="editId === data.editId" (click)="startEdit(data.editId)">{{
+                        (data.dateOfVisit !== undefined)?data.dateOfVisit!.toString().substring(0,10):''}}</label>
                     <input [hidden]="editId !== data.editId" type="date" nz-input [(ngModel)]="data.dateOfVisit" />
                 </td>
                 <td class="multiple-select">
@@ -204,7 +209,8 @@ Bildschirm -->
                     </mat-select>
                 </td>
                 <td>
-                    <label class="input-label" [hidden]="editId === data.editId" (click)="startEdit(data.editId)">{{data.productionAmount}}</label>
+                    <label class="input-label" [hidden]="editId === data.editId"
+                        (click)="startEdit(data.editId)">{{data.productionAmount}}</label>
                     <input nz-input [hidden]="editId !== data.editId" type="text" [(ngModel)]="data.productionAmount" />
                 </td>
                 <td>
@@ -212,8 +218,8 @@ Bildschirm -->
                             (click)="startEdit(data.editId)" [hidden]="editId === data.editId">
                             <i class="fa fa-pencil"></i>
                         </button>
-                        <button matTooltip="{{'REQ-TECH.save' | translate}}" class="btn btn-success" (click)="stopEdit()"
-                            [hidden]="editId !== data.editId">
+                        <button matTooltip="{{'REQ-TECH.save' | translate}}" class="btn btn-success"
+                            (click)="stopEdit()" [hidden]="editId !== data.editId">
                             <i class="fa fa-save"></i>
                         </button>
                         <button matTooltip="{{'REQ-TECH.delete' | translate}}" class="btn btn-danger" nz-popconfirm
@@ -221,7 +227,8 @@ Bildschirm -->
                             (nzOnConfirm)="deleteRow(data.editId)">
                             <i class="fa fa-trash"></i>
                         </button>
-                        <button class="btn btn-success" matTooltip="{{'REQ-TECH.final-report' | translate}}" (click)="openDialog(data)">
+                        <button class="btn btn-success" matTooltip="{{'REQ-TECH.final-report' | translate}}"
+                            (click)="openDialog(data)">
                             <i class="fa fa-file"></i>
                         </button>
                     </div>

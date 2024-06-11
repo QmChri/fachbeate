@@ -1,13 +1,13 @@
 <div class="table-operations header">
   <div>
-    <h1 class="paddingSearch">{{'DATE-LIST.date-list' | translate}}</h1>
+    <h1 class="paddingSearch">{{'MAIN-LIST.header' | translate}}</h1>
   </div>
   <div>
     <nz-filter-trigger class="paddingSearch" [(nzVisible)]="visible" [nzActive]="searchValue.length > 0"
       [nzDropdownMenu]="menu">
       <i class="fa fa-search"></i>
     </nz-filter-trigger>
-    <button class="btn btn-secondary" (click)="resetSortAndFilters()">{{"DATE-LIST.filter-clear"| translate}}</button>
+    <button class="btn btn-secondary" (click)="resetSortAndFilters()">{{"MAIN-LIST.filter-clear"| translate}}</button>
   </div>
 </div>
 <hr>
@@ -17,24 +17,24 @@
 <nz-table #nzTable nzBordered nzSimple [nzTableLayout]="'fixed'" [nzData]="listOfDisplayData" nzTableLayout="fixed">
   <thead>
     <tr>
-      <th [nzSortFn]="listOfColumn[0].sortFn" [(nzSortOrder)]="listOfColumn[0].sortOrder">{{'DATE-LIST.'+listOfColumn[0].name | translate}}</th>
-      <th [nzSortFn]="listOfColumn[1].sortFn" [(nzSortOrder)]="listOfColumn[1].sortOrder">{{'DATE-LIST.'+listOfColumn[1].name | translate}}</th>
+      <th [nzSortFn]="listOfColumn[0].sortFn" [(nzSortOrder)]="listOfColumn[0].sortOrder">{{'MAIN-LIST.'+listOfColumn[0].name | translate}}</th>
+      <th [nzSortFn]="listOfColumn[1].sortFn" [(nzSortOrder)]="listOfColumn[1].sortOrder">{{'MAIN-LIST.'+listOfColumn[1].name | translate}}</th>
       <th [nzSortFn]="listOfColumn[2].sortFn" [nzFilters]="listOfColumn[2].listOfFilter"
-        [nzFilterFn]="listOfColumn[2].filterFn!" [(nzSortOrder)]="listOfColumn[2].sortOrder">{{'DATE-LIST.'+listOfColumn[2].name | translate}}
+        [nzFilterFn]="listOfColumn[2].filterFn!" [(nzSortOrder)]="listOfColumn[2].sortOrder">{{'MAIN-LIST.'+listOfColumn[2].name | translate}}
       </th>
       <th [nzSortFn]="listOfColumn[3].sortFn" [nzFilters]="listOfColumn[3].listOfFilter"
-        [nzFilterFn]="listOfColumn[3].filterFn!" [(nzSortOrder)]="listOfColumn[3].sortOrder">{{'DATE-LIST.'+listOfColumn[3].name | translate}}
+        [nzFilterFn]="listOfColumn[3].filterFn!" [(nzSortOrder)]="listOfColumn[3].sortOrder">{{'MAIN-LIST.'+listOfColumn[3].name | translate}}
       </th>
       <th [nzSortFn]="listOfColumn[4].sortFn" [nzFilters]="listOfColumn[4].listOfFilter"
-        [nzFilterFn]="listOfColumn[4].filterFn!" [(nzSortOrder)]="listOfColumn[4].sortOrder">{{'DATE-LIST.'+listOfColumn[4].name | translate}}
+        [nzFilterFn]="listOfColumn[4].filterFn!" [(nzSortOrder)]="listOfColumn[4].sortOrder">{{'MAIN-LIST.'+listOfColumn[4].name | translate}}
       </th>
       <th [nzSortFn]="listOfColumn[5].sortFn" [nzFilters]="listOfColumn[5].listOfFilter"
-        [nzFilterFn]="listOfColumn[5].filterFn!" [(nzSortOrder)]="listOfColumn[5].sortOrder">{{'DATE-LIST.'+listOfColumn[5].name | translate}}
+        [nzFilterFn]="listOfColumn[5].filterFn!" [(nzSortOrder)]="listOfColumn[5].sortOrder">{{'MAIN-LIST.'+listOfColumn[5].name | translate}}
       </th>
-      <th [nzSortFn]="listOfColumn[6].sortFn" [(nzSortOrder)]="listOfColumn[6].sortOrder">{{'DATE-LIST.'+listOfColumn[6].name | translate}}
+      <th [nzSortFn]="listOfColumn[6].sortFn" [(nzSortOrder)]="listOfColumn[6].sortOrder">{{'MAIN-LIST.'+listOfColumn[6].name | translate}}
       </th>
       <th [nzSortFn]="listOfColumn[7].sortFn" [nzFilters]="listOfColumn[7].listOfFilter"
-        [nzFilterFn]="listOfColumn[7].filterFn!" [(nzSortOrder)]="listOfColumn[7].sortOrder">{{'DATE-LIST.'+listOfColumn[7].name | translate}}
+        [nzFilterFn]="listOfColumn[7].filterFn!" [(nzSortOrder)]="listOfColumn[7].sortOrder">{{'MAIN-LIST.'+listOfColumn[7].name | translate}}
       </th>
       <th>Freigabe</th>
     </tr>

@@ -1,19 +1,19 @@
 {
     "NAV": {
         "date-view": "Terminübersicht",
-        "date-list": "Terminliste",
+        "MAIN-LIST": "Terminliste",
         "req-tech": "Anforderung Technologische Unterstützung",
         "req-visitors": "Besucheranmeldung",
         "req-workshop": "Seminar Anmeldung",
         "final-reports": "Abschlussbericht Liste",
         "new": "Neu anlegen",
-        "new-tech": "Neuer Technologe",
+        "new-tech": "Neuer Fachberater",
         "new-re": "Neuer Vertreter",
         "new-de": "Neuer Händler",
         "lan-sel": "Sprach Auswahl"
     },
-    "DATE-LIST": {
-        "date-list": "Liste der Termine",
+    "MAIN-LIST": {
+        "header": "Liste der Termine",
         "filter-clear": "Filter/Sortierung aufheben",
         "customerNr": "Kundennummer",
         "creationDate": "Erstelldatum",
@@ -61,5 +61,8 @@
         "selction-customer": "Kunde",
         "none-select": "Bitte Auswählen",
         "select": "Auswählen..."
+    },
+    "VISITOR-REGISTRATION": {
+       
     }
 }

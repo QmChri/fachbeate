@@ -1,7 +1,7 @@
 {
     "NAV": {
         "date-view": "Appointment Overview",
-        "date-list": "Appointment List",
+        "MAIN-LIST": "Appointment List",
         "req-tech": "Requirement Technological support",
         "req-visitors": "Visit Registration",
         "req-workshop": "Workshop Registration",
@@ -12,8 +12,8 @@
         "new-de": "New Dealer",
         "lan-sel": "Language Selection"
     },
-    "DATE-LIST": {
-        "date-list": "Appointment List",
+    "MAIN-LIST": {
+        "header": "Appointment List",
         "filter-clear": "Clear Filter/Sorting",
         "customerNr": "Customer number",
         "creationDate": "Creation date",

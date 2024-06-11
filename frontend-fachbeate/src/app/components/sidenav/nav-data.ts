@@ -9,7 +9,7 @@ export const navbarData: INavbarData[] = [
     {
         routeLink: 'mainList',
         icon: 'fal fa-list',
-        label: 'date-list'
+        label: 'MAIN-LIST'
     },
     {
         routeLink: 'customer-requirements',
