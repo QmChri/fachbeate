@@ -10,8 +10,8 @@
     <ul class="sidenav-nav">
         <li class="sidenav-nav-item" *ngFor="let data of navData" (click)="handleCLick(data)">
             <a class="sidenav-nav-link" *ngIf="data.items && data.items.length > 0">
-                <i (click)="toggleCollapse()" class="sidenav-link-icon" [class]="data.icon"></i>
-                <span (click)="toggleCollapse()" class="sidenav-link-text" @fadeInOut *ngIf="collapsed">
+                <i  class="sidenav-link-icon" [class]="data.icon"></i>
+                <span  class="sidenav-link-text" @fadeInOut *ngIf="collapsed">
                     {{"NAV."+data.label | translate}}
                 </span>
                 <i *ngIf="data.items && collapsed" class="menu-collapse-icon"
