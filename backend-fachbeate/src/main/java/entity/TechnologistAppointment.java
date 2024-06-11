@@ -39,7 +39,7 @@ public class TechnologistAppointment extends PanacheEntity {
         this.flightBooking = newTechnologistAppointment.flightBooking;
         this.reason = newTechnologistAppointment.reason;
 
-        if(newTechnologistAppointment.id != null && newTechnologistAppointment.id == 0) {
+        if(newTechnologistAppointment.requestedTechnologist.id != null && newTechnologistAppointment.requestedTechnologist.id != 0) {
             this.requestedTechnologist = Technologist.findById(newTechnologistAppointment.requestedTechnologist.id);
             this.requestedTechnologist.updateEntity(newTechnologistAppointment.requestedTechnologist);
             return;
