@@ -20,7 +20,7 @@ public class TechnologistResource {
             return;
         }
         Technologist updateTechnologist = Technologist.findById(technologist.id);
-        updateTechnologist.update(technologist);
+        updateTechnologist.updateEntity(technologist);
     }
 
     @GET

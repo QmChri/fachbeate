@@ -11,7 +11,9 @@ public class CustomerRequirement extends TechnologistAppointment {
 
     public String company;
     public String contact;
-    public String representative;
+
+    @ManyToOne
+    public Representative representative;
     // Customer Visits
     @OneToMany(fetch = FetchType.EAGER)
     public List<CustomerVisit> customerVisits;
@@ -27,7 +29,7 @@ public class CustomerRequirement extends TechnologistAppointment {
     public void updateEntity(CustomerRequirement newCustomerRequirement){
         this.company = newCustomerRequirement.company;
         this.contact = newCustomerRequirement.contact;
-        this.representative = newCustomerRequirement.representative;
+        this.representative = newCustomerRequirement.representative.persistOrUpdate();
         this.furtherNotes = newCustomerRequirement.furtherNotes;
         this.internalNote = newCustomerRequirement.internalNote;
 
@@ -50,8 +52,10 @@ public class CustomerRequirement extends TechnologistAppointment {
             this.persist();
 
             for (CustomerVisit visit : this.customerVisits) {
-                visit.persistOrUpdate();
+                visit = visit.persistOrUpdate();
             }
+
+            this.representative = this.representative.persistOrUpdate();
 
             return this;
         }else{

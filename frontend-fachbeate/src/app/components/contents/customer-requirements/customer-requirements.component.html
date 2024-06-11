@@ -1,7 +1,7 @@
 <div class="header">
     <div>
-        <h1 class="paddingSearch">{{"REQ-TECH.title"|translate}}
-            <!-- 
+        <h1 class="paddingSearch">{{"REQ-TECH.title" | translate}}
+            <!--
             <button style="margin-left: 10px;" class="btn btn-secondary" matTooltip="interne Notiz">
                 <i class="fa fa-comment"></i></button>
             -->
@@ -36,10 +36,11 @@
                     <div class="center-items ">
                         <mat-form-field>
                             <mat-label>{{"REQ-TECH.representative"|translate}}</mat-label>
-                            <mat-select [(ngModel)]="inputCustomerRequirement.representative" required>
+                            <mat-select [ngModel]="(inputCustomerRequirement.representative === undefined)?undefined:inputCustomerRequirement.representative.id"
+                                (valueChange)="changeRepresentative($event)" required>
                                 <mat-option>--</mat-option>
-                                @for (t of representative; track toha) {
-                                <mat-option [value]="t.value">{{t.viewValue}}</mat-option>
+                                @for (r of representative; track representative) {
+                                <mat-option [value]="r.id">{{r.firstName}} {{r.lastName}}</mat-option>
                                 }
                             </mat-select>
                             @if (tohaControl.hasError('required')) {

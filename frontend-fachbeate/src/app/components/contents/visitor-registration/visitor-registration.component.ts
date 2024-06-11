@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Department } from '../../../models/department';
+import { VisitorRegistration } from '../../../models/visitor-registration';
 import { MatDialog } from '@angular/material/dialog';
 import { TeilnehmerListeComponent } from '../teilnehmer-liste/teilnehmer-liste.component';
 
@@ -10,15 +11,10 @@ import { TeilnehmerListeComponent } from '../teilnehmer-liste/teilnehmer-liste.c
   styleUrl: './visitor-registration.component.scss'
 })
 export class VisitorRegistrationComponent implements OnInit {
-  panelOpenState = false;
-  panelOpenState1 = false;
-  panelOpenState2 = false;
-  panelOpenState3 = false;
-  panelOpenState4 = false;
-  panelOpenState5 = false;
   buttonSelect: String[] = []
   geDip: String[] = []
 
+  inputVisitRegistration: VisitorRegistration = {};
   constructor(private dialog: MatDialog) { }
 
   openDialog(cnt: number) {

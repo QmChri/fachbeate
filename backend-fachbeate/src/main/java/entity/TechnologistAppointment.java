@@ -29,7 +29,6 @@ public class TechnologistAppointment extends PanacheEntity {
     }
 
     public void updateEntity(TechnologistAppointment newTechnologistAppointment) {
-        this.requestedTechnologist = Technologist.findById(newTechnologistAppointment.requestedTechnologist.id);
         this.startDate = newTechnologistAppointment.startDate;
         this.endDate = newTechnologistAppointment.endDate;
         this.releaserManagement = newTechnologistAppointment.releaserManagement;
@@ -39,5 +38,14 @@ public class TechnologistAppointment extends PanacheEntity {
         this.hotelBooking = newTechnologistAppointment.hotelBooking;
         this.flightBooking = newTechnologistAppointment.flightBooking;
         this.reason = newTechnologistAppointment.reason;
+
+        if(newTechnologistAppointment.requestedTechnologist.id != null && newTechnologistAppointment.requestedTechnologist.id != 0) {
+            this.requestedTechnologist = Technologist.findById(newTechnologistAppointment.requestedTechnologist.id);
+            this.requestedTechnologist.updateEntity(newTechnologistAppointment.requestedTechnologist);
+            return;
+        }
+
+        newTechnologistAppointment.requestedTechnologist.persist();
+        this.requestedTechnologist = newTechnologistAppointment.requestedTechnologist;
     }
 }

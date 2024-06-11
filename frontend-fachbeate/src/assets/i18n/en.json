@@ -22,7 +22,9 @@
         "representative": "Representative",
         "technologist": "Technologist",
         "time-frame": "Time Frame",
-        "final-report": "Final Report"
+        "final-report": "Final Report",
+        "tech-req":"Technologist Requirement",
+        "work-req": "Workshop Requirements"
     },
     "REQ-TECH": {
         "title": "Requirements Technological support",

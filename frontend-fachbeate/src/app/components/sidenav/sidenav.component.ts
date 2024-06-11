@@ -50,8 +50,7 @@ export class SidenavComponent implements OnInit {
 
   constructor(private translate: TranslateService) {
     this.translate.addLangs(['en', 'de']);
-    this.translate.setDefaultLang('de');
-    this.translate.use('de');
+
   }
   switchLanguage(language: string) {
     this.translate.use(language);

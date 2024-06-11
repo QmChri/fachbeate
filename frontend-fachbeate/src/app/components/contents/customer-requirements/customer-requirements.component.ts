@@ -10,6 +10,7 @@ import { FinalReport } from '../../../models/final-report';
 import { CustomerVisit } from '../../../models/customer-visit';
 import { ActivatedRoute } from '@angular/router';
 import { ReasonReport } from '../../../models/reason-report';
+import { Representative } from '../../../models/representative';
 
 @Component({
   selector: 'app-customer-requirements',
@@ -24,6 +25,7 @@ export class CustomerRequirementsComponent implements OnInit {
 
   selectedValue?: string;
   technologists: Technologist[] = [];
+  representative: Representative[] = [];
 
   constructor(private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute) { }
 
@@ -32,13 +34,6 @@ export class CustomerRequirementsComponent implements OnInit {
     { value: 'Active-2', viewValue: 'Active2' },
     { value: 'Tester-1', viewValue: 'Tester' },
   ];
-
-  representative: { value: string, viewValue: string }[] = [
-    { value: "Karl Reingruber", viewValue: "Karl Reingruber" },
-    { value: "Karl Mösenbichler", viewValue: "Karl Mösenbichler" },
-    { value: "Grazia Maria Perner", viewValue: "Grazia Maria Perner" },
-    { value: "Reinhard Schatz", viewValue: "Reinhard Schatz" }
-  ]
 
   inputCustomerRequirement: CustomerRequirement = {
     customerVisits: []
@@ -98,6 +93,7 @@ export class CustomerRequirementsComponent implements OnInit {
   ngOnInit(): void {
 
     this.getTechnologist();
+    this.getRepresentative();
 
     this.route.paramMap.subscribe(params => {
       if (params.get('id') != null) {
@@ -180,7 +176,7 @@ export class CustomerRequirementsComponent implements OnInit {
         technologist: this.inputCustomerRequirement.requestedTechnologist!.firstName + " " + this.inputCustomerRequirement.requestedTechnologist!.lastName,
         company: customerVisit.companyName,
         companyNr: customerVisit.customerNr,
-        representative: this.inputCustomerRequirement.representative,
+        representative: this.inputCustomerRequirement.representative!.firstName + " " + this.inputCustomerRequirement.representative!.lastName,
         dateOfVisit: customerVisit.dateOfVisit,
         reasonReports: rRepo
       }
@@ -216,8 +212,23 @@ export class CustomerRequirementsComponent implements OnInit {
     });
   }
 
+  getRepresentative() {
+    this.http.getActiveRepresentative().subscribe({
+      next: data => {
+        this.representative = data;
+      },
+      error: err => {
+        console.log(err);
+      }
+    });
+  }
+
   changeTechnolgist($event: any) {
     this.inputCustomerRequirement.requestedTechnologist = this.technologists.find(elemnt => elemnt.id === $event);
+  }
+
+  changeRepresentative($event: any) {
+    this.inputCustomerRequirement.representative = this.representative.find(elemnt => elemnt.id === $event);
   }
 
 }
