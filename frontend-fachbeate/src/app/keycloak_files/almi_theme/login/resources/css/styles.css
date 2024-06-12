@@ -1,0 +1,13 @@
+.login-pf body {
+    font-size: small;
+    color: white;
+    background-image: url('../img/main.jpg');
+    background-size: cover;
+    padding-top: 4rem;
+}
+
+.card-pf {
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+}

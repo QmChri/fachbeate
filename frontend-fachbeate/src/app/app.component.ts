@@ -26,6 +26,7 @@ export class AppComponent implements OnInit {
     this.roles = this.keycloak.getUserRoles();
     this.keycloak.loadUserProfile().then(profile => {
       this.userProfile = profile;
+      console.log(this.userProfile)
     });
   }
 
