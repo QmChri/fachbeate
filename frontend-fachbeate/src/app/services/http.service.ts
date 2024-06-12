@@ -7,6 +7,7 @@ import { WorkshopRequirement } from '../models/workshop-requirement';
 import { TechnologistAppointment } from '../models/technologist-appointment';
 import { Representative } from '../models/representative';
 import { FinalReport } from '../models/final-report';
+import { VisitorRegistration } from '../models/visitor-registration';
 
 
 
@@ -47,6 +48,20 @@ export class HttpService {
   getWorkshopById(id:number){
     return this.http.get<WorkshopRequirement>(API_URL + "appointment/workshop/id", {params: {id: id}});
   }
+
+
+  postVisitorRegistration(visitorRegistration: VisitorRegistration): Observable<VisitorRegistration>{
+    return this.http.post<VisitorRegistration>(API_URL + "appointment/visitorRegistration", visitorRegistration);
+  }
+
+  getVisitorRegistration(){
+    return this.http.get<VisitorRegistration[]>(API_URL + "appointment/visitorRegistration");
+  }
+
+  getVisitorRegistrationById(id:number){
+    return this.http.get<VisitorRegistration>(API_URL + "appointment/visitorRegistration/id", {params: {id: id}});
+  }
+
 
 
   getAllTechnologist() : Observable<Technologist[]> {

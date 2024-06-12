@@ -55,4 +55,73 @@ public class VisitorRegistration extends PanacheEntity {
     public VisitorRegistration() {
     }
 
+    public void updateEntity(VisitorRegistration newVisitorRegistration) {
+        this.name = newVisitorRegistration.name;
+        this.reason = newVisitorRegistration.reason;
+        this.fromDate = newVisitorRegistration.fromDate;
+        this.fromTime = newVisitorRegistration.fromTime;
+        this.toDate = newVisitorRegistration.toDate;
+        this.toTime = newVisitorRegistration.toTime;
+        this.customerOrCompany = newVisitorRegistration.customerOrCompany;
+        this.arrivalFromCountry = newVisitorRegistration.arrivalFromCountry;
+        this.reasonForVisit = newVisitorRegistration.reasonForVisit;
+        this.languageEN = newVisitorRegistration.languageEN;
+        this.responsibleSupervisor = newVisitorRegistration.responsibleSupervisor;
+        this.stayFromDate = newVisitorRegistration.stayFromDate;
+        this.stayFromTime = newVisitorRegistration.stayFromTime;
+        this.stayToDate = newVisitorRegistration.stayToDate;
+        this.stayToTime = newVisitorRegistration.stayToTime;
+        this.intOfPeopleTour = newVisitorRegistration.intOfPeopleTour;
+        this.tourLanguageEN = newVisitorRegistration.tourLanguageEN;
+        this.tourDate = newVisitorRegistration.tourDate;
+        this.tourTime = newVisitorRegistration.tourTime;
+        this.intOfPeopleMeetingRoom = newVisitorRegistration.intOfPeopleMeetingRoom;
+        this.meetingRoomDate = newVisitorRegistration.meetingRoomDate;
+        this.meetingRoomTime = newVisitorRegistration.meetingRoomTime;
+        this.hotelLocation = newVisitorRegistration.hotelLocation;
+        this.hotelStayFromDate = newVisitorRegistration.hotelStayFromDate;
+        this.hotelStayToDate = newVisitorRegistration.hotelStayToDate;
+        this.singleRooms = newVisitorRegistration.singleRooms;
+        this.doubleRooms = newVisitorRegistration.doubleRooms;
+        this.lunchNumber = newVisitorRegistration.lunchNumber;
+        this.lunchDate = newVisitorRegistration.lunchDate;
+        this.lunchTime = newVisitorRegistration.lunchTime;
+        this.veganMeals = newVisitorRegistration.veganMeals;
+        this.vegetarianMeals = newVisitorRegistration.vegetarianMeals;
+        this.otherMealsDescription = newVisitorRegistration.otherMealsDescription;
+        this.otherMealsNumber = newVisitorRegistration.otherMealsNumber;
+        this.transferFromDate = newVisitorRegistration.transferFromDate;
+        this.transferToDate = newVisitorRegistration.transferToDate;
+        this.otherTravelRequirements = newVisitorRegistration.otherTravelRequirements;
+        this.transferFrom = newVisitorRegistration.transferFrom;
+        this.transferTo = newVisitorRegistration.transferTo;
+
+        for (PlannedDepartmentVisit visit : newVisitorRegistration.plannedDepartmentVisits) {
+            if(visit.id == null || visit.id == 0) {
+                visit.id = null;
+                visit.persist();
+                this.plannedDepartmentVisits.add(visit);
+            }else{
+                PlannedDepartmentVisit persisted = PlannedDepartmentVisit.findById(visit.id);
+                persisted.updateEntity(visit);
+            }
+        }
+        this.plannedDepartmentVisits = newVisitorRegistration.plannedDepartmentVisits;
+    }
+
+    public VisitorRegistration persistOrUpdate(){
+        if(this.id == null || this.id == 0) {
+            this.id = null;
+            this.persist();
+
+            for (PlannedDepartmentVisit visit : this.plannedDepartmentVisits) {
+                visit = visit.persistOrUpdate();
+            }
+            return this;
+        }else{
+            VisitorRegistration visitorRegistration = VisitorRegistration.findById(this.id);
+            visitorRegistration.updateEntity(this);
+            return visitorRegistration;
+        }
+    }
 }

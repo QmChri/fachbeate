@@ -22,4 +22,15 @@ public class Technologist extends PanacheEntity {
         this.active = technologist.active;
         this.color = technologist.color;
     }
+
+    public Technologist persistOrUpdate(){
+        if(this.id != null && this.id != 0) {
+            Technologist persisted = Technologist.findById(this.id);
+            persisted.updateEntity(this);
+            return persisted;
+        }
+
+        this.persist();
+        return this;
+    }
 }

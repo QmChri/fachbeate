@@ -2,7 +2,7 @@
     <div>
         <h1 class="paddingSearch" style="margin-bottom: 0;">{{'VISITOR-REGISTRATION.header' | translate}}</h1>
     </div>
-    <button class="btn btn-success">{{'VISITOR-REGISTRATION.headerButton' | translate}}</button>
+    <button class="btn btn-success" (click)="postVisitorRegistration()">{{'VISITOR-REGISTRATION.headerButton' | translate}}</button>
 </div>
 <hr>
 
@@ -161,13 +161,13 @@
                     <div class="center-items">
                         <mat-form-field class="smallInput">
                             <mat-label>{{'VISITOR-REGISTRATION.date' | translate}}</mat-label>
-                            <input matInput [matDatepicker]="picker5" [(ngModel)]="inputVisitRegistration.toDate">
+                            <input matInput [matDatepicker]="picker5" [(ngModel)]="inputVisitRegistration.tourDate">
                             <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
                             <mat-datepicker #picker5></mat-datepicker>
                         </mat-form-field>
                         <mat-form-field class="smallInput">
                             <mat-label>{{'VISITOR-REGISTRATION.dateTime' | translate}}</mat-label>
-                            <input type="time" matInput [(ngModel)]="inputVisitRegistration.toTime">
+                            <input type="time" matInput [(ngModel)]="inputVisitRegistration.tourTime">
                         </mat-form-field>
                     </div>
                 </div>
@@ -366,7 +366,7 @@
                                     (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
                                 <td>{{'VISITOR-REGISTRATION.'+data.name | translate}}</td>
                                 <td>
-                                    <input type="date" [(ngModel)]="data.dateOfVisit" class="form-control">
+                                    <input type="date" [ngModel]="setOfCheckedId.get(data.id)" (ngModelChange)="inputDateChange(data.id, $event)" class="form-control">
                                 </td>
                             </tr>
                         </tbody>
@@ -388,7 +388,10 @@
                                     (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
                                 <td>{{'VISITOR-REGISTRATION.'+data.name | translate}}</td>
                                 <td>
-                                    <input type="date" [(ngModel)]="data.dateOfVisit" class="form-control">
+                                    <input type="date" 
+                                    [ngModel]="(setOfCheckedId.get(data.id) !== undefined)?setOfCheckedId.get(data.id):undefined"
+                                    (ngModelChange)="inputDateChange(data.id, $event)"
+                                     class="form-control">
                                 </td>
                             </tr>
                         </tbody>

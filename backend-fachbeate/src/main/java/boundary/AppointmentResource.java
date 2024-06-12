@@ -25,7 +25,6 @@ public class AppointmentResource {
         if(responseCustomerRequirement == null){
             return Response.serverError().build();
         }
-        responseCustomerRequirement.customerVisits.size();
         return Response.ok(responseCustomerRequirement).build();
     }
     @GET
@@ -64,6 +63,33 @@ public class AppointmentResource {
     public Response getWorkshopPerId(@QueryParam("id") Long id){
         return Response.ok(WorkshopRequirement.findById(id)).build();
     }
+
+
+    @POST
+    @Path("/visitorRegistration")
+    @Transactional
+    public Response postVisitorRegistration(VisitorRegistration visitorRegistration){
+        VisitorRegistration responseVisitorRegistration = visitorRegistration.persistOrUpdate();
+        if(responseVisitorRegistration == null){
+            return Response.serverError().build();
+        }
+        return Response.ok(responseVisitorRegistration).build();
+    }
+
+    @GET
+    @Path("/visitorRegistration")
+    public Response postVisitorRegistration(){
+        return Response.ok(VisitorRegistration.listAll()).build();
+    }
+
+    @GET
+    @Path("/visitorRegistration/id")
+    public Response postVisitorRegistration(@QueryParam("id") Long id){
+        return Response.ok(VisitorRegistration.findById(id)).build();
+    }
+
+
+
 
     @POST
     @Path("/other")

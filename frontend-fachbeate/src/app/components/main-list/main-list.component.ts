@@ -167,7 +167,7 @@ export class MainListComponent implements OnInit {
             status: "ToDo",
             toha: element.company!,
             vertreter: element.seminarPresenter!,
-            fachberater: element.requestedTechnologist!.firstName + " " + element.requestedTechnologist!.lastName,
+            fachberater: element.requestedTechnologist!.toString(),
             timespan: {
               start: element.startDate,
               end: element.endDate

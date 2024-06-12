@@ -84,11 +84,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         data.forEach(value => {
           this.calendarEvnts = [...this.calendarEvnts, {
             id: ""+value.id,
-            title: value.requestedTechnologist!.firstName + " " + value.requestedTechnologist!.lastName + " - " + value.company,
+            title: value.requestedTechnologist![0].firstName + " " + value.requestedTechnologist![0].lastName + " - " + value.company,
             start: value.startDate,
             end: this.adjustEndDate(value.endDate!.toString()),
-            backgroundColor: value.requestedTechnologist!.color,
-            borderColor: value.requestedTechnologist!.color,
+            backgroundColor: value.requestedTechnologist![0].color,
+            borderColor: value.requestedTechnologist![0].color,
           }]
 
           this.calendarOptions.events = this.calendarEvnts.map(value => ({

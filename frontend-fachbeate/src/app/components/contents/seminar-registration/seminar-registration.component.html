@@ -74,11 +74,10 @@
                     <mat-form-field>
                         <mat-label>Zuständiger Fachberater</mat-label>
                         <mat-select required multiple placeholder="Auswählen . . . "
-                            [ngModel]="(inputWorkshop.requestedTechnologist === undefined)?undefined:inputWorkshop.requestedTechnologist.id"
+                            [ngModel]="inputWorkshop.techSelection"
                             (valueChange)="changeTechnolgist($event)">
-                            <mat-option>--</mat-option>
                             @for (t of technologists; track technologists) {
-                            <mat-option [value]="t.id">{{t.firstName}} {{t.lastName}}</mat-option>
+                                <mat-option [value]="t.id">{{t.firstName}} {{t.lastName}}</mat-option>
                             }
                         </mat-select>
                     </mat-form-field>
@@ -314,11 +313,11 @@
                         <div class="displayBySide">
                             <mat-form-field class="smallInput">
                                 <mat-label>Vegan</mat-label>
-                                <input type="number" min="0" matInput [(ngModel)]="inputWorkshop.mealWishes![0]">
+                                <input type="number" min="0" matInput [(ngModel)]="inputWorkshop.mealWishesVegan">
                             </mat-form-field>
                             <mat-form-field class="smallInput">
                                 <mat-label>Vegetarisch</mat-label>
-                                <input type="number" min="0" matInput [(ngModel)]="inputWorkshop.mealWishes![1]">
+                                <input type="number" min="0" matInput [(ngModel)]="inputWorkshop.mealWishesVegetarian">
                             </mat-form-field>
                         </div>
                         <div class="displayBySide">
@@ -328,7 +327,7 @@
                             </mat-form-field>
                             <mat-form-field class="smallInput">
                                 <mat-label>Anzahl</mat-label>
-                                <input type="number" min="0" matInput [(ngModel)]="inputWorkshop.mealWishes![2]">
+                                <input type="number" min="0" matInput [(ngModel)]="inputWorkshop.otherMealWishesAmount">
                             </mat-form-field>
                         </div>
                     </div>

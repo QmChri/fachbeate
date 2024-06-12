@@ -78,9 +78,6 @@ export class CustomerRequirementsComponent implements OnInit {
 
 
   selChange(event: MatSelectChange, editId: number) {
-    console.log(event)
-    console.log(this.editId)
-
     var editVisit = this.inputCustomerRequirement.customerVisits!.find(o => o.editId === editId);
     if (editVisit != null || editVisit != undefined) {
       editVisit.presentationOfNewProducts = event.value.includes(1);
@@ -90,6 +87,7 @@ export class CustomerRequirementsComponent implements OnInit {
       editVisit.training = event.value.includes(5);
     }
   }
+  
   ngOnInit(): void {
 
     this.getTechnologist();

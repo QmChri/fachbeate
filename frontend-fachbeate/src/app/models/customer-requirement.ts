@@ -1,9 +1,18 @@
 import { CustomerVisit } from "./customer-visit";
 import { Representative } from "./representative";
+import { Technologist } from "./technologist";
 import { TechnologistAppointment } from "./technologist-appointment";
 
-export interface CustomerRequirement extends TechnologistAppointment {
+export interface CustomerRequirement{
     id?: number;
+    requestedTechnologist?: Technologist;
+    startDate?: Date;
+    endDate?: Date;
+    releaseManagement?: Date;
+    releaseSupervisor?: Date;
+    flightBooking?: boolean;
+    hotelBooking?: boolean;
+    reason?: string;
     company?: string;
     contact?: string;
     representative?: Representative;

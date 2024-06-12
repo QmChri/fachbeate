@@ -8,6 +8,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.transaction.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -51,12 +52,10 @@ public class FinalReport extends PanacheEntity {
         this.requestCompleted = newFinalReport.requestCompleted;
         this.summaryFinalReport = newFinalReport.summaryFinalReport;
 
+
+        this.reasonReports = new ArrayList<>();
         for(ReasonReport r: newFinalReport.reasonReports){
-            if(r.id == null || r.id == 0){
-                reasonReports.add(r.persistOrUpdate());
-            }else {
-                r.persistOrUpdate();
-            }
+            reasonReports.add(r.persistOrUpdate());
         }
 
     }

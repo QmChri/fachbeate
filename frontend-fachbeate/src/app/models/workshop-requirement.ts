@@ -1,7 +1,17 @@
+import { Technologist } from "./technologist";
 import { TechnologistAppointment } from "./technologist-appointment";
 
-export interface WorkshopRequirement extends TechnologistAppointment {
+export interface WorkshopRequirement{
     id?: number;
+    
+    requestedTechnologist?: Technologist[];
+    startDate?: Date;
+    endDate?: Date;
+    releaseManagement?: Date;
+    releaseSupervisor?: Date;
+    flightBooking?: boolean;
+    hotelBooking?: boolean;
+    reason?: string;
 
     subject?: string;
     company?: string;
@@ -39,10 +49,15 @@ export interface WorkshopRequirement extends TechnologistAppointment {
     meal?: boolean;
     mealAmount?: number;
     mealDateTime?: Date;
-    mealWishes?: number[];
+    mealWishesVegan?: number;
+    mealWishesVegetarian?: number;
     otherMealWishes?: string;
+    otherMealWishesAmount?: number;
 
     customerPresent?: boolean;
     diploma?: boolean;
     otherRequests?: string;
+
+
+    techSelection: number[];
 }

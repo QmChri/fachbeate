@@ -1,12 +1,35 @@
 package entity;
 
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
-public class WorkshopRequirement extends TechnologistAppointment{
+public class WorkshopRequirement extends PanacheEntity {
+
+
+    @ManyToMany
+    public List<Technologist> requestedTechnologist;
+    public Date startDate;
+    public Date endDate;
+
+
+    public String releaserManagement;
+    public Date releaseManagement;
+
+    public String releaserSupervisor;
+    public Date releaseSupervisor;
+
+    public boolean hotelBooking;
+    public boolean flightBooking;
+    public String reason;
+
 
     public String subject;
     public String company;
@@ -45,8 +68,10 @@ public class WorkshopRequirement extends TechnologistAppointment{
     public boolean meal;
     public int mealAmount;
     public Date mealDateTime;
-    public int[] mealWishes;
+    public int mealWishesVegan;
+    public int mealWishesVegetarian;
     public String otherMealWishes;
+    public int otherMealWishesAmount;
 
 
     public boolean customerPresent;
@@ -58,6 +83,16 @@ public class WorkshopRequirement extends TechnologistAppointment{
     }
 
     public void updateEntity(WorkshopRequirement newEntity){
+        this.startDate = newEntity.startDate;
+        this.endDate = newEntity.endDate;
+        this.releaserManagement = newEntity.releaserManagement;
+        this.releaseManagement = newEntity.releaseManagement;
+        this.releaserSupervisor = newEntity.releaserSupervisor;
+        this.releaseSupervisor = newEntity.releaseSupervisor;
+        this.hotelBooking = newEntity.hotelBooking;
+        this.flightBooking = newEntity.flightBooking;
+        this.reason = newEntity.reason;
+
         this.subject = newEntity.subject;
         this.company = newEntity.company;
         this.amountParticipants = newEntity.amountParticipants;
@@ -80,16 +115,22 @@ public class WorkshopRequirement extends TechnologistAppointment{
         this.tripDateTime = newEntity.tripDateTime;
         this.tripLocation = newEntity.tripLocation;
         this.otherTripRequests = newEntity.otherTripRequests;
-        this.meal = newEntity.meal;
         this.mealAmount = newEntity.mealAmount;
         this.mealDateTime = newEntity.mealDateTime;
-        this.mealWishes = newEntity.mealWishes;
+        this.mealWishesVegan = newEntity.mealWishesVegan;
+        this.mealWishesVegetarian = newEntity.mealWishesVegetarian;
         this.otherMealWishes = newEntity.otherMealWishes;
+        this.otherMealWishesAmount = newEntity.otherMealWishesAmount;
         this.customerPresent = newEntity.customerPresent;
         this.diploma = newEntity.diploma;
         this.otherRequests = newEntity.otherRequests;
 
-        super.updateEntity((TechnologistAppointment) newEntity);
+        this.requestedTechnologist = new ArrayList<>();
+
+        for(Technologist tech : newEntity.requestedTechnologist){
+
+            this.requestedTechnologist.add(tech.persistOrUpdate());
+        }
     }
 
 }

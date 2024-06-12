@@ -4,6 +4,7 @@ import { Department } from '../../../models/department';
 import { VisitorRegistration } from '../../../models/visitor-registration';
 import { MatDialog } from '@angular/material/dialog';
 import { TeilnehmerListeComponent } from '../teilnehmer-liste/teilnehmer-liste.component';
+import { HttpService } from '../../../services/http.service';
 
 @Component({
   selector: 'app-visitor-registration',
@@ -14,8 +15,11 @@ export class VisitorRegistrationComponent implements OnInit {
   buttonSelect: String[] = []
   geDip: String[] = []
 
-  inputVisitRegistration: VisitorRegistration = {};
-  constructor(private dialog: MatDialog) { }
+  inputVisitRegistration: VisitorRegistration = {
+    plannedDepartmentVisits: []
+  };
+
+  constructor(private dialog: MatDialog, private http: HttpService) { }
 
   openDialog(cnt: number) {
 
@@ -71,11 +75,13 @@ export class VisitorRegistrationComponent implements OnInit {
   indeterminate = false;
   listOfCurrentPageData: readonly Department[] = [];
   listOfCurrentPageData2: readonly Department[] = [];
-  setOfCheckedId = new Set<number>();
+  setOfCheckedId = new Map<number, string>();
 
   updateCheckedSet(id: number, checked: boolean): void {
+    console.log(id);
+    
     if (checked) {
-      this.setOfCheckedId.add(id);
+      this.setOfCheckedId.set(id, undefined!);
     } else {
       this.setOfCheckedId.delete(id);
     }
@@ -99,6 +105,10 @@ export class VisitorRegistrationComponent implements OnInit {
   refreshCheckedStatus(): void {
     this.checked = this.listOfCurrentPageData.every(item => this.setOfCheckedId.has(item.id));
     this.indeterminate = this.listOfCurrentPageData.some(item => this.setOfCheckedId.has(item.id)) && !this.checked;
+  }
+
+  inputDateChange(id: number, date: string){
+    this.setOfCheckedId.set(id, date);
   }
 
   ngOnInit(): void {
@@ -171,6 +181,44 @@ export class VisitorRegistrationComponent implements OnInit {
       }
     ]
   }
+
+  postVisitorRegistration(){
+    this.inputVisitRegistration.reason = "VisitorRegistration"
+
+    this.inputVisitRegistration.plannedDepartmentVisits = []
+
+    this.setOfCheckedId.forEach((value, key) => {
+      this.inputVisitRegistration.plannedDepartmentVisits = [...this.inputVisitRegistration.plannedDepartmentVisits!, 
+        {
+          department: this.getDepartment(key),
+          dateOfVisit: new Date(value)
+        }
+      ]
+    });    
+
+    this.http.postVisitorRegistration(this.inputVisitRegistration).subscribe({
+      next: data => {
+        this.inputVisitRegistration = data;
+      },
+      error: err => {
+        console.log(err);
+      }
+    })
+  }
+
+  getDepartment(id: number):string{
+    var found = this.listOfCurrentPageData.find(element => element.id === id)
+    if(found !== null && found !== undefined){
+      return found!.name;
+    }
+
+    found = this.listOfCurrentPageData2.find(element => element.id === id)
+    if(found !== null && found !== undefined){
+      return found!.name;
+    }
+    return "";
+  }
+
 }
 
 const today = new Date();

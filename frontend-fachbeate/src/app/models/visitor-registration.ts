@@ -40,5 +40,5 @@ export interface VisitorRegistration {
     otherTravelRequirements?: string;
     transferFrom?: string;
     transferTo?: string;
-    plannedDepartmentVisits?: PlannedDepartmentVisit[];
+    plannedDepartmentVisits: PlannedDepartmentVisit[];
 }
