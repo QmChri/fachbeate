@@ -3,6 +3,9 @@ import { WorkshopRequirement } from '../../../models/workshop-requirement';
 import { HttpService } from '../../../services/http.service';
 import { Technologist } from '../../../models/technologist';
 import { ActivatedRoute } from '@angular/router';
+import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { TeilnehmerListeComponent } from '../teilnehmer-liste/teilnehmer-liste.component';
 
 @Component({
   selector: 'app-seminar-registration',
@@ -16,19 +19,49 @@ export class SeminarRegistrationComponent implements OnInit{
   reasonSelect: number = 0;
   languages: string[] = ['DE','EN','RU'];
 
+  tabs = ['Hotelbuchung']
+  selected = new FormControl(0);
+
+  addTab(){
+    this.tabs.push('Hotelbuchung: '+ this.tabs.length)
+    this.selected.setValue(this.tabs.length -1)
+  }
+
+  deleteLast(){
+    if(this.tabs.length != 1){
+      this.tabs.pop();
+    }
+  }
+
+  openDialog(cnt: number) {
+ 
+    this.dialog.open(TeilnehmerListeComponent, {
+      height: '36rem',
+      width: '50rem',
+      data: cnt
+    });
+    /*
+        dialogRef.afterClosed().subscribe(
+          data => {
+            if (data.save) {
+              customerVisit.finalReport = data.finalReport;
+              this.postCustomerRequirement();
+            }
+          });*/
+  }
 
   addToList(addItem: string){
     this.languages.push(addItem);
   }
 
   inputWorkshop: WorkshopRequirement = {
-    //0- Vegan, 1- Vegetarisch, 2- Sonstige
-    mealWishes: [undefined!, undefined!, undefined!]
+    techSelection: [],
+    requestedTechnologist: []
   };
 
   technologists: Technologist[] = [];
 
-  constructor(private http: HttpService, private route: ActivatedRoute){
+  constructor(private dialog: MatDialog,private http: HttpService, private route: ActivatedRoute){
 
   }
 
@@ -74,8 +107,10 @@ export class SeminarRegistrationComponent implements OnInit{
       }
     });
   }
-  changeTechnolgist($event: any) {
-    this.inputWorkshop.requestedTechnologist = this.technologists.find(elemnt => elemnt.id === $event);
+  changeTechnolgist(event: number[]) {
+    this.inputWorkshop.requestedTechnologist = event.map(id => 
+      this.technologists.find(tech => tech.id === id)!
+    );
   }
 
   changeSelections(event: any, section: number){   
@@ -100,6 +135,8 @@ export class SeminarRegistrationComponent implements OnInit{
     this.http.postWorkshop(this.inputWorkshop).subscribe({
       next: data => {
         this.inputWorkshop = data;
+
+        this.inputWorkshop.techSelection = data.requestedTechnologist!.map(element => element.id!);
       },
       error: err => {
         console.log(err);

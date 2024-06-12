@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
   roles: string[] = [];
   public userProfile: KeycloakProfile | null = null;
 
-  constructor(private keycloak: KeycloakService,private translate: TranslateService) {
+  constructor(private keycloak: KeycloakService, private translate: TranslateService) {
     this.translate.setDefaultLang('de');
   }
   public async ngOnInit() {
