@@ -102,7 +102,7 @@
                 </mat-menu>
             </a>
             -->
-            <a class="sidenav-nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <a (click)="logout()" class="sidenav-nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <i class="sidenav-link-icon" [class]="'fal fa-arrow-left'"></i>
                 <span class="sidenav-link-text" @fadeInOut *ngIf="collapsed">
                     Logout
