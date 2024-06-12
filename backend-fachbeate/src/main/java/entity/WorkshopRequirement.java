@@ -106,11 +106,19 @@ public class WorkshopRequirement extends PanacheEntity {
         this.locationToDate = newEntity.locationToDate;
         this.amountSingleRooms = newEntity.amountSingleRooms;
         this.amountDoubleRooms = newEntity.amountDoubleRooms;
+
         this.flightHereDateTime = newEntity.flightHereDateTime;
         this.flightReturnDateTime = newEntity.flightReturnDateTime;
         this.flightFrom = newEntity.flightFrom;
         this.flightTo = newEntity.flightTo;
         this.otherTravelRequests = newEntity.otherTravelRequests;
+
+        // Tour
+        this.companyTour = newEntity.companyTour;
+        this.tourAmount = newEntity.tourAmount;
+        this.tourDateTime = newEntity.tourDateTime;
+        this.languageEnglish = newEntity.languageEnglish;
+
         this.trip = newEntity.trip;
         this.tripDateTime = newEntity.tripDateTime;
         this.tripLocation = newEntity.tripLocation;

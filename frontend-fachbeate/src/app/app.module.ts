@@ -56,8 +56,8 @@ import { TeilnehmerListeComponent } from './components/contents/teilnehmer-liste
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { CreateRepresentativeComponent } from './components/contents/creation-sites/create-representative/create-representative.component';
 import { CreateDealerComponent } from './components/contents/creation-sites/create-dealer/create-dealer.component';
-import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
-import { initializer } from './initializer.service';
+/*import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';*/
+/*import { initializer } from './initializer.service';*/
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -123,7 +123,7 @@ registerLocaleData(de);
     MatButtonToggleModule,
     FullCalendarModule,
     MatIconModule,
-    KeycloakAngularModule,
+    /*KeycloakAngularModule,*/
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -137,13 +137,13 @@ registerLocaleData(de);
     provideNativeDateAdapter(),
     provideAnimationsAsync(),
     { provide: NZ_I18N, useValue: de_DE },
-    provideHttpClient(),
+    /*provideHttpClient(),
     {
       provide: APP_INITIALIZER,
       useFactory: initializer,
       deps: [KeycloakService],
       multi: true
-    }
+    }*/
   ],
   bootstrap: [AppComponent]
 })

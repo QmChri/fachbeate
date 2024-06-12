@@ -66,15 +66,14 @@ export class SeminarRegistrationComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    console.log(this.inputWorkshop.tripDateTime);
-    
     this.route.paramMap.subscribe(params => {
       if(params.get('id') != null){
         this.http.getWorkshopById(parseInt(params.get('id')!)).subscribe({
           next: data => {
             if(data != null){
               this.inputWorkshop = data;
-              console.log(data);
+              
+              this.inputWorkshop.techSelection = data.requestedTechnologist!.map(tech => tech.id!);
               
               this.buttonSelect = [
                 (data.hotelBooking)?"1":"",
@@ -137,6 +136,16 @@ export class SeminarRegistrationComponent implements OnInit{
         this.inputWorkshop = data;
 
         this.inputWorkshop.techSelection = data.requestedTechnologist!.map(element => element.id!);
+
+        this.buttonSelect = [
+          (data.hotelBooking)?"1":"",
+          (data.flightBooking)?"2":"",
+          (data.trip)?"3":"",
+          (data.companyTour)?"4":"",
+          (data.meal)?"5":"",
+          (data.customerPresent)?"6":"",
+          (data.diploma)?"7":""
+        ].filter(p => p != "");
       },
       error: err => {
         console.log(err);
