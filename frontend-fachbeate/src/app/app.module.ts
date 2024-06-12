@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { BodyComponent } from './components/body/body.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
@@ -9,7 +9,6 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule, provideHttpClient } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SublevelMenuComponent } from './components/sidenav/sublevel-menu.component';
-
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -51,12 +50,14 @@ import { NewDateEntryComponent } from './components/contents/new-date-entry/new-
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import {MatMenuModule} from '@angular/material/menu';
+import { MatMenuModule } from '@angular/material/menu';
 import { AbschlussBerichtListComponent } from './components/contents/abschluss-bericht-list/abschluss-bericht-list.component';
 import { TeilnehmerListeComponent } from './components/contents/teilnehmer-liste/teilnehmer-liste.component';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { CreateRepresentativeComponent } from './components/contents/creation-sites/create-representative/create-representative.component';
 import { CreateDealerComponent } from './components/contents/creation-sites/create-dealer/create-dealer.component';
+import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
+import { initializer } from './initializer.service';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -122,6 +123,7 @@ registerLocaleData(de);
     MatButtonToggleModule,
     FullCalendarModule,
     MatIconModule,
+    KeycloakAngularModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -135,7 +137,13 @@ registerLocaleData(de);
     provideNativeDateAdapter(),
     provideAnimationsAsync(),
     { provide: NZ_I18N, useValue: de_DE },
-    provideHttpClient()
+    provideHttpClient(),
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializer,
+      deps: [KeycloakService],
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpService } from '../../../services/http.service';
-import { FinalReport } from '../../../models/final-report';
 import { Technologist } from '../../../models/technologist';
 
 @Component({
@@ -20,7 +19,7 @@ export class AbschlussBerichtListComponent { //implements OnInit
 
   listOfColumn: ColumnDefinition[]  = [
     {
-      name: 'Kunde',
+      name: 'customer',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.company.toString().localeCompare(b.company.toString()),
       listOfFilter: [
@@ -29,7 +28,7 @@ export class AbschlussBerichtListComponent { //implements OnInit
       filterFn: (list: string[], item: DataItem) => true
     },
     {
-      name: 'Datum Kundenbesuch',
+      name: 'datecustomerVisit',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.dateOfVisit.toString().localeCompare(b.dateOfVisit.toString()),
       listOfFilter: [
@@ -38,7 +37,7 @@ export class AbschlussBerichtListComponent { //implements OnInit
       filterFn: (list: string[], item: DataItem) => true
     },
     {
-      name: 'Erstelldatum Besuch',
+      name: 'createDateVisit',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.creationDate.localeCompare(b.creationDate),
       listOfFilter: [
@@ -48,7 +47,7 @@ export class AbschlussBerichtListComponent { //implements OnInit
       filterFn: (list: string[], item: DataItem) => list.some(name => item.creationDate.indexOf(name) !== -1)
     },
     {
-      name: 'Zuständiger Technologe',
+      name: 'responsibleFB',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.technologist.localeCompare(b.technologist),
       listOfFilter: [
@@ -59,7 +58,7 @@ export class AbschlussBerichtListComponent { //implements OnInit
       filterFn: (list: string[], item: DataItem) => list.some(name => item.technologist.indexOf(name) !== -1)
     },
     {
-      name: '\"Zu Erledigen\" - Technologe',
+      name: 'toDoTechno',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.dateOfReworkTechnologist.localeCompare(b.dateOfReworkTechnologist),
       listOfFilter: [
@@ -68,7 +67,7 @@ export class AbschlussBerichtListComponent { //implements OnInit
       filterFn: (list: string[], item: DataItem) => list.some(name => item.dateOfReworkTechnologist.indexOf(name) !== -1)
     },
     {
-      name: 'Zuständiger Vertreter',
+      name: 'responsibleRepresentative',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.representative.localeCompare(b.representative),
       listOfFilter: [
@@ -77,7 +76,7 @@ export class AbschlussBerichtListComponent { //implements OnInit
       filterFn: (list: string[], item: DataItem) => list.some(name => item.representative.indexOf(name) !== -1)
     },
     {
-      name: '\"Zu Erledigen\" - Vertreter',
+      name: 'toDoResp',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.dateOfReworkRepresentative.localeCompare(b.dateOfReworkRepresentative),
       listOfFilter: [
@@ -86,7 +85,7 @@ export class AbschlussBerichtListComponent { //implements OnInit
       filterFn: (list: string[], item: DataItem) => true
     },
     {
-      name: 'Status',
+      name: 'state',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.state.localeCompare(b.state),
       listOfFilter: [

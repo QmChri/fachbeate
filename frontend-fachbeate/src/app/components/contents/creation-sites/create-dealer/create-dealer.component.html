@@ -1,6 +1,6 @@
 <div class="header">
     <div>
-        <h1 class="paddingSearch" style="margin-bottom: 0;">Neuen Händler anlegen</h1>
+        <h1 class="paddingSearch" style="margin-bottom: 0;">{{'CREATE-DEALER.header' | translate}}</h1>
     </div>
 </div>
 <hr>
@@ -8,22 +8,22 @@
 <div class="row">
     <div class="col-md-3">
         <div class="card">
-            <div class="card-header text-white bg-danger">Allgemeine Daten</div>
+            <div class="card-header text-white bg-danger">{{'CREATE-DEALER.allg' | translate}}</div>
             <div class="card-body">
                 <div class="center-items">
                     <div class="displayBySide">
                         <mat-form-field class="smallInput">
-                            <mat-label>Händlerbezeichnung</mat-label>
+                            <mat-label>{{'CREATE-DEALER.dealerName' | translate}}</mat-label>
                             <input matInput type="text" [(ngModel)]="inputTechnologist.firstName" name="firstName">
                         </mat-form-field>
-                        <label class="languageBox">Aktiv
+                        <label class="languageBox">{{'CREATE-DEALER.active' | translate}}
                             <mat-checkbox color="warn" [(ngModel)]="inputTechnologist.active"></mat-checkbox>
                         </label>
                     </div>
                     <div class="displayBySide">
-                        <button class="btn btn-danger" [hidden]="inputTechnologist.id===0" (click)="cancelEdit()"><i
+                        <button class="btn btn-danger" matTooltip="{{'CREATE-DEALER.cancel' | translate}}" [hidden]="inputTechnologist.id===0" (click)="cancelEdit()"><i
                                 class="fa fa-times"></i></button>
-                        <button class="btn btn-success" (click)="postDealer()"><i class="fa fa-save"></i></button>
+                        <button class="btn btn-success" matTooltip="{{'CREATE-DEALER.safe' | translate}}" (click)="postDealer()"><i class="fa fa-save"></i></button>
                     </div>
                 </div>
             </div>
@@ -34,13 +34,13 @@
         <nz-table class="col" #editRowTable nzTableLayout="fixed" nzBordered [nzData]="technologistList">
             <thead>
                 <tr>
-                    <th>Id</th>
-                    <th>Bezeichnung</th>
-                    <th>Aktiv</th>
+                    <th>{{'CREATE-DEALER.id' | translate}}</th>
+                    <th>{{'CREATE-DEALER.calling' | translate}}</th>
+                    <th>{{'CREATE-DEALER.active' | translate}}</th>
                 </tr>
             </thead>
             <tbody>
-                <tr matTooltip="Zum Bearbeiten klicken ..." *ngFor="let technologist of technologistList"
+                <tr matTooltip="{{'CREATE-DEALER.edit' | translate}}" *ngFor="let technologist of technologistList"
                     (click)="editRow(technologist.id!, 0)">
                     <td>{{technologist.id}}</td>
                     <td>{{technologist.firstName}}</td>

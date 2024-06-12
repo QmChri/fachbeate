@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { KeycloakService } from 'keycloak-angular';
+import { KeycloakProfile } from 'keycloak-js';
 
 interface SideNavToggle {
   screenWidth: number;
@@ -14,11 +16,18 @@ interface SideNavToggle {
 })
 export class AppComponent implements OnInit {
   title = 'Fachberater';
+  roles: string[] = [];
+  public userProfile: KeycloakProfile | null = null;
 
-  constructor(private translate: TranslateService) {
+  constructor(private keycloak: KeycloakService,private translate: TranslateService) {
     this.translate.setDefaultLang('de');
   }
-  ngOnInit() {
+  public async ngOnInit() {
+    this.roles = this.keycloak.getUserRoles();
+    this.keycloak.loadUserProfile().then(profile => {
+      this.userProfile = profile;
+      console.log(this.userProfile)
+    });
   }
 
   isSideNavCollapsed = false;
