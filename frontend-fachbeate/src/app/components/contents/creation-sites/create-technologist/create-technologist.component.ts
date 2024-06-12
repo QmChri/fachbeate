@@ -57,7 +57,7 @@ export class CreateTechnologistComponent implements OnInit {
           firstName: "",
           lastName: "",
           active: true,
-          color: ""
+          color: "#000000"
         }
 
         this.loadTechnologists();
