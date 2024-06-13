@@ -28,7 +28,8 @@ public class CustomerRequirement extends PanacheEntity {
     public boolean flightBooking;
     public String reason;
 
-    public String company;
+    @ManyToOne
+    public Company company;
     public String contact;
 
     @ManyToOne
@@ -89,6 +90,8 @@ public class CustomerRequirement extends PanacheEntity {
             }
 
             this.representative = this.representative.persistOrUpdate();
+            this.requestedTechnologist = this.requestedTechnologist.persistOrUpdate();
+            this.company = this.company.persistOrUpdate();
 
             return this;
         }else{

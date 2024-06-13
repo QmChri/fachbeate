@@ -8,10 +8,11 @@ import { TechnologistAppointment } from '../models/technologist-appointment';
 import { Representative } from '../models/representative';
 import { FinalReport } from '../models/final-report';
 import { VisitorRegistration } from '../models/visitor-registration';
+import { Company } from '../models/company';
 
 
 
-const API_URL = "http://10.2.3.72:8079/"
+const API_URL = "http://localhost:8079/"
 
 
 @Injectable({
@@ -22,9 +23,7 @@ export class HttpService {
   constructor(private http: HttpClient) { }
 
   postCustomerRequirement(customerRequirement: CustomerRequirement): Observable<CustomerRequirement>{
-    console.log(customerRequirement);
-    
-    return this.http.post<CustomerRequirement>(API_URL + "appointment/customerRequirement", customerRequirement);
+      return this.http.post<CustomerRequirement>(API_URL + "appointment/customerRequirement", customerRequirement);
   }
 
   getCustomerRequirements() {
@@ -75,9 +74,9 @@ export class HttpService {
   postTechnologist(technologist: Technologist) {
     return this.http.post(API_URL + "technologist", technologist);
   }
-
-
-
+  
+  
+  
   postRepresentative(representative: Representative): Observable<Representative>{
     return this.http.post(API_URL+ "technologist/representative", representative);
   }  
@@ -89,6 +88,21 @@ export class HttpService {
   getActiveRepresentative(): Observable<Representative[]>{
     return this.http.get<Representative[]>(API_URL + "technologist/representative/allActive");
   }
+
+
+
+  postCompany(company: Company): Observable<Company>{
+    return this.http.post(API_URL+ "technologist/company", company);
+  }  
+  
+  getAllCompany() : Observable<Company[]> {
+    return this.http.get<Company[]>(API_URL+ "technologist/company");
+  }
+
+  getActiveCompany(): Observable<Company[]>{
+    return this.http.get<Company[]>(API_URL + "technologist/company/allActive");
+  }
+
 
 
   postOtherDate(date: TechnologistAppointment): Observable<TechnologistAppointment>{

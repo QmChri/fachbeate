@@ -56,7 +56,6 @@ export class SidenavComponent implements OnInit {
   }
 
   public async logout(){
-    console.log("ausloggen")
     //this.keycloak.logout();
   }
 

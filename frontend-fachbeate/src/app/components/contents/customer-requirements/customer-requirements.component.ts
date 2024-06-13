@@ -11,6 +11,7 @@ import { CustomerVisit } from '../../../models/customer-visit';
 import { ActivatedRoute } from '@angular/router';
 import { ReasonReport } from '../../../models/reason-report';
 import { Representative } from '../../../models/representative';
+import { Company } from '../../../models/company';
 
 @Component({
   selector: 'app-customer-requirements',
@@ -24,16 +25,13 @@ export class CustomerRequirementsComponent implements OnInit {
   tohaControl = new FormControl<Toechterhaeandler | null>(null, Validators.required);
 
   selectedValue?: string;
+  
   technologists: Technologist[] = [];
   representative: Representative[] = [];
+  companies: Company[] = [];
 
   constructor(private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute) { }
 
-  toha: Toechterhaeandler[] = [
-    { value: 'Active-1', viewValue: 'Active' },
-    { value: 'Active-2', viewValue: 'Active2' },
-    { value: 'Tester-1', viewValue: 'Tester' },
-  ];
 
   inputCustomerRequirement: CustomerRequirement = {
     customerVisits: []
@@ -44,7 +42,6 @@ export class CustomerRequirementsComponent implements OnInit {
   }
 
   stopEdit(): void {
-    console.log(this.inputCustomerRequirement.customerVisits)
     this.editId = null;
   }
 
@@ -67,8 +64,6 @@ export class CustomerRequirementsComponent implements OnInit {
       }
     ];
 
-    console.log(this.inputCustomerRequirement);
-    
     this.editId = this.i;
   }
 
@@ -92,6 +87,7 @@ export class CustomerRequirementsComponent implements OnInit {
 
     this.getTechnologist();
     this.getRepresentative();
+    this.getCompanies();
 
     this.route.paramMap.subscribe(params => {
       if (params.get('id') != null) {
@@ -159,15 +155,12 @@ export class CustomerRequirementsComponent implements OnInit {
     if (customerVisit.finalReport === null || customerVisit.finalReport === undefined || customerVisit.finalReport.id === 0) {
 
       var rRepo: ReasonReport[] = [
-        (customerVisit.presentationOfNewProducts) ? { reason: 1 } : { reason: 0 },
-        (customerVisit.existingProducts) ? { reason: 2 } : { reason: 0 },
-        (customerVisit.recipeOptimization) ? { reason: 3 } : { reason: 0 },
-        (customerVisit.sampleProduction) ? { reason: 4 } : { reason: 0 },
-        (customerVisit.training) ? { reason: 5 } : { reason: 0 }
-      ];
-
-      console.log("reasonReports");
-      console.log(rRepo);
+        (customerVisit.presentationOfNewProducts) ? { reason: 1, presentedArticle: [] } : { reason: 0, presentedArticle: [] },
+        (customerVisit.existingProducts) ? { reason: 2, presentedArticle: [] } : { reason: 0, presentedArticle: [] },
+        (customerVisit.recipeOptimization) ? { reason: 3, presentedArticle: []} : { reason: 0, presentedArticle: [] },
+        (customerVisit.sampleProduction) ? { reason: 4, presentedArticle: [] } : { reason: 0, presentedArticle: [] },
+        (customerVisit.training) ? { reason: 5, presentedArticle: [] } : { reason: 0, presentedArticle: [] }
+      ].filter(element => element.reason !== 0);
 
 
       finalReport = {
@@ -221,8 +214,24 @@ export class CustomerRequirementsComponent implements OnInit {
     });
   }
 
+  getCompanies() {
+    this.http.getActiveCompany().subscribe({
+      next: data => {
+        this.companies = data;
+      },
+      error: err => {
+        console.log(err);
+      }
+    });
+  }
+
+
   changeTechnolgist($event: any) {
     this.inputCustomerRequirement.requestedTechnologist = this.technologists.find(elemnt => elemnt.id === $event);
+  }
+
+  changeCompany($event: any) {
+    this.inputCustomerRequirement.company = this.companies.find(elemnt => elemnt.id === $event);
   }
 
   changeRepresentative($event: any) {

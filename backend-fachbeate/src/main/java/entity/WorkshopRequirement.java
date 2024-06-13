@@ -54,20 +54,24 @@ public class WorkshopRequirement extends PanacheEntity {
 
     // Ausflug
     public boolean trip;
-    public Date tripDateTime;
+    public Date tripDate;
+    public String tripTime;
     public String tripLocation;
     public String otherTripRequests;
 
     // Tour
     public boolean companyTour;
     public int tourAmount;
-    public Date tourDateTime;
+    public Date tourDate;
+    public String tourTime;
     public boolean languageEnglish;
 
     //Meal
     public boolean meal;
     public int mealAmount;
-    public Date mealDateTime;
+    public Date mealDate;
+    public String mealTime;
+
     public int mealWishesVegan;
     public int mealWishesVegetarian;
     public String otherMealWishes;
@@ -116,15 +120,18 @@ public class WorkshopRequirement extends PanacheEntity {
         // Tour
         this.companyTour = newEntity.companyTour;
         this.tourAmount = newEntity.tourAmount;
-        this.tourDateTime = newEntity.tourDateTime;
+        this.tourDate = newEntity.tourDate;
+        this.tourTime = newEntity.tourTime;
         this.languageEnglish = newEntity.languageEnglish;
 
         this.trip = newEntity.trip;
-        this.tripDateTime = newEntity.tripDateTime;
+        this.tripDate = newEntity.tripDate;
+        this.tripTime = newEntity.tripTime;
         this.tripLocation = newEntity.tripLocation;
         this.otherTripRequests = newEntity.otherTripRequests;
         this.mealAmount = newEntity.mealAmount;
-        this.mealDateTime = newEntity.mealDateTime;
+        this.mealDate = newEntity.mealDate;
+        this.mealTime = newEntity.mealTime;
         this.mealWishesVegan = newEntity.mealWishesVegan;
         this.mealWishesVegetarian = newEntity.mealWishesVegetarian;
         this.otherMealWishes = newEntity.otherMealWishes;

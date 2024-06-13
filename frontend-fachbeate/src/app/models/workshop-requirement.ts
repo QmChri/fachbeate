@@ -37,18 +37,21 @@ export interface WorkshopRequirement{
     otherTravelRequests?: string;
 
     trip?: boolean;
-    tripDateTime?: Date;
+    tripDate?: Date;
+    tripTime?: string;
     tripLocation?: string;
     otherTripRequests?: string;
 
     companyTour?: boolean;
     tourAmount?: number;
-    tourDateTime?: Date;
+    tourDate?: Date;
+    tourTime?: string;
     languageEnglish?: boolean;
 
     meal?: boolean;
     mealAmount?: number;
-    mealDateTime?: Date;
+    mealDate?: Date;
+    mealTime?: string;
     mealWishesVegan?: number;
     mealWishesVegetarian?: number;
     otherMealWishes?: string;

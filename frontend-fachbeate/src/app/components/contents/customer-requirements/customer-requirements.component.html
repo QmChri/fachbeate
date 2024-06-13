@@ -22,10 +22,12 @@
                     <div class="center-items ">
                         <mat-form-field>
                             <mat-label>{{"REQ-TECH.dealers"|translate}}</mat-label>
-                            <mat-select [(ngModel)]="inputCustomerRequirement.company" required>
+                            <!-----Do sama daham----->
+                            <mat-select [ngModel]="(inputCustomerRequirement.company === undefined)?undefined:inputCustomerRequirement.company.id" required
+                            (valueChange)="changeCompany($event)">
                                 <mat-option>--</mat-option>
-                                @for (t of toha; track toha) {
-                                <mat-option [value]="t.value">{{t.viewValue}}</mat-option>
+                                @for (c of companies; track companies) {
+                                    <mat-option [value]="c.id">{{c.name}}</mat-option>
                                 }
                             </mat-select>
                             @if (tohaControl.hasError('required')) {

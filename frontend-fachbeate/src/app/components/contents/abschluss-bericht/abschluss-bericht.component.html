@@ -192,190 +192,108 @@
                     </mat-button-toggle-group>
                 </div>
             </div>
-            <ng-container *ngFor="let d of inputFinalReport.reasonReports">
+            <ng-container *ngFor="let reasonReport of inputFinalReport.reasonReports">
                 <!-- TODO nur die gründe anzeigen die auch ausgewählt sind -->
-                <div class="col-md-5 paddingBottom" *ngIf="d.reason === 1">
+                <div class="col-md-5 paddingBottom" *ngIf="reasonReport.reason === 1">
                     <div class="card" hideToggle>
                         <div class="card-header bg-danger text-white">Vorstellung</div>
                         <div class="card-body minheigtCard">
                             <mat-form-field class="smallInput">
                                 <mat-label>Zusammenfassung</mat-label>
-                                <textarea matInput type="text" [(ngModel)]="d.carriedOutActivity"
+                                <textarea matInput type="text" [(ngModel)]="reasonReport.carriedOutActivity"
                                     name="carriedOutActivity"></textarea>
                             </mat-form-field>
-                            <mat-form-field class="smallInput">
-                                <mat-label>Artikel</mat-label>
-                                <input matInput type="text" [(ngModel)]="d.presentedArticle" name="presentedArticle">
-                            </mat-form-field>
+                            
+                                @for (article of reasonReport.presentedArticle; track $index) {
+                                    <div>
+                                        <mat-form-field class="smallInput">
+                                            <mat-label>Artikel</mat-label>
+                                            <input matInput type="text" [(ngModel)]="article.name" name="articleName{{reasonReport.reason}}">
+                                        </mat-form-field>
+                                        <mat-form-field class="smallInput">
+                                            <mat-label>ArtikelNr</mat-label>
+                                            <input matInput type="text" [(ngModel)]="article.articleNr" name="articleNumber{{reasonReport.reason}}">
+                                        </mat-form-field>
+                                    </div>
+                                }
+                                <button mat-raised-button color="primary" class="btn btn-success" (click)="addArticle(reasonReport.reason!)">Add</button>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-5 paddingBottom" *ngIf="d.reason === 2">
+                <div class="col-md-5 paddingBottom" *ngIf="reasonReport.reason === 2">
                     <div class="card" hideToggle>
                         <div class="card-header bg-danger text-white">Problemlösung</div>
                         <div class="card-body">
                             <mat-form-field class="smallInput">
                                 <mat-label>Zusammenfassung</mat-label>
-                                <textarea matInput type="text" [(ngModel)]="d.carriedOutActivity"
+                                <textarea matInput type="text" [(ngModel)]="reasonReport.carriedOutActivity"
                                     name="carriedOutActivity"></textarea>
                             </mat-form-field>
-                            <mat-form-field class="smallInput">
-                                <mat-label>Artikel</mat-label>
-                                <input matInput type="text" [(ngModel)]="d.presentedArticle" name="presentedArticle">
-                            </mat-form-field>
-                            <div class="header">
-                                <mat-form-field class="smallInputSide">
-                                    <mat-label>Nacharbeit Technologe</mat-label>
-                                    <mat-select required placeholder="Auswählen . . . "
-                                        [(ngModel)]="d.reworkByTechnologist" name="reworkByTechnologist">
-                                        <mat-option [value]="true">Ja</mat-option>
-                                        <mat-option [value]="false">Nein</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                                <mat-form-field class="smallInputSide">
-                                    <mat-label>Nacharbeit Vertreter</mat-label>
-                                    <mat-select required placeholder="Auswählen . . . "
-                                        [(ngModel)]="d.reworkByRepresentative" name="reworkByRepresentive">
-                                        <mat-option [value]="true">Ja</mat-option>
-                                        <mat-option [value]="false">Nein</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                            </div>
-                            <div class="header" *ngIf="d.reworkByTechnologist">
-                                <mat-form-field class="smallInputSide">
-                                    <mat-label>Zu erledigen bis</mat-label>
-                                    <input matInput [matDatepicker]="picker5" type="text"
-                                        [(ngModel)]="d.reworkByTechnologistDoneUntil"
-                                        name="reworkByTechnologistDoneUntil">
-                                    <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
-                                    <mat-datepicker #picker5></mat-datepicker>
-                                </mat-form-field>
-                                <mat-form-field class="smallInput">
-                                    <mat-label>Status</mat-label>
-                                    <input matInput type="text" [(ngModel)]="d.state" name="state">
-                                </mat-form-field>
-                            </div>
-                            <mat-form-field *ngIf="d.reworkByRepresentative">
-                                <mat-label>Zu erledigen bis</mat-label>
-                                <input matInput [matDatepicker]="picker6" type="text"
-                                    [(ngModel)]="d.reworkByRepresentativeDoneUntil"
-                                    name="reworkByRepresentativeDoneUntil">
-                                <mat-datepicker-toggle matIconSuffix [for]="picker6"></mat-datepicker-toggle>
-                                <mat-datepicker #picker6></mat-datepicker>
-                            </mat-form-field>
+
+                            @for (article of reasonReport.presentedArticle; track $index) {
+                                <div>
+                                    <mat-form-field class="smallInput">
+                                        <mat-label>Artikel</mat-label>
+                                        <input matInput type="text" [(ngModel)]="article.name" name="articleName{{reasonReport.reason}}">
+                                    </mat-form-field>
+                                    <mat-form-field class="smallInput">
+                                        <mat-label>ArtikelNr</mat-label>
+                                        <input matInput type="text" [(ngModel)]="article.articleNr" name="articleNumber{{reasonReport.reason}}">
+                                    </mat-form-field>
+                                </div>
+                            }
+                            <button mat-raised-button color="primary" class="btn btn-success" (click)="addArticle(reasonReport.reason!)">Add</button>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-5 paddingBottom" *ngIf="d.reason === 3">
+                <div class="col-md-5 paddingBottom" *ngIf="reasonReport.reason === 3">
                     <div class="card" hideToggle>
                         <div class="card-header bg-danger text-white">Rezepturopt.</div>
                         <div class="card-body">
                             <mat-form-field class="smallInput">
                                 <mat-label>Zusammenfassung</mat-label>
-                                <textarea matInput type="text" [(ngModel)]="d.carriedOutActivity"
+                                <textarea matInput type="text" [(ngModel)]="reasonReport.carriedOutActivity"
                                     name="carriedOutActivity"></textarea>
                             </mat-form-field>
-                            <mat-form-field class="smallInput">
-                                <mat-label>Artikel</mat-label>
-                                <input matInput type="text" [(ngModel)]="d.presentedArticle" name="presentedArticle">
-                            </mat-form-field>
-                            <div class="header">
-                                <mat-form-field class="smallInputSide">
-                                    <mat-label>Nacharbeit Technologe</mat-label>
-                                    <mat-select required placeholder="Auswählen . . . "
-                                        [(ngModel)]="d.reworkByTechnologist" name="reworkByTechnologist">
-                                        <mat-option [value]="true">Ja</mat-option>
-                                        <mat-option [value]="false">Nein</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                                <mat-form-field class="smallInputSide">
-                                    <mat-label>Nacharbeit Vertreter</mat-label>
-                                    <mat-select required placeholder="Auswählen . . . "
-                                        [(ngModel)]="d.reworkByRepresentative" name="reworkByRepresentive">
-                                        <mat-option [value]="true">Ja</mat-option>
-                                        <mat-option [value]="false">Nein</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                            </div>
-                            <div class="header" *ngIf="d.reworkByTechnologist">
-                                <mat-form-field class="smallInputSide">
-                                    <mat-label>Zu erledigen bis</mat-label>
-                                    <input matInput [matDatepicker]="picker5" type="text"
-                                        [(ngModel)]="d.reworkByTechnologistDoneUntil"
-                                        name="reworkByTechnologistDoneUntil">
-                                    <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
-                                    <mat-datepicker #picker5></mat-datepicker>
-                                </mat-form-field>
-                                <mat-form-field class="smallInput">
-                                    <mat-label>Status</mat-label>
-                                    <input matInput type="text" [(ngModel)]="d.state" name="state">
-                                </mat-form-field>
-                            </div>
-                            <mat-form-field *ngIf="d.reworkByRepresentative">
-                                <mat-label>Zu erledigen bis</mat-label>
-                                <input matInput [matDatepicker]="picker6" type="text"
-                                    [(ngModel)]="d.reworkByRepresentativeDoneUntil"
-                                    name="reworkByRepresentativeDoneUntil">
-                                <mat-datepicker-toggle matIconSuffix [for]="picker6"></mat-datepicker-toggle>
-                                <mat-datepicker #picker6></mat-datepicker>
-                            </mat-form-field>
+
+                            @for (article of reasonReport.presentedArticle; track $index) {
+                                <div>
+                                    <mat-form-field class="smallInput">
+                                        <mat-label>Artikel</mat-label>
+                                        <input matInput type="text" [(ngModel)]="article.name" name="articleName{{reasonReport.reason}}">
+                                    </mat-form-field>
+                                    <mat-form-field class="smallInput">
+                                        <mat-label>ArtikelNr</mat-label>
+                                        <input matInput type="text" [(ngModel)]="article.articleNr" name="articleNumber{{reasonReport.reason}}">
+                                    </mat-form-field>
+                                </div>
+                            }
+                            <button mat-raised-button color="primary" class="btn" (click)="addArticle(reasonReport.reason!)">Add</button>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-5 paddingBottom" *ngIf="d.reason === 4">
+                <div class="col-md-5 paddingBottom" *ngIf="reasonReport.reason === 4">
                     <div class="card" hideToggle>
                         <div class="card-header bg-danger text-white">Musterproduktion</div>
                         <div class="card-body">
                             <mat-form-field class="smallInput">
                                 <mat-label>Zusammenfassung</mat-label>
-                                <textarea matInput type="text" [(ngModel)]="d.carriedOutActivity"
+                                <textarea matInput type="text" [(ngModel)]="reasonReport.carriedOutActivity"
                                     name="carriedOutActivity"></textarea>
                             </mat-form-field>
-                            <mat-form-field class="smallInput">
-                                <mat-label>Artikel</mat-label>
-                                <input matInput type="text" [(ngModel)]="d.presentedArticle" name="presentedArticle">
-                            </mat-form-field>
-                            <div class="header">
-                                <mat-form-field class="smallInputSide">
-                                    <mat-label>Nacharbeit Technologe</mat-label>
-                                    <mat-select required placeholder="Auswählen . . . "
-                                        [(ngModel)]="d.reworkByTechnologist" name="reworkByTechnologist">
-                                        <mat-option [value]="true">Ja</mat-option>
-                                        <mat-option [value]="false">Nein</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                                <mat-form-field class="smallInputSide">
-                                    <mat-label>Nacharbeit Vertreter</mat-label>
-                                    <mat-select required placeholder="Auswählen . . . "
-                                        [ngModel]="d.reworkByRepresentative" name="reworkByRepresentive">
-                                        <mat-option [value]="true">Ja</mat-option>
-                                        <mat-option [value]="false">Nein</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                            </div>
-                            <div class="header" *ngIf="d.reworkByTechnologist">
-                                <mat-form-field class="smallInputSide">
-                                    <mat-label>Zu erledigen bis</mat-label>
-                                    <input matInput [matDatepicker]="picker5" type="text"
-                                        [(ngModel)]="d.reworkByTechnologistDoneUntil"
-                                        name="reworkByTechnologistDoneUntil">
-                                    <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
-                                    <mat-datepicker #picker5></mat-datepicker>
-                                </mat-form-field>
-                                <mat-form-field class="smallInput">
-                                    <mat-label>Status</mat-label>
-                                    <input matInput type="text" [(ngModel)]="d.presentedArticle"
-                                        name="presentedArticle">
-                                </mat-form-field>
-                            </div>
-                            <mat-form-field *ngIf="d.reworkByRepresentative">
-                                <mat-label>Zu erledigen bis</mat-label>
-                                <input matInput [matDatepicker]="picker6" type="text"
-                                    [(ngModel)]="d.reworkByRepresentativeDoneUntil"
-                                    name="reworkByRepresentativeDoneUntil">
-                                <mat-datepicker-toggle matIconSuffix [for]="picker6"></mat-datepicker-toggle>
-                                <mat-datepicker #picker6></mat-datepicker>
-                            </mat-form-field>
+                            @for (article of reasonReport.presentedArticle; track $index) {
+                                <div>
+                                    <mat-form-field class="smallInput">
+                                        <mat-label>Artikel</mat-label>
+                                        <input matInput type="text" [(ngModel)]="article.name" name="articleName{{reasonReport.reason}}">
+                                    </mat-form-field>
+                                    <mat-form-field class="smallInput">
+                                        <mat-label>ArtikelNr</mat-label>
+                                        <input matInput type="text" [(ngModel)]="article.articleNr" name="articleNumber{{reasonReport.reason}}">
+                                    </mat-form-field>
+                                </div>
+                            }
+                            <button mat-raised-button color="primary" class="btn btn-success" (click)="addArticle(reasonReport.reason!)">Add</button>
                         </div>
                     </div>
                 </div>

@@ -251,13 +251,13 @@
                     <div class="center-items">
                         <mat-form-field class="smallInput">
                             <mat-label>{{'SEMINAR-REGISTRATION.date' | translate}}</mat-label>
-                            <input matInput [matDatepicker]="picker5" [(ngModel)]="inputWorkshop.tripDateTime">
+                            <input matInput [matDatepicker]="picker5" [(ngModel)]="inputWorkshop.tripDate">
                             <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
                             <mat-datepicker #picker5></mat-datepicker>
                         </mat-form-field>
                         <mat-form-field class="smallInput">
                             <mat-label>{{'SEMINAR-REGISTRATION.time' | translate}}</mat-label>
-                            <input type="time" matInput [(ngModel)]="inputWorkshop.tripDateTime">
+                            <input type="time" matInput [(ngModel)]="inputWorkshop.tripTime">
                         </mat-form-field>
                     </div>
                 </div>
@@ -276,13 +276,13 @@
 
                     <mat-form-field class="smallInput">
                         <mat-label>{{'SEMINAR-REGISTRATION.date' | translate}}</mat-label>
-                        <input matInput [matDatepicker]="picker5" [(ngModel)]="inputWorkshop.tourDateTime">
+                        <input matInput [matDatepicker]="picker5" [(ngModel)]="inputWorkshop.tourDate">
                         <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
                         <mat-datepicker #picker5></mat-datepicker>
                     </mat-form-field>
                     <mat-form-field style="max-width: 4.5rem;" class="smallInput">
                         <mat-label>{{'SEMINAR-REGISTRATION.time' | translate}}</mat-label>
-                        <input type="time" matInput [(ngModel)]="inputWorkshop.tourDateTime">
+                        <input type="time" matInput [(ngModel)]="inputWorkshop.tourTime">
                     </mat-form-field>
                 </div>
             </div>
@@ -300,13 +300,13 @@
                         </mat-form-field>
                         <mat-form-field class="smallInput">
                             <mat-label>{{'SEMINAR-REGISTRATION.date' | translate}}</mat-label>
-                            <input matInput [matDatepicker]="picker7" [(ngModel)]="inputWorkshop.mealDateTime">
+                            <input matInput [matDatepicker]="picker7" [(ngModel)]="inputWorkshop.mealDate">
                             <mat-datepicker-toggle matIconSuffix [for]="picker7"></mat-datepicker-toggle>
                             <mat-datepicker #picker7></mat-datepicker>
                         </mat-form-field>
                         <mat-form-field style="max-width: 6rem;">
                             <mat-label>{{'SEMINAR-REGISTRATION.time' | translate}}</mat-label>
-                            <input type="time" matInput [(ngModel)]="inputWorkshop.mealDateTime">
+                            <input type="time" matInput [(ngModel)]="inputWorkshop.mealTime">
                         </mat-form-field>
                     </div>
                     <div class="center-items">

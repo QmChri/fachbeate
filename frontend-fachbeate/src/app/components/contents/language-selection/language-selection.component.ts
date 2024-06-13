@@ -18,6 +18,5 @@ export class LanguageSelectionComponent {
   switchLanguage(language: string) {
     this.translate.use(language);
     this.bottomSheetRef.dismiss();
-    console.log("adads" + language)
   }
 }

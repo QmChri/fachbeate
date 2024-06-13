@@ -128,7 +128,7 @@ export class MainListComponent implements OnInit {
             nr: element.id!,
             createDate: new Date(),
             status: "ToDo",
-            toha: element.company!,
+            toha: element.company!.name!,
             vertreter: element.representative!.firstName + " " + element.representative!.lastName,
             fachberater: element.requestedTechnologist!.firstName + " " + element.requestedTechnologist!.lastName,
             timespan: {
@@ -157,10 +157,7 @@ export class MainListComponent implements OnInit {
             || (element.releaseSupervisor != null && element.releaseSupervisor != undefined)) {
             tmpStatus = "open";
           }
-
-          console.log(new Date(element.endDate!).toDateString());
-
-
+          
           this.listOfData = [...this.listOfData, {
             nr: element.id!,
             createDate: new Date(),
@@ -204,8 +201,6 @@ export class MainListComponent implements OnInit {
     } else if (type === 1) {
       this.router.navigate(['/seminar-registration', dateNr]);
     }
-
-    console.log('Selected Field:', dateNr);
   }
 
 

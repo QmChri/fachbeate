@@ -78,8 +78,6 @@ export class VisitorRegistrationComponent implements OnInit {
   setOfCheckedId = new Map<number, string>();
 
   updateCheckedSet(id: number, checked: boolean): void {
-    console.log(id);
-    
     if (checked) {
       this.setOfCheckedId.set(id, undefined!);
     } else {

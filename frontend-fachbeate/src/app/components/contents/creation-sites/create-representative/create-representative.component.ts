@@ -8,35 +8,23 @@ import { Representative } from '../../../../models/representative';
   styleUrl: './create-representative.component.scss'
 })
 export class CreateRepresentativeComponent implements OnInit {
-  inputTechnologist: Technologist = {
+  inputRepresentative: Representative = {
     id: 0,
     firstName: "",
     lastName: "",
     active: true,
-    color: "#ff0000"
   }
 
-  typeSelect?: string = '0';
-
-  technologistList: Technologist[] = [];
   representativeList: Representative[] = [];
 
   constructor(private http: HttpService) {
   }
 
   ngOnInit(): void {
-    this.loadTechnologists();
+    this.loadRepresentatives();
   }
 
-  loadTechnologists() {
-    this.http.getAllTechnologist().subscribe({
-      next: data => {
-        this.technologistList = data
-      },
-      error: err => {
-        console.log(err);
-      }
-    })
+  loadRepresentatives() {
 
     this.http.getAllRepresentative().subscribe({
       next: data => {
@@ -51,21 +39,20 @@ export class CreateRepresentativeComponent implements OnInit {
   postRepresentative() {
     this.http.postRepresentative(
       {
-        id: this.inputTechnologist.id!,
-        firstName: this.inputTechnologist.firstName!,
-        lastName: this.inputTechnologist.lastName,
-        active: this.inputTechnologist.active
+        id: this.inputRepresentative.id!,
+        firstName: this.inputRepresentative.firstName!,
+        lastName: this.inputRepresentative.lastName,
+        active: this.inputRepresentative.active
       }).subscribe({
         next: data => {
-          this.inputTechnologist = {
+          this.inputRepresentative = {
             id: 0,
             firstName: "",
             lastName: "",
-            active: true,
-            color: ""
+            active: true
           }
 
-          this.loadTechnologists();
+          this.loadRepresentatives();
         },
         error: err => {
           console.log(err);
@@ -75,31 +62,19 @@ export class CreateRepresentativeComponent implements OnInit {
   }
 
   cancelEdit() {
-    this.inputTechnologist = {
+    this.inputRepresentative = {
       id: 0,
       firstName: "",
       lastName: "",
       active: true,
-      color: ""
     }
   }
 
   editRow(id: number, type: number) {
-    if (type === 0) {
-      const technologist: Technologist = this.technologistList.find(element => element.id === id)!;
-      this.inputTechnologist.firstName = technologist.firstName;
-      this.inputTechnologist.id = technologist.id;
-      this.inputTechnologist.lastName = technologist.lastName;
-      this.inputTechnologist.active = technologist.active;
-      this.inputTechnologist.color = technologist.color;
-    } else if (type === 1) {
       const representative: Representative = this.representativeList.find(element => element.id === id)!;
-      this.inputTechnologist.firstName = representative.firstName;
-      this.inputTechnologist.id = representative.id;
-      this.inputTechnologist.lastName = representative.lastName;
-      this.inputTechnologist.active = representative.active;
-    }
+      this.inputRepresentative.firstName = representative.firstName;
+      this.inputRepresentative.id = representative.id;
+      this.inputRepresentative.lastName = representative.lastName;
+      this.inputRepresentative.active = representative.active;
   }
-
-  test() { console.log(this.typeSelect === '1') }
 }

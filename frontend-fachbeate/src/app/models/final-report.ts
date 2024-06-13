@@ -13,6 +13,10 @@ export interface FinalReport {
 
     reasonReports?: ReasonReport[];
 
+    reworkByTechnologist?: boolean;
+    reworkByTechnologistDoneUntil?: Date;
+    reworkByTechnologistState?: string;
+
     customerContactDate?: Date;
     responseCustomer?: string;
     furtherActivities?: string;

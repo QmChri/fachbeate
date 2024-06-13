@@ -154,8 +154,6 @@ export class SeminarRegistrationComponent implements OnInit{
   }
 
   changeDate(event: any, date?: Date){
-    console.log(event);
-    
   }
 
 }

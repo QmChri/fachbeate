@@ -21,11 +21,13 @@ export class AbschlussBerichtComponent {
 
     event.value.forEach((element: number) => {
       var r: ReasonReport = this.inputFinalReport.reasonReports!.find(p => p.reason === element)!
+      
       if(r !== null && r !== undefined){
         newReasonReports = [...newReasonReports, r]
       }else{
-        newReasonReports = [...newReasonReports, {reason: element}]
+        newReasonReports = [...newReasonReports, {reason: element, presentedArticle: []}]
       }
+
     })
     this.inputFinalReport.reasonReports = newReasonReports;
     
@@ -38,13 +40,13 @@ export class AbschlussBerichtComponent {
   ) {
     this.inputFinalReport = finalReport;
 
+
     if (finalReport.reasonReports !== undefined) {
 
       this.inputFinalReport.reasonReports = this.inputFinalReport.reasonReports!.filter(element => element.reason !== 0);
 
       this.reasonSelect = this.inputFinalReport.reasonReports!.map(element => element.reason)
         .filter((reason): reason is number => reason !== undefined);
-      
     }
 
   }
@@ -52,8 +54,11 @@ export class AbschlussBerichtComponent {
     this.dialogRef.close({ finalReport: this.finalReport, save: save });
   }
 
-  changeEvent(event: any){
-    console.log(event)
+
+  addArticle(reason: number){
+    var reasonReport = this.finalReport.reasonReports!.find(element => element.reason === reason)!
+    reasonReport.presentedArticle = [...reasonReport.presentedArticle!, {}]
   }
+
   //closeDialog(save: boolean) { }
 }

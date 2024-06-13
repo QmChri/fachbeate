@@ -2,101 +2,68 @@ import { Component, OnInit } from '@angular/core';
 import { Technologist } from '../../../../models/technologist';
 import { HttpService } from '../../../../services/http.service';
 import { Representative } from '../../../../models/representative';
+import { Company } from '../../../../models/company';
 @Component({
   selector: 'app-create-dealer',
   templateUrl: './create-dealer.component.html',
   styleUrl: './create-dealer.component.scss'
 })
 export class CreateDealerComponent implements OnInit {
-  inputTechnologist: Technologist = {
-    id: 0,
-    firstName: "",
-    lastName: "",
-    active: true,
-    color: "#ff0000"
-  }
+  inputCompany: Company = {};
 
-  typeSelect?: string = '0';
-
-  technologistList: Technologist[] = [];
-  representativeList: Representative[] = [];
+  companyList: Company[] = [];
 
   constructor(private http: HttpService) {
   }
 
   ngOnInit(): void {
-    this.loadTechnologists();
+    this.loadCompany();
   }
 
-  loadTechnologists() {
-    this.http.getAllTechnologist().subscribe({
+  loadCompany() {
+    this.http.getAllCompany().subscribe({
       next: data => {
-        this.technologistList = data
+        this.companyList = data
       },
       error: err => {
         console.log(err);
       }
     })
 
-    this.http.getAllRepresentative().subscribe({
-      next: data => {
-        this.representativeList = data
-      },
-      error: err => {
-        console.log(err);
-      }
-    })
   }
 
-  //TODO noch für Händler endpoint machen
   postDealer() {
    
-      this.http.postTechnologist(this.inputTechnologist).subscribe({
+      this.http.postCompany(this.inputCompany).subscribe({
         next: data => {
-          this.inputTechnologist = {
+          this.inputCompany = {
             id: 0,
-            firstName: "",
-            lastName: "",
-            active: true,
-            color: ""
+            name: "",
+            active: true
           }
 
-          this.loadTechnologists();
+          this.loadCompany();
         },
         error: err => {
           console.log(err);
-
         }
       });
 
   }
 
   cancelEdit() {
-    this.inputTechnologist = {
+    this.inputCompany = {
       id: 0,
-      firstName: "",
-      lastName: "",
-      active: true,
-      color: ""
+      name: "",
+      active: true
     }
   }
 
-  editRow(id: number, type: number) {
-    if (type === 0) {
-      const technologist: Technologist = this.technologistList.find(element => element.id === id)!;
-      this.inputTechnologist.firstName = technologist.firstName;
-      this.inputTechnologist.id = technologist.id;
-      this.inputTechnologist.lastName = technologist.lastName;
-      this.inputTechnologist.active = technologist.active;
-      this.inputTechnologist.color = technologist.color;
-    } else if (type === 1) {
-      const representative: Representative = this.representativeList.find(element => element.id === id)!;
-      this.inputTechnologist.firstName = representative.firstName;
-      this.inputTechnologist.id = representative.id;
-      this.inputTechnologist.lastName = representative.lastName;
-      this.inputTechnologist.active = representative.active;
-    }
+  editRow(id: number) {
+      const company: Company = this.companyList.find(element => element.id === id)!;
+      this.inputCompany.name = company.name;
+      this.inputCompany.active = company.active;
+      this.inputCompany.id = company.id;
   }
 
-  test() { console.log(this.typeSelect === '1') }
 }

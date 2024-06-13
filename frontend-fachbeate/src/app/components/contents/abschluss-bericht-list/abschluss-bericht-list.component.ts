@@ -147,8 +147,6 @@ export class AbschlussBerichtListComponent { //implements OnInit
     }else if(type === 1){
       this.router.navigate(['/seminar-registration', dateNr]);
     }
-
-    console.log('Selected Field:', dateNr);
   }
 
 

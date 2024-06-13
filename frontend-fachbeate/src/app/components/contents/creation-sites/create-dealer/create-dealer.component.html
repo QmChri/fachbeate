@@ -14,14 +14,14 @@
                     <div class="displayBySide">
                         <mat-form-field class="smallInput">
                             <mat-label>{{'CREATE-DEALER.dealerName' | translate}}</mat-label>
-                            <input matInput type="text" [(ngModel)]="inputTechnologist.firstName" name="firstName">
+                            <input matInput type="text" [(ngModel)]="inputCompany.name" name="firstName">
                         </mat-form-field>
                         <label class="languageBox">{{'CREATE-DEALER.active' | translate}}
-                            <mat-checkbox color="warn" [(ngModel)]="inputTechnologist.active"></mat-checkbox>
+                            <mat-checkbox color="warn" [(ngModel)]="inputCompany.active"></mat-checkbox>
                         </label>
                     </div>
                     <div class="displayBySide">
-                        <button class="btn btn-danger" matTooltip="{{'CREATE-DEALER.cancel' | translate}}" [hidden]="inputTechnologist.id===0" (click)="cancelEdit()"><i
+                        <button class="btn btn-danger" matTooltip="{{'CREATE-DEALER.cancel' | translate}}" [hidden]="inputCompany.id===0" (click)="cancelEdit()"><i
                                 class="fa fa-times"></i></button>
                         <button class="btn btn-success" matTooltip="{{'CREATE-DEALER.safe' | translate}}" (click)="postDealer()"><i class="fa fa-save"></i></button>
                     </div>
@@ -31,7 +31,7 @@
     </div>
     <!--TODO technologistList noch nicht richtig ->gehört dealersList -->
     <div class="col-md-9">
-        <nz-table class="col" #editRowTable nzTableLayout="fixed" nzBordered [nzData]="technologistList">
+        <nz-table class="col" #editRowTable nzTableLayout="fixed" nzBordered [nzData]="companyList">
             <thead>
                 <tr>
                     <th>{{'CREATE-DEALER.id' | translate}}</th>
@@ -40,13 +40,13 @@
                 </tr>
             </thead>
             <tbody>
-                <tr matTooltip="{{'CREATE-DEALER.edit' | translate}}" *ngFor="let technologist of technologistList"
-                    (click)="editRow(technologist.id!, 0)">
-                    <td>{{technologist.id}}</td>
-                    <td>{{technologist.firstName}}</td>
+                <tr matTooltip="{{'CREATE-DEALER.edit' | translate}}" *ngFor="let company of companyList"
+                    (click)="editRow(company.id!)">
+                    <td>{{company.id}}</td>
+                    <td>{{company.name}}</td>
                     <td>
-                        <span *ngIf="technologist.active" class="text-success">&#10004;</span>
-                        <span *ngIf="!technologist.active" class="text-danger">&#10005;</span>
+                        <span *ngIf="company.active" class="text-success">&#10004;</span>
+                        <span *ngIf="!company.active" class="text-danger">&#10005;</span>
                     </td>
                 </tr>
             </tbody>

@@ -139,15 +139,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   handleSelect(clickInfo: any){
-    console.log(clickInfo);
-    
     this.openDialog({startDate: new Date(clickInfo.startStr), endDate: new Date(clickInfo.endStr)})
   }
   
-  handleEventClick(clickInfo: any): void {
-    console.log(this.customerRequriementIds + " " + clickInfo.event.id)
-    console.log(this.customerRequriementIds.includes(clickInfo.event.id));
-    
+  handleEventClick(clickInfo: any): void {   
 
     if(this.customerRequriementIds.includes(clickInfo.event.id)){
       this.router.navigate(['/customer-requirements', clickInfo.event.id]);
@@ -172,11 +167,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     timeSpan.startDate = new Date(timeSpan.startDate!)
     timeSpan.endDate = new Date(timeSpan.endDate!)
 
-    console.log("click");
-    
-    console.log(timeSpan);
-    
-
     const dialogRef = this.dialog.open(NewDateEntryComponent, {
       height: '31rem',
       width: '25rem',
@@ -193,7 +183,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     const date = new Date(endDate);
     //date.setDate(date.getDate() + 1);
     date.setHours(5)
-    console.log(date);
     return new Date(date.toISOString().split('T')[0]);
   }
 

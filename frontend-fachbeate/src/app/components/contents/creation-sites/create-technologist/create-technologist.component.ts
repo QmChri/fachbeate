@@ -17,10 +17,7 @@ export class CreateTechnologistComponent implements OnInit {
     color: "#ff0000"
   }
 
-  typeSelect?: string = '0';
-
   technologistList: Technologist[] = [];
-  representativeList: Representative[] = [];
 
   constructor(private http: HttpService) {
   }
@@ -33,15 +30,6 @@ export class CreateTechnologistComponent implements OnInit {
     this.http.getAllTechnologist().subscribe({
       next: data => {
         this.technologistList = data
-      },
-      error: err => {
-        console.log(err);
-      }
-    })
-
-    this.http.getAllRepresentative().subscribe({
-      next: data => {
-        this.representativeList = data
       },
       error: err => {
         console.log(err);
@@ -80,21 +68,11 @@ export class CreateTechnologistComponent implements OnInit {
   }
 
   editRow(id: number, type: number) {
-    if (type === 0) {
       const technologist: Technologist = this.technologistList.find(element => element.id === id)!;
       this.inputTechnologist.firstName = technologist.firstName;
       this.inputTechnologist.id = technologist.id;
       this.inputTechnologist.lastName = technologist.lastName;
       this.inputTechnologist.active = technologist.active;
       this.inputTechnologist.color = technologist.color;
-    } else if (type === 1) {
-      const representative: Representative = this.representativeList.find(element => element.id === id)!;
-      this.inputTechnologist.firstName = representative.firstName;
-      this.inputTechnologist.id = representative.id;
-      this.inputTechnologist.lastName = representative.lastName;
-      this.inputTechnologist.active = representative.active;
-    }
   }
-
-  test() { console.log(this.typeSelect === '1') }
 }
