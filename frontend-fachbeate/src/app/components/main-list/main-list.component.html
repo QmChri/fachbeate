@@ -15,31 +15,39 @@
 <nz-table #nzTable nzBordered nzSimple [nzTableLayout]="'fixed'" [nzData]="listOfDisplayData" nzTableLayout="fixed">
   <thead>
     <tr>
-      <th [nzSortFn]="listOfColumn[0].sortFn" [(nzSortOrder)]="listOfColumn[0].sortOrder">{{'MAIN-LIST.'+listOfColumn[0].name | translate}}</th>
-      <th [nzSortFn]="listOfColumn[1].sortFn" [(nzSortOrder)]="listOfColumn[1].sortOrder">{{'MAIN-LIST.'+listOfColumn[1].name | translate}}</th>
+      <th [nzSortFn]="listOfColumn[0].sortFn" [(nzSortOrder)]="listOfColumn[0].sortOrder">
+        {{'MAIN-LIST.'+listOfColumn[0].name | translate}}</th>
+      <th [nzSortFn]="listOfColumn[1].sortFn" [(nzSortOrder)]="listOfColumn[1].sortOrder">
+        {{'MAIN-LIST.'+listOfColumn[1].name | translate}}</th>
       <th [nzSortFn]="listOfColumn[2].sortFn" [nzFilters]="listOfColumn[2].listOfFilter"
-        [nzFilterFn]="listOfColumn[2].filterFn!" [(nzSortOrder)]="listOfColumn[2].sortOrder">{{'MAIN-LIST.'+listOfColumn[2].name | translate}}
+        [nzFilterFn]="listOfColumn[2].filterFn!" [(nzSortOrder)]="listOfColumn[2].sortOrder">
+        {{'MAIN-LIST.'+listOfColumn[2].name | translate}}
       </th>
       <th [nzSortFn]="listOfColumn[3].sortFn" [nzFilters]="listOfColumn[3].listOfFilter"
-        [nzFilterFn]="listOfColumn[3].filterFn!" [(nzSortOrder)]="listOfColumn[3].sortOrder">{{'MAIN-LIST.'+listOfColumn[3].name | translate}}
+        [nzFilterFn]="listOfColumn[3].filterFn!" [(nzSortOrder)]="listOfColumn[3].sortOrder">
+        {{'MAIN-LIST.'+listOfColumn[3].name | translate}}
       </th>
       <th [nzSortFn]="listOfColumn[4].sortFn" [nzFilters]="listOfColumn[4].listOfFilter"
-        [nzFilterFn]="listOfColumn[4].filterFn!" [(nzSortOrder)]="listOfColumn[4].sortOrder">{{'MAIN-LIST.'+listOfColumn[4].name | translate}}
+        [nzFilterFn]="listOfColumn[4].filterFn!" [(nzSortOrder)]="listOfColumn[4].sortOrder">
+        {{'MAIN-LIST.'+listOfColumn[4].name | translate}}
       </th>
       <th [nzSortFn]="listOfColumn[5].sortFn" [nzFilters]="listOfColumn[5].listOfFilter"
-        [nzFilterFn]="listOfColumn[5].filterFn!" [(nzSortOrder)]="listOfColumn[5].sortOrder">{{'MAIN-LIST.'+listOfColumn[5].name | translate}}
+        [nzFilterFn]="listOfColumn[5].filterFn!" [(nzSortOrder)]="listOfColumn[5].sortOrder">
+        {{'MAIN-LIST.'+listOfColumn[5].name | translate}}
       </th>
-      <th [nzSortFn]="listOfColumn[6].sortFn" [(nzSortOrder)]="listOfColumn[6].sortOrder">{{'MAIN-LIST.'+listOfColumn[6].name | translate}}
+      <th [nzSortFn]="listOfColumn[6].sortFn" [(nzSortOrder)]="listOfColumn[6].sortOrder">
+        {{'MAIN-LIST.'+listOfColumn[6].name | translate}}
       </th>
       <th [nzSortFn]="listOfColumn[7].sortFn" [nzFilters]="listOfColumn[7].listOfFilter"
-        [nzFilterFn]="listOfColumn[7].filterFn!" [(nzSortOrder)]="listOfColumn[7].sortOrder">{{'MAIN-LIST.'+listOfColumn[7].name | translate}}
+        [nzFilterFn]="listOfColumn[7].filterFn!" [(nzSortOrder)]="listOfColumn[7].sortOrder">
+        {{'MAIN-LIST.'+listOfColumn[7].name | translate}}
       </th>
       <th>Type</th>
       <th>Freigabe</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let data of nzTable.data" matTooltip="Doppelklick um zu bearbeiten ..." >
+    <tr *ngFor="let data of nzTable.data" matTooltip="Doppelklick um zu bearbeiten ...">
       <td (dblclick)="openCRC(data.id!, data.type!)">{{data.nr}}</td>
       <td (dblclick)="openCRC(data.id!, data.type!)">{{ data.createDate!.toString().substring(0,10) }}</td>
       <td (dblclick)="openCRC(data.id!, data.type!)">{{ data.status }}</td>

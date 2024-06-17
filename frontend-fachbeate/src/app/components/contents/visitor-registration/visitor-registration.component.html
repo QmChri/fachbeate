@@ -314,15 +314,11 @@
                 <div class="displayBySide">
                     <div class="center-items">
                         <mat-form-field class="smallInput">
-                            <mat-label>{{'VISITOR-REGISTRATION.fromTo' | translate}}</mat-label>
-                            <mat-date-range-input [rangePicker]="picker4">
-                                <input matStartDate placeholder="Start date"
-                                    [(ngModel)]="inputVisitRegistration.transferFromDate">
-                                <input matEndDate placeholder="End date"
-                                    [(ngModel)]="inputVisitRegistration.transferToDate">
-                            </mat-date-range-input>
-                            <mat-datepicker-toggle matIconSuffix [for]="picker4"></mat-datepicker-toggle>
-                            <mat-date-range-picker #picker4></mat-date-range-picker>
+                            <mat-label>{{'VISITOR-REGISTRATION.date' | translate}}</mat-label>
+                            <input matInput [matDatepicker]="picker5"
+                                [(ngModel)]="inputVisitRegistration.transferFromDate">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
+                            <mat-datepicker #picker5></mat-datepicker>
                         </mat-form-field>
                         <mat-form-field class="smallInput">
                             <mat-label>{{'VISITOR-REGISTRATION.otherReq' | translate}}</mat-label>

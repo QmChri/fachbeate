@@ -1,21 +1,20 @@
-{ 
+{
     "NAV": {
-        "date-view": "Terminübersicht",
-        "MAIN-LIST": "Terminliste",
-        "req-tech": "Anforderung Technologische Unterstützung",
+        "date-view": "Terminübersicht Fachberater",
+        "MAIN-LIST": "Übersicht Anforderungen und Anmeldungen",
+        "req-tech": "Fachberater Anforderung",
         "req-visitors": "Besucheranmeldung",
         "req-workshop": "Seminar Anmeldung",
-        "final-reports": "Abschlussbericht Liste",
-        "new": "Neu anlegen",
+        "final-reports": "Übersicht Abschlussberichte",
+        "new": "Benutzerverwaltung",
         "new-tech": "Neuer Fachberater",
         "new-re": "Neuer Vertreter",
         "new-de": "Neuer Händler",
         "lan-sel": "Sprach Auswahl"
     },
     "MAIN-LIST": {
-        "header": "Liste der Termine",
+        "header": "Übersicht Anforderungen und Anmeldungen",
         "filter-clear": "Filter/Sortierung aufheben",
-        "customerNr": "Kundennummer",
         "creationDate": "Erstelldatum",
         "state": "Status",
         "dealers": "Händler/Töchter",
@@ -23,29 +22,29 @@
         "technologist": "Fachberater",
         "time-frame": "Zeitraum",
         "final-report": "Abschlussbericht",
-        "tech-req": "Technologen Anforderung",
+        "tech-req": "Fachberater Anforderung",
         "work-req": "Seminar"
     },
     "REQ-TECH": {
-        "title": "Anforderungen Technologische Unterstützung",
-        "send": "Beantragen",
+        "title": "Fachberater Anforderung",
+        "send": "Formular senden",
         "card1-title": "Anforderungen durch",
         "dealers": "Händler/Töchter",
         "representative": "Vertreter",
-        "card2-title": "Angeforderter Technologe",
-        "technologist": "Angeforderter Technologe",
+        "card2-title": "Angeforderter Fachberater",
+        "technologist": "Fachberater auswählen",
         "from-to-date": "Von - Bis",
         "card3-title": "Reiseplanung",
         "flight-booking": "Flugbuchung",
         "hotel-booking": "Hotelbuchung",
         "card4-title": "Sonstiges",
         "further-notes": "Sonstige Anmerkungen",
-        "contact-person": "Ansprechpartner",
+        "contact-person": "Ansprechpartner vor Ort",
         "table-title": "Geplante Kundebesuche",
         "new-customerVisit": "Neuer Kundenbesuch",
         "customer-name": "Name des Unternehmens",
         "customerNr": "Kundenummer",
-        "adress": "Adresse",
+        "adress": "Land",
         "contact-person-table": "Kontakt Person",
         "date-of-visit": "Datum des Besuchs",
         "reason": "Kundenbesuch",
@@ -66,46 +65,41 @@
     },
     "VISITOR-REGISTRATION": {
         "header": "Besucheranmeldung",
-        "headerButton": "Beantragen",
-        "representativeOrEmployee": "Vertreter oder Mitarbeiter",
+        "headerButton": "Formular senden",
+        "representativeOrEmployee": "Anmeldung Almi Group Mitarbeiter",
         "name": "Name",
         "reason": "Grund",
         "from": "Von",
         "to": "Bis",
         "fromTime": "Uhrzeit",
         "toTime": "Uhrzeit",
-        "customerVisit": "Kundenbesuch",
+        "customerVisit": "Anmeldung Kundenbesuch",
         "customerCompany": "Kunde/Unternehmen",
         "seminarRegistration": "Teilnehmerliste",
         "arrivalFromCountry": "Anreise aus Land",
         "reasonOfVisit": "Grund des Besuchs",
-        "periodOfStayOftering": "Aufenthaltszeitraum in Oftering",
-        "responsibleSupervisor": "Zuständiger Betreuer",
-        "furtherMore": "Weiteres",
-
+        "periodOfStayOftering": "Aufenthalt in Oftering",
+        "responsibleSupervisor": "Zuständiger Betreuer/Vertreter",
+        "furtherMore": "Weitere Anforderungen",
         "companyGuidance": "Betriebsfürhung",
         "peopleCount": "Personenanzahl",
         "date": "Datum",
         "dateTime": "Uhrzeit",
         "languageEN": "Sprache - EN",
         "meetingRoom": "Besprechungsraum",
-
         "hotelBooking": "Hotelbuchung",
         "place": "Ort/Lage",
         "singleRoom": "Einzelzimmer",
         "doubleRoom": "Doppelzimmer",
         "fromTo": "Von - Bis",
-
         "mealTime": "Mittagessen",
         "count": "Anzahl",
-        "vegan": "Vegan",
-        "vegetarian": "Vegetarisch",
+        "vegan": "davon Vegan",
+        "vegetarian": "davon Vegetarisch",
         "other": "Sonstige",
-
         "airportTransferTrain": "Flughafen Transfer - Zug",
         "toPlace": "Nach",
         "otherReq": "Sonstige Reiseanforderungen",
-
         "plannedDepartmentVisits": "Geplante Abteilungsbesuche",
         "department": "Abteilung",
         "boss": "Geschäftsleitung",
@@ -120,7 +114,7 @@
         "legalFinance": "Rechts - Finanzwesen",
         "innov8Labor": "Innov8 / Labor"
     },
-    "DIALOG-MEMBERS":{
+    "DIALOG-MEMBERS": {
         "memberList": "Seminaranmeldung",
         "add": "Hinzufügen",
         "gender": "Hr./Fr./Div.",
@@ -129,87 +123,77 @@
         "companyFunction": "Funktion im Unternehmen",
         "delete": "Entfernen"
     },
-    "SEMINAR-REGISTRATION":{
+    "SEMINAR-REGISTRATION": {
         "seminarRegistration": "Seminaranmeldung",
-        "send": "Beantragen",
-        "seminar": "Seminar",
+        "send": "Formular senden",
+        "seminar": "Seminardaten",
         "seminarTopic": "Seminarthema",
         "companyCustomer": "Firma/Kunde",
         "fromTo": "Von - Bis",
-        "members": "Seminarteilnehmer",
+        "members": "Teilnehmer",
         "arrivalFromCountry": "Anreise aus Land",
         "artOfArrival": "Anreise Art",
         "count": "Anzahl",
         "seminarRegistrationMembers": "Teilnehmerliste",
-        "seminarLeader": "Seminarleitung",
-        "seminarBoss": "Seminarleiter",
+        "seminarLeader": "Zuständigkeiten",
+        "seminarBoss": "Seminar Betreuer/Vertreter",
         "responsibleConsultants": "Zuständige Fachberater",
         "choose": "Auswählen ...",
         "language": "Sprache",
         "interpreter": "Dolmetscher",
         "yes": "Ja",
         "no": "Nein",
-
-        "furtherMore": "Weiteres",
-
+        "furtherMore": "Weitere Anforderungen",
         "hotelBooking": "Hotelbuchung",
         "place": "Ort/Lage",
         "singleRoom": "Einzelzimmer",
         "doubleRoom": "Doppelzimmer",
         "delete": "Entfernen",
         "add": "Hinzufügen",
-
         "mealTime": "Mittagessen",
-        "vegan": "Vegan",
-        "vegetarian": "Vegetarisch",
+        "vegan": "davon Vegan",
+        "vegetarian": "davon Vegetarisch",
         "other": "Sonstige",
-
         "airportTransferTrain": "Flughafen Transfer - Zug",
         "from": "Von",
         "toPlace": "Nach",
         "otherReq": "Sonstige Reiseanforderungen",
-
         "trip": "Ausflug",
         "tripDestination": "Ausflugziel",
         "date": "Datum",
         "otherNote": "Sonstige Anmerkungen",
         "time": "Uhrzeit",
-        
         "companyGuidance": "Betriebsfürhung",
         "peopleCount": "Anzahl",
-
         "customerGifts": "Kundengeschenke",
         "diploms": "Diplome"
     },
-    "ABSCHLUSS-BERICHT-LISTE":{
-        "header": "Abschlussberichte",
+    "ABSCHLUSS-BERICHT-LISTE": {
+        "header": "Übersicht Abschlussberichte",
         "filter-clear": "Filter/Sortierung aufheben",
         "customer": "Kunde",
-        "datecustomerVisit": "Datum Kundenbesuch",
-        "createDateVisit": "Erstelldatum Besuch",
+        "datecustomerVisit": "Datum des Besuchs",
         "responsibleFB": "Zuständiger FB",
         "toDoTechno": "'Zu Erledigen' - FB",
         "responsibleRepresentative": "Zuständiger Vertreter",
-        "toDoResp": "'Zu Erledigen' - Vertreter",
-        "state": "Status",
+        "toDoResp": "Kunde kontaktiert am ",
+        "state": "Bericht abgeschlossen ",
         "reset": "Zurücksetzen",
         "search": "Suche",
         "searchPoints": "Suche ..."
     },
-    "CREATE-DEALER":{
+    "CREATE-DEALER": {
         "header": "Neuen Händler anlegen",
         "allg": "Allgemeine Daten",
         "dealerName": "Händlerbezeichnung",
         "active": "Aktiv",
         "safe": "Speichern",
         "cancel": "Abbrechen",
-
         "id": "ID",
         "calling": "Bezeichnung",
         "edit": "Zum Bearbeiten klicken ..."
     },
-
-    "CREATE-REPRESENTATIVE":{
+    "CREATE-REPRESENTATIVE": {
         "header": "Neuen Vertreter anlegen",
         "allg": "Allgemeine Daten",
         "firstName": "Vorname",
@@ -217,12 +201,10 @@
         "active": "Aktiv",
         "safe": "Speichern",
         "cancel": "Abbrechen",
-        
         "id": "ID",
         "edit": "Zum Bearbeiten klicken ..."
-
     },
-    "CREATE-TECHNOLOGIST":{
+    "CREATE-TECHNOLOGIST": {
         "header": "Neuen Fachberater anlegen",
         "allg": "Allgemeine Daten",
         "firstName": "Vorname",
@@ -231,7 +213,6 @@
         "active": "Aktiv",
         "safe": "Speichern",
         "cancel": "Abbrechen",
-
         "id": "ID",
         "calling": "Bezeichnung",
         "edit": "Zum Bearbeiten klicken ..."

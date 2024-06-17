@@ -4,6 +4,7 @@ import { HttpService } from '../../services/http.service';
 import { Technologist } from '../../models/technologist';
 import { TranslateService } from '@ngx-translate/core';
 import { DateLocale } from 'ng-zorro-antd/i18n';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-main-list',
@@ -99,16 +100,16 @@ export class MainListComponent implements OnInit {
   ];
 
 
-  constructor(private router: Router, private http: HttpService, private translate: TranslateService) {
+  constructor(private router: Router, private http: HttpService, private translate: TranslateService,
+    private _snackBar: MatSnackBar) {
   }
 
   ngOnInit(): void {
     this.loadData();
   }
-
-
-  release(nr: number){
-
+  //TODO Freigeben button mit funktion noch verknüpfen
+  release(nr: number) {
+    this._snackBar.open("Freigegeben? ", "JA");
   }
 
   loadData() {
@@ -128,14 +129,13 @@ export class MainListComponent implements OnInit {
           var cntFinalReports: number = 0;
 
           element.customerVisits.forEach(element => {
-             if (element.finalReport !== undefined && element.finalReport !== null) 
-              {
-                 cntFinalReports = cntFinalReports + 1;
-              }
-          });          
+            if (element.finalReport !== undefined && element.finalReport !== null) {
+              cntFinalReports = cntFinalReports + 1;
+            }
+          });
 
           var color = cntFinalReports.toString().localeCompare(element.customerVisits.length.toString());
-          if(cntFinalReports === 0){color = 1}
+          if (cntFinalReports === 0) { color = 1 }
 
 
           this.listOfData = [...this.listOfData, {
@@ -149,7 +149,7 @@ export class MainListComponent implements OnInit {
             timespan: {
               start: element.startDate,
               end: element.endDate
-            }, 
+            },
             abschlussbericht: cntFinalReports + "/" + element.customerVisits.length,
             abschlussberichtFarbe: color,
             type: 0
@@ -174,7 +174,7 @@ export class MainListComponent implements OnInit {
             || (element.releaseSupervisor != null && element.releaseSupervisor != undefined)) {
             tmpStatus = "open";
           }
-          
+
           this.listOfData = [...this.listOfData, {
             id: element.id!,
             nr: "",
@@ -182,7 +182,7 @@ export class MainListComponent implements OnInit {
             status: "ToDo",
             toha: element.company!,
             vertreter: element.seminarPresenter!,
-            fachberater: element.requestedTechnologist!.map(element => element.firstName + " " + element.lastName).toString().substring(0,35),
+            fachberater: element.requestedTechnologist!.map(element => element.firstName + " " + element.lastName).toString().substring(0, 35),
             timespan: {
               start: element.startDate,
               end: element.endDate
@@ -215,7 +215,7 @@ export class MainListComponent implements OnInit {
 
   openCRC(id: number, type: number) {
     console.log(id + " " + type);
-    
+
     if (type === 0) {
       this.router.navigate(['/customer-requirements', id]);
     } else if (type === 1) {
