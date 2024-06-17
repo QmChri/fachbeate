@@ -19,6 +19,7 @@ public class WorkshopRequirement extends PanacheEntity {
     public Date startDate;
     public Date endDate;
 
+    public Date dateOfCreation;
 
     public String releaserManagement;
     public Date releaseManagement;

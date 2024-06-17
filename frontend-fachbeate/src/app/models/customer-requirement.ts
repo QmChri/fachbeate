@@ -9,6 +9,9 @@ export interface CustomerRequirement{
     requestedTechnologist?: Technologist;
     startDate?: Date;
     endDate?: Date;
+
+    dateOfCreation?: Date;
+
     releaseManagement?: Date;
     releaseSupervisor?: Date;
     flightBooking?: boolean;

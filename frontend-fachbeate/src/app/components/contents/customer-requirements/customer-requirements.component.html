@@ -193,7 +193,7 @@ Bildschirm -->
                 </td>
                 <td>
                     <label class="input-label" [hidden]="editId === data.editId"
-                        (click)="startEdit(data.editId)">{{data.editId}}</label>
+                        (click)="startEdit(data.editId)">{{data.contactPerson}}</label>
                     <input [hidden]="editId !== data.editId" type="text" nz-input [(ngModel)]="data.contactPerson" />
                 </td>
                 <td>

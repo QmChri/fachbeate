@@ -23,7 +23,7 @@ export class MainListComponent implements OnInit {
     {
       name: 'customerNr',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.nr.toString().localeCompare(b.nr.toString()),
+      sortFn: (a: DataItem, b: DataItem) => a.nr!.toString().localeCompare(b.nr!.toString()),
       listOfFilter: [
         { text: ' ', value: ' ' },
       ],
@@ -32,7 +32,7 @@ export class MainListComponent implements OnInit {
     {
       name: 'creationDate',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.createDate.valueOf().toString().localeCompare(b.createDate.valueOf().toString()),
+      sortFn: (a: DataItem, b: DataItem) => a.createDate!.valueOf().toString().localeCompare(b.createDate!.valueOf().toString()),
       listOfFilter: [
         { text: ' ', value: ' ' },
       ],
@@ -41,46 +41,46 @@ export class MainListComponent implements OnInit {
     {
       name: 'state',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.status.localeCompare(b.status),
+      sortFn: (a: DataItem, b: DataItem) => a.status!.localeCompare(b.status!),
       listOfFilter: [
         { text: 'open', value: 'open' },
         { text: 'in-progress', value: 'in-progress' }
       ],
-      filterFn: (list: string[], item: DataItem) => list.some(name => item.status.indexOf(name) !== -1)
+      filterFn: (list: string[], item: DataItem) => list.some(name => item.status!.indexOf(name) !== -1)
     },
     {
       name: 'dealers',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.toha.localeCompare(b.toha),
+      sortFn: (a: DataItem, b: DataItem) => a.toha!.localeCompare(b.toha!),
       listOfFilter: [
         { text: 'Toha A', value: 'Toha A' },
         { text: 'Toha B', value: 'Toha B' },
         { text: 'Toha C', value: 'Toha C' },
       ],
-      filterFn: (list: string[], item: DataItem) => list.some(name => item.toha.indexOf(name) !== -1)
+      filterFn: (list: string[], item: DataItem) => list.some(name => item.toha!.indexOf(name) !== -1)
     },
     {
       name: 'representative',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.vertreter.localeCompare(b.vertreter),
+      sortFn: (a: DataItem, b: DataItem) => a.vertreter!.localeCompare(b.vertreter!),
       listOfFilter: [
         { text: ' ', value: ' ' }
       ],
-      filterFn: (list: string[], item: DataItem) => list.some(name => item.vertreter.indexOf(name) !== -1)
+      filterFn: (list: string[], item: DataItem) => list.some(name => item.vertreter!.indexOf(name) !== -1)
     },
     {
       name: 'technologist',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.fachberater.localeCompare(b.fachberater),
+      sortFn: (a: DataItem, b: DataItem) => a.fachberater!.localeCompare(b.fachberater!),
       listOfFilter: [
         { text: '', value: '' }
       ],
-      filterFn: (list: string[], item: DataItem) => list.some(name => item.fachberater.indexOf(name) !== -1)
+      filterFn: (list: string[], item: DataItem) => list.some(name => item.fachberater!.indexOf(name) !== -1)
     },
     {
       name: 'time-frame',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.timespan.valueOf().toString().localeCompare(b.timespan.valueOf().toString()),
+      sortFn: (a: DataItem, b: DataItem) => a.timespan!.valueOf().toString().localeCompare(b.timespan!.valueOf().toString()),
       listOfFilter: [
         { text: ' ', value: ' ' },
       ],
@@ -89,12 +89,12 @@ export class MainListComponent implements OnInit {
     {
       name: 'final-report',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.abschlussbericht.valueOf().toString().localeCompare(b.abschlussbericht.valueOf().toString()),
+      sortFn: (a: DataItem, b: DataItem) => a.abschlussbericht!.valueOf().toString().localeCompare(b.abschlussbericht!.valueOf().toString()),
       listOfFilter: [
         { text: 'erledigt', value: 'true' },
         { text: 'nicht erledigt', value: 'false' }
       ],
-      filterFn: (list: string[], item: DataItem) => list.some(name => item.abschlussbericht.valueOf().toString().indexOf(name.valueOf().toString()) !== -1)
+      filterFn: (list: string[], item: DataItem) => list.some(name => item.abschlussbericht!.valueOf().toString().indexOf(name.valueOf().toString()) !== -1)
     },
   ];
 
@@ -104,6 +104,11 @@ export class MainListComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadData();
+  }
+
+
+  release(nr: number){
+
   }
 
   loadData() {
@@ -120,13 +125,23 @@ export class MainListComponent implements OnInit {
             tmpStatus = "open";
           }
 
-          var allFinalReports: boolean = true;
+          var cntFinalReports: number = 0;
 
-          element.customerVisits.forEach(element => { if (element.finalReport === undefined || element.finalReport === null) { allFinalReports === false } });
+          element.customerVisits.forEach(element => {
+             if (element.finalReport !== undefined && element.finalReport !== null) 
+              {
+                 cntFinalReports = cntFinalReports + 1;
+              }
+          });          
+
+          var color = cntFinalReports.toString().localeCompare(element.customerVisits.length.toString());
+          if(cntFinalReports === 0){color = 1}
+
 
           this.listOfData = [...this.listOfData, {
-            nr: element.id!,
-            createDate: new Date(),
+            id: element.id,
+            nr: element.company!.name,
+            createDate: element.dateOfCreation!,
             status: "ToDo",
             toha: element.company!.name!,
             vertreter: element.representative!.firstName + " " + element.representative!.lastName,
@@ -134,7 +149,9 @@ export class MainListComponent implements OnInit {
             timespan: {
               start: element.startDate,
               end: element.endDate
-            }, abschlussbericht: allFinalReports,
+            }, 
+            abschlussbericht: cntFinalReports + "/" + element.customerVisits.length,
+            abschlussberichtFarbe: color,
             type: 0
           }];
         });
@@ -159,17 +176,18 @@ export class MainListComponent implements OnInit {
           }
           
           this.listOfData = [...this.listOfData, {
-            nr: element.id!,
-            createDate: new Date(),
+            id: element.id!,
+            nr: "",
+            createDate: element.dateOfCreation,
             status: "ToDo",
             toha: element.company!,
             vertreter: element.seminarPresenter!,
-            fachberater: element.requestedTechnologist!.toString(),
+            fachberater: element.requestedTechnologist!.map(element => element.firstName + " " + element.lastName).toString().substring(0,35),
             timespan: {
               start: element.startDate,
               end: element.endDate
             },
-            abschlussbericht: false,
+            abschlussbericht: "",
             type: 1
           }];
 
@@ -195,11 +213,13 @@ export class MainListComponent implements OnInit {
     })
   }
 
-  openCRC(dateNr: number, type: number) {
+  openCRC(id: number, type: number) {
+    console.log(id + " " + type);
+    
     if (type === 0) {
-      this.router.navigate(['/customer-requirements', dateNr]);
+      this.router.navigate(['/customer-requirements', id]);
     } else if (type === 1) {
-      this.router.navigate(['/seminar-registration', dateNr]);
+      this.router.navigate(['/seminar-registration', id]);
     }
   }
 
@@ -257,28 +277,30 @@ export class MainListComponent implements OnInit {
     this.visible = false;
     this.listOfDisplayData = this.listOfData.filter((item: DataItem) =>
     (
-      item.nr.toString().indexOf(this.searchValue.toLocaleLowerCase()) !== -1 ||
-      item.createDate.valueOf().toString().indexOf(this.searchValue.valueOf().toString()) !== -1 ||
-      item.status.toLocaleLowerCase().indexOf(this.searchValue.toLocaleLowerCase()) !== -1 ||
-      item.toha.toLocaleLowerCase().indexOf(this.searchValue.toLocaleLowerCase()) !== -1 ||
-      item.vertreter.toLocaleLowerCase().indexOf(this.searchValue.toLocaleLowerCase()) !== -1 ||
-      item.fachberater.toLocaleLowerCase().indexOf(this.searchValue.toLocaleLowerCase()) !== -1 ||
-      item.timespan.valueOf().toString().indexOf(this.searchValue.valueOf().toString()) !== -1 ||
-      item.abschlussbericht.toString().indexOf(this.searchValue.toString()) !== -1
+      item.nr!.toString().indexOf(this.searchValue.toLocaleLowerCase()) !== -1 ||
+      item.createDate!.valueOf().toString().indexOf(this.searchValue.valueOf().toString()) !== -1 ||
+      item.status!.toLocaleLowerCase().indexOf(this.searchValue.toLocaleLowerCase()) !== -1 ||
+      item.toha!.toLocaleLowerCase().indexOf(this.searchValue.toLocaleLowerCase()) !== -1 ||
+      item.vertreter!.toLocaleLowerCase().indexOf(this.searchValue.toLocaleLowerCase()) !== -1 ||
+      item.fachberater!.toLocaleLowerCase().indexOf(this.searchValue.toLocaleLowerCase()) !== -1 ||
+      item.timespan!.valueOf().toString().indexOf(this.searchValue.valueOf().toString()) !== -1 ||
+      item.abschlussbericht!.toString().indexOf(this.searchValue.toString()) !== -1
     ));
   }
 }
 
 interface DataItem {
-  nr: number;
-  createDate: Date;
-  status: string;
-  toha: string;
-  vertreter: string;
-  fachberater: string;
-  timespan: TimeSpan;
-  abschlussbericht: boolean;
-  type: number;
+  id?: number;
+  nr?: string;
+  createDate?: Date;
+  status?: string;
+  toha?: string;
+  vertreter?: string;
+  fachberater?: string;
+  timespan?: TimeSpan;
+  abschlussbericht?: string;
+  abschlussberichtFarbe?: number;
+  type?: number;
 }
 
 interface TimeSpan {

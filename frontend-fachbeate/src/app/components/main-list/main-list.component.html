@@ -42,27 +42,27 @@
   </thead>
   <tbody>
     <tr *ngFor="let data of nzTable.data" matTooltip="Doppelklick um zu bearbeiten ..." >
-      <td (dblclick)="openCRC(data.nr, data.type)">{{data.nr}}</td>
-      <td (dblclick)="openCRC(data.nr, data.type)">{{ data.createDate.getDay() }}/{{ data.createDate.getDate() }}/{{
-        data.createDate.getFullYear() }}</td>
-      <td (dblclick)="openCRC(data.nr, data.type)">{{ data.status }}</td>
-      <td (dblclick)="openCRC(data.nr, data.type)">{{ data.toha }}</td>
-      <td (dblclick)="openCRC(data.nr, data.type)">{{ data.vertreter }}</td>
-      <td (dblclick)="openCRC(data.nr, data.type)">{{ data.fachberater }}</td>
-      <td (dblclick)="openCRC(data.nr, data.type)">{{ data.timespan.start!.toString().substring(0,10) }}/{{
-        data.timespan.end!.toString().substring(0,10) }}</td>
-      <td style="justify-content: center;" (dblclick)="openCRC(data.nr, data.type)">
+      <td (dblclick)="openCRC(data.id!, data.type!)">{{data.nr}}</td>
+      <td (dblclick)="openCRC(data.id!, data.type!)">{{ data.createDate!.toString().substring(0,10) }}</td>
+      <td (dblclick)="openCRC(data.id!, data.type!)">{{ data.status }}</td>
+      <td (dblclick)="openCRC(data.id!, data.type!)">{{ data.toha }}</td>
+      <td (dblclick)="openCRC(data.id!, data.type!)">{{ data.vertreter }}</td>
+      <td (dblclick)="openCRC(data.id!, data.type!)">{{ data.fachberater }}</td>
+      <td (dblclick)="openCRC(data.id!, data.type!)">{{ data.timespan!.start!.toString().substring(0,10) }}/{{
+        data.timespan!.end!.toString().substring(0,10) }}</td>
+      <td style="justify-content: center;" (dblclick)="openCRC(data.id!, data.type!)">
         <div class="centerRow">
-          <span *ngIf="data.abschlussbericht" class="text-success">&#10004;</span>
-          <span *ngIf="!data.abschlussbericht" class="text-danger">&#10008;</span>
+          <span *ngIf="data.abschlussberichtFarbe === 0" class="text-success">{{data.abschlussbericht}}</span>
+          <span *ngIf="data.abschlussberichtFarbe === -1" class="text-warning">{{data.abschlussbericht}}</span>
+          <span *ngIf="data.abschlussberichtFarbe === 1" class="text-danger">{{data.abschlussbericht}}</span>
         </div>
       </td>
       <td>
-        <span>{{((data.type === 0)?'DATE-LIST.tech-req':'DATE-LIST.work-req') | translate}}</span>
+        <span>{{((data.type === 0)?'MAIN-LIST.tech-req':'MAIN-LIST.work-req') | translate}}</span>
       </td>
       <td>
         <div class="centerRow">
-          <button class="btn btn-success freigabe"> Freigeben </button>
+          <button class="btn btn-success freigabe" (click)="release(data.id!)"> Freigeben </button>
         </div>
       </td>
     </tr>

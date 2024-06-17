@@ -9,7 +9,7 @@ import { Company } from '../../../../models/company';
   styleUrl: './create-dealer.component.scss'
 })
 export class CreateDealerComponent implements OnInit {
-  inputCompany: Company = {};
+  inputCompany: Company = {active: true};
 
   companyList: Company[] = [];
 

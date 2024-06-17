@@ -7,6 +7,9 @@ export interface WorkshopRequirement{
     requestedTechnologist?: Technologist[];
     startDate?: Date;
     endDate?: Date;
+
+    dateOfCreation?: Date;
+
     releaseManagement?: Date;
     releaseSupervisor?: Date;
     flightBooking?: boolean;
