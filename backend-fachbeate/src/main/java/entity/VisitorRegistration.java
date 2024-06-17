@@ -4,6 +4,7 @@ import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -51,6 +52,9 @@ public class VisitorRegistration extends PanacheEntity {
     public String transferTo;
     @OneToMany
     public List<PlannedDepartmentVisit> plannedDepartmentVisits;
+
+    @OneToMany
+    public List<Guest> guests;
 
     public VisitorRegistration() {
     }
@@ -106,6 +110,12 @@ public class VisitorRegistration extends PanacheEntity {
                 persisted.updateEntity(visit);
             }
         }
+
+        this.guests = new ArrayList<>();
+        for(Guest guest: newVisitorRegistration.guests){
+            this.guests.add(guest.persistOrUpdate());
+        }
+
         this.plannedDepartmentVisits = newVisitorRegistration.plannedDepartmentVisits;
     }
 
@@ -117,6 +127,11 @@ public class VisitorRegistration extends PanacheEntity {
             for (PlannedDepartmentVisit visit : this.plannedDepartmentVisits) {
                 visit = visit.persistOrUpdate();
             }
+
+            for(Guest guest: this.guests){
+                guest.persistOrUpdate();
+            }
+
             return this;
         }else{
             VisitorRegistration visitorRegistration = VisitorRegistration.findById(this.id);

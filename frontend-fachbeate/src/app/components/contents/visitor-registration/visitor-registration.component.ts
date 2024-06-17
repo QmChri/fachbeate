@@ -5,6 +5,7 @@ import { VisitorRegistration } from '../../../models/visitor-registration';
 import { MatDialog } from '@angular/material/dialog';
 import { TeilnehmerListeComponent } from '../teilnehmer-liste/teilnehmer-liste.component';
 import { HttpService } from '../../../services/http.service';
+import { Guest } from '../../../models/guest';
 
 @Component({
   selector: 'app-visitor-registration',
@@ -16,26 +17,31 @@ export class VisitorRegistrationComponent implements OnInit {
   geDip: String[] = []
 
   inputVisitRegistration: VisitorRegistration = {
-    plannedDepartmentVisits: []
+    plannedDepartmentVisits: [],
+    guests: []
   };
 
   constructor(private dialog: MatDialog, private http: HttpService) { }
 
-  openDialog(cnt: number) {
-
-    this.dialog.open(TeilnehmerListeComponent, {
+  openDialog(guests: Guest[]) {
+ 
+    const dialogRef = this.dialog.open(TeilnehmerListeComponent, {
       height: '36rem',
       width: '50rem',
-      data: cnt
+      data: guests
     });
-    /*
-        dialogRef.afterClosed().subscribe(
-          data => {
-            if (data.save) {
-              customerVisit.finalReport = data.finalReport;
-              this.postCustomerRequirement();
-            }
-          });*/
+    
+    dialogRef.afterClosed().subscribe(
+      data => {
+        console.log(data);
+          
+          if(data !== undefined && data !== null){
+            console.log("test");
+            
+            this.inputVisitRegistration.guests = data;
+          }
+      });
+  
   }
 
 

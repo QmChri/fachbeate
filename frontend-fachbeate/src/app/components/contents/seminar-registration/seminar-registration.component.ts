@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { TeilnehmerListeComponent } from '../teilnehmer-liste/teilnehmer-liste.component';
+import { Guest } from '../../../models/guest';
 
 @Component({
   selector: 'app-seminar-registration',
@@ -18,6 +19,11 @@ export class SeminarRegistrationComponent implements OnInit{
   addItem: string = "";
   reasonSelect: number = 0;
   languages: string[] = ['DE','EN','RU'];
+  inputWorkshop: WorkshopRequirement = {
+    techSelection: [],
+    requestedTechnologist: [],
+    guests: []
+  };
 
   tabs = ['Hotelbuchung']
   selected = new FormControl(0);
@@ -33,31 +39,30 @@ export class SeminarRegistrationComponent implements OnInit{
     }
   }
 
-  openDialog(cnt: number) {
+  openDialog(guests: Guest[]) {
  
-    this.dialog.open(TeilnehmerListeComponent, {
+    const dialogRef = this.dialog.open(TeilnehmerListeComponent, {
       height: '36rem',
       width: '50rem',
-      data: cnt
+      data: guests
     });
-    /*
-        dialogRef.afterClosed().subscribe(
-          data => {
-            if (data.save) {
-              customerVisit.finalReport = data.finalReport;
-              this.postCustomerRequirement();
-            }
-          });*/
+    
+    dialogRef.afterClosed().subscribe(
+      data => {
+        console.log(data);
+          
+          if(data !== undefined && data !== null){
+            console.log("test");
+            
+            this.inputWorkshop.guests = data;
+          }
+      });
+  
   }
 
   addToList(addItem: string){
     this.languages.push(addItem);
   }
-
-  inputWorkshop: WorkshopRequirement = {
-    techSelection: [],
-    requestedTechnologist: []
-  };
 
   technologists: Technologist[] = [];
 

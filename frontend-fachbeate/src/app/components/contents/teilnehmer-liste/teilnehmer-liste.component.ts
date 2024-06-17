@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Guest } from '../../../models/guest';
 
 @Component({
   selector: 'app-teilnehmer-liste',
@@ -9,15 +10,16 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 export class TeilnehmerListeComponent implements OnInit {
   i = 1;
   editId: number | null = null;
-  listOfData: ItemData[] = [];
+  listOfData: Guest[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<TeilnehmerListeComponent>,
-    @Inject(MAT_DIALOG_DATA) public cnt: number
+    @Inject(MAT_DIALOG_DATA) public guests: Guest[]
   ) {
-    for (let i = 1; i <= this.cnt; i++) {
-      this.addRow();
-
+    console.log(guests);
+    
+    if(guests !== null && guests !== undefined){
+      guests.forEach(element => this.addRow(element));
     }
   }
 
@@ -29,33 +31,34 @@ export class TeilnehmerListeComponent implements OnInit {
     this.editId = null;
   }
 
-  addRow(): void {
+  addRow(guest: Guest): void {
     this.listOfData = [
       ...this.listOfData,
       {
-        id: this.i,
-        sex: `${this.i}`,
-        firstName: `Max ${this.i}`,
-        lastName: `Müller ${this.i}`,
-        function: 'Geschäftsführer',
+        id: guest.id,
+        editId: this.i,
+        sex: guest.sex,
+        firstName: guest.firstName,
+        lastName: guest.lastName,
+        function: guest.function,
       }
     ];
     this.i++;
   }
 
   deleteRow(id: number): void {
-    this.listOfData = this.listOfData.filter(d => d.id !== id);
+    this.listOfData = this.listOfData.filter(d => d.editId !== id);
   }
 
+
+  closeDialog(save: boolean) {
+    if(save){
+      this.dialogRef.close(this.listOfData);
+    }else{
+      this.dialogRef.close(undefined);
+    }
+  }
 
   ngOnInit(): void {
   }
-}
-
-interface ItemData {
-  id: number;
-  sex: string;
-  firstName: string;
-  lastName: string;
-  function: string;
 }
