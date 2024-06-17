@@ -68,7 +68,7 @@ export class CustomerRequirementsComponent implements OnInit {
   }
 
   deleteRow(id: number): void {
-    this.inputCustomerRequirement.customerVisits! = this.inputCustomerRequirement.customerVisits!.filter(d => d.id !== id);
+    this.inputCustomerRequirement.customerVisits! = this.inputCustomerRequirement.customerVisits!.filter(d => d.editId !== id);
   }
 
 

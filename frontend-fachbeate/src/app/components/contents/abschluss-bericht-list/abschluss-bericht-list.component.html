@@ -47,6 +47,10 @@
                 [nzFilterFn]="listOfColumn[7].filterFn!" [(nzSortOrder)]="listOfColumn[7].sortOrder">
                 {{'ABSCHLUSS-BERICHT-LISTE.'+listOfColumn[7].name| translate}}
             </th>
+            <th [nzSortFn]="listOfColumn[8].sortFn" [nzFilters]="listOfColumn[8].listOfFilter"
+                [nzFilterFn]="listOfColumn[8].filterFn!" [(nzSortOrder)]="listOfColumn[8].sortOrder">
+                {{'ABSCHLUSS-BERICHT-LISTE.'+listOfColumn[8].name| translate}}
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -59,6 +63,7 @@
             <td>{{ data.representative }}</td>
             <td>{{data.dateOfReworkRepresentative}}</td>
             <td>{{data.state}}</td>
+            <td>{{getArticleListName(data.article)}}</td>
         </tr>
     </tbody>
 </nz-table>
