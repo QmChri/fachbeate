@@ -16,10 +16,6 @@ import { TechnologistAppointment } from '../../models/technologist-appointment';
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent implements OnInit, AfterViewInit {
-
-  customerRequriementIds: string[] = [];
-  workshopRequriementIds: string[] = [];
-
   calendarEvnts: CalendarEvent[] = [];
 
   calendarOptions: CalendarOptions = {
@@ -66,7 +62,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           }]
         })
 
-        this.customerRequriementIds = data.map(value => "c"+value.id);
         this.calendarOptions.events = this.calendarEvnts.map(value => ({
           id: value.id,
           title: value.title,
@@ -104,8 +99,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           }));
 
         })
-
-      this.workshopRequriementIds = data.map(value => "w"+value.id);
 
     },
       error: err => {
@@ -147,9 +140,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   
   handleEventClick(clickInfo: any): void {   
 
-    if(this.customerRequriementIds.includes(clickInfo.event.id)){
+    if(clickInfo.event.id.substring(0,1) === "c"){
       this.router.navigate(['/customer-requirements', clickInfo.event.id.substring(1)]);
-    }else if(this.workshopRequriementIds.includes(clickInfo.event.id)){
+    }else if(clickInfo.event.id.substring(0,1) === "w"){
       this.router.navigate(['/seminar-registration', clickInfo.event.id.substring(1)]);
     }else{
       var appointment: TechnologistAppointment;
