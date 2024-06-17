@@ -35,6 +35,7 @@ export class TeilnehmerListeComponent implements OnInit {
     this.listOfData = [
       ...this.listOfData,
       {
+        id: guest.id,
         editId: this.i,
         sex: guest.sex,
         firstName: guest.firstName,
