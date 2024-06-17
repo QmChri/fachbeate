@@ -53,9 +53,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     
     this.http.getCustomerRequirements().subscribe({
       next: data => {
+        console.log(data);
+        
         data.forEach(value => {
           this.calendarEvnts = [...this.calendarEvnts, {
-            id: ""+value.id,
+            id: "c"+value.id,
             title: value.requestedTechnologist!.firstName + " " + value.requestedTechnologist!.lastName + " - " + value.company!.name,
             start: value.startDate,
             end: this.adjustEndDate(value.endDate!.toString()),
@@ -64,9 +66,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           }]
         })
 
-        this.customerRequriementIds = data.map(value => ""+value.id);
+        this.customerRequriementIds = data.map(value => "c"+value.id);
         this.calendarOptions.events = this.calendarEvnts.map(value => ({
-          id: ""+value.id,
+          id: value.id,
           title: value.title,
           start: value.start,
           end: value.end,
@@ -83,16 +85,17 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       next: data => {
         data.forEach(value => {
           this.calendarEvnts = [...this.calendarEvnts, {
-            id: ""+value.id,
+            id: "w"+value.id,
             title: value.requestedTechnologist![0].firstName + " " + value.requestedTechnologist![0].lastName + " - " + value.company,
             start: value.startDate,
             end: this.adjustEndDate(value.endDate!.toString()),
             backgroundColor: value.requestedTechnologist![0].color,
             borderColor: value.requestedTechnologist![0].color,
           }]
-
+          console.log(this.calendarEvnts);
+          
           this.calendarOptions.events = this.calendarEvnts.map(value => ({
-            id: ""+value.id,
+            id: value.id,
             title: value.title,
             start: value.start,
             end: value.end,
@@ -102,7 +105,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
         })
 
-      this.workshopRequriementIds = data.map(value => ""+value.id);
+      this.workshopRequriementIds = data.map(value => "w"+value.id);
 
     },
       error: err => {
@@ -114,7 +117,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       next: data => {
         data.forEach(value => {
           this.calendarEvnts = [...this.calendarEvnts, {
-            id: ""+value.id,
+            id: "o"+value.id,
             title: value.requestedTechnologist!.firstName + " " + value.requestedTechnologist!.lastName + " - " + value.reason,
             start: value.startDate,
             end: this.adjustEndDate(value.endDate!.toString()),
@@ -123,7 +126,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           }]
         })
         this.calendarOptions.events = this.calendarEvnts.map(value => ({
-          id: ""+value.id,
+          id: value.id,
           title: value.title,
           start: value.start,
           end: value.end,
@@ -145,13 +148,13 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   handleEventClick(clickInfo: any): void {   
 
     if(this.customerRequriementIds.includes(clickInfo.event.id)){
-      this.router.navigate(['/customer-requirements', clickInfo.event.id]);
+      this.router.navigate(['/customer-requirements', clickInfo.event.id.substring(1)]);
     }else if(this.workshopRequriementIds.includes(clickInfo.event.id)){
-      this.router.navigate(['/seminar-registration', clickInfo.event.id]);
+      this.router.navigate(['/seminar-registration', clickInfo.event.id.substring(1)]);
     }else{
       var appointment: TechnologistAppointment;
 
-      this.http.getOtherAppointmentById(Number(clickInfo.event.id)).subscribe({
+      this.http.getOtherAppointmentById(Number(clickInfo.event.id.substring(1))).subscribe({
         next: data => {
           this.openDialog(data);
         },
