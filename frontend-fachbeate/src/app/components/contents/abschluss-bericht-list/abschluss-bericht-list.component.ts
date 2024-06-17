@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpService } from '../../../services/http.service';
 import { Technologist } from '../../../models/technologist';
+import { Article } from '../../../models/article';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-abschluss-bericht-list',
@@ -94,10 +96,27 @@ export class AbschlussBerichtListComponent { //implements OnInit
       ],
       filterFn: (list: string[], item: DataItem) => list.some(name => item.state.indexOf(name.valueOf().toString()) !== -1)
     },
+    {
+      name: 'article',
+      sortOrder: null,
+      sortFn: (a: DataItem, b: DataItem) => 0,
+      listOfFilter: [
+        { text: ' ', value: ' ' }
+      ],
+      filterFn: (list: string[], item: DataItem) => {
+        var allIn:boolean =true;
+        list.forEach(element => {
+          if(item.article.map(article => article.name).includes(element) !== true){
+            allIn = false;
+          }
+        })
+        return allIn;
+      }
+    },
   ];
 
 
-  constructor(private router: Router, private http: HttpService) { }
+  constructor(private router: Router, private http: HttpService, private datePipe: DatePipe) { }
 
   ngOnInit(): void {
     this.loadData();
@@ -107,21 +126,36 @@ export class AbschlussBerichtListComponent { //implements OnInit
 
     this.loadTechnologists();
 
+    this.http.getAllArticles().subscribe({
+      next: data => {
+       
+        this.listOfColumn.find(element => element.name === 'article')!.listOfFilter = data.map(element => {return {text: element.name!, value: element.name!}})
+        
+      }
+    })
+
     this.http.getFinalReports().subscribe({
       next: data => {
         data.forEach(element => {
+
+          var allArticles: Article[] = []
+
+          element.reasonReports!.forEach(reason => {
+            allArticles = [...allArticles, ...reason.presentedArticle]
+          })
+
           this.listOfData = [...this.listOfData,{
             company: element.company!,
-            dateOfVisit: element.dateOfVisit!.toString().substring(10),
+            dateOfVisit: this.datePipe.transform(element.dateOfVisit!, "dd.MMM.yy")!,
             creationDate: undefined!,
             technologist: element.technologist!,
             dateOfReworkTechnologist: undefined!,
             representative: element.representative!,
             dateOfReworkRepresentative: undefined!,
-            state: element.state!
+            state: (element.requestCompleted)?"Abgeschlossen":"Nicht Abgeschlossen",
+            article: allArticles
           }]
         });
-
         this.resetFilters()
 
         this.listOfDisplayData = [...this.listOfData];
@@ -215,6 +249,11 @@ export class AbschlussBerichtListComponent { //implements OnInit
       item.abschlussbericht.toString().indexOf(this.searchValue.toString()) !== -1*/
     ));
   }
+
+  getArticleListName(article: Article[]){
+    return article.map(element => element.name).toString().substring(0,30)
+  }
+
 }
 
 interface DataItem {
@@ -225,7 +264,8 @@ interface DataItem {
   dateOfReworkTechnologist: string,
   representative: string,
   dateOfReworkRepresentative: string,
-  state: string
+  state: string,
+  article: Article[]
 }
 
 interface TimeSpan {
