@@ -47,6 +47,7 @@ export class TeilnehmerListeComponent implements OnInit {
     this.listOfData = this.listOfData.filter(d => d.id !== id);
   }
 
+
   ngOnInit(): void {
   }
 }

@@ -1,6 +1,7 @@
 <div class="header">
     <div>
-        <h1 class="paddingSearch" style="margin-bottom: 0;">{{'SEMINAR-REGISTRATION.seminarRegistration' | translate}}</h1>
+        <h1 class="paddingSearch" style="margin-bottom: 0;">{{'SEMINAR-REGISTRATION.seminarRegistration' | translate}}
+        </h1>
     </div>
     <button class="btn btn-success" (click)="postWorkshopRequest()">{{'SEMINAR-REGISTRATION.send' | translate}}</button>
 </div>
@@ -52,7 +53,8 @@
                             <input type="number" min="0" matInput required
                                 [(ngModel)]="inputWorkshop.amountParticipants">
                         </mat-form-field>
-                        <button class="btn btn-success teilButton" matTooltip="{{'SEMINAR-REGISTRATION.seminarRegistrationMembers' | translate}}"
+                        <button class="btn btn-success teilButton"
+                            matTooltip="{{'SEMINAR-REGISTRATION.seminarRegistrationMembers' | translate}}"
                             (click)="openDialog(inputWorkshop.amountParticipants!)">
                             <i class="fas fa-user-friends"></i>
                         </button>
@@ -67,17 +69,16 @@
             <div class="card-body">
                 <div class="center-items">
                     <mat-form-field>
-                        <mat-label>{{'SEMINAR-REGISTRATION.seminarBoss' | translate}}aaa</mat-label>
+                        <mat-label>{{'SEMINAR-REGISTRATION.seminarBoss' | translate}}</mat-label>
                         <input matInput [(ngModel)]="inputWorkshop.seminarPresenter">
                     </mat-form-field>
 
                     <mat-form-field>
                         <mat-label>{{'SEMINAR-REGISTRATION.responsibleConsultants' | translate}}</mat-label>
                         <mat-select required multiple placeholder="{{'SEMINAR-REGISTRATION.choose' | translate}}"
-                            [ngModel]="inputWorkshop.techSelection"
-                            (valueChange)="changeTechnolgist($event)">
+                            [ngModel]="inputWorkshop.techSelection" (valueChange)="changeTechnolgist($event)">
                             @for (t of technologists; track technologists) {
-                                <mat-option [value]="t.id">{{t.firstName}} {{t.lastName}}</mat-option>
+                            <mat-option [value]="t.id">{{t.firstName}} {{t.lastName}}</mat-option>
                             }
                         </mat-select>
                     </mat-form-field>
@@ -109,11 +110,13 @@
                             <div style="display: flex;">
                                 <label class="languageBox">
                                     <mat-checkbox color="warn" [ngModel]="inputWorkshop.shouldBeTranslated"
-                                        (change)="inputWorkshop.shouldBeTranslated=inputWorkshop.shouldBeTranslated?false:true;"></mat-checkbox>{{'SEMINAR-REGISTRATION.yes' | translate}}
+                                        (change)="inputWorkshop.shouldBeTranslated=inputWorkshop.shouldBeTranslated?false:true;"></mat-checkbox>{{'SEMINAR-REGISTRATION.yes'
+                                    | translate}}
                                 </label>
                                 <label class="languageBox">
                                     <mat-checkbox color="warn" [ngModel]="!inputWorkshop.shouldBeTranslated"
-                                        (change)="inputWorkshop.shouldBeTranslated=inputWorkshop.shouldBeTranslated?false:true"></mat-checkbox>{{'SEMINAR-REGISTRATION.no' | translate}}
+                                        (change)="inputWorkshop.shouldBeTranslated=inputWorkshop.shouldBeTranslated?false:true"></mat-checkbox>{{'SEMINAR-REGISTRATION.no'
+                                    | translate}}
                                 </label>
                             </div>
                         </div>
@@ -127,15 +130,18 @@
             <div class="card-header text-white bg-danger">{{'SEMINAR-REGISTRATION.furtherMore' | translate}}</div>
             <mat-button-toggle-group [ngModel]="buttonSelect" (change)="changeSelections($event, 0)" vertical multiple>
                 <mat-button-toggle value="1">{{'SEMINAR-REGISTRATION.hotelBooking' | translate}}</mat-button-toggle>
-                <mat-button-toggle value="2">{{'SEMINAR-REGISTRATION.airportTransferTrain' | translate}}</mat-button-toggle>
+                <mat-button-toggle value="2">{{'SEMINAR-REGISTRATION.airportTransferTrain' |
+                    translate}}</mat-button-toggle>
                 <mat-button-toggle value="3">{{'SEMINAR-REGISTRATION.trip' | translate}}</mat-button-toggle>
                 <mat-button-toggle value="4">{{'SEMINAR-REGISTRATION.companyGuidance' | translate}}</mat-button-toggle>
                 <mat-button-toggle value="5">{{'SEMINAR-REGISTRATION.mealTime' | translate}}</mat-button-toggle>
             </mat-button-toggle-group>
             <mat-button-toggle-group style="height: 2.7rem;" [ngModel]="buttonSelect"
                 (change)="changeSelections($event, 1)" multiple>
-                <mat-button-toggle style="width: 15rem;" value="6">{{'SEMINAR-REGISTRATION.customerGifts' | translate}}</mat-button-toggle>
-                <mat-button-toggle style="width: 15rem;" value="7">{{'SEMINAR-REGISTRATION.diploms' | translate}}</mat-button-toggle>
+                <mat-button-toggle style="width: 15rem;" value="6">{{'SEMINAR-REGISTRATION.customerGifts' |
+                    translate}}</mat-button-toggle>
+                <mat-button-toggle style="width: 15rem;" value="7">{{'SEMINAR-REGISTRATION.diploms' |
+                    translate}}</mat-button-toggle>
             </mat-button-toggle-group>
         </div>
     </div>
@@ -145,12 +151,15 @@
 <div class="row">
     <div class="col-md-4 paddingBottom" *ngIf="buttonSelect.includes('1')">
         <div class="card">
-            <div class="card-header text-white bg-danger paddingSearch">{{'SEMINAR-REGISTRATION.hotelBooking' | translate}}
+            <div class="card-header text-white bg-danger paddingSearch">{{'SEMINAR-REGISTRATION.hotelBooking' |
+                translate}}
                 <div>
-                    <button class="btn btn-secondary" matTooltip="{{'SEMINAR-REGISTRATION.delete' | translate}}" (click)="deleteLast()">
+                    <button class="btn btn-secondary" matTooltip="{{'SEMINAR-REGISTRATION.delete' | translate}}"
+                        (click)="deleteLast()">
                         <i class="fa fa-trash" aria-hidden="true"></i>
                     </button>
-                    <button class="btn btn-success" matTooltip="{{'SEMINAR-REGISTRATION.add' | translate}}" (click)="addTab()">
+                    <button class="btn btn-success" matTooltip="{{'SEMINAR-REGISTRATION.add' | translate}}"
+                        (click)="addTab()">
                         <i class="fa fa-plus" aria-hidden="true"></i>
                     </button>
                 </div>
@@ -199,20 +208,16 @@
     </div>
     <div class="col-md-4 paddingBottom" *ngIf="buttonSelect.includes('2')">
         <div class="card" hideToggle>
-            <div class="card-header bg-danger text-white">{{'SEMINAR-REGISTRATION.airportTransferTrain' | translate}}</div>
+            <div class="card-header bg-danger text-white">{{'SEMINAR-REGISTRATION.airportTransferTrain' | translate}}
+            </div>
             <div class="card-body minheigtCard">
                 <div class="displayBySide">
                     <div class="center-items">
                         <mat-form-field class="smallInput">
-                            <mat-label>{{'SEMINAR-REGISTRATION.fromTo' | translate}}</mat-label>
-                            <mat-date-range-input [rangePicker]="picker4">
-                                <input matStartDate placeholder="Start date"
-                                    [(ngModel)]="inputWorkshop.flightHereDateTime">
-                                <input matEndDate placeholder="End date"
-                                    [(ngModel)]="inputWorkshop.flightReturnDateTime">
-                            </mat-date-range-input>
+                            <mat-label>{{'SEMINAR-REGISTRATION.date' | translate}}</mat-label>
+                            <input matInput [(ngModel)]="inputWorkshop.flightHereDateTime" [matDatepicker]="picker4">
                             <mat-datepicker-toggle matIconSuffix [for]="picker4"></mat-datepicker-toggle>
-                            <mat-date-range-picker #picker4></mat-date-range-picker>
+                            <mat-datepicker #picker4></mat-datepicker>
                         </mat-form-field>
                         <mat-form-field class="smallInput">
                             <mat-label>{{'SEMINAR-REGISTRATION.otherReq' | translate}}</mat-label>

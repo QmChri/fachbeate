@@ -4,19 +4,20 @@ import { FinalReport } from '../../../models/final-report';
 import { ReasonReport } from '../../../models/reason-report';
 import { HttpService } from '../../../services/http.service';
 import { Article } from '../../../models/article';
+import { FormControl, FormRecord, NonNullableFormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-abschluss-bericht',
   templateUrl: './abschluss-bericht.component.html',
   styleUrl: './abschluss-bericht.component.scss'
 })
-export class AbschlussBerichtComponent implements OnInit{
+export class AbschlussBerichtComponent implements OnInit {
 
   inputFinalReport: FinalReport = {}
 
   reasonSelect: number[] = []
   existingArticles: Article[] = []
-  
+
   changeSelections(event: any) {
     var newReasonReports: ReasonReport[] = [];
 
@@ -24,16 +25,16 @@ export class AbschlussBerichtComponent implements OnInit{
 
     event.value.forEach((element: number) => {
       var r: ReasonReport = this.inputFinalReport.reasonReports!.find(p => p.reason === element)!
-      
-      if(r !== null && r !== undefined){
+
+      if (r !== null && r !== undefined) {
         newReasonReports = [...newReasonReports, r]
-      }else{
-        newReasonReports = [...newReasonReports, {reason: element, presentedArticle: []}]
+      } else {
+        newReasonReports = [...newReasonReports, { reason: element, presentedArticle: [] }]
       }
 
     })
     this.inputFinalReport.reasonReports = newReasonReports;
-    
+
   }
 
 
@@ -54,29 +55,29 @@ export class AbschlussBerichtComponent implements OnInit{
     }
 
   }
-  
+
   ngOnInit(): void {
     this.getAllArticles();
   }
 
-  getAllArticles(){
+  getAllArticles() {
     this.http.getAllArticles().subscribe({
       next: data => this.existingArticles = data,
       error: err => console.log(err)
     })
   }
 
-  insertOther(article: Article, reason: number){
+  insertOther(article: Article, reason: number) {
     var tmpArticle = this.existingArticles.find(element => element.articleNr!.toString() === article.articleNr!.toString());
-    
+
     console.log(tmpArticle)
 
-    if(tmpArticle !== undefined){      
+    if (tmpArticle !== undefined) {
       this.inputFinalReport.reasonReports!.find(element => element.reason === reason)!
-      .presentedArticle.find(element => element.articleNr!.toString() === article.articleNr!.toString())!.name = tmpArticle.name;
+        .presentedArticle.find(element => element.articleNr!.toString() === article.articleNr!.toString())!.name = tmpArticle.name;
 
       this.inputFinalReport.reasonReports!.find(element => element.reason === reason)!
-      .presentedArticle.find(element => element.articleNr!.toString() === article.articleNr!.toString())!.id = tmpArticle.id;
+        .presentedArticle.find(element => element.articleNr!.toString() === article.articleNr!.toString())!.id = tmpArticle.id;
     }
   }
 
@@ -86,9 +87,12 @@ export class AbschlussBerichtComponent implements OnInit{
   }
 
 
-  addArticle(reason: number){
+  addArticle(reason: number) {
     var reasonReport = this.finalReport.reasonReports!.find(element => element.reason === reason)!
     reasonReport.presentedArticle = [...reasonReport.presentedArticle!, {}]
+  }
+  deleteArticle(reason: number){
+    this.inputFinalReport.reasonReports?.find(element => element.reason === reason)?.presentedArticle.pop();
   }
 
   //closeDialog(save: boolean) { }
