@@ -42,7 +42,8 @@
         [nzFilterFn]="listOfColumn[7].filterFn!" [(nzSortOrder)]="listOfColumn[7].sortOrder">
         {{'MAIN-LIST.'+listOfColumn[7].name | translate}}
       </th>
-      <th>Type</th>
+      <th [nzSortFn]="listOfColumn[8].sortFn" [(nzSortOrder)]="listOfColumn[1].sortOrder">
+        {{'MAIN-LIST.'+listOfColumn[8].name | translate}}</th>
       <th>Freigabe</th>
     </tr>
   </thead>

@@ -1,11 +1,10 @@
 <div class="mainView">
     <div class="header">
-        <div>
-            <h2 class="paddingSearch">{{'DIALOG-MEMBERS.memberList' | translate}}</h2>
-        </div>
-        <button nz-button (click)="addRow()" nzType="primary">{{'DIALOG-MEMBERS.add' | translate}}</button>
+        <h1 style="margin: 0%;">{{'DIALOG-MEMBERS.memberList' | translate}}</h1>
+        <button (click)="addRow()" class="btn btn-success">{{'DIALOG-MEMBERS.add' | translate}}</button>
     </div>
     <hr>
+
     <nz-table #editRowTable [nzPageSize]="6" nzBordered nzSize="small" [nzData]="listOfData">
         <thead>
             <tr>

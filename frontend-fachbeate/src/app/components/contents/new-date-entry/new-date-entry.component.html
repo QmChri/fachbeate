@@ -5,7 +5,7 @@
 
     <div class="center-items">
         <mat-form-field>
-            <mat-label>Angeforderter Fachberater</mat-label>
+            <mat-label>Zugeteilter Fachberater</mat-label>
             <mat-select
                 [ngModel]="(inputDate.requestedTechnologist === undefined)?undefined:inputDate.requestedTechnologist.id"
                 (valueChange)="changeTechnolgist($event)" required>

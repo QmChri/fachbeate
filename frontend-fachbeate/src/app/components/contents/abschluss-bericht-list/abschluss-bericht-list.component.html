@@ -56,12 +56,12 @@
     <tbody>
         <tr *ngFor="let data of nzTable.data">
             <td>{{ data.company }}</td>
-            <td>{{data.dateOfVisit}}</td>
-            <td>{{ data.creationDate }}</td>
+            <td>{{data.dateOfVisit | date:'dd.MM.yy'}}</td>
+            <td>{{ data.creationDate  | date:'dd.MM.yy'}}</td>
             <td>{{ data.technologist }}</td>
-            <td>{{ data.dateOfReworkTechnologist }}</td>
+            <td>{{ data.dateOfReworkTechnologist  | date:'dd.MM.yy' }}</td>
             <td>{{ data.representative }}</td>
-            <td>{{data.dateOfReworkRepresentative}}</td>
+            <td>{{data.dateOfReworkRepresentative  | date:'dd.MM.yy'}}</td>
             <td>{{data.state}}</td>
             <td>{{getArticleListName(data.article)}}</td>
         </tr>
