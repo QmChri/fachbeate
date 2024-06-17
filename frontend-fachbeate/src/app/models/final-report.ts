@@ -17,6 +17,10 @@ export interface FinalReport {
     reworkByTechnologistDoneUntil?: Date;
     reworkByTechnologistState?: string;
 
+    reworkByRepresentative?: string;
+    reworkByRepresentativeDoneUntil?: string;
+
+
     customerContactDate?: Date;
     responseCustomer?: string;
     furtherActivities?: string;

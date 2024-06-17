@@ -130,14 +130,12 @@
                 <div class="card">
                     <div class="card-header text-white bg-danger">Nacharbeit Technologe</div>
                     <div class="card-body">
-                        <!-- 
-
-                            <div class="center-items">
+                        <div class="center-items">
                             <div class="header">
                                 <mat-form-field class="smallInputSide">
                                     <mat-label>Nacharbeit Technologe</mat-label>
                                     <mat-select required placeholder="Auswählen . . . "
-                                        [(ngModel)]="d.reworkByTechnologist" name="reworkByTechnologist">
+                                        [(ngModel)]="inputFinalReport.reworkByTechnologist" name="reworkByTechnologist">
                                         <mat-option [value]="true">Ja</mat-option>
                                         <mat-option [value]="false">Nein</mat-option>
                                     </mat-select>
@@ -145,55 +143,52 @@
                                 <mat-form-field class="smallInputSide">
                                     <mat-label>Nacharbeit Vertreter</mat-label>
                                     <mat-select required placeholder="Auswählen . . . "
-                                        [(ngModel)]="d.reworkByRepresentative" name="reworkByRepresentive">
+                                        [(ngModel)]="inputFinalReport.reworkByRepresentative"
+                                        name="reworkByRepresentive">
                                         <mat-option [value]="true">Ja</mat-option>
                                         <mat-option [value]="false">Nein</mat-option>
                                     </mat-select>
                                 </mat-form-field>
                             </div>
-                            <div class="header" *ngIf="d.reworkByTechnologist">
+                            <div class="header" *ngIf="inputFinalReport.reworkByTechnologist">
                                 <mat-form-field class="smallInputSide">
                                     <mat-label>Zu erledigen bis</mat-label>
                                     <input matInput [matDatepicker]="picker5" type="text"
-                                        [(ngModel)]="d.reworkByTechnologistDoneUntil"
+                                        [(ngModel)]="inputFinalReport.reworkByTechnologistDoneUntil"
                                         name="reworkByTechnologistDoneUntil">
                                     <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
                                     <mat-datepicker #picker5></mat-datepicker>
                                 </mat-form-field>
                                 <mat-form-field class="smallInput">
                                     <mat-label>Status</mat-label>
-                                    <input matInput type="text" [(ngModel)]="d.state" name="state">
+                                    <input matInput type="text" [(ngModel)]="inputFinalReport.state" name="state">
                                 </mat-form-field>
                             </div>
-                            <mat-form-field *ngIf="d.reworkByRepresentative">
+                            <mat-form-field *ngIf="inputFinalReport.reworkByRepresentative">
                                 <mat-label>Zu erledigen bis</mat-label>
                                 <input matInput [matDatepicker]="picker6" type="text"
-                                    [(ngModel)]="d.reworkByRepresentativeDoneUntil"
+                                    [(ngModel)]="inputFinalReport.reworkByRepresentativeDoneUntil"
                                     name="reworkByRepresentativeDoneUntil">
                                 <mat-datepicker-toggle matIconSuffix [for]="picker6"></mat-datepicker-toggle>
                                 <mat-datepicker #picker6></mat-datepicker>
                             </mat-form-field>
-
                         </div>
-                        -->
                     </div>
                 </div>
             </div>
             <div class="col-md-2 paddingBottom">
                 <div class="card">
-                    <!-- TODO nur die anzeigen die auch in selection drinnen stehen -->
                     <div class="card-header text-white bg-danger">Bericht per Grund</div>
                     <mat-button-toggle-group [ngModel]="reasonSelect" (change)="changeSelections($event)" vertical
                         multiple>
                         <mat-button-toggle [value]="1">Vorstellung</mat-button-toggle>
                         <mat-button-toggle [value]="2">Problemlösung</mat-button-toggle>
                         <mat-button-toggle [value]="3">Rezepturopt.</mat-button-toggle>
-                        <mat-button-toggle [value]="4">Musterproduktion</mat-button-toggle>
+                        <mat-button-toggle [value]="4">Musterprod.</mat-button-toggle>
                     </mat-button-toggle-group>
                 </div>
             </div>
             <ng-container *ngFor="let reasonReport of inputFinalReport.reasonReports">
-                <!-- TODO nur die gründe anzeigen die auch ausgewählt sind -->
                 <div class="col-md-5 paddingBottom" *ngIf="reasonReport.reason === 1">
                     <div class="card" hideToggle>
                         <div class="card-header bg-danger text-white">Vorstellung</div>
@@ -203,20 +198,23 @@
                                 <textarea matInput type="text" [(ngModel)]="reasonReport.carriedOutActivity"
                                     name="carriedOutActivity"></textarea>
                             </mat-form-field>
-                            
-                                @for (article of reasonReport.presentedArticle; track $index) {
-                                    <div>
-                                        <mat-form-field class="smallInput">
-                                            <mat-label>Artikel</mat-label>
-                                            <input matInput type="text" [(ngModel)]="article.name" name="articleName{{reasonReport.reason}}">
-                                        </mat-form-field>
-                                        <mat-form-field class="smallInput">
-                                            <mat-label>ArtikelNr</mat-label>
-                                            <input matInput type="text" [(ngModel)]="article.articleNr" name="articleNumber{{reasonReport.reason}}">
-                                        </mat-form-field>
-                                    </div>
-                                }
-                                <button mat-raised-button color="primary" class="btn btn-success" (click)="addArticle(reasonReport.reason!)">Add</button>
+
+                            @for (article of reasonReport.presentedArticle; track $index) {
+                            <div>
+                                <mat-form-field class="smallInput">
+                                    <mat-label>Artikel</mat-label>
+                                    <input matInput type="text" [(ngModel)]="article.name"
+                                        name="articleName{{reasonReport.reason}}">
+                                </mat-form-field>
+                                <mat-form-field class="smallInput">
+                                    <mat-label>ArtikelNr</mat-label>
+                                    <input matInput type="text" [(ngModel)]="article.articleNr"
+                                        name="articleNumber{{reasonReport.reason}}">
+                                </mat-form-field>
+                            </div>
+                            }
+                            <button mat-raised-button color="primary" class="btn btn-success"
+                                (click)="addArticle(reasonReport.reason!)">Add</button>
                         </div>
                     </div>
                 </div>
@@ -231,18 +229,21 @@
                             </mat-form-field>
 
                             @for (article of reasonReport.presentedArticle; track $index) {
-                                <div>
-                                    <mat-form-field class="smallInput">
-                                        <mat-label>Artikel</mat-label>
-                                        <input matInput type="text" [(ngModel)]="article.name" name="articleName{{reasonReport.reason}}">
-                                    </mat-form-field>
-                                    <mat-form-field class="smallInput">
-                                        <mat-label>ArtikelNr</mat-label>
-                                        <input matInput type="text" [(ngModel)]="article.articleNr" name="articleNumber{{reasonReport.reason}}">
-                                    </mat-form-field>
-                                </div>
+                            <div>
+                                <mat-form-field class="smallInput">
+                                    <mat-label>Artikel</mat-label>
+                                    <input matInput type="text" [(ngModel)]="article.name"
+                                        name="articleName{{reasonReport.reason}}">
+                                </mat-form-field>
+                                <mat-form-field class="smallInput">
+                                    <mat-label>ArtikelNr</mat-label>
+                                    <input matInput type="text" [(ngModel)]="article.articleNr"
+                                        name="articleNumber{{reasonReport.reason}}">
+                                </mat-form-field>
+                            </div>
                             }
-                            <button mat-raised-button color="primary" class="btn btn-success" (click)="addArticle(reasonReport.reason!)">Add</button>
+                            <button mat-raised-button color="primary" class="btn btn-success"
+                                (click)="addArticle(reasonReport.reason!)">Add</button>
                         </div>
                     </div>
                 </div>
@@ -257,18 +258,21 @@
                             </mat-form-field>
 
                             @for (article of reasonReport.presentedArticle; track $index) {
-                                <div>
-                                    <mat-form-field class="smallInput">
-                                        <mat-label>Artikel</mat-label>
-                                        <input matInput type="text" [(ngModel)]="article.name" name="articleName{{reasonReport.reason}}">
-                                    </mat-form-field>
-                                    <mat-form-field class="smallInput">
-                                        <mat-label>ArtikelNr</mat-label>
-                                        <input matInput type="text" [(ngModel)]="article.articleNr" name="articleNumber{{reasonReport.reason}}">
-                                    </mat-form-field>
-                                </div>
+                            <div>
+                                <mat-form-field class="smallInput">
+                                    <mat-label>Artikel</mat-label>
+                                    <input matInput type="text" [(ngModel)]="article.name"
+                                        name="articleName{{reasonReport.reason}}">
+                                </mat-form-field>
+                                <mat-form-field class="smallInput">
+                                    <mat-label>ArtikelNr</mat-label>
+                                    <input matInput type="text" [(ngModel)]="article.articleNr"
+                                        name="articleNumber{{reasonReport.reason}}">
+                                </mat-form-field>
+                            </div>
                             }
-                            <button mat-raised-button color="primary" class="btn" (click)="addArticle(reasonReport.reason!)">Add</button>
+                            <button mat-raised-button color="primary" class="btn"
+                                (click)="addArticle(reasonReport.reason!)">Add</button>
                         </div>
                     </div>
                 </div>
@@ -282,18 +286,21 @@
                                     name="carriedOutActivity"></textarea>
                             </mat-form-field>
                             @for (article of reasonReport.presentedArticle; track $index) {
-                                <div>
-                                    <mat-form-field class="smallInput">
-                                        <mat-label>Artikel</mat-label>
-                                        <input matInput type="text" [(ngModel)]="article.name" name="articleName{{reasonReport.reason}}">
-                                    </mat-form-field>
-                                    <mat-form-field class="smallInput">
-                                        <mat-label>ArtikelNr</mat-label>
-                                        <input matInput type="text" [(ngModel)]="article.articleNr" name="articleNumber{{reasonReport.reason}}">
-                                    </mat-form-field>
-                                </div>
+                            <div>
+                                <mat-form-field class="smallInput">
+                                    <mat-label>Artikel</mat-label>
+                                    <input matInput type="text" [(ngModel)]="article.name"
+                                        name="articleName{{reasonReport.reason}}">
+                                </mat-form-field>
+                                <mat-form-field class="smallInput">
+                                    <mat-label>ArtikelNr</mat-label>
+                                    <input matInput type="text" [(ngModel)]="article.articleNr"
+                                        name="articleNumber{{reasonReport.reason}}">
+                                </mat-form-field>
+                            </div>
                             }
-                            <button mat-raised-button color="primary" class="btn btn-success" (click)="addArticle(reasonReport.reason!)">Add</button>
+                            <button mat-raised-button color="primary" class="btn btn-success"
+                                (click)="addArticle(reasonReport.reason!)">Add</button>
                         </div>
                     </div>
                 </div>

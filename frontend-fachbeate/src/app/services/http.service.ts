@@ -12,7 +12,7 @@ import { Company } from '../models/company';
 
 
 
-const API_URL = "http://localhost:8079/"
+const API_URL = "http://10.2.3.72:8079/"
 
 
 @Injectable({
