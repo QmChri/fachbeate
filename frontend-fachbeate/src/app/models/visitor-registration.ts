@@ -1,3 +1,4 @@
+import { Guest } from "./guest";
 import { PlannedDepartmentVisit } from "./planned-department-visit";
 
 export interface VisitorRegistration {
@@ -41,4 +42,5 @@ export interface VisitorRegistration {
     transferFrom?: string;
     transferTo?: string;
     plannedDepartmentVisits: PlannedDepartmentVisit[];
+    guests?: Guest[];
 }

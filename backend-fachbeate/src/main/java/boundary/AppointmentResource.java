@@ -43,13 +43,11 @@ public class AppointmentResource {
     @Path("/workshop")
     @Transactional
     public Response postWorkshopRequirement(WorkshopRequirement workshopRequirement){
-        if(workshopRequirement.id != null && workshopRequirement.id != 0){
-            WorkshopRequirement persisted = WorkshopRequirement.findById(workshopRequirement.id);
-            persisted.updateEntity(workshopRequirement);
-            return  Response.ok(persisted).build();
+        WorkshopRequirement responseWorkshopRequirement = workshopRequirement.persistOrUpdate();
+        if(responseWorkshopRequirement == null){
+            return Response.serverError().build();
         }
-        workshopRequirement.persist();
-        return Response.ok(workshopRequirement).build();
+        return Response.ok(responseWorkshopRequirement).build();
     }
 
     @GET

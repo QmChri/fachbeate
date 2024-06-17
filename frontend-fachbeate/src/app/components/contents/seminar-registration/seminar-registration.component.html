@@ -55,7 +55,7 @@
                         </mat-form-field>
                         <button class="btn btn-success teilButton"
                             matTooltip="{{'SEMINAR-REGISTRATION.seminarRegistrationMembers' | translate}}"
-                            (click)="openDialog(inputWorkshop.amountParticipants!)">
+                            (click)="openDialog((inputWorkshop.guests !== null && inputWorkshop.guests !== undefined)?inputWorkshop.guests:[])">
                             <i class="fas fa-user-friends"></i>
                         </button>
                     </div>

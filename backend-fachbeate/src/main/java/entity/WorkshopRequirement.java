@@ -1,10 +1,8 @@
 package entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
+import jakarta.ws.rs.core.Response;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -84,6 +82,9 @@ public class WorkshopRequirement extends PanacheEntity {
 
     public String otherRequests;
 
+    @OneToMany()
+    public List<Guest> guests;
+
     public WorkshopRequirement() {
     }
 
@@ -144,9 +145,31 @@ public class WorkshopRequirement extends PanacheEntity {
         this.requestedTechnologist = new ArrayList<>();
 
         for(Technologist tech : newEntity.requestedTechnologist){
-
             this.requestedTechnologist.add(tech.persistOrUpdate());
         }
+
+        this.guests = new ArrayList<>();
+        for(Guest guest: newEntity.guests){
+            this.guests.add(guest.persistOrUpdate());
+        }
+    }
+
+    public WorkshopRequirement persistOrUpdate(){
+        if(this.id != null && this.id != 0){
+            WorkshopRequirement persisted = WorkshopRequirement.findById(this.id);
+            persisted.updateEntity(this);
+            return persisted;
+        }
+        this.persist();
+
+        for(Technologist tech : this.requestedTechnologist){
+            tech.persistOrUpdate();
+        }
+
+        for(Guest guest: this.guests){
+            guest.persistOrUpdate();
+        }
+        return this;
     }
 
 }
