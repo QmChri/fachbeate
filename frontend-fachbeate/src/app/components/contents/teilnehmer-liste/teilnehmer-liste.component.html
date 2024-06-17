@@ -3,7 +3,7 @@
         <div>
             <h2 class="paddingSearch">{{'DIALOG-MEMBERS.memberList' | translate}}</h2>
         </div>
-        <button nz-button (click)="addRow()" nzType="primary">{{'DIALOG-MEMBERS.add' | translate}}</button>
+        <button nz-button (click)="addRow({})" nzType="primary">{{'DIALOG-MEMBERS.add' | translate}}</button>
     </div>
     <hr>
     <nz-table #editRowTable [nzPageSize]="6" nzBordered nzSize="small" [nzData]="listOfData">
@@ -20,32 +20,32 @@
             <tr *ngFor="let data of editRowTable.data" class="editable-row">
                 <td>
                     <nz-select style="min-width: 6rem;" [(ngModel)]="data.sex">
-                        <nz-option nzValue="1" nzLabel="Männlich"></nz-option>
-                        <nz-option nzValue="2" nzLabel="Weiblich"></nz-option>
-                        <nz-option nzValue="3" nzLabel="Divers"></nz-option>
+                        <nz-option [nzValue]="1" nzLabel="Männlich"></nz-option>
+                        <nz-option [nzValue]="2" nzLabel="Weiblich"></nz-option>
+                        <nz-option [nzValue]="3" nzLabel="Divers"></nz-option>
                     </nz-select>
                 </td>
                 <td>
-                    <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
+                    <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id!)">
                         {{ data.firstName }}
                     </div>
                     <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.firstName" />
                 </td>
                 <td>
-                    <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
+                    <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id!)">
                         {{ data.lastName }}
                     </div>
                     <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.lastName" />
                 </td>
                 <td>
-                    <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
+                    <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id!)">
                         {{ data.function }}
                     </div>
                     <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.function" />
                 </td>
                 <td>
                     <button class="btn btn-danger" nz-popconfirm nzPopconfirmTitle="Sicher löschen?"
-                        (nzOnConfirm)="deleteRow(data.id)">
+                        (nzOnConfirm)="deleteRow(data.editId!)">
                         <i class="fa fa-trash" aria-hidden="true"></i>
 
                     </button>
@@ -54,8 +54,7 @@
         </tbody>
     </nz-table>
     <div class="header">
-        <!-- TODO speichern und abbrechen
         <div> <button (click)="closeDialog(false)" class="btn btn-secondary">Abbrechen</button></div>
-        <div> <button (click)="closeDialog(true)" class="btn btn-success">Speichern</button></div>-->
+        <div> <button (click)="closeDialog(true)" class="btn btn-success">Speichern</button></div>
     </div>
 </div>
