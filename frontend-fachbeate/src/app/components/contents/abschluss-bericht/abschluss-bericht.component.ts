@@ -1,18 +1,21 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FinalReport } from '../../../models/final-report';
 import { ReasonReport } from '../../../models/reason-report';
+import { HttpService } from '../../../services/http.service';
+import { Article } from '../../../models/article';
 
 @Component({
   selector: 'app-abschluss-bericht',
   templateUrl: './abschluss-bericht.component.html',
   styleUrl: './abschluss-bericht.component.scss'
 })
-export class AbschlussBerichtComponent {
+export class AbschlussBerichtComponent implements OnInit{
 
   inputFinalReport: FinalReport = {}
 
   reasonSelect: number[] = []
+  existingArticles: Article[] = []
   
   changeSelections(event: any) {
     var newReasonReports: ReasonReport[] = [];
@@ -36,7 +39,8 @@ export class AbschlussBerichtComponent {
 
   constructor(
     public dialogRef: MatDialogRef<AbschlussBerichtComponent>,
-    @Inject(MAT_DIALOG_DATA) public finalReport: FinalReport
+    @Inject(MAT_DIALOG_DATA) public finalReport: FinalReport,
+    private http: HttpService
   ) {
     this.inputFinalReport = finalReport;
 
@@ -50,6 +54,33 @@ export class AbschlussBerichtComponent {
     }
 
   }
+  
+  ngOnInit(): void {
+    this.getAllArticles();
+  }
+
+  getAllArticles(){
+    this.http.getAllArticles().subscribe({
+      next: data => this.existingArticles = data,
+      error: err => console.log(err)
+    })
+  }
+
+  insertOther(article: Article, reason: number){
+    var tmpArticle = this.existingArticles.find(element => element.articleNr!.toString() === article.articleNr!.toString());
+    
+    console.log(tmpArticle)
+
+    if(tmpArticle !== undefined){      
+      this.inputFinalReport.reasonReports!.find(element => element.reason === reason)!
+      .presentedArticle.find(element => element.articleNr!.toString() === article.articleNr!.toString())!.name = tmpArticle.name;
+
+      this.inputFinalReport.reasonReports!.find(element => element.reason === reason)!
+      .presentedArticle.find(element => element.articleNr!.toString() === article.articleNr!.toString())!.id = tmpArticle.id;
+    }
+  }
+
+
   closeDialog(save: boolean) {
     this.dialogRef.close({ finalReport: this.finalReport, save: save });
   }

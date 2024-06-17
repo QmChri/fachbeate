@@ -207,7 +207,7 @@
                                 <mat-form-field class="smallInput">
                                     <mat-label>ArtikelNr</mat-label>
                                     <input matInput type="text" [(ngModel)]="article.articleNr"
-                                        name="articleNumber{{reasonReport.reason}}">
+                                        name="articleNumber{{reasonReport.reason}}" (ngModelChange)="insertOther(article, reasonReport.reason)">
                                 </mat-form-field>
                             </div>
                             }
@@ -236,7 +236,7 @@
                                 <mat-form-field class="smallInput">
                                     <mat-label>ArtikelNr</mat-label>
                                     <input matInput type="text" [(ngModel)]="article.articleNr"
-                                        name="articleNumber{{reasonReport.reason}}">
+                                        name="articleNumber{{reasonReport.reason}}" (ngModelChange)="insertOther(article, reasonReport.reason)">
                                 </mat-form-field>
                             </div>
                             }
@@ -265,7 +265,7 @@
                                 <mat-form-field class="smallInput">
                                     <mat-label>ArtikelNr</mat-label>
                                     <input matInput type="text" [(ngModel)]="article.articleNr"
-                                        name="articleNumber{{reasonReport.reason}}">
+                                        name="articleNumber{{reasonReport.reason}}" (ngModelChange)="insertOther(article, reasonReport.reason)">
                                 </mat-form-field>
                             </div>
                             }
@@ -290,10 +290,10 @@
                                     <input matInput type="text" [(ngModel)]="article.name"
                                         name="articleName{{reasonReport.reason}}">
                                 </mat-form-field>
-                                <mat-form-field class="smallInput">
+                                <mat-form-field class="smallInput" >
                                     <mat-label>ArtikelNr</mat-label>
-                                    <input matInput type="text" [(ngModel)]="article.articleNr"
-                                        name="articleNumber{{reasonReport.reason}}">
+                                    <input matInput type="text" [(ngModel)]="article.articleNr" 
+                                        name="articleNumber{{reasonReport.reason}}" (ngModelChange)="insertOther(article, reasonReport.reason)">
                                 </mat-form-field>
                             </div>
                             }
