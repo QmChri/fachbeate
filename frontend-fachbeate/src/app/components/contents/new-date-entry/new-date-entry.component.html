@@ -1,5 +1,6 @@
 <div class="mainView">
-    <h1 class="paddingSearch">Eintrag für: "Name"</h1>
+    <h1 class="paddingSearch">Eintrag für: {{inputDate.requestedTechnologist?.firstName}}
+        {{inputDate.requestedTechnologist?.lastName}}</h1>
     <hr>
 
     <div class="center-items">
@@ -30,15 +31,18 @@
                 </div>
             </mat-select>
         </mat-form-field>
+        
         <mat-form-field>
-            <mat-label>Von - Datum</mat-label>
-            <input matInput [matDatepicker]="picker1" type="text" [(ngModel)]="inputDate.startDate" name="start">
+            <mat-label>Von</mat-label>
+            <input required matInput [matDatepicker]="picker1" type="text" [(ngModel)]="inputDate.startDate"
+                name="start">
             <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker #picker1></mat-datepicker>
         </mat-form-field>
+
         <mat-form-field>
-            <mat-label>Bis - Datum</mat-label>
-            <input matInput [matDatepicker]="picker2" type="text" [(ngModel)]="inputDate.endDate" name="end">
+            <mat-label>Bis</mat-label>
+            <input required matInput [matDatepicker]="picker2" type="text" [(ngModel)]="inputDate.endDate" name="end">
             <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
             <mat-datepicker #picker2></mat-datepicker>
         </mat-form-field>

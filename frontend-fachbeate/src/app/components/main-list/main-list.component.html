@@ -49,13 +49,13 @@
   <tbody>
     <tr *ngFor="let data of nzTable.data" matTooltip="Doppelklick um zu bearbeiten ...">
       <td (dblclick)="openCRC(data.id!, data.type!)">{{data.nr}}</td>
-      <td (dblclick)="openCRC(data.id!, data.type!)">{{ data.createDate!.toString().substring(0,10) }}</td>
+      <td (dblclick)="openCRC(data.id!, data.type!)">{{ data.createDate!.toString() | date:'dd.MM.yy' }}</td>
       <td (dblclick)="openCRC(data.id!, data.type!)">{{ data.status }}</td>
       <td (dblclick)="openCRC(data.id!, data.type!)">{{ data.toha }}</td>
       <td (dblclick)="openCRC(data.id!, data.type!)">{{ data.vertreter }}</td>
       <td (dblclick)="openCRC(data.id!, data.type!)">{{ data.fachberater }}</td>
-      <td (dblclick)="openCRC(data.id!, data.type!)">{{ data.timespan!.start!.toString().substring(0,10) }}/{{
-        data.timespan!.end!.toString().substring(0,10) }}</td>
+      <td (dblclick)="openCRC(data.id!, data.type!)">{{ data.timespan!.start!.toString() | date:'dd.MM.yy' }} - {{
+        data.timespan!.end!.toString() | date:'dd.MM.yy' }}</td>
       <td style="justify-content: center;" (dblclick)="openCRC(data.id!, data.type!)">
         <div class="centerRow">
           <span *ngIf="data.abschlussberichtFarbe === 0" class="text-success">{{data.abschlussbericht}}</span>

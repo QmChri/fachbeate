@@ -4,6 +4,9 @@ import { AbschlussBerichtComponent } from '../abschluss-bericht/abschluss-berich
 import { Technologist } from '../../../models/technologist';
 import { HttpService } from '../../../services/http.service';
 import { TechnologistAppointment } from '../../../models/technologist-appointment';
+import { computed, inject, signal } from '@angular/core';
+import { DateAdapter, MAT_DATE_LOCALE, MatDateFormats } from '@angular/material/core';
+import { MatDatepickerIntl } from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-new-date-entry',
@@ -27,20 +30,20 @@ export class NewDateEntryComponent implements OnInit {
   technologists: Technologist[] = [];
 
   constructor(public dialogRef: MatDialogRef<AbschlussBerichtComponent>,
-     @Inject(MAT_DIALOG_DATA) public timeSpan: TechnologistAppointment,
-     private http: HttpService
-    ) {
+    @Inject(MAT_DIALOG_DATA) public timeSpan: TechnologistAppointment,
+    private http: HttpService
+  ) {
   }
   ngOnInit(): void {
 
     this.inputDate.startDate = this.timeSpan.startDate;
 
-    if(this.timeSpan.id !== null && this.timeSpan.id !== undefined && this.timeSpan.id !== 0){
+    if (this.timeSpan.id !== null && this.timeSpan.id !== undefined && this.timeSpan.id !== 0) {
       this.inputDate.id = this.timeSpan.id;
       this.inputDate.endDate = this.timeSpan.endDate;
       this.inputDate.reason = this.timeSpan.reason;
       this.inputDate.requestedTechnologist = this.timeSpan.requestedTechnologist;
-    }else{
+    } else {
       this.inputDate.endDate = this.adjustEndDate(this.timeSpan.endDate!.toString())
     }
 
@@ -48,11 +51,11 @@ export class NewDateEntryComponent implements OnInit {
     this.getTechnologists();
   }
 
-  addToList(addItem: string){
+  addToList(addItem: string) {
     this.reasons.push(addItem);
   }
 
-  getTechnologists(){
+  getTechnologists() {
     this.http.getActiveTechnologist().subscribe({
       next: data => {
         this.technologists = data;
@@ -66,9 +69,9 @@ export class NewDateEntryComponent implements OnInit {
     this.dialogRef.close({});
   }
 
-  save(){
+  save() {
     this.http.postOtherDate(this.inputDate).subscribe({
-      next: data=>{
+      next: data => {
         this.closeDialog();
       },
       error: err => {
