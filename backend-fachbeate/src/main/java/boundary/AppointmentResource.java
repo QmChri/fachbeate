@@ -126,4 +126,9 @@ public class AppointmentResource {
         return Response.ok(FinalReport.listAll()).build();
     }
 
+
+    @GET
+    @Path("/article")
+    public Response getArticles(){return Response.ok(Article.listAll()).build();}
+
 }

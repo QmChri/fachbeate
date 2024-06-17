@@ -9,6 +9,7 @@ import { Representative } from '../models/representative';
 import { FinalReport } from '../models/final-report';
 import { VisitorRegistration } from '../models/visitor-registration';
 import { Company } from '../models/company';
+import { Article } from '../models/article';
 
 
 
@@ -120,6 +121,11 @@ export class HttpService {
 
   getFinalReports():Observable<FinalReport[]>{
     return this.http.get<FinalReport[]>(API_URL + "appointment/finalReport");
+  }
+
+
+  getAllArticles(): Observable<Article[]>{
+    return this.http.get<Article[]>(API_URL + "appointment/article");
   }
 
 }
