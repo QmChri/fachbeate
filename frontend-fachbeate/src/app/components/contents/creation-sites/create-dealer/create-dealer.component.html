@@ -21,15 +21,15 @@
                         </label>
                     </div>
                     <div class="displayBySide">
-                        <button class="btn btn-danger" matTooltip="{{'CREATE-DEALER.cancel' | translate}}" [hidden]="inputCompany.id===0" (click)="cancelEdit()"><i
-                                class="fa fa-times"></i></button>
-                        <button class="btn btn-success" matTooltip="{{'CREATE-DEALER.safe' | translate}}" (click)="postDealer()"><i class="fa fa-save"></i></button>
+                        <button class="btn btn-danger" matTooltip="{{'CREATE-DEALER.cancel' | translate}}"
+                            [hidden]="inputCompany.id===0" (click)="cancelEdit()"><i class="fa fa-times"></i></button>
+                        <button class="btn btn-success" matTooltip="{{'CREATE-DEALER.safe' | translate}}"
+                            (click)="postDealer()"><i class="fa fa-save"></i></button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!--TODO technologistList noch nicht richtig ->gehört dealersList -->
     <div class="col-md-9">
         <nz-table class="col" #editRowTable nzTableLayout="fixed" nzBordered [nzData]="companyList">
             <thead>
