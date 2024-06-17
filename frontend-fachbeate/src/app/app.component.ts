@@ -17,7 +17,7 @@ interface SideNavToggle {
 export class AppComponent implements OnInit {
   title = 'Fachberater';
   roles: string[] = [];
- // public userProfile: KeycloakProfile | null = null;
+  // public userProfile: KeycloakProfile | null = null;
 
   constructor(/*private keycloak: KeycloakService,*/ private translate: TranslateService) {
     this.translate.setDefaultLang('de');

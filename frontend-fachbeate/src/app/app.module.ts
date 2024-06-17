@@ -33,7 +33,7 @@ import { CustomerRequirementsComponent } from './components/contents/customer-re
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { de_DE } from 'ng-zorro-antd/i18n';
 import de from '@angular/common/locales/de';
-import { MatOptionModule } from '@angular/material/core';
+import { MAT_DATE_FORMATS, MatOptionModule } from '@angular/material/core';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
