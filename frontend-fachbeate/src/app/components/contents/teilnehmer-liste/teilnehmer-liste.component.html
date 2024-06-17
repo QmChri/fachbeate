@@ -6,7 +6,7 @@
         <button nz-button (click)="addRow()" nzType="primary">{{'DIALOG-MEMBERS.add' | translate}}</button>
     </div>
     <hr>
-
+    <!--TODO Speichern noch nicht implementiert -->
     <nz-table #editRowTable [nzPageSize]="6" nzBordered nzSize="small" [nzData]="listOfData">
         <thead>
             <tr>
@@ -54,4 +54,9 @@
             </tr>
         </tbody>
     </nz-table>
+    <div class="header">
+        <!-- TODO speichern und abbrechen
+        <div> <button (click)="closeDialog(false)" class="btn btn-secondary">Abbrechen</button></div>
+        <div> <button (click)="closeDialog(true)" class="btn btn-success">Speichern</button></div>-->
+    </div>
 </div>

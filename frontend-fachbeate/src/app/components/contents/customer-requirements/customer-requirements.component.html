@@ -12,7 +12,6 @@
     </div>
 </div>
 <hr>
-
 <div class="row">
     <div class="col-md-3">
         <div class="card">
@@ -23,11 +22,12 @@
                         <mat-form-field>
                             <mat-label>{{"REQ-TECH.dealers"|translate}}</mat-label>
                             <!-----Do sama daham----->
-                            <mat-select [ngModel]="(inputCustomerRequirement.company === undefined)?undefined:inputCustomerRequirement.company.id" required
-                            (valueChange)="changeCompany($event)">
+                            <mat-select
+                                [ngModel]="(inputCustomerRequirement.company === undefined)?undefined:inputCustomerRequirement.company.id"
+                                required (valueChange)="changeCompany($event)">
                                 <mat-option>--</mat-option>
                                 @for (c of companies; track companies) {
-                                    <mat-option [value]="c.id">{{c.name}}</mat-option>
+                                <mat-option [value]="c.id">{{c.name}}</mat-option>
                                 }
                             </mat-select>
                             @if (tohaControl.hasError('required')) {
@@ -38,7 +38,8 @@
                     <div class="center-items ">
                         <mat-form-field>
                             <mat-label>{{"REQ-TECH.representative"|translate}}</mat-label>
-                            <mat-select [ngModel]="(inputCustomerRequirement.representative === undefined)?undefined:inputCustomerRequirement.representative.id"
+                            <mat-select
+                                [ngModel]="(inputCustomerRequirement.representative === undefined)?undefined:inputCustomerRequirement.representative.id"
                                 (valueChange)="changeRepresentative($event)" required>
                                 <mat-option>--</mat-option>
                                 @for (r of representative; track representative) {
@@ -153,12 +154,12 @@
 <br>
 <div class="header">
     <h1 style="margin: 0%;">{{"REQ-TECH.table-title"|translate}}</h1>
+    <nz-alert
+        *ngIf="(!inputCustomerRequirement.requestedTechnologist || !inputCustomerRequirement.representative) && buttonClicked"
+        nzBanner nzType="error" nzMessage="Technologe/Vertreter auswählen" nzCloseable></nz-alert>
     <button nz-button (click)="addRow()" nzType="primary">{{"REQ-TECH.new-customerVisit"|translate}}</button>
 </div>
 <hr>
-
-<!-- TODO Liste untern formatieren sodass sofort etwas dort steht und die input felde rniht zu groß sind bei kleinem
-Bildschirm -->
 <div class="row">
     <nz-table class="col" #editRowTable nzTableLayout="fixed" nzBordered
         [nzData]="inputCustomerRequirement.customerVisits!">
@@ -230,9 +231,7 @@ Bildschirm -->
                             (nzOnConfirm)="deleteRow(data.editId)">
                             <i class="fa fa-trash"></i>
                         </button>
-                        <button class="btn btn-success"  matTooltip="{{'REQ-TECH.final-report' | translate}}"
-                            (click)="openDialog(data)">
-                            <div *ngIf="">asd</div>
+                        <button class="btn btn-success" matTooltip="Abschlussbericht" (click)="openDialog(data)">
                             <i class="fa fa-file"></i>
                         </button>
                     </div>

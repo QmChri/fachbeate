@@ -25,7 +25,7 @@ export class CustomerRequirementsComponent implements OnInit {
   tohaControl = new FormControl<Toechterhaeandler | null>(null, Validators.required);
 
   selectedValue?: string;
-  
+
   technologists: Technologist[] = [];
   representative: Representative[] = [];
   companies: Company[] = [];
@@ -82,7 +82,7 @@ export class CustomerRequirementsComponent implements OnInit {
       editVisit.training = event.value.includes(5);
     }
   }
-  
+
   ngOnInit(): void {
 
     this.getTechnologist();
@@ -149,16 +149,18 @@ export class CustomerRequirementsComponent implements OnInit {
       }
     });
   }
+  buttonClicked?: boolean;
 
   openDialog(customerVisit: CustomerVisit) {
     var finalReport: FinalReport = {}
+    this.buttonClicked = true;
 
     if (customerVisit.finalReport === null || customerVisit.finalReport === undefined || customerVisit.finalReport.id === 0) {
 
       var rRepo: ReasonReport[] = [
         (customerVisit.presentationOfNewProducts) ? { reason: 1, presentedArticle: [] } : { reason: 0, presentedArticle: [] },
         (customerVisit.existingProducts) ? { reason: 2, presentedArticle: [] } : { reason: 0, presentedArticle: [] },
-        (customerVisit.recipeOptimization) ? { reason: 3, presentedArticle: []} : { reason: 0, presentedArticle: [] },
+        (customerVisit.recipeOptimization) ? { reason: 3, presentedArticle: [] } : { reason: 0, presentedArticle: [] },
         (customerVisit.sampleProduction) ? { reason: 4, presentedArticle: [] } : { reason: 0, presentedArticle: [] },
         (customerVisit.training) ? { reason: 5, presentedArticle: [] } : { reason: 0, presentedArticle: [] }
       ].filter(element => element.reason !== 0);
@@ -191,6 +193,7 @@ export class CustomerRequirementsComponent implements OnInit {
           this.postCustomerRequirement();
         }
       });
+      this.buttonClicked=false;
   }
 
   getTechnologist() {

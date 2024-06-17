@@ -2,7 +2,8 @@
     <div>
         <h1 class="paddingSearch" style="margin-bottom: 0;">{{'VISITOR-REGISTRATION.header' | translate}}</h1>
     </div>
-    <button class="btn btn-success" (click)="postVisitorRegistration()">{{'VISITOR-REGISTRATION.headerButton' | translate}}</button>
+    <button class="btn btn-success" (click)="postVisitorRegistration()">{{'VISITOR-REGISTRATION.headerButton' |
+        translate}}</button>
 </div>
 <hr>
 
@@ -61,7 +62,6 @@
                             <mat-label>{{"VISITOR-REGISTRATION.customerCompany" | translate}}</mat-label>
                             <input matInput required>
                         </mat-form-field>
-                        <!-- TODO bei openDialog nicht eintrage-->
                         <button class="btn btn-success teilButton"
                             matTooltip="{{'VISITOR-REGISTRATION.seminarRegistration' | translate}}"
                             (click)="openDialog(1!)">
@@ -366,7 +366,8 @@
                                     (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
                                 <td>{{'VISITOR-REGISTRATION.'+data.name | translate}}</td>
                                 <td>
-                                    <input type="date" [ngModel]="setOfCheckedId.get(data.id)" (ngModelChange)="inputDateChange(data.id, $event)" class="form-control">
+                                    <input type="date" [ngModel]="setOfCheckedId.get(data.id)"
+                                        (ngModelChange)="inputDateChange(data.id, $event)" class="form-control">
                                 </td>
                             </tr>
                         </tbody>
@@ -388,10 +389,9 @@
                                     (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
                                 <td>{{'VISITOR-REGISTRATION.'+data.name | translate}}</td>
                                 <td>
-                                    <input type="date" 
-                                    [ngModel]="(setOfCheckedId.get(data.id) !== undefined)?setOfCheckedId.get(data.id):undefined"
-                                    (ngModelChange)="inputDateChange(data.id, $event)"
-                                     class="form-control">
+                                    <input type="date"
+                                        [ngModel]="(setOfCheckedId.get(data.id) !== undefined)?setOfCheckedId.get(data.id):undefined"
+                                        (ngModelChange)="inputDateChange(data.id, $event)" class="form-control">
                                 </td>
                             </tr>
                         </tbody>
