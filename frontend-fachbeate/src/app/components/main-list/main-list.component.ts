@@ -23,7 +23,7 @@ export class MainListComponent implements OnInit {
   listOfDisplayData: DataItem[] = [];
   listOfColumn: ColumnDefinition[] = [
     {
-      name: 'customerNr',
+      name: 'name',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.nr!.toString().localeCompare(b.nr!.toString()),
       listOfFilter: [
@@ -41,16 +41,6 @@ export class MainListComponent implements OnInit {
       filterFn: (list: string[], item: DataItem) => true
     },
     {
-      name: 'state',
-      sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.status!.localeCompare(b.status!),
-      listOfFilter: [
-        { text: 'open', value: 'open' },
-        { text: 'in-progress', value: 'in-progress' }
-      ],
-      filterFn: (list: string[], item: DataItem) => list.some(name => item.status!.indexOf(name) !== -1)
-    },
-    {
       name: 'dealers',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.toha!.localeCompare(b.toha!),
@@ -62,13 +52,14 @@ export class MainListComponent implements OnInit {
       filterFn: (list: string[], item: DataItem) => list.some(name => item.toha!.indexOf(name) !== -1)
     },
     {
-      name: 'representative',
+      name: 'state',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.vertreter!.localeCompare(b.vertreter!),
+      sortFn: (a: DataItem, b: DataItem) => a.status!.localeCompare(b.status!),
       listOfFilter: [
-        { text: ' ', value: ' ' }
+        { text: 'open', value: 'open' },
+        { text: 'in-progress', value: 'in-progress' }
       ],
-      filterFn: (list: string[], item: DataItem) => list.some(name => item.vertreter!.indexOf(name) !== -1)
+      filterFn: (list: string[], item: DataItem) => list.some(name => item.status!.indexOf(name) !== -1)
     },
     {
       name: 'technologist',
@@ -80,6 +71,15 @@ export class MainListComponent implements OnInit {
       filterFn: (list: string[], item: DataItem) => list.some(name => item.fachberater!.indexOf(name) !== -1)
     },
     {
+      name: 'representative',
+      sortOrder: null,
+      sortFn: (a: DataItem, b: DataItem) => a.vertreter!.localeCompare(b.vertreter!),
+      listOfFilter: [
+        { text: ' ', value: ' ' }
+      ],
+      filterFn: (list: string[], item: DataItem) => list.some(name => item.vertreter!.indexOf(name) !== -1)
+    },
+    {
       name: 'time-frame',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.timespan!.valueOf().toString().localeCompare(b.timespan!.valueOf().toString()),
@@ -87,6 +87,15 @@ export class MainListComponent implements OnInit {
         { text: ' ', value: ' ' },
       ],
       filterFn: (list: string[], item: DataItem) => true
+    }, 
+    {
+      name: 'customer',
+      sortOrder: null,
+      sortFn: (a: DataItem, b: DataItem) => a.vertreter!.localeCompare(b.vertreter!),
+      listOfFilter: [
+        { text: ' ', value: ' ' }
+      ],
+      filterFn: (list: string[], item: DataItem) => list.some(name => item.vertreter!.indexOf(name) !== -1)
     },
     {
       name: 'final-report',

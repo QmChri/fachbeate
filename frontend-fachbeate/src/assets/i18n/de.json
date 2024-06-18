@@ -15,12 +15,14 @@
     "MAIN-LIST": {
         "header": "Übersicht Anforderungen und Anmeldungen",
         "filter-clear": "Filter/Sortierung aufheben",
+        "name": "Name des Unternehmens",
         "creationDate": "Erstelldatum",
         "state": "Status",
         "dealers": "Händler/Töchter",
         "representative": "Vertreter",
         "technologist": "Fachberater",
-        "time-frame": "Zeitraum",
+        "time-frame": "Angeforderter Zeitraum",
+        "customer": "Kunde",
         "final-report": "Abschlussbericht",
         "tech-req": "Fachberater Anforderung",
         "work-req": "Seminar"

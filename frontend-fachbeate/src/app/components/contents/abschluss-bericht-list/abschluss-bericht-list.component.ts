@@ -116,7 +116,7 @@ export class AbschlussBerichtListComponent { //implements OnInit
   ];
 
 
-  constructor(private router: Router, private http: HttpService, private datePipe: DatePipe) { }
+  constructor(private router: Router, private http: HttpService) { }
 
   ngOnInit(): void {
     this.loadData();
@@ -146,7 +146,7 @@ export class AbschlussBerichtListComponent { //implements OnInit
 
           this.listOfData = [...this.listOfData,{
             company: element.company!,
-            dateOfVisit: this.datePipe.transform(element.dateOfVisit!, "dd.MMM.yy")!,
+            dateOfVisit: element.dateOfVisit!.toString(),
             creationDate: undefined!,
             technologist: element.technologist!,
             dateOfReworkTechnologist: undefined!,
