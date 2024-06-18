@@ -21,7 +21,8 @@
                         </mat-form-field>
                         <mat-form-field class="smallInputSide">
                             <mat-label>{{"VISITOR-REGISTRATION.reason" | translate}}</mat-label>
-                            <input matInput [(ngModel)]="inputVisitRegistration.reason">
+                            <input matInput>
+                            <input matInput><!--TODO not binded-->
                         </mat-form-field>
                     </div>
                     <div class="displayBySide">
@@ -60,7 +61,7 @@
                     <div class="paddingSearch">
                         <mat-form-field style="max-width: 11.5rem;">
                             <mat-label>{{"VISITOR-REGISTRATION.customerCompany" | translate}}</mat-label>
-                            <input matInput required>
+                            <input matInput required> <!--TODO Not Binded-->
                         </mat-form-field>
                         <button class="btn btn-success teilButton"
                             matTooltip="{{'VISITOR-REGISTRATION.seminarRegistration' | translate}}"
@@ -284,7 +285,6 @@
             </div>
         </div>
     </div>
-    <!--TODO alle mit Ngmodel verknüpfen -->
     <div class="col-md-4 paddingBottom" *ngIf="buttonSelect.includes('5')">
         <div class="card">
             <div class="card-header text-white bg-danger paddingSearch">{{'VISITOR-REGISTRATION.hotelBooking' |

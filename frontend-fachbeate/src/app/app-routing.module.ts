@@ -21,6 +21,7 @@ const routes: Routes = [
   { path: 'seminar-registration/:id', component: SeminarRegistrationComponent, canActivate: [authGuard], data: { requiredRoles: [1,2,7] }  },
   { path: 'create-technologist', component: CreateTechnologistComponent, canActivate: [authGuard], data: { requiredRoles: [1,7] }  },
   { path: 'visitorRegistration', component: VisitorRegistrationComponent, canActivate: [authGuard], data: { requiredRoles: [1,2,3,5,6,7] }  },
+  { path: 'visitorRegistration/:id', component: VisitorRegistrationComponent, canActivate: [authGuard], data: { requiredRoles: [1,2,3,5,6,7] }  },
   { path: 'app-abschluss-bericht-list', component: AbschlussBerichtListComponent, canActivate: [authGuard], data: { requiredRoles: [1,2,3,4,6,7] }  },
   { path: 'create-dealer', component: CreateDealerComponent, canActivate: [authGuard], data: { requiredRoles: [1,7] }  },
   { path: 'create-representative', component: CreateRepresentativeComponent, canActivate: [authGuard], data: { requiredRoles: [1,7] }  },

@@ -5,6 +5,7 @@ import { Technologist } from '../../models/technologist';
 import { TranslateService } from '@ngx-translate/core';
 import { DateLocale } from 'ng-zorro-antd/i18n';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotExpr } from '@angular/compiler';
 
 @Component({
   selector: 'app-main-list',
@@ -207,9 +208,42 @@ export class MainListComponent implements OnInit {
         this.listOfDisplayData = [...this.listOfData];
       },
       error: err => {
-
+        
       }
     });
+
+    this.http.getVisitorRegistration().subscribe({
+
+      next: data => {
+
+        var visitorDataList: DataItem[] = []
+
+        console.log(data);
+        
+
+        data.forEach(element => {
+
+          visitorDataList = [...visitorDataList, {
+            id: element.id!,
+            nr: "",
+            createDate: element.dateOfCreation !== undefined?element.dateOfCreation:new Date(),
+            status: "ToDo",
+            toha: element.customerOrCompany!,
+            vertreter: element.responsibleSupervisor!,
+            fachberater: "",
+            timespan: {
+              start: element.fromDate,
+              end: element.toDate
+            },
+            abschlussbericht: "",
+            type: 2
+          }];
+
+        });
+
+        this.listOfDisplayData = [...visitorDataList];
+      }
+    })
 
   }
 
@@ -229,6 +263,8 @@ export class MainListComponent implements OnInit {
       this.router.navigate(['/customer-requirements', id]);
     } else if (type === 1) {
       this.router.navigate(['/seminar-registration', id]);
+    }else if (type === 2) {
+      this.router.navigate(['/visitorRegistration', id]);
     }
   }
 

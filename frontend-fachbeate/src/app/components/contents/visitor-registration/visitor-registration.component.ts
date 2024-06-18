@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { TeilnehmerListeComponent } from '../teilnehmer-liste/teilnehmer-liste.component';
 import { HttpService } from '../../../services/http.service';
 import { Guest } from '../../../models/guest';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-visitor-registration',
@@ -21,7 +22,7 @@ export class VisitorRegistrationComponent implements OnInit {
     guests: []
   };
 
-  constructor(private dialog: MatDialog, private http: HttpService) { }
+  constructor(private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute) { }
 
   openDialog(guests: Guest[]) {
  
@@ -116,6 +117,32 @@ export class VisitorRegistrationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    this.route.paramMap.subscribe(params => {
+      if(params.get('id') != null){
+        this.http.getVisitorRegistrationById(parseInt(params.get('id')!)).subscribe({
+          next: data => {
+            if(data != null){
+              this.inputVisitRegistration = data;
+              
+              this.buttonSelect = [
+                (data.hotelBooking)?"1":"",
+                (data.flightBooking)?"2":"",
+                (data.trip)?"3":"",
+                (data.companyTour)?"4":"",
+                (data.meal)?"5":"",
+                (data.customerPresent)?"6":"",
+                (data.diploma)?"7":""
+              ].filter(p => p != "");
+            }
+          },
+          error: err => {
+            console.log(err);
+          }
+        });
+      }
+    });
+
     this.listOfCurrentPageData = [
       {
         id: 1,
@@ -184,6 +211,16 @@ export class VisitorRegistrationComponent implements OnInit {
         dateOfVisit: new Date()
       }
     ]
+  }
+
+  changeSelections(event: any){   
+    this.inputVisitRegistration.hotelBooking = this.buttonSelect.includes("1");
+    this.inputVisitRegistration.flightBooking = this.buttonSelect.includes("2");
+    this.inputVisitRegistration.trip = this.buttonSelect.includes("3");
+    this.inputVisitRegistration.companyTour = this.buttonSelect.includes("4");
+    this.inputVisitRegistration.meal = this.buttonSelect.includes("5");
+    this.inputVisitRegistration.customerPresent = this.buttonSelect.includes("6");
+    this.inputVisitRegistration.diploma = this.buttonSelect.includes("7");
   }
 
   postVisitorRegistration(){

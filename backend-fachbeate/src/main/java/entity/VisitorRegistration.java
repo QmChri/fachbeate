@@ -26,11 +26,11 @@ public class VisitorRegistration extends PanacheEntity {
     public String stayFromTime;
     public Date stayToDate;
     public String stayToTime;
-    public int intOfPeopleTour;
+    public int numberOfPeopleTour;
     public boolean tourLanguageEN;
     public Date tourDate;
     public String tourTime;
-    public int intOfPeopleMeetingRoom;
+    public int numberOfPeopleMeetingRoom;
     public Date meetingRoomDate;
     public String meetingRoomTime;
     public String hotelLocation;
@@ -50,6 +50,17 @@ public class VisitorRegistration extends PanacheEntity {
     public String otherTravelRequirements;
     public String transferFrom;
     public String transferTo;
+
+
+    public boolean hotelBooking;
+    public boolean flightBooking;
+    public boolean trip;
+    public boolean companyTour;
+    public boolean meal;
+    public boolean customerPresent;
+    public boolean diploma;
+
+
     @OneToMany
     public List<PlannedDepartmentVisit> plannedDepartmentVisits;
 
@@ -75,11 +86,11 @@ public class VisitorRegistration extends PanacheEntity {
         this.stayFromTime = newVisitorRegistration.stayFromTime;
         this.stayToDate = newVisitorRegistration.stayToDate;
         this.stayToTime = newVisitorRegistration.stayToTime;
-        this.intOfPeopleTour = newVisitorRegistration.intOfPeopleTour;
+        this.numberOfPeopleTour = newVisitorRegistration.numberOfPeopleTour;
         this.tourLanguageEN = newVisitorRegistration.tourLanguageEN;
         this.tourDate = newVisitorRegistration.tourDate;
         this.tourTime = newVisitorRegistration.tourTime;
-        this.intOfPeopleMeetingRoom = newVisitorRegistration.intOfPeopleMeetingRoom;
+        this.numberOfPeopleMeetingRoom = newVisitorRegistration.numberOfPeopleMeetingRoom;
         this.meetingRoomDate = newVisitorRegistration.meetingRoomDate;
         this.meetingRoomTime = newVisitorRegistration.meetingRoomTime;
         this.hotelLocation = newVisitorRegistration.hotelLocation;
@@ -99,6 +110,14 @@ public class VisitorRegistration extends PanacheEntity {
         this.otherTravelRequirements = newVisitorRegistration.otherTravelRequirements;
         this.transferFrom = newVisitorRegistration.transferFrom;
         this.transferTo = newVisitorRegistration.transferTo;
+
+        this.hotelBooking = newVisitorRegistration.hotelBooking;
+        this.flightBooking = newVisitorRegistration.flightBooking;
+        this.trip = newVisitorRegistration.trip;
+        this.companyTour = newVisitorRegistration.companyTour;
+        this.meal = newVisitorRegistration.meal;
+        this.customerPresent = newVisitorRegistration.customerPresent;
+        this.diploma = newVisitorRegistration.diploma;
 
         for (PlannedDepartmentVisit visit : newVisitorRegistration.plannedDepartmentVisits) {
             if(visit.id == null || visit.id == 0) {
