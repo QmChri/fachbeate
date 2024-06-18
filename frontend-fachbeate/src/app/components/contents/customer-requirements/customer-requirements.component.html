@@ -8,6 +8,10 @@
         </h1>
     </div>
     <div>
+        <button class="btn btn-success" *ngIf="roleService.checkPermission([1,7])">Freigabe GL</button>
+        <button class="btn btn-warning" *ngIf="roleService.checkPermission([1,2,7])" style="margin-left: 4rem;">Freigabe AL</button>
+    </div>
+    <div>
         <button class="btn btn-success" (click)="postCustomerRequirement()">{{"REQ-TECH.send" | translate}}</button>
     </div>
 </div>
@@ -159,6 +163,7 @@
         nzBanner nzType="error" nzMessage="Fachberater/Vertreter auswählen" nzCloseable></nz-alert>
     <button nz-button (click)="addRow()" nzType="primary">{{"REQ-TECH.new-customerVisit"|translate}}</button>
 </div>
+
 <hr>
 <div class="row">
     <nz-table class="col" #editRowTable nzTableLayout="fixed" nzBordered
@@ -231,7 +236,7 @@
                             (nzOnConfirm)="deleteRow(data.editId)">
                             <i class="fa fa-trash"></i>
                         </button>
-                        <button class="btn btn-success" matTooltip="Abschlussbericht" (click)="openDialog(data)">
+                        <button *ngIf="roleService.checkPermission([1,2,3,4])" class="btn btn-success" matTooltip="Abschlussbericht" (click)="openDialog(data)">
                             <i class="fa fa-file"></i>
                         </button>
                     </div>

@@ -12,6 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ReasonReport } from '../../../models/reason-report';
 import { Representative } from '../../../models/representative';
 import { Company } from '../../../models/company';
+import { RoleService } from '../../../services/role.service';
 
 @Component({
   selector: 'app-customer-requirements',
@@ -30,7 +31,11 @@ export class CustomerRequirementsComponent implements OnInit {
   representative: Representative[] = [];
   companies: Company[] = [];
 
-  constructor(private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute) { }
+  constructor(private dialog: MatDialog,
+    private http: HttpService,
+    private route: ActivatedRoute,
+    public roleService: RoleService
+  ) { }
 
 
   inputCustomerRequirement: CustomerRequirement = {
