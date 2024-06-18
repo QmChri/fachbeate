@@ -7,18 +7,19 @@ import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { TeilnehmerListeComponent } from '../teilnehmer-liste/teilnehmer-liste.component';
 import { Guest } from '../../../models/guest';
+import { NotificationService } from '../../../services/notification.service';
 
 @Component({
   selector: 'app-seminar-registration',
   templateUrl: './seminar-registration.component.html',
   styleUrl: './seminar-registration.component.scss'
 })
-export class SeminarRegistrationComponent implements OnInit{
+export class SeminarRegistrationComponent implements OnInit {
   buttonSelect: string[] = []
 
   addItem: string = "";
   reasonSelect: number = 0;
-  languages: string[] = ['DE','EN','RU'];
+  languages: string[] = ['DE', 'EN', 'RU'];
   inputWorkshop: WorkshopRequirement = {
     techSelection: [],
     requestedTechnologist: [],
@@ -28,66 +29,67 @@ export class SeminarRegistrationComponent implements OnInit{
   tabs = ['Hotelbuchung']
   selected = new FormControl(0);
 
-  addTab(){
-    this.tabs.push('Hotelbuchung: '+ this.tabs.length)
-    this.selected.setValue(this.tabs.length -1)
+  addTab() {
+    this.tabs.push('Hotelbuchung: ' + this.tabs.length)
+    this.selected.setValue(this.tabs.length - 1)
   }
 
-  deleteLast(){
-    if(this.tabs.length != 1){
+  deleteLast() {
+    if (this.tabs.length != 1) {
       this.tabs.pop();
     }
   }
 
   openDialog(guests: Guest[]) {
- 
+
     const dialogRef = this.dialog.open(TeilnehmerListeComponent, {
       height: '36rem',
       width: '50rem',
       data: guests
     });
-    
+
     dialogRef.afterClosed().subscribe(
       data => {
         console.log(data);
-          
-          if(data !== undefined && data !== null){
-            console.log("test");
-            
-            this.inputWorkshop.guests = data;
-          }
+
+        if (data !== undefined && data !== null) {
+          console.log("test");
+
+          this.inputWorkshop.guests = data;
+        }
       });
-  
+
   }
 
-  addToList(addItem: string){
+  addToList(addItem: string) {
     this.languages.push(addItem);
   }
 
   technologists: Technologist[] = [];
 
-  constructor(private dialog: MatDialog,private http: HttpService, private route: ActivatedRoute){
+  constructor(private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute,
+    private notificationService: NotificationService) {
 
   }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      if(params.get('id') != null){
+      if (params.get('id') != null) {
         this.http.getWorkshopById(parseInt(params.get('id')!)).subscribe({
           next: data => {
-            if(data != null){
+            if (data != null) {
               this.inputWorkshop = data;
-              
+
               this.inputWorkshop.techSelection = data.requestedTechnologist!.map(tech => tech.id!);
-              
+
               this.buttonSelect = [
-                (data.hotelBooking)?"1":"",
-                (data.flightBooking)?"2":"",
-                (data.trip)?"3":"",
-                (data.companyTour)?"4":"",
-                (data.meal)?"5":"",
-                (data.customerPresent)?"6":"",
-                (data.diploma)?"7":""
+                (data.hotelBooking) ? "1" : "",
+                (data.flightBooking) ? "2" : "",
+                (data.trip) ? "3" : "",
+                (data.companyTour) ? "4" : "",
+                (data.meal) ? "5" : "",
+                (data.customerPresent) ? "6" : "",
+                (data.diploma) ? "7" : ""
               ].filter(p => p != "");
             }
           },
@@ -101,7 +103,7 @@ export class SeminarRegistrationComponent implements OnInit{
     this.getTechnologists();
   }
 
-  getTechnologists(){
+  getTechnologists() {
     this.http.getActiveTechnologist().subscribe({
       next: data => {
         this.technologists = data;
@@ -112,13 +114,13 @@ export class SeminarRegistrationComponent implements OnInit{
     });
   }
   changeTechnolgist(event: number[]) {
-    this.inputWorkshop.requestedTechnologist = event.map(id => 
+    this.inputWorkshop.requestedTechnologist = event.map(id =>
       this.technologists.find(tech => tech.id === id)!
     );
   }
 
-  changeSelections(event: any, section: number){   
-    this.buttonSelect = (section === 0)?this.buttonSelect.filter(number => Number(number) >= 6 && Number(number) <= 7):this.buttonSelect.filter(number => Number(number) >= 1 && Number(number) <= 5);
+  changeSelections(event: any, section: number) {
+    this.buttonSelect = (section === 0) ? this.buttonSelect.filter(number => Number(number) >= 6 && Number(number) <= 7) : this.buttonSelect.filter(number => Number(number) >= 1 && Number(number) <= 5);
     this.buttonSelect = [...this.buttonSelect, ...event.value]
 
     this.inputWorkshop.hotelBooking = this.buttonSelect.includes("1");
@@ -130,8 +132,8 @@ export class SeminarRegistrationComponent implements OnInit{
     this.inputWorkshop.diploma = this.buttonSelect.includes("7");
   }
 
-  postWorkshopRequest(){
-
+  postWorkshopRequest() {
+    this.notificationService.createBasicNotification(0,'Formular wurde gesendet!','','topRight');
     this.inputWorkshop.reason = "Seminar"
     this.inputWorkshop.dateOfCreation = new Date();
 
@@ -142,13 +144,13 @@ export class SeminarRegistrationComponent implements OnInit{
         this.inputWorkshop.techSelection = data.requestedTechnologist!.map(element => element.id!);
 
         this.buttonSelect = [
-          (data.hotelBooking)?"1":"",
-          (data.flightBooking)?"2":"",
-          (data.trip)?"3":"",
-          (data.companyTour)?"4":"",
-          (data.meal)?"5":"",
-          (data.customerPresent)?"6":"",
-          (data.diploma)?"7":""
+          (data.hotelBooking) ? "1" : "",
+          (data.flightBooking) ? "2" : "",
+          (data.trip) ? "3" : "",
+          (data.companyTour) ? "4" : "",
+          (data.meal) ? "5" : "",
+          (data.customerPresent) ? "6" : "",
+          (data.diploma) ? "7" : ""
         ].filter(p => p != "");
       },
       error: err => {
@@ -157,7 +159,7 @@ export class SeminarRegistrationComponent implements OnInit{
     })
   }
 
-  changeDate(event: any, date?: Date){
+  changeDate(event: any, date?: Date) {
   }
 
 }

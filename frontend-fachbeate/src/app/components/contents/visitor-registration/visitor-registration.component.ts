@@ -29,7 +29,7 @@ export class VisitorRegistrationComponent implements OnInit {
   openDialog(guests: Guest[]) {
 
     const dialogRef = this.dialog.open(TeilnehmerListeComponent, {
-      height: '36rem',
+      height: '37.6rem',
       width: '50rem',
       data: guests
     });

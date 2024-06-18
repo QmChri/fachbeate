@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Technologist } from '../../../../models/technologist';
 import { HttpService } from '../../../../services/http.service';
 import { Representative } from '../../../../models/representative';
+import { NotificationService } from '../../../../services/notification.service';
 
 @Component({
   selector: 'app-create-technologist',
@@ -19,7 +20,7 @@ export class CreateTechnologistComponent implements OnInit {
 
   technologistList: Technologist[] = [];
 
-  constructor(private http: HttpService) {
+  constructor(private http: HttpService, private notificationService: NotificationService) {
   }
 
   ngOnInit(): void {
@@ -38,23 +39,31 @@ export class CreateTechnologistComponent implements OnInit {
   }
 
   postTechnologist() {
-    this.http.postTechnologist(this.inputTechnologist).subscribe({
-      next: data => {
-        this.inputTechnologist = {
-          id: 0,
-          firstName: "",
-          lastName: "",
-          active: true,
-          color: "#000000"
+    if (!this.inputTechnologist.firstName || this.inputTechnologist.firstName === "" || !this.inputTechnologist.lastName|| this.inputTechnologist.lastName === "") {
+      this.notificationService.createBasicNotification(4, 'Bitte Pflichtfelder ausfüllen!', 'Vorname* & Nachname*', 'topRight')
+
+    }
+    else {
+      this.notificationService.createBasicNotification(0, 'Neuer Fachberater angelegt!', this.inputTechnologist.firstName + ' ' + 
+      this.inputTechnologist.lastName, 'topRight')
+      this.http.postTechnologist(this.inputTechnologist).subscribe({
+        next: data => {
+          this.inputTechnologist = {
+            id: 0,
+            firstName: "",
+            lastName: "",
+            active: true,
+            color: "#000000"
+          }
+
+          this.loadTechnologists();
+        },
+        error: err => {
+          console.log(err);
+
         }
-
-        this.loadTechnologists();
-      },
-      error: err => {
-        console.log(err);
-
-      }
-    });
+      });
+    }
   }
 
   cancelEdit() {
@@ -68,11 +77,11 @@ export class CreateTechnologistComponent implements OnInit {
   }
 
   editRow(id: number, type: number) {
-      const technologist: Technologist = this.technologistList.find(element => element.id === id)!;
-      this.inputTechnologist.firstName = technologist.firstName;
-      this.inputTechnologist.id = technologist.id;
-      this.inputTechnologist.lastName = technologist.lastName;
-      this.inputTechnologist.active = technologist.active;
-      this.inputTechnologist.color = technologist.color;
+    const technologist: Technologist = this.technologistList.find(element => element.id === id)!;
+    this.inputTechnologist.firstName = technologist.firstName;
+    this.inputTechnologist.id = technologist.id;
+    this.inputTechnologist.lastName = technologist.lastName;
+    this.inputTechnologist.active = technologist.active;
+    this.inputTechnologist.color = technologist.color;
   }
 }

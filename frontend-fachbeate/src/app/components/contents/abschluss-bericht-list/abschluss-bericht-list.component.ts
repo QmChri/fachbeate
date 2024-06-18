@@ -4,6 +4,7 @@ import { HttpService } from '../../../services/http.service';
 import { Technologist } from '../../../models/technologist';
 import { Article } from '../../../models/article';
 import { DatePipe } from '@angular/common';
+import { NotificationService } from '../../../services/notification.service';
 
 @Component({
   selector: 'app-abschluss-bericht-list',
@@ -19,7 +20,7 @@ export class AbschlussBerichtListComponent { //implements OnInit
 
   listOfDisplayData: DataItem[] = [];
 
-  listOfColumn: ColumnDefinition[]  = [
+  listOfColumn: ColumnDefinition[] = [
     {
       name: 'customer',
       sortOrder: null,
@@ -104,9 +105,9 @@ export class AbschlussBerichtListComponent { //implements OnInit
         { text: ' ', value: ' ' }
       ],
       filterFn: (list: string[], item: DataItem) => {
-        var allIn:boolean =true;
+        var allIn: boolean = true;
         list.forEach(element => {
-          if(item.article.map(article => article.name).includes(element) !== true){
+          if (item.article.map(article => article.name).includes(element) !== true) {
             allIn = false;
           }
         })
@@ -116,21 +117,21 @@ export class AbschlussBerichtListComponent { //implements OnInit
   ];
 
 
-  constructor(private router: Router, private http: HttpService) { }
+  constructor(private router: Router, private http: HttpService, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.loadData();
   }
 
-  loadData(){
+  loadData() {
 
     this.loadTechnologists();
 
     this.http.getAllArticles().subscribe({
       next: data => {
-       
-        this.listOfColumn.find(element => element.name === 'article')!.listOfFilter = data.map(element => {return {text: element.name!, value: element.name!}})
-        
+
+        this.listOfColumn.find(element => element.name === 'article')!.listOfFilter = data.map(element => { return { text: element.name!, value: element.name! } })
+
       }
     })
 
@@ -144,7 +145,7 @@ export class AbschlussBerichtListComponent { //implements OnInit
             allArticles = [...allArticles, ...reason.presentedArticle]
           })
 
-          this.listOfData = [...this.listOfData,{
+          this.listOfData = [...this.listOfData, {
             company: element.company!,
             dateOfVisit: element.dateOfVisit!.toString(),
             creationDate: undefined!,
@@ -152,7 +153,7 @@ export class AbschlussBerichtListComponent { //implements OnInit
             dateOfReworkTechnologist: undefined!,
             representative: element.representative!,
             dateOfReworkRepresentative: undefined!,
-            state: (element.requestCompleted)?"Abgeschlossen":"Nicht Abgeschlossen",
+            state: (element.requestCompleted) ? "Abgeschlossen" : "Nicht Abgeschlossen",
             article: allArticles
           }]
         });
@@ -162,23 +163,24 @@ export class AbschlussBerichtListComponent { //implements OnInit
       },
       error: err => {
         console.log(err);
-        
+
       }
     })
   }
 
-  loadTechnologists(){
+  loadTechnologists() {
     this.http.getAllTechnologist().subscribe({
-      next: data =>  { this.technologistList = data },
-      error: err => {console.log(err);
+      next: data => { this.technologistList = data },
+      error: err => {
+        console.log(err);
       }
     })
   }
 
   openCRC(dateNr: number, type: number) {
-    if(type === 0){
+    if (type === 0) {
       this.router.navigate(['/customer-requirements', dateNr]);
-    }else if(type === 1){
+    } else if (type === 1) {
       this.router.navigate(['/seminar-registration', dateNr]);
     }
   }
@@ -203,10 +205,10 @@ export class AbschlussBerichtListComponent { //implements OnInit
           { text: 'Vertreter X', value: 'Vertreter X' }
         ];
       } else if (item.name === 'Fachberater') {
-        var tmp: {text: string; value: string}[] = [];
+        var tmp: { text: string; value: string }[] = [];
 
         this.technologistList.forEach(technolgist => {
-          tmp = [...tmp, {text: technolgist.firstName + " " + technolgist.lastName, value: technolgist.firstName + " " + technolgist.lastName}]
+          tmp = [...tmp, { text: technolgist.firstName + " " + technolgist.lastName, value: technolgist.firstName + " " + technolgist.lastName }]
         })
 
         item.listOfFilter! = tmp;
@@ -220,6 +222,7 @@ export class AbschlussBerichtListComponent { //implements OnInit
   }
 
   resetSortAndFilters(): void {
+    this.notificationService.createBasicNotification(2, 'Filter/Sortierung aufgehoben!', '', 'topRight');
     this.listOfColumn.forEach(item => {
       item.sortOrder = null;
     });
@@ -250,8 +253,8 @@ export class AbschlussBerichtListComponent { //implements OnInit
     ));
   }
 
-  getArticleListName(article: Article[]){
-    return article.map(element => element.name).toString().substring(0,30)
+  getArticleListName(article: Article[]) {
+    return article.map(element => element.name).toString().substring(0, 30)
   }
 
 }
@@ -279,6 +282,6 @@ interface ColumnDefinition {
   name: string;
   sortOrder: any;
   sortFn: (a: DataItem, b: DataItem) => number;
-  listOfFilter: {text: string, value: string}[];
+  listOfFilter: { text: string, value: string }[];
   filterFn?: (list: string[], item: DataItem) => boolean;
 }

@@ -70,8 +70,6 @@ export class NewDateEntryComponent implements OnInit {
     this.dialogRef.close({});
   }
   save() {
-    console.log(this.inputDate.reason);
-
     if (this.inputDate.requestedTechnologist === undefined || this.inputDate.reason === undefined) {
       this.notificationService.createBasicNotification(4, 'Bitte Pflichtfelder ausfüllen!', 'Zugeteilter Fachberater* & Grund*', 'topRight')
     }
