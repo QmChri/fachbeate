@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Technologist } from '../../../../models/technologist';
 import { HttpService } from '../../../../services/http.service';
 import { Representative } from '../../../../models/representative';
+import { NotificationService } from '../../../../services/notification.service';
 @Component({
   selector: 'app-create-representative',
   templateUrl: './create-representative.component.html',
@@ -17,7 +18,7 @@ export class CreateRepresentativeComponent implements OnInit {
 
   representativeList: Representative[] = [];
 
-  constructor(private http: HttpService) {
+  constructor(private http: HttpService, private notificationService: NotificationService) {
   }
 
   ngOnInit(): void {
@@ -37,28 +38,35 @@ export class CreateRepresentativeComponent implements OnInit {
   }
 
   postRepresentative() {
-    this.http.postRepresentative(
-      {
-        id: this.inputRepresentative.id!,
-        firstName: this.inputRepresentative.firstName!,
-        lastName: this.inputRepresentative.lastName,
-        active: this.inputRepresentative.active
-      }).subscribe({
-        next: data => {
-          this.inputRepresentative = {
-            id: 0,
-            firstName: "",
-            lastName: "",
-            active: true
+    if (!this.inputRepresentative.firstName || this.inputRepresentative.firstName === "" || !this.inputRepresentative.lastName || this.inputRepresentative.lastName === "") {
+      this.notificationService.createBasicNotification(4, 'Bitte Pflichtfelder ausfüllen!', 'Vorname* & Nachname*', 'topRight')
+    }
+    else {
+      this.notificationService.createBasicNotification(0, 'Neuer Vertreter angelegt!', this.inputRepresentative.firstName + ' ' +
+        this.inputRepresentative.lastName, 'topRight')
+      this.http.postRepresentative(
+        {
+          id: this.inputRepresentative.id!,
+          firstName: this.inputRepresentative.firstName!,
+          lastName: this.inputRepresentative.lastName,
+          active: this.inputRepresentative.active
+        }).subscribe({
+          next: data => {
+            this.inputRepresentative = {
+              id: 0,
+              firstName: "",
+              lastName: "",
+              active: true
+            }
+
+            this.loadRepresentatives();
+          },
+          error: err => {
+            console.log(err);
+
           }
-
-          this.loadRepresentatives();
-        },
-        error: err => {
-          console.log(err);
-
-        }
-      });
+        });
+    }
   }
 
   cancelEdit() {
@@ -71,10 +79,10 @@ export class CreateRepresentativeComponent implements OnInit {
   }
 
   editRow(id: number, type: number) {
-      const representative: Representative = this.representativeList.find(element => element.id === id)!;
-      this.inputRepresentative.firstName = representative.firstName;
-      this.inputRepresentative.id = representative.id;
-      this.inputRepresentative.lastName = representative.lastName;
-      this.inputRepresentative.active = representative.active;
+    const representative: Representative = this.representativeList.find(element => element.id === id)!;
+    this.inputRepresentative.firstName = representative.firstName;
+    this.inputRepresentative.id = representative.id;
+    this.inputRepresentative.lastName = representative.lastName;
+    this.inputRepresentative.active = representative.active;
   }
 }

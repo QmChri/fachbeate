@@ -3,14 +3,13 @@ import { Router } from '@angular/router';
 import { HttpService } from '../../services/http.service';
 import { Technologist } from '../../models/technologist';
 import { TranslateService } from '@ngx-translate/core';
-import { DateLocale } from 'ng-zorro-antd/i18n';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { NotExpr } from '@angular/compiler';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-main-list',
   templateUrl: './main-list.component.html',
-  styleUrls: ['./main-list.component.css']
+  styleUrls: ['./main-list.component.scss']
 })
 export class MainListComponent implements OnInit {
   searchValue = '';
@@ -87,7 +86,7 @@ export class MainListComponent implements OnInit {
         { text: ' ', value: ' ' },
       ],
       filterFn: (list: string[], item: DataItem) => true
-    }, 
+    },
     {
       name: 'customer',
       sortOrder: null,
@@ -109,9 +108,8 @@ export class MainListComponent implements OnInit {
     },
   ];
 
-
   constructor(private router: Router, private http: HttpService, private translate: TranslateService,
-    private _snackBar: MatSnackBar) {
+    private _snackBar: MatSnackBar, private notificationService: NotificationService) {
   }
 
   ngOnInit(): void {
@@ -208,7 +206,7 @@ export class MainListComponent implements OnInit {
         this.listOfDisplayData = [...this.listOfData];
       },
       error: err => {
-        
+
       }
     });
 
@@ -219,14 +217,14 @@ export class MainListComponent implements OnInit {
         var visitorDataList: DataItem[] = []
 
         console.log(data);
-        
+
 
         data.forEach(element => {
 
           visitorDataList = [...visitorDataList, {
             id: element.id!,
             nr: "",
-            createDate: element.dateOfCreation !== undefined?element.dateOfCreation:new Date(),
+            createDate: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
             status: "ToDo",
             toha: element.customerOrCompany!,
             vertreter: element.responsibleSupervisor!,
@@ -263,7 +261,7 @@ export class MainListComponent implements OnInit {
       this.router.navigate(['/customer-requirements', id]);
     } else if (type === 1) {
       this.router.navigate(['/seminar-registration', id]);
-    }else if (type === 2) {
+    } else if (type === 2) {
       this.router.navigate(['/visitorRegistration', id]);
     }
   }
@@ -305,6 +303,7 @@ export class MainListComponent implements OnInit {
   }
 
   resetSortAndFilters(): void {
+    this.notificationService.createBasicNotification(2,'Filter/Sortierung aufgehoben!','','topRight');
     this.listOfColumn.forEach(item => {
       item.sortOrder = null;
     });

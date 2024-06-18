@@ -33,11 +33,6 @@ public class VisitorRegistration extends PanacheEntity {
     public int numberOfPeopleMeetingRoom;
     public Date meetingRoomDate;
     public String meetingRoomTime;
-    public String hotelLocation;
-    public Date hotelStayFromDate;
-    public Date hotelStayToDate;
-    public int singleRooms;
-    public int doubleRooms;
     public int lunchNumber;
     public Date lunchDate;
     public String lunchTime;
@@ -51,7 +46,8 @@ public class VisitorRegistration extends PanacheEntity {
     public String transferFrom;
     public String transferTo;
 
-
+    @OneToMany
+    public List<HotelBooking> hotelBookings;
     public boolean hotelBooking;
     public boolean flightBooking;
     public boolean trip;
@@ -93,11 +89,8 @@ public class VisitorRegistration extends PanacheEntity {
         this.numberOfPeopleMeetingRoom = newVisitorRegistration.numberOfPeopleMeetingRoom;
         this.meetingRoomDate = newVisitorRegistration.meetingRoomDate;
         this.meetingRoomTime = newVisitorRegistration.meetingRoomTime;
-        this.hotelLocation = newVisitorRegistration.hotelLocation;
-        this.hotelStayFromDate = newVisitorRegistration.hotelStayFromDate;
-        this.hotelStayToDate = newVisitorRegistration.hotelStayToDate;
-        this.singleRooms = newVisitorRegistration.singleRooms;
-        this.doubleRooms = newVisitorRegistration.doubleRooms;
+
+
         this.lunchNumber = newVisitorRegistration.lunchNumber;
         this.lunchDate = newVisitorRegistration.lunchDate;
         this.lunchTime = newVisitorRegistration.lunchTime;
@@ -134,6 +127,11 @@ public class VisitorRegistration extends PanacheEntity {
         for(Guest guest: newVisitorRegistration.guests){
             this.guests.add(guest.persistOrUpdate());
         }
+        this.hotelBookings = new ArrayList<>();
+        for(HotelBooking hotelBooking: newVisitorRegistration.hotelBookings){
+            this.hotelBookings.add(hotelBooking.persistOrUpdate());
+        }
+
 
         this.plannedDepartmentVisits = newVisitorRegistration.plannedDepartmentVisits;
     }
@@ -149,6 +147,9 @@ public class VisitorRegistration extends PanacheEntity {
 
             for(Guest guest: this.guests){
                 guest.persistOrUpdate();
+            }
+            for(HotelBooking hotelBooking: this.hotelBookings){
+                hotelBooking.persistOrUpdate();
             }
 
             return this;

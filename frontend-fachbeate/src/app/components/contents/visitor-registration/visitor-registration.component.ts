@@ -7,6 +7,8 @@ import { TeilnehmerListeComponent } from '../teilnehmer-liste/teilnehmer-liste.c
 import { HttpService } from '../../../services/http.service';
 import { Guest } from '../../../models/guest';
 import { ActivatedRoute } from '@angular/router';
+import { NotificationService } from '../../../services/notification.service';
+import { Hotelbooking } from '../../../models/hotelbooking';
 
 @Component({
   selector: 'app-visitor-registration',
@@ -19,120 +21,102 @@ export class VisitorRegistrationComponent implements OnInit {
 
   inputVisitRegistration: VisitorRegistration = {
     plannedDepartmentVisits: [],
-    guests: []
+    guests: [],
+    hotelBookings: []
   };
 
-  constructor(private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute) { }
+  constructor(private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute,
+    private notificationService: NotificationService) { }
 
   openDialog(guests: Guest[]) {
- 
+
     const dialogRef = this.dialog.open(TeilnehmerListeComponent, {
-      height: '36rem',
+      height: '37.6rem',
       width: '50rem',
       data: guests
     });
-    
+
     dialogRef.afterClosed().subscribe(
       data => {
         console.log(data);
-          
-          if(data !== undefined && data !== null){
-            console.log("test");
-            
-            this.inputVisitRegistration.guests = data;
-          }
+
+        if (data !== undefined && data !== null) {
+          console.log("test");
+
+          this.inputVisitRegistration.guests = data;
+        }
       });
-  
+
   }
 
-
-  
-  tabs = ['Hotelbuchung'];
   selected = new FormControl(0);
 
   addTab() {
-    this.tabs.push('Hotelbuchung: '+ this.tabs.length);
-    this.selected.setValue(this.tabs.length - 1);
+   this.inputVisitRegistration.hotelBookings = [...this.inputVisitRegistration.hotelBookings, {}]
   }
 
   deleteLast() {
-    if (this.tabs.length != 1)
-      this.tabs.pop();
+    if (this.inputVisitRegistration.hotelBookings.length != 1)
+      this.inputVisitRegistration.hotelBookings.pop();
   }
-  campaignOne = new FormGroup({
-    start: new FormControl(new Date(year, month, 13)),
-    end: new FormControl(new Date(year, month, 16)),
-  });
-  campaignTwo = new FormGroup({
-    start: new FormControl(new Date(year, month, 15)),
-    end: new FormControl(new Date(year, month, 19)),
-  });
+
   languageControl = new FormControl();
   languageFilterCtrl = new FormControl();
-  languages = [
-    { value: 'en', label: 'English', flag: 'assets/flags/en.png' },
-    { value: 'de', label: 'Deutsch', flag: 'assets/flags/de.png' }
-  ];
+
   abteilungen = [
     { value: 'GL', label: 'Geschäftsleitung' },
     { value: 'AB', label: 'Auftragsbearbeitung' }
   ];
 
-  checked = false;
-  indeterminate = false;
   listOfCurrentPageData: readonly Department[] = [];
-  listOfCurrentPageData2: readonly Department[] = [];
-  setOfCheckedId = new Map<number, string>();
+  setOfCheckedId = new Map<number,[number?, string?]>();
 
-  updateCheckedSet(id: number, checked: boolean): void {
+
+  onItemChecked(id: number, checked: boolean): void {
     if (checked) {
-      this.setOfCheckedId.set(id, undefined!);
+      this.setOfCheckedId.set(id, [undefined!, ""]);
     } else {
       this.setOfCheckedId.delete(id);
     }
   }
 
-  onItemChecked(id: number, checked: boolean): void {
-    this.updateCheckedSet(id, checked);
-    this.refreshCheckedStatus();
-  }
-
-  onAllChecked(value: boolean): void {
-    this.listOfCurrentPageData.forEach(item => this.updateCheckedSet(item.id, value));
-    this.refreshCheckedStatus();
-  }
-
   onCurrentPageDataChange($event: readonly Department[]): void {
     this.listOfCurrentPageData = $event;
-    this.refreshCheckedStatus();
   }
 
-  refreshCheckedStatus(): void {
-    this.checked = this.listOfCurrentPageData.every(item => this.setOfCheckedId.has(item.id));
-    this.indeterminate = this.listOfCurrentPageData.some(item => this.setOfCheckedId.has(item.id)) && !this.checked;
-  }
+  inputDateChange(id: number, date: string) {
+    let tmpId = this.setOfCheckedId.get(id)![0];
 
-  inputDateChange(id: number, date: string){
-    this.setOfCheckedId.set(id, date);
+    
+    this.setOfCheckedId.set(id, [(tmpId)?tmpId:undefined!, date]);
+    console.log(this.setOfCheckedId);
+    
   }
 
   ngOnInit(): void {
 
     this.route.paramMap.subscribe(params => {
-      if(params.get('id') != null){
+      if (params.get('id') != null) {
         this.http.getVisitorRegistrationById(parseInt(params.get('id')!)).subscribe({
           next: data => {
-            if(data != null){
+            if (data != null) {
               this.inputVisitRegistration = data;
-              
+
+              this.inputVisitRegistration.plannedDepartmentVisits.forEach(element => {
+                var tmpVisit = this.listOfCurrentPageData.find(pageData => pageData.name === element.department);
+                console.log(element.dateOfVisit);
+                
+                this.setOfCheckedId.set(tmpVisit!.id, [element.id!,element.dateOfVisit!.toString().substring(0,10)])
+              })
+
               this.buttonSelect = [
-                (data.hotelBooking)?"1":"",
-                (data.flightBooking)?"2":"",
-                (data.trip)?"3":"",
-                (data.companyTour)?"4":"",
-                (data.meal)?"5":"",
-                (data.customerPresent)?"6":"",
-                (data.diploma)?"7":""
+                (data.hotelBooking) ? "1" : "",
+                (data.flightBooking) ? "2" : "",
+                (data.trip) ? "3" : "",
+                (data.companyTour) ? "4" : "",
+                (data.meal) ? "5" : "",
+                (data.customerPresent) ? "6" : "",
+                (data.diploma) ? "7" : ""
               ].filter(p => p != "");
             }
           },
@@ -176,10 +160,7 @@ export class VisitorRegistrationComponent implements OnInit {
         name: 'payOffice',
         checked: false,
         dateOfVisit: new Date()
-      }
-    ]
-
-    this.listOfCurrentPageData2 = [
+      },
       {
         id: 7,
         name: 'orderProcessing',
@@ -211,9 +192,10 @@ export class VisitorRegistrationComponent implements OnInit {
         dateOfVisit: new Date()
       }
     ]
+
   }
 
-  changeSelections(event: any){   
+  changeSelections() {
     this.inputVisitRegistration.hotelBooking = this.buttonSelect.includes("1");
     this.inputVisitRegistration.flightBooking = this.buttonSelect.includes("2");
     this.inputVisitRegistration.trip = this.buttonSelect.includes("3");
@@ -223,23 +205,29 @@ export class VisitorRegistrationComponent implements OnInit {
     this.inputVisitRegistration.diploma = this.buttonSelect.includes("7");
   }
 
-  postVisitorRegistration(){
+  postVisitorRegistration() {
+    this.notificationService.createBasicNotification(0,'Formular wurde gesendet!','','topRight');
     this.inputVisitRegistration.reason = "VisitorRegistration"
 
     this.inputVisitRegistration.plannedDepartmentVisits = []
 
     this.setOfCheckedId.forEach((value, key) => {
-      this.inputVisitRegistration.plannedDepartmentVisits = [...this.inputVisitRegistration.plannedDepartmentVisits!, 
-        {
-          department: this.getDepartment(key),
-          dateOfVisit: new Date(value)
-        }
+      this.inputVisitRegistration.plannedDepartmentVisits = [...this.inputVisitRegistration.plannedDepartmentVisits!,
+      {
+        id: value[0],
+        department: this.getDepartment(key),
+        dateOfVisit: new Date(value[1]!)
+      }
       ]
-    });    
+    });
 
     this.http.postVisitorRegistration(this.inputVisitRegistration).subscribe({
       next: data => {
         this.inputVisitRegistration = data;
+        this.inputVisitRegistration.plannedDepartmentVisits.forEach(element => {
+          var tmpVisit = this.listOfCurrentPageData.find(pageData => pageData.name === element.department);
+          this.setOfCheckedId.set(tmpVisit!.id, [element.id!, element.dateOfVisit!.toString().substring(0,10)])
+        })
       },
       error: err => {
         console.log(err);
@@ -247,14 +235,9 @@ export class VisitorRegistrationComponent implements OnInit {
     })
   }
 
-  getDepartment(id: number):string{
+  getDepartment(id: number): string {
     var found = this.listOfCurrentPageData.find(element => element.id === id)
-    if(found !== null && found !== undefined){
-      return found!.name;
-    }
-
-    found = this.listOfCurrentPageData2.find(element => element.id === id)
-    if(found !== null && found !== undefined){
+    if (found !== null && found !== undefined) {
       return found!.name;
     }
     return "";

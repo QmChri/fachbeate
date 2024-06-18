@@ -7,6 +7,7 @@ import { TechnologistAppointment } from '../../../models/technologist-appointmen
 import { computed, inject, signal } from '@angular/core';
 import { DateAdapter, MAT_DATE_LOCALE, MatDateFormats } from '@angular/material/core';
 import { MatDatepickerIntl } from '@angular/material/datepicker';
+import { NotificationService } from '../../../services/notification.service';
 
 @Component({
   selector: 'app-new-date-entry',
@@ -31,7 +32,7 @@ export class NewDateEntryComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<AbschlussBerichtComponent>,
     @Inject(MAT_DIALOG_DATA) public timeSpan: TechnologistAppointment,
-    private http: HttpService
+    private http: HttpService, private notificationService: NotificationService
   ) {
   }
   ngOnInit(): void {
@@ -68,16 +69,22 @@ export class NewDateEntryComponent implements OnInit {
   closeDialog() {
     this.dialogRef.close({});
   }
-
   save() {
-    this.http.postOtherDate(this.inputDate).subscribe({
-      next: data => {
-        this.closeDialog();
-      },
-      error: err => {
-        console.log(err)
-      }
-    });
+    if (this.inputDate.requestedTechnologist === undefined || this.inputDate.reason === undefined) {
+      this.notificationService.createBasicNotification(4, 'Bitte Pflichtfelder ausfüllen!', 'Zugeteilter Fachberater* & Grund*', 'topRight')
+    }
+    else {
+      this.notificationService.createBasicNotification(0, 'Neuer Eintrag angelegt!', 'für ' + this.inputDate.requestedTechnologist!.firstName + this.inputDate.requestedTechnologist!.lastName, 'topRight')
+      this.http.postOtherDate(this.inputDate).subscribe({
+        next: data => {
+          this.closeDialog();
+        },
+        error: err => {
+          console.log(err)
+        }
+      });
+    }
+
   }
 
   adjustEndDate(endDate: string): Date {

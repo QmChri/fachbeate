@@ -1,10 +1,14 @@
 import { Guest } from "./guest";
+import { Hotelbooking } from "./hotelbooking";
 import { PlannedDepartmentVisit } from "./planned-department-visit";
 
 export interface VisitorRegistration {
     id?: number;
     dateOfCreation?: Date;
-    name?: string;                       
+    name?: string;
+    typeOfFormular?: string;
+    // typeOfFormular zu reason umbenennen
+    //TODO neues Feld hinzugefügt --> muss im Backend noch gemacht werden
     reason?: string;
     fromDate?: Date;
     fromTime?: string;
@@ -26,11 +30,10 @@ export interface VisitorRegistration {
     numberOfPeopleMeetingRoom?: number;
     meetingRoomDate?: Date;
     meetingRoomTime?: string;
-    hotelLocation?: string;
-    hotelStayFromDate?: Date;
-    hotelStayToDate?: Date;
-    singleRooms?: number;
-    doubleRooms?: number;
+
+    //TODO neu muss im Backend noch hinzugefügt werden
+    hotelBookings: Hotelbooking[]
+
     lunchNumber?: number;
     lunchDate?: Date;
     lunchTime?: string;

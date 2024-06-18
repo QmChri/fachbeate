@@ -12,12 +12,14 @@
                 <div class="center-items">
                     <mat-form-field class="smallInput">
                         <mat-label>{{'CREATE-REPRESENTATIVE.firstName' | translate}}</mat-label>
-                        <input matInput type="text" [(ngModel)]="inputRepresentative.firstName" name="firstName">
+                        <input required matInput type="text" [(ngModel)]="inputRepresentative.firstName"
+                            name="firstName">
                     </mat-form-field>
                     <div class="displayBySide">
                         <mat-form-field class="smallInput">
                             <mat-label>{{'CREATE-REPRESENTATIVE.lastName' | translate}}</mat-label>
-                            <input matInput type="text" [(ngModel)]="inputRepresentative.lastName" name="lastName">
+                            <input required matInput type="text" [(ngModel)]="inputRepresentative.lastName"
+                                name="lastName">
                         </mat-form-field>
 
                         <label class="languageBox">{{'CREATE-REPRESENTATIVE.active' | translate}}
@@ -25,10 +27,11 @@
                         </label>
                     </div>
                     <div class="displayBySide">
-                        <button class="btn btn-danger" matTooltip="{{'CREATE-REPRESENTATIVE.cancel' | translate}}" [hidden]="inputRepresentative.id===0" (click)="cancelEdit()"><i
+                        <button class="btn btn-danger" matTooltip="{{'CREATE-REPRESENTATIVE.cancel' | translate}}"
+                            [hidden]="inputRepresentative.id===0" (click)="cancelEdit()"><i
                                 class="fa fa-times"></i></button>
-                        <button class="btn btn-success" matTooltip="{{'CREATE-REPRESENTATIVE.safe' | translate}}" (click)="postRepresentative()"><i
-                                class="fa fa-save"></i></button>
+                        <button class="btn btn-success" matTooltip="{{'CREATE-REPRESENTATIVE.safe' | translate}}"
+                            (click)="postRepresentative()"><i class="fa fa-save"></i></button>
                     </div>
                 </div>
             </div>

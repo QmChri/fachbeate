@@ -25,7 +25,6 @@
                     <div class="center-items ">
                         <mat-form-field>
                             <mat-label>{{"REQ-TECH.dealers"|translate}}</mat-label>
-                            <!-----Do sama daham----->
                             <mat-select
                                 [ngModel]="(inputCustomerRequirement.company === undefined)?undefined:inputCustomerRequirement.company.id"
                                 required (valueChange)="changeCompany($event)">
@@ -158,12 +157,8 @@
 <br>
 <div class="header">
     <h1 style="margin: 0%;">{{"REQ-TECH.table-title"|translate}}</h1>
-    <nz-alert
-        *ngIf="(!inputCustomerRequirement.requestedTechnologist || !inputCustomerRequirement.representative) && buttonClicked"
-        nzBanner nzType="error" nzMessage="Fachberater/Vertreter auswählen" nzCloseable></nz-alert>
-    <button nz-button (click)="addRow()" nzType="primary">{{"REQ-TECH.new-customerVisit"|translate}}</button>
+       <button nz-button (click)="addRow()" nzType="primary">{{"REQ-TECH.new-customerVisit"|translate}}</button>
 </div>
-
 <hr>
 <div class="row">
     <nz-table class="col" #editRowTable nzTableLayout="fixed" nzBordered
@@ -232,8 +227,11 @@
                             <i class="fa fa-save"></i>
                         </button>
                         <button matTooltip="{{'REQ-TECH.delete' | translate}}" class="btn btn-danger" nz-popconfirm
-                            nzPopconfirmShowArrow="false" nzPopconfirmTitle="Sind Sie sicher?"
+                            nzPopconfirmShowArrow="false" [nzIcon]="iconTpl" nzPopconfirmTitle="Sind Sie sicher?"
                             (nzOnConfirm)="deleteRow(data.editId)">
+                            <ng-template #iconTpl>
+                                <span nz-icon nzType="question-circle-o" style="color: red;"></span>
+                            </ng-template>
                             <i class="fa fa-trash"></i>
                         </button>
                         <button *ngIf="roleService.checkPermission([1,2,3,4])" class="btn btn-success" matTooltip="Abschlussbericht" (click)="openDialog(data)">

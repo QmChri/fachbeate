@@ -58,6 +58,10 @@ import { CreateRepresentativeComponent } from './components/contents/creation-si
 import { CreateDealerComponent } from './components/contents/creation-sites/create-dealer/create-dealer.component';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { NzNotificationModule } from 'ng-zorro-antd/notification';
+
+/*import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';*/
+/*import { initializer } from './initializer.service';*/
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { initializer } from './initializer.service';
 
@@ -91,6 +95,7 @@ registerLocaleData(de);
     MatTooltipModule,
     NzAlertModule,
     MatMenuModule,
+    NzNotificationModule,
     MatDatepickerModule,
     MatDialogTitle,
     MatDialogContent,
