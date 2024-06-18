@@ -9,6 +9,7 @@
     </div>
     <ul class="sidenav-nav">
         <li class="sidenav-nav-item" *ngFor="let data of navData" (click)="handleCLick(data)">
+            <div *ngIf="roleService.checkPermission(data.role!)">
             <a class="sidenav-nav-link" *ngIf="data.items && data.items.length > 0">
                 <i class="sidenav-link-icon" [class]="data.icon"></i>
                 <span class="sidenav-link-text" @fadeInOut *ngIf="collapsed">
@@ -27,6 +28,7 @@
             <div *ngIf="collapsed && data.items && data.items.length > 0">
                 <app-sublevel-menu [data]="data" [collapsed]="collapsed" [multiple]="multiple"
                     [expanded]="data.expanded"></app-sublevel-menu>
+            </div>
             </div>
         </li>
         <li class="sidenav-nav-item logout">
