@@ -21,7 +21,7 @@
                         </mat-form-field>
                         <mat-form-field class="smallInputSide">
                             <mat-label>{{"VISITOR-REGISTRATION.reason" | translate}}</mat-label>
-                            <input matInput><!--TODO not binded-->
+                            <input matInput [(ngModel)]="inputVisitRegistration.typeOfFormular">
                         </mat-form-field>
                     </div>
                     <div class="displayBySide">
@@ -60,7 +60,7 @@
                     <div class="paddingSearch">
                         <mat-form-field style="max-width: 11.5rem;">
                             <mat-label>{{"VISITOR-REGISTRATION.customerCompany" | translate}}</mat-label>
-                            <input matInput required> <!--TODO Not Binded-->
+                            <input matInput required [(ngModel)]="inputVisitRegistration.customerOrCompany"> <!--TODO Not Binded-->
                         </mat-form-field>
                         <button class="btn btn-success teilButton"
                             matTooltip="{{'VISITOR-REGISTRATION.seminarRegistration' | translate}}"
@@ -127,15 +127,13 @@
     <div class="col-md-3">
         <div class="card">
             <div class="card-header text-white bg-danger">{{'VISITOR-REGISTRATION.furtherMore' | translate}}</div>
-            <mat-button-toggle-group [(ngModel)]="buttonSelect" vertical multiple>
+            <mat-button-toggle-group [(ngModel)]="buttonSelect" (valueChange)="changeSelections()" vertical multiple>
                 <mat-button-toggle value="1">{{'VISITOR-REGISTRATION.companyGuidance' | translate}}</mat-button-toggle>
                 <mat-button-toggle value="2">{{'VISITOR-REGISTRATION.meetingRoom' | translate}}</mat-button-toggle>
-                <mat-button-toggle value="3">{{'VISITOR-REGISTRATION.airportTransferTrain' |
-                    translate}}</mat-button-toggle><mat-button-toggle value="4">{{'VISITOR-REGISTRATION.mealTime' |
-                    translate}}</mat-button-toggle>
+                <mat-button-toggle value="3">{{'VISITOR-REGISTRATION.airportTransferTrain' | translate}}</mat-button-toggle>
+                <mat-button-toggle value="4">{{'VISITOR-REGISTRATION.mealTime' | translate}}</mat-button-toggle>
                 <mat-button-toggle value="5">{{'VISITOR-REGISTRATION.hotelBooking' | translate}}</mat-button-toggle>
-                <mat-button-toggle value="6">{{'VISITOR-REGISTRATION.plannedDepartmentVisits' |
-                    translate}}</mat-button-toggle>
+                <mat-button-toggle value="6">{{'VISITOR-REGISTRATION.plannedDepartmentVisits' | translate}}</mat-button-toggle>
             </mat-button-toggle-group>
         </div>
     </div>
@@ -289,19 +287,19 @@
             <div class="card-header text-white bg-danger paddingSearch">{{'VISITOR-REGISTRATION.hotelBooking' |
                 translate}} </div>
             <div class="card-body">
-                @for (tab of tabs; track tab; let index = $index) {
+                @for (hotelbooking of inputVisitRegistration.hotelBookings; track hotelbooking; let index = $index) {
                 <p>{{index+1}}. Hotelbuchung</p>
                 <div class="displayBySide">
                     <div class="center-items">
                         <mat-form-field class="smallInputSpecial">
                             <mat-label>{{'VISITOR-REGISTRATION.place' | translate}}</mat-label>
-                            <input matInput>
+                            <input matInput [(ngModel)]="hotelbooking.hotelLocation">
                         </mat-form-field>
                         <mat-form-field class="smallInputSpecial">
                             <mat-label>{{'VISITOR-REGISTRATION.fromTo' | translate}}</mat-label>
                             <mat-date-range-input [rangePicker]="picker3">
-                                <input matStartDate placeholder="Start date">
-                                <input matEndDate placeholder="End date">
+                                <input matStartDate placeholder="Start date" [(ngModel)]="hotelbooking.hotelStayFromDate">
+                                <input matEndDate placeholder="End date" [(ngModel)]="hotelbooking.hotelStayToDate">
                             </mat-date-range-input>
                             <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
                             <mat-date-range-picker #picker3></mat-date-range-picker>
@@ -310,11 +308,11 @@
                     <div class="center-items">
                         <mat-form-field class="smallInputSpecial">
                             <mat-label>{{'VISITOR-REGISTRATION.singleRoom' | translate}}</mat-label>
-                            <input type="number" min="0" matInput>
+                            <input type="number" min="0" matInput  [(ngModel)]="hotelbooking.singleRooms">
                         </mat-form-field>
                         <mat-form-field class="smallInputSpecial">
                             <mat-label>{{'VISITOR-REGISTRATION.doubleRoom' | translate}}</mat-label>
-                            <input type="number" min="0" matInput>
+                            <input type="number" min="0" matInput  [(ngModel)]="hotelbooking.doubleRooms">
                         </mat-form-field>
                     </div>
                 </div>
@@ -352,30 +350,7 @@
                                     (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
                                 <td>{{'VISITOR-REGISTRATION.'+data.name | translate}}</td>
                                 <td>
-                                    <input type="date" [ngModel]="setOfCheckedId.get(data.id)"
-                                        (ngModelChange)="inputDateChange(data.id, $event)" class="form-control">
-                                </td>
-                            </tr>
-                        </tbody>
-                    </nz-table>
-                    <nz-table class="col" [nzShowPagination]="false" [nzData]="buttonSelect" [nzSize]="'small'"
-                        nzBordered nzNoResult>
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th width="300px">{{'VISITOR-REGISTRATION.department' | translate}}</th>
-                                <th width="150px">{{'VISITOR-REGISTRATION.date' | translate}}</th>
-                            </tr>
-                        </thead>
-                        <!-- TODO Backend für abteilungsbesuche machen -->
-                        <tbody>
-                            <tr *ngFor="let data of listOfCurrentPageData2">
-                                <td [nzChecked]="setOfCheckedId.has(data.id)"
-                                    (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
-                                <td>{{'VISITOR-REGISTRATION.'+data.name | translate}}</td>
-                                <td>
-                                    <input type="date"
-                                        [ngModel]="(setOfCheckedId.get(data.id) !== undefined)?setOfCheckedId.get(data.id):undefined"
+                                    <input type="date" [ngModel]="(setOfCheckedId.get(data.id)!==undefined)?setOfCheckedId.get(data.id)![1]:''"
                                         (ngModelChange)="inputDateChange(data.id, $event)" class="form-control">
                                 </td>
                             </tr>
