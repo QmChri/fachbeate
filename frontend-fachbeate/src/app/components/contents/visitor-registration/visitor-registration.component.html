@@ -21,7 +21,7 @@
                         </mat-form-field>
                         <mat-form-field class="smallInputSide">
                             <mat-label>{{"VISITOR-REGISTRATION.reason" | translate}}</mat-label>
-                            <input matInput>
+                            <input matInput><!--TODO not binded-->
                         </mat-form-field>
                     </div>
                     <div class="displayBySide">
@@ -60,7 +60,7 @@
                     <div class="paddingSearch">
                         <mat-form-field style="max-width: 11.5rem;">
                             <mat-label>{{"VISITOR-REGISTRATION.customerCompany" | translate}}</mat-label>
-                            <input matInput required>
+                            <input matInput required> <!--TODO Not Binded-->
                         </mat-form-field>
                         <button class="btn btn-success teilButton"
                             matTooltip="{{'VISITOR-REGISTRATION.seminarRegistration' | translate}}"
@@ -127,15 +127,13 @@
     <div class="col-md-3">
         <div class="card">
             <div class="card-header text-white bg-danger">{{'VISITOR-REGISTRATION.furtherMore' | translate}}</div>
-            <mat-button-toggle-group [(ngModel)]="buttonSelect" vertical multiple>
+            <mat-button-toggle-group [(ngModel)]="buttonSelect" (valueChange)="changeSelections($event)" vertical multiple>
                 <mat-button-toggle value="1">{{'VISITOR-REGISTRATION.companyGuidance' | translate}}</mat-button-toggle>
                 <mat-button-toggle value="2">{{'VISITOR-REGISTRATION.meetingRoom' | translate}}</mat-button-toggle>
                 <mat-button-toggle value="3">{{'VISITOR-REGISTRATION.hotelBooking' | translate}}</mat-button-toggle>
                 <mat-button-toggle value="4">{{'VISITOR-REGISTRATION.mealTime' | translate}}</mat-button-toggle>
-                <mat-button-toggle value="5">{{'VISITOR-REGISTRATION.airportTransferTrain' |
-                    translate}}</mat-button-toggle>
-                <mat-button-toggle value="6">{{'VISITOR-REGISTRATION.plannedDepartmentVisits' |
-                    translate}}</mat-button-toggle>
+                <mat-button-toggle value="5">{{'VISITOR-REGISTRATION.airportTransferTrain' | translate}}</mat-button-toggle>
+                <mat-button-toggle value="6">{{'VISITOR-REGISTRATION.plannedDepartmentVisits' | translate}}</mat-button-toggle>
             </mat-button-toggle-group>
         </div>
     </div>

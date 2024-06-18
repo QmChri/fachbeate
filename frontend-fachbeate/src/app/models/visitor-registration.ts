@@ -2,6 +2,8 @@ import { Guest } from "./guest";
 import { PlannedDepartmentVisit } from "./planned-department-visit";
 
 export interface VisitorRegistration {
+    id?: number;
+    dateOfCreation?: Date;
     name?: string;                       
     reason?: string;
     fromDate?: Date;
@@ -42,5 +44,14 @@ export interface VisitorRegistration {
     transferFrom?: string;
     transferTo?: string;
     plannedDepartmentVisits: PlannedDepartmentVisit[];
+
+    hotelBooking?: boolean;
+    flightBooking?: boolean;
+    trip?: boolean;
+    companyTour?: boolean;
+    meal?: boolean;
+    customerPresent?: boolean;
+    diploma?: boolean;
+
     guests?: Guest[];
 }

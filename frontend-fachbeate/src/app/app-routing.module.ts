@@ -21,6 +21,7 @@ const routes: Routes = [
   { path: 'mainList', component: MainListComponent },
   { path: 'create-technologist', component: CreateTechnologistComponent },
   { path: 'visitorRegistration', component: VisitorRegistrationComponent },
+  { path: 'visitorRegistration/:id', component: VisitorRegistrationComponent },
   { path: 'app-abschluss-bericht-list', component: AbschlussBerichtListComponent },
   { path: 'create-dealer', component: CreateDealerComponent },
   { path: 'create-representative', component: CreateRepresentativeComponent },
