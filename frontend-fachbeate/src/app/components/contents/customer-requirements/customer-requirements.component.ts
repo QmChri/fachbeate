@@ -12,6 +12,8 @@ import { ActivatedRoute } from '@angular/router';
 import { ReasonReport } from '../../../models/reason-report';
 import { Representative } from '../../../models/representative';
 import { Company } from '../../../models/company';
+import { NzNotificationPlacement, NzNotificationService } from 'ng-zorro-antd/notification';
+import { NotificationService } from '../../../services/notification.service';
 
 @Component({
   selector: 'app-customer-requirements',
@@ -30,7 +32,7 @@ export class CustomerRequirementsComponent implements OnInit {
   representative: Representative[] = [];
   companies: Company[] = [];
 
-  constructor(private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute) { }
+  constructor(private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute, private notificationService: NotificationService) { }
 
 
   inputCustomerRequirement: CustomerRequirement = {
@@ -122,9 +124,11 @@ export class CustomerRequirementsComponent implements OnInit {
 
   }
 
-
-  postCustomerRequirement() {
-
+  postCustomerRequirement(triggerNotification: Boolean) {
+    if (triggerNotification === true) {
+      console.log(triggerNotification);
+      this.notificationService.createBasicNotification(0, 'Formular wurde gesendet!', '', 'topRight');
+    }
     this.inputCustomerRequirement.reason = "Fachberatern Anforderung"
     this.inputCustomerRequirement.dateOfCreation = new Date();
 
@@ -154,6 +158,9 @@ export class CustomerRequirementsComponent implements OnInit {
   openDialog(customerVisit: CustomerVisit) {
     var finalReport: FinalReport = {}
     this.buttonClicked = true;
+    if ((!this.inputCustomerRequirement.requestedTechnologist || !this.inputCustomerRequirement.representative) && this.buttonClicked) {
+      this.notificationService.createBasicNotification(4, 'Bitte Pflichtfelder ausfüllen!', 'Fachberater* & Vertreter*', 'topRight')
+    }
 
     if (customerVisit.finalReport === null || customerVisit.finalReport === undefined || customerVisit.finalReport.id === 0) {
 
@@ -190,10 +197,11 @@ export class CustomerRequirementsComponent implements OnInit {
       data => {
         if (data.save) {
           customerVisit.finalReport = data.finalReport;
-          this.postCustomerRequirement();
+          this.postCustomerRequirement(false);
+          this.notificationService.createBasicNotification(0, 'Abschlussbericht hinzugefügt!', '', 'topRight');
         }
       });
-      this.buttonClicked=false;
+    this.buttonClicked = false;
   }
 
   getTechnologist() {
@@ -228,7 +236,6 @@ export class CustomerRequirementsComponent implements OnInit {
       }
     });
   }
-
 
   changeTechnolgist($event: any) {
     this.inputCustomerRequirement.requestedTechnologist = this.technologists.find(elemnt => elemnt.id === $event);

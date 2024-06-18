@@ -21,7 +21,6 @@
                         </mat-form-field>
                         <mat-form-field class="smallInputSide">
                             <mat-label>{{"VISITOR-REGISTRATION.reason" | translate}}</mat-label>
-                            <input matInput>
                             <input matInput><!--TODO not binded-->
                         </mat-form-field>
                     </div>
@@ -335,7 +334,7 @@
         <div class="card" style="min-height: 30rem;" hideToggle>
             <div class="card-header bg-danger text-white">{{'VISITOR-REGISTRATION.plannedDepartmentVisits' | translate}}
             </div>
-            <div class="card-body minheigtCard">
+            <div class="card-body">
                 <div class="displayBySide">
                     <nz-table class="col" [nzShowPagination]="false" [nzData]="buttonSelect" [nzSize]="'small'"
                         nzBordered nzNoResult>
@@ -346,7 +345,7 @@
                                 <th width="150px">{{'VISITOR-REGISTRATION.date' | translate}}</th>
                             </tr>
                         </thead>
-                        <!-- Backend für abteilungsbesuche machen -->
+                        <!--TODO Backend für abteilungsbesuche machen -->
                         <tbody nzNoResult>
                             <tr *ngFor="let data of listOfCurrentPageData">
                                 <td [nzChecked]="setOfCheckedId.has(data.id)"
@@ -368,7 +367,7 @@
                                 <th width="150px">{{'VISITOR-REGISTRATION.date' | translate}}</th>
                             </tr>
                         </thead>
-                        <!-- Backend für abteilungsbesuche machen -->
+                        <!-- TODO Backend für abteilungsbesuche machen -->
                         <tbody>
                             <tr *ngFor="let data of listOfCurrentPageData2">
                                 <td [nzChecked]="setOfCheckedId.has(data.id)"

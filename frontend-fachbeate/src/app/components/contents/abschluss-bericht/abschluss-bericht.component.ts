@@ -5,6 +5,7 @@ import { ReasonReport } from '../../../models/reason-report';
 import { HttpService } from '../../../services/http.service';
 import { Article } from '../../../models/article';
 import { FormControl, FormRecord, NonNullableFormBuilder, Validators } from '@angular/forms';
+import { NzNotificationPlacement, NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
   selector: 'app-abschluss-bericht',
@@ -37,8 +38,22 @@ export class AbschlussBerichtComponent implements OnInit {
 
   }
 
+  createBasicNotification(notificationStyle: number, text: string, text2: string, position: NzNotificationPlacement): void {
+    if (notificationStyle === 1) {
+      this.notification.warning(
+        text, text2,
+        { nzPlacement: position }
+      );
+    }
+    else {
+      this.notification.success(
+        text, text2,
+        { nzPlacement: position }
+      );
+    }
+  }
 
-  constructor(
+  constructor(private notification: NzNotificationService,
     public dialogRef: MatDialogRef<AbschlussBerichtComponent>,
     @Inject(MAT_DIALOG_DATA) public finalReport: FinalReport,
     private http: HttpService

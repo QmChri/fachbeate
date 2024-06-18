@@ -7,6 +7,7 @@ import { TeilnehmerListeComponent } from '../teilnehmer-liste/teilnehmer-liste.c
 import { HttpService } from '../../../services/http.service';
 import { Guest } from '../../../models/guest';
 import { ActivatedRoute } from '@angular/router';
+import { NotificationService } from '../../../services/notification.service';
 
 @Component({
   selector: 'app-visitor-registration',
@@ -22,36 +23,35 @@ export class VisitorRegistrationComponent implements OnInit {
     guests: []
   };
 
-  constructor(private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute) { }
+  constructor(private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute,
+    private notificationService: NotificationService) { }
 
   openDialog(guests: Guest[]) {
- 
+
     const dialogRef = this.dialog.open(TeilnehmerListeComponent, {
       height: '36rem',
       width: '50rem',
       data: guests
     });
-    
+
     dialogRef.afterClosed().subscribe(
       data => {
         console.log(data);
-          
-          if(data !== undefined && data !== null){
-            console.log("test");
-            
-            this.inputVisitRegistration.guests = data;
-          }
+
+        if (data !== undefined && data !== null) {
+          console.log("test");
+
+          this.inputVisitRegistration.guests = data;
+        }
       });
-  
+
   }
 
-
-  
   tabs = ['Hotelbuchung'];
   selected = new FormControl(0);
 
   addTab() {
-    this.tabs.push('Hotelbuchung: '+ this.tabs.length);
+    this.tabs.push('Hotelbuchung: ' + this.tabs.length);
     this.selected.setValue(this.tabs.length - 1);
   }
 
@@ -112,27 +112,27 @@ export class VisitorRegistrationComponent implements OnInit {
     this.indeterminate = this.listOfCurrentPageData.some(item => this.setOfCheckedId.has(item.id)) && !this.checked;
   }
 
-  inputDateChange(id: number, date: string){
+  inputDateChange(id: number, date: string) {
     this.setOfCheckedId.set(id, date);
   }
 
   ngOnInit(): void {
 
     this.route.paramMap.subscribe(params => {
-      if(params.get('id') != null){
+      if (params.get('id') != null) {
         this.http.getVisitorRegistrationById(parseInt(params.get('id')!)).subscribe({
           next: data => {
-            if(data != null){
+            if (data != null) {
               this.inputVisitRegistration = data;
-              
+
               this.buttonSelect = [
-                (data.hotelBooking)?"1":"",
-                (data.flightBooking)?"2":"",
-                (data.trip)?"3":"",
-                (data.companyTour)?"4":"",
-                (data.meal)?"5":"",
-                (data.customerPresent)?"6":"",
-                (data.diploma)?"7":""
+                (data.hotelBooking) ? "1" : "",
+                (data.flightBooking) ? "2" : "",
+                (data.trip) ? "3" : "",
+                (data.companyTour) ? "4" : "",
+                (data.meal) ? "5" : "",
+                (data.customerPresent) ? "6" : "",
+                (data.diploma) ? "7" : ""
               ].filter(p => p != "");
             }
           },
@@ -213,7 +213,7 @@ export class VisitorRegistrationComponent implements OnInit {
     ]
   }
 
-  changeSelections(event: any){   
+  changeSelections(event: any) {
     this.inputVisitRegistration.hotelBooking = this.buttonSelect.includes("1");
     this.inputVisitRegistration.flightBooking = this.buttonSelect.includes("2");
     this.inputVisitRegistration.trip = this.buttonSelect.includes("3");
@@ -223,19 +223,20 @@ export class VisitorRegistrationComponent implements OnInit {
     this.inputVisitRegistration.diploma = this.buttonSelect.includes("7");
   }
 
-  postVisitorRegistration(){
+  postVisitorRegistration() {
+    this.notificationService.createBasicNotification(0,'Formular wurde gesendet!','','topRight');
     this.inputVisitRegistration.reason = "VisitorRegistration"
 
     this.inputVisitRegistration.plannedDepartmentVisits = []
 
     this.setOfCheckedId.forEach((value, key) => {
-      this.inputVisitRegistration.plannedDepartmentVisits = [...this.inputVisitRegistration.plannedDepartmentVisits!, 
-        {
-          department: this.getDepartment(key),
-          dateOfVisit: new Date(value)
-        }
+      this.inputVisitRegistration.plannedDepartmentVisits = [...this.inputVisitRegistration.plannedDepartmentVisits!,
+      {
+        department: this.getDepartment(key),
+        dateOfVisit: new Date(value)
+      }
       ]
-    });    
+    });
 
     this.http.postVisitorRegistration(this.inputVisitRegistration).subscribe({
       next: data => {
@@ -247,14 +248,14 @@ export class VisitorRegistrationComponent implements OnInit {
     })
   }
 
-  getDepartment(id: number):string{
+  getDepartment(id: number): string {
     var found = this.listOfCurrentPageData.find(element => element.id === id)
-    if(found !== null && found !== undefined){
+    if (found !== null && found !== undefined) {
       return found!.name;
     }
 
     found = this.listOfCurrentPageData2.find(element => element.id === id)
-    if(found !== null && found !== undefined){
+    if (found !== null && found !== undefined) {
       return found!.name;
     }
     return "";

@@ -152,6 +152,53 @@
     <div class="col-md-4 paddingBottom" *ngIf="buttonSelect.includes('1')">
         <div class="card">
             <div class="card-header text-white bg-danger paddingSearch">{{'SEMINAR-REGISTRATION.hotelBooking' |
+                translate}}</div>
+                <!--TODO ngModels setzen-->
+            <div class="card-body">
+                @for (tab of tabs; track tab; let index = $index) {
+                <p>{{index+1}}. Hotelbuchung</p>
+                <div class="displayBySide">
+                    <div class="center-items">
+                        <mat-form-field class="smallInputSpecial">
+                            <mat-label>{{'VISITOR-REGISTRATION.place' | translate}}</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+                        <mat-form-field class="smallInputSpecial">
+                            <mat-label>{{'VISITOR-REGISTRATION.fromTo' | translate}}</mat-label>
+                            <mat-date-range-input [rangePicker]="picker3">
+                                <input matStartDate placeholder="Start date">
+                                <input matEndDate placeholder="End date">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
+                            <mat-date-range-picker #picker3></mat-date-range-picker>
+                        </mat-form-field>
+                    </div>
+                    <div class="center-items">
+                        <mat-form-field class="smallInputSpecial">
+                            <mat-label>{{'VISITOR-REGISTRATION.singleRoom' | translate}}</mat-label>
+                            <input type="number" min="0" matInput>
+                        </mat-form-field>
+                        <mat-form-field class="smallInputSpecial">
+                            <mat-label>{{'VISITOR-REGISTRATION.doubleRoom' | translate}}</mat-label>
+                            <input type="number" min="0" matInput>
+                        </mat-form-field>
+                    </div>
+                </div>
+                }
+                <div class="header">
+                    <div>
+                        <button (click)="deleteLast()" class="btn btn-danger"><i class="fa fa-minus"></i></button>
+                    </div>
+                    <div>
+                        <button (click)="addTab()" class="btn btn-success"> <i class="fa fa-plus"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<!-- 
+        <div class="card">
+            <div class="card-header text-white bg-danger paddingSearch">{{'SEMINAR-REGISTRATION.hotelBooking' |
                 translate}}
                 <div>
                     <button class="btn btn-secondary" matTooltip="{{'SEMINAR-REGISTRATION.delete' | translate}}"
@@ -205,6 +252,7 @@
                 </mat-tab-group>
             </div>
         </div>
+        -->
     </div>
     <div class="col-md-4 paddingBottom" *ngIf="buttonSelect.includes('2')">
         <div class="card" hideToggle>
