@@ -18,41 +18,33 @@ export class AbschlussBerichtListComponent { //implements OnInit
   technologistList: Technologist[] = [];
 
   listOfDisplayData: DataItem[] = [];
+  companies: string[] = [];
 
   listOfColumn: ColumnDefinition[] = [
     {
       name: 'customer',
-      sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.company.toString().localeCompare(b.company.toString()),
+      sortFn: (a: DataItem, b: DataItem) => a.company!.localeCompare(b.company!),
       listOfFilter: [
-        { text: ' ', value: ' ' },
       ],
       filterFn: (list: string[], item: DataItem) => true
     },
     {
       name: 'datecustomerVisit',
-      sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.dateOfVisit.toString().localeCompare(b.dateOfVisit.toString()),
+      sortFn: (a: DataItem, b: DataItem) => a.dateOfVisit!.valueOf() - b.dateOfVisit!.valueOf(),
       listOfFilter: [
-        { text: ' ', value: ' ' },
       ],
       filterFn: (list: string[], item: DataItem) => true
     },
     {
       name: 'responsibleFB',
-      sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.technologist.localeCompare(b.technologist),
       listOfFilter: [
-        { text: 'Toha A', value: 'Toha A' },
-        { text: 'Toha B', value: 'Toha B' },
-        { text: 'Toha C', value: 'Toha C' },
       ],
       filterFn: (list: string[], item: DataItem) => list.some(name => item.technologist.indexOf(name) !== -1)
     },
     {
       name: 'toDoTechno',
-      sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.toBeCompletedBy!.valueOf().toString().localeCompare(b.toBeCompletedBy!.valueOf().toString()),
+      sortFn: (a: DataItem, b: DataItem) => a.toBeCompletedBy!.valueOf() - b.toBeCompletedBy!.valueOf(),
       listOfFilter: [
         { text: ' ', value: ' ' }
       ],
@@ -60,17 +52,14 @@ export class AbschlussBerichtListComponent { //implements OnInit
     },
     {
       name: 'responsibleRepresentative',
-      sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.representative.localeCompare(b.representative),
+      sortFn: (a: DataItem, b: DataItem) => a.representative!.localeCompare(b.representative!),
       listOfFilter: [
-        { text: '', value: '' }
       ],
       filterFn: (list: string[], item: DataItem) => list.some(name => item.representative.indexOf(name) !== -1)
     },
     {
       name: 'Kunde kontaktiert am',
-      sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.customerContactDate!.valueOf().toString().localeCompare(b.customerContactDate!.valueOf().toString()),
+      sortFn: (a: DataItem, b: DataItem) => a.customerContactDate!.valueOf() - b.customerContactDate!.valueOf(),
       listOfFilter: [
         { text: ' ', value: ' ' }
       ],
@@ -78,17 +67,14 @@ export class AbschlussBerichtListComponent { //implements OnInit
     },
     {    //TODO fehlt noch Bericht abgeschlossen -> Hackerl wenn abgeschlossen
       name: 'Bericht abgeschlossen',
-      sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.abschlussberichtFinished!.localeCompare(b.abschlussberichtFinished!),
       listOfFilter: [
-        { text: 'abgeschlossen', value: 'open' },
-        { text: 'nicht abgeschlossen', value: 'in-progress' }
+       
       ],
       filterFn: (list: string[], item: DataItem) => list.some(name => item.abschlussberichtFinished!.indexOf(name) !== -1)
     },
     {
       name: 'Artikel',
-      sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => 1,
       listOfFilter: [
       ],
@@ -103,12 +89,12 @@ export class AbschlussBerichtListComponent { //implements OnInit
     this.listOfDisplayData = [
       {
         company: 'Alpha Corporation',
-        dateOfVisit: new Date('2023-06-15'),
-        technologist: 'Max Mustermann',
+        dateOfVisit: new Date('2023-06-18'),
+        technologist: 'A',
         toBeCompletedBy: new Date('2023-06-20'),
-        representative: 'Erika Musterfrau',
+        representative: 'A',
         customerContactDate: new Date('2023-06-10'),
-        abschlussberichtFinished: 'Ja',
+        abschlussberichtFinished: 'yes',
         article: [
           { name: 'Article 1', articleNr: 'A001' },
           { name: 'Article 2', articleNr: 'A002' }
@@ -116,30 +102,73 @@ export class AbschlussBerichtListComponent { //implements OnInit
       },
       {
         company: 'Beta Industries',
-        dateOfVisit: new Date('2023-06-18'),
-        technologist: 'Anna Schmidt',
+        dateOfVisit: new Date('2023-06-19'),
+        technologist: 'B',
         toBeCompletedBy: new Date('2023-06-25'),
-        representative: 'Hans Müller',
+        representative: 'B',
         customerContactDate: new Date('2023-06-12'),
-        abschlussberichtFinished: 'Nein',
+        abschlussberichtFinished: 'yes',
         article: [
           { name: 'Article 3', articleNr: 'B001' }
         ]
       },
       {
-        company: 'Gamma Technologies',
+        company: 'Camma Technologies',
         dateOfVisit: new Date('2023-06-20'),
-        technologist: 'John Doe',
+        technologist: 'C',
         toBeCompletedBy: new Date('2023-06-28'),
-        representative: 'Jane Smith',
+        representative: 'C',
         customerContactDate: new Date('2023-06-14'),
-        abschlussberichtFinished: 'Ja',
+        abschlussberichtFinished: 'no',
         article: [
           { name: 'Article 4', articleNr: 'G001' },
           { name: 'Article 5', articleNr: 'G002' }
         ]
+      },
+      {
+        company: 'Delta Corporation',
+        dateOfVisit: new Date('2023-06-17'),
+        technologist: 'D',
+        toBeCompletedBy: new Date('2023-06-22'),
+        representative: 'D',
+        customerContactDate: new Date('2023-06-11'),
+        abschlussberichtFinished: 'no',
+        article: [
+          { name: 'Article 6', articleNr: 'D001' },
+          { name: 'Article 7', articleNr: 'D002' }
+        ]
+      },
+      {
+        company: 'Epsilon Industries',
+        dateOfVisit: new Date('2023-06-21'),
+        technologist: 'E',
+        toBeCompletedBy: new Date('2023-06-26'),
+        representative: 'E',
+        customerContactDate: new Date('2023-06-15'),
+        abschlussberichtFinished: 'yes',
+        article: [
+          { name: 'Article 8', articleNr: 'E001' }
+        ]
+      },
+      {
+        company: 'Zeta Technologies',
+        dateOfVisit: new Date('2023-06-16'),
+        technologist: 'F',
+        toBeCompletedBy: new Date('2023-06-24'),
+        representative: 'F',
+        customerContactDate: new Date('2023-06-13'),
+        abschlussberichtFinished: 'no',
+        article: [
+          { name: 'Article 9', articleNr: 'Z001' },
+          { name: 'Article 10', articleNr: 'Z002' }
+        ]
       }
     ];
+    for (let i = 0; i < this.listOfDisplayData.length; i++) {
+      console.log(this.listOfDisplayData[i].company);
+      this.companies.push(this.listOfDisplayData[i].company)
+    }
+
     //this.loadData();
   }
 
@@ -172,7 +201,7 @@ export class AbschlussBerichtListComponent { //implements OnInit
             toBeCompletedBy: element.reworkByRepresentativeDoneUntil!,
             representative: element.representative!,
             customerContactDate: element.customerContactDate!,
-            abschlussberichtFinished: (element.requestCompleted) ? "Abgeschlossen" : "Nicht Abgeschlossen",
+            abschlussberichtFinished: (element.requestCompleted) ? "Ja" : "Nein",
             article: allArticles
           }]
         });
@@ -241,9 +270,6 @@ export class AbschlussBerichtListComponent { //implements OnInit
 
   resetSortAndFilters(): void {
     this.notificationService.createBasicNotification(2, 'Filter/Sortierung aufgehoben!', '', 'topRight');
-    this.listOfColumn.forEach(item => {
-      item.sortOrder = null;
-    });
     this.resetFilters();
     this.searchValue = '';
     this.search();
@@ -290,8 +316,7 @@ interface DataItem {
 
 interface ColumnDefinition {
   name: string;
-  sortOrder: any;
   sortFn: (a: DataItem, b: DataItem) => number;
-  listOfFilter: { text: string, value: string }[];
+  listOfFilter: string[];
   filterFn?: (list: string[], item: DataItem) => boolean;
 }
