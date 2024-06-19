@@ -14,8 +14,6 @@ jobs:
     name: build-backend-prod
     runs-on: ubuntu-latest
     defaults:
-      run:
-        working-directory: ./backend-fachbeate/
     steps:
       - uses: actions/checkout@v3
 
@@ -26,6 +24,7 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Build with Maven
+        working-directory: ./backend-fachbeate/
         run: |
           chmod +x ./mvnw
           ./mvnw package -Dmaven.test.skip
@@ -56,6 +55,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
+          context: ./backend-fachbeate/
           file: ./src/main/docker/Dockerfile.jvm
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_REPOSITORY }}-api:latest
