@@ -17,13 +17,13 @@ jobs:
     env:
       IMAGE_NAME: leocode-backend
     defaults:
-      run:
-        working-directory: ./backend-fachbeate
+      run: chmod +x ./mvnw
+      working-directory: ./backend-fachbeate
     steps:
       - name: Check out the repo
         uses: actions/checkout@v3
       - name: Package
-        run:  ./mvnw package -DskipTests
+        run: ./mvnw package -DskipTests
       - name: Login to GitHub Packages
         uses: docker/login-action@v1
         with:
