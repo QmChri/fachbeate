@@ -12,8 +12,8 @@ import { ActivatedRoute } from '@angular/router';
 import { ReasonReport } from '../../../models/reason-report';
 import { Representative } from '../../../models/representative';
 import { Company } from '../../../models/company';
-import { NzNotificationPlacement, NzNotificationService } from 'ng-zorro-antd/notification';
 import { NotificationService } from '../../../services/notification.service';
+import { RoleService } from '../../../services/role.service';
 
 @Component({
   selector: 'app-customer-requirements',
@@ -32,7 +32,8 @@ export class CustomerRequirementsComponent implements OnInit {
   representative: Representative[] = [];
   companies: Company[] = [];
 
-  constructor(private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute, private notificationService: NotificationService) { }
+  constructor(private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute, private notificationService: NotificationService, public roleService: RoleService
+  ) { }
 
 
   inputCustomerRequirement: CustomerRequirement = {
@@ -127,7 +128,7 @@ export class CustomerRequirementsComponent implements OnInit {
   postCustomerRequirement(triggerNotification: Boolean) {
     if (triggerNotification === true) {
       console.log(triggerNotification);
-      this.notificationService.createBasicNotification(0,'Formular wurde gesendet!','','topRight');
+      this.notificationService.createBasicNotification(0, 'Formular wurde gesendet!', '', 'topRight');
     }
     this.inputCustomerRequirement.reason = "Fachberatern Anforderung"
     this.inputCustomerRequirement.dateOfCreation = new Date();

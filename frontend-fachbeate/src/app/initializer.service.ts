@@ -1,4 +1,4 @@
-/*import { KeycloakService } from 'keycloak-angular';  
+import { KeycloakService } from 'keycloak-angular';  
 import { environment as env} from './environments/environment';  
  
 export function initializer(keycloak: KeycloakService): () => Promise<any> {  
@@ -25,4 +25,4 @@ export function initializer(keycloak: KeycloakService): () => Promise<any> {
       }  
     });  
   };  
-}*/
+}

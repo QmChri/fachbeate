@@ -4,7 +4,8 @@ import { animate, keyframes, style, transition, trigger } from '@angular/animati
 import { TranslateService } from '@ngx-translate/core';
 import { INavbarData } from './helper';
 import { NgIf } from '@angular/common';
-//import { KeycloakService } from 'keycloak-angular';
+import { KeycloakService } from 'keycloak-angular';
+import { RoleService } from '../../services/role.service';
 
 interface SideNavToggle {
   screenWidth: number;
@@ -51,12 +52,13 @@ export class SidenavComponent implements OnInit {
   multiple: boolean = false;
   currentUrl = "";
 
-  constructor(private translate: TranslateService/*,private readonly keycloak: KeycloakService*/) {
+  constructor(private translate: TranslateService, private readonly keycloak: KeycloakService,
+     public roleService: RoleService) {
     this.translate.addLangs(['en', 'de']);
   }
 
   public async logout(){
-    //this.keycloak.logout();
+    this.keycloak.logout();
   }
 
   switchLanguage(language: string) {

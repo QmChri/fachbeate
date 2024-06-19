@@ -8,14 +8,16 @@ import interactionPlugin from '@fullcalendar/interaction';
 import { MatDialog } from '@angular/material/dialog';
 import { NewDateEntryComponent } from '../contents/new-date-entry/new-date-entry.component';
 import { TechnologistAppointment } from '../../models/technologist-appointment';
-
+import { RoleService } from '../../services/role.service';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
-export class DashboardComponent implements OnInit, AfterViewInit {
+export class DashboardComponent implements OnInit {
+  requiredRoles = [1,2,4,5];
+
   calendarEvnts: CalendarEvent[] = [];
 
   calendarOptions: CalendarOptions = {
@@ -29,21 +31,19 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     firstDay: 1,
   };
 
-  constructor(private http: HttpService,private router: Router, private dialog: MatDialog){
+  constructor(
+    private http: HttpService,private router: Router, private dialog: MatDialog,
+    public roleService: RoleService
+  ){
 
   }
 
   ngOnInit(): void {
-    this.loadEvents();
+    if(this.roleService.checkPermission(this.requiredRoles)) {
+      this.loadEvents();
+    }
   }
 
-
-  ngAfterViewInit(): void {
-
-
-
-
-  }
 
   loadEvents(){
     
