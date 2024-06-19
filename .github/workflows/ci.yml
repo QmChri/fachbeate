@@ -52,16 +52,10 @@ jobs:
           echo "end"
 
       - name: Build and push Docker image
-        run: |
-          echo "pwd"
-          pwd
-          echo "ls"
-          ls -al ./backend-fachbeate/src/main/docker/
-          echo "end"
         uses: docker/build-push-action@v4
         with:
-          context: ./backend-fachbeate/
-          file: ./src/main/docker/Dockerfile.jvm
+          context: .
+          file: ./backend-fachbeate/src/main/docker/Dockerfile.jvm
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_REPOSITORY }}-api:latest
           cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_REPOSITORY }}-api:latest
