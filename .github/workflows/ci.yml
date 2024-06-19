@@ -26,7 +26,6 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Debug - List files
-        run: ls -al ./src/main/docker/
       - name: Build with Maven
         run: |
           chmod +x ./mvnw
@@ -48,9 +47,15 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push Docker image
+        run: |
+          echo "pwd"
+          pwd
+          echo "ls"
+          ls -al src/main/docker/
+          echo "end"
         uses: docker/build-push-action@v4
         with:
-          file: ./backend-fachbeate/src/main/docker/Dockerfile.jvm
+          file: ./src/main/docker/Dockerfile.jvm
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_REPOSITORY }}-api:latest
           cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_REPOSITORY }}-api:latest
