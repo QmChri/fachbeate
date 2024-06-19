@@ -12,7 +12,7 @@
         <button class="btn btn-warning" *ngIf="roleService.checkPermission([1,2,7])" style="margin-left: 4rem;">Freigabe AL</button>
     </div>
     <div>
-        <button class="btn btn-success" (click)="postCustomerRequirement()">{{"REQ-TECH.send" | translate}}</button>
+        <button class="btn btn-success" (click)="postCustomerRequirement(true)">{{"REQ-TECH.send" | translate}}</button>
     </div>
 </div>
 <hr>

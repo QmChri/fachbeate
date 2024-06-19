@@ -121,9 +121,7 @@ export class MainListComponent implements OnInit {
   }
 
   loadData() {
-
     this.loadTechnologists();
-
     this.http.getCustomerRequirements().subscribe({
       next: data => {
         data.forEach(element => {
@@ -303,7 +301,7 @@ export class MainListComponent implements OnInit {
   }
 
   resetSortAndFilters(): void {
-    this.notificationService.createBasicNotification(2,'Filter/Sortierung aufgehoben!','','topRight');
+    this.notificationService.createBasicNotification(2, 'Filter/Sortierung aufgehoben!', '', 'topRight');
     this.listOfColumn.forEach(item => {
       item.sortOrder = null;
     });

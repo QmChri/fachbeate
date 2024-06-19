@@ -176,7 +176,7 @@
         "customer": "Kunde",
         "datecustomerVisit": "Datum des Besuchs",
         "responsibleFB": "Zuständiger FB",
-        "toDoTechno": "'Zu Erledigen' - FB",
+        "toDoTechno": "zu erledigen bis ",
         "responsibleRepresentative": "Zuständiger Vertreter",
         "toDoResp": "Kunde kontaktiert am ",
         "state": "Bericht abgeschlossen ",
