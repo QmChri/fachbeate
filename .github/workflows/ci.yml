@@ -52,10 +52,11 @@ jobs:
           echo "end"
 
       - name: Build and push Docker image
+        working-directory: ./backend-fachbeate/
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: ./backend-fachbeate/src/main/docker/Dockerfile.jvm
+          file: ./src/main/docker/Dockerfile.jvm
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_REPOSITORY }}-api:latest
           cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_REPOSITORY }}-api:latest
