@@ -48,7 +48,7 @@ jobs:
           echo "pwd"
           pwd
           echo "ls"
-          ls -al ./src/main/docker/
+          ls -al ./backend-fachbeate/src/main/docker/
           echo "end"
 
       - name: Build and push Docker image
