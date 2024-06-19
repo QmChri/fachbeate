@@ -10,6 +10,13 @@ import java.util.List;
 
 @Entity
 public class VisitorRegistration extends PanacheEntity {
+
+    public String releaserManagement;
+    public Date releaseManagement;
+
+    public String releaserSupervisor;
+    public Date releaseSupervisor;
+
     public String reason;
 
     public String name;
@@ -68,6 +75,14 @@ public class VisitorRegistration extends PanacheEntity {
     }
 
     public void updateEntity(VisitorRegistration newVisitorRegistration) {
+
+        this.releaserManagement = newVisitorRegistration.releaserManagement;
+        this.releaseManagement = newVisitorRegistration.releaseManagement;
+
+        this.releaserSupervisor = newVisitorRegistration.releaserSupervisor;
+        this.releaseSupervisor = newVisitorRegistration.releaseSupervisor;
+
+
         this.reason = newVisitorRegistration.reason;
 
         this.name = newVisitorRegistration.name;
