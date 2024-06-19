@@ -23,7 +23,7 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v3
       - name: Package
-        run:  mvn package -DskipTests
+        run:  ./mvnw package -DskipTests
       - name: Login to GitHub Packages
         uses: docker/login-action@v1
         with:
