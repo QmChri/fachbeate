@@ -6,7 +6,7 @@ export interface VisitorRegistration {
     id?: number;
     dateOfCreation?: Date;
     name?: string;
-    typeOfFormular?: string;
+    inputReason?: string;
     // typeOfFormular zu reason umbenennen
     //TODO neues Feld hinzugefügt --> muss im Backend noch gemacht werden
     reason?: string;

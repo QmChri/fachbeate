@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpService } from '../../../services/http.service';
 import { Technologist } from '../../../models/technologist';
 import { Article } from '../../../models/article';
-import { DatePipe } from '@angular/common';
 import { NotificationService } from '../../../services/notification.service';
 
 @Component({
@@ -40,16 +39,6 @@ export class AbschlussBerichtListComponent { //implements OnInit
       filterFn: (list: string[], item: DataItem) => true
     },
     {
-      name: 'createDateVisit',
-      sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.creationDate.localeCompare(b.creationDate),
-      listOfFilter: [
-        { text: 'open', value: 'open' },
-        { text: 'in-progress', value: 'in-progress' }
-      ],
-      filterFn: (list: string[], item: DataItem) => list.some(name => item.creationDate.indexOf(name) !== -1)
-    },
-    {
       name: 'responsibleFB',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.technologist.localeCompare(b.technologist),
@@ -63,11 +52,11 @@ export class AbschlussBerichtListComponent { //implements OnInit
     {
       name: 'toDoTechno',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.dateOfReworkTechnologist.localeCompare(b.dateOfReworkTechnologist),
+      sortFn: (a: DataItem, b: DataItem) => a.toBeCompletedBy!.valueOf().toString().localeCompare(b.toBeCompletedBy!.valueOf().toString()),
       listOfFilter: [
         { text: ' ', value: ' ' }
       ],
-      filterFn: (list: string[], item: DataItem) => list.some(name => item.dateOfReworkTechnologist.indexOf(name) !== -1)
+      filterFn: (list: string[], item: DataItem) => true
     },
     {
       name: 'responsibleRepresentative',
@@ -79,48 +68,79 @@ export class AbschlussBerichtListComponent { //implements OnInit
       filterFn: (list: string[], item: DataItem) => list.some(name => item.representative.indexOf(name) !== -1)
     },
     {
-      name: 'toDoResp',
+      name: 'Kunde kontaktiert am',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.dateOfReworkRepresentative.localeCompare(b.dateOfReworkRepresentative),
-      listOfFilter: [
-        { text: ' ', value: ' ' },
-      ],
-      filterFn: (list: string[], item: DataItem) => true
-    },
-    {
-      name: 'state',
-      sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.state.localeCompare(b.state),
-      listOfFilter: [
-        { text: 'erledigt', value: 'true' },
-        { text: 'nicht erledigt', value: 'false' }
-      ],
-      filterFn: (list: string[], item: DataItem) => list.some(name => item.state.indexOf(name.valueOf().toString()) !== -1)
-    },
-    {
-      name: 'article',
-      sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => 0,
+      sortFn: (a: DataItem, b: DataItem) => a.customerContactDate!.valueOf().toString().localeCompare(b.customerContactDate!.valueOf().toString()),
       listOfFilter: [
         { text: ' ', value: ' ' }
       ],
-      filterFn: (list: string[], item: DataItem) => {
-        var allIn: boolean = true;
-        list.forEach(element => {
-          if (item.article.map(article => article.name).includes(element) !== true) {
-            allIn = false;
-          }
-        })
-        return allIn;
-      }
+      filterFn: (list: string[], item: DataItem) => true
     },
+    {    //TODO fehlt noch Bericht abgeschlossen -> Hackerl wenn abgeschlossen
+      name: 'Bericht abgeschlossen',
+      sortOrder: null,
+      sortFn: (a: DataItem, b: DataItem) => a.abschlussberichtFinished!.localeCompare(b.abschlussberichtFinished!),
+      listOfFilter: [
+        { text: 'abgeschlossen', value: 'open' },
+        { text: 'nicht abgeschlossen', value: 'in-progress' }
+      ],
+      filterFn: (list: string[], item: DataItem) => list.some(name => item.abschlussberichtFinished!.indexOf(name) !== -1)
+    },
+    {
+      name: 'Artikel',
+      sortOrder: null,
+      sortFn: (a: DataItem, b: DataItem) => 1,
+      listOfFilter: [
+      ],
+      filterFn: (list: string[], item: DataItem) => true
+    }
   ];
 
 
   constructor(private router: Router, private http: HttpService, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
-    this.loadData();
+    this.listOfDisplayData = [
+      {
+        company: 'Alpha Corporation',
+        dateOfVisit: new Date('2023-06-15'),
+        technologist: 'Max Mustermann',
+        toBeCompletedBy: new Date('2023-06-20'),
+        representative: 'Erika Musterfrau',
+        customerContactDate: new Date('2023-06-10'),
+        abschlussberichtFinished: 'Ja',
+        article: [
+          { name: 'Article 1', articleNr: 'A001' },
+          { name: 'Article 2', articleNr: 'A002' }
+        ]
+      },
+      {
+        company: 'Beta Industries',
+        dateOfVisit: new Date('2023-06-18'),
+        technologist: 'Anna Schmidt',
+        toBeCompletedBy: new Date('2023-06-25'),
+        representative: 'Hans Müller',
+        customerContactDate: new Date('2023-06-12'),
+        abschlussberichtFinished: 'Nein',
+        article: [
+          { name: 'Article 3', articleNr: 'B001' }
+        ]
+      },
+      {
+        company: 'Gamma Technologies',
+        dateOfVisit: new Date('2023-06-20'),
+        technologist: 'John Doe',
+        toBeCompletedBy: new Date('2023-06-28'),
+        representative: 'Jane Smith',
+        customerContactDate: new Date('2023-06-14'),
+        abschlussberichtFinished: 'Ja',
+        article: [
+          { name: 'Article 4', articleNr: 'G001' },
+          { name: 'Article 5', articleNr: 'G002' }
+        ]
+      }
+    ];
+    //this.loadData();
   }
 
   loadData() {
@@ -147,13 +167,12 @@ export class AbschlussBerichtListComponent { //implements OnInit
 
           this.listOfData = [...this.listOfData, {
             company: element.company!,
-            dateOfVisit: element.dateOfVisit!.toString(),
-            creationDate: undefined!,
+            dateOfVisit: element.dateOfVisit!,
             technologist: element.technologist!,
-            dateOfReworkTechnologist: undefined!,
+            toBeCompletedBy: element.reworkByRepresentativeDoneUntil!,
             representative: element.representative!,
-            dateOfReworkRepresentative: undefined!,
-            state: (element.requestCompleted) ? "Abgeschlossen" : "Nicht Abgeschlossen",
+            customerContactDate: element.customerContactDate!,
+            abschlussberichtFinished: (element.requestCompleted) ? "Abgeschlossen" : "Nicht Abgeschlossen",
             article: allArticles
           }]
         });
@@ -184,7 +203,6 @@ export class AbschlussBerichtListComponent { //implements OnInit
       this.router.navigate(['/seminar-registration', dateNr]);
     }
   }
-
 
   resetFilters(): void {
     this.listOfColumn.forEach(item => {
@@ -261,21 +279,13 @@ export class AbschlussBerichtListComponent { //implements OnInit
 
 interface DataItem {
   company: string,
-  dateOfVisit: string,
-  creationDate: string,
+  dateOfVisit: Date,
   technologist: string,
-  dateOfReworkTechnologist: string,
+  toBeCompletedBy: Date,
   representative: string,
-  dateOfReworkRepresentative: string,
-  state: string,
-  article: Article[]
-}
-
-interface TimeSpan {
-  days: number;
-  hours: number;
-  minutes: number;
-  seconds: number;
+  customerContactDate: Date,
+  abschlussberichtFinished: string,
+  article: Article[],
 }
 
 interface ColumnDefinition {

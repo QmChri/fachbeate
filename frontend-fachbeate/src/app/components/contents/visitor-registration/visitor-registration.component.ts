@@ -8,7 +8,6 @@ import { HttpService } from '../../../services/http.service';
 import { Guest } from '../../../models/guest';
 import { ActivatedRoute } from '@angular/router';
 import { NotificationService } from '../../../services/notification.service';
-import { Hotelbooking } from '../../../models/hotelbooking';
 
 @Component({
   selector: 'app-visitor-registration',
