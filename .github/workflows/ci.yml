@@ -17,8 +17,8 @@ jobs:
     env:
       IMAGE_NAME: leocode-backend
     defaults:
-      run: chmod +x ./mvnw
       working-directory: ./backend-fachbeate
+      run: chmod +x ./mvnw
     steps:
       - name: Check out the repo
         uses: actions/checkout@v3
