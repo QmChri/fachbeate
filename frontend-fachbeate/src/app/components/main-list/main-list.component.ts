@@ -18,94 +18,78 @@ export class MainListComponent implements OnInit {
 
   technologistList: Technologist[] = [];
 
-  //TODO bei listOfFilter gehören jeweils die richtigen text und values von der liste hereingeladen
   listOfDisplayData: DataItem[] = [];
   listOfColumn: ColumnDefinition[] = [
     {
       name: 'name',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.nr!.toString().localeCompare(b.nr!.toString()),
-      listOfFilter: [
-        { text: ' ', value: ' ' },
-      ],
+      sortFn: (a: DataItem, b: DataItem) => a.name!.toString().localeCompare(b.name!.toString()),
+      listOfFilter: [],
+      filterFn: (list: string[], item: DataItem) => list.some(a => item.name!.indexOf(a) !== -1)
+    },
+    {
+      name: 'dateOfCreation',
+      sortOrder: null,
+      sortFn: (a: DataItem, b: DataItem) => a.dateOfCreation!.valueOf() - b.dateOfCreation!.valueOf(),
+      listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => true
     },
     {
-      name: 'creationDate',
+      name: 'customerOrCompany',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.createDate!.valueOf().toString().localeCompare(b.createDate!.valueOf().toString()),
-      listOfFilter: [
-        { text: ' ', value: ' ' },
-      ],
-      filterFn: (list: string[], item: DataItem) => true
-    },
-    {
-      name: 'dealers',
-      sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.toha!.localeCompare(b.toha!),
-      listOfFilter: [
-        { text: 'Toha A', value: 'Toha A' },
-        { text: 'Toha B', value: 'Toha B' },
-        { text: 'Toha C', value: 'Toha C' },
-      ],
-      filterFn: (list: string[], item: DataItem) => list.some(name => item.toha!.indexOf(name) !== -1)
+      sortFn: (a: DataItem, b: DataItem) => a.customerOrCompany!.toString().localeCompare(b.customerOrCompany!.toString()),
+      listOfFilter: [],
+      filterFn: (list: string[], item: DataItem) => list.some(name => item.customerOrCompany!.indexOf(name) !== -1)
     },
     {
       name: 'state',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.status!.localeCompare(b.status!),
-      listOfFilter: [
-        { text: 'open', value: 'open' },
-        { text: 'in-progress', value: 'in-progress' }
-      ],
-      filterFn: (list: string[], item: DataItem) => list.some(name => item.status!.indexOf(name) !== -1)
-    },
-    {
-      name: 'technologist',
-      sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.fachberater!.localeCompare(b.fachberater!),
-      listOfFilter: [
-        { text: '', value: '' }
-      ],
-      filterFn: (list: string[], item: DataItem) => list.some(name => item.fachberater!.indexOf(name) !== -1)
+      sortFn: (a: DataItem, b: DataItem) => 1,
+      listOfFilter: [],
+      filterFn: (list: string[], item: DataItem) => true
     },
     {
       name: 'representative',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.vertreter!.localeCompare(b.vertreter!),
-      listOfFilter: [
-        { text: ' ', value: ' ' }
-      ],
+      listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => list.some(name => item.vertreter!.indexOf(name) !== -1)
+    },
+    {
+      name: 'technologist',
+      sortOrder: null,
+      sortFn: (a: DataItem, b: DataItem) => a.fachberater!.localeCompare(b.fachberater!),
+      listOfFilter: [],
+      filterFn: (list: string[], item: DataItem) => list.some(name => item.fachberater!.indexOf(name) !== -1)
     },
     {
       name: 'time-frame',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.timespan!.valueOf().toString().localeCompare(b.timespan!.valueOf().toString()),
-      listOfFilter: [
-        { text: ' ', value: ' ' },
-      ],
+      listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => true
     },
     {
       name: 'customer',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.vertreter!.localeCompare(b.vertreter!),
-      listOfFilter: [
-        { text: ' ', value: ' ' }
-      ],
-      filterFn: (list: string[], item: DataItem) => list.some(name => item.vertreter!.indexOf(name) !== -1)
+      sortFn: (a: DataItem, b: DataItem) => a.customer!.localeCompare(b.customer!),
+      listOfFilter: [],
+      filterFn: (list: string[], item: DataItem) => list.some(name => item.customer!.indexOf(name) !== -1)
     },
     {
       name: 'final-report',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.abschlussbericht!.valueOf().toString().localeCompare(b.abschlussbericht!.valueOf().toString()),
-      listOfFilter: [
-        { text: 'erledigt', value: 'true' },
-        { text: 'nicht erledigt', value: 'false' }
-      ],
+      listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => list.some(name => item.abschlussbericht!.valueOf().toString().indexOf(name.valueOf().toString()) !== -1)
     },
+    {
+      name: 'Typ',
+      sortOrder: null,
+      sortFn: (a: DataItem, b: DataItem) => a.abschlussbericht!.valueOf().toString().localeCompare(b.abschlussbericht!.valueOf().toString()),
+      listOfFilter: [],
+      filterFn: (list: string[], item: DataItem) => list.some(name => item.abschlussbericht!.valueOf().toString().indexOf(name.valueOf().toString()) !== -1)
+    }
   ];
 
   constructor(private router: Router, private http: HttpService, private translate: TranslateService,
@@ -113,8 +97,71 @@ export class MainListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadData();
+    this.tmpinitData();
+    this.getNzFilters();
+    //this.loadData();
   }
+
+  getNzFilters() {
+    
+    
+  }
+
+  //TODO nur temporär
+  tmpinitData() {
+    this.listOfDisplayData = [
+      {
+        id: 1,
+        name: "Projekt A",
+        dateOfCreation: new Date("2023-06-01"),
+        customerOrCompany: "Example GmbH",
+        status: true,
+        vertreter: "Max Mustermann",
+        fachberater: "Anna Schmidt",
+        timespan: {
+          start: new Date("2023-06-01"),
+          end: new Date("2023-06-30")
+        },
+        customer: "Kunde XY",
+        abschlussbericht: "Fertiggestellt",
+        type: 2
+      },
+      {
+        id: 2,
+        name: "Projekt B",
+        dateOfCreation: new Date("2023-07-10"),
+        customerOrCompany: "Demo AG",
+        status: false,
+        vertreter: "Julia Müller",
+        fachberater: "Markus Weber",
+        timespan: {
+          start: new Date("2023-07-10"),
+          end: new Date("2023-07-31")
+        },
+        customer: "Kunde Z",
+        abschlussbericht: "In Arbeit",
+        type: 1
+      },
+      {
+        id: 3,
+        name: "Projekt C",
+        dateOfCreation: new Date("2023-08-05"),
+        customerOrCompany: "Test GmbH",
+        status: true,
+        vertreter: "Hans Schmidt",
+        fachberater: "Sabine Fischer",
+        timespan: {
+          start: new Date("2023-08-05"),
+          end: new Date("2023-08-20")
+        },
+        customer: "Kunde ABC",
+        abschlussbericht: "Fertiggestellt",
+        type: 3
+      }
+    ];
+  }
+
+
   //TODO Freigeben button mit funktion noch verknüpfen
   release(nr: number) {
     this._snackBar.open("Freigegeben? ", "JA");
@@ -145,19 +192,19 @@ export class MainListComponent implements OnInit {
 
 
           this.listOfData = [...this.listOfData, {
-            id: element.id,
-            nr: element.company!.name,
-            createDate: element.dateOfCreation!,
-            status: "ToDo",
-            toha: element.company!.name!,
-            vertreter: element.representative!.firstName + " " + element.representative!.lastName,
-            fachberater: element.requestedTechnologist!.firstName + " " + element.requestedTechnologist!.lastName,
+            id: element.id!,
+            name: element.company?.name!,
+            dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
+            customerOrCompany: "",
+            status: false,
+            vertreter: element.representative?.firstName! + element.representative?.lastName!,
+            fachberater: element.requestedTechnologist?.firstName! + element.requestedTechnologist?.lastName!,
             timespan: {
               start: element.startDate,
               end: element.endDate
             },
+            customer: "",
             abschlussbericht: cntFinalReports + "/" + element.customerVisits.length,
-            abschlussberichtFarbe: color,
             type: 0
           }];
         });
@@ -183,17 +230,18 @@ export class MainListComponent implements OnInit {
 
           this.listOfData = [...this.listOfData, {
             id: element.id!,
-            nr: "",
-            createDate: element.dateOfCreation,
-            status: "ToDo",
-            toha: element.company!,
+            name: "",
+            dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
+            customerOrCompany: "",
+            status: false,
             vertreter: element.seminarPresenter!,
-            fachberater: element.requestedTechnologist!.map(element => element.firstName + " " + element.lastName).toString().substring(0, 35),
+            fachberater: element.requestedTechnologist!.map(a => a.firstName + " " + a.lastName).toString(),
             timespan: {
               start: element.startDate,
               end: element.endDate
             },
-            abschlussbericht: "",
+            customer: element.company!,
+            abschlussbericht: 'false',
             type: 1
           }];
 
@@ -221,16 +269,17 @@ export class MainListComponent implements OnInit {
 
           visitorDataList = [...visitorDataList, {
             id: element.id!,
-            nr: "",
-            createDate: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
-            status: "ToDo",
-            toha: element.customerOrCompany!,
+            name: element.name!,
+            dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
+            customerOrCompany: element.customerOrCompany!,
+            status: element.releaseManagement! || element.releaseSupervisor!,
             vertreter: element.responsibleSupervisor!,
             fachberater: "",
             timespan: {
               start: element.fromDate,
               end: element.toDate
             },
+            customer: "",
             abschlussbericht: "",
             type: 2
           }];
@@ -301,47 +350,44 @@ export class MainListComponent implements OnInit {
   }
 
   resetSortAndFilters(): void {
+    this.searchValue = '';
     this.notificationService.createBasicNotification(2, 'Filter/Sortierung aufgehoben!', '', 'topRight');
+    this.getNzFilters();
+    this.tmpinitData();
     this.listOfColumn.forEach(item => {
       item.sortOrder = null;
     });
-    this.resetFilters();
-    this.searchValue = '';
-    this.search();
-  }
-
-  reset(): void {
-    this.searchValue = '';
-    this.search();
   }
 
   search(): void {
     this.visible = false;
     this.listOfDisplayData = this.listOfData.filter((item: DataItem) =>
     (
-      item.nr!.toString().indexOf(this.searchValue.toLocaleLowerCase()) !== -1 ||
-      item.createDate!.valueOf().toString().indexOf(this.searchValue.valueOf().toString()) !== -1 ||
-      item.status!.toLocaleLowerCase().indexOf(this.searchValue.toLocaleLowerCase()) !== -1 ||
-      item.toha!.toLocaleLowerCase().indexOf(this.searchValue.toLocaleLowerCase()) !== -1 ||
-      item.vertreter!.toLocaleLowerCase().indexOf(this.searchValue.toLocaleLowerCase()) !== -1 ||
-      item.fachberater!.toLocaleLowerCase().indexOf(this.searchValue.toLocaleLowerCase()) !== -1 ||
-      item.timespan!.valueOf().toString().indexOf(this.searchValue.valueOf().toString()) !== -1 ||
-      item.abschlussbericht!.toString().indexOf(this.searchValue.toString()) !== -1
+      item.name!.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.dateOfCreation!.toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.customerOrCompany!.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.status!.valueOf().toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.vertreter!.valueOf().toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.fachberater!.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.timespan!.toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.customer!.valueOf().toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.abschlussbericht!.valueOf().toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.type!.valueOf().toString().includes(this.searchValue.toLocaleLowerCase())
     ));
   }
 }
 
 interface DataItem {
   id?: number;
-  nr?: string;
-  createDate?: Date;
-  status?: string;
-  toha?: string;
+  name?: string;
+  dateOfCreation?: Date;
+  customerOrCompany?: string;
+  status?: boolean;
   vertreter?: string;
   fachberater?: string;
   timespan?: TimeSpan;
+  customer: string;
   abschlussbericht?: string;
-  abschlussberichtFarbe?: number;
   type?: number;
 }
 

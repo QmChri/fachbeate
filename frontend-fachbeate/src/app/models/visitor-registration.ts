@@ -31,6 +31,11 @@ export interface VisitorRegistration {
     meetingRoomDate?: Date;
     meetingRoomTime?: string;
 
+    //TODO neu aber weiß nicht ob richtig
+    releaser?: string;
+    releaseManagement?: boolean;
+    releaseSupervisor?: boolean;
+
     //TODO neu muss im Backend noch hinzugefügt werden
     hotelBookings: Hotelbooking[]
 

@@ -1,6 +1,5 @@
 import { Guest } from "./guest";
 import { Technologist } from "./technologist";
-import { TechnologistAppointment } from "./technologist-appointment";
 
 export interface WorkshopRequirement{
     id?: number;
