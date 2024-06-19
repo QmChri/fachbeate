@@ -43,7 +43,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          file: ./src/main/docker/Dockerfile.jvm
+          file: src/main/docker/Dockerfile.jvm
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_REPOSITORY }}-api:latest
           cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_REPOSITORY }}-api:latest
