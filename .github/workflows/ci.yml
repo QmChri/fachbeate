@@ -38,7 +38,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: .
+          context: ./backend-fachbeate
           file: ./backend-fachbeate/src/main/docker/Dockerfile.jvm
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_REPOSITORY }}-api:latest
