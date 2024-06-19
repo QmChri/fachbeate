@@ -46,13 +46,15 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push Docker image
+      - name: DEBUG
         run: |
           echo "pwd"
           pwd
           echo "ls"
           ls -al ./src/main/docker/
           echo "end"
+
+      - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
           file: ./src/main/docker/Dockerfile.jvm
@@ -60,6 +62,7 @@ jobs:
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_REPOSITORY }}-api:latest
           cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_REPOSITORY }}-api:latest
           cache-to: type=inline
+
 
   build-frontend:
     name: build-frontend-prod
