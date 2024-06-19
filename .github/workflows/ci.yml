@@ -22,7 +22,7 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Build with Maven
-        workdir: /fachbeate/backend-fachbeate
+        working-directory: fachbeate/backend-fachbeate
         run: ./mvnw package -Dmaven.test.skip
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
