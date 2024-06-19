@@ -22,7 +22,7 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Build with Maven
-        working-directory: fachbeate/backend-fachbeate
+        working-directory: /fachbeate/backend-fachbeate
         run: ./mvnw package -Dmaven.test.skip
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -39,7 +39,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: ./backend-fachbeate
+          context: ./
           file: ./src/main/docker/Dockerfile.jvm
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_REPOSITORY }}-api:latest
