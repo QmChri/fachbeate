@@ -21,20 +21,17 @@ export class AbschlussBerichtListComponent { //implements OnInit
 
   listOfColumn: ColumnDefinition[] = [
     {
-      name: 'customer',
+      name: 'company',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.company.toString().localeCompare(b.company.toString()),
-      listOfFilter: [
-        { text: ' ', value: ' ' },
-      ],
-      filterFn: (list: string[], item: DataItem) => true
+      sortFn: (a: DataItem, b: DataItem) => a.company!.localeCompare(b.company!),
+      listOfFilter: [],
+      filterFn: (list: string[], item: DataItem) => list.some(name => item.company.indexOf(name) !== -1)
     },
     {
       name: 'datecustomerVisit',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.dateOfVisit.toString().localeCompare(b.dateOfVisit.toString()),
+      sortFn: (a: DataItem, b: DataItem) => a.dateOfVisit!.valueOf() - b.dateOfVisit!.valueOf(),
       listOfFilter: [
-        { text: ' ', value: ' ' },
       ],
       filterFn: (list: string[], item: DataItem) => true
     },
@@ -42,73 +39,79 @@ export class AbschlussBerichtListComponent { //implements OnInit
       name: 'responsibleFB',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.technologist.localeCompare(b.technologist),
-      listOfFilter: [
-        { text: 'Toha A', value: 'Toha A' },
-        { text: 'Toha B', value: 'Toha B' },
-        { text: 'Toha C', value: 'Toha C' },
-      ],
+      listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => list.some(name => item.technologist.indexOf(name) !== -1)
     },
     {
       name: 'toDoTechno',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.toBeCompletedBy!.valueOf().toString().localeCompare(b.toBeCompletedBy!.valueOf().toString()),
-      listOfFilter: [
-        { text: ' ', value: ' ' }
-      ],
+      sortFn: (a: DataItem, b: DataItem) => a.toBeCompletedBy!.valueOf() - b.toBeCompletedBy!.valueOf(),
+      listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => true
     },
     {
       name: 'responsibleRepresentative',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.representative.localeCompare(b.representative),
-      listOfFilter: [
-        { text: '', value: '' }
-      ],
+      sortFn: (a: DataItem, b: DataItem) => a.representative!.localeCompare(b.representative!),
+      listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => list.some(name => item.representative.indexOf(name) !== -1)
     },
     {
       name: 'Kunde kontaktiert am',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.customerContactDate!.valueOf().toString().localeCompare(b.customerContactDate!.valueOf().toString()),
-      listOfFilter: [
-        { text: ' ', value: ' ' }
-      ],
+      sortFn: (a: DataItem, b: DataItem) => a.customerContactDate!.valueOf() - b.customerContactDate!.valueOf(),
+      listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => true
     },
     {    //TODO fehlt noch Bericht abgeschlossen -> Hackerl wenn abgeschlossen
       name: 'Bericht abgeschlossen',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.abschlussberichtFinished!.localeCompare(b.abschlussberichtFinished!),
-      listOfFilter: [
-        { text: 'abgeschlossen', value: 'open' },
-        { text: 'nicht abgeschlossen', value: 'in-progress' }
-      ],
+      listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => list.some(name => item.abschlussberichtFinished!.indexOf(name) !== -1)
     },
     {
       name: 'Artikel',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => 1,
-      listOfFilter: [
-      ],
+      listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => true
     }
   ];
 
-
   constructor(private router: Router, private http: HttpService, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
+    this.tmpinitData();
+    this.getNzFilters();
+    //this.loadData();
+  }
+
+  getNzFilters() {
+    this.listOfColumn.find(element => element.name === 'company')!.listOfFilter = this.listOfDisplayData.map(element => { return { text: element.company, value: element.company } })
+    this.listOfColumn.find(element => element.name === 'responsibleFB')!.listOfFilter = this.listOfDisplayData.map(element => { return { text: element.representative, value: element.representative } })
+    this.listOfColumn.find(element => element.name === 'responsibleRepresentative')!.listOfFilter = this.listOfDisplayData.map(element => { return { text: element.representative, value: element.representative } })
+    this.listOfColumn.find(element => element.name === 'Bericht abgeschlossen')!.listOfFilter =
+      this.listOfDisplayData.reduce((uniqueFilters, element) => {
+        if (!uniqueFilters.some(filter => filter.value === element.abschlussberichtFinished)) {
+          uniqueFilters.push({ text: element.abschlussberichtFinished, value: element.abschlussberichtFinished });
+        }
+        return uniqueFilters;
+      }, [] as { text: string, value: string }[]);
+
+  }
+
+  //TODO nur temporär
+  tmpinitData() {
     this.listOfDisplayData = [
       {
         company: 'Alpha Corporation',
-        dateOfVisit: new Date('2023-06-15'),
-        technologist: 'Max Mustermann',
+        dateOfVisit: new Date('2023-06-18'),
+        technologist: 'A',
         toBeCompletedBy: new Date('2023-06-20'),
-        representative: 'Erika Musterfrau',
+        representative: 'A',
         customerContactDate: new Date('2023-06-10'),
-        abschlussberichtFinished: 'Ja',
+        abschlussberichtFinished: 'yes',
         article: [
           { name: 'Article 1', articleNr: 'A001' },
           { name: 'Article 2', articleNr: 'A002' }
@@ -116,31 +119,30 @@ export class AbschlussBerichtListComponent { //implements OnInit
       },
       {
         company: 'Beta Industries',
-        dateOfVisit: new Date('2023-06-18'),
-        technologist: 'Anna Schmidt',
+        dateOfVisit: new Date('2023-06-19'),
+        technologist: 'B',
         toBeCompletedBy: new Date('2023-06-25'),
-        representative: 'Hans Müller',
+        representative: 'B',
         customerContactDate: new Date('2023-06-12'),
-        abschlussberichtFinished: 'Nein',
+        abschlussberichtFinished: 'yes',
         article: [
           { name: 'Article 3', articleNr: 'B001' }
         ]
       },
       {
-        company: 'Gamma Technologies',
+        company: 'Camma Technologies',
         dateOfVisit: new Date('2023-06-20'),
-        technologist: 'John Doe',
+        technologist: 'C',
         toBeCompletedBy: new Date('2023-06-28'),
-        representative: 'Jane Smith',
+        representative: 'C',
         customerContactDate: new Date('2023-06-14'),
-        abschlussberichtFinished: 'Ja',
+        abschlussberichtFinished: 'no',
         article: [
           { name: 'Article 4', articleNr: 'G001' },
           { name: 'Article 5', articleNr: 'G002' }
         ]
       }
     ];
-    //this.loadData();
   }
 
   loadData() {
@@ -172,11 +174,11 @@ export class AbschlussBerichtListComponent { //implements OnInit
             toBeCompletedBy: element.reworkByRepresentativeDoneUntil!,
             representative: element.representative!,
             customerContactDate: element.customerContactDate!,
-            abschlussberichtFinished: (element.requestCompleted) ? "Abgeschlossen" : "Nicht Abgeschlossen",
+            abschlussberichtFinished: (element.requestCompleted) ? "Ja" : "Nein",
             article: allArticles
           }]
         });
-        this.resetFilters()
+        this.getNzFilters()
 
         this.listOfDisplayData = [...this.listOfData];
       },
@@ -204,71 +206,29 @@ export class AbschlussBerichtListComponent { //implements OnInit
     }
   }
 
-  resetFilters(): void {
-    this.listOfColumn.forEach(item => {
-      if (item.name === 'Status') {
-        item.listOfFilter = [
-          { text: 'open', value: 'open' },
-          { text: 'in-progress', value: 'in-progress' }
-        ];
-      } else if (item.name === 'Händler/Töchter') {
-        item.listOfFilter = [
-          { text: 'Toha A', value: 'Toha A' },
-          { text: 'Toha B', value: 'Toha B' },
-          { text: 'Toha C', value: 'Toha C' }
-        ];
-      } else if (item.name === 'Vertreter') {
-        item.listOfFilter = [
-          { text: 'Vertreter W', value: 'Vertreter W' },
-          { text: 'Vertreter X', value: 'Vertreter X' }
-        ];
-      } else if (item.name === 'Fachberater') {
-        var tmp: { text: string; value: string }[] = [];
-
-        this.technologistList.forEach(technolgist => {
-          tmp = [...tmp, { text: technolgist.firstName + " " + technolgist.lastName, value: technolgist.firstName + " " + technolgist.lastName }]
-        })
-
-        item.listOfFilter! = tmp;
-      } else if (item.name === 'Abschlussbericht') {
-        item.listOfFilter = [
-          { text: 'erledigt', value: 'true' },
-          { text: 'nicht erledigt', value: 'false' }
-        ];
-      }
-    });
-  }
-
   resetSortAndFilters(): void {
+    this.searchValue = '';
     this.notificationService.createBasicNotification(2, 'Filter/Sortierung aufgehoben!', '', 'topRight');
+    this.getNzFilters();
+    this.tmpinitData();
     this.listOfColumn.forEach(item => {
       item.sortOrder = null;
     });
-    this.resetFilters();
-    this.searchValue = '';
-    this.search();
-  }
-
-  reset(): void {
-    this.searchValue = '';
-    this.search();
   }
 
   search(): void {
-    this.visible = false;
-    this.listOfDisplayData = this.listOfData.filter((item: DataItem) =>
+     this.visible = false;
+    this.listOfDisplayData = this.listOfDisplayData.filter((item: DataItem) =>
     (
-      true
-      /*
-      item.nr.toString().indexOf(this.searchValue.toLocaleLowerCase()) !== -1 ||
-      item.createDate.valueOf().toString().indexOf(this.searchValue.valueOf().toString()) !== -1 ||
-      item.status.toLocaleLowerCase().indexOf(this.searchValue.toLocaleLowerCase()) !== -1 ||
-      item.toha.toLocaleLowerCase().indexOf(this.searchValue.toLocaleLowerCase()) !== -1 ||
-      item.vertreter.toLocaleLowerCase().indexOf(this.searchValue.toLocaleLowerCase()) !== -1 ||
-      item.fachberater.toLocaleLowerCase().indexOf(this.searchValue.toLocaleLowerCase()) !== -1 ||
-      item.timespan.valueOf().toString().indexOf(this.searchValue.valueOf().toString()) !== -1 ||
-      item.abschlussbericht.toString().indexOf(this.searchValue.toString()) !== -1*/
-    ));
+      item.company.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) || 
+      item.dateOfVisit.toString().includes(this.searchValue.toLocaleLowerCase()) || 
+      item.technologist.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) || 
+      item.toBeCompletedBy.toString().includes(this.searchValue.toLocaleLowerCase()) || 
+      item.representative.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) || 
+      item.customerContactDate.toString().includes(this.searchValue.toLocaleLowerCase()) || 
+      item.abschlussberichtFinished.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase())||
+      item.article.valueOf().toString().includes(this.searchValue.toLocaleLowerCase()))
+    );
   }
 
   getArticleListName(article: Article[]) {
