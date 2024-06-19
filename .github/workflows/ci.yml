@@ -51,7 +51,7 @@ jobs:
           echo "pwd"
           pwd
           echo "ls"
-          ls -al src/main/docker/
+          ls -al ./src/main/docker/
           echo "end"
         uses: docker/build-push-action@v4
         with:
