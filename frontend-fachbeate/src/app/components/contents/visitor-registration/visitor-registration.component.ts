@@ -93,7 +93,7 @@ export class VisitorRegistrationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.addTab();
     this.route.paramMap.subscribe(params => {
       if (params.get('id') != null) {
         this.http.getVisitorRegistrationById(parseInt(params.get('id')!)).subscribe({
@@ -131,16 +131,19 @@ export class VisitorRegistrationComponent implements OnInit {
         id: 1,
         name: 'boss',
         checked: false,
+        dateOfVisit: new Date()
       },
       {
         id: 2,
         name: 'applicationTechnology',
         checked: false,
+        dateOfVisit: new Date()
       },
       {
         id: 3,
         name: 'productDevelopment',
         checked: false,
+        dateOfVisit: new Date()
       },
       {
         id: 4,
