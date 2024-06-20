@@ -8,5 +8,5 @@ RUN npm run build --prod
 
 # Stage 2: Serve Angular App with Nginx
 FROM nginx:alpine
-COPY --from=node /app/dist/frontend-fachbeate /usr/share/nginx/html
+COPY --from=node ./dist/frontend-fachbeate /usr/share/nginx/html
 COPY nginx-custom.conf /etc/nginx/conf.d/default.conf
