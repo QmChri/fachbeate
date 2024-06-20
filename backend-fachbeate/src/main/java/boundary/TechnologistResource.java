@@ -3,6 +3,7 @@ package boundary;
 import entity.Company;
 import entity.Representative;
 import entity.Technologist;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -52,6 +53,7 @@ public class TechnologistResource {
 
     @GET
     @Path("representative")
+    @RolesAllowed({"api-fachberater"})
     public Response getAllRepresentative(){
         return Response.ok(Representative.listAll()).build();
     }
@@ -78,6 +80,7 @@ public class TechnologistResource {
     }
 
     @GET
+    @RolesAllowed({"api-admin"})
     @Path("company")
     public Response getAllCompany(){
         return Response.ok(Company.listAll()).build();
