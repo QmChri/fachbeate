@@ -10,7 +10,7 @@ import { NotificationService } from '../../../services/notification.service';
   templateUrl: './abschluss-bericht-list.component.html',
   styleUrl: './abschluss-bericht-list.component.scss'
 })
-export class AbschlussBerichtListComponent { //implements OnInit
+export class AbschlussBerichtListComponent {
   searchValue = '';
   visible = false;
   listOfData: DataItem[] = [];
@@ -31,8 +31,7 @@ export class AbschlussBerichtListComponent { //implements OnInit
       name: 'datecustomerVisit',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.dateOfVisit!.valueOf() - b.dateOfVisit!.valueOf(),
-      listOfFilter: [
-      ],
+      listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => true
     },
     {
@@ -43,7 +42,7 @@ export class AbschlussBerichtListComponent { //implements OnInit
       filterFn: (list: string[], item: DataItem) => list.some(name => item.technologist.indexOf(name) !== -1)
     },
     {
-      name: 'toDoTechno',
+      name: 'toBeCompletedBy',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.toBeCompletedBy!.valueOf() - b.toBeCompletedBy!.valueOf(),
       listOfFilter: [],
@@ -71,7 +70,7 @@ export class AbschlussBerichtListComponent { //implements OnInit
       filterFn: (list: string[], item: DataItem) => list.some(name => item.abschlussberichtFinished!.indexOf(name) !== -1)
     },
     {
-      name: 'Artikel',
+      name: 'article',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => 1,
       listOfFilter: [],
@@ -82,9 +81,9 @@ export class AbschlussBerichtListComponent { //implements OnInit
   constructor(private router: Router, private http: HttpService, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
-    this.tmpinitData();
+    //this.tmpinitData();
+    this.loadData();
     this.getNzFilters();
-    //this.loadData();
   }
 
   getNzFilters() {
@@ -98,7 +97,6 @@ export class AbschlussBerichtListComponent { //implements OnInit
         }
         return uniqueFilters;
       }, [] as { text: string, value: string }[]);
-
   }
 
   //TODO nur temporär
@@ -151,9 +149,7 @@ export class AbschlussBerichtListComponent { //implements OnInit
 
     this.http.getAllArticles().subscribe({
       next: data => {
-
         this.listOfColumn.find(element => element.name === 'article')!.listOfFilter = data.map(element => { return { text: element.name!, value: element.name! } })
-
       }
     })
 
@@ -179,7 +175,6 @@ export class AbschlussBerichtListComponent { //implements OnInit
           }]
         });
         this.getNzFilters()
-
         this.listOfDisplayData = [...this.listOfData];
       },
       error: err => {
@@ -217,16 +212,16 @@ export class AbschlussBerichtListComponent { //implements OnInit
   }
 
   search(): void {
-     this.visible = false;
+    this.visible = false;
     this.listOfDisplayData = this.listOfDisplayData.filter((item: DataItem) =>
     (
-      item.company.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) || 
-      item.dateOfVisit.toString().includes(this.searchValue.toLocaleLowerCase()) || 
-      item.technologist.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) || 
-      item.toBeCompletedBy.toString().includes(this.searchValue.toLocaleLowerCase()) || 
-      item.representative.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) || 
-      item.customerContactDate.toString().includes(this.searchValue.toLocaleLowerCase()) || 
-      item.abschlussberichtFinished.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase())||
+      item.company.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.dateOfVisit.toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.technologist.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.toBeCompletedBy.toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.representative.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.customerContactDate.toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.abschlussberichtFinished.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
       item.article.valueOf().toString().includes(this.searchValue.toLocaleLowerCase()))
     );
   }
@@ -234,7 +229,6 @@ export class AbschlussBerichtListComponent { //implements OnInit
   getArticleListName(article: Article[]) {
     return article.map(element => element.name).toString().substring(0, 30)
   }
-
 }
 
 interface DataItem {

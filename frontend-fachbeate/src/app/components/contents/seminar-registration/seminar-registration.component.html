@@ -12,25 +12,25 @@
         <div class="card">
             <div class="card-header text-white bg-danger">{{'SEMINAR-REGISTRATION.seminar' | translate}}</div>
             <div class="card-body">
-                <div class="center-items">
-                    <mat-form-field>
-                        <mat-label>{{'SEMINAR-REGISTRATION.seminarTopic' | translate}}</mat-label>
-                        <input matInput [(ngModel)]="inputWorkshop.subject">
-                    </mat-form-field>
-                    <mat-form-field>
-                        <mat-label>{{'SEMINAR-REGISTRATION.companyCustomer' | translate}}</mat-label>
-                        <input matInput [(ngModel)]="inputWorkshop.company">
-                    </mat-form-field>
-                    <mat-form-field>
-                        <mat-label>{{'SEMINAR-REGISTRATION.fromTo' | translate}}</mat-label>
-                        <mat-date-range-input [rangePicker]="picker">
-                            <input matStartDate placeholder="Start date" [(ngModel)]="inputWorkshop.startDate">
-                            <input matEndDate placeholder="End date" [(ngModel)]="inputWorkshop.endDate">
-                        </mat-date-range-input>
-                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-date-range-picker #picker></mat-date-range-picker>
-                    </mat-form-field>
-                </div>
+
+                <mat-form-field>
+                    <mat-label>{{'SEMINAR-REGISTRATION.seminarTopic' | translate}}</mat-label>
+                    <input matInput [(ngModel)]="inputWorkshop.subject">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>{{'SEMINAR-REGISTRATION.companyCustomer' | translate}}</mat-label>
+                    <input matInput [(ngModel)]="inputWorkshop.company">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>{{'SEMINAR-REGISTRATION.fromTo' | translate}}</mat-label>
+                    <mat-date-range-input [rangePicker]="picker">
+                        <input matStartDate placeholder="Start date" [(ngModel)]="inputWorkshop.startDate">
+                        <input matEndDate placeholder="End date" [(ngModel)]="inputWorkshop.endDate">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-date-range-picker #picker></mat-date-range-picker>
+                </mat-form-field>
+
             </div>
         </div>
     </div>
@@ -153,7 +153,7 @@
         <div class="card">
             <div class="card-header text-white bg-danger paddingSearch">{{'SEMINAR-REGISTRATION.hotelBooking' |
                 translate}}</div>
-                <!--TODO ngModels setzen-->
+            <!--TODO ngModels setzen-->
             <div class="card-body">
                 @for (tab of tabs; track tab; let index = $index) {
                 <p>{{index+1}}. Hotelbuchung</p>
@@ -196,7 +196,7 @@
             </div>
         </div>
 
-<!-- 
+        <!-- 
         <div class="card">
             <div class="card-header text-white bg-danger paddingSearch">{{'SEMINAR-REGISTRATION.hotelBooking' |
                 translate}}

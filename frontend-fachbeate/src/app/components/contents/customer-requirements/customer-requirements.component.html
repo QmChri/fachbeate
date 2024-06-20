@@ -8,10 +8,6 @@
         </h1>
     </div>
     <div>
-        <button class="btn btn-success" *ngIf="roleService.checkPermission([1,7])">Freigabe GL</button>
-        <button class="btn btn-warning" *ngIf="roleService.checkPermission([1,2,7])" style="margin-left: 4rem;">Freigabe AL</button>
-    </div>
-    <div>
         <button class="btn btn-success" (click)="postCustomerRequirement(true)">{{"REQ-TECH.send" | translate}}</button>
     </div>
 </div>
@@ -64,7 +60,7 @@
             <div class="card-header  text-white bg-danger">{{"REQ-TECH.card2-title"|translate}}</div>
             <div class="card-body">
                 <div class="center-items">
-                    <div class="center-items ">
+                    <div class="center-items">
                         <mat-form-field>
                             <mat-label>{{"REQ-TECH.technologist"|translate}}</mat-label>
                             <mat-select
@@ -81,18 +77,15 @@
                         </mat-form-field>
                     </div>
                 </div>
-                <div class="center-items">
-                    <mat-form-field>
-                        <mat-label>{{"REQ-TECH.from-to-date"|translate}}</mat-label>
-                        <mat-date-range-input [rangePicker]="picker">
-                            <input matStartDate placeholder="Start date"
-                                [(ngModel)]="inputCustomerRequirement.startDate">
-                            <input matEndDate placeholder="End date" [(ngModel)]="inputCustomerRequirement.endDate">
-                        </mat-date-range-input>
-                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-date-range-picker #picker></mat-date-range-picker>
-                    </mat-form-field>
-                </div>
+                <mat-form-field>
+                    <mat-label>{{"REQ-TECH.from-to-date"|translate}}</mat-label>
+                    <mat-date-range-input [rangePicker]="picker">
+                        <input matStartDate placeholder="Start date" [(ngModel)]="inputCustomerRequirement.startDate">
+                        <input matEndDate placeholder="End date" [(ngModel)]="inputCustomerRequirement.endDate">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-date-range-picker #picker></mat-date-range-picker>
+                </mat-form-field>
             </div>
         </div>
     </div>
@@ -151,13 +144,17 @@
         </div>
     </div>
 </div>
+<br>
 
-<br>
-<br>
+<div class="freigabenHeader">
+    <button nz-button nzType="primary" *ngIf="roleService.checkPermission([1,7])" style="margin-right: 2rem;">Freigabe GL</button>
+    <button nz-button nzType="primary" *ngIf="roleService.checkPermission([1,2,7])">Freigabe AL</button>
+</div>
+
 <br>
 <div class="header">
     <h1 style="margin: 0%;">{{"REQ-TECH.table-title"|translate}}</h1>
-       <button nz-button (click)="addRow()" nzType="primary">{{"REQ-TECH.new-customerVisit"|translate}}</button>
+    <button nz-button (click)="addRow()" nzType="primary">{{"REQ-TECH.new-customerVisit"|translate}}</button>
 </div>
 <hr>
 <div class="row">
@@ -234,7 +231,8 @@
                             </ng-template>
                             <i class="fa fa-trash"></i>
                         </button>
-                        <button *ngIf="roleService.checkPermission([1,2,3,4])" class="btn btn-success" matTooltip="Abschlussbericht" (click)="openDialog(data)">
+                        <button *ngIf="roleService.checkPermission([1,2,3,4])" class="btn btn-success"
+                            matTooltip="Abschlussbericht" (click)="openDialog(data)">
                             <i class="fa fa-file"></i>
                         </button>
                     </div>

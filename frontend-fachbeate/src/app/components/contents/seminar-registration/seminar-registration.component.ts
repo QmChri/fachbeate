@@ -134,7 +134,7 @@ export class SeminarRegistrationComponent implements OnInit {
 
   postWorkshopRequest() {
     this.notificationService.createBasicNotification(0,'Formular wurde gesendet!','','topRight');
-    this.inputWorkshop.reason = "Seminar"
+    this.inputWorkshop.reason = "Seminaranmeldung"
     this.inputWorkshop.dateOfCreation = new Date();
 
     this.http.postWorkshop(this.inputWorkshop).subscribe({

@@ -31,7 +31,8 @@
                 </div>
             </mat-select>
         </mat-form-field>
-        
+
+        <!--<nz-date-picker nzSize="large" [nzFormat]="dateFormat"></nz-date-picker>  -->
         <mat-form-field>
             <mat-label>Von</mat-label>
             <input required matInput [matDatepicker]="picker1" type="text" [(ngModel)]="inputDate.startDate"
@@ -39,7 +40,6 @@
             <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker #picker1></mat-datepicker>
         </mat-form-field>
-
         <mat-form-field>
             <mat-label>Bis</mat-label>
             <input required matInput [matDatepicker]="picker2" type="text" [(ngModel)]="inputDate.endDate" name="end">

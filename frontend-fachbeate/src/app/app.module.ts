@@ -33,7 +33,7 @@ import { CustomerRequirementsComponent } from './components/contents/customer-re
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { de_DE } from 'ng-zorro-antd/i18n';
 import de from '@angular/common/locales/de';
-import { MAT_DATE_FORMATS, MatOptionModule } from '@angular/material/core';
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatOptionModule } from '@angular/material/core';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -57,7 +57,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { CreateRepresentativeComponent } from './components/contents/creation-sites/create-representative/create-representative.component';
 import { CreateDealerComponent } from './components/contents/creation-sites/create-dealer/create-dealer.component';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
 
 /*import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';*/
@@ -98,6 +98,7 @@ registerLocaleData(de);
     NzNotificationModule,
     MatDatepickerModule,
     MatDialogTitle,
+    NzDatePickerModule,
     MatDialogContent,
     MatDialogActions,
     MatDialogClose,
@@ -142,6 +143,7 @@ registerLocaleData(de);
     )
   ],
   providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'de-DE' },
     provideNativeDateAdapter(),
     provideAnimationsAsync(),
     { provide: NZ_I18N, useValue: de_DE },
