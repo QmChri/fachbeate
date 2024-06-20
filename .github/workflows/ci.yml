@@ -56,9 +56,7 @@ jobs:
   build-frontend:
     name: build-frontend-prod
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./frontend-fachbeate
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
@@ -78,8 +76,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
-          context: ./
-          file: ./Dockerfile
+          context: ./frontend-fachbeate
+          file: ./frontend-fachbeate/Dockerfile
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_REPOSITORY }}-web:latest
           build-args: |
