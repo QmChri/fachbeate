@@ -5,7 +5,7 @@ COPY ./package*.json /app/
 RUN npm install
 COPY . .
 RUN npm run build --prod
-RUN ls -l
+RUN ls -l /app/dist/frontend-fachbeate
 
 # Stage 2: Serve Angular App with Nginx
 FROM nginx:alpine
