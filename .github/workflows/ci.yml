@@ -56,7 +56,6 @@ jobs:
   build-frontend:
     name: build-frontend-prod
     runs-on: ubuntu-latest
-    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
