@@ -12,9 +12,9 @@
 </div>
 <hr>
 
-<nz-table #nzTable nzSimple  [nzPageSize]="7" nzTableLayout="auto" [nzBordered]="true" [nzSize]="'small'"
-  [nzData]="listOfDisplayData" class="striped-table">
-  <thead class="header-table">
+<nz-table #nzTable nzBordered nzSimple [nzPageSize]="7" nzTableLayout="fixed" [nzSize]="'small'"  nzTableLayout="auto" [nzData]="listOfDisplayData"
+  class="striped-table">
+  <thead>
     <tr>
       <th [nzSortFn]="listOfColumn[0].sortFn" [(nzSortOrder)]="listOfColumn[0].sortOrder"
         [nzFilters]="listOfColumn[0].listOfFilter" [nzFilterFn]="listOfColumn[0].filterFn!">
@@ -39,7 +39,7 @@
         [nzFilters]="listOfColumn[5].listOfFilter" [nzFilterFn]="listOfColumn[5].filterFn!">
         {{'MAIN-LIST.'+listOfColumn[5].name|
         translate}}</th>
-      <th> {{listOfColumn[6].name| translate}}</th>
+      <th> {{'MAIN-LIST.'+listOfColumn[6].name| translate}}</th>
       <th [nzSortFn]="listOfColumn[7].sortFn" [(nzSortOrder)]="listOfColumn[7].sortOrder"
         [nzFilters]="listOfColumn[7].listOfFilter" [nzFilterFn]="listOfColumn[7].filterFn!">
         {{'MAIN-LIST.'+listOfColumn[7].name|
@@ -52,7 +52,7 @@
         [nzFilters]="listOfColumn[9].listOfFilter" [nzFilterFn]="listOfColumn[9].filterFn!">
         {{'MAIN-LIST.'+listOfColumn[9].name|
         translate}}</th>
-      <th>Freigabe</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -77,11 +77,12 @@
       </td>
       -->
       <td>
-        <span>{{ ((data.type === 0) ? 'MAIN-LIST.tech-req' : (data.type === 1) ? 'MAIN-LIST.work-sem': 'MAIN-LIST.work-visit') | translate }}</span>
+        <span>{{ ((data.type === 0) ? 'MAIN-LIST.tech-req' : (data.type === 1) ? 'MAIN-LIST.work-sem':
+          'MAIN-LIST.work-visit') | translate }}</span>
       </td>
       <td>
         <div class="centerRow">
-          <button class="btn btn-success freigabe" (click)="release(data.id!)"> Freigeben </button>
+          <button class="freigabe" nz-button nzType="primary" (click)="release(data.id!)"> Freigeben </button>
         </div>
       </td>
     </tr>

@@ -97,9 +97,9 @@ export class MainListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.tmpinitData();
+    //this.tmpinitData();
+    this.loadData();
     this.getNzFilters();
-    //this.loadData();
   }
 
   getNzFilters() {
@@ -394,8 +394,6 @@ export class MainListComponent implements OnInit {
           }];
         });
 
-        this.resetSortAndFilters()
-
         this.listOfDisplayData = [...this.listOfData];
       },
       error: err => {
@@ -432,8 +430,6 @@ export class MainListComponent implements OnInit {
 
         });
 
-        this.resetSortAndFilters()
-
         this.listOfDisplayData = [...this.listOfData];
       },
       error: err => {
@@ -446,10 +442,6 @@ export class MainListComponent implements OnInit {
       next: data => {
 
         var visitorDataList: DataItem[] = []
-
-        console.log(data);
-
-
         data.forEach(element => {
 
           visitorDataList = [...visitorDataList, {
@@ -510,7 +502,7 @@ export class MainListComponent implements OnInit {
 
   search(): void {
     this.visible = false;
-    this.listOfDisplayData = this.listOfData.filter((item: DataItem) =>
+    this.listOfDisplayData = this.listOfDisplayData.filter((item: DataItem) =>
     (
       item.name!.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
       item.dateOfCreation!.toString().includes(this.searchValue.toLocaleLowerCase()) ||

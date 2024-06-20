@@ -4,9 +4,6 @@ import { AbschlussBerichtComponent } from '../abschluss-bericht/abschluss-berich
 import { Technologist } from '../../../models/technologist';
 import { HttpService } from '../../../services/http.service';
 import { TechnologistAppointment } from '../../../models/technologist-appointment';
-import { computed, inject, signal } from '@angular/core';
-import { DateAdapter, MAT_DATE_LOCALE, MatDateFormats } from '@angular/material/core';
-import { MatDatepickerIntl } from '@angular/material/datepicker';
 import { NotificationService } from '../../../services/notification.service';
 
 @Component({
@@ -15,7 +12,7 @@ import { NotificationService } from '../../../services/notification.service';
   styleUrl: './new-date-entry.component.scss'
 })
 export class NewDateEntryComponent implements OnInit {
-
+  dateFormat = 'dd.MM.yy'
   addItem: string = "";
   reasonSelect: number = 0;
   reasons: string[] = ['Urlaub',

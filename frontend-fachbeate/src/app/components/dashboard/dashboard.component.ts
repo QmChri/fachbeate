@@ -48,9 +48,7 @@ export class DashboardComponent implements OnInit {
   loadEvents(){
     
     this.http.getCustomerRequirements().subscribe({
-      next: data => {
-        console.log(data);
-        
+      next: data => {        
         data.forEach(value => {
           this.calendarEvnts = [...this.calendarEvnts, {
             id: "c"+value.id,
