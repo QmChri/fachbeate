@@ -3,6 +3,8 @@ package boundary;
 import entity.Company;
 import entity.Representative;
 import entity.Technologist;
+import io.quarkus.security.Authenticated;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -13,6 +15,7 @@ import jakarta.ws.rs.core.Response;
 public class TechnologistResource {
 
     @POST
+    @Authenticated
     @Transactional
     public void postTechnologist(Technologist technologist){
         if(technologist.id == null || technologist.id == 0){
@@ -25,12 +28,14 @@ public class TechnologistResource {
     }
 
     @GET
+    @Authenticated
     public Response getAllTechnologists(){
         return Response.ok(Technologist.listAll()).build();
     }
 
     @GET
     @Path("allActive")
+    @Authenticated
     public Response getActiveTechnologists(){
         return Response.ok(Technologist.find("active",true).list()).build();
     }
@@ -38,6 +43,7 @@ public class TechnologistResource {
 
     @POST
     @Path("representative")
+    @Authenticated
     @Transactional
     public Response postRepresentative(Representative representative){
         if(representative.id == null || representative.id == 0){
@@ -52,11 +58,13 @@ public class TechnologistResource {
 
     @GET
     @Path("representative")
+    @Authenticated
     public Response getAllRepresentative(){
         return Response.ok(Representative.listAll()).build();
     }
 
     @GET
+    @Authenticated
     @Path("representative/allActive")
     public Response getActiveRepresentative(){
         return Response.ok(Representative.find("active",true).list()).build();
@@ -64,6 +72,7 @@ public class TechnologistResource {
 
 
     @POST
+    @Authenticated
     @Path("company")
     @Transactional
     public Response postCompany(Company company){
@@ -78,12 +87,14 @@ public class TechnologistResource {
     }
 
     @GET
+    @Authenticated
     @Path("company")
     public Response getAllCompany(){
         return Response.ok(Company.listAll()).build();
     }
 
     @GET
+    @Authenticated
     @Path("company/allActive")
     public Response getActiveCompany(){
         return Response.ok(Company.find("active",true).list()).build();
