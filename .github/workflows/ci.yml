@@ -79,7 +79,5 @@ jobs:
           file: ./frontend-fachbeate/Dockerfile
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_REPOSITORY }}-web:latest
-          build-args: |
-            configuration=production
           cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_REPOSITORY }}-web:latest
-          cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_REPOSITORY }}-web:latest,mode=max
+          cache-to: type=inline
