@@ -31,8 +31,7 @@ export class AbschlussBerichtListComponent { //implements OnInit
       name: 'datecustomerVisit',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.dateOfVisit!.valueOf() - b.dateOfVisit!.valueOf(),
-      listOfFilter: [
-      ],
+      listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => true
     },
     {
@@ -98,7 +97,6 @@ export class AbschlussBerichtListComponent { //implements OnInit
         }
         return uniqueFilters;
       }, [] as { text: string, value: string }[]);
-
   }
 
   //TODO nur temporär
@@ -217,16 +215,16 @@ export class AbschlussBerichtListComponent { //implements OnInit
   }
 
   search(): void {
-     this.visible = false;
+    this.visible = false;
     this.listOfDisplayData = this.listOfDisplayData.filter((item: DataItem) =>
     (
-      item.company.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) || 
-      item.dateOfVisit.toString().includes(this.searchValue.toLocaleLowerCase()) || 
-      item.technologist.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) || 
-      item.toBeCompletedBy.toString().includes(this.searchValue.toLocaleLowerCase()) || 
-      item.representative.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) || 
-      item.customerContactDate.toString().includes(this.searchValue.toLocaleLowerCase()) || 
-      item.abschlussberichtFinished.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase())||
+      item.company.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.dateOfVisit.toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.technologist.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.toBeCompletedBy.toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.representative.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.customerContactDate.toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.abschlussberichtFinished.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
       item.article.valueOf().toString().includes(this.searchValue.toLocaleLowerCase()))
     );
   }

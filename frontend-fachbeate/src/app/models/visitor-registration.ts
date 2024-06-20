@@ -33,8 +33,8 @@ export interface VisitorRegistration {
 
     //TODO neu aber weiß nicht ob richtig
     releaser?: string;
-    releaseManagement?: boolean;
-    releaseSupervisor?: boolean;
+    releaseManagement?: string;
+    releaseSupervisor?: string;
 
     //TODO neu muss im Backend noch hinzugefügt werden
     hotelBookings: Hotelbooking[]

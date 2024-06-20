@@ -130,7 +130,7 @@ export class CustomerRequirementsComponent implements OnInit {
       console.log(triggerNotification);
       this.notificationService.createBasicNotification(0, 'Formular wurde gesendet!', '', 'topRight');
     }
-    this.inputCustomerRequirement.reason = "Fachberatern Anforderung"
+    this.inputCustomerRequirement.reason = "XXXX"
     this.inputCustomerRequirement.dateOfCreation = new Date();
 
     this.http.postCustomerRequirement(this.inputCustomerRequirement).subscribe({

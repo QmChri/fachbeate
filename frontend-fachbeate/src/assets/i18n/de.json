@@ -16,16 +16,18 @@
         "header": "Übersicht Anforderungen und Anmeldungen",
         "filter-clear": "Filter/Sortierung aufheben",
         "name": "Name des Unternehmens",
-        "creationDate": "Erstelldatum",
+        "dateOfCreation": "Erstelldatum",
         "state": "Status",
-        "dealers": "Händler/Töchter",
+        "customerOrCompany": "Angefordert durch",
         "representative": "Vertreter",
         "technologist": "Fachberater",
-        "time-frame": "Angeforderter Zeitraum",
+        "timespan": "Angeforderter Zeitraum",
         "customer": "Kunde",
         "final-report": "Abschlussbericht",
-        "tech-req": "Fachberater Anforderung",
-        "work-req": "Seminar"
+        "typ": "Typ",
+        "tech-req": "Fachberater A.",
+        "work-sem": "Seminar",
+        "work-visit": "Besuch"
     },
     "REQ-TECH": {
         "title": "Fachberater Anforderung",

@@ -12,40 +12,46 @@
 </div>
 <hr>
 
-<nz-table #nzTable nzBordered [nzSize]="'small'" [nzData]="listOfDisplayData">
-  <thead>
+<nz-table #nzTable nzSimple  [nzPageSize]="7" nzTableLayout="auto" [nzBordered]="true" [nzSize]="'small'"
+  [nzData]="listOfDisplayData" class="striped-table">
+  <thead class="header-table">
     <tr>
-      <th [nzSortFn]="listOfColumn[0].sortFn" [(nzSortOrder)]="listOfColumn[0].sortOrder">
-        {{listOfColumn[0].name| translate}}</th>
+      <th [nzSortFn]="listOfColumn[0].sortFn" [(nzSortOrder)]="listOfColumn[0].sortOrder"
+        [nzFilters]="listOfColumn[0].listOfFilter" [nzFilterFn]="listOfColumn[0].filterFn!">
+        {{'MAIN-LIST.'+listOfColumn[0].name|
+        translate}}</th>
       <th [nzSortFn]="listOfColumn[1].sortFn" [(nzSortOrder)]="listOfColumn[1].sortOrder">
-        {{ listOfColumn[1].name | translate}}</th>
-      <th [nzSortFn]="listOfColumn[2].sortFn" [nzFilters]="listOfColumn[2].listOfFilter"
-        [nzFilterFn]="listOfColumn[2].filterFn!" [(nzSortOrder)]="listOfColumn[2].sortOrder">
-        {{ listOfColumn[2].name | translate}}
-      </th>
-      <th [nzSortFn]="listOfColumn[3].sortFn" [nzFilters]="listOfColumn[3].listOfFilter"
-        [nzFilterFn]="listOfColumn[3].filterFn!" [(nzSortOrder)]="listOfColumn[3].sortOrder">
-        {{ listOfColumn[3].name | translate}}
-      </th>
-      <th [nzSortFn]="listOfColumn[4].sortFn" [nzFilters]="listOfColumn[4].listOfFilter"
-        [nzFilterFn]="listOfColumn[4].filterFn!" [(nzSortOrder)]="listOfColumn[4].sortOrder">
-        {{ listOfColumn[4].name | translate}}
-      </th>
-      <th [nzSortFn]="listOfColumn[5].sortFn" [nzFilters]="listOfColumn[5].listOfFilter"
-        [nzFilterFn]="listOfColumn[5].filterFn!" [(nzSortOrder)]="listOfColumn[5].sortOrder">
-        {{ listOfColumn[5].name | translate}}
-      </th>
-      <th [nzSortFn]="listOfColumn[6].sortFn" [(nzSortOrder)]="listOfColumn[6].sortOrder">
-        {{ listOfColumn[6].name | translate}}
-      </th>
-      <th [nzSortFn]="listOfColumn[7].sortFn" [nzFilters]="listOfColumn[7].listOfFilter"
-        [nzFilterFn]="listOfColumn[7].filterFn!" [(nzSortOrder)]="listOfColumn[7].sortOrder">
-        {{ listOfColumn[7].name | translate}}
-      </th>
-      <th [nzSortFn]="listOfColumn[8].sortFn" [(nzSortOrder)]="listOfColumn[8].sortOrder">
-        {{ listOfColumn[8].name | translate}}</th>
-      <th [nzSortFn]="listOfColumn[9].sortFn" [(nzSortOrder)]="listOfColumn[9].sortOrder">
-        {{ listOfColumn[9].name | translate}}</th>
+        {{'MAIN-LIST.'+listOfColumn[1].name|
+        translate}}</th>
+      <th [nzSortFn]="listOfColumn[2].sortFn" [(nzSortOrder)]="listOfColumn[2].sortOrder"
+        [nzFilters]="listOfColumn[2].listOfFilter" [nzFilterFn]="listOfColumn[2].filterFn!">
+        {{'MAIN-LIST.'+listOfColumn[2].name|
+        translate}}</th>
+      <th [nzSortFn]="listOfColumn[3].sortFn" [(nzSortOrder)]="listOfColumn[3].sortOrder"
+        [nzFilters]="listOfColumn[3].listOfFilter" [nzFilterFn]="listOfColumn[3].filterFn!">
+        {{'MAIN-LIST.'+listOfColumn[3].name|
+        translate}}</th>
+      <th [nzSortFn]="listOfColumn[4].sortFn" [(nzSortOrder)]="listOfColumn[4].sortOrder"
+        [nzFilters]="listOfColumn[4].listOfFilter" [nzFilterFn]="listOfColumn[4].filterFn!">
+        {{'MAIN-LIST.'+listOfColumn[4].name|
+        translate}}</th>
+      <th [nzSortFn]="listOfColumn[5].sortFn" [(nzSortOrder)]="listOfColumn[5].sortOrder"
+        [nzFilters]="listOfColumn[5].listOfFilter" [nzFilterFn]="listOfColumn[5].filterFn!">
+        {{'MAIN-LIST.'+listOfColumn[5].name|
+        translate}}</th>
+      <th> {{listOfColumn[6].name| translate}}</th>
+      <th [nzSortFn]="listOfColumn[7].sortFn" [(nzSortOrder)]="listOfColumn[7].sortOrder"
+        [nzFilters]="listOfColumn[7].listOfFilter" [nzFilterFn]="listOfColumn[7].filterFn!">
+        {{'MAIN-LIST.'+listOfColumn[7].name|
+        translate}}</th>
+      <th [nzSortFn]="listOfColumn[8].sortFn" [(nzSortOrder)]="listOfColumn[8].sortOrder"
+        [nzFilters]="listOfColumn[8].listOfFilter" [nzFilterFn]="listOfColumn[8].filterFn!">
+        {{'MAIN-LIST.'+listOfColumn[8].name|
+        translate}}</th>
+      <th [nzSortFn]="listOfColumn[9].sortFn" [(nzSortOrder)]="listOfColumn[9].sortOrder"
+        [nzFilters]="listOfColumn[9].listOfFilter" [nzFilterFn]="listOfColumn[9].filterFn!">
+        {{'MAIN-LIST.'+listOfColumn[9].name|
+        translate}}</th>
       <th>Freigabe</th>
     </tr>
   </thead>
@@ -61,16 +67,17 @@
         data.timespan!.end!.toString() | date:'dd.MM.yy' }}</td>
       <td (dblclick)="openCRC(data.id!, data.type!)">{{ data.customer }}</td>
       <td (dblclick)="openCRC(data.id!, data.type!)">{{ data.abschlussbericht }}</td>
-      <!-- <td style="justify-content: center;" (dblclick)="openCRC(data.id!, data.type!)">
+      <!-- 
+      <td style="justify-content: center;" (dblclick)="openCRC(data.id!, data.type!)">
         <div class="centerRow">
-          
           <span *ngIf="data.abschlussbericht!.split("/")!.[0].toString().localCompare(data.abschlussbericht!.split("/")!.[0].toString())" class="text-success">{{data.abschlussbericht}}</span>
           <span *ngIf="data.abschlussberichtFarbe === -1" class="text-warning">{{data.abschlussbericht}}</span>
           <span *ngIf="data.abschlussberichtFarbe === 1" class="text-danger">{{data.abschlussbericht}}</span>
         </div>
-      </td> -->
+      </td>
+      -->
       <td>
-        <span>{{((data.type === 0)?'MAIN-LIST.tech-req':'MAIN-LIST.work-req') | translate}}</span>
+        <span>{{ ((data.type === 0) ? 'MAIN-LIST.tech-req' : (data.type === 1) ? 'MAIN-LIST.work-sem': 'MAIN-LIST.work-visit') | translate }}</span>
       </td>
       <td>
         <div class="centerRow">

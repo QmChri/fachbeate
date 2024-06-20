@@ -44,3 +44,8 @@
   justify-content: space-between;
   align-items: center;
 }
+
+.striped-table tbody tr:nth-child(even),
+.striped-table thead {
+    background-color: #dbdbdb; 
+}
