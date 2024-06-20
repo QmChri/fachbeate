@@ -17,8 +17,6 @@ export class TeilnehmerListeComponent implements OnInit {
     public dialogRef: MatDialogRef<TeilnehmerListeComponent>, private notificationService: NotificationService,
     @Inject(MAT_DIALOG_DATA) public guests: Guest[]
   ) {
-    console.log(guests);
-
     if (guests !== null && guests !== undefined) {
       guests.forEach(element => this.addRow(element));
     }

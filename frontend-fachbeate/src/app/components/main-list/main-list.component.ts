@@ -180,7 +180,169 @@ export class MainListComponent implements OnInit {
       });
   }
 
-  //TODO nur temporär
+  loadData() {
+    this.loadTechnologists();
+    this.http.getCustomerRequirements().subscribe({
+      next: data => {
+        data.forEach(element => {
+
+          var tmpStatus = "in-progress";
+          if ((element.releaseManagement != null && element.releaseManagement != undefined)
+            || (element.releaseSupervisor != null && element.releaseSupervisor != undefined)) {
+            tmpStatus = "open";
+          }
+
+          var cntFinalReports: number = 0;
+
+          element.customerVisits.forEach(element => {
+            if (element.finalReport !== undefined && element.finalReport !== null) {
+              cntFinalReports = cntFinalReports + 1;
+            }
+          });
+
+          var color = cntFinalReports.toString().localeCompare(element.customerVisits.length.toString());
+          if (cntFinalReports === 0) { color = 1 }
+
+
+          this.listOfData = [...this.listOfData, {
+            id: element.id!,
+            name: element.company?.name!,
+            dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
+            customerOrCompany: "",
+            status: "false",
+            vertreter: element.representative?.firstName! + element.representative?.lastName!,
+            fachberater: element.requestedTechnologist?.firstName! + element.requestedTechnologist?.lastName!,
+            timespan: {
+              start: element.startDate,
+              end: element.endDate
+            },
+            customer: "",
+            abschlussbericht: cntFinalReports + "/" + element.customerVisits.length,
+            type: 0
+          }];
+        });
+
+        this.listOfDisplayData = [...this.listOfData];
+      },
+      error: err => {
+
+      }
+    });
+
+    this.http.getWorkshopRequirements().subscribe({
+      next: data => {
+        data.forEach(element => {
+
+          var tmpStatus = "in-progress";
+          if ((element.releaseManagement != null && element.releaseManagement != undefined)
+            || (element.releaseSupervisor != null && element.releaseSupervisor != undefined)) {
+            tmpStatus = "open";
+          }
+
+          this.listOfData = [...this.listOfData, {
+            id: element.id!,
+            name: "",
+            dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
+            customerOrCompany: "",
+            status: "false",
+            vertreter: element.seminarPresenter!,
+            fachberater: element.requestedTechnologist!.map(a => a.firstName + " " + a.lastName).toString(),
+            timespan: {
+              start: element.startDate,
+              end: element.endDate
+            },
+            customer: element.company!,
+            abschlussbericht: 'false',
+            type: 1
+          }];
+
+        });
+
+        this.listOfDisplayData = [...this.listOfData];
+      },
+      error: err => {
+
+      }
+    });
+
+    this.http.getVisitorRegistration().subscribe({
+
+      next: data => {
+
+        var visitorDataList: DataItem[] = []
+        data.forEach(element => {
+
+          visitorDataList = [...visitorDataList, {
+            id: element.id!,
+            name: element.name!,
+            dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
+            customerOrCompany: element.customerOrCompany!,
+            status: element.releaseManagement! || element.releaseSupervisor!,
+            vertreter: element.responsibleSupervisor!,
+            fachberater: "",
+            timespan: {
+              start: element.fromDate,
+              end: element.toDate
+            },
+            customer: "",
+            abschlussbericht: "",
+            type: 2
+          }];
+
+        });
+
+        this.listOfDisplayData = [...visitorDataList];
+      }
+    })
+
+  }
+
+  loadTechnologists() {
+    this.http.getAllTechnologist().subscribe({
+      next: data => { this.technologistList = data },
+      error: err => {
+        console.log(err);
+      }
+    })
+  }
+
+  openCRC(id: number, type: number) {
+    if (type === 0) {
+      this.router.navigate(['/customer-requirements', id]);
+    } else if (type === 1) {
+      this.router.navigate(['/seminar-registration', id]);
+    } else if (type === 2) {
+      this.router.navigate(['/visitorRegistration', id]);
+    }
+  }
+
+  resetSortAndFilters(): void {
+    this.searchValue = '';
+    this.notificationService.createBasicNotification(2, 'Filter/Sortierung aufgehoben!', '', 'topRight');
+    this.getNzFilters();
+    //this.tmpinitData();
+    this.listOfColumn.forEach(item => {
+      item.sortOrder = null;
+    });
+  }
+
+  search(): void {
+    this.visible = false;
+    this.listOfDisplayData = this.listOfDisplayData.filter((item: DataItem) =>
+    (
+      item.name!.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.dateOfCreation!.toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.customerOrCompany!.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.status!.valueOf().toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.vertreter!.valueOf().toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.fachberater!.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.timespan!.toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.customer!.valueOf().toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.abschlussbericht!.valueOf().toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.type!.valueOf().toString().includes(this.searchValue.toLocaleLowerCase())
+    ));
+  }
+
   tmpinitData() {
     this.listOfDisplayData = [
       {
@@ -345,176 +507,6 @@ export class MainListComponent implements OnInit {
         type: 1,
       },
     ];
-  }
-
-  //TODO Freigeben button mit funktion noch verknüpfen
-  release(nr: number) {
-    this._snackBar.open("Freigegeben? ", "JA");
-  }
-
-  loadData() {
-    this.loadTechnologists();
-    this.http.getCustomerRequirements().subscribe({
-      next: data => {
-        data.forEach(element => {
-
-          var tmpStatus = "in-progress";
-          if ((element.releaseManagement != null && element.releaseManagement != undefined)
-            || (element.releaseSupervisor != null && element.releaseSupervisor != undefined)) {
-            tmpStatus = "open";
-          }
-
-          var cntFinalReports: number = 0;
-
-          element.customerVisits.forEach(element => {
-            if (element.finalReport !== undefined && element.finalReport !== null) {
-              cntFinalReports = cntFinalReports + 1;
-            }
-          });
-
-          var color = cntFinalReports.toString().localeCompare(element.customerVisits.length.toString());
-          if (cntFinalReports === 0) { color = 1 }
-
-
-          this.listOfData = [...this.listOfData, {
-            id: element.id!,
-            name: element.company?.name!,
-            dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
-            customerOrCompany: "",
-            status: "false",
-            vertreter: element.representative?.firstName! + element.representative?.lastName!,
-            fachberater: element.requestedTechnologist?.firstName! + element.requestedTechnologist?.lastName!,
-            timespan: {
-              start: element.startDate,
-              end: element.endDate
-            },
-            customer: "",
-            abschlussbericht: cntFinalReports + "/" + element.customerVisits.length,
-            type: 0
-          }];
-        });
-
-        this.listOfDisplayData = [...this.listOfData];
-      },
-      error: err => {
-
-      }
-    });
-
-    this.http.getWorkshopRequirements().subscribe({
-      next: data => {
-        data.forEach(element => {
-
-          var tmpStatus = "in-progress";
-          if ((element.releaseManagement != null && element.releaseManagement != undefined)
-            || (element.releaseSupervisor != null && element.releaseSupervisor != undefined)) {
-            tmpStatus = "open";
-          }
-
-          this.listOfData = [...this.listOfData, {
-            id: element.id!,
-            name: "",
-            dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
-            customerOrCompany: "",
-            status: "false",
-            vertreter: element.seminarPresenter!,
-            fachberater: element.requestedTechnologist!.map(a => a.firstName + " " + a.lastName).toString(),
-            timespan: {
-              start: element.startDate,
-              end: element.endDate
-            },
-            customer: element.company!,
-            abschlussbericht: 'false',
-            type: 1
-          }];
-
-        });
-
-        this.listOfDisplayData = [...this.listOfData];
-      },
-      error: err => {
-
-      }
-    });
-
-    this.http.getVisitorRegistration().subscribe({
-
-      next: data => {
-
-        var visitorDataList: DataItem[] = []
-        data.forEach(element => {
-
-          visitorDataList = [...visitorDataList, {
-            id: element.id!,
-            name: element.name!,
-            dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
-            customerOrCompany: element.customerOrCompany!,
-            status: element.releaseManagement! || element.releaseSupervisor!,
-            vertreter: element.responsibleSupervisor!,
-            fachberater: "",
-            timespan: {
-              start: element.fromDate,
-              end: element.toDate
-            },
-            customer: "",
-            abschlussbericht: "",
-            type: 2
-          }];
-
-        });
-
-        this.listOfDisplayData = [...visitorDataList];
-      }
-    })
-
-  }
-
-  loadTechnologists() {
-    this.http.getAllTechnologist().subscribe({
-      next: data => { this.technologistList = data },
-      error: err => {
-        console.log(err);
-      }
-    })
-  }
-
-  openCRC(id: number, type: number) {
-    console.log(id + " " + type);
-
-    if (type === 0) {
-      this.router.navigate(['/customer-requirements', id]);
-    } else if (type === 1) {
-      this.router.navigate(['/seminar-registration', id]);
-    } else if (type === 2) {
-      this.router.navigate(['/visitorRegistration', id]);
-    }
-  }
-
-  resetSortAndFilters(): void {
-    this.searchValue = '';
-    this.notificationService.createBasicNotification(2, 'Filter/Sortierung aufgehoben!', '', 'topRight');
-    this.getNzFilters();
-    this.tmpinitData();
-    this.listOfColumn.forEach(item => {
-      item.sortOrder = null;
-    });
-  }
-
-  search(): void {
-    this.visible = false;
-    this.listOfDisplayData = this.listOfDisplayData.filter((item: DataItem) =>
-    (
-      item.name!.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
-      item.dateOfCreation!.toString().includes(this.searchValue.toLocaleLowerCase()) ||
-      item.customerOrCompany!.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
-      item.status!.valueOf().toString().includes(this.searchValue.toLocaleLowerCase()) ||
-      item.vertreter!.valueOf().toString().includes(this.searchValue.toLocaleLowerCase()) ||
-      item.fachberater!.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
-      item.timespan!.toString().includes(this.searchValue.toLocaleLowerCase()) ||
-      item.customer!.valueOf().toString().includes(this.searchValue.toLocaleLowerCase()) ||
-      item.abschlussbericht!.valueOf().toString().includes(this.searchValue.toLocaleLowerCase()) ||
-      item.type!.valueOf().toString().includes(this.searchValue.toLocaleLowerCase())
-    ));
   }
 }
 

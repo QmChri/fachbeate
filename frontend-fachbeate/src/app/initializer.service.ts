@@ -5,8 +5,6 @@ export function initializer(keycloak: KeycloakService): () => Promise<any> {
   return (): Promise<any> => {
     return new Promise(async (resolve, reject) => {
       try {
-        console.log(environment.keycloak.issuer);
-
         await keycloak.init({
           config: {
             url: environment.keycloak.issuer,

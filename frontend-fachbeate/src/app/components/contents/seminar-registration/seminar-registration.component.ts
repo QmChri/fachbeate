@@ -50,11 +50,7 @@ export class SeminarRegistrationComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(
       data => {
-        console.log(data);
-
         if (data !== undefined && data !== null) {
-          console.log("test");
-
           this.inputWorkshop.guests = data;
         }
       });
@@ -73,6 +69,7 @@ export class SeminarRegistrationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.addTab();
     this.route.paramMap.subscribe(params => {
       if (params.get('id') != null) {
         this.http.getWorkshopById(parseInt(params.get('id')!)).subscribe({

@@ -37,11 +37,7 @@ export class VisitorRegistrationComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(
       data => {
-        console.log(data);
-
         if (data !== undefined && data !== null) {
-          console.log("test");
-
           this.inputVisitRegistration.guests = data;
         }
       });
@@ -85,11 +81,7 @@ export class VisitorRegistrationComponent implements OnInit {
 
   inputDateChange(id: number, date: string) {
     let tmpId = this.setOfCheckedId.get(id)![0];
-
-    
     this.setOfCheckedId.set(id, [(tmpId)?tmpId:undefined!, date]);
-    console.log(this.setOfCheckedId);
-    
   }
 
   ngOnInit(): void {
@@ -102,9 +94,7 @@ export class VisitorRegistrationComponent implements OnInit {
               this.inputVisitRegistration = data;
 
               this.inputVisitRegistration.plannedDepartmentVisits.forEach(element => {
-                var tmpVisit = this.listOfCurrentPageData.find(pageData => pageData.name === element.department);
-                console.log(element.dateOfVisit);
-                
+                var tmpVisit = this.listOfCurrentPageData.find(pageData => pageData.name === element.department);                
                 this.setOfCheckedId.set(tmpVisit!.id, [element.id!,element.dateOfVisit!.toString().substring(0,10)])
               })
 

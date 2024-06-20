@@ -52,7 +52,6 @@
         [nzFilters]="listOfColumn[9].listOfFilter" [nzFilterFn]="listOfColumn[9].filterFn!">
         {{'MAIN-LIST.'+listOfColumn[9].name|
         translate}}</th>
-      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -79,11 +78,6 @@
       <td>
         <span>{{ ((data.type === 0) ? 'MAIN-LIST.tech-req' : (data.type === 1) ? 'MAIN-LIST.work-sem':
           'MAIN-LIST.work-visit') | translate }}</span>
-      </td>
-      <td>
-        <div class="centerRow">
-          <button class="freigabe" nz-button nzType="primary" (click)="release(data.id!)"> Freigeben </button>
-        </div>
       </td>
     </tr>
   </tbody>

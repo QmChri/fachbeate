@@ -85,8 +85,6 @@ export class AbschlussBerichtComponent implements OnInit {
   insertOther(article: Article, reason: number) {
     var tmpArticle = this.existingArticles.find(element => element.articleNr!.toString() === article.articleNr!.toString());
 
-    console.log(tmpArticle)
-
     if (tmpArticle !== undefined) {
       this.inputFinalReport.reasonReports!.find(element => element.reason === reason)!
         .presentedArticle.find(element => element.articleNr!.toString() === article.articleNr!.toString())!.name = tmpArticle.name;
@@ -106,7 +104,7 @@ export class AbschlussBerichtComponent implements OnInit {
     var reasonReport = this.finalReport.reasonReports!.find(element => element.reason === reason)!
     reasonReport.presentedArticle = [...reasonReport.presentedArticle!, {}]
   }
-  deleteArticle(reason: number){
+  deleteArticle(reason: number) {
     this.inputFinalReport.reasonReports?.find(element => element.reason === reason)?.presentedArticle.pop();
   }
 

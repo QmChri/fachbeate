@@ -127,7 +127,6 @@ export class CustomerRequirementsComponent implements OnInit {
 
   postCustomerRequirement(triggerNotification: Boolean) {
     if (triggerNotification === true) {
-      console.log(triggerNotification);
       this.notificationService.createBasicNotification(0, 'Formular wurde gesendet!', '', 'topRight');
     }
     this.inputCustomerRequirement.reason = "XXXX"
