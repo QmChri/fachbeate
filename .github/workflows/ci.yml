@@ -96,6 +96,8 @@ jobs:
         run: npm ci --legacy-peer-deps
       - name: Build
         run: npm run build -- --configuration=production
+      - name: Convert GitHub repository name to lowercase
+        run: echo "IMAGE_REPOSITORY=$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
       - name: Login to GitHub Packages
         uses: docker/login-action@v1
         with:
@@ -106,7 +108,7 @@ jobs:
         run: docker build . -f Dockerfile --tag $IMAGE_NAME
       - name: Push image
         run: |
-          IMAGE_ID=ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME
+          IMAGE_ID= ${{ env.REGISTRY }}/${{ env.IMAGE_REPOSITORY }}-web
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
           VERSION=$(echo ${{ github.ref }} | cut -c11-)
           [ "$VERSION" == "main" ] && VERSION=latest
