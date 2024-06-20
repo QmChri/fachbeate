@@ -13,8 +13,8 @@
 </div>
 <hr>
 
-<nz-table #nzTable nzBordered nzSimple [nzPageSize]="7" nzTableLayout="fixed"  nzTableLayout="auto" [nzData]="listOfDisplayData"
-    class="striped-table">
+<nz-table #nzTable nzBordered nzSimple [nzPageSize]="7" nzTableLayout="fixed" nzTableLayout="auto"
+    [nzData]="listOfDisplayData" class="striped-table">
     <thead>
         <tr>
             <th [nzSortFn]="listOfColumn[0].sortFn" [(nzSortOrder)]="listOfColumn[0].sortOrder"
@@ -55,7 +55,10 @@
             <td>{{ data.toBeCompletedBy | date:'dd.MM.yy' }}</td>
             <td>{{ data.representative }}</td>
             <td>{{data.customerContactDate | date:'dd.MM.yy'}}</td>
-            <td>{{data.abschlussberichtFinished}}</td>
+            <td>
+                <span *ngIf="data.abschlussberichtFinished === 'Ja'" class="text-success">&#10004;</span>
+                <span *ngIf="data.abschlussberichtFinished === 'Nein'" class="text-danger">&#10008;</span>
+            </td>
             <td>{{getArticleListName(data.article)}}</td>
         </tr>
     </tbody>

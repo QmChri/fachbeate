@@ -82,7 +82,7 @@ export class AbschlussBerichtListComponent {
 
   ngOnInit(): void {
     //this.tmpinitData();
-    this.loadData();
+  
     this.getNzFilters();
   }
 
@@ -99,7 +99,6 @@ export class AbschlussBerichtListComponent {
       }, [] as { text: string, value: string }[]);
   }
 
-  //TODO nur temporär
   tmpinitData() {
     this.listOfDisplayData = [
       {
@@ -109,7 +108,7 @@ export class AbschlussBerichtListComponent {
         toBeCompletedBy: new Date('2023-06-20'),
         representative: 'A',
         customerContactDate: new Date('2023-06-10'),
-        abschlussberichtFinished: 'yes',
+        abschlussberichtFinished: 'Ja',
         article: [
           { name: 'Article 1', articleNr: 'A001' },
           { name: 'Article 2', articleNr: 'A002' }
@@ -122,7 +121,7 @@ export class AbschlussBerichtListComponent {
         toBeCompletedBy: new Date('2023-06-25'),
         representative: 'B',
         customerContactDate: new Date('2023-06-12'),
-        abschlussberichtFinished: 'yes',
+        abschlussberichtFinished: 'Nein',
         article: [
           { name: 'Article 3', articleNr: 'B001' }
         ]
@@ -134,7 +133,7 @@ export class AbschlussBerichtListComponent {
         toBeCompletedBy: new Date('2023-06-28'),
         representative: 'C',
         customerContactDate: new Date('2023-06-14'),
-        abschlussberichtFinished: 'no',
+        abschlussberichtFinished: 'Nein',
         article: [
           { name: 'Article 4', articleNr: 'G001' },
           { name: 'Article 5', articleNr: 'G002' }
@@ -170,7 +169,7 @@ export class AbschlussBerichtListComponent {
             toBeCompletedBy: element.reworkByRepresentativeDoneUntil!,
             representative: element.representative!,
             customerContactDate: element.customerContactDate!,
-            abschlussberichtFinished: (element.requestCompleted) ? "Ja" : "Nein",
+            abschlussberichtFinished: (element.requestCompleted) ? "ja" : "nein",
             article: allArticles
           }]
         });

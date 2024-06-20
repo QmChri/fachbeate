@@ -85,8 +85,7 @@ export class DashboardComponent implements OnInit {
             backgroundColor: value.requestedTechnologist![0].color,
             borderColor: value.requestedTechnologist![0].color,
           }]
-          console.log(this.calendarEvnts);
-          
+                    
           this.calendarOptions.events = this.calendarEvnts.map(value => ({
             id: value.id,
             title: value.title,
