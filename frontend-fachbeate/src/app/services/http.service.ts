@@ -10,11 +10,11 @@ import { FinalReport } from '../models/final-report';
 import { VisitorRegistration } from '../models/visitor-registration';
 import { Company } from '../models/company';
 import { Article } from '../models/article';
+import {environment} from "../../environments/environment";
 
 
 
-const API_URL = "http://angular02.almi.at:8181/"
-
+const API_URL = environment.backendApi
 
 @Injectable({
   providedIn: 'root'
