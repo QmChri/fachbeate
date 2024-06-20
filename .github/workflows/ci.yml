@@ -94,6 +94,8 @@ jobs:
         #steps.cache-nodemodules.outputs.cache-hit != 'true'
         # if cache hits, skip this step.
         run: npm ci --legacy-peer-deps
+      - name: Convert GitHub repository name to lowercase
+        run: echo "IMAGE_REPOSITORY=$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
       - name: Build
         run: npm run build -- --configuration=production
       - name: Login to GitHub Packages
