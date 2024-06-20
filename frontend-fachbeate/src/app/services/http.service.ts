@@ -10,11 +10,11 @@ import { FinalReport } from '../models/final-report';
 import { VisitorRegistration } from '../models/visitor-registration';
 import { Company } from '../models/company';
 import { Article } from '../models/article';
+import {environment} from "../../environments/environment";
 
 
 
-const API_URL = "http://10.2.3.72:8079/"
-
+const API_URL = environment.backendApi
 
 @Injectable({
   providedIn: 'root'
@@ -75,13 +75,13 @@ export class HttpService {
   postTechnologist(technologist: Technologist) {
     return this.http.post(API_URL + "technologist", technologist);
   }
-  
-  
-  
+
+
+
   postRepresentative(representative: Representative): Observable<Representative>{
     return this.http.post(API_URL+ "technologist/representative", representative);
-  }  
-  
+  }
+
   getAllRepresentative() : Observable<Representative[]> {
     return this.http.get<Representative[]>(API_URL+ "technologist/representative");
   }
@@ -94,8 +94,8 @@ export class HttpService {
 
   postCompany(company: Company): Observable<Company>{
     return this.http.post(API_URL+ "technologist/company", company);
-  }  
-  
+  }
+
   getAllCompany() : Observable<Company[]> {
     return this.http.get<Company[]>(API_URL+ "technologist/company");
   }
