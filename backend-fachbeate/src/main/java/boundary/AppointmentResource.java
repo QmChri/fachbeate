@@ -53,6 +53,8 @@ public class AppointmentResource {
             return Response.ok(CustomerRequirement.find("requestedTechnologist.firstName = ?1 and requestedTechnologist.lastName = ?2", fullname.split(";")[0], fullname.split(";")[1]).list()).build();
         }else if(user == 6) {
             return Response.ok(CustomerRequirement.find("creator", fullname).list()).build();
+        }else if(user == 3){
+            return Response.ok(CustomerRequirement.find("representative.firstName = ?1 and representative.lastName", fullname.split(";")[0], fullname.split(";")[1]).list()).build();
         }
         return Response.ok().build();
     }
@@ -95,16 +97,11 @@ public class AppointmentResource {
                     "where tech.firstName = ?1 and tech.lastName = ?2", fullname.split(";")[0], fullname.split(";")[1]).list()).build();
         }else if(user == 6) {
             return Response.ok(WorkshopRequirement.find("creator", fullname).list()).build();
+        }else if(user == 3){
+            return Response.ok(WorkshopRequirement.find("representative.firstName = ?1 and representative.lastName", fullname.split(";")[0], fullname.split(";")[1]).list()).build();
         }
         return Response.ok().build();
     }
-    @GET
-    @Path("/workshop/tech")
-    @Authenticated
-    public Response getWorkshopPerFullname(@QueryParam("tech") String fullname){
-        return Response.ok(WorkshopRequirement.find("requestedTechnologist.firstName = ?1 and requestedTechnologist.lastName = ?2", fullname.split(";")[0], fullname.split(";")[1]).list()).build();
-    }
-
     @POST
     @Path("/visitorRegistration")
     @Authenticated
@@ -120,7 +117,7 @@ public class AppointmentResource {
     @GET
     @Path("/visitorRegistration")
     @Authenticated
-    public Response postVisitorRegistration(){
+    public Response getVisitorRegistration(){
         return Response.ok(VisitorRegistration.listAll()).build();
     }
 
@@ -133,8 +130,15 @@ public class AppointmentResource {
     @GET
     @Path("/visitorRegistration/user")
     @Authenticated
-    public Response getVisitorRegistrationPerUser(@QueryParam("user") String user){
-        return Response.ok(VisitorRegistration.find("creator", user).list()).build();
+    public Response getVisitorRegistrationPerUser(@QueryParam("user") int user, @QueryParam("fullname") String fullname){
+        if (user==7) {
+            return getVisitorRegistration();
+        }else if(user == 6) {
+            return Response.ok(VisitorRegistration.find("creator", fullname).list()).build();
+        }else if(user == 3){
+            return Response.ok(VisitorRegistration.find("representative.firstName = ?1 and representative.lastName", fullname.split(";")[0], fullname.split(";")[1]).list()).build();
+        }
+        return Response.ok().build();
     }
 
 

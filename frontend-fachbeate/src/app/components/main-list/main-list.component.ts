@@ -250,13 +250,13 @@ export class MainListComponent implements OnInit {
             dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
             customerOrCompany: "",
             status: "false",
-            vertreter: element.seminarPresenter!,
+            vertreter: element.representative!.firstName + " " + element.representative!.lastName,
             fachberater: element.requestedTechnologist!.map(a => a.firstName + " " + a.lastName).toString(),
             timespan: {
               start: element.startDate,
               end: element.endDate
             },
-            customer: element.company!,
+            customer: element.customer!,
             abschlussbericht: 'false',
             type: 1
           }];
@@ -268,7 +268,7 @@ export class MainListComponent implements OnInit {
       }
     });
 
-    this.http.getVisitorRegistration().subscribe({
+    this.http.getVisitorRegistrationByUser(type, fullname).subscribe({
 
       next: data => {
         data.forEach(element => {
@@ -278,8 +278,8 @@ export class MainListComponent implements OnInit {
             name: element.name!,
             dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
             customerOrCompany: element.customerOrCompany!,
-            status: element.releaseManagement! || element.releaseSupervisor!,
-            vertreter: element.responsibleSupervisor!,
+            status: element.releaserManagement,
+            vertreter: element.representative!.firstName + " " + element.representative!.lastName,
             fachberater: "",
             timespan: {
               start: element.fromDate,

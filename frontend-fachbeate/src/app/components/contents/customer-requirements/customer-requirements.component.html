@@ -3,19 +3,19 @@
         <h1 class="paddingSearch">{{"REQ-TECH.title" | translate}}</h1>
     </div>
     <div>
-        <button [disabled]="inputCustomerRequirement.releaseManagement !== undefined" (nzOnConfirm)="release('gl')" *ngIf="roleService.checkPermission([1,7])" style="margin-right: 2rem;" nz-button nzType="primary"
+        <button [disabled]="inputCustomerRequirement.releaseManagement !== null && inputCustomerRequirement.releaseManagement !== undefined" (nzOnConfirm)="release('gl')" *ngIf="roleService.checkPermission([1,7])" style="margin-right: 2rem;" nz-button nzType="primary"
             nz-popconfirm nzPopconfirmShowArrow="false" [nzIcon]="iconTpl" nzPopconfirmTitle="Sind Sie sicher?">
             <ng-template #iconTpl></ng-template>
             Freigabe GL
         </button>
-        <button [disabled]="inputCustomerRequirement.releaseSupervisor !== undefined" (nzOnConfirm)="release('al')" *ngIf="roleService.checkPermission([1,2,7])" style="margin-right: 2rem;" nz-button nzType="primary"
+        <button [disabled]="inputCustomerRequirement.releaseSupervisor !== null && inputCustomerRequirement.releaseSupervisor !== undefined" (nzOnConfirm)="release('al')" *ngIf="roleService.checkPermission([1,2,7])" style="margin-right: 2rem;" nz-button nzType="primary"
             nz-popconfirm nzPopconfirmShowArrow="false" [nzIcon]="iconTpl" nzPopconfirmTitle="Sind Sie sicher?">
             <ng-template #iconTpl></ng-template>
             Freigabe AL
         </button>
     </div>
     <div>
-        <button *ngIf="(inputCustomerRequirement.company === undefined && roleService.checkPermission([6])) || roleService.checkPermission([1,2,3,4,5,7])" class="btn btn-success" (click)="postCustomerRequirement(true)">{{"REQ-TECH.send" | translate}}</button>
+        <button *ngIf="(inputCustomerRequirement.creator === undefined && roleService.checkPermission([6])) || roleService.checkPermission([1,2,3,4,5,7])" class="btn btn-success" (click)="postCustomerRequirement(true)">{{"REQ-TECH.send" | translate}}</button>
     </div>
 </div>
 <hr>

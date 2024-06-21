@@ -71,12 +71,9 @@ export class HttpService {
     return this.http.get<VisitorRegistration>(API_URL + "appointment/visitorRegistration/id", {params: {id: id}});
   }
 
-  getVisitorRegistrationByUser(user: string){
-    if(user === "$admin"){  return this.getVisitorRegistration();}
-
-    return this.http.get<VisitorRegistration[]>(API_URL + "appointment/visitorRegistration/user", {params: {user: user}});
+  getVisitorRegistrationByUser(type: number, fullname: string){
+    return this.http.get<VisitorRegistration[]>(API_URL + "appointment/visitorRegistration/user", {params: {type: type, fullname: fullname}});
   }
-
 
 
 
