@@ -26,23 +26,48 @@
         <div class="card">
             <div class="card-header text-white bg-danger">{{'SEMINAR-REGISTRATION.seminar' | translate}}</div>
             <div class="card-body">
-
+                <!-- 
                 <mat-form-field>
                     <mat-label>{{'SEMINAR-REGISTRATION.seminarTopic' | translate}}</mat-label>
-                    <input matInput [(ngModel)]="inputWorkshop.subject">
+                    <mat-select
+                        [ngModel]="inputWorkshop.company === undefined"
+                        required (valueChange)="changeCompany($event)">
+                        <mat-option>--</mat-option>
+                        @for (c of companies; track companies) {
+                        <mat-option [value]="c.id">{{c.name}}</mat-option>
+                        }
+                    </mat-select>
+                    @if (tohaControl.hasError('required')) {
+                    <mat-error>{{"REQ-TECH.none-select" | translate}}</mat-error>
+                    }
                 </mat-form-field>
+-->
+                <mat-form-field>
+                    <mat-label>{{'SEMINAR-REGISTRATION.seminarTopic' | translate}}</mat-label>
+                    <input matInput required [(ngModel)]="inputWorkshop.subject">
+                    @if (control.hasError('required')) {
+                    <mat-error>{{"REQ-TECH.none-select" | translate}}</mat-error>
+                    }
+                </mat-form-field>
+
                 <mat-form-field>
                     <mat-label>{{'SEMINAR-REGISTRATION.companyCustomer' | translate}}</mat-label>
-                    <input matInput [(ngModel)]="inputWorkshop.company">
+                    <input matInput required [(ngModel)]="inputWorkshop.company">
+                    @if (control.hasError('required')) {
+                    <mat-error>{{"REQ-TECH.none-select" | translate}}</mat-error>
+                    }
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label>{{'SEMINAR-REGISTRATION.fromTo' | translate}}</mat-label>
                     <mat-date-range-input [rangePicker]="picker">
-                        <input matStartDate placeholder="Start date" [(ngModel)]="inputWorkshop.startDate">
-                        <input matEndDate placeholder="End date" [(ngModel)]="inputWorkshop.endDate">
+                        <input required matStartDate placeholder="Start date" [(ngModel)]="inputWorkshop.startDate">
+                        <input required matEndDate placeholder="End date" [(ngModel)]="inputWorkshop.endDate">
                     </mat-date-range-input>
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-date-range-picker #picker></mat-date-range-picker>
+                    @if (control.hasError('required')) {
+                    <mat-error>{{"REQ-TECH.none-select" | translate}}</mat-error>
+                    }
                 </mat-form-field>
 
             </div>
@@ -64,12 +89,12 @@
                     <div class="paddingSearch">
                         <mat-form-field style="max-width: 8rem;">
                             <mat-label>{{'SEMINAR-REGISTRATION.count' | translate}}</mat-label>
-                            <input type="number" min="0" matInput required
-                                [(ngModel)]="inputWorkshop.amountParticipants">
+                            <input type="number" min="0" matInput [(ngModel)]="inputWorkshop.amountParticipants">
                         </mat-form-field>
-                        <button class="btn btn-success teilButton"
+                        <button class="btn teilButton"
+                            [ngClass]="{'btn-success': inputWorkshop.guests && inputWorkshop.guests.length > 0, 'btn-danger': !inputWorkshop.guests || inputWorkshop.guests.length === 0}"
                             matTooltip="{{'SEMINAR-REGISTRATION.seminarRegistrationMembers' | translate}}"
-                            (click)="openDialog((inputWorkshop.guests !== null && inputWorkshop.guests !== undefined)?inputWorkshop.guests:[])">
+                            (click)="openDialog((inputWorkshop.guests !== null && inputWorkshop.guests !== undefined) ? inputWorkshop.guests : [])">
                             <i class="fas fa-user-friends"></i>
                         </button>
                     </div>
@@ -84,12 +109,15 @@
                 <div class="center-items">
                     <mat-form-field>
                         <mat-label>{{'SEMINAR-REGISTRATION.seminarBoss' | translate}}</mat-label>
-                        <input matInput [(ngModel)]="inputWorkshop.seminarPresenter">
+                        <input matInput required [(ngModel)]="inputWorkshop.seminarPresenter">
+                        @if (control.hasError('required')) {
+                        <mat-error>{{"REQ-TECH.none-select" | translate}}</mat-error>
+                        }
                     </mat-form-field>
 
                     <mat-form-field>
                         <mat-label>{{'SEMINAR-REGISTRATION.responsibleConsultants' | translate}}</mat-label>
-                        <mat-select required multiple placeholder="{{'SEMINAR-REGISTRATION.choose' | translate}}"
+                        <mat-select multiple placeholder="{{'SEMINAR-REGISTRATION.choose' | translate}}"
                             [ngModel]="inputWorkshop.techSelection" (valueChange)="changeTechnolgist($event)">
                             @for (t of technologists; track technologists) {
                             <mat-option [value]="t.id">{{t.firstName}} {{t.lastName}}</mat-option>
@@ -101,9 +129,8 @@
                             <div class="displayBySide">
                                 <mat-form-field class="smallInputSide">
                                     <mat-label>{{'SEMINAR-REGISTRATION.language' | translate}}</mat-label>
-                                    <mat-select required placeholder="Auswählen . . . "
-                                        [(ngModel)]="inputWorkshop.language" name="resons">
-
+                                    <mat-select placeholder="Auswählen . . . " [(ngModel)]="inputWorkshop.language"
+                                        name="resons">
                                         @for (re of languages; track languages) {
                                         <mat-option [value]="re">{{re}}</mat-option>
                                         }

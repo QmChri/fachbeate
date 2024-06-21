@@ -64,7 +64,7 @@ import { NzNotificationModule } from 'ng-zorro-antd/notification';
 /*import { initializer } from './initializer.service';*/
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { initializer } from './initializer.service';
-
+import { NzColorPickerModule } from 'ng-zorro-antd/color-picker';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -101,7 +101,7 @@ registerLocaleData(de);
     NzDatePickerModule,
     MatDialogContent,
     MatDialogActions,
-    MatDialogClose,
+    MatDialogClose, NzColorPickerModule,
     BrowserModule,
     AppRoutingModule,
     FormsModule,

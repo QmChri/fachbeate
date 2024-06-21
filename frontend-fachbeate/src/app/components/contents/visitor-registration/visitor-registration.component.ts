@@ -28,7 +28,6 @@ export class VisitorRegistrationComponent implements OnInit {
   constructor(private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute,
     private notificationService: NotificationService, public roleService: RoleService) { }
 
-  //TODO hier freigabe buttons
   release(department: string) {
     if (department === 'gl') {
       this.notificationService.createBasicNotification(0, 'Freigabe von GL wurde erteilt!', '', 'topRight');
@@ -37,7 +36,7 @@ export class VisitorRegistrationComponent implements OnInit {
       this.notificationService.createBasicNotification(0, 'Freigabe von AL wurde erteilt!', '', 'topRight');
     }
   }
-  
+
   openDialog(guests: Guest[]) {
 
     const dialogRef = this.dialog.open(TeilnehmerListeComponent, {

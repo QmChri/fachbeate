@@ -3,7 +3,7 @@ import { WorkshopRequirement } from '../../../models/workshop-requirement';
 import { HttpService } from '../../../services/http.service';
 import { Technologist } from '../../../models/technologist';
 import { ActivatedRoute } from '@angular/router';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { TeilnehmerListeComponent } from '../teilnehmer-liste/teilnehmer-liste.component';
 import { Guest } from '../../../models/guest';
@@ -17,8 +17,9 @@ import { RoleService } from '../../../services/role.service';
 })
 export class SeminarRegistrationComponent implements OnInit {
   buttonSelect: string[] = []
-
+  control = new FormControl(null, Validators.required);
   addItem: string = "";
+  technologists: Technologist[] = [];
   reasonSelect: number = 0;
   languages: string[] = ['DE', 'EN', 'RU'];
   inputWorkshop: WorkshopRequirement = {
@@ -30,6 +31,24 @@ export class SeminarRegistrationComponent implements OnInit {
   tabs = ['Hotelbuchung']
   selected = new FormControl(0);
 
+
+  constructor(private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute,
+    private notificationService: NotificationService, public roleService: RoleService) {
+  }
+
+  //SemianrThema gehört auch noch hinzugeüft --> sollte ja Händler/Töchter sein
+  checkRequired(): boolean {
+    if (!this.inputWorkshop.subject ||
+      !this.inputWorkshop.company ||
+      !this.inputWorkshop.startDate ||
+      !this.inputWorkshop.endDate ||
+      !this.inputWorkshop.guests![0] ||
+      !this.inputWorkshop.seminarPresenter) {
+      this.notificationService.createBasicNotification(4, 'Bitte Pflichtfelder ausfüllen!', 'Fachberater*/Vertreter*/Von*-Bis*', 'topRight')
+      return false;
+    }
+    return true;
+  }
   addTab() {
     this.tabs.push('Hotelbuchung: ' + this.tabs.length)
     this.selected.setValue(this.tabs.length - 1)
@@ -41,8 +60,18 @@ export class SeminarRegistrationComponent implements OnInit {
     }
   }
 
-  openDialog(guests: Guest[]) {
+  updateButtonStyle() {
+    // Überprüfen, ob die Gästeliste leer ist oder nicht
+    if (this.inputWorkshop.guests && this.inputWorkshop.guests.length > 0) {
+      // Gästeliste ist nicht leer, Button sollte grün sein
+      return 'btn-success';
+    } else {
+      // Gästeliste ist leer, Button sollte rot sein
+      return 'btn-danger';
+    }
+  }
 
+  openDialog(guests: Guest[]) {
     const dialogRef = this.dialog.open(TeilnehmerListeComponent, {
       height: '36rem',
       width: '50rem',
@@ -62,18 +91,11 @@ export class SeminarRegistrationComponent implements OnInit {
     this.languages.push(addItem);
   }
 
-  technologists: Technologist[] = [];
-
-  constructor(private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute,
-    private notificationService: NotificationService, public roleService: RoleService) {
-  }
-
-  //TODO hier freigabe buttons
   release(department: string) {
-    if (department === 'gl') {
+    if (department === 'gl' && this.checkRequired()) {
       this.notificationService.createBasicNotification(0, 'Freigabe von GL wurde erteilt!', '', 'topRight');
     }
-    else {
+    else if (department === 'al' && this.checkRequired()) {
       this.notificationService.createBasicNotification(0, 'Freigabe von AL wurde erteilt!', '', 'topRight');
     }
   }
@@ -140,33 +162,33 @@ export class SeminarRegistrationComponent implements OnInit {
   }
 
   postWorkshopRequest() {
-    this.notificationService.createBasicNotification(0, 'Formular wurde gesendet!', '', 'topRight');
-    this.inputWorkshop.reason = "Seminaranmeldung"
-    this.inputWorkshop.dateOfCreation = new Date();
+    if (this.checkRequired()) {
 
-    this.http.postWorkshop(this.inputWorkshop).subscribe({
-      next: data => {
-        this.inputWorkshop = data;
 
-        this.inputWorkshop.techSelection = data.requestedTechnologist!.map(element => element.id!);
+      this.notificationService.createBasicNotification(0, 'Formular wurde gesendet!', '', 'topRight');
+      this.inputWorkshop.reason = "Seminaranmeldung"
+      this.inputWorkshop.dateOfCreation = new Date();
 
-        this.buttonSelect = [
-          (data.hotelBooking) ? "1" : "",
-          (data.flightBooking) ? "2" : "",
-          (data.trip) ? "3" : "",
-          (data.companyTour) ? "4" : "",
-          (data.meal) ? "5" : "",
-          (data.customerPresent) ? "6" : "",
-          (data.diploma) ? "7" : ""
-        ].filter(p => p != "");
-      },
-      error: err => {
-        console.log(err);
-      }
-    })
+      this.http.postWorkshop(this.inputWorkshop).subscribe({
+        next: data => {
+          this.inputWorkshop = data;
+
+          this.inputWorkshop.techSelection = data.requestedTechnologist!.map(element => element.id!);
+
+          this.buttonSelect = [
+            (data.hotelBooking) ? "1" : "",
+            (data.flightBooking) ? "2" : "",
+            (data.trip) ? "3" : "",
+            (data.companyTour) ? "4" : "",
+            (data.meal) ? "5" : "",
+            (data.customerPresent) ? "6" : "",
+            (data.diploma) ? "7" : ""
+          ].filter(p => p != "");
+        },
+        error: err => {
+          console.log(err);
+        }
+      })
+    }
   }
-
-  changeDate(event: any, date?: Date) {
-  }
-
 }
