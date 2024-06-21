@@ -182,7 +182,7 @@
                 <td>
                     <label class="input-label" [hidden]="editId === data.editId"
                         (click)="startEdit(data.editId)">{{data.companyName}}</label>
-                    <input [hidden]="editId !== data.editId" type="text" nz-input [(ngModel)]="data.companyName" />
+                    <input placeholder="Pflichtfeld*" [hidden]="editId !== data.editId" type="text" nz-input [(ngModel)]="data.companyName" />
                 </td>
                 <td>
                     <label class="input-label" [hidden]="editId === data.editId"
@@ -192,7 +192,7 @@
                 <td>
                     <label class="input-label" [hidden]="editId === data.editId"
                         (click)="startEdit(data.editId)">{{data.address}}</label>
-                    <input [hidden]="editId !== data.editId" type="text" nz-input [(ngModel)]="data.address" />
+                    <input  placeholder="Pflichtfeld*"  [hidden]="editId !== data.editId" type="text" nz-input [(ngModel)]="data.address" />
                 </td>
                 <td>
                     <label class="input-label" [hidden]="editId === data.editId"
@@ -202,10 +202,10 @@
                 <td>
                     <label class="input-label" [hidden]="editId === data.editId" (click)="startEdit(data.editId)">{{
                         (data.dateOfVisit !== undefined)?data.dateOfVisit!.toString().substring(0,10):''}}</label>
-                    <input [hidden]="editId !== data.editId" type="date" nz-input [(ngModel)]="data.dateOfVisit" />
+                    <input  placeholder="Pflichtfeld*"  [hidden]="editId !== data.editId" type="date" nz-input [(ngModel)]="data.dateOfVisit" />
                 </td>
                 <td class="multiple-select">
-                    <mat-select multiple placeholder="{{'REQ-TECH.select'|translate}} " [ngModel]="data.selection"
+                    <mat-select  placeholder="Pflichtfeld*"  multiple placeholder="{{'REQ-TECH.select'|translate}} " [ngModel]="data.selection"
                         (selectionChange)="selChange($event, data.editId)">
                         <mat-option [value]="1">{{"REQ-TECH.presentationOfNewProducts" | translate}}</mat-option>
                         <mat-option [value]="2">{{"REQ-TECH.existingProducts" | translate}}</mat-option>
