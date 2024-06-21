@@ -19,10 +19,9 @@
                     <input required matInput type="text" [(ngModel)]="inputTechnologist.lastName" name="lastName">
                 </mat-form-field>
                 <div class="displayBySide">
-                    <mat-form-field>
-                        <mat-label>{{'CREATE-TECHNOLOGIST.calendarColor' | translate}}</mat-label>
-                        <input required type="color" id="color" [(ngModel)]="inputTechnologist.color" matInput>
-                    </mat-form-field>
+                    <label class="languageBox">{{'CREATE-TECHNOLOGIST.calendarColor' | translate}}
+                        <nz-color-picker id="color" [(ngModel)]="inputTechnologist.color"></nz-color-picker>
+                    </label>
                     <label class="languageBox">{{'CREATE-TECHNOLOGIST.active' | translate}}
                         <mat-checkbox color="warn" [(ngModel)]="inputTechnologist.active"></mat-checkbox>
                     </label>
