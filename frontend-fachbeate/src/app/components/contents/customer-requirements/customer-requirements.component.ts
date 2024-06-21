@@ -36,6 +36,11 @@ export class CustomerRequirementsComponent implements OnInit {
   ) { }
 
 
+
+  test(){
+    console.log("TEST")
+  }
+
   inputCustomerRequirement: CustomerRequirement = {
     customerVisits: []
   };
