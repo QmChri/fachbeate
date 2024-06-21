@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { TeilnehmerListeComponent } from '../teilnehmer-liste/teilnehmer-liste.component';
 import { Guest } from '../../../models/guest';
 import { NotificationService } from '../../../services/notification.service';
+import { RoleService } from '../../../services/role.service';
 
 @Component({
   selector: 'app-seminar-registration',
@@ -64,8 +65,17 @@ export class SeminarRegistrationComponent implements OnInit {
   technologists: Technologist[] = [];
 
   constructor(private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute,
-    private notificationService: NotificationService) {
+    private notificationService: NotificationService, public roleService: RoleService) {
+  }
 
+  //TODO hier freigabe buttons
+  release(department: string) {
+    if (department === 'gl') {
+      this.notificationService.createBasicNotification(0, 'Freigabe von GL wurde erteilt!', '', 'topRight');
+    }
+    else {
+      this.notificationService.createBasicNotification(0, 'Freigabe von AL wurde erteilt!', '', 'topRight');
+    }
   }
 
   ngOnInit(): void {
@@ -130,7 +140,7 @@ export class SeminarRegistrationComponent implements OnInit {
   }
 
   postWorkshopRequest() {
-    this.notificationService.createBasicNotification(0,'Formular wurde gesendet!','','topRight');
+    this.notificationService.createBasicNotification(0, 'Formular wurde gesendet!', '', 'topRight');
     this.inputWorkshop.reason = "Seminaranmeldung"
     this.inputWorkshop.dateOfCreation = new Date();
 

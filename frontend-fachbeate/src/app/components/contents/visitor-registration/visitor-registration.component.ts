@@ -8,6 +8,7 @@ import { HttpService } from '../../../services/http.service';
 import { Guest } from '../../../models/guest';
 import { ActivatedRoute } from '@angular/router';
 import { NotificationService } from '../../../services/notification.service';
+import { RoleService } from '../../../services/role.service';
 
 @Component({
   selector: 'app-visitor-registration',
@@ -25,8 +26,18 @@ export class VisitorRegistrationComponent implements OnInit {
   };
 
   constructor(private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute,
-    private notificationService: NotificationService) { }
+    private notificationService: NotificationService, public roleService: RoleService) { }
 
+  //TODO hier freigabe buttons
+  release(department: string) {
+    if (department === 'gl') {
+      this.notificationService.createBasicNotification(0, 'Freigabe von GL wurde erteilt!', '', 'topRight');
+    }
+    else {
+      this.notificationService.createBasicNotification(0, 'Freigabe von AL wurde erteilt!', '', 'topRight');
+    }
+  }
+  
   openDialog(guests: Guest[]) {
 
     const dialogRef = this.dialog.open(TeilnehmerListeComponent, {
@@ -47,7 +58,7 @@ export class VisitorRegistrationComponent implements OnInit {
   selected = new FormControl(0);
 
   addTab() {
-   this.inputVisitRegistration.hotelBookings = [...this.inputVisitRegistration.hotelBookings, {}]
+    this.inputVisitRegistration.hotelBookings = [...this.inputVisitRegistration.hotelBookings, {}]
   }
 
   deleteLast() {
@@ -64,7 +75,7 @@ export class VisitorRegistrationComponent implements OnInit {
   ];
 
   listOfCurrentPageData: readonly Department[] = [];
-  setOfCheckedId = new Map<number,[number?, string?]>();
+  setOfCheckedId = new Map<number, [number?, string?]>();
 
 
   onItemChecked(id: number, checked: boolean): void {
@@ -81,7 +92,7 @@ export class VisitorRegistrationComponent implements OnInit {
 
   inputDateChange(id: number, date: string) {
     let tmpId = this.setOfCheckedId.get(id)![0];
-    this.setOfCheckedId.set(id, [(tmpId)?tmpId:undefined!, date]);
+    this.setOfCheckedId.set(id, [(tmpId) ? tmpId : undefined!, date]);
   }
 
   ngOnInit(): void {
@@ -94,8 +105,8 @@ export class VisitorRegistrationComponent implements OnInit {
               this.inputVisitRegistration = data;
 
               this.inputVisitRegistration.plannedDepartmentVisits.forEach(element => {
-                var tmpVisit = this.listOfCurrentPageData.find(pageData => pageData.name === element.department);                
-                this.setOfCheckedId.set(tmpVisit!.id, [element.id!,element.dateOfVisit!.toString().substring(0,10)])
+                var tmpVisit = this.listOfCurrentPageData.find(pageData => pageData.name === element.department);
+                this.setOfCheckedId.set(tmpVisit!.id, [element.id!, element.dateOfVisit!.toString().substring(0, 10)])
               })
 
               this.buttonSelect = [
@@ -198,7 +209,7 @@ export class VisitorRegistrationComponent implements OnInit {
   }
 
   postVisitorRegistration() {
-    this.notificationService.createBasicNotification(0,'Formular wurde gesendet!','','topRight');
+    this.notificationService.createBasicNotification(0, 'Formular wurde gesendet!', '', 'topRight');
     this.inputVisitRegistration.reason = "VisitorRegistration"
 
     this.inputVisitRegistration.plannedDepartmentVisits = []
@@ -218,7 +229,7 @@ export class VisitorRegistrationComponent implements OnInit {
         this.inputVisitRegistration = data;
         this.inputVisitRegistration.plannedDepartmentVisits.forEach(element => {
           var tmpVisit = this.listOfCurrentPageData.find(pageData => pageData.name === element.department);
-          this.setOfCheckedId.set(tmpVisit!.id, [element.id!, element.dateOfVisit!.toString().substring(0,10)])
+          this.setOfCheckedId.set(tmpVisit!.id, [element.id!, element.dateOfVisit!.toString().substring(0, 10)])
         })
       },
       error: err => {

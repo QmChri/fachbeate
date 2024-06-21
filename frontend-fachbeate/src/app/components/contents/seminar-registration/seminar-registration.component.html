@@ -3,6 +3,20 @@
         <h1 class="paddingSearch" style="margin-bottom: 0;">{{'SEMINAR-REGISTRATION.seminarRegistration' | translate}}
         </h1>
     </div>
+    <div>
+        <button (nzOnConfirm)="release('gl')" *ngIf="roleService.checkPermission([1,7])" style="margin-right: 2rem;"
+            nz-button nzType="primary" nz-popconfirm nzPopconfirmShowArrow="false" [nzIcon]="iconTpl"
+            nzPopconfirmTitle="Sind Sie sicher?">
+            <ng-template #iconTpl></ng-template>
+            Freigabe GL
+        </button>
+        <button (nzOnConfirm)="release('al')" *ngIf="roleService.checkPermission([1,2,7])" style="margin-right: 2rem;"
+            nz-button nzType="primary" nz-popconfirm nzPopconfirmShowArrow="false" [nzIcon]="iconTpl"
+            nzPopconfirmTitle="Sind Sie sicher?">
+            <ng-template #iconTpl></ng-template>
+            Freigabe AL
+        </button>
+    </div>
     <button class="btn btn-success" (click)="postWorkshopRequest()">{{'SEMINAR-REGISTRATION.send' | translate}}</button>
 </div>
 <hr>

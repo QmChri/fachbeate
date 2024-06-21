@@ -1,11 +1,18 @@
 <div class="header">
     <div>
-        <h1 class="paddingSearch">{{"REQ-TECH.title" | translate}}
-            <!--
-            <button style="margin-left: 10px;" class="btn btn-secondary" matTooltip="interne Notiz">
-                <i class="fa fa-comment"></i></button>
-            -->
-        </h1>
+        <h1 class="paddingSearch">{{"REQ-TECH.title" | translate}}</h1>
+    </div>
+    <div>
+        <button (nzOnConfirm)="release('gl')" *ngIf="roleService.checkPermission([1,7])" style="margin-right: 2rem;" nz-button nzType="primary"
+            nz-popconfirm nzPopconfirmShowArrow="false" [nzIcon]="iconTpl" nzPopconfirmTitle="Sind Sie sicher?">
+            <ng-template #iconTpl></ng-template>
+            Freigabe GL
+        </button>
+        <button (nzOnConfirm)="release('al')" *ngIf="roleService.checkPermission([1,2,7])" style="margin-right: 2rem;" nz-button nzType="primary"
+            nz-popconfirm nzPopconfirmShowArrow="false" [nzIcon]="iconTpl" nzPopconfirmTitle="Sind Sie sicher?">
+            <ng-template #iconTpl></ng-template>
+            Freigabe AL
+        </button>
     </div>
     <div>
         <button class="btn btn-success" (click)="postCustomerRequirement(true)">{{"REQ-TECH.send" | translate}}</button>
@@ -145,12 +152,15 @@
     </div>
 </div>
 <br>
+<<<<<<< Updated upstream
 
 <div class="freigabenHeader">
     <button (click)="test()" nz-button nzType="primary"  *ngIf="roleService.checkPermission([1,7])" style="margin-right: 2rem;">Freigabe GL</button>
     <button nz-button nzType="primary" *ngIf="roleService.checkPermission([1,2,7])">Freigabe AL</button>
 </div>
 
+=======
+>>>>>>> Stashed changes
 <br>
 <div class="header">
     <h1 style="margin: 0%;">{{"REQ-TECH.table-title"|translate}}</h1>
