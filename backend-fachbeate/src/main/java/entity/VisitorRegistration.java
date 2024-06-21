@@ -17,6 +17,9 @@ public class VisitorRegistration extends PanacheEntity {
     public String releaserSupervisor;
     public Date releaseSupervisor;
 
+    public String creator;
+    public String lastEditor;
+
     public String reason;
 
     public String name;

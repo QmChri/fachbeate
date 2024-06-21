@@ -35,19 +35,17 @@ export class CustomerRequirementsComponent implements OnInit {
   constructor(private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute, private notificationService: NotificationService, public roleService: RoleService
   ) { }
 
-  //TODO hier freigabe buttons
   release(department: string){
     if(department === 'gl'){
-          this.notificationService.createBasicNotification(0,'Freigabe von GL wurde erteilt!','','topRight');
+      this.notificationService.createBasicNotification(0,'Freigabe von GL wurde erteilt!','','topRight');
+      this.inputCustomerRequirement.releaseManagement = new Date();
+      this.inputCustomerRequirement.releaserManagement = this.roleService.getUserName()
     }
     else{
       this.notificationService.createBasicNotification(0,'Freigabe von AL wurde erteilt!','','topRight');
+      this.inputCustomerRequirement.releaseSupervisor = new Date();
+      this.inputCustomerRequirement.releaserSupervisor = this.roleService.getUserName()
     }
-  }
-
-
-  test(){
-    console.log("TEST")
   }
 
   inputCustomerRequirement: CustomerRequirement = {
@@ -110,6 +108,9 @@ export class CustomerRequirementsComponent implements OnInit {
       if (params.get('id') != null) {
         this.http.getCustomerById(parseInt(params.get('id')!)).subscribe({
           next: data => {
+
+            console.log(data);
+            
             if (data != null) {
               this.inputCustomerRequirement = data;
 
@@ -145,6 +146,11 @@ export class CustomerRequirementsComponent implements OnInit {
     }
     this.inputCustomerRequirement.reason = "XXXX"
     this.inputCustomerRequirement.dateOfCreation = new Date();
+
+    if(this.inputCustomerRequirement.creator === undefined){
+      this.inputCustomerRequirement.creator = this.roleService.getUserName();
+    }
+    this.inputCustomerRequirement.lastEditor = this.roleService.getUserName();
 
     this.http.postCustomerRequirement(this.inputCustomerRequirement).subscribe({
       next: data => {

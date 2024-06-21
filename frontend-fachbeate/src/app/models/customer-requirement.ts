@@ -12,7 +12,14 @@ export interface CustomerRequirement{
     dateOfCreation?: Date;
 
     releaseManagement?: Date;
+    releaserManagement?: string;
+
     releaseSupervisor?: Date;
+    releaserSupervisor?: string;
+
+    creator?: string;
+    lastEditor?: string;
+    
     flightBooking?: boolean;
     hotelBooking?: boolean;
     reason?: string;
