@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  backendApi: "http://localhost:8080/",
+  backendApi: "http://localhost:8079/",
   keycloak: {
     issuer: 'http://keycloak01.almi.at:8080/',
     realm: 'fachbeate',

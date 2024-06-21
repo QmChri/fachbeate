@@ -147,7 +147,7 @@
 <br>
 
 <div class="freigabenHeader">
-    <button nz-button nzType="primary" *ngIf="roleService.checkPermission([1,7])" style="margin-right: 2rem;">Freigabe GL</button>
+    <button (click)="test()" nz-button nzType="primary"  *ngIf="roleService.checkPermission([1,7])" style="margin-right: 2rem;">Freigabe GL</button>
     <button nz-button nzType="primary" *ngIf="roleService.checkPermission([1,2,7])">Freigabe AL</button>
 </div>
 
