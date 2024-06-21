@@ -1,4 +1,4 @@
-import { Component, OnInit, input } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CustomerRequirement } from '../../../models/customer-requirement';
 import { MatSelectChange } from '@angular/material/select';
 import { FormControl, Validators } from '@angular/forms';
@@ -27,27 +27,21 @@ export class CustomerRequirementsComponent implements OnInit {
   tohaControl = new FormControl<Toechterhaeandler | null>(null, Validators.required);
 
   selectedValue?: string;
-
   technologists: Technologist[] = [];
   representative: Representative[] = [];
   companies: Company[] = [];
 
   constructor(private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute, private notificationService: NotificationService, public roleService: RoleService
-  ) { }
+  ) {}
 
-  //TODO hier freigabe buttons
-  release(department: string){
-    if(department === 'gl'){
-          this.notificationService.createBasicNotification(0,'Freigabe von GL wurde erteilt!','','topRight');
+  release(department: string) {
+
+    if (department === 'gl' && this.checkRequired()) {
+      this.notificationService.createBasicNotification(0, 'Freigabe von GL wurde erteilt!', '', 'topRight');
     }
-    else{
-      this.notificationService.createBasicNotification(0,'Freigabe von AL wurde erteilt!','','topRight');
+    else if (department === 'al' && this.checkRequired()) {
+      this.notificationService.createBasicNotification(0, 'Freigabe von AL wurde erteilt!', '', 'topRight');
     }
-  }
-
-
-  test(){
-    console.log("TEST")
   }
 
   inputCustomerRequirement: CustomerRequirement = {
@@ -88,7 +82,6 @@ export class CustomerRequirementsComponent implements OnInit {
     this.inputCustomerRequirement.customerVisits! = this.inputCustomerRequirement.customerVisits!.filter(d => d.editId !== id);
   }
 
-
   selChange(event: MatSelectChange, editId: number) {
     var editVisit = this.inputCustomerRequirement.customerVisits!.find(o => o.editId === editId);
     if (editVisit != null || editVisit != undefined) {
@@ -101,7 +94,6 @@ export class CustomerRequirementsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.getTechnologist();
     this.getRepresentative();
     this.getCompanies();
@@ -139,44 +131,51 @@ export class CustomerRequirementsComponent implements OnInit {
 
   }
 
-  postCustomerRequirement(triggerNotification: Boolean) {
-    if (triggerNotification === true) {
-      this.notificationService.createBasicNotification(0, 'Formular wurde gesendet!', '', 'topRight');
+  postCustomerRequirement() {
+    if (this.checkRequired()) {
+      this.notificationService.createBasicNotification(0, 'Formular wurde gesendet!', '', 'topRight')
+      this.inputCustomerRequirement.reason = "XXXX"
+      this.inputCustomerRequirement.dateOfCreation = new Date();
+
+      this.http.postCustomerRequirement(this.inputCustomerRequirement).subscribe({
+        next: data => {
+          this.inputCustomerRequirement = data;
+
+          data.customerVisits.forEach((element, index) => {
+            element.selection = [
+              (element.presentationOfNewProducts) ? 1 : 0,
+              (element.existingProducts) ? 2 : 0,
+              (element.recipeOptimization) ? 3 : 0,
+              (element.sampleProduction) ? 4 : 0,
+              (element.training) ? 5 : 0
+            ];
+            element.editId = index;
+          });
+
+        },
+        error: err => {
+          console.log(err);
+        }
+      });
     }
-    this.inputCustomerRequirement.reason = "XXXX"
-    this.inputCustomerRequirement.dateOfCreation = new Date();
-
-    this.http.postCustomerRequirement(this.inputCustomerRequirement).subscribe({
-      next: data => {
-        this.inputCustomerRequirement = data;
-
-        data.customerVisits.forEach((element, index) => {
-          element.selection = [
-            (element.presentationOfNewProducts) ? 1 : 0,
-            (element.existingProducts) ? 2 : 0,
-            (element.recipeOptimization) ? 3 : 0,
-            (element.sampleProduction) ? 4 : 0,
-            (element.training) ? 5 : 0
-          ];
-          element.editId = index;
-        });
-
-      },
-      error: err => {
-        console.log(err);
-      }
-    });
   }
-  buttonClicked?: boolean;
+
+  checkRequired(): boolean {
+    if (!this.inputCustomerRequirement.requestedTechnologist ||
+      !this.inputCustomerRequirement.representative ||
+      !this.inputCustomerRequirement.startDate ||
+      !this.inputCustomerRequirement.endDate) {
+      this.notificationService.createBasicNotification(4, 'Bitte Pflichtfelder ausfüllen!', 'Fachberater*/Vertreter*/Von*-Bis*', 'topRight')
+      return false;
+    }
+    return true;
+  }
 
   openDialog(customerVisit: CustomerVisit) {
     var finalReport: FinalReport = {}
-    this.buttonClicked = true;
-    if ((!this.inputCustomerRequirement.requestedTechnologist || !this.inputCustomerRequirement.representative) && this.buttonClicked) {
-      this.notificationService.createBasicNotification(4, 'Bitte Pflichtfelder ausfüllen!', 'Fachberater* & Vertreter*', 'topRight')
-    }
 
-    if (customerVisit.finalReport === null || customerVisit.finalReport === undefined || customerVisit.finalReport.id === 0) {
+
+    if (this.checkRequired()) {
 
       var rRepo: ReasonReport[] = [
         (customerVisit.presentationOfNewProducts) ? { reason: 1, presentedArticle: [] } : { reason: 0, presentedArticle: [] },
@@ -186,7 +185,6 @@ export class CustomerRequirementsComponent implements OnInit {
         (customerVisit.training) ? { reason: 5, presentedArticle: [] } : { reason: 0, presentedArticle: [] }
       ].filter(element => element.reason !== 0);
 
-
       finalReport = {
         technologist: this.inputCustomerRequirement.requestedTechnologist!.firstName + " " + this.inputCustomerRequirement.requestedTechnologist!.lastName,
         company: customerVisit.companyName,
@@ -195,27 +193,26 @@ export class CustomerRequirementsComponent implements OnInit {
         dateOfVisit: customerVisit.dateOfVisit,
         reasonReports: rRepo
       }
+
+      const dialogRef = this.dialog.open(AbschlussBerichtComponent, {
+        height: '42.5rem',
+        width: '80rem',
+        data: finalReport
+      });
+
+      dialogRef.afterClosed().subscribe(
+        data => {
+          if (data.save) {
+            customerVisit.finalReport = data.finalReport;
+            this.postCustomerRequirement();
+            this.notificationService.createBasicNotification(0, 'Abschlussbericht hinzugefügt!', '', 'topRight');
+          }
+        });
     } else {
       if (customerVisit.finalReport != undefined) {
         finalReport = customerVisit.finalReport!
       }
     }
-
-    const dialogRef = this.dialog.open(AbschlussBerichtComponent, {
-      height: '42.5rem',
-      width: '80rem',
-      data: finalReport
-    });
-
-    dialogRef.afterClosed().subscribe(
-      data => {
-        if (data.save) {
-          customerVisit.finalReport = data.finalReport;
-          this.postCustomerRequirement(false);
-          this.notificationService.createBasicNotification(0, 'Abschlussbericht hinzugefügt!', '', 'topRight');
-        }
-      });
-    this.buttonClicked = false;
   }
 
   getTechnologist() {

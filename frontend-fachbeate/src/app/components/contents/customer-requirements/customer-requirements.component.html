@@ -3,19 +3,21 @@
         <h1 class="paddingSearch">{{"REQ-TECH.title" | translate}}</h1>
     </div>
     <div>
-        <button (nzOnConfirm)="release('gl')" *ngIf="roleService.checkPermission([1,7])" style="margin-right: 2rem;" nz-button nzType="primary"
-            nz-popconfirm nzPopconfirmShowArrow="false" [nzIcon]="iconTpl" nzPopconfirmTitle="Sind Sie sicher?">
+        <button (nzOnConfirm)="release('gl')" *ngIf="roleService.checkPermission([1,7])" style="margin-right: 2rem;"
+            nz-button nzType="primary" nz-popconfirm nzPopconfirmShowArrow="false" [nzIcon]="iconTpl"
+            nzPopconfirmTitle="Sind Sie sicher?">
             <ng-template #iconTpl></ng-template>
             Freigabe GL
         </button>
-        <button (nzOnConfirm)="release('al')" *ngIf="roleService.checkPermission([1,2,7])" style="margin-right: 2rem;" nz-button nzType="primary"
-            nz-popconfirm nzPopconfirmShowArrow="false" [nzIcon]="iconTpl" nzPopconfirmTitle="Sind Sie sicher?">
+        <button (nzOnConfirm)="release('al')" *ngIf="roleService.checkPermission([1,2,7])" style="margin-right: 2rem;"
+            nz-button nzType="primary" nz-popconfirm nzPopconfirmShowArrow="false" [nzIcon]="iconTpl"
+            nzPopconfirmTitle="Sind Sie sicher?">
             <ng-template #iconTpl></ng-template>
             Freigabe AL
         </button>
     </div>
     <div>
-        <button class="btn btn-success" (click)="postCustomerRequirement(true)">{{"REQ-TECH.send" | translate}}</button>
+        <button class="btn btn-success" (click)="postCustomerRequirement()">{{"REQ-TECH.send" | translate}}</button>
     </div>
 </div>
 <hr>
@@ -23,26 +25,23 @@
     <div class="col-md-3">
         <div class="card">
             <div class="card-header  text-white bg-danger">{{"REQ-TECH.card1-title"|translate}}</div>
-            <div class="card-body">
+            <form class="card-body">
                 <div class="center-items">
                     <div class="center-items ">
                         <mat-form-field>
                             <mat-label>{{"REQ-TECH.dealers"|translate}}</mat-label>
                             <mat-select
                                 [ngModel]="(inputCustomerRequirement.company === undefined)?undefined:inputCustomerRequirement.company.id"
-                                required (valueChange)="changeCompany($event)">
+                                (valueChange)="changeCompany($event)">
                                 <mat-option>--</mat-option>
                                 @for (c of companies; track companies) {
                                 <mat-option [value]="c.id">{{c.name}}</mat-option>
                                 }
                             </mat-select>
-                            @if (tohaControl.hasError('required')) {
-                            <mat-error>{{"REQ-TECH.none-select" | translate}}</mat-error>
-                            }
                         </mat-form-field>
                     </div>
                     <div class="center-items ">
-                        <mat-form-field>
+                        <mat-form-field id="representativeVali">
                             <mat-label>{{"REQ-TECH.representative"|translate}}</mat-label>
                             <mat-select
                                 [ngModel]="(inputCustomerRequirement.representative === undefined)?undefined:inputCustomerRequirement.representative.id"
@@ -58,10 +57,9 @@
                         </mat-form-field>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
-
     <div class="col-md-3">
         <div class="card">
             <div class="card-header  text-white bg-danger">{{"REQ-TECH.card2-title"|translate}}</div>
@@ -87,16 +85,21 @@
                 <mat-form-field>
                     <mat-label>{{"REQ-TECH.from-to-date"|translate}}</mat-label>
                     <mat-date-range-input [rangePicker]="picker">
-                        <input matStartDate placeholder="Start date" [(ngModel)]="inputCustomerRequirement.startDate">
-                        <input matEndDate placeholder="End date" [(ngModel)]="inputCustomerRequirement.endDate">
+                        <input required matStartDate placeholder="Start date"
+                            [(ngModel)]="inputCustomerRequirement.startDate">
+                        <input required matEndDate placeholder="End date"
+                            [(ngModel)]="inputCustomerRequirement.endDate">
                     </mat-date-range-input>
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-date-range-picker #picker></mat-date-range-picker>
+                    <!-- TODO mögliche Fehlerquelle-->
+                    @if (tohaControl.hasError('required')) {
+                    <mat-error>{{"REQ-TECH.none-select" | translate}}</mat-error>
+                    }
                 </mat-form-field>
             </div>
         </div>
     </div>
-
     <div class="col-md-3">
         <div class="card">
             <div class="card-header  text-white bg-danger">{{"REQ-TECH.card3-title"|translate}}</div>
@@ -105,7 +108,7 @@
                     <div class="center-items ">
                         <mat-form-field>
                             <mat-label>{{"REQ-TECH.flight-booking"|translate}}</mat-label>
-                            <mat-select [(ngModel)]="inputCustomerRequirement.flightBooking" required>
+                            <mat-select [(ngModel)]="inputCustomerRequirement.flightBooking">
                                 <mat-option>--</mat-option>
                                 <mat-option [value]="true">Almi</mat-option>
                                 <mat-option [value]="false">{{"REQ-TECH.selction-customer" | translate}}</mat-option>
@@ -118,7 +121,7 @@
                     <div class="center-items ">
                         <mat-form-field>
                             <mat-label>{{"REQ-TECH.hotel-booking"|translate}}</mat-label>
-                            <mat-select [(ngModel)]="inputCustomerRequirement.hotelBooking" required>
+                            <mat-select [(ngModel)]="inputCustomerRequirement.hotelBooking">
                                 <mat-option>--</mat-option>
                                 <mat-option [value]="true">Almi</mat-option>
                                 <mat-option [value]="false">{{"REQ-TECH.selction-customer" | translate}}</mat-option>
@@ -132,7 +135,6 @@
             </div>
         </div>
     </div>
-
     <div class="col-md-3">
         <div class="card">
             <div class="card-header  text-white bg-danger">{{"REQ-TECH.card4-title"|translate}}</div>
