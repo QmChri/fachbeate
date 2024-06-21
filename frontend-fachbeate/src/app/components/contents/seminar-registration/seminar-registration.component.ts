@@ -9,6 +9,8 @@ import { TeilnehmerListeComponent } from '../teilnehmer-liste/teilnehmer-liste.c
 import { Guest } from '../../../models/guest';
 import { NotificationService } from '../../../services/notification.service';
 import { RoleService } from '../../../services/role.service';
+import { Company } from '../../../models/company';
+import { Representative } from '../../../models/representative';
 
 @Component({
   selector: 'app-seminar-registration',
@@ -17,6 +19,9 @@ import { RoleService } from '../../../services/role.service';
 })
 export class SeminarRegistrationComponent implements OnInit {
   buttonSelect: string[] = []
+  companies: Company[] = [];
+  representative: Representative[] = [];
+
   control = new FormControl(null, Validators.required);
   addItem: string = "";
   technologists: Technologist[] = [];
@@ -38,13 +43,14 @@ export class SeminarRegistrationComponent implements OnInit {
 
   //SemianrThema gehört auch noch hinzugeüft --> sollte ja Händler/Töchter sein
   checkRequired(): boolean {
-    if (!this.inputWorkshop.subject ||
+    if (!this.inputWorkshop.customer ||
       !this.inputWorkshop.company ||
       !this.inputWorkshop.startDate ||
       !this.inputWorkshop.endDate ||
       !this.inputWorkshop.guests![0] ||
-      !this.inputWorkshop.seminarPresenter) {
+      !this.inputWorkshop.representative) {
       this.notificationService.createBasicNotification(4, 'Bitte Pflichtfelder ausfüllen!', 'Fachberater*/Vertreter*/Von*-Bis*', 'topRight')
+
       return false;
     }
     return true;
@@ -60,18 +66,9 @@ export class SeminarRegistrationComponent implements OnInit {
     }
   }
 
-  updateButtonStyle() {
-    // Überprüfen, ob die Gästeliste leer ist oder nicht
-    if (this.inputWorkshop.guests && this.inputWorkshop.guests.length > 0) {
-      // Gästeliste ist nicht leer, Button sollte grün sein
-      return 'btn-success';
-    } else {
-      // Gästeliste ist leer, Button sollte rot sein
-      return 'btn-danger';
-    }
-  }
 
   openDialog(guests: Guest[]) {
+
     const dialogRef = this.dialog.open(TeilnehmerListeComponent, {
       height: '36rem',
       width: '50rem',
@@ -96,12 +93,50 @@ export class SeminarRegistrationComponent implements OnInit {
       this.notificationService.createBasicNotification(0, 'Freigabe von GL wurde erteilt!', '', 'topRight');
     }
     else if (department === 'al' && this.checkRequired()) {
+      this.inputWorkshop.releaseManagement = new Date();
+      this.inputWorkshop.releaserManagement = this.roleService.getUserName();
+    }else {
       this.notificationService.createBasicNotification(0, 'Freigabe von AL wurde erteilt!', '', 'topRight');
+      this.inputWorkshop.releaseSupervisor = new Date();
+      this.inputWorkshop.releaserSupervisor = this.roleService.getUserName()
     }
+  }
+
+  changeCompany($event: any) {
+    this.inputWorkshop.company = this.companies.find(elemnt => elemnt.id === $event);
+  }
+
+  getCompanies() {
+    this.http.getActiveCompany().subscribe({
+      next: data => {
+        this.companies = data;
+      },
+      error: err => {
+        console.log(err);
+      }
+    });
+  }
+
+  changeRepresentative($event: any) {
+    this.inputWorkshop.representative = this.representative.find(elemnt => elemnt.id === $event);
+  }
+
+
+  getRepresentative() {
+    this.http.getActiveRepresentative().subscribe({
+      next: data => {
+        this.representative = data;
+      },
+      error: err => {
+        console.log(err);
+      }
+    });
   }
 
   ngOnInit(): void {
     this.addTab();
+    this.getCompanies();
+    this.getRepresentative();
     this.route.paramMap.subscribe(params => {
       if (params.get('id') != null) {
         this.http.getWorkshopById(parseInt(params.get('id')!)).subscribe({

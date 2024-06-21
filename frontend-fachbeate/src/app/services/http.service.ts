@@ -55,7 +55,7 @@ export class HttpService {
   }
 
   getWorkshopByUser(user: number, fullname: string): Observable<WorkshopRequirement[]>{
-    return this.http.get<WorkshopRequirement[]>(API_URL + "appointment/workshop/user", {params: {user: user, fullname: fullname}});
+    return this.http.get<WorkshopRequirement[]>(API_URL + "appointment/workshop/user", {params: {type: user, fullname: fullname}});
   }
 
 
@@ -71,12 +71,9 @@ export class HttpService {
     return this.http.get<VisitorRegistration>(API_URL + "appointment/visitorRegistration/id", {params: {id: id}});
   }
 
-  getVisitorRegistrationByUser(user: string){
-    if(user === "$admin"){  return this.getVisitorRegistration();}
-
-    return this.http.get<VisitorRegistration[]>(API_URL + "appointment/visitorRegistration/user", {params: {user: user}});
+  getVisitorRegistrationByUser(type: number, fullname: string){
+    return this.http.get<VisitorRegistration[]>(API_URL + "appointment/visitorRegistration/user", {params: {type: type, fullname: fullname}});
   }
-
 
 
 

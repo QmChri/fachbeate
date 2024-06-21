@@ -2,6 +2,7 @@ package entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 import java.util.ArrayList;
@@ -20,6 +21,8 @@ public class VisitorRegistration extends PanacheEntity {
     public String creator;
     public String lastEditor;
 
+    @ManyToOne
+    public Representative representative;
     public String reason;
 
     public String name;
@@ -153,7 +156,7 @@ public class VisitorRegistration extends PanacheEntity {
             this.hotelBookings.add(hotelBooking.persistOrUpdate());
         }
 
-
+        this.representative = newVisitorRegistration.representative;
         this.plannedDepartmentVisits = newVisitorRegistration.plannedDepartmentVisits;
     }
 
@@ -172,6 +175,8 @@ public class VisitorRegistration extends PanacheEntity {
             for(HotelBooking hotelBooking: this.hotelBookings){
                 hotelBooking.persistOrUpdate();
             }
+
+            this.representative.persistOrUpdate();
 
             return this;
         }else{

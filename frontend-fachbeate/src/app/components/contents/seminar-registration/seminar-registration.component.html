@@ -4,13 +4,15 @@
         </h1>
     </div>
     <div>
-        <button (nzOnConfirm)="release('gl')" *ngIf="roleService.checkPermission([1,7])" style="margin-right: 2rem;"
+        <button [disabled]="inputWorkshop.releaseManagement !== null && inputWorkshop.releaseManagement !== undefined"
+            (nzOnConfirm)="release('gl')" *ngIf="roleService.checkPermission([1,7])" style="margin-right: 2rem;"
             nz-button nzType="primary" nz-popconfirm nzPopconfirmShowArrow="false" [nzIcon]="iconTpl"
             nzPopconfirmTitle="Sind Sie sicher?">
             <ng-template #iconTpl></ng-template>
             Freigabe GL
         </button>
-        <button (nzOnConfirm)="release('al')" *ngIf="roleService.checkPermission([1,2,7])" style="margin-right: 2rem;"
+        <button [disabled]="inputWorkshop.releaseSupervisor !== null && inputWorkshop.releaseSupervisor !== undefined"
+            (nzOnConfirm)="release('al')" *ngIf="roleService.checkPermission([1,2,7])" style="margin-right: 2rem;"
             nz-button nzType="primary" nz-popconfirm nzPopconfirmShowArrow="false" [nzIcon]="iconTpl"
             nzPopconfirmTitle="Sind Sie sicher?">
             <ng-template #iconTpl></ng-template>
@@ -26,33 +28,26 @@
         <div class="card">
             <div class="card-header text-white bg-danger">{{'SEMINAR-REGISTRATION.seminar' | translate}}</div>
             <div class="card-body">
-                <!-- 
-                <mat-form-field>
-                    <mat-label>{{'SEMINAR-REGISTRATION.seminarTopic' | translate}}</mat-label>
-                    <mat-select
-                        [ngModel]="inputWorkshop.company === undefined"
-                        required (valueChange)="changeCompany($event)">
-                        <mat-option>--</mat-option>
-                        @for (c of companies; track companies) {
-                        <mat-option [value]="c.id">{{c.name}}</mat-option>
-                        }
-                    </mat-select>
-                    @if (tohaControl.hasError('required')) {
-                    <mat-error>{{"REQ-TECH.none-select" | translate}}</mat-error>
-                    }
-                </mat-form-field>
--->
-                <mat-form-field>
-                    <mat-label>{{'SEMINAR-REGISTRATION.seminarTopic' | translate}}</mat-label>
-                    <input matInput required [(ngModel)]="inputWorkshop.subject">
-                    @if (control.hasError('required')) {
-                    <mat-error>{{"REQ-TECH.none-select" | translate}}</mat-error>
-                    }
-                </mat-form-field>
-
+                <div class="center-items ">
+                    <mat-form-field>
+                        <mat-label>{{"REQ-TECH.dealers"|translate}}</mat-label>
+                        <mat-select
+                            [ngModel]="(inputWorkshop.company === undefined)?undefined:inputWorkshop.company.id"
+                            required (valueChange)="changeCompany($event)">
+                            <mat-option>--</mat-option>
+                            @for (c of companies; track companies) {
+                            <mat-option [value]="c.id">{{c.name}}</mat-option>
+                            }
+                        </mat-select>
+                        <!--TODO error message-->
+                        <!---@if (tohaControl.hasError('required')) {
+                        <mat-error>{{"REQ-TECH.none-select" | translate}}</mat-error>
+                            }--->
+                    </mat-form-field>
+                </div>
                 <mat-form-field>
                     <mat-label>{{'SEMINAR-REGISTRATION.companyCustomer' | translate}}</mat-label>
-                    <input matInput required [(ngModel)]="inputWorkshop.company">
+                    <input matInput required [(ngModel)]="inputWorkshop.customer">
                     @if (control.hasError('required')) {
                     <mat-error>{{"REQ-TECH.none-select" | translate}}</mat-error>
                     }
@@ -108,11 +103,20 @@
             <div class="card-body">
                 <div class="center-items">
                     <mat-form-field>
-                        <mat-label>{{'SEMINAR-REGISTRATION.seminarBoss' | translate}}</mat-label>
-                        <input matInput required [(ngModel)]="inputWorkshop.seminarPresenter">
-                        @if (control.hasError('required')) {
+                        <mat-label>{{"REQ-TECH.representative"|translate}}</mat-label>
+                        <mat-select
+                            [ngModel]="(inputWorkshop.representative === undefined)?undefined:inputWorkshop.representative.id"
+                            (valueChange)="changeRepresentative($event)" required>
+                            <mat-option>--</mat-option>
+                            @for (r of representative; track representative) {
+                            <mat-option [value]="r.id">{{r.firstName}} {{r.lastName}}</mat-option>
+                            }
+                        </mat-select>
+                        <!--
+                        @if (tohaContro
+                        l.hasError('required')) {
                         <mat-error>{{"REQ-TECH.none-select" | translate}}</mat-error>
-                        }
+                        }---><!--TODO fehler---->
                     </mat-form-field>
 
                     <mat-form-field>

@@ -32,9 +32,15 @@ public class WorkshopRequirement extends PanacheEntity {
     public boolean flightBooking;
     public String reason;
 
+    @ManyToOne
+    public Representative representative;
 
     public String subject;
-    public String company;
+
+    @ManyToOne
+    public Company company;
+    public String customer;
+
     public int amountParticipants;
     public String travelFrom;
     public String travelType;
@@ -101,6 +107,7 @@ public class WorkshopRequirement extends PanacheEntity {
         this.hotelBooking = newEntity.hotelBooking;
         this.flightBooking = newEntity.flightBooking;
         this.reason = newEntity.reason;
+        this.representative = newEntity.representative.persistOrUpdate();
 
         this.subject = newEntity.subject;
         this.company = newEntity.company;
@@ -150,6 +157,7 @@ public class WorkshopRequirement extends PanacheEntity {
         for(Technologist tech : newEntity.requestedTechnologist){
             this.requestedTechnologist.add(tech.persistOrUpdate());
         }
+        this.company = newEntity.company.persistOrUpdate();
 
         this.guests = new ArrayList<>();
         for(Guest guest: newEntity.guests){
@@ -165,6 +173,8 @@ public class WorkshopRequirement extends PanacheEntity {
         }
         this.persist();
 
+        this.representative = this.representative.persistOrUpdate();
+
         for(Technologist tech : this.requestedTechnologist){
             tech.persistOrUpdate();
         }
@@ -172,6 +182,9 @@ public class WorkshopRequirement extends PanacheEntity {
         for(Guest guest: this.guests){
             guest.persistOrUpdate();
         }
+
+        this.company = this.company.persistOrUpdate();
+
         return this;
     }
 

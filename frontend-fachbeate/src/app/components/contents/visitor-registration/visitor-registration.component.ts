@@ -9,6 +9,7 @@ import { Guest } from '../../../models/guest';
 import { ActivatedRoute } from '@angular/router';
 import { NotificationService } from '../../../services/notification.service';
 import { RoleService } from '../../../services/role.service';
+import { Representative } from '../../../models/representative';
 
 @Component({
   selector: 'app-visitor-registration',
@@ -18,6 +19,7 @@ import { RoleService } from '../../../services/role.service';
 export class VisitorRegistrationComponent implements OnInit {
   buttonSelect: String[] = []
   geDip: String[] = []
+  representative: Representative[] = [];
 
   inputVisitRegistration: VisitorRegistration = {
     plannedDepartmentVisits: [],
@@ -31,12 +33,15 @@ export class VisitorRegistrationComponent implements OnInit {
   release(department: string) {
     if (department === 'gl') {
       this.notificationService.createBasicNotification(0, 'Freigabe von GL wurde erteilt!', '', 'topRight');
-    }
-    else {
+      this.inputVisitRegistration.releaseManagement = new Date();
+      this.inputVisitRegistration.releaserManagement = this.roleService.getUserName();
+    }else {
       this.notificationService.createBasicNotification(0, 'Freigabe von AL wurde erteilt!', '', 'topRight');
+      this.inputVisitRegistration.releaseSupervisor = new Date();
+      this.inputVisitRegistration.releaserSupervisor = this.roleService.getUserName()
     }
   }
-
+  
   openDialog(guests: Guest[]) {
 
     const dialogRef = this.dialog.open(TeilnehmerListeComponent, {
@@ -95,6 +100,7 @@ export class VisitorRegistrationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getRepresentative();
     this.addTab();
     this.route.paramMap.subscribe(params => {
       if (params.get('id') != null) {
@@ -208,6 +214,8 @@ export class VisitorRegistrationComponent implements OnInit {
   }
 
   postVisitorRegistration() {
+
+    this.inputVisitRegistration.creator = this.roleService.getUserName();
     this.notificationService.createBasicNotification(0, 'Formular wurde gesendet!', '', 'topRight');
     this.inputVisitRegistration.reason = "VisitorRegistration"
 
@@ -244,6 +252,22 @@ export class VisitorRegistrationComponent implements OnInit {
     }
     return "";
   }
+
+
+  getRepresentative() {
+    this.http.getActiveRepresentative().subscribe({
+      next: data => {
+        this.representative = data;
+      },
+      error: err => {
+        console.log(err);
+      }
+    });
+  }
+  changeRepresentative($event: any) {
+    this.inputVisitRegistration.representative = this.representative.find(elemnt => elemnt.id === $event);
+  }
+
 
 }
 
