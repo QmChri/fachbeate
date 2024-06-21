@@ -271,6 +271,7 @@ export class MainListComponent implements OnInit {
     this.http.getVisitorRegistrationByUser(type, fullname).subscribe({
 
       next: data => {
+        
         data.forEach(element => {
 
           this.listOfDisplayData = [...this.listOfDisplayData, {

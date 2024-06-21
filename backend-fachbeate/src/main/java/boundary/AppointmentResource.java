@@ -89,7 +89,7 @@ public class AppointmentResource {
     @GET
     @Path("/workshop/user")
     @Authenticated
-    public Response getWorkshopPerUser(@QueryParam("user") int user, @QueryParam("fullname") String fullname){
+    public Response getWorkshopPerUser(@QueryParam("type") int user, @QueryParam("fullname") String fullname){
         if (user==7) {
             return getWorkshopRequirement();
         }else if(user == 4) {
@@ -130,7 +130,9 @@ public class AppointmentResource {
     @GET
     @Path("/visitorRegistration/user")
     @Authenticated
-    public Response getVisitorRegistrationPerUser(@QueryParam("user") int user, @QueryParam("fullname") String fullname){
+    public Response getVisitorRegistrationPerUser(@QueryParam("type") int user, @QueryParam("fullname") String fullname){
+        System.out.println("user"+ user + "fullname" + fullname);
+
         if (user==7) {
             return getVisitorRegistration();
         }else if(user == 6) {

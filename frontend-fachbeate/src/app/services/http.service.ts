@@ -55,7 +55,7 @@ export class HttpService {
   }
 
   getWorkshopByUser(user: number, fullname: string): Observable<WorkshopRequirement[]>{
-    return this.http.get<WorkshopRequirement[]>(API_URL + "appointment/workshop/user", {params: {user: user, fullname: fullname}});
+    return this.http.get<WorkshopRequirement[]>(API_URL + "appointment/workshop/user", {params: {type: user, fullname: fullname}});
   }
 
 
