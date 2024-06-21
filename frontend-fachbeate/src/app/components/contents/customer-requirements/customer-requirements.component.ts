@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, input } from '@angular/core';
 import { CustomerRequirement } from '../../../models/customer-requirement';
 import { MatSelectChange } from '@angular/material/select';
 import { FormControl, Validators } from '@angular/forms';
@@ -27,20 +27,25 @@ export class CustomerRequirementsComponent implements OnInit {
   tohaControl = new FormControl<Toechterhaeandler | null>(null, Validators.required);
 
   selectedValue?: string;
+
   technologists: Technologist[] = [];
   representative: Representative[] = [];
   companies: Company[] = [];
 
   constructor(private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute, private notificationService: NotificationService, public roleService: RoleService
-  ) {}
+  ) { }
 
   release(department: string) {
 
     if (department === 'gl' && this.checkRequired()) {
       this.notificationService.createBasicNotification(0, 'Freigabe von GL wurde erteilt!', '', 'topRight');
+      this.inputCustomerRequirement.releaseManagement = new Date();
+      this.inputCustomerRequirement.releaserManagement = this.roleService.getUserName()
     }
     else if (department === 'al' && this.checkRequired()) {
       this.notificationService.createBasicNotification(0, 'Freigabe von AL wurde erteilt!', '', 'topRight');
+      this.inputCustomerRequirement.releaseSupervisor = new Date();
+      this.inputCustomerRequirement.releaserSupervisor = this.roleService.getUserName()
     }
   }
 
@@ -137,7 +142,10 @@ export class CustomerRequirementsComponent implements OnInit {
       this.inputCustomerRequirement.reason = "XXXX"
       this.inputCustomerRequirement.dateOfCreation = new Date();
 
-      this.http.postCustomerRequirement(this.inputCustomerRequirement).subscribe({
+      if(this.inputCustomerRequirement.creator === undefined){
+      this.inputCustomerRequirement.creator = this.roleService.getUserName();
+    }
+    this.inputCustomerRequirement.lastEditor = this.roleService.getUserName();this.http.postCustomerRequirement(this.inputCustomerRequirement).subscribe({
         next: data => {
           this.inputCustomerRequirement = data;
 
@@ -174,7 +182,6 @@ export class CustomerRequirementsComponent implements OnInit {
   openDialog(customerVisit: CustomerVisit) {
     var finalReport: FinalReport = {}
 
-
     if (this.checkRequired()) {
 
       var rRepo: ReasonReport[] = [
@@ -184,6 +191,7 @@ export class CustomerRequirementsComponent implements OnInit {
         (customerVisit.sampleProduction) ? { reason: 4, presentedArticle: [] } : { reason: 0, presentedArticle: [] },
         (customerVisit.training) ? { reason: 5, presentedArticle: [] } : { reason: 0, presentedArticle: [] }
       ].filter(element => element.reason !== 0);
+
 
       finalReport = {
         technologist: this.inputCustomerRequirement.requestedTechnologist!.firstName + " " + this.inputCustomerRequirement.requestedTechnologist!.lastName,

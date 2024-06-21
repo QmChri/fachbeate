@@ -35,12 +35,27 @@ public class AppointmentResource {
     public Response getCustomerRequirement(){
         return Response.ok(CustomerRequirement.listAll()).build();
     }
+
      @GET
      @Path("/customerRequirement/id")
      @Authenticated
      public Response getCustomerRequirementPerId(@QueryParam("id") Long id){
         return Response.ok(CustomerRequirement.findById(id)).build();
      }
+
+    @GET
+    @Path("/customerRequirement/user")
+    @Authenticated
+    public Response getCustomerRequirementPerUser(@QueryParam("type") int user, @QueryParam("fullname") String fullname){
+        if (user==7) {
+            return getCustomerRequirement();
+        }else if(user == 4) {
+            return Response.ok(CustomerRequirement.find("requestedTechnologist.firstName = ?1 and requestedTechnologist.lastName = ?2", fullname.split(";")[0], fullname.split(";")[1]).list()).build();
+        }else if(user == 6) {
+            return Response.ok(CustomerRequirement.find("creator", fullname).list()).build();
+        }
+        return Response.ok().build();
+    }
 
 
     @POST
@@ -69,6 +84,26 @@ public class AppointmentResource {
         return Response.ok(WorkshopRequirement.findById(id)).build();
     }
 
+    @GET
+    @Path("/workshop/user")
+    @Authenticated
+    public Response getWorkshopPerUser(@QueryParam("user") int user, @QueryParam("fullname") String fullname){
+        if (user==7) {
+            return getWorkshopRequirement();
+        }else if(user == 4) {
+            return Response.ok(WorkshopRequirement.find("select work from WorkshopRequirement work join work.requestedTechnologist tech " +
+                    "where tech.firstName = ?1 and tech.lastName = ?2", fullname.split(";")[0], fullname.split(";")[1]).list()).build();
+        }else if(user == 6) {
+            return Response.ok(WorkshopRequirement.find("creator", fullname).list()).build();
+        }
+        return Response.ok().build();
+    }
+    @GET
+    @Path("/workshop/tech")
+    @Authenticated
+    public Response getWorkshopPerFullname(@QueryParam("tech") String fullname){
+        return Response.ok(WorkshopRequirement.find("requestedTechnologist.firstName = ?1 and requestedTechnologist.lastName = ?2", fullname.split(";")[0], fullname.split(";")[1]).list()).build();
+    }
 
     @POST
     @Path("/visitorRegistration")
@@ -95,8 +130,12 @@ public class AppointmentResource {
     public Response postVisitorRegistration(@QueryParam("id") Long id){
         return Response.ok(VisitorRegistration.findById(id)).build();
     }
-
-
+    @GET
+    @Path("/visitorRegistration/user")
+    @Authenticated
+    public Response getVisitorRegistrationPerUser(@QueryParam("user") String user){
+        return Response.ok(VisitorRegistration.find("creator", user).list()).build();
+    }
 
 
     @POST

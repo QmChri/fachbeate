@@ -3,13 +3,13 @@
         <h1 class="paddingSearch">{{"REQ-TECH.title" | translate}}</h1>
     </div>
     <div>
-        <button (nzOnConfirm)="release('gl')" *ngIf="roleService.checkPermission([1,7])" style="margin-right: 2rem;"
+        <button [disabled]="inputCustomerRequirement.releaseManagement !== undefined" (nzOnConfirm)="release('gl')" *ngIf="roleService.checkPermission([1,7])" style="margin-right: 2rem;"
             nz-button nzType="primary" nz-popconfirm nzPopconfirmShowArrow="false" [nzIcon]="iconTpl"
             nzPopconfirmTitle="Sind Sie sicher?">
             <ng-template #iconTpl></ng-template>
             Freigabe GL
         </button>
-        <button (nzOnConfirm)="release('al')" *ngIf="roleService.checkPermission([1,2,7])" style="margin-right: 2rem;"
+        <button [disabled]="inputCustomerRequirement.releaseSupervisor !== undefined" (nzOnConfirm)="release('al')" *ngIf="roleService.checkPermission([1,2,7])" style="margin-right: 2rem;"
             nz-button nzType="primary" nz-popconfirm nzPopconfirmShowArrow="false" [nzIcon]="iconTpl"
             nzPopconfirmTitle="Sind Sie sicher?">
             <ng-template #iconTpl></ng-template>
@@ -17,7 +17,7 @@
         </button>
     </div>
     <div>
-        <button class="btn btn-success" (click)="postCustomerRequirement()">{{"REQ-TECH.send" | translate}}</button>
+        <button *ngIf="(inputCustomerRequirement.company === undefined && roleService.checkPermission([6])) || roleService.checkPermission([1,2,3,4,5,7])" class="btn btn-success" (click)="postCustomerRequirement()">{{"REQ-TECH.send" | translate}}</button>
     </div>
 </div>
 <hr>
@@ -25,7 +25,7 @@
     <div class="col-md-3">
         <div class="card">
             <div class="card-header  text-white bg-danger">{{"REQ-TECH.card1-title"|translate}}</div>
-            <form class="card-body">
+            <div class="card-body">
                 <div class="center-items">
                     <div class="center-items ">
                         <mat-form-field>
@@ -41,7 +41,7 @@
                         </mat-form-field>
                     </div>
                     <div class="center-items ">
-                        <mat-form-field id="representativeVali">
+                        <mat-form-field>
                             <mat-label>{{"REQ-TECH.representative"|translate}}</mat-label>
                             <mat-select
                                 [ngModel]="(inputCustomerRequirement.representative === undefined)?undefined:inputCustomerRequirement.representative.id"
@@ -57,7 +57,7 @@
                         </mat-form-field>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
     <div class="col-md-3">
@@ -100,6 +100,7 @@
             </div>
         </div>
     </div>
+
     <div class="col-md-3">
         <div class="card">
             <div class="card-header  text-white bg-danger">{{"REQ-TECH.card3-title"|translate}}</div>

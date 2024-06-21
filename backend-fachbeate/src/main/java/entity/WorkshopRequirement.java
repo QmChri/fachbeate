@@ -25,6 +25,9 @@ public class WorkshopRequirement extends PanacheEntity {
     public String releaserSupervisor;
     public Date releaseSupervisor;
 
+    public String creator;
+    public String lastEditor;
+
     public boolean hotelBooking;
     public boolean flightBooking;
     public String reason;

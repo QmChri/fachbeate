@@ -5,6 +5,7 @@ import { Technologist } from '../../models/technologist';
 import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NotificationService } from '../../services/notification.service';
+import { RoleService } from '../../services/role.service';
 
 @Component({
   selector: 'app-main-list',
@@ -14,7 +15,6 @@ import { NotificationService } from '../../services/notification.service';
 export class MainListComponent implements OnInit {
   searchValue = '';
   visible = false;
-  listOfData: DataItem[] = [];
 
   technologistList: Technologist[] = [];
 
@@ -93,7 +93,7 @@ export class MainListComponent implements OnInit {
   ];
 
   constructor(private router: Router, private http: HttpService, private translate: TranslateService,
-    private _snackBar: MatSnackBar, private notificationService: NotificationService) {
+    private _snackBar: MatSnackBar, private notificationService: NotificationService, private roleService: RoleService) {
   }
 
   ngOnInit(): void {
@@ -181,11 +181,17 @@ export class MainListComponent implements OnInit {
   }
 
   loadData() {
-    this.loadTechnologists();
-    this.http.getCustomerRequirements().subscribe({
-      next: data => {
-        data.forEach(element => {
 
+    var type = (this.roleService.checkPermission([1,2,3,5,7])?7:6);
+    type = (!this.roleService.checkPermission([1,2,3,5,6,7])?4:type);
+
+    var fullname = (type === 6?this.roleService.getUserName()!:this.roleService.getFullName()!);
+
+
+    this.loadTechnologists();
+    this.http.getCustomerRequirementsByUser(type!, fullname!).subscribe({
+      next: data => {
+        data.forEach(element => {          
           var tmpStatus = "in-progress";
           if ((element.releaseManagement != null && element.releaseManagement != undefined)
             || (element.releaseSupervisor != null && element.releaseSupervisor != undefined)) {
@@ -204,7 +210,7 @@ export class MainListComponent implements OnInit {
           if (cntFinalReports === 0) { color = 1 }
 
 
-          this.listOfData = [...this.listOfData, {
+          this.listOfDisplayData = [...this.listOfDisplayData, {
             id: element.id!,
             name: element.company?.name!,
             dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
@@ -220,16 +226,15 @@ export class MainListComponent implements OnInit {
             abschlussbericht: cntFinalReports + "/" + element.customerVisits.length,
             type: 0
           }];
-        });
-
-        this.listOfDisplayData = [...this.listOfData];
+        });        
       },
       error: err => {
-
+        console.log(err);
+        
       }
     });
 
-    this.http.getWorkshopRequirements().subscribe({
+    this.http.getWorkshopByUser(type, fullname).subscribe({
       next: data => {
         data.forEach(element => {
 
@@ -239,7 +244,7 @@ export class MainListComponent implements OnInit {
             tmpStatus = "open";
           }
 
-          this.listOfData = [...this.listOfData, {
+          this.listOfDisplayData = [...this.listOfDisplayData, {
             id: element.id!,
             name: "",
             dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
@@ -257,8 +262,6 @@ export class MainListComponent implements OnInit {
           }];
 
         });
-
-        this.listOfDisplayData = [...this.listOfData];
       },
       error: err => {
 
@@ -268,11 +271,9 @@ export class MainListComponent implements OnInit {
     this.http.getVisitorRegistration().subscribe({
 
       next: data => {
-
-        var visitorDataList: DataItem[] = []
         data.forEach(element => {
 
-          visitorDataList = [...visitorDataList, {
+          this.listOfDisplayData = [...this.listOfDisplayData, {
             id: element.id!,
             name: element.name!,
             dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
@@ -291,7 +292,6 @@ export class MainListComponent implements OnInit {
 
         });
 
-        this.listOfDisplayData = [...visitorDataList];
       }
     })
 
