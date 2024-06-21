@@ -2,7 +2,23 @@
     <div>
         <h1 class="paddingSearch" style="margin-bottom: 0;">{{'VISITOR-REGISTRATION.header' | translate}}</h1>
     </div>
-    <button class="btn btn-success" (click)="postVisitorRegistration()">{{'VISITOR-REGISTRATION.headerButton' |
+    <div>
+        <button [disabled]="inputVisitRegistration.releaseManagement !== null && inputVisitRegistration.releaseManagement !== undefined"
+            (nzOnConfirm)="release('gl')" *ngIf="roleService.checkPermission([1,7])" style="margin-right: 2rem;"
+            nz-button nzType="primary" nz-popconfirm nzPopconfirmShowArrow="false" [nzIcon]="iconTpl"
+            nzPopconfirmTitle="Sind Sie sicher?">
+            <ng-template #iconTpl></ng-template>
+            Freigabe GL
+        </button>
+        <button [disabled]="inputVisitRegistration.releaseSupervisor !== null && inputVisitRegistration.releaseSupervisor !== undefined" 
+            (nzOnConfirm)="release('al')" *ngIf="roleService.checkPermission([1,2,7])" style="margin-right: 2rem;"
+            nz-button nzType="primary" nz-popconfirm nzPopconfirmShowArrow="false" [nzIcon]="iconTpl"
+            nzPopconfirmTitle="Sind Sie sicher?">
+            <ng-template #iconTpl></ng-template>
+            Freigabe AL
+        </button>
+    </div>
+    <button class="btn btn-success" *ngIf="(inputVisitRegistration.creator === undefined && roleService.checkPermission([6])) || roleService.checkPermission([1,2,3,4,5,7])" (click)="postVisitorRegistration()">{{'VISITOR-REGISTRATION.headerButton' |
         translate}}</button>
 </div>
 <hr>
@@ -90,8 +106,19 @@
             </div>
             <div class="card-body">
                 <mat-form-field>
-                    <mat-label>{{'VISITOR-REGISTRATION.responsibleSupervisor' | translate}}</mat-label>
-                    <input matInput [(ngModel)]="inputVisitRegistration.responsibleSupervisor">
+                    <mat-label>{{"REQ-TECH.representative"|translate}}</mat-label>
+                    <mat-select
+                        [ngModel]="(inputVisitRegistration.representative === undefined)?undefined:inputVisitRegistration.representative.id"
+                        (valueChange)="changeRepresentative($event)" required>
+                        <mat-option>--</mat-option>
+                        @for (r of representative; track representative) {
+                        <mat-option [value]="r.id">{{r.firstName}} {{r.lastName}}</mat-option>
+                        }
+                    </mat-select>
+                    <!--
+                    @if (tohaControl.hasError('required')) {
+                    <mat-error>{{"REQ-TECH.none-select" | translate}}</mat-error>
+                    }--><!--TODO Error einfügen-->
                 </mat-form-field>
 
                 <div class="displayBySide">

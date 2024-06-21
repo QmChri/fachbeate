@@ -20,11 +20,12 @@ export class RoleService{
 
     this.roleMap.set("geschaeftsleitung",1)
     this.roleMap.set("abteilungsleitung",2)
-    this.roleMap.set("vertreter-frontend",3)
-    this.roleMap.set("fachberater-frontend",4)
+    this.roleMap.set("vertreter",3)
+    this.roleMap.set("fachberater",4)
     this.roleMap.set("front-office",5)
     this.roleMap.set("haendler-tochter",6)
-    this.roleMap.set("admin-frontend",7)
+    this.roleMap.set("admin",7)
+
    }
 
   roleMap: Map<string, number> = new Map;
@@ -60,6 +61,18 @@ export class RoleService{
    return this.roles
       .map(role => this.roleMap.get(role))
       .some(roleId => requiredRoles.includes(roleId!));
+  }
+
+  getPermissions(){
+    return this.roles;
+  }
+
+  getFullName(){
+    return this.userProfile!.firstName + ";" + this.userProfile!.lastName
+  }
+
+  getUserName(){
+    return this.userProfile!.username;
   }
 
   setRoles(roles: string[]){

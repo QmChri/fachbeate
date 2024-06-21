@@ -1,4 +1,6 @@
+import { Company } from "./company";
 import { Guest } from "./guest";
+import { Representative } from "./representative";
 import { Technologist } from "./technologist";
 
 export interface WorkshopRequirement{
@@ -11,19 +13,33 @@ export interface WorkshopRequirement{
     dateOfCreation?: Date;
 
     releaseManagement?: Date;
+    releaserManagement?: string;
+
     releaseSupervisor?: Date;
+    releaserSupervisor?: string;
+
+    creator?: string;
+    lastEditor?: string;
+
+    
     flightBooking?: boolean;
     hotelBooking?: boolean;
     reason?: string;
 
     subject?: string;
-    company?: string;
+    
+    company?: Company;
+    customer?: string;
+
+
     amountParticipants?: number;
     travelFrom?: string;
     travelType?: string;
     language?: string;
     shouldBeTranslated?: boolean;
-    seminarPresenter?: string;
+    
+    
+    representative?: Representative;
 
     
     locationAndDesiredPlace?: string;

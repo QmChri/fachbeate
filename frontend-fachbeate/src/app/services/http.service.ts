@@ -11,6 +11,7 @@ import { VisitorRegistration } from '../models/visitor-registration';
 import { Company } from '../models/company';
 import { Article } from '../models/article';
 import {environment} from "../../environments/environment";
+import { S } from '@fullcalendar/core/internal-common';
 
 
 
@@ -25,6 +26,10 @@ export class HttpService {
 
   postCustomerRequirement(customerRequirement: CustomerRequirement): Observable<CustomerRequirement>{
       return this.http.post<CustomerRequirement>(API_URL + "appointment/customerRequirement", customerRequirement);
+  }
+
+  getCustomerRequirementsByUser(type: number, fullname: string){
+    return this.http.get<CustomerRequirement[]>(API_URL + "appointment/customerRequirement/user", {params: {type: type, fullname: fullname}});
   }
 
   getCustomerRequirements() {
@@ -49,6 +54,10 @@ export class HttpService {
     return this.http.get<WorkshopRequirement>(API_URL + "appointment/workshop/id", {params: {id: id}});
   }
 
+  getWorkshopByUser(user: number, fullname: string): Observable<WorkshopRequirement[]>{
+    return this.http.get<WorkshopRequirement[]>(API_URL + "appointment/workshop/user", {params: {type: user, fullname: fullname}});
+  }
+
 
   postVisitorRegistration(visitorRegistration: VisitorRegistration): Observable<VisitorRegistration>{
     return this.http.post<VisitorRegistration>(API_URL + "appointment/visitorRegistration", visitorRegistration);
@@ -60,6 +69,10 @@ export class HttpService {
 
   getVisitorRegistrationById(id:number){
     return this.http.get<VisitorRegistration>(API_URL + "appointment/visitorRegistration/id", {params: {id: id}});
+  }
+
+  getVisitorRegistrationByUser(type: number, fullname: string){
+    return this.http.get<VisitorRegistration[]>(API_URL + "appointment/visitorRegistration/user", {params: {type: type, fullname: fullname}});
   }
 
 
