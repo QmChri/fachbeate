@@ -11,9 +11,6 @@ import { VisitorRegistration } from '../models/visitor-registration';
 import { Company } from '../models/company';
 import { Article } from '../models/article';
 import {environment} from "../../environments/environment";
-import { S } from '@fullcalendar/core/internal-common';
-
-
 
 const API_URL = environment.backendApi
 
