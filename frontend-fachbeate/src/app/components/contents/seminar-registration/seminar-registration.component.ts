@@ -21,120 +21,24 @@ export class SeminarRegistrationComponent implements OnInit {
   buttonSelect: string[] = []
   companies: Company[] = [];
   representative: Representative[] = [];
-
   control = new FormControl(null, Validators.required);
   addItem: string = "";
   technologists: Technologist[] = [];
   reasonSelect: number = 0;
   languages: string[] = ['DE', 'EN', 'RU'];
+  tabs = ['Hotelbuchung']
+  selected = new FormControl(0);
   inputWorkshop: WorkshopRequirement = {
     techSelection: [],
     requestedTechnologist: [],
     guests: []
   };
 
-  tabs = ['Hotelbuchung']
-  selected = new FormControl(0);
-
-
   constructor(private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute,
     private notificationService: NotificationService, public roleService: RoleService) {
   }
 
-  //SemianrThema gehört auch noch hinzugeüft --> sollte ja Händler/Töchter sein
-  checkRequired(): boolean {
-    if (!this.inputWorkshop.customer ||
-      !this.inputWorkshop.company ||
-      !this.inputWorkshop.startDate ||
-      !this.inputWorkshop.endDate ||
-      !this.inputWorkshop.guests![0] ||
-      !this.inputWorkshop.representative) {
-      this.notificationService.createBasicNotification(4, 'Bitte Pflichtfelder ausfüllen!', 'Fachberater*/Vertreter*/Von*-Bis*', 'topRight')
-
-      return false;
-    }
-    return true;
-  }
-  addTab() {
-    this.tabs.push('Hotelbuchung: ' + this.tabs.length)
-    this.selected.setValue(this.tabs.length - 1)
-  }
-
-  deleteLast() {
-    if (this.tabs.length != 1) {
-      this.tabs.pop();
-    }
-  }
-
-
-  openDialog(guests: Guest[]) {
-
-    const dialogRef = this.dialog.open(TeilnehmerListeComponent, {
-      height: '36rem',
-      width: '50rem',
-      data: guests
-    });
-
-    dialogRef.afterClosed().subscribe(
-      data => {
-        if (data !== undefined && data !== null) {
-          this.inputWorkshop.guests = data;
-        }
-      });
-
-  }
-
-  addToList(addItem: string) {
-    this.languages.push(addItem);
-  }
-
-  release(department: string) {
-    if (department === 'gl' && this.checkRequired()) {
-      this.notificationService.createBasicNotification(0, 'Freigabe von GL wurde erteilt!', '', 'topRight');
-    }
-    else if (department === 'al' && this.checkRequired()) {
-      this.inputWorkshop.releaseManagement = new Date();
-      this.inputWorkshop.releaserManagement = this.roleService.getUserName();
-    }else {
-      this.notificationService.createBasicNotification(0, 'Freigabe von AL wurde erteilt!', '', 'topRight');
-      this.inputWorkshop.releaseSupervisor = new Date();
-      this.inputWorkshop.releaserSupervisor = this.roleService.getUserName()
-    }
-  }
-
-  changeCompany($event: any) {
-    this.inputWorkshop.company = this.companies.find(elemnt => elemnt.id === $event);
-  }
-
-  getCompanies() {
-    this.http.getActiveCompany().subscribe({
-      next: data => {
-        this.companies = data;
-      },
-      error: err => {
-        console.log(err);
-      }
-    });
-  }
-
-  changeRepresentative($event: any) {
-    this.inputWorkshop.representative = this.representative.find(elemnt => elemnt.id === $event);
-  }
-
-
-  getRepresentative() {
-    this.http.getActiveRepresentative().subscribe({
-      next: data => {
-        this.representative = data;
-      },
-      error: err => {
-        console.log(err);
-      }
-    });
-  }
-
   ngOnInit(): void {
-    this.addTab();
     this.getCompanies();
     this.getRepresentative();
     this.route.paramMap.subscribe(params => {
@@ -167,6 +71,95 @@ export class SeminarRegistrationComponent implements OnInit {
     this.getTechnologists();
   }
 
+  checkRequired(): boolean {
+    if (!this.inputWorkshop.company ||
+      !this.inputWorkshop.customer ||
+      !this.inputWorkshop.startDate ||
+      !this.inputWorkshop.endDate ||
+      !this.inputWorkshop.guests![0] ||
+      !this.inputWorkshop.representative) {
+      this.notificationService.createBasicNotification(4, 'Bitte Pflichtfelder ausfüllen!', 'Fachberater*/Vertreter*/Von*-Bis*', 'topRight')
+
+      return false;
+    }
+    return true;
+  }
+  addTab() {
+    this.tabs.push('Hotelbuchung: ' + this.tabs.length)
+    this.selected.setValue(this.tabs.length - 1)
+  }
+
+  deleteLast() {
+    if (this.tabs.length != 1) {
+      this.tabs.pop();
+    }
+  }
+
+  openDialog(guests: Guest[]) {
+
+    const dialogRef = this.dialog.open(TeilnehmerListeComponent, {
+      height: '37.6rem',
+      width: '50rem',
+      data: guests
+    });
+
+    dialogRef.afterClosed().subscribe(
+      data => {
+        if (data !== undefined && data !== null) {
+          this.inputWorkshop.guests = data;
+        }
+      });
+
+  }
+
+  addToList(addItem: string) {
+    this.languages.push(addItem);
+  }
+
+  //TODO habe ich neu gemacht --> ist das richtig?
+  release(department: string) {
+    if (department === 'gl' && this.checkRequired()) {
+      this.notificationService.createBasicNotification(0, 'Freigabe von GL wurde erteilt!', '', 'topRight');
+      this.inputWorkshop.releaseManagement = new Date();
+      this.inputWorkshop.releaserManagement = this.roleService.getUserName()
+    }
+    else if (department === 'al' && this.checkRequired()) {
+      this.notificationService.createBasicNotification(0, 'Freigabe von AL wurde erteilt!', '', 'topRight');
+      this.inputWorkshop.releaseSupervisor = new Date();
+      this.inputWorkshop.releaserSupervisor = this.roleService.getUserName()
+    }
+  }
+
+  changeCompany($event: any) {
+    this.inputWorkshop.company = this.companies.find(elemnt => elemnt.id === $event);
+  }
+
+  getCompanies() {
+    this.http.getActiveCompany().subscribe({
+      next: data => {
+        this.companies = data;
+      },
+      error: err => {
+        console.log(err);
+      }
+    });
+  }
+
+  changeRepresentative($event: any) {
+    this.inputWorkshop.representative = this.representative.find(elemnt => elemnt.id === $event);
+  }
+
+  getRepresentative() {
+    this.http.getActiveRepresentative().subscribe({
+      next: data => {
+        this.representative = data;
+      },
+      error: err => {
+        console.log(err);
+      }
+    });
+  }
+
   getTechnologists() {
     this.http.getActiveTechnologist().subscribe({
       next: data => {
@@ -177,6 +170,7 @@ export class SeminarRegistrationComponent implements OnInit {
       }
     });
   }
+
   changeTechnolgist(event: number[]) {
     this.inputWorkshop.requestedTechnologist = event.map(id =>
       this.technologists.find(tech => tech.id === id)!
@@ -198,8 +192,6 @@ export class SeminarRegistrationComponent implements OnInit {
 
   postWorkshopRequest() {
     if (this.checkRequired()) {
-
-
       this.notificationService.createBasicNotification(0, 'Formular wurde gesendet!', '', 'topRight');
       this.inputWorkshop.reason = "Seminaranmeldung"
       this.inputWorkshop.dateOfCreation = new Date();

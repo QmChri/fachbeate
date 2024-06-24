@@ -15,9 +15,7 @@ import { RoleService } from '../../services/role.service';
 export class MainListComponent implements OnInit {
   searchValue = '';
   visible = false;
-
   technologistList: Technologist[] = [];
-
   listOfDisplayData: DataItem[] = [];
   listOfColumn: ColumnDefinition[] = [
     {
@@ -181,12 +179,9 @@ export class MainListComponent implements OnInit {
   }
 
   loadData() {
-
     var type = (this.roleService.checkPermission([1,2,3,5,7])?7:6);
     type = (!this.roleService.checkPermission([1,2,3,5,6,7])?4:type);
-
     var fullname = (type === 6?this.roleService.getUserName()!:this.roleService.getFullName()!);
-
 
     this.loadTechnologists();
     this.http.getCustomerRequirementsByUser(type!, fullname!).subscribe({
@@ -269,11 +264,8 @@ export class MainListComponent implements OnInit {
     });
 
     this.http.getVisitorRegistrationByUser(type, fullname).subscribe({
-
       next: data => {
-        
         data.forEach(element => {
-
           this.listOfDisplayData = [...this.listOfDisplayData, {
             id: element.id!,
             name: element.name!,
@@ -295,7 +287,6 @@ export class MainListComponent implements OnInit {
 
       }
     })
-
   }
 
   loadTechnologists() {
@@ -344,7 +335,7 @@ export class MainListComponent implements OnInit {
     ));
   }
 
-  tmpinitData() {
+  /* tmpinitData() {
     this.listOfDisplayData = [
       {
         id: 1,
@@ -508,7 +499,7 @@ export class MainListComponent implements OnInit {
         type: 1,
       },
     ];
-  }
+  } */
 }
 
 interface DataItem {

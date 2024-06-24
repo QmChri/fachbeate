@@ -4,7 +4,6 @@ import { FinalReport } from '../../../models/final-report';
 import { ReasonReport } from '../../../models/reason-report';
 import { HttpService } from '../../../services/http.service';
 import { Article } from '../../../models/article';
-import { FormControl, FormRecord, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { NzNotificationPlacement, NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
@@ -13,15 +12,31 @@ import { NzNotificationPlacement, NzNotificationService } from 'ng-zorro-antd/no
   styleUrl: './abschluss-bericht.component.scss'
 })
 export class AbschlussBerichtComponent implements OnInit {
-
   inputFinalReport: FinalReport = {}
-
   reasonSelect: number[] = []
   existingArticles: Article[] = []
 
+ constructor(private notification: NzNotificationService,
+    public dialogRef: MatDialogRef<AbschlussBerichtComponent>,
+    @Inject(MAT_DIALOG_DATA) public finalReport: FinalReport,
+    private http: HttpService
+  ) {
+    this.inputFinalReport = finalReport;
+
+    if (finalReport.reasonReports !== undefined) {
+      this.inputFinalReport.reasonReports = this.inputFinalReport.reasonReports!.filter(element => element.reason !== 0);
+      this.reasonSelect = this.inputFinalReport.reasonReports!.map(element => element.reason)
+        .filter((reason): reason is number => reason !== undefined);
+    }
+
+  }
+
+  ngOnInit(): void {
+    this.getAllArticles();
+  }
+
   changeSelections(event: any) {
     var newReasonReports: ReasonReport[] = [];
-
     this.reasonSelect = event.value;
 
     event.value.forEach((element: number) => {
@@ -32,7 +47,6 @@ export class AbschlussBerichtComponent implements OnInit {
       } else {
         newReasonReports = [...newReasonReports, { reason: element, presentedArticle: [] }]
       }
-
     })
     this.inputFinalReport.reasonReports = newReasonReports;
 
@@ -51,28 +65,6 @@ export class AbschlussBerichtComponent implements OnInit {
         { nzPlacement: position }
       );
     }
-  }
-
-  constructor(private notification: NzNotificationService,
-    public dialogRef: MatDialogRef<AbschlussBerichtComponent>,
-    @Inject(MAT_DIALOG_DATA) public finalReport: FinalReport,
-    private http: HttpService
-  ) {
-    this.inputFinalReport = finalReport;
-
-
-    if (finalReport.reasonReports !== undefined) {
-
-      this.inputFinalReport.reasonReports = this.inputFinalReport.reasonReports!.filter(element => element.reason !== 0);
-
-      this.reasonSelect = this.inputFinalReport.reasonReports!.map(element => element.reason)
-        .filter((reason): reason is number => reason !== undefined);
-    }
-
-  }
-
-  ngOnInit(): void {
-    this.getAllArticles();
   }
 
   getAllArticles() {
@@ -94,19 +86,16 @@ export class AbschlussBerichtComponent implements OnInit {
     }
   }
 
-
   closeDialog(save: boolean) {
     this.dialogRef.close({ finalReport: this.finalReport, save: save });
   }
-
 
   addArticle(reason: number) {
     var reasonReport = this.finalReport.reasonReports!.find(element => element.reason === reason)!
     reasonReport.presentedArticle = [...reasonReport.presentedArticle!, {}]
   }
+
   deleteArticle(reason: number) {
     this.inputFinalReport.reasonReports?.find(element => element.reason === reason)?.presentedArticle.pop();
   }
-
-  //closeDialog(save: boolean) { }
 }

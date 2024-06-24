@@ -38,7 +38,7 @@
         </div>
     </div>
     <div class="col-md-9">
-        <nz-table class="col" #editRowTable nzTableLayout="fixed" nzBordered [nzData]="representativeList">
+        <nz-table class="col" #editRowTable [nzPageSize]="9" nzBordered [nzData]="representativeList">
             <thead>
                 <tr>
                     <th>{{'CREATE-REPRESENTATIVE.id' | translate}}</th>
@@ -49,7 +49,7 @@
             </thead>
             <tbody>
                 <tr matTooltip="{{'CREATE-REPRESENTATIVE.edit' | translate}}" (click)="editRow(repentative.id!, 1)"
-                    *ngFor="let repentative of representativeList">
+                    *ngFor="let repentative of editRowTable.data">
                     <td>{{repentative.id}}</td>
                     <td>{{repentative.firstName}}</td>
                     <td>{{repentative.lastName}}</td>

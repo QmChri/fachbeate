@@ -32,6 +32,7 @@ export class NewDateEntryComponent implements OnInit {
     private http: HttpService, private notificationService: NotificationService
   ) {
   }
+  
   ngOnInit(): void {
 
     this.inputDate.startDate = this.timeSpan.startDate;
@@ -63,9 +64,11 @@ export class NewDateEntryComponent implements OnInit {
       }
     });
   }
+
   closeDialog() {
     this.dialogRef.close({});
   }
+
   save() {
     if (this.inputDate.requestedTechnologist === undefined || this.inputDate.reason === undefined) {
       this.notificationService.createBasicNotification(4, 'Bitte Pflichtfelder ausfüllen!', 'Zugeteilter Fachberater* & Grund*', 'topRight')
@@ -89,7 +92,6 @@ export class NewDateEntryComponent implements OnInit {
     date.setDate(date.getDate() - 1);
     return new Date(date.toISOString().split('T')[0]);
   }
-
 
   changeTechnolgist($event: any) {
     this.inputDate.requestedTechnologist = this.technologists.find(elemnt => elemnt.id === $event);

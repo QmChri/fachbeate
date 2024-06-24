@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Technologist } from '../../../../models/technologist';
 import { HttpService } from '../../../../services/http.service';
 import { Representative } from '../../../../models/representative';
 import { NotificationService } from '../../../../services/notification.service';
+
 @Component({
   selector: 'app-create-representative',
   templateUrl: './create-representative.component.html',
@@ -15,11 +15,9 @@ export class CreateRepresentativeComponent implements OnInit {
     lastName: "",
     active: true,
   }
-
   representativeList: Representative[] = [];
 
-  constructor(private http: HttpService, private notificationService: NotificationService) {
-  }
+  constructor(private http: HttpService, private notificationService: NotificationService) {}
 
   ngOnInit(): void {
     this.loadRepresentatives();

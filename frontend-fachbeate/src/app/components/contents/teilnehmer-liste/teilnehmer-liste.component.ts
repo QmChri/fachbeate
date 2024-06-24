@@ -20,11 +20,12 @@ export class TeilnehmerListeComponent implements OnInit {
     if (guests !== null && guests !== undefined) {
       guests.forEach(element => this.addRow(element));
     }
-
-    if(this.listOfData.length === 0){
+    if (this.listOfData.length === 0) {
       this.addRow({})
     }
   }
+
+  ngOnInit(): void {}
 
   startEdit(id: number): void {
     this.editId = id;
@@ -53,27 +54,21 @@ export class TeilnehmerListeComponent implements OnInit {
     this.listOfData = this.listOfData.filter(d => d.editId !== id);
   }
 
-
   closeDialog(save: boolean) {
-    
     if (save) {
-      if(this.listOfData.some(item => (!item.sex || !item.firstName || !item.lastName || !item.function))){        
+      if (this.listOfData.some(item => (!item.sex || !item.firstName || !item.lastName || !item.function))) {
         this.notificationService.createBasicNotification(4, 'Pflichtfelder ausfüllen!', '', 'topRight');
-      }else{
-      if (this.listOfData.length === 0) {
-        this.notificationService.createBasicNotification(2, 'Keine Teilnehmer hinzugefügt!', '', 'topRight');
+      } else {
+        if (this.listOfData.length === 0) {
+          this.notificationService.createBasicNotification(2, 'Keine Teilnehmer hinzugefügt!', '', 'topRight');
+        }
+        else {
+          this.notificationService.createBasicNotification(0, 'Teilnehmer hinzugefügt!', '', 'topRight');
+        }
+        this.dialogRef.close(this.listOfData);
       }
-      else {
-        this.notificationService.createBasicNotification(0, 'Teilnehmer hinzugefügt!', '', 'topRight');
-      }
-      this.dialogRef.close(this.listOfData);
-      }
-      
     } else {
       this.dialogRef.close(undefined);
     }
-  }
-
-  ngOnInit(): void {
   }
 }

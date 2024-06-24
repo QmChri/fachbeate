@@ -1,4 +1,3 @@
-import { Department } from "./department";
 import { FinalReport } from "./final-report";
 
 export class CustomerVisit {

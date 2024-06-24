@@ -3,7 +3,6 @@ import { navbarData } from './nav-data';
 import { animate, keyframes, style, transition, trigger } from '@angular/animations';
 import { TranslateService } from '@ngx-translate/core';
 import { INavbarData } from './helper';
-import { NgIf } from '@angular/common';
 import { KeycloakService } from 'keycloak-angular';
 import { RoleService } from '../../services/role.service';
 
@@ -53,16 +52,8 @@ export class SidenavComponent implements OnInit {
   currentUrl = "";
 
   constructor(private translate: TranslateService, private readonly keycloak: KeycloakService,
-     public roleService: RoleService) {
+    public roleService: RoleService) {
     this.translate.addLangs(['en', 'de']);
-  }
-
-  public async logout(){
-    this.keycloak.logout();
-  }
-
-  switchLanguage(language: string) {
-    this.translate.use(language);
   }
 
   @HostListener('window:resize', ['$event'])
@@ -74,14 +65,20 @@ export class SidenavComponent implements OnInit {
     }
   }
 
+  public async logout() {
+    this.keycloak.logout();
+  }
+
+  switchLanguage(language: string) {
+    this.translate.use(language);
+  }
+
   ngOnInit(): void {
     this.screenWidth = window.innerWidth;
   }
 
-
   toggleCollapse(): void {
     this.collapsed = !this.collapsed;
-
     this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth });
   }
 
@@ -91,9 +88,7 @@ export class SidenavComponent implements OnInit {
   }
 
   handleCLick(item: INavbarData): void {
-
-    if(item.items !== null && item.items !== undefined && item.items.length !== 0){
-      
+    if (item.items !== null && item.items !== undefined && item.items.length !== 0) {
       this.collapsed = true;
       this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth });
     }

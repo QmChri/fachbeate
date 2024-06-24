@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { Department } from '../../../models/department';
 import { VisitorRegistration } from '../../../models/visitor-registration';
 import { MatDialog } from '@angular/material/dialog';
@@ -20,7 +20,15 @@ export class VisitorRegistrationComponent implements OnInit {
   buttonSelect: String[] = []
   geDip: String[] = []
   representative: Representative[] = [];
-
+  selected = new FormControl(0);
+  languageControl = new FormControl();
+  languageFilterCtrl = new FormControl();
+  listOfCurrentPageData: readonly Department[] = [];
+  setOfCheckedId = new Map<number, [number?, string?]>();
+  abteilungen = [
+    { value: 'GL', label: 'Geschäftsleitung' },
+    { value: 'AB', label: 'Auftragsbearbeitung' }
+  ];
   inputVisitRegistration: VisitorRegistration = {
     plannedDepartmentVisits: [],
     guests: [],
@@ -29,75 +37,6 @@ export class VisitorRegistrationComponent implements OnInit {
 
   constructor(private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute,
     private notificationService: NotificationService, public roleService: RoleService) { }
-
-  release(department: string) {
-    if (department === 'gl') {
-      this.notificationService.createBasicNotification(0, 'Freigabe von GL wurde erteilt!', '', 'topRight');
-      this.inputVisitRegistration.releaseManagement = new Date();
-      this.inputVisitRegistration.releaserManagement = this.roleService.getUserName();
-    }else {
-      this.notificationService.createBasicNotification(0, 'Freigabe von AL wurde erteilt!', '', 'topRight');
-      this.inputVisitRegistration.releaseSupervisor = new Date();
-      this.inputVisitRegistration.releaserSupervisor = this.roleService.getUserName()
-    }
-  }
-  
-  openDialog(guests: Guest[]) {
-
-    const dialogRef = this.dialog.open(TeilnehmerListeComponent, {
-      height: '37.6rem',
-      width: '50rem',
-      data: guests
-    });
-
-    dialogRef.afterClosed().subscribe(
-      data => {
-        if (data !== undefined && data !== null) {
-          this.inputVisitRegistration.guests = data;
-        }
-      });
-
-  }
-
-  selected = new FormControl(0);
-
-  addTab() {
-    this.inputVisitRegistration.hotelBookings = [...this.inputVisitRegistration.hotelBookings, {}]
-  }
-
-  deleteLast() {
-    if (this.inputVisitRegistration.hotelBookings.length != 1)
-      this.inputVisitRegistration.hotelBookings.pop();
-  }
-
-  languageControl = new FormControl();
-  languageFilterCtrl = new FormControl();
-
-  abteilungen = [
-    { value: 'GL', label: 'Geschäftsleitung' },
-    { value: 'AB', label: 'Auftragsbearbeitung' }
-  ];
-
-  listOfCurrentPageData: readonly Department[] = [];
-  setOfCheckedId = new Map<number, [number?, string?]>();
-
-
-  onItemChecked(id: number, checked: boolean): void {
-    if (checked) {
-      this.setOfCheckedId.set(id, [undefined!, ""]);
-    } else {
-      this.setOfCheckedId.delete(id);
-    }
-  }
-
-  onCurrentPageDataChange($event: readonly Department[]): void {
-    this.listOfCurrentPageData = $event;
-  }
-
-  inputDateChange(id: number, date: string) {
-    let tmpId = this.setOfCheckedId.get(id)![0];
-    this.setOfCheckedId.set(id, [(tmpId) ? tmpId : undefined!, date]);
-  }
 
   ngOnInit(): void {
     this.getRepresentative();
@@ -203,6 +142,60 @@ export class VisitorRegistrationComponent implements OnInit {
 
   }
 
+  release(department: string) {
+    if (department === 'gl') {
+      this.notificationService.createBasicNotification(0, 'Freigabe von GL wurde erteilt!', '', 'topRight');
+      this.inputVisitRegistration.releaseManagement = new Date();
+      this.inputVisitRegistration.releaserManagement = this.roleService.getUserName();
+    } else {
+      this.notificationService.createBasicNotification(0, 'Freigabe von AL wurde erteilt!', '', 'topRight');
+      this.inputVisitRegistration.releaseSupervisor = new Date();
+      this.inputVisitRegistration.releaserSupervisor = this.roleService.getUserName()
+    }
+  }
+
+  openDialog(guests: Guest[]) {
+    const dialogRef = this.dialog.open(TeilnehmerListeComponent, {
+      height: '37.6rem',
+      width: '50rem',
+      data: guests
+    });
+
+    dialogRef.afterClosed().subscribe(
+      data => {
+        if (data !== undefined && data !== null) {
+          this.inputVisitRegistration.guests = data;
+        }
+      });
+
+  }
+
+  addTab() {
+    this.inputVisitRegistration.hotelBookings = [...this.inputVisitRegistration.hotelBookings, {}]
+  }
+
+  deleteLast() {
+    if (this.inputVisitRegistration.hotelBookings.length != 1)
+      this.inputVisitRegistration.hotelBookings.pop();
+  }
+
+  onItemChecked(id: number, checked: boolean): void {
+    if (checked) {
+      this.setOfCheckedId.set(id, [undefined!, ""]);
+    } else {
+      this.setOfCheckedId.delete(id);
+    }
+  }
+
+  onCurrentPageDataChange($event: readonly Department[]): void {
+    this.listOfCurrentPageData = $event;
+  }
+
+  inputDateChange(id: number, date: string) {
+    let tmpId = this.setOfCheckedId.get(id)![0];
+    this.setOfCheckedId.set(id, [(tmpId) ? tmpId : undefined!, date]);
+  }
+
   changeSelections() {
     this.inputVisitRegistration.hotelBooking = this.buttonSelect.includes("1");
     this.inputVisitRegistration.flightBooking = this.buttonSelect.includes("2");
@@ -214,11 +207,9 @@ export class VisitorRegistrationComponent implements OnInit {
   }
 
   postVisitorRegistration() {
-
     this.inputVisitRegistration.creator = this.roleService.getUserName();
     this.notificationService.createBasicNotification(0, 'Formular wurde gesendet!', '', 'topRight');
     this.inputVisitRegistration.reason = "VisitorRegistration"
-
     this.inputVisitRegistration.plannedDepartmentVisits = []
 
     this.setOfCheckedId.forEach((value, key) => {
@@ -253,7 +244,6 @@ export class VisitorRegistrationComponent implements OnInit {
     return "";
   }
 
-
   getRepresentative() {
     this.http.getActiveRepresentative().subscribe({
       next: data => {
@@ -264,13 +254,8 @@ export class VisitorRegistrationComponent implements OnInit {
       }
     });
   }
+
   changeRepresentative($event: any) {
     this.inputVisitRegistration.representative = this.representative.find(elemnt => elemnt.id === $event);
   }
-
-
 }
-
-const today = new Date();
-const month = today.getMonth();
-const year = today.getFullYear();

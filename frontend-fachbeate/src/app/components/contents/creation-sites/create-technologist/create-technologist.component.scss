@@ -1,10 +1,3 @@
-.center-items {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
-
 .card-body {
     display: flex;
     flex-direction: column;
@@ -69,20 +62,4 @@
             max-width: 12rem;
         }
     }
-}
-
-.mainView {
-    margin: 1.5rem;
-}
-
-.smallInputMittagAnz {
-    padding-right: 0.5rem;
-}
-
-.smallInputSide {
-    max-width: 13.25rem;
-}
-
-.paddingBottom {
-    padding-bottom: 1rem;
 }

@@ -31,7 +31,7 @@
         </div>
     </div>
     <div class="col-md-9">
-        <nz-table class="col" #editRowTable nzTableLayout="fixed" nzBordered [nzData]="companyList">
+        <nz-table class="col" #editRowTable [nzPageSize]="9" nzBordered [nzData]="companyList">
             <thead>
                 <tr>
                     <th>{{'CREATE-DEALER.id' | translate}}</th>
@@ -40,7 +40,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr matTooltip="{{'CREATE-DEALER.edit' | translate}}" *ngFor="let company of companyList"
+                <tr matTooltip="{{'CREATE-DEALER.edit' | translate}}" *ngFor="let company of editRowTable.data"
                     (click)="editRow(company.id!)">
                     <td>{{company.id}}</td>
                     <td>{{company.name}}</td>

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Technologist } from '../../../../models/technologist';
 import { HttpService } from '../../../../services/http.service';
-import { Representative } from '../../../../models/representative';
 import { NotificationService } from '../../../../services/notification.service';
 
 @Component({
@@ -17,11 +16,9 @@ export class CreateTechnologistComponent implements OnInit {
     active: true,
     color: "#ff0000"
   }
-
   technologistList: Technologist[] = [];
 
-  constructor(private http: HttpService, private notificationService: NotificationService) {
-  }
+  constructor(private http: HttpService, private notificationService: NotificationService) {}
 
   ngOnInit(): void {
     this.loadTechnologists();

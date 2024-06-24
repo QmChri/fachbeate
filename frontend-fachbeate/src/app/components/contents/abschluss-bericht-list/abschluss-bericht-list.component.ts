@@ -14,11 +14,8 @@ export class AbschlussBerichtListComponent {
   searchValue = '';
   visible = false;
   listOfData: DataItem[] = [];
-
   technologistList: Technologist[] = [];
-
   listOfDisplayData: DataItem[] = [];
-
   listOfColumn: ColumnDefinition[] = [
     {
       name: 'company',
@@ -82,7 +79,6 @@ export class AbschlussBerichtListComponent {
 
   ngOnInit(): void {
     //this.tmpinitData();
-  
     this.getNzFilters();
   }
 
@@ -97,49 +93,6 @@ export class AbschlussBerichtListComponent {
         }
         return uniqueFilters;
       }, [] as { text: string, value: string }[]);
-  }
-
-  tmpinitData() {
-    this.listOfDisplayData = [
-      {
-        company: 'Alpha Corporation',
-        dateOfVisit: new Date('2023-06-18'),
-        technologist: 'A',
-        toBeCompletedBy: new Date('2023-06-20'),
-        representative: 'A',
-        customerContactDate: new Date('2023-06-10'),
-        abschlussberichtFinished: 'Ja',
-        article: [
-          { name: 'Article 1', articleNr: 'A001' },
-          { name: 'Article 2', articleNr: 'A002' }
-        ]
-      },
-      {
-        company: 'Beta Industries',
-        dateOfVisit: new Date('2023-06-19'),
-        technologist: 'B',
-        toBeCompletedBy: new Date('2023-06-25'),
-        representative: 'B',
-        customerContactDate: new Date('2023-06-12'),
-        abschlussberichtFinished: 'Nein',
-        article: [
-          { name: 'Article 3', articleNr: 'B001' }
-        ]
-      },
-      {
-        company: 'Camma Technologies',
-        dateOfVisit: new Date('2023-06-20'),
-        technologist: 'C',
-        toBeCompletedBy: new Date('2023-06-28'),
-        representative: 'C',
-        customerContactDate: new Date('2023-06-14'),
-        abschlussberichtFinished: 'Nein',
-        article: [
-          { name: 'Article 4', articleNr: 'G001' },
-          { name: 'Article 5', articleNr: 'G002' }
-        ]
-      }
-    ];
   }
 
   loadData() {
@@ -204,7 +157,7 @@ export class AbschlussBerichtListComponent {
     this.searchValue = '';
     this.notificationService.createBasicNotification(2, 'Filter/Sortierung aufgehoben!', '', 'topRight');
     this.getNzFilters();
-    this.tmpinitData();
+    //this.tmpinitData();
     this.listOfColumn.forEach(item => {
       item.sortOrder = null;
     });
@@ -228,6 +181,50 @@ export class AbschlussBerichtListComponent {
   getArticleListName(article: Article[]) {
     return article.map(element => element.name).toString().substring(0, 30)
   }
+
+  /*
+  tmpinitData() {
+    this.listOfDisplayData = [
+      {
+        company: 'Alpha Corporation',
+        dateOfVisit: new Date('2023-06-18'),
+        technologist: 'A',
+        toBeCompletedBy: new Date('2023-06-20'),
+        representative: 'A',
+        customerContactDate: new Date('2023-06-10'),
+        abschlussberichtFinished: 'Ja',
+        article: [
+          { name: 'Article 1', articleNr: 'A001' },
+          { name: 'Article 2', articleNr: 'A002' }
+        ]
+      },
+      {
+        company: 'Beta Industries',
+        dateOfVisit: new Date('2023-06-19'),
+        technologist: 'B',
+        toBeCompletedBy: new Date('2023-06-25'),
+        representative: 'B',
+        customerContactDate: new Date('2023-06-12'),
+        abschlussberichtFinished: 'Nein',
+        article: [
+          { name: 'Article 3', articleNr: 'B001' }
+        ]
+      },
+      {
+        company: 'Camma Technologies',
+        dateOfVisit: new Date('2023-06-20'),
+        technologist: 'C',
+        toBeCompletedBy: new Date('2023-06-28'),
+        representative: 'C',
+        customerContactDate: new Date('2023-06-14'),
+        abschlussberichtFinished: 'Nein',
+        article: [
+          { name: 'Article 4', articleNr: 'G001' },
+          { name: 'Article 5', articleNr: 'G002' }
+        ]
+      }
+    ];
+  }*/
 }
 
 interface DataItem {

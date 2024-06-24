@@ -59,7 +59,10 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
   ]
 })
 export class SublevelMenuComponent implements OnInit {
-
+  @Input() collapsed = false;
+  @Input() animating: boolean | undefined;
+  @Input() expanded: boolean | undefined;
+  @Input() multiple: boolean = false;
   @Input() data: INavbarData = {
     routeLink: '',
     icon: '',
@@ -67,17 +70,9 @@ export class SublevelMenuComponent implements OnInit {
     items: []
   }
 
-  @Input() collapsed = false;
-  @Input() animating: boolean | undefined;
-  @Input() expanded: boolean | undefined;
-  @Input() multiple: boolean = false;
-
-
-
   constructor() { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   handleClick(item: any): void {
     if (!this.multiple) {

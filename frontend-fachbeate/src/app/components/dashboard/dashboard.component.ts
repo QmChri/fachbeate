@@ -1,9 +1,8 @@
-import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { HttpService } from '../../services/http.service';
 import { Router } from '@angular/router';
-
 import interactionPlugin from '@fullcalendar/interaction';
 import { MatDialog } from '@angular/material/dialog';
 import { NewDateEntryComponent } from '../contents/new-date-entry/new-date-entry.component';
@@ -17,9 +16,7 @@ import { RoleService } from '../../services/role.service';
 })
 export class DashboardComponent implements OnInit {
   requiredRoles = [1,2,4,5];
-
   calendarEvnts: CalendarEvent[] = [];
-
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
     plugins: [dayGridPlugin, interactionPlugin],
@@ -34,16 +31,13 @@ export class DashboardComponent implements OnInit {
   constructor(
     private http: HttpService,private router: Router, private dialog: MatDialog,
     public roleService: RoleService
-  ){
-
-  }
+  ){}
 
   ngOnInit(): void {
     if(this.roleService.checkPermission(this.requiredRoles)) {
       this.loadEvents();
     }
   }
-
 
   loadEvents(){
     
@@ -136,7 +130,6 @@ export class DashboardComponent implements OnInit {
   }
   
   handleEventClick(clickInfo: any): void {   
-
     if(clickInfo.event.id.substring(0,1) === "c"){
       this.router.navigate(['/customer-requirements', clickInfo.event.id.substring(1)]);
     }else if(clickInfo.event.id.substring(0,1) === "w"){
@@ -155,7 +148,6 @@ export class DashboardComponent implements OnInit {
     }
   }
    
-
   openDialog(timeSpan: TechnologistAppointment) {
     timeSpan.startDate = new Date(timeSpan.startDate!)
     timeSpan.endDate = new Date(timeSpan.endDate!)
@@ -178,7 +170,6 @@ export class DashboardComponent implements OnInit {
     date.setHours(5)
     return new Date(date.toISOString().split('T')[0]);
   }
-
 }
 
 interface CalendarEvent{

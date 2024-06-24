@@ -33,7 +33,7 @@ import { CustomerRequirementsComponent } from './components/contents/customer-re
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { de_DE } from 'ng-zorro-antd/i18n';
 import de from '@angular/common/locales/de';
-import { MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatOptionModule } from '@angular/material/core';
+import { MAT_DATE_LOCALE, MatOptionModule } from '@angular/material/core';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -59,18 +59,10 @@ import { CreateDealerComponent } from './components/contents/creation-sites/crea
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
-
-/*import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';*/
-/*import { initializer } from './initializer.service';*/
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { initializer } from './initializer.service';
 import { NzColorPickerModule } from 'ng-zorro-antd/color-picker';
 
-export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http);
-}
-
-registerLocaleData(de);
 
 @NgModule({
   declarations: [
@@ -158,3 +150,9 @@ registerLocaleData(de);
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
+
+registerLocaleData(de);

@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Technologist } from '../../../../models/technologist';
 import { HttpService } from '../../../../services/http.service';
-import { Representative } from '../../../../models/representative';
 import { Company } from '../../../../models/company';
 import { NotificationService } from '../../../../services/notification.service';
+
 @Component({
   selector: 'app-create-dealer',
   templateUrl: './create-dealer.component.html',
@@ -11,7 +10,6 @@ import { NotificationService } from '../../../../services/notification.service';
 })
 export class CreateDealerComponent implements OnInit {
   inputCompany: Company = { active: true };
-
   companyList: Company[] = [];
 
   constructor(private http: HttpService, private notificationService: NotificationService) {

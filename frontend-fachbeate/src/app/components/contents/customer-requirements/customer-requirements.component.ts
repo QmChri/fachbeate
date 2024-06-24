@@ -21,19 +21,52 @@ import { RoleService } from '../../../services/role.service';
   styleUrl: './customer-requirements.component.scss'
 })
 export class CustomerRequirementsComponent implements OnInit {
-
   i = 0;
   editId: number | null = null;
   tohaControl = new FormControl<Toechterhaeandler | null>(null, Validators.required);
-
   selectedValue?: string;
-
   technologists: Technologist[] = [];
   representative: Representative[] = [];
   companies: Company[] = [];
 
-  constructor(private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute, private notificationService: NotificationService, public roleService: RoleService
-  ) { }
+  constructor(private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute, private notificationService: NotificationService, public roleService: RoleService) { }
+
+  ngOnInit(): void {
+    this.getTechnologist();
+    this.getRepresentative();
+    this.getCompanies();
+
+    this.route.paramMap.subscribe(params => {
+      if (params.get('id') != null) {
+        this.http.getCustomerById(parseInt(params.get('id')!)).subscribe({
+          next: data => {
+            if (data != null) {
+              this.inputCustomerRequirement = data;
+
+              this.inputCustomerRequirement.customerVisits.forEach((element, index) => {
+                element.selection = [
+                  (element.presentationOfNewProducts) ? 1 : 0,
+                  (element.existingProducts) ? 2 : 0,
+                  (element.recipeOptimization) ? 3 : 0,
+                  (element.sampleProduction) ? 4 : 0,
+                  (element.training) ? 5 : 0
+                ];
+
+                element.editId = index;
+                this.i = index;
+              });
+              this.i++;
+            }
+          },
+          error: err => {
+            console.log(err);
+          }
+        });
+      } else {
+        this.addRow();
+      }
+    });
+  }
 
   release(department: string) {
 
@@ -98,54 +131,16 @@ export class CustomerRequirementsComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
-    this.getTechnologist();
-    this.getRepresentative();
-    this.getCompanies();
-
-    this.route.paramMap.subscribe(params => {
-      if (params.get('id') != null) {
-        this.http.getCustomerById(parseInt(params.get('id')!)).subscribe({
-          next: data => {
-            if (data != null) {
-              this.inputCustomerRequirement = data;
-
-              this.inputCustomerRequirement.customerVisits.forEach((element, index) => {
-                element.selection = [
-                  (element.presentationOfNewProducts) ? 1 : 0,
-                  (element.existingProducts) ? 2 : 0,
-                  (element.recipeOptimization) ? 3 : 0,
-                  (element.sampleProduction) ? 4 : 0,
-                  (element.training) ? 5 : 0
-                ];
-
-                element.editId = index;
-                this.i = index;
-              });
-              this.i++;
-            }
-          },
-          error: err => {
-            console.log(err);
-          }
-        });
-      } else {
-        this.addRow();
-      }
-    });
-
-  }
-
   postCustomerRequirement() {
     if (this.checkRequired()) {
       this.notificationService.createBasicNotification(0, 'Formular wurde gesendet!', '', 'topRight')
       this.inputCustomerRequirement.reason = "XXXX"
       this.inputCustomerRequirement.dateOfCreation = new Date();
 
-      if(this.inputCustomerRequirement.creator === undefined){
-      this.inputCustomerRequirement.creator = this.roleService.getUserName();
-    }
-    this.inputCustomerRequirement.lastEditor = this.roleService.getUserName();this.http.postCustomerRequirement(this.inputCustomerRequirement).subscribe({
+      if (this.inputCustomerRequirement.creator === undefined) {
+        this.inputCustomerRequirement.creator = this.roleService.getUserName();
+      }
+      this.inputCustomerRequirement.lastEditor = this.roleService.getUserName(); this.http.postCustomerRequirement(this.inputCustomerRequirement).subscribe({
         next: data => {
           this.inputCustomerRequirement = data;
 
@@ -267,7 +262,6 @@ export class CustomerRequirementsComponent implements OnInit {
   changeRepresentative($event: any) {
     this.inputCustomerRequirement.representative = this.representative.find(elemnt => elemnt.id === $event);
   }
-
 }
 
 interface Toechterhaeandler {
