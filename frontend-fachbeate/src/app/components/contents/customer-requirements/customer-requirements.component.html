@@ -3,13 +3,17 @@
         <h1 class="paddingSearch">{{"REQ-TECH.title" | translate}}</h1>
     </div>
     <div>
-        <button [disabled]="inputCustomerRequirement.releaseManagement !== null && inputCustomerRequirement.releaseManagement !== undefined" (nzOnConfirm)="release('gl')" *ngIf="roleService.checkPermission([1,7])" style="margin-right: 2rem;"
+        <button
+            [disabled]="inputCustomerRequirement.releaseManagement !== null && inputCustomerRequirement.releaseManagement !== undefined"
+            (nzOnConfirm)="release('gl')" *ngIf="roleService.checkPermission([1,7])" style="margin-right: 2rem;"
             nz-button nzType="primary" nz-popconfirm nzPopconfirmShowArrow="false" [nzIcon]="iconTpl"
             nzPopconfirmTitle="Sind Sie sicher?">
             <ng-template #iconTpl></ng-template>
             Freigabe GL
         </button>
-        <button [disabled]="inputCustomerRequirement.releaseSupervisor !== null && inputCustomerRequirement.releaseSupervisor !== undefined" (nzOnConfirm)="release('al')" *ngIf="roleService.checkPermission([1,2,7])" style="margin-right: 2rem;"
+        <button
+            [disabled]="inputCustomerRequirement.releaseSupervisor !== null && inputCustomerRequirement.releaseSupervisor !== undefined"
+            (nzOnConfirm)="release('al')" *ngIf="roleService.checkPermission([1,2,7])" style="margin-right: 2rem;"
             nz-button nzType="primary" nz-popconfirm nzPopconfirmShowArrow="false" [nzIcon]="iconTpl"
             nzPopconfirmTitle="Sind Sie sicher?">
             <ng-template #iconTpl></ng-template>
@@ -17,7 +21,9 @@
         </button>
     </div>
     <div>
-        <button *ngIf="(inputCustomerRequirement.creator === undefined && roleService.checkPermission([6])) || roleService.checkPermission([1,2,3,4,5,7])" class="btn btn-success" (click)="postCustomerRequirement()">{{"REQ-TECH.send" | translate}}</button>
+        <button
+            *ngIf="(inputCustomerRequirement.creator === undefined && roleService.checkPermission([6])) || roleService.checkPermission([1,2,3,4,5,7])"
+            class="btn btn-success" (click)="postCustomerRequirement()">{{"REQ-TECH.send" | translate}}</button>
     </div>
 </div>
 <hr>
@@ -188,7 +194,8 @@
                 <td>
                     <label class="input-label" [hidden]="editId === data.editId"
                         (click)="startEdit(data.editId)">{{data.companyName}}</label>
-                    <input placeholder="Pflichtfeld*" [hidden]="editId !== data.editId" type="text" nz-input [(ngModel)]="data.companyName" />
+                    <input placeholder="Pflichtfeld*" [hidden]="editId !== data.editId" type="text" nz-input
+                        [(ngModel)]="data.companyName" />
                 </td>
                 <td>
                     <label class="input-label" [hidden]="editId === data.editId"
@@ -198,21 +205,32 @@
                 <td>
                     <label class="input-label" [hidden]="editId === data.editId"
                         (click)="startEdit(data.editId)">{{data.address}}</label>
-                    <input  placeholder="Pflichtfeld*"  [hidden]="editId !== data.editId" type="text" nz-input [(ngModel)]="data.address" />
+                    <input placeholder="Pflichtfeld*" [hidden]="editId !== data.editId" type="text" nz-input
+                        [(ngModel)]="data.address" />
                 </td>
                 <td>
                     <label class="input-label" [hidden]="editId === data.editId"
                         (click)="startEdit(data.editId)">{{data.contactPerson}}</label>
                     <input [hidden]="editId !== data.editId" type="text" nz-input [(ngModel)]="data.contactPerson" />
                 </td>
+                <!--TODO Bug gefixt jedoch wird das Datum jetzt schirch angezeigt (Fehler war .toString())
+                
+                  <td>
+                    <label class="input-label" [hidden]="editId === data.editId" (click)="startEdit(data.editId)">{{
+                        (data.dateOfVisit !== undefined)?data.dateOfVisit!.toString().substring(0,10):' '}}</label>
+                    <input placeholder="Pflichtfeld*" [hidden]="editId !== data.editId" type="date" nz-input
+                        [(ngModel)]="data.dateOfVisit" />
+                </td>
+                -->
                 <td>
                     <label class="input-label" [hidden]="editId === data.editId" (click)="startEdit(data.editId)">{{
-                        (data.dateOfVisit !== undefined)?data.dateOfVisit!.toString().substring(0,10):''}}</label>
-                    <input  placeholder="Pflichtfeld*"  [hidden]="editId !== data.editId" type="date" nz-input [(ngModel)]="data.dateOfVisit" />
+                        (data.dateOfVisit !== undefined)?data.dateOfVisit:' '}}</label>
+                    <input placeholder="Pflichtfeld*" [hidden]="editId !== data.editId" type="date" nz-input
+                        [(ngModel)]="data.dateOfVisit" />
                 </td>
                 <td class="multiple-select">
-                    <mat-select  placeholder="Pflichtfeld*"  multiple placeholder="{{'REQ-TECH.select'|translate}} " [ngModel]="data.selection"
-                        (selectionChange)="selChange($event, data.editId)">
+                    <mat-select placeholder="Pflichtfeld*" multiple placeholder="{{'REQ-TECH.select'|translate}} "
+                        [ngModel]="data.selection" (selectionChange)="selChange($event, data.editId)">
                         <mat-option [value]="1">{{"REQ-TECH.presentationOfNewProducts" | translate}}</mat-option>
                         <mat-option [value]="2">{{"REQ-TECH.existingProducts" | translate}}</mat-option>
                         <mat-option [value]="3">{{"REQ-TECH.recipeOptimization" | translate}}.</mat-option>

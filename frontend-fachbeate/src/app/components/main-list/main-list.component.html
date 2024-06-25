@@ -3,8 +3,8 @@
     <h1 class="paddingSearch">{{'MAIN-LIST.header' | translate}}</h1>
   </div>
   <div>
-    <nz-filter-trigger class="paddingSearch" aria-label="asd" [(nzVisible)]="visible" [nzActive]="searchValue.length > 0"
-      [nzDropdownMenu]="menu">
+    <nz-filter-trigger class="paddingSearch" aria-label="asd" [(nzVisible)]="visible"
+      [nzActive]="searchValue.length > 0" [nzDropdownMenu]="menu">
       <i class="fa fa-search"></i>
     </nz-filter-trigger>
     <button class="btn btn-secondary" (click)="resetSortAndFilters()">{{"MAIN-LIST.filter-clear"| translate}}</button>
@@ -12,8 +12,7 @@
 </div>
 <hr>
 
-<nz-table #nzTable nzBordered nzSimple [nzPageSize]="7" nzTableLayout="fixed" [nzSize]="'small'" nzTableLayout="auto"
-  [nzData]="listOfDisplayData" class="striped-table">
+<nz-table #nzTable nzBordered [nzPageSize]="7" nzTableLayout="auto" [nzSize]="'small'" [nzData]="listOfDisplayData">
   <thead>
     <tr>
       <th [nzSortFn]="listOfColumn[0].sortFn" [(nzSortOrder)]="listOfColumn[0].sortOrder"
@@ -62,8 +61,8 @@
       <td (dblclick)="openCRC(data.id!, data.type!)">{{ data.status }}</td>
       <td (dblclick)="openCRC(data.id!, data.type!)">{{ data.vertreter }}</td>
       <td (dblclick)="openCRC(data.id!, data.type!)">{{ data.fachberater }}</td>
-      <td (dblclick)="openCRC(data.id!, data.type!)">{{ data.timespan!.start!.toString() | date:'dd.MM.yy' }} - {{
-        data.timespan!.end!.toString() | date:'dd.MM.yy' }}</td>
+      <td (dblclick)="openCRC(data.id!, data.type!)">{{ data.timespan!.start!  | date:'dd.MM.yy' }} - {{
+        data.timespan!.end! | date:'dd.MM.yy' }}</td>
       <td (dblclick)="openCRC(data.id!, data.type!)">{{ data.customer }}</td>
       <td (dblclick)="openCRC(data.id!, data.type!)">{{data.abschlussbericht }}</td>
       <td>
