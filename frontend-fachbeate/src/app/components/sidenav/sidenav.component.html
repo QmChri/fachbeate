@@ -10,30 +10,30 @@
     <ul class="sidenav-nav">
         <li class="sidenav-nav-item" *ngFor="let data of navData" (click)="handleCLick(data)">
             <div *ngIf="roleService.checkPermission(data.role!)">
-            <a class="sidenav-nav-link" *ngIf="data.items && data.items.length > 0">
-                <i class="sidenav-link-icon" [class]="data.icon"></i>
-                <span class="sidenav-link-text" @fadeInOut *ngIf="collapsed">
-                    {{"NAV."+data.label | translate}}
-                </span>
-                <i *ngIf="data.items && collapsed" class="menu-collapse-icon"
-                    [ngClass]="data.expanded ? 'fal fa-angle-down' : 'fal fa-angle-right' "></i>
-            </a>
-            <a class="sidenav-nav-link" *ngIf="!data.items || (data.items && data.items.length === 0)"
-                [routerLink]="[data.routeLink]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-                <i class="sidenav-link-icon" [class]="data.icon"></i>
-                <span class="sidenav-link-text" @fadeInOut *ngIf="collapsed">
-                    {{"NAV."+data.label | translate}}
-                </span>
-            </a>
-            <div *ngIf="collapsed && data.items && data.items.length > 0">
-                <app-sublevel-menu [data]="data" [collapsed]="collapsed" [multiple]="multiple"
-                    [expanded]="data.expanded"></app-sublevel-menu>
-            </div>
+                <a class="sidenav-nav-link" *ngIf="data.items && data.items.length > 0">
+                    <i class="sidenav-link-icon" [class]="data.icon"></i>
+                    <span class="sidenav-link-text" @fadeInOut *ngIf="collapsed">
+                        {{"NAV."+data.label | translate}}
+                    </span>
+                    <i *ngIf="data.items && collapsed" class="menu-collapse-icon"
+                        [ngClass]="data.expanded ? 'fal fa-angle-down' : 'fal fa-angle-right' "></i>
+                </a>
+                <a class="sidenav-nav-link" *ngIf="!data.items || (data.items && data.items.length === 0)"
+                    [routerLink]="[data.routeLink]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                    <i class="sidenav-link-icon" [class]="data.icon"></i>
+                    <span class="sidenav-link-text" @fadeInOut *ngIf="collapsed">
+                        {{"NAV."+data.label | translate}}
+                    </span>
+                </a>
+                <div *ngIf="collapsed && data.items && data.items.length > 0">
+                    <app-sublevel-menu [data]="data" [collapsed]="collapsed" [multiple]="multiple"
+                        [expanded]="data.expanded"></app-sublevel-menu>
+                </div>
             </div>
         </li>
         <li class="sidenav-nav-item logout">
-            <!--
-                <a class="sidenav-nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+
+            <a class="sidenav-nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
                 [matMenuTriggerFor]="menu">
                 <i class="sidenav-link-icon" [class]="'fal fa-language'"></i>
                 <span class="sidenav-link-text" @fadeInOut *ngIf="collapsed">
@@ -103,8 +103,8 @@
                     </div>
                 </mat-menu>
             </a>
-            -->
-            <a (click)="logout()" class="sidenav-nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <a (click)="logout()" class="sidenav-nav-link" routerLinkActive="active"
+                [routerLinkActiveOptions]="{exact: true}">
                 <i class="sidenav-link-icon" [class]="'fal fa-arrow-left'"></i>
                 <span class="sidenav-link-text" @fadeInOut *ngIf="collapsed">
                     Logout
