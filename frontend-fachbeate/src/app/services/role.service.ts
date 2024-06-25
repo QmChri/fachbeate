@@ -27,7 +27,7 @@ export class RoleService {
     this.roleMap.set("vertreter", 3)
     this.roleMap.set("fachberater", 4)
     this.roleMap.set("front-office", 5)
-    this.roleMap.set("haendler-tochter", 6)
+    this.roleMap.set("haendler-toechter", 6)
     this.roleMap.set("admin", 7)
 
   }
