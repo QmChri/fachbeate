@@ -224,7 +224,7 @@
                 -->
                 <td>
                     <label class="input-label" [hidden]="editId === data.editId" (click)="startEdit(data.editId)">{{
-                        (data.dateOfVisit !== undefined)?data.dateOfVisit:' '}}</label>
+                        (data.dateOfVisit !== undefined)?data.dateOfVisit:' ' | date:'dd.MM.yy' }}</label>
                     <input placeholder="Pflichtfeld*" [hidden]="editId !== data.editId" type="date" nz-input
                         [(ngModel)]="data.dateOfVisit" />
                 </td>

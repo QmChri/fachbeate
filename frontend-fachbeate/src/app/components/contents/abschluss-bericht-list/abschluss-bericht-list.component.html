@@ -56,8 +56,12 @@
             <td>{{ data.representative }}</td>
             <td>{{data.customerContactDate | date:'dd.MM.yy'}}</td>
             <td>
-                <span *ngIf="data.abschlussberichtFinished === 'Ja'" class="text-success">&#10004;</span>
-                <span *ngIf="data.abschlussberichtFinished === 'Nein'" class="text-danger">&#10008;</span>
+                <span style="display: flex;
+                flex-direction: row;
+                justify-content: center;" *ngIf="data.abschlussberichtFinished === 'Ja'" class="text-success">&#10004;</span>
+                <span style="display: flex;
+                flex-direction: row;
+                justify-content: center;" *ngIf="data.abschlussberichtFinished === 'Nein'" class="text-danger">&#10008;</span>
             </td>
             <td>{{getArticleListName(data.article)}}</td>
         </tr>

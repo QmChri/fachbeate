@@ -88,7 +88,7 @@ export class MainListComponent implements OnInit {
     }
   ];
 
-  constructor(private router: Router, private http: HttpService, private notificationService: NotificationService, private roleService: RoleService) { }
+  constructor(private router: Router, private http: HttpService, private notificationService: NotificationService, public roleService: RoleService) { }
 
   ngOnInit(): void {
     //this.tmpinitData();
@@ -172,8 +172,6 @@ export class MainListComponent implements OnInit {
         }
         return false;
       });
-      console.log(uniqueFilter);
-      
   }
 
   loadData() {
@@ -208,7 +206,7 @@ export class MainListComponent implements OnInit {
             name: element.company?.name!,
             dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
             customerOrCompany: "",
-            status: "false",
+            status: "Freigegeben",
             vertreter: element.representative?.firstName! + " " + element.representative?.lastName!,
             fachberater: element.requestedTechnologist?.firstName! + " " + element.requestedTechnologist?.lastName!,
             timespan: {
@@ -217,7 +215,8 @@ export class MainListComponent implements OnInit {
             },
             customer: "",
             abschlussbericht: cntFinalReports + "/" + element.customerVisits.length,
-            type: 0
+            type: 0,
+            visible: true
           }];
         });
       },
@@ -242,7 +241,7 @@ export class MainListComponent implements OnInit {
             name: "",
             dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
             customerOrCompany: "",
-            status: "false",
+            status: "Freigegeben",
             vertreter: element.representative!.firstName + " " + element.representative!.lastName,
             fachberater: element.requestedTechnologist!.map(a => a.firstName + " " + a.lastName).toString(),
             timespan: {
@@ -251,7 +250,8 @@ export class MainListComponent implements OnInit {
             },
             customer: element.customer!,
             abschlussbericht: 'false',
-            type: 1
+            type: 1,
+            visible: true
           }];
 
         });
@@ -269,7 +269,7 @@ export class MainListComponent implements OnInit {
             name: element.name!,
             dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
             customerOrCompany: element.customerOrCompany!,
-            status: element.releaserManagement,
+            status: "!Freigegeben",
             vertreter: element.representative!.firstName + " " + element.representative!.lastName,
             fachberater: "",
             timespan: {
@@ -278,7 +278,8 @@ export class MainListComponent implements OnInit {
             },
             customer: "",
             abschlussbericht: "",
-            type: 2
+            type: 2,
+            visible: true
           }];
 
         });
@@ -296,13 +297,15 @@ export class MainListComponent implements OnInit {
     })
   }
 
-  openCRC(id: number, type: number) {
-    if (type === 0) {
-      this.router.navigate(['/customer-requirements', id]);
-    } else if (type === 1) {
-      this.router.navigate(['/seminar-registration', id]);
-    } else if (type === 2) {
-      this.router.navigate(['/visitorRegistration', id]);
+  openCRC(data: any, id: number, type: number) {
+    if (data.visible) {
+      if (type === 0) {
+        this.router.navigate(['/customer-requirements', id]);
+      } else if (type === 1) {
+        this.router.navigate(['/seminar-registration', id]);
+      } else if (type === 2) {
+        this.router.navigate(['/visitorRegistration', id]);
+      }
     }
   }
 
@@ -331,6 +334,15 @@ export class MainListComponent implements OnInit {
       item.abschlussbericht!.valueOf().toString().includes(this.searchValue.toLocaleLowerCase()) ||
       item.type!.valueOf().toString().includes(this.searchValue.toLocaleLowerCase())
     ));
+  }
+
+  changeEditable(data: any) {
+    if (!data.visible) {
+      data.visible = true
+    }
+    else {
+      data.visible = false
+    }
   }
 
   /* tmpinitData() {
@@ -512,6 +524,7 @@ interface DataItem {
   customer: string;
   abschlussbericht?: string;
   type?: number;
+  visible: boolean;
 }
 
 interface TimeSpan {
