@@ -4,6 +4,7 @@ import { HttpService } from '../../services/http.service';
 import { Technologist } from '../../models/technologist';
 import { NotificationService } from '../../services/notification.service';
 import { RoleService } from '../../services/role.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-main-list',
@@ -88,7 +89,7 @@ export class MainListComponent implements OnInit {
     }
   ];
 
-  constructor(private router: Router, private http: HttpService, private notificationService: NotificationService, public roleService: RoleService) { }
+  constructor(private translate: TranslateService,private router: Router, private http: HttpService, private notificationService: NotificationService, public roleService: RoleService) { }
 
   ngOnInit(): void {
     //this.tmpinitData();
