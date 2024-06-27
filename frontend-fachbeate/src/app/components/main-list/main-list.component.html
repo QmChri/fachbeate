@@ -12,8 +12,7 @@
 </div>
 <hr>
 
-<nz-table #nzTable nzBordered nzSimple [nzPageSize]="7" nzTableLayout="fixed" [nzSize]="'small'" nzTableLayout="auto"
-  [nzData]="listOfDisplayData" class="striped-table">
+<nz-table #nzTable nzBordered [nzPageSize]="7" nzTableLayout="auto" [nzSize]="'small'" [nzData]="listOfDisplayData">
   <thead>
     <tr>
       <th [nzSortFn]="listOfColumn[0].sortFn" [(nzSortOrder)]="listOfColumn[0].sortOrder"
@@ -52,23 +51,41 @@
         [nzFilters]="listOfColumn[9].listOfFilter" [nzFilterFn]="listOfColumn[9].filterFn!">
         {{'MAIN_LIST.'+listOfColumn[9].name|
         translate}}</th>
+      <th *ngIf="roleService.checkPermission([1,2])"></th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let data of nzTable.data" [matTooltip]="'MAIN_LIST.double_click_to_edit' | translate">
-      <td (dblclick)="openCRC(data.id!, data.type!)">{{data.name}}</td>
-      <td (dblclick)="openCRC(data.id!, data.type!)">{{ data.dateOfCreation!.toString() | date:'dd.MM.yy' }}</td>
-      <td (dblclick)="openCRC(data.id!, data.type!)">{{ data.customerOrCompany }}</td>
-      <td (dblclick)="openCRC(data.id!, data.type!)">{{ data.status }}</td>
-      <td (dblclick)="openCRC(data.id!, data.type!)">{{ data.vertreter }}</td>
-      <td (dblclick)="openCRC(data.id!, data.type!)">{{ data.fachberater }}</td>
-      <td (dblclick)="openCRC(data.id!, data.type!)">{{ data.timespan!.start!.toString() | date:'dd.MM.yy' }} - {{
-        data.timespan!.end!.toString() | date:'dd.MM.yy' }}</td>
-      <td (dblclick)="openCRC(data.id!, data.type!)">{{ data.customer }}</td>
-      <td (dblclick)="openCRC(data.id!, data.type!)">{{data.abschlussbericht }}</td>
+    <tr *ngFor="let data of nzTable.data">
+      <td (dblclick)="openCRC(data,data.id!, data.type!)">{{data.name}}</td>
+      <td (dblclick)="openCRC(data,data.id!, data.type!)">{{ data.dateOfCreation!.toString() | date:'dd.MM.yy' }}</td>
+      <td (dblclick)="openCRC(data,data.id!, data.type!)">{{ data.customerOrCompany }}</td>
+      <td (dblclick)="openCRC(data,data.id!, data.type!)">
+        <span style="display: flex;
+        flex-direction: row;
+        justify-content: center;" *ngIf="data.status === 'Freigegeben'" class="text-success">&#10004;</span>
+        <span style="display: flex;
+        flex-direction: row;
+        justify-content: center;" *ngIf="data.status === '!Freigegeben'" class="text-danger">&#10008;</span>
+      </td>
+      <td (dblclick)="openCRC(data,data.id!, data.type!)">{{ data.vertreter }}</td>
+      <td (dblclick)="openCRC(data,data.id!, data.type!)">{{ data.fachberater }}</td>
+      <td (dblclick)="openCRC(data,data.id!, data.type!)">{{ data.timespan!.start! | date:'dd.MM.yy' }} - {{
+        data.timespan!.end! | date:'dd.MM.yy' }}</td>
+      <td (dblclick)="openCRC(data,data.id!, data.type!)">{{ data.customer }}</td>
+      <td (dblclick)="openCRC(data,data.id!, data.type!)">{{data.abschlussbericht }}</td>
       <td>
         <span>{{ ((data.type === 0) ? 'MAIN_LIST.advisor_type' : (data.type === 1) ? 'MAIN_LIST.seminar':
           'MAIN_LIST.visit') | translate }}</span>
+      </td>
+      <td *ngIf="roleService.checkPermission([1,2])">
+        <button class="btn btn-success" (click)="changeEditable(data)">
+          <div *ngIf="data.visible; else notVisible">
+            <i class="fas fa-eye"></i>
+          </div>
+          <ng-template #notVisible>
+            <i class="fas fa-eye-slash"></i>
+          </ng-template>
+        </button>
       </td>
     </tr>
   </tbody>
