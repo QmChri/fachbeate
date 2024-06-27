@@ -7,14 +7,18 @@
         <button [disabled]="inputWorkshop.releaseManagement !== null && inputWorkshop.releaseManagement !== undefined"
             (nzOnConfirm)="release('gl')" *ngIf="roleService.checkPermission([1,7])" style="margin-right: 2rem;"
             nz-button nzType="primary" nz-popconfirm nzPopconfirmShowArrow="false" [nzIcon]="iconTpl"
-            nzPopconfirmTitle="Sind Sie sicher?">
+            [nzCancelText]="'DASHBOARD.cancel' | translate"
+            [nzOkText]="'STANDARD.ok' | translate"
+            [nzPopconfirmTitle]="'STANDARD.are_you_sure' | translate">
             <ng-template #iconTpl></ng-template>
             {{"CUSTOMER_REQUIREMENTS.approval_gl" | translate}}
         </button>
         <button [disabled]="inputWorkshop.releaseSupervisor !== null && inputWorkshop.releaseSupervisor !== undefined"
             (nzOnConfirm)="release('al')" *ngIf="roleService.checkPermission([1,2,7])" style="margin-right: 2rem;"
             nz-button nzType="primary" nz-popconfirm nzPopconfirmShowArrow="false" [nzIcon]="iconTpl"
-            nzPopconfirmTitle="Sind Sie sicher?">
+            [nzCancelText]="'DASHBOARD.cancel' | translate"
+            [nzOkText]="'STANDARD.ok' | translate"
+            [nzPopconfirmTitle]="'STANDARD.are_you_sure' | translate">
             <ng-template #iconTpl></ng-template>
             {{"CUSTOMER_REQUIREMENTS.approval_al" | translate}}
         </button>
@@ -348,7 +352,7 @@
                 <!--TODO ngModels setzen-->
                 <div class="card-body">
                     @for (tab of tabs; track tab; let index = $index) {
-                    <p>{{index+1}}. Hotelbuchung</p>
+                    <p>{{index+1}}. {{"CUSTOMER_REQUIREMENTS.hotel_booking"|translate}} <p>
                     <div class="center-items">
                         <mat-form-field class="smallInputSpecial">
                             <mat-label>{{'VISITOR_REGRISTRATION.location' | translate}}</mat-label>

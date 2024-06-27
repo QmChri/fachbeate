@@ -8,7 +8,9 @@
             [disabled]="inputVisitRegistration.releaseManagement !== null && inputVisitRegistration.releaseManagement !== undefined"
             (nzOnConfirm)="release('gl')" *ngIf="roleService.checkPermission([1,7])" style="margin-right: 2rem;"
             nz-button nzType="primary" nz-popconfirm nzPopconfirmShowArrow="false" [nzIcon]="iconTpl"
-            nzPopconfirmTitle="Sind Sie sicher?">
+            [nzCancelText]="'DASHBOARD.cancel' | translate"
+            [nzOkText]="'STANDARD.ok' | translate"
+            [nzPopconfirmTitle]="'STANDARD.are_you_sure' | translate">
             <ng-template #iconTpl></ng-template>
             {{"CUSTOMER_REQUIREMENTS.approval_gl" | translate}}
         </button>
@@ -16,7 +18,9 @@
             [disabled]="inputVisitRegistration.releaseSupervisor !== null && inputVisitRegistration.releaseSupervisor !== undefined"
             (nzOnConfirm)="release('al')" *ngIf="roleService.checkPermission([1,2,7])" style="margin-right: 2rem;"
             nz-button nzType="primary" nz-popconfirm nzPopconfirmShowArrow="false" [nzIcon]="iconTpl"
-            nzPopconfirmTitle="Sind Sie sicher?">
+            [nzCancelText]="'DASHBOARD.cancel' | translate"
+            [nzOkText]="'STANDARD.ok' | translate"
+            [nzPopconfirmTitle]="'STANDARD.are_you_sure' | translate">
             <ng-template #iconTpl></ng-template>
             {{"CUSTOMER_REQUIREMENTS.approval_al" | translate}}
         </button>
@@ -82,11 +86,17 @@
                         <mat-label>{{"VISITOR_REGRISTRATION.customer_company" | translate}}</mat-label>
                         <input matInput required [(ngModel)]="inputVisitRegistration.customerOrCompany">
                     </mat-form-field>
-                    <button class="btn btn-success teilButton"
+                    <!--  <button class="btn btn-success teilButton"
                         matTooltip="{{'VISITOR_REGRISTRATION.participant_list' | translate}}"
                         (click)="openDialog((inputVisitRegistration.guests !== null && inputVisitRegistration.guests !== undefined)?inputVisitRegistration.guests:[])">
                         <i class="fas fa-user-friends"></i>
-                    </button>
+                    </button> -->
+                    <button class="btn teilButton"
+                    [ngClass]="{'btn-success': inputVisitRegistration.guests && inputVisitRegistration.guests.length > 0, 'btn-danger': !inputVisitRegistration.guests || inputVisitRegistration.guests.length === 0}"
+                    matTooltip="{{'VISITOR_REGRISTRATION.participant_list' | translate}}"
+                    (click)="openDialog((inputVisitRegistration.guests !== null && inputVisitRegistration.guests !== undefined) ? inputVisitRegistration.guests : [])">
+                    <i class="fas fa-user-friends"></i>
+                </button>
                 </div>
                 <mat-form-field>
                     <mat-label>{{'VISITOR_REGRISTRATION.arrival_from_country' | translate}}</mat-label>

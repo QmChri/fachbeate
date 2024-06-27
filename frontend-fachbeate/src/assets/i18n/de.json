@@ -36,7 +36,9 @@
         "assigned_consultant": "Zugeteilter Fachberater* & Grund*",
         "sex_first_name_last_name": "Geschlecht* & Vorname* & Nachname*",
         "assigned_representative": "Vertreter* & Fachberater* & Von - Bis*",
-        "assigned_repre_cons": "Händler/Töchter* & Vertreter* & Fachberater* & Von - Bis*"
+        "assigned_repre_cons": "Händler/Töchter* & Vertreter* & Fachberater* & Von - Bis*",
+        "are_you_sure": "Sind Sie sicher?",
+        "ok": "OK"
     },
     "DASHBOARD": {
         "advisor_schedule_overview": "Terminübersicht Fachberater",

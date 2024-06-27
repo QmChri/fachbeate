@@ -54,7 +54,7 @@ export class SidenavComponent implements OnInit {
 
   constructor(private notificationService: NotificationService, private translate: TranslateService, private readonly keycloak: KeycloakService,
     public roleService: RoleService) {
-    this.translate.addLangs(['en', 'de']);
+    this.translate.addLangs(['en', 'de','ru']);
   }
 
   @HostListener('window:resize', ['$event'])

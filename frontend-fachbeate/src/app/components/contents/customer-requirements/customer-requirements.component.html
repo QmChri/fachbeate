@@ -7,7 +7,8 @@
             [disabled]="inputCustomerRequirement.releaseManagement !== null && inputCustomerRequirement.releaseManagement !== undefined"
             (nzOnConfirm)="release('gl')" *ngIf="roleService.checkPermission([1,7])" style="margin-right: 2rem;"
             nz-button nzType="primary" nz-popconfirm nzPopconfirmShowArrow="false" [nzIcon]="iconTpl"
-            nzPopconfirmTitle="Sind Sie sicher?">
+            [nzCancelText]="'DASHBOARD.cancel' | translate" [nzOkText]="'STANDARD.ok' | translate"
+            [nzPopconfirmTitle]="'STANDARD.are_you_sure' | translate">
             <ng-template #iconTpl></ng-template>
             {{"CUSTOMER_REQUIREMENTS.approval_gl" | translate}}
         </button>
@@ -15,7 +16,8 @@
             [disabled]="inputCustomerRequirement.releaseSupervisor !== null && inputCustomerRequirement.releaseSupervisor !== undefined"
             (nzOnConfirm)="release('al')" *ngIf="roleService.checkPermission([1,2,7])" style="margin-right: 2rem;"
             nz-button nzType="primary" nz-popconfirm nzPopconfirmShowArrow="false" [nzIcon]="iconTpl"
-            nzPopconfirmTitle="Sind Sie sicher?">
+            [nzCancelText]="'DASHBOARD.cancel' | translate" [nzOkText]="'STANDARD.ok' | translate"
+            [nzPopconfirmTitle]="'STANDARD.are_you_sure' | translate">
             <ng-template #iconTpl></ng-template>
             {{"CUSTOMER_REQUIREMENTS.approval_al" | translate}}
         </button>
@@ -23,7 +25,8 @@
     <div>
         <button
             *ngIf="(inputCustomerRequirement.creator === undefined && roleService.checkPermission([6])) || roleService.checkPermission([1,2,3,4,5,7])"
-            class="btn btn-success" (click)="postCustomerRequirement()">{{"CUSTOMER_REQUIREMENTS.send_form" | translate}}
+            class="btn btn-success" (click)="postCustomerRequirement()">{{"CUSTOMER_REQUIREMENTS.send_form" |
+            translate}}
         </button>
     </div>
 </div>
@@ -123,7 +126,8 @@
                             <mat-select [(ngModel)]="inputCustomerRequirement.flightBooking">
                                 <mat-option>--</mat-option>
                                 <mat-option [value]="true">Almi</mat-option>
-                                <mat-option [value]="false">{{"CUSTOMER_REQUIREMENTS.selction-customer" | translate}}</mat-option>
+                                <mat-option [value]="false">{{"CUSTOMER_REQUIREMENTS.selction-customer" |
+                                    translate}}</mat-option>
                             </mat-select>
                             @if (tohaControl.hasError('required')) {
                             <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
@@ -136,7 +140,8 @@
                             <mat-select [(ngModel)]="inputCustomerRequirement.hotelBooking">
                                 <mat-option>--</mat-option>
                                 <mat-option [value]="true">Almi</mat-option>
-                                <mat-option [value]="false">{{"CUSTOMER_REQUIREMENTS.selction-customer" | translate}}</mat-option>
+                                <mat-option [value]="false">{{"CUSTOMER_REQUIREMENTS.selction-customer" |
+                                    translate}}</mat-option>
                             </mat-select>
                             @if (tohaControl.hasError('required')) {
                             <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
@@ -172,7 +177,8 @@
 <br>
 <div class="header">
     <h1 style="margin: 0%;">{{"CUSTOMER_REQUIREMENTS.planned_customer_visits"|translate}}</h1>
-    <button nz-button (click)="addRow()" nzType="primary">{{"CUSTOMER_REQUIREMENTS.new_customer_visit"|translate}}</button>
+    <button nz-button (click)="addRow()"
+        nzType="primary">{{"CUSTOMER_REQUIREMENTS.new_customer_visit"|translate}}</button>
 </div>
 <hr>
 <div class="row">
@@ -195,8 +201,8 @@
                 <td>
                     <label class="input-label" [hidden]="editId === data.editId"
                         (click)="startEdit(data.editId)">{{data.companyName}}</label>
-                    <input [placeholder]="'CUSTOMER_REQUIREMENTS.mandatory_field' | translate" [hidden]="editId !== data.editId" type="text" nz-input
-                        [(ngModel)]="data.companyName" />
+                    <input [placeholder]="'CUSTOMER_REQUIREMENTS.mandatory_field' | translate"
+                        [hidden]="editId !== data.editId" type="text" nz-input [(ngModel)]="data.companyName" />
                 </td>
                 <td>
                     <label class="input-label" [hidden]="editId === data.editId"
@@ -206,8 +212,8 @@
                 <td>
                     <label class="input-label" [hidden]="editId === data.editId"
                         (click)="startEdit(data.editId)">{{data.address}}</label>
-                    <input [placeholder]="'CUSTOMER_REQUIREMENTS.mandatory_field' | translate" [hidden]="editId !== data.editId" type="text" nz-input
-                        [(ngModel)]="data.address" />
+                    <input [placeholder]="'CUSTOMER_REQUIREMENTS.mandatory_field' | translate"
+                        [hidden]="editId !== data.editId" type="text" nz-input [(ngModel)]="data.address" />
                 </td>
                 <td>
                     <label class="input-label" [hidden]="editId === data.editId"
@@ -217,15 +223,17 @@
                 <td>
                     <label class="input-label" [hidden]="editId === data.editId" (click)="startEdit(data.editId)">{{
                         (data.dateOfVisit !== undefined)?data.dateOfVisit!.toString().substring(0,10):''}}</label>
-                    <input [placeholder]="'CUSTOMER_REQUIREMENTS.mandatory_field' | translate" [hidden]="editId !== data.editId" type="date" nz-input
-                        [(ngModel)]="data.dateOfVisit" />
+                    <input [placeholder]="'CUSTOMER_REQUIREMENTS.mandatory_field' | translate"
+                        [hidden]="editId !== data.editId" type="date" nz-input [(ngModel)]="data.dateOfVisit" />
                 </td>
                 <td class="multiple-select">
                     <mat-select multiple placeholder="{{'STANDARD.please_select'|translate}} "
                         [ngModel]="data.selection" (selectionChange)="selChange($event, data.editId)">
-                        <mat-option [value]="1">{{"CUSTOMER_REQUIREMENTS.presentation_of_new_products" | translate}}</mat-option>
+                        <mat-option [value]="1">{{"CUSTOMER_REQUIREMENTS.presentation_of_new_products" |
+                            translate}}</mat-option>
                         <mat-option [value]="2">{{"CUSTOMER_REQUIREMENTS.existing_products" | translate}}</mat-option>
-                        <mat-option [value]="3">{{"CUSTOMER_REQUIREMENTS.recipe_optimization" | translate}}.</mat-option>
+                        <mat-option [value]="3">{{"CUSTOMER_REQUIREMENTS.recipe_optimization" |
+                            translate}}.</mat-option>
                         <mat-option [value]="4">{{"CUSTOMER_REQUIREMENTS.recipe_optimization" | translate}}</mat-option>
                         <mat-option [value]="5">{{"CUSTOMER_REQUIREMENTS.training" | translate}}</mat-option>
                     </mat-select>
@@ -236,16 +244,18 @@
                     <input nz-input [hidden]="editId !== data.editId" type="text" [(ngModel)]="data.productionAmount" />
                 </td>
                 <td>
-                    <div class="flugHotel"> <button matTooltip="{{'CUSTOMER_REQUIREMENTS.edit' | translate}}" class="btn btn-success"
-                            (click)="startEdit(data.editId)" [hidden]="editId === data.editId">
+                    <div class="flugHotel"> <button matTooltip="{{'CUSTOMER_REQUIREMENTS.edit' | translate}}"
+                            class="btn btn-success" (click)="startEdit(data.editId)" [hidden]="editId === data.editId">
                             <i class="fa fa-pencil"></i>
                         </button>
                         <button matTooltip="{{'STANDARD.save' | translate}}" class="btn btn-success"
                             (click)="stopEdit()" [hidden]="editId !== data.editId">
                             <i class="fa fa-save"></i>
                         </button>
-                        <button matTooltip="{{'STANDARD.remove' | translate}}" class="btn btn-danger" nz-popconfirm
-                            nzPopconfirmShowArrow="false" [nzIcon]="iconTpl" nzPopconfirmTitle="Sind Sie sicher?"
+                        <button matTooltip="{{ 'STANDARD.remove' | translate }}" class="btn btn-danger" nz-popconfirm
+                            nzPopconfirmShowArrow="false" [nzIcon]="iconTpl"
+                            [nzCancelText]="'DASHBOARD.cancel' | translate" [nzOkText]="'STANDARD.ok' | translate"
+                            [nzPopconfirmTitle]="'STANDARD.are_you_sure' | translate"
                             (nzOnConfirm)="deleteRow(data.editId)">
                             <ng-template #iconTpl>
                                 <span nz-icon nzType="question-circle-o" style="color: red;"></span>

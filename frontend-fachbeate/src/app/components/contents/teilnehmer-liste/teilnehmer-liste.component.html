@@ -51,6 +51,7 @@
                     </td>
                     <td>
                         <button class="btn btn-danger" nz-popconfirm [nzIcon]="iconTpl"
+                            [nzCancelText]="'DASHBOARD.cancel' | translate" [nzOkText]="'STANDARD.ok' | translate"
                             [nzPopconfirmTitle]="'CREATION_SITES.delete_securely' | translate"
                             (nzOnConfirm)="deleteRow(data.editId!)">
                             <ng-template #iconTpl>
@@ -66,6 +67,7 @@
 
 </div>
 <div class="mainView header" style="margin-top: auto;">
-    <div> <button (click)="closeDialog(false)" class="btn btn-secondary">{{'DASHBOARD.cancel' |translate}}</button></div>
+    <div> <button (click)="closeDialog(false)" class="btn btn-secondary">{{'DASHBOARD.cancel' |translate}}</button>
+    </div>
     <div> <button (click)="closeDialog(true)" class="btn btn-success">{{'STANDARD.save' |translate}}</button></div>
 </div>
