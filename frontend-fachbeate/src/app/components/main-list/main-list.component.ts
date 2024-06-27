@@ -89,7 +89,7 @@ export class MainListComponent implements OnInit {
     }
   ];
 
-  constructor(private translate: TranslateService,private router: Router, private http: HttpService, private notificationService: NotificationService, public roleService: RoleService) { }
+  constructor(public translate: TranslateService,private router: Router, private http: HttpService, private notificationService: NotificationService, public roleService: RoleService) { }
 
   ngOnInit(): void {
     //this.tmpinitData();
