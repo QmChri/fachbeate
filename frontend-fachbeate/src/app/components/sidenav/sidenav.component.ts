@@ -52,7 +52,7 @@ export class SidenavComponent implements OnInit {
   multiple: boolean = false;
   currentUrl = "";
 
-  constructor(private notificationService: NotificationService,private translate: TranslateService, private readonly keycloak: KeycloakService,
+  constructor(private notificationService: NotificationService, private translate: TranslateService, private readonly keycloak: KeycloakService,
     public roleService: RoleService) {
     this.translate.addLangs(['en', 'de']);
   }
@@ -72,7 +72,9 @@ export class SidenavComponent implements OnInit {
 
   switchLanguage(language: string) {
     this.translate.use(language);
-    this.notificationService.createBasicNotification(0, 'Sprache wurde auf: "' + language + '" geändert!', '', 'topRight');
+    this.translate.get('STANDARD.language_changed').subscribe((translatedMessage: string) => {
+      this.notificationService.createBasicNotification(0, translatedMessage, language, 'topRight');
+    });
   }
 
   ngOnInit(): void {

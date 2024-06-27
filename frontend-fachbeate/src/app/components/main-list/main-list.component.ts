@@ -19,28 +19,28 @@ export class MainListComponent implements OnInit {
   listOfDisplayData: DataItem[] = [];
   listOfColumn: ColumnDefinition[] = [
     {
-      name: 'name',
+      name: 'company_name',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.name!.toString().localeCompare(b.name!.toString()),
       listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => list.some(a => item.name!.indexOf(a) !== -1)
     },
     {
-      name: 'dateOfCreation',
+      name: 'creation_date',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.dateOfCreation!.valueOf() - b.dateOfCreation!.valueOf(),
       listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => true
     },
     {
-      name: 'customerOrCompany',
+      name: 'requested_by',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.customerOrCompany!.toString().localeCompare(b.customerOrCompany!.toString()),
       listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => list.some(name => item.customerOrCompany!.indexOf(name) !== -1)
     },
     {
-      name: 'state',
+      name: 'status',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => 1,
       listOfFilter: [],
@@ -54,14 +54,14 @@ export class MainListComponent implements OnInit {
       filterFn: (list: string[], item: DataItem) => list.some(name => item.vertreter!.indexOf(name) !== -1)
     },
     {
-      name: 'technologist',
+      name: 'advisor',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.fachberater!.localeCompare(b.fachberater!),
       listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => list.some(name => item.fachberater!.indexOf(name) !== -1)
     },
     {
-      name: 'timespan',
+      name: 'requested_period',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.timespan!.valueOf().toString().localeCompare(b.timespan!.valueOf().toString()),
       listOfFilter: [],
@@ -75,14 +75,14 @@ export class MainListComponent implements OnInit {
       filterFn: (list: string[], item: DataItem) => list.some(name => item.customer!.indexOf(name) !== -1)
     },
     {
-      name: 'final-report',
+      name: 'final_report',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.abschlussbericht!.valueOf().toString().localeCompare(b.abschlussbericht!.valueOf().toString()),
       listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => list.some(name => item.abschlussbericht!.valueOf().toString().indexOf(name.valueOf().toString()) !== -1)
     },
     {
-      name: 'typ',
+      name: 'type',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.type!.valueOf().toString().localeCompare(b.type!.valueOf().toString()),
       listOfFilter: [],
@@ -103,20 +103,20 @@ export class MainListComponent implements OnInit {
   getNzFilters() {
     const uniqueFilter = new Set<string>();
 
-    this.listOfColumn.find(element => element.name === 'name')!.listOfFilter =
+    this.listOfColumn.find(element => element.name === 'company_name')!.listOfFilter =
       this.listOfDisplayData.reduce((uniqueFilters, element) => {
         if (!uniqueFilters.some(filter => filter.value === element.name!)) {
           uniqueFilters.push({ text: element.name!, value: element.name! });
         }
         return uniqueFilters;
       }, [] as { text: string, value: string }[]);
-    this.listOfColumn.find(element => element.name === 'customerOrCompany')!.listOfFilter =
+    this.listOfColumn.find(element => element.name === 'requested_by')!.listOfFilter =
       this.listOfDisplayData.reduce((uniqueFilters, element) => {
         if (!uniqueFilters.some(filter => filter.value === element.customerOrCompany!)) {
           uniqueFilters.push({ text: element.customerOrCompany!, value: element.customerOrCompany! });
         }
         return uniqueFilters;
-      }, [] as { text: string, value: string }[]); this.listOfColumn.find(element => element.name === 'state')!.listOfFilter =
+      }, [] as { text: string, value: string }[]); this.listOfColumn.find(element => element.name === 'status')!.listOfFilter =
         this.listOfDisplayData.reduce((uniqueFilters, element) => {
           if (!uniqueFilters.some(filter => filter.value === element.status!)) {
             uniqueFilters.push({ text: element.status!, value: element.status! });
@@ -129,7 +129,7 @@ export class MainListComponent implements OnInit {
           uniqueFilters.push({ text: element.vertreter!, value: element.vertreter! });
         }
         return uniqueFilters;
-      }, [] as { text: string, value: string }[]); this.listOfColumn.find(element => element.name === 'technologist')!.listOfFilter =
+      }, [] as { text: string, value: string }[]); this.listOfColumn.find(element => element.name === 'advisor')!.listOfFilter =
         this.listOfDisplayData.reduce((uniqueFilters, element) => {
           if (!uniqueFilters.some(filter => filter.value === element.fachberater!)) {
             uniqueFilters.push({ text: element.fachberater!, value: element.fachberater! });
@@ -143,14 +143,14 @@ export class MainListComponent implements OnInit {
         }
         return uniqueFilters;
       }, [] as { text: string, value: string }[]);
-    this.listOfColumn.find(element => element.name === 'final-report')!.listOfFilter =
+    this.listOfColumn.find(element => element.name === 'final_report')!.listOfFilter =
       this.listOfDisplayData.reduce((uniqueFilters, element) => {
         if (!uniqueFilters.some(filter => filter.value === element.abschlussbericht!)) {
           uniqueFilters.push({ text: element.abschlussbericht!, value: element.abschlussbericht! });
         }
         return uniqueFilters;
       }, [] as { text: string, value: string }[]);
-    this.listOfColumn.find(element => element.name === 'typ')!.listOfFilter = this.listOfDisplayData.map(element => {
+    this.listOfColumn.find(element => element.name === 'type')!.listOfFilter = this.listOfDisplayData.map(element => {
       let typeText;
       switch (element.type!.toString()) {
         case '0':
@@ -179,14 +179,14 @@ export class MainListComponent implements OnInit {
   }
 
   loadData() {
-    var type = (this.roleService.checkPermission([1,2,3,5,7])?7:6);
-    type = (!this.roleService.checkPermission([1,2,3,5,6,7])?4:type);
-    var fullname = (type === 6?this.roleService.getUserName()!:this.roleService.getFullName()!);
+    var type = (this.roleService.checkPermission([1, 2, 3, 5, 7]) ? 7 : 6);
+    type = (!this.roleService.checkPermission([1, 2, 3, 5, 6, 7]) ? 4 : type);
+    var fullname = (type === 6 ? this.roleService.getUserName()! : this.roleService.getFullName()!);
 
     this.loadTechnologists();
     this.http.getCustomerRequirementsByUser(type!, fullname!).subscribe({
       next: data => {
-        data.forEach(element => {          
+        data.forEach(element => {
           var tmpStatus = "in-progress";
           if ((element.releaseManagement != null && element.releaseManagement != undefined)
             || (element.releaseSupervisor != null && element.releaseSupervisor != undefined)) {
@@ -221,11 +221,11 @@ export class MainListComponent implements OnInit {
             abschlussbericht: cntFinalReports + "/" + element.customerVisits.length,
             type: 0
           }];
-        });        
+        });
       },
       error: err => {
         console.log(err);
-        
+
       }
     });
 
@@ -310,7 +310,9 @@ export class MainListComponent implements OnInit {
 
   resetSortAndFilters(): void {
     this.searchValue = '';
-    this.notificationService.createBasicNotification(2, 'Filter/Sortierung aufgehoben!', '', 'topRight');
+    this.translate.get('STANDARD.filter_sorting_removed').subscribe((translatedMessage: string) => {
+      this.notificationService.createBasicNotification(2, translatedMessage, '', 'topRight');
+    });
     this.getNzFilters();
     //this.tmpinitData();
     this.listOfColumn.forEach(item => {

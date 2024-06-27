@@ -5,6 +5,7 @@ import { Technologist } from '../../../models/technologist';
 import { HttpService } from '../../../services/http.service';
 import { TechnologistAppointment } from '../../../models/technologist-appointment';
 import { NotificationService } from '../../../services/notification.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-new-date-entry',
@@ -27,12 +28,12 @@ export class NewDateEntryComponent implements OnInit {
   inputDate: TechnologistAppointment = {};
   technologists: Technologist[] = [];
 
-  constructor(public dialogRef: MatDialogRef<AbschlussBerichtComponent>,
+  constructor(private translate: TranslateService, public dialogRef: MatDialogRef<AbschlussBerichtComponent>,
     @Inject(MAT_DIALOG_DATA) public timeSpan: TechnologistAppointment,
     private http: HttpService, private notificationService: NotificationService
   ) {
   }
-  
+
   ngOnInit(): void {
 
     this.inputDate.startDate = this.timeSpan.startDate;
@@ -71,10 +72,16 @@ export class NewDateEntryComponent implements OnInit {
 
   save() {
     if (this.inputDate.requestedTechnologist === undefined || this.inputDate.reason === undefined) {
-      this.notificationService.createBasicNotification(4, 'Bitte Pflichtfelder ausfüllen!', 'Zugeteilter Fachberater* & Grund*', 'topRight')
+      this.translate.get(['STANDARD.please_fill_required_fields', 'STANDARD.assigned_consultant']).subscribe(translations => {
+        const message = translations['STANDARD.please_fill_required_fields'];
+        const anotherMessage = translations['STANDARD.assigned_consultant'];
+        this.notificationService.createBasicNotification(4, message, anotherMessage, 'topRight');
+      });
     }
     else {
-      this.notificationService.createBasicNotification(0, 'Neuer Eintrag angelegt!', 'für ' + this.inputDate.requestedTechnologist!.firstName + this.inputDate.requestedTechnologist!.lastName, 'topRight')
+      this.translate.get('STANDARD.new_entry_created').subscribe((translatedMessage: string) => {
+        this.notificationService.createBasicNotification(0, translatedMessage, 'für ' + this.inputDate.requestedTechnologist!.firstName + this.inputDate.requestedTechnologist!.lastName, 'topRight');
+      });
       this.http.postOtherDate(this.inputDate).subscribe({
         next: data => {
           this.closeDialog();

@@ -14,6 +14,7 @@ import { Representative } from '../../../models/representative';
 import { Company } from '../../../models/company';
 import { NotificationService } from '../../../services/notification.service';
 import { RoleService } from '../../../services/role.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-customer-requirements',
@@ -29,7 +30,7 @@ export class CustomerRequirementsComponent implements OnInit {
   representative: Representative[] = [];
   companies: Company[] = [];
 
-  constructor(private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute, private notificationService: NotificationService, public roleService: RoleService) { }
+  constructor(private translate: TranslateService, private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute, private notificationService: NotificationService, public roleService: RoleService) { }
 
   ngOnInit(): void {
     this.getTechnologist();
@@ -71,13 +72,23 @@ export class CustomerRequirementsComponent implements OnInit {
   release(department: string) {
 
     if (department === 'gl' && this.checkRequired()) {
-      this.notificationService.createBasicNotification(0, 'Freigabe von GL wurde erteilt!', '', 'topRight');
+      this.translate.get(['STANDARD.approval_from_gl_granted', 'STANDARD.assigned_representative']).subscribe(translations => {
+        const message = translations['STANDARD.approval_from_gl_granted'];
+        const anotherMessage = translations['STANDARD.assigned_representative'];
+        this.notificationService.createBasicNotification(4, message, anotherMessage, 'topRight');
+      });
+      this.translate.get('STANDARD.approval_from_gl_granted').subscribe((translatedMessage: string) => {
+        this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
+      });
       this.inputCustomerRequirement.releaseManagement = new Date();
       this.inputCustomerRequirement.releaserManagement = this.roleService.getUserName()
     }
     else if (department === 'al' && this.checkRequired()) {
-      this.notificationService.createBasicNotification(0, 'Freigabe von AL wurde erteilt!', '', 'topRight');
-      this.inputCustomerRequirement.releaseSupervisor = new Date();
+      this.translate.get(['STANDARD.approval_from_al_granted', 'STANDARD.assigned_representative']).subscribe(translations => {
+        const message = translations['STANDARD.approval_from_al_granted'];
+        const anotherMessage = translations['STANDARD.assigned_representative'];
+        this.notificationService.createBasicNotification(4, message, anotherMessage, 'topRight');
+      }); this.inputCustomerRequirement.releaseSupervisor = new Date();
       this.inputCustomerRequirement.releaserSupervisor = this.roleService.getUserName()
     }
   }
@@ -133,7 +144,11 @@ export class CustomerRequirementsComponent implements OnInit {
 
   postCustomerRequirement() {
     if (this.checkRequired()) {
-      this.notificationService.createBasicNotification(0, 'Formular wurde gesendet!', '', 'topRight')
+      this.translate.get(['STANDARD.form_sent', 'STANDARD.assigned_representative']).subscribe(translations => {
+        const message = translations['STANDARD.please_fill_required_fields'];
+        const anotherMessage = translations['STANDARD.assigned_representative'];
+        this.notificationService.createBasicNotification(4, message, anotherMessage, 'topRight');
+      });
       this.inputCustomerRequirement.reason = "XXXX"
       this.inputCustomerRequirement.dateOfCreation = new Date();
 
@@ -168,8 +183,12 @@ export class CustomerRequirementsComponent implements OnInit {
       !this.inputCustomerRequirement.representative ||
       !this.inputCustomerRequirement.startDate ||
       !this.inputCustomerRequirement.endDate) {
-      this.notificationService.createBasicNotification(4, 'Bitte Pflichtfelder ausfüllen!', 'Fachberater*/Vertreter*/Von*-Bis*', 'topRight')
-      return false;
+        this.translate.get(['STANDARD.please_fill_required_fields', 'STANDARD.assigned_representative']).subscribe(translations => {
+          const message = translations['STANDARD.please_fill_required_fields'];
+          const anotherMessage = translations['STANDARD.assigned_representative'];
+          this.notificationService.createBasicNotification(4, message, anotherMessage, 'topRight');
+        });
+         return false;
     }
     return true;
   }
@@ -208,7 +227,9 @@ export class CustomerRequirementsComponent implements OnInit {
           if (data.save) {
             customerVisit.finalReport = data.finalReport;
             this.postCustomerRequirement();
-            this.notificationService.createBasicNotification(0, 'Abschlussbericht hinzugefügt!', '', 'topRight');
+            this.translate.get('STANDARD.final_report_added').subscribe((translatedMessage: string) => {
+              this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
+            });
           }
         });
     } else {

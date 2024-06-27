@@ -1,35 +1,42 @@
 <div class="header">
     <div>
-        <h1 class="paddingSearch">{{"REQ-TECH.title" | translate}}</h1>
+        <h1 class="paddingSearch">{{"CUSTOMER_REQUIREMENTS.advisor_request" | translate}}</h1>
     </div>
     <div>
-        <button [disabled]="inputCustomerRequirement.releaseManagement !== null && inputCustomerRequirement.releaseManagement !== undefined" (nzOnConfirm)="release('gl')" *ngIf="roleService.checkPermission([1,7])" style="margin-right: 2rem;"
+        <button
+            [disabled]="inputCustomerRequirement.releaseManagement !== null && inputCustomerRequirement.releaseManagement !== undefined"
+            (nzOnConfirm)="release('gl')" *ngIf="roleService.checkPermission([1,7])" style="margin-right: 2rem;"
             nz-button nzType="primary" nz-popconfirm nzPopconfirmShowArrow="false" [nzIcon]="iconTpl"
             nzPopconfirmTitle="Sind Sie sicher?">
             <ng-template #iconTpl></ng-template>
-            Freigabe GL
+            {{"CUSTOMER_REQUIREMENTS.approval_gl" | translate}}
         </button>
-        <button [disabled]="inputCustomerRequirement.releaseSupervisor !== null && inputCustomerRequirement.releaseSupervisor !== undefined" (nzOnConfirm)="release('al')" *ngIf="roleService.checkPermission([1,2,7])" style="margin-right: 2rem;"
+        <button
+            [disabled]="inputCustomerRequirement.releaseSupervisor !== null && inputCustomerRequirement.releaseSupervisor !== undefined"
+            (nzOnConfirm)="release('al')" *ngIf="roleService.checkPermission([1,2,7])" style="margin-right: 2rem;"
             nz-button nzType="primary" nz-popconfirm nzPopconfirmShowArrow="false" [nzIcon]="iconTpl"
             nzPopconfirmTitle="Sind Sie sicher?">
             <ng-template #iconTpl></ng-template>
-            Freigabe AL
+            {{"CUSTOMER_REQUIREMENTS.approval_al" | translate}}
         </button>
     </div>
     <div>
-        <button *ngIf="(inputCustomerRequirement.creator === undefined && roleService.checkPermission([6])) || roleService.checkPermission([1,2,3,4,5,7])" class="btn btn-success" (click)="postCustomerRequirement()">{{"REQ-TECH.send" | translate}}</button>
+        <button
+            *ngIf="(inputCustomerRequirement.creator === undefined && roleService.checkPermission([6])) || roleService.checkPermission([1,2,3,4,5,7])"
+            class="btn btn-success" (click)="postCustomerRequirement()">{{"CUSTOMER_REQUIREMENTS.send_form" | translate}}
+        </button>
     </div>
 </div>
 <hr>
 <div class="row">
     <div class="col-md-3">
         <div class="card">
-            <div class="card-header  text-white bg-danger">{{"REQ-TECH.card1-title"|translate}}</div>
+            <div class="card-header  text-white bg-danger">{{"CUSTOMER_REQUIREMENTS.requirements_by" | translate}}</div>
             <div class="card-body">
                 <div class="center-items">
                     <div class="center-items ">
                         <mat-form-field>
-                            <mat-label>{{"REQ-TECH.dealers"|translate}}</mat-label>
+                            <mat-label>{{"CUSTOMER_REQUIREMENTS.dealers_daughters"|translate}}</mat-label>
                             <mat-select
                                 [ngModel]="(inputCustomerRequirement.company === undefined)?undefined:inputCustomerRequirement.company.id"
                                 (valueChange)="changeCompany($event)">
@@ -39,13 +46,13 @@
                                 }
                             </mat-select>
                             @if (tohaControl.hasError('required')) {
-                            <mat-error>{{"REQ-TECH.none-select" | translate}}</mat-error>
+                            <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
                             }
                         </mat-form-field>
                     </div>
                     <div class="center-items ">
                         <mat-form-field>
-                            <mat-label>{{"REQ-TECH.representative"|translate}}</mat-label>
+                            <mat-label>{{"MAIN_LIST.representative"|translate}}</mat-label>
                             <mat-select
                                 [ngModel]="(inputCustomerRequirement.representative === undefined)?undefined:inputCustomerRequirement.representative.id"
                                 (valueChange)="changeRepresentative($event)" required>
@@ -55,7 +62,7 @@
                                 }
                             </mat-select>
                             @if (tohaControl.hasError('required')) {
-                            <mat-error>{{"REQ-TECH.none-select" | translate}}</mat-error>
+                            <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
                             }
                         </mat-form-field>
                     </div>
@@ -66,12 +73,12 @@
 
     <div class="col-md-3">
         <div class="card">
-            <div class="card-header  text-white bg-danger">{{"REQ-TECH.card2-title"|translate}}</div>
+            <div class="card-header  text-white bg-danger">{{"CUSTOMER_REQUIREMENTS.requested_advisor"|translate}}</div>
             <div class="card-body">
                 <div class="center-items">
                     <div class="center-items">
                         <mat-form-field>
-                            <mat-label>{{"REQ-TECH.technologist"|translate}}</mat-label>
+                            <mat-label>{{"CUSTOMER_REQUIREMENTS.select_advisor"|translate}}</mat-label>
                             <mat-select
                                 [ngModel]="(inputCustomerRequirement.requestedTechnologist === undefined)?undefined:inputCustomerRequirement.requestedTechnologist.id"
                                 (valueChange)="changeTechnolgist($event)" required>
@@ -81,13 +88,13 @@
                                 }
                             </mat-select>
                             @if (tohaControl.hasError('required')) {
-                            <mat-error>{{"REQ-TECH.none-select" | translate}}</mat-error>
+                            <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
                             }
                         </mat-form-field>
                     </div>
                 </div>
                 <mat-form-field>
-                    <mat-label>{{"REQ-TECH.from-to-date"|translate}}</mat-label>
+                    <mat-label>{{"CUSTOMER_REQUIREMENTS.from_to"|translate}}</mat-label>
                     <mat-date-range-input [rangePicker]="picker">
                         <input required matStartDate placeholder="Start date"
                             [(ngModel)]="inputCustomerRequirement.startDate">
@@ -98,7 +105,7 @@
                     <mat-date-range-picker #picker></mat-date-range-picker>
                     <!-- TODO mögliche Fehlerquelle-->
                     @if (tohaControl.hasError('required')) {
-                    <mat-error>{{"REQ-TECH.none-select" | translate}}</mat-error>
+                    <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
                     }
                 </mat-form-field>
             </div>
@@ -107,32 +114,32 @@
 
     <div class="col-md-3">
         <div class="card">
-            <div class="card-header  text-white bg-danger">{{"REQ-TECH.card3-title"|translate}}</div>
+            <div class="card-header  text-white bg-danger">{{"CUSTOMER_REQUIREMENTS.travel_planning"|translate}}</div>
             <div class="card-body">
                 <div class="center-items">
                     <div class="center-items ">
                         <mat-form-field>
-                            <mat-label>{{"REQ-TECH.flight-booking"|translate}}</mat-label>
+                            <mat-label>{{"CUSTOMER_REQUIREMENTS.flight_booking"|translate}}</mat-label>
                             <mat-select [(ngModel)]="inputCustomerRequirement.flightBooking">
                                 <mat-option>--</mat-option>
                                 <mat-option [value]="true">Almi</mat-option>
-                                <mat-option [value]="false">{{"REQ-TECH.selction-customer" | translate}}</mat-option>
+                                <mat-option [value]="false">{{"CUSTOMER_REQUIREMENTS.selction-customer" | translate}}</mat-option>
                             </mat-select>
                             @if (tohaControl.hasError('required')) {
-                            <mat-error>{{"REQ-TECH.none-select" | translate}}</mat-error>
+                            <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
                             }
                         </mat-form-field>
                     </div>
                     <div class="center-items ">
                         <mat-form-field>
-                            <mat-label>{{"REQ-TECH.hotel-booking"|translate}}</mat-label>
+                            <mat-label>{{"CUSTOMER_REQUIREMENTS.hotel_booking"|translate}}</mat-label>
                             <mat-select [(ngModel)]="inputCustomerRequirement.hotelBooking">
                                 <mat-option>--</mat-option>
                                 <mat-option [value]="true">Almi</mat-option>
-                                <mat-option [value]="false">{{"REQ-TECH.selction-customer" | translate}}</mat-option>
+                                <mat-option [value]="false">{{"CUSTOMER_REQUIREMENTS.selction-customer" | translate}}</mat-option>
                             </mat-select>
                             @if (tohaControl.hasError('required')) {
-                            <mat-error>{{"REQ-TECH.none-select" | translate}}</mat-error>
+                            <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
                             }
                         </mat-form-field>
                     </div>
@@ -143,15 +150,15 @@
 
     <div class="col-md-3">
         <div class="card">
-            <div class="card-header  text-white bg-danger">{{"REQ-TECH.card4-title"|translate}}</div>
+            <div class="card-header  text-white bg-danger">{{"CUSTOMER_REQUIREMENTS.miscellaneous"|translate}}</div>
             <div class="card-body">
                 <div class="center-items">
                     <mat-form-field>
-                        <mat-label>{{"REQ-TECH.further-notes"|translate}}</mat-label>
+                        <mat-label>{{"CUSTOMER_REQUIREMENTS.other_notes"|translate}}</mat-label>
                         <input matInput [(ngModel)]="inputCustomerRequirement.furtherNotes">
                     </mat-form-field>
                     <mat-form-field>
-                        <mat-label>{{"REQ-TECH.contact-person"|translate}}</mat-label>
+                        <mat-label>{{"CUSTOMER_REQUIREMENTS.contact_person_on_site"|translate}}</mat-label>
                         <input matInput [(ngModel)]="inputCustomerRequirement.contact">
                     </mat-form-field>
                 </div>
@@ -164,8 +171,8 @@
 
 <br>
 <div class="header">
-    <h1 style="margin: 0%;">{{"REQ-TECH.table-title"|translate}}</h1>
-    <button nz-button (click)="addRow()" nzType="primary">{{"REQ-TECH.new-customerVisit"|translate}}</button>
+    <h1 style="margin: 0%;">{{"CUSTOMER_REQUIREMENTS.planned_customer_visits"|translate}}</h1>
+    <button nz-button (click)="addRow()" nzType="primary">{{"CUSTOMER_REQUIREMENTS.new_customer_visit"|translate}}</button>
 </div>
 <hr>
 <div class="row">
@@ -173,14 +180,14 @@
         [nzData]="inputCustomerRequirement.customerVisits!">
         <thead>
             <tr>
-                <th>{{"REQ-TECH.customer-name" | translate}}</th>
-                <th>{{"REQ-TECH.customerNr" | translate}}</th>
-                <th>{{"REQ-TECH.adress" | translate}}</th>
-                <th>{{"REQ-TECH.contact-person-table" | translate}}</th>
-                <th>{{"REQ-TECH.date-of-visit" | translate}}</th>
-                <th>{{"REQ-TECH.reason" | translate}}</th>
-                <th>{{"REQ-TECH.productionAmount" | translate}}</th>
-                <th>{{"REQ-TECH.edit-delete" | translate}}</th>
+                <th>{{"MAIN_LIST.company_name" | translate}}</th>
+                <th>{{"CUSTOMER_REQUIREMENTS.customer_number" | translate}}</th>
+                <th>{{"CUSTOMER_REQUIREMENTS.country" | translate}}</th>
+                <th>{{"CUSTOMER_REQUIREMENTS.contact_person" | translate}}</th>
+                <th>{{"CUSTOMER_REQUIREMENTS.visit_date" | translate}}</th>
+                <th>{{"ABSCHLUSSBERICHT.visit_reason_general" | translate}}</th>
+                <th>{{"CUSTOMER_REQUIREMENTS.production_tons_per_day" | translate}}</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -188,7 +195,8 @@
                 <td>
                     <label class="input-label" [hidden]="editId === data.editId"
                         (click)="startEdit(data.editId)">{{data.companyName}}</label>
-                    <input placeholder="Pflichtfeld*" [hidden]="editId !== data.editId" type="text" nz-input [(ngModel)]="data.companyName" />
+                    <input [placeholder]="'CUSTOMER_REQUIREMENTS.mandatory_field' | translate" [hidden]="editId !== data.editId" type="text" nz-input
+                        [(ngModel)]="data.companyName" />
                 </td>
                 <td>
                     <label class="input-label" [hidden]="editId === data.editId"
@@ -198,7 +206,8 @@
                 <td>
                     <label class="input-label" [hidden]="editId === data.editId"
                         (click)="startEdit(data.editId)">{{data.address}}</label>
-                    <input  placeholder="Pflichtfeld*"  [hidden]="editId !== data.editId" type="text" nz-input [(ngModel)]="data.address" />
+                    <input [placeholder]="'CUSTOMER_REQUIREMENTS.mandatory_field' | translate" [hidden]="editId !== data.editId" type="text" nz-input
+                        [(ngModel)]="data.address" />
                 </td>
                 <td>
                     <label class="input-label" [hidden]="editId === data.editId"
@@ -208,16 +217,17 @@
                 <td>
                     <label class="input-label" [hidden]="editId === data.editId" (click)="startEdit(data.editId)">{{
                         (data.dateOfVisit !== undefined)?data.dateOfVisit!.toString().substring(0,10):''}}</label>
-                    <input  placeholder="Pflichtfeld*"  [hidden]="editId !== data.editId" type="date" nz-input [(ngModel)]="data.dateOfVisit" />
+                    <input [placeholder]="'CUSTOMER_REQUIREMENTS.mandatory_field' | translate" [hidden]="editId !== data.editId" type="date" nz-input
+                        [(ngModel)]="data.dateOfVisit" />
                 </td>
                 <td class="multiple-select">
-                    <mat-select  placeholder="Pflichtfeld*"  multiple placeholder="{{'REQ-TECH.select'|translate}} " [ngModel]="data.selection"
-                        (selectionChange)="selChange($event, data.editId)">
-                        <mat-option [value]="1">{{"REQ-TECH.presentationOfNewProducts" | translate}}</mat-option>
-                        <mat-option [value]="2">{{"REQ-TECH.existingProducts" | translate}}</mat-option>
-                        <mat-option [value]="3">{{"REQ-TECH.recipeOptimization" | translate}}.</mat-option>
-                        <mat-option [value]="4">{{"REQ-TECH.sampleProduction" | translate}}</mat-option>
-                        <mat-option [value]="5">{{"REQ-TECH.training" | translate}}</mat-option>
+                    <mat-select multiple placeholder="{{'STANDARD.please_select'|translate}} "
+                        [ngModel]="data.selection" (selectionChange)="selChange($event, data.editId)">
+                        <mat-option [value]="1">{{"CUSTOMER_REQUIREMENTS.presentation_of_new_products" | translate}}</mat-option>
+                        <mat-option [value]="2">{{"CUSTOMER_REQUIREMENTS.existing_products" | translate}}</mat-option>
+                        <mat-option [value]="3">{{"CUSTOMER_REQUIREMENTS.recipe_optimization" | translate}}.</mat-option>
+                        <mat-option [value]="4">{{"CUSTOMER_REQUIREMENTS.recipe_optimization" | translate}}</mat-option>
+                        <mat-option [value]="5">{{"CUSTOMER_REQUIREMENTS.training" | translate}}</mat-option>
                     </mat-select>
                 </td>
                 <td>
@@ -226,15 +236,15 @@
                     <input nz-input [hidden]="editId !== data.editId" type="text" [(ngModel)]="data.productionAmount" />
                 </td>
                 <td>
-                    <div class="flugHotel"> <button matTooltip="{{'REQ-TECH.edit' | translate}}" class="btn btn-success"
+                    <div class="flugHotel"> <button matTooltip="{{'CUSTOMER_REQUIREMENTS.edit' | translate}}" class="btn btn-success"
                             (click)="startEdit(data.editId)" [hidden]="editId === data.editId">
                             <i class="fa fa-pencil"></i>
                         </button>
-                        <button matTooltip="{{'REQ-TECH.save' | translate}}" class="btn btn-success"
+                        <button matTooltip="{{'STANDARD.save' | translate}}" class="btn btn-success"
                             (click)="stopEdit()" [hidden]="editId !== data.editId">
                             <i class="fa fa-save"></i>
                         </button>
-                        <button matTooltip="{{'REQ-TECH.delete' | translate}}" class="btn btn-danger" nz-popconfirm
+                        <button matTooltip="{{'STANDARD.remove' | translate}}" class="btn btn-danger" nz-popconfirm
                             nzPopconfirmShowArrow="false" [nzIcon]="iconTpl" nzPopconfirmTitle="Sind Sie sicher?"
                             (nzOnConfirm)="deleteRow(data.editId)">
                             <ng-template #iconTpl>
@@ -243,7 +253,7 @@
                             <i class="fa fa-trash"></i>
                         </button>
                         <button *ngIf="roleService.checkPermission([1,2,3,4])" class="btn btn-success"
-                            matTooltip="Abschlussbericht" (click)="openDialog(data)">
+                            [matTooltip]="'MAIN_LIST.final_report' | translate" (click)="openDialog(data)">
                             <i class="fa fa-file"></i>
                         </button>
                     </div>

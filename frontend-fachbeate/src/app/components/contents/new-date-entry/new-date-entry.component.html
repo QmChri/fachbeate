@@ -1,11 +1,12 @@
 <div class="mainView">
-    <h1 class="paddingSearch">Eintrag für: {{inputDate.requestedTechnologist?.firstName}}
+    <h1 class="paddingSearch">{{"DASHBOARD.entry_for" | translate}}:
+        {{inputDate.requestedTechnologist?.firstName}}
         {{inputDate.requestedTechnologist?.lastName}}</h1>
     <hr>
 
     <div class="center-items">
         <mat-form-field>
-            <mat-label>Zugeteilter Fachberater</mat-label>
+            <mat-label>{{"DASHBOARD.assigned_advisor" | translate}}</mat-label>
             <mat-select
                 [ngModel]="(inputDate.requestedTechnologist === undefined)?undefined:inputDate.requestedTechnologist.id"
                 (valueChange)="changeTechnolgist($event)" required>
@@ -14,11 +15,11 @@
                 <mat-option [value]="t.id">{{t.firstName}} {{t.lastName}}</mat-option>
                 }
             </mat-select>
-            <mat-error>Bitte auswählen</mat-error>
+            <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
         </mat-form-field>
         <mat-form-field>
-            <mat-label>Grund</mat-label>
-            <mat-select required placeholder="Auswählen . . . " [(ngModel)]="inputDate.reason" name="resons">
+            <mat-label>{{"DASHBOARD.reason" | translate}}</mat-label>
+            <mat-select required [placeholder]="'STANDARD.please_select' | translate" [(ngModel)]="inputDate.reason" name="resons">
 
                 @for (re of reasons; track reasons) {
                 <mat-option [value]="re">{{re}}</mat-option>
@@ -34,14 +35,14 @@
 
         <!--<nz-date-picker nzSize="large" [nzFormat]="dateFormat"></nz-date-picker>  -->
         <mat-form-field>
-            <mat-label>Von</mat-label>
+            <mat-label>{{"DASHBOARD.from" | translate}}</mat-label>
             <input required matInput [matDatepicker]="picker1" type="text" [(ngModel)]="inputDate.startDate"
                 name="start">
             <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker #picker1></mat-datepicker>
         </mat-form-field>
         <mat-form-field>
-            <mat-label>Bis</mat-label>
+            <mat-label>{{"DASHBOARD.to" | translate}}</mat-label>
             <input required matInput [matDatepicker]="picker2" type="text" [(ngModel)]="inputDate.endDate" name="end">
             <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
             <mat-datepicker #picker2></mat-datepicker>
@@ -50,8 +51,8 @@
     <br>
 
     <div class="header">
-        <div> <button (click)="closeDialog()" class="btn btn-secondary">Abbrechen</button></div>
-        <div> <button (click)="save()" class="btn btn-success">Speichern</button></div>
+        <div> <button (click)="closeDialog()" class="btn btn-secondary">{{"DASHBOARD.cancel" | translate}}</button></div>
+        <div> <button (click)="save()" class="btn btn-success">{{"DASHBOARD.save" | translate}}</button></div>
     </div>
 
 
