@@ -10,6 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NotificationService } from '../../../services/notification.service';
 import { RoleService } from '../../../services/role.service';
 import { Representative } from '../../../models/representative';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-visitor-registration',
@@ -35,7 +36,7 @@ export class VisitorRegistrationComponent implements OnInit {
     hotelBookings: []
   };
 
-  constructor(private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute,
+  constructor(private translate: TranslateService, private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute,
     private notificationService: NotificationService, public roleService: RoleService) { }
 
   ngOnInit(): void {
@@ -74,19 +75,19 @@ export class VisitorRegistrationComponent implements OnInit {
     this.listOfCurrentPageData = [
       {
         id: 1,
-        name: 'boss',
+        name: 'management',
         checked: false,
         dateOfVisit: new Date()
       },
       {
         id: 2,
-        name: 'applicationTechnology',
+        name: 'application_technology',
         checked: false,
         dateOfVisit: new Date()
       },
       {
         id: 3,
-        name: 'productDevelopment',
+        name: 'product_development',
         checked: false,
         dateOfVisit: new Date()
       },
@@ -104,19 +105,19 @@ export class VisitorRegistrationComponent implements OnInit {
       },
       {
         id: 6,
-        name: 'payOffice',
+        name: 'payroll_office',
         checked: false,
         dateOfVisit: new Date()
       },
       {
         id: 7,
-        name: 'orderProcessing',
+        name: 'order_processing',
         checked: false,
         dateOfVisit: new Date()
       },
       {
         id: 8,
-        name: 'qualityMaterialsManagement',
+        name: 'quality_raw_material_management',
         checked: false,
         dateOfVisit: new Date()
       },
@@ -128,13 +129,13 @@ export class VisitorRegistrationComponent implements OnInit {
       },
       {
         id: 10,
-        name: 'legalFinance',
+        name: 'legal_financial_affairs',
         checked: false,
         dateOfVisit: new Date()
       },
       {
         id: 11,
-        name: 'innov8Labor',
+        name: 'innov8_lab',
         checked: false,
         dateOfVisit: new Date()
       }
@@ -144,11 +145,15 @@ export class VisitorRegistrationComponent implements OnInit {
 
   release(department: string) {
     if (department === 'gl') {
-      this.notificationService.createBasicNotification(0, 'Freigabe von GL wurde erteilt!', '', 'topRight');
+      this.translate.get('STANDARD.approval_from_gl_granted').subscribe((translatedMessage: string) => {
+        this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
+      });
       this.inputVisitRegistration.releaseManagement = new Date();
       this.inputVisitRegistration.releaserManagement = this.roleService.getUserName();
     } else {
-      this.notificationService.createBasicNotification(0, 'Freigabe von AL wurde erteilt!', '', 'topRight');
+      this.translate.get('STANDARD.approval_from_al_granted').subscribe((translatedMessage: string) => {
+        this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
+      });
       this.inputVisitRegistration.releaseSupervisor = new Date();
       this.inputVisitRegistration.releaserSupervisor = this.roleService.getUserName()
     }
@@ -208,8 +213,9 @@ export class VisitorRegistrationComponent implements OnInit {
 
   postVisitorRegistration() {
     this.inputVisitRegistration.creator = this.roleService.getUserName();
-    this.notificationService.createBasicNotification(0, 'Formular wurde gesendet!', '', 'topRight');
-    this.inputVisitRegistration.reason = "VisitorRegistration"
+    this.translate.get('STANDARD.form_sent').subscribe((translatedMessage: string) => {
+      this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
+    });    this.inputVisitRegistration.reason = "VisitorRegistration"
     this.inputVisitRegistration.plannedDepartmentVisits = []
 
     this.setOfCheckedId.forEach((value, key) => {

@@ -11,6 +11,7 @@ import { NotificationService } from '../../../services/notification.service';
 import { RoleService } from '../../../services/role.service';
 import { Company } from '../../../models/company';
 import { Representative } from '../../../models/representative';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-seminar-registration',
@@ -34,7 +35,7 @@ export class SeminarRegistrationComponent implements OnInit {
     guests: []
   };
 
-  constructor(private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute,
+  constructor(private translate: TranslateService, private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute,
     private notificationService: NotificationService, public roleService: RoleService) {
   }
 
@@ -78,8 +79,11 @@ export class SeminarRegistrationComponent implements OnInit {
       !this.inputWorkshop.endDate ||
       !this.inputWorkshop.guests![0] ||
       !this.inputWorkshop.representative) {
-      this.notificationService.createBasicNotification(4, 'Bitte Pflichtfelder ausfüllen!', 'Fachberater*/Vertreter*/Von*-Bis*', 'topRight')
-
+        this.translate.get(['STANDARD.please_fill_required_fields', 'STANDARD.assigned_repre_cons']).subscribe(translations => {
+          const message = translations['STANDARD.please_fill_required_fields'];
+          const anotherMessage = translations['STANDARD.assigned_repre_cons'];
+          this.notificationService.createBasicNotification(4, message, anotherMessage, 'topRight');
+        });
       return false;
     }
     return true;
@@ -119,12 +123,17 @@ export class SeminarRegistrationComponent implements OnInit {
   //TODO habe ich neu gemacht --> ist das richtig?
   release(department: string) {
     if (department === 'gl' && this.checkRequired()) {
-      this.notificationService.createBasicNotification(0, 'Freigabe von GL wurde erteilt!', '', 'topRight');
+
+      this.translate.get('STANDARD.approval_from_gl_granted').subscribe((translatedMessage: string) => {
+        this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
+      });
       this.inputWorkshop.releaseManagement = new Date();
       this.inputWorkshop.releaserManagement = this.roleService.getUserName()
     }
     else if (department === 'al' && this.checkRequired()) {
-      this.notificationService.createBasicNotification(0, 'Freigabe von AL wurde erteilt!', '', 'topRight');
+      this.translate.get('STANDARD.approval_from_al_granted').subscribe((translatedMessage: string) => {
+        this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
+      });
       this.inputWorkshop.releaseSupervisor = new Date();
       this.inputWorkshop.releaserSupervisor = this.roleService.getUserName()
     }
@@ -192,7 +201,9 @@ export class SeminarRegistrationComponent implements OnInit {
 
   postWorkshopRequest() {
     if (this.checkRequired()) {
-      this.notificationService.createBasicNotification(0, 'Formular wurde gesendet!', '', 'topRight');
+      this.translate.get('STANDARD.form_sent').subscribe((translatedMessage: string) => {
+        this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
+      });
       this.inputWorkshop.reason = "Seminaranmeldung"
       this.inputWorkshop.dateOfCreation = new Date();
 

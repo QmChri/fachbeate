@@ -4,6 +4,7 @@ import { HttpService } from '../../../services/http.service';
 import { Technologist } from '../../../models/technologist';
 import { Article } from '../../../models/article';
 import { NotificationService } from '../../../services/notification.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-abschluss-bericht-list',
@@ -18,49 +19,49 @@ export class AbschlussBerichtListComponent {
   listOfDisplayData: DataItem[] = [];
   listOfColumn: ColumnDefinition[] = [
     {
-      name: 'company',
+      name: 'customer',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.company!.localeCompare(b.company!),
       listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => list.some(name => item.company.indexOf(name) !== -1)
     },
     {
-      name: 'datecustomerVisit',
+      name: 'visit_date',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.dateOfVisit!.valueOf() - b.dateOfVisit!.valueOf(),
       listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => true
     },
     {
-      name: 'responsibleFB',
+      name: 'responsible_advisor',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.technologist.localeCompare(b.technologist),
       listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => list.some(name => item.technologist.indexOf(name) !== -1)
     },
     {
-      name: 'toBeCompletedBy',
+      name: 'to_be_done_by',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.toBeCompletedBy!.valueOf() - b.toBeCompletedBy!.valueOf(),
       listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => true
     },
     {
-      name: 'responsibleRepresentative',
+      name: 'responsible_representative',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.representative!.localeCompare(b.representative!),
       listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => list.some(name => item.representative.indexOf(name) !== -1)
     },
     {
-      name: 'Kunde kontaktiert am',
+      name: 'customer_contacted_on',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.customerContactDate!.valueOf() - b.customerContactDate!.valueOf(),
       listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => true
     },
     {    //TODO fehlt noch Bericht abgeschlossen -> Hackerl wenn abgeschlossen
-      name: 'Bericht abgeschlossen',
+      name: 'report_completed',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.abschlussberichtFinished!.localeCompare(b.abschlussberichtFinished!),
       listOfFilter: [],
@@ -75,7 +76,7 @@ export class AbschlussBerichtListComponent {
     }
   ];
 
-  constructor(private router: Router, private http: HttpService, private notificationService: NotificationService) { }
+  constructor(private router: Router, private translate: TranslateService, private http: HttpService, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     //this.tmpinitData();
@@ -155,7 +156,9 @@ export class AbschlussBerichtListComponent {
 
   resetSortAndFilters(): void {
     this.searchValue = '';
-    this.notificationService.createBasicNotification(2, 'Filter/Sortierung aufgehoben!', '', 'topRight');
+    this.translate.get('STANDARD.filter_sorting_removed').subscribe((translatedMessage: string) => {
+      this.notificationService.createBasicNotification(2, translatedMessage, '', 'topRight');
+    });
     this.getNzFilters();
     //this.tmpinitData();
     this.listOfColumn.forEach(item => {

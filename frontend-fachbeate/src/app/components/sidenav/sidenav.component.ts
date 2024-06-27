@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { INavbarData } from './helper';
 import { KeycloakService } from 'keycloak-angular';
 import { RoleService } from '../../services/role.service';
+import { NotificationService } from '../../services/notification.service';
 
 interface SideNavToggle {
   screenWidth: number;
@@ -51,9 +52,9 @@ export class SidenavComponent implements OnInit {
   multiple: boolean = false;
   currentUrl = "";
 
-  constructor(private translate: TranslateService, private readonly keycloak: KeycloakService,
+  constructor(private notificationService: NotificationService, private translate: TranslateService, private readonly keycloak: KeycloakService,
     public roleService: RoleService) {
-    this.translate.addLangs(['en', 'de']);
+    this.translate.addLangs(['en', 'de','ru']);
   }
 
   @HostListener('window:resize', ['$event'])
@@ -71,6 +72,9 @@ export class SidenavComponent implements OnInit {
 
   switchLanguage(language: string) {
     this.translate.use(language);
+    this.translate.get('STANDARD.language_changed').subscribe((translatedMessage: string) => {
+      this.notificationService.createBasicNotification(0, translatedMessage, language, 'topRight');
+    });
   }
 
   ngOnInit(): void {
