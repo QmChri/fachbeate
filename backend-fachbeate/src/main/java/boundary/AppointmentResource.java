@@ -40,7 +40,9 @@ public class AppointmentResource {
      @Path("/customerRequirement/id")
      @Authenticated
      public Response getCustomerRequirementPerId(@QueryParam("id") Long id){
-        return Response.ok(CustomerRequirement.findById(id)).build();
+
+         CustomerRequirement cr = CustomerRequirement.findById(id);
+         return Response.ok(cr).build();
      }
 
     @GET
@@ -183,6 +185,24 @@ public class AppointmentResource {
     public Response getFinalReports(){
         return Response.ok(FinalReport.listAll()).build();
     }
+
+    @GET
+    @Path("/finalReportByUser")
+    @Authenticated
+    public Response getFinalReportsByUser(@QueryParam("type") int user, @QueryParam("fullname") String fullname){
+        if (user==7) {
+            return getFinalReports();
+        }else if(user == 4) {
+            return Response.ok(FinalReport.find("technologist", fullname.split(";")[0]+" "+fullname.split(";")[1]).list()).build();
+        }else if(user == 6) {
+            return Response.ok(CustomerRequirement.find("company", fullname).list()).build();
+        }else if(user == 3){
+            return Response.ok(CustomerRequirement.find("representative.firstName = ?1 and representative.lastName",fullname.split(";")[0]+" "+fullname.split(";")[1]).list()).build();
+        }
+        return Response.ok().build();
+    }
+
+
 
 
     @GET

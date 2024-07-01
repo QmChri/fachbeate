@@ -94,6 +94,7 @@ export class MainListComponent implements OnInit {
   ngOnInit(): void {
     //this.tmpinitData();
     this.loadData();
+    this.getNzFilters();
   }
 
   getNzFilters() {
@@ -217,7 +218,7 @@ export class MainListComponent implements OnInit {
             name: element.company?.name!,
             dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
             customerOrCompany: "<Leer>",
-            status: "Freigegeben",
+            status: (element.releaseSupervisor && element.releaseManagement)?"Freigegeben":"!Freigegeben",
             vertreter: element.representative?.firstName! + " " + element.representative?.lastName!,
             fachberater: element.requestedTechnologist?.firstName! + " " + element.requestedTechnologist?.lastName!,
             timespan: {
@@ -233,7 +234,6 @@ export class MainListComponent implements OnInit {
         this.getNzFilters();
       },
       error: err => {
-        console.log("kummst do her");
         console.log(err);
       }
     });
@@ -253,7 +253,7 @@ export class MainListComponent implements OnInit {
             name: "<Leer>",
             dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
             customerOrCompany: "<Leer>",
-            status: "Freigegeben",
+            status: (element.releaseSupervisor && element.releaseManagement)?"Freigegeben":"!Freigegeben",
             vertreter: element.representative!.firstName + " " + element.representative!.lastName,
             fachberater: element.requestedTechnologist!.map(a => a.firstName + " " + a.lastName).toString(),
             timespan: {
@@ -282,7 +282,7 @@ export class MainListComponent implements OnInit {
             name: element.name!,
             dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
             customerOrCompany: element.customerOrCompany!,
-            status: "!Freigegeben",
+            status: (element.releaseSupervisor && element.releaseManagement)?"Freigegeben":"!Freigegeben",
             vertreter: element.representative!.firstName + " " + element.representative!.lastName,
             fachberater: "<Leer>",
             timespan: {
@@ -295,7 +295,6 @@ export class MainListComponent implements OnInit {
             visible: true
           }];
         });
-
         this.getNzFilters();
       }
     })
@@ -361,181 +360,171 @@ export class MainListComponent implements OnInit {
     }
   }
 
-  tmpinitData() {
-    this.listOfDisplayData = [
-      {
-        id: 1,
-        name: "Project A - Long Name Test",
-        dateOfCreation: new Date("2023-06-01"),
-        customerOrCompany: "Example GmbH - Long Name Test",
-        status: "true",
-        vertreter: "B",
-        fachberater: "C",
-        timespan: {
-          start: new Date("2023-06-01"),
-          end: new Date("2023-06-30"),
-        },
-        customer: "A",
-        abschlussbericht: "Fertig",
-        type: 1,
-        visible: false
-      },
-      {
-        id: 2,
-        name: "Project B - Testing Long Names",
-        dateOfCreation: new Date("2023-06-02"),
-        customerOrCompany: "Demo AG - Example Long Company Name",
-        status: "false",
-        vertreter: "C",
-        fachberater: "A",
-        timespan: {
-          start: new Date("2023-07-10"),
-          end: new Date("2023-07-31"),
-        },
-        customer: "F",
-        abschlussbericht: "In Arbeit",
-        type: 2,
-        visible: false
-      },
-      {
-        id: 3,
-        name: "Project C - Another Long Test Name",
-        dateOfCreation: new Date("2023-06-03"),
-        customerOrCompany: "Test GmbH - Long Customer Name for Testing",
-        status: "true",
-        vertreter: "Hans Schmidt",
-        fachberater: "Sabine Fischer",
-        timespan: {
-          start: new Date("2023-08-05"),
-          end: new Date("2023-08-20"),
-        },
-        customer: "TEster langer Test",
-        abschlussbericht: "Fertig",
-        type: 0, visible: false
-
-      },
-      // Additional test data
-      {
-        id: 4,
-        name: "Project D - Extended Name for Testing",
-        dateOfCreation: new Date("2023-06-04"),
-        customerOrCompany: "Alpha Ltd. - Long Customer Company Name",
-        status: "true",
-        vertreter: "D",
-        fachberater: "E",
-        timespan: {
-          start: new Date("2023-09-01"),
-          end: new Date("2023-09-15"),
-        },
-        customer: "C",
-        abschlussbericht: "Fertig",
-        type: 1, visible: false
-
-      },
-      {
-        id: 5,
-        name: "Project E - Long Name Test for Data",
-        dateOfCreation: new Date("2023-06-05"),
-        customerOrCompany: "Beta Corp. - Test Company Name for Long Data",
-        status: "false",
-        vertreter: "E",
-        fachberater: "F",
-        timespan: {
-          start: new Date("2023-10-01"),
-          end: new Date("2023-10-10"),
-        },
-        customer: "D",
-        abschlussbericht: "Nicht gestartet",
-        type: 0, visible: false
-
-      },
-      {
-        id: 6,
-        name: "Project F - More Test Data with Long Names",
-        dateOfCreation: new Date("2023-06-06"),
-        customerOrCompany: "Gamma Inc. - Long Company Name for Testing",
-        status: "true",
-        vertreter: "F",
-        fachberater: "G",
-        timespan: {
-          start: new Date("2023-11-01"),
-          end: new Date("2023-11-20"),
-        },
-        customer: "E",
-        abschlussbericht: "In Arbeit",
-        type: 2, visible: false
-
-      },
-      {
-        id: 7,
-        name: "Project G - Final Test with Long Names",
-        dateOfCreation: new Date("2023-06-07"),
-        customerOrCompany: "Delta LLC - Long Name for Delta Company",
-        status: "false",
-        vertreter: "G",
-        fachberater: "H",
-        timespan: {
-          start: new Date("2023-12-01"),
-          end: new Date("2023-12-15"),
-        },
-        customer: "F",
-        abschlussbericht: "Fertig",
-        type: 1, visible: false
-
-      },
-      {
-        id: 8,
-        name: "Project H - Large Scale Testing Names",
-        dateOfCreation: new Date("2023-06-08"),
-        customerOrCompany: "Epsilon GmbH - Large Customer Name for Testing",
-        status: "true",
-        vertreter: "H",
-        fachberater: "I",
-        timespan: {
-          start: new Date("2023-12-20"),
-          end: new Date("2023-12-31"),
-        },
-        customer: "G",
-        abschlussbericht: "Fertig",
-        type: 0, visible: false
-
-      },
-      {
-        id: 9,
-        name: "Project I - Extensive Data with Long Names",
-        dateOfCreation: new Date("2023-06-09"),
-        customerOrCompany: "Zeta AG - Comprehensive Testing Name for Customer",
-        status: "false",
-        vertreter: "I",
-        fachberater: "J",
-        timespan: {
-          start: new Date("2024-01-01"),
-          end: new Date("2024-01-15"),
-        },
-        customer: "H",
-        abschlussbericht: "In Arbeit",
-        type: 2, visible: false
-
-      },
-      {
-        id: 10,
-        name: "Project J - Advanced Testing for Large Names",
-        dateOfCreation: new Date("2023-06-10"),
-        customerOrCompany: "Theta Corp. - Testing Company for Large Names",
-        status: "true",
-        vertreter: "J",
-        fachberater: "K",
-        timespan: {
-          start: new Date("2024-02-01"),
-          end: new Date("2024-02-10"),
-        },
-        customer: "I",
-        abschlussbericht: "Nicht gestartet",
-        type: 1, visible: false
-
-      },
-    ];
-  }
+  /* tmpinitData() {
+     this.listOfDisplayData = [
+       {
+         id: 1,
+         name: "Project A - Long Name Test",
+         dateOfCreation: new Date("2023-06-01"),
+         customerOrCompany: "Example GmbH - Long Name Test",
+         status: "true",
+         vertreter: "B",
+         fachberater: "C",
+         timespan: {
+           start: new Date("2023-06-01"),
+           end: new Date("2023-06-30"),
+         },
+         customer: "A",
+         abschlussbericht: "Fertig",
+         type: 1,
+       },
+       {
+         id: 2,
+         name: "Project B - Testing Long Names",
+         dateOfCreation: new Date("2023-06-02"),
+         customerOrCompany: "Demo AG - Example Long Company Name",
+         status: "false",
+         vertreter: "C",
+         fachberater: "A",
+         timespan: {
+           start: new Date("2023-07-10"),
+           end: new Date("2023-07-31"),
+         },
+         customer: "F",
+         abschlussbericht: "In Arbeit",
+         type: 2,
+       },
+       {
+         id: 3,
+         name: "Project C - Another Long Test Name",
+         dateOfCreation: new Date("2023-06-03"),
+         customerOrCompany: "Test GmbH - Long Customer Name for Testing",
+         status: "true",
+         vertreter: "Hans Schmidt",
+         fachberater: "Sabine Fischer",
+         timespan: {
+           start: new Date("2023-08-05"),
+           end: new Date("2023-08-20"),
+         },
+         customer: "TEster langer Test",
+         abschlussbericht: "Fertig",
+         type: 0,
+       },
+       // Additional test data
+       {
+         id: 4,
+         name: "Project D - Extended Name for Testing",
+         dateOfCreation: new Date("2023-06-04"),
+         customerOrCompany: "Alpha Ltd. - Long Customer Company Name",
+         status: "true",
+         vertreter: "D",
+         fachberater: "E",
+         timespan: {
+           start: new Date("2023-09-01"),
+           end: new Date("2023-09-15"),
+         },
+         customer: "C",
+         abschlussbericht: "Fertig",
+         type: 1,
+       },
+       {
+         id: 5,
+         name: "Project E - Long Name Test for Data",
+         dateOfCreation: new Date("2023-06-05"),
+         customerOrCompany: "Beta Corp. - Test Company Name for Long Data",
+         status: "false",
+         vertreter: "E",
+         fachberater: "F",
+         timespan: {
+           start: new Date("2023-10-01"),
+           end: new Date("2023-10-10"),
+         },
+         customer: "D",
+         abschlussbericht: "Nicht gestartet",
+         type: 0,
+       },
+       {
+         id: 6,
+         name: "Project F - More Test Data with Long Names",
+         dateOfCreation: new Date("2023-06-06"),
+         customerOrCompany: "Gamma Inc. - Long Company Name for Testing",
+         status: "true",
+         vertreter: "F",
+         fachberater: "G",
+         timespan: {
+           start: new Date("2023-11-01"),
+           end: new Date("2023-11-20"),
+         },
+         customer: "E",
+         abschlussbericht: "In Arbeit",
+         type: 2,
+       },
+       {
+         id: 7,
+         name: "Project G - Final Test with Long Names",
+         dateOfCreation: new Date("2023-06-07"),
+         customerOrCompany: "Delta LLC - Long Name for Delta Company",
+         status: "false",
+         vertreter: "G",
+         fachberater: "H",
+         timespan: {
+           start: new Date("2023-12-01"),
+           end: new Date("2023-12-15"),
+         },
+         customer: "F",
+         abschlussbericht: "Fertig",
+         type: 1,
+       },
+       {
+         id: 8,
+         name: "Project H - Large Scale Testing Names",
+         dateOfCreation: new Date("2023-06-08"),
+         customerOrCompany: "Epsilon GmbH - Large Customer Name for Testing",
+         status: "true",
+         vertreter: "H",
+         fachberater: "I",
+         timespan: {
+           start: new Date("2023-12-20"),
+           end: new Date("2023-12-31"),
+         },
+         customer: "G",
+         abschlussbericht: "Fertig",
+         type: 0,
+       },
+       {
+         id: 9,
+         name: "Project I - Extensive Data with Long Names",
+         dateOfCreation: new Date("2023-06-09"),
+         customerOrCompany: "Zeta AG - Comprehensive Testing Name for Customer",
+         status: "false",
+         vertreter: "I",
+         fachberater: "J",
+         timespan: {
+           start: new Date("2024-01-01"),
+           end: new Date("2024-01-15"),
+         },
+         customer: "H",
+         abschlussbericht: "In Arbeit",
+         type: 2,
+       },
+       {
+         id: 10,
+         name: "Project J - Advanced Testing for Large Names",
+         dateOfCreation: new Date("2023-06-10"),
+         customerOrCompany: "Theta Corp. - Testing Company for Large Names",
+         status: "true",
+         vertreter: "J",
+         fachberater: "K",
+         timespan: {
+           start: new Date("2024-02-01"),
+           end: new Date("2024-02-10"),
+         },
+         customer: "I",
+         abschlussbericht: "Nicht gestartet",
+         type: 1,
+       },
+     ];
+   } */
 }
 
 interface DataItem {

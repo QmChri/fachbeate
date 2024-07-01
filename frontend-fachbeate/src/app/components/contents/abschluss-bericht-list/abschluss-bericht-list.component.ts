@@ -5,6 +5,10 @@ import { Technologist } from '../../../models/technologist';
 import { Article } from '../../../models/article';
 import { NotificationService } from '../../../services/notification.service';
 import { TranslateService } from '@ngx-translate/core';
+import { RoleService } from '../../../services/role.service';
+import { FinalReport } from '../../../models/final-report';
+import { MatDialog } from '@angular/material/dialog';
+import { AbschlussBerichtComponent } from '../abschluss-bericht/abschluss-bericht.component';
 
 @Component({
   selector: 'app-abschluss-bericht-list',
@@ -14,7 +18,6 @@ import { TranslateService } from '@ngx-translate/core';
 export class AbschlussBerichtListComponent {
   searchValue = '';
   visible = false;
-  listOfData: DataItem[] = [];
   technologistList: Technologist[] = [];
   listOfDisplayData: DataItem[] = [];
   listOfColumn: ColumnDefinition[] = [
@@ -76,10 +79,15 @@ export class AbschlussBerichtListComponent {
     }
   ];
 
-  constructor(private router: Router, private translate: TranslateService, private http: HttpService, private notificationService: NotificationService) { }
+  finalReports: FinalReport[] = []
+
+  constructor(private router: Router, private translate: TranslateService, 
+    private http: HttpService, private notificationService: NotificationService,
+     private roleService: RoleService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     //this.tmpinitData();
+    this.loadData();
     this.getNzFilters();
   }
 
@@ -106,17 +114,26 @@ export class AbschlussBerichtListComponent {
       }
     })
 
-    this.http.getFinalReports().subscribe({
-      next: data => {
-        data.forEach(element => {
+    var type = (this.roleService.checkPermission([1, 2, 3, 5, 7]) ? 7 : 6);
+    type = (!this.roleService.checkPermission([1, 2, 3, 5, 6, 7]) ? 4 : type);
+    var fullname = (type === 6 ? this.roleService.getUserName()! : this.roleService.getFullName()!);    
 
+
+    this.http.getFinalReportsByUser(type, fullname).subscribe({
+      next: data => {
+        console.log(data);
+        
+        this.finalReports = data;
+
+        data.forEach(element => {
           var allArticles: Article[] = []
 
           element.reasonReports!.forEach(reason => {
             allArticles = [...allArticles, ...reason.presentedArticle]
           })
 
-          this.listOfData = [...this.listOfData, {
+          this.listOfDisplayData = [...this.listOfDisplayData, {
+            id: element.id!,
             company: element.company!,
             dateOfVisit: element.dateOfVisit!,
             technologist: element.technologist!,
@@ -128,11 +145,9 @@ export class AbschlussBerichtListComponent {
           }]
         });
         this.getNzFilters()
-        this.listOfDisplayData = [...this.listOfData];
       },
       error: err => {
         console.log(err);
-
       }
     })
   }
@@ -146,12 +161,14 @@ export class AbschlussBerichtListComponent {
     })
   }
 
-  openCRC(dateNr: number, type: number) {
-    if (type === 0) {
-      this.router.navigate(['/customer-requirements', dateNr]);
-    } else if (type === 1) {
-      this.router.navigate(['/seminar-registration', dateNr]);
-    }
+  openDialog(dataItem: DataItem) {
+
+    const dialogRef = this.dialog.open(AbschlussBerichtComponent, {
+      height: '42.5rem',
+      width: '80rem',
+      data: this.finalReports.find(element => element.id === dataItem.id)
+    });
+    
   }
 
   resetSortAndFilters(): void {
@@ -231,6 +248,7 @@ export class AbschlussBerichtListComponent {
 }
 
 interface DataItem {
+  id: number,
   company: string,
   dateOfVisit: Date,
   technologist: string,
