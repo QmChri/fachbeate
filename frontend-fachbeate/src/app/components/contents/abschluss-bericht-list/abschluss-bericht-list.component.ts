@@ -5,6 +5,7 @@ import { Technologist } from '../../../models/technologist';
 import { Article } from '../../../models/article';
 import { NotificationService } from '../../../services/notification.service';
 import { TranslateService } from '@ngx-translate/core';
+import { RoleService } from '../../../services/role.service';
 
 @Component({
   selector: 'app-abschluss-bericht-list',
@@ -76,7 +77,7 @@ export class AbschlussBerichtListComponent {
     }
   ];
 
-  constructor(private router: Router, private translate: TranslateService, private http: HttpService, private notificationService: NotificationService) { }
+  constructor(private router: Router, private translate: TranslateService, private http: HttpService, private notificationService: NotificationService, private roleService: RoleService) { }
 
   ngOnInit(): void {
     //this.tmpinitData();
@@ -106,7 +107,12 @@ export class AbschlussBerichtListComponent {
       }
     })
 
-    this.http.getFinalReports().subscribe({
+    var type = (this.roleService.checkPermission([1, 2, 3, 5, 7]) ? 7 : 6);
+    type = (!this.roleService.checkPermission([1, 2, 3, 5, 6, 7]) ? 4 : type);
+    var fullname = (type === 6 ? this.roleService.getUserName()! : this.roleService.getFullName()!);    
+
+
+    this.http.getFinalReportsByUser(type, fullname).subscribe({
       next: data => {
         data.forEach(element => {
 
