@@ -21,7 +21,8 @@
             {{"CUSTOMER_REQUIREMENTS.approval_al" | translate}}
         </button>
     </div>
-    <button class="btn btn-success" (click)="postWorkshopRequest()">{{'CUSTOMER_REQUIREMENTS.send_form' |
+    <button
+            *ngIf="(inputWorkshop.creator === undefined && roleService.checkPermission([3,4,6])) || roleService.checkPermission([1,2,5,7])" (click)="postWorkshopRequest()">{{'CUSTOMER_REQUIREMENTS.send_form' |
         translate}}</button>
 </div>
 <hr>
