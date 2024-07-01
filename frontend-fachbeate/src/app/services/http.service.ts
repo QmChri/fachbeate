@@ -137,6 +137,10 @@ export class HttpService {
     return this.http.get<FinalReport[]>(API_URL + "appointment/finalReportByUser", {params: {type: type, fullname: fullname}});
   }
 
+  postFinalReport(finalReport: FinalReport): Observable<FinalReport>{
+    return this.http.post<FinalReport>(API_URL + "appointment/finalReport", finalReport);
+  }
+
 
   getAllArticles(): Observable<Article[]>{
     return this.http.get<Article[]>(API_URL + "appointment/article");

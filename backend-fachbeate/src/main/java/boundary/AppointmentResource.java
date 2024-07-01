@@ -134,8 +134,6 @@ public class AppointmentResource {
     @Path("/visitorRegistration/user")
     @Authenticated
     public Response getVisitorRegistrationPerUser(@QueryParam("type") int user, @QueryParam("fullname") String fullname){
-        System.out.println("user"+ user + "fullname" + fullname);
-
         if (user==7) {
             return getVisitorRegistration();
         }else if(user == 6) {
@@ -202,6 +200,13 @@ public class AppointmentResource {
         return Response.ok().build();
     }
 
+    @POST
+    @Path("/finalReport")
+    @Authenticated
+    @Transactional
+    public Response postFinalReport(FinalReport finalReport){
+        return Response.ok(finalReport.persistOrUpdate()).build();
+    }
 
 
 

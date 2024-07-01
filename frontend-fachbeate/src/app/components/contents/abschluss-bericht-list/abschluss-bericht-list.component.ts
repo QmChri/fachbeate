@@ -193,6 +193,19 @@ export class AbschlussBerichtListComponent {
       data: this.finalReports.find(element => element.id === dataItem.id)
     });
 
+    dialogRef.afterClosed().subscribe(
+      data => {
+        console.log(data);
+        
+        if (data.save) {
+          this.http.postFinalReport(data.finalReport).subscribe({
+            next: finalRep => {
+              this.loadData();
+            }
+          });
+        }
+      });
+
   }
 
   resetSortAndFilters(): void {
