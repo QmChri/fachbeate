@@ -49,6 +49,7 @@ export class CreateDealerComponent implements OnInit {
           this.inputCompany = {
             id: 0,
             name: "",
+            username: "",
             active: true
           }
 
@@ -66,6 +67,7 @@ export class CreateDealerComponent implements OnInit {
     this.inputCompany = {
       id: 0,
       name: "",
+      username: "",
       active: true
     }
   }
@@ -74,6 +76,7 @@ export class CreateDealerComponent implements OnInit {
     const company: Company = this.companyList.find(element => element.id === id)!;
     this.inputCompany.name = company.name;
     this.inputCompany.active = company.active;
+    this.inputCompany.username = company.username;
     this.inputCompany.id = company.id;
   }
 

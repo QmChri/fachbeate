@@ -5,6 +5,7 @@ import { Technologist } from '../../models/technologist';
 import { NotificationService } from '../../services/notification.service';
 import { RoleService } from '../../services/role.service';
 import { TranslateService } from '@ngx-translate/core';
+import { Company } from '../../models/company';
 
 @Component({
   selector: 'app-main-list',
@@ -16,6 +17,7 @@ export class MainListComponent implements OnInit {
   visible = false;
   technologistList: Technologist[] = [];
   listOfDisplayData: DataItem[] = [];
+
   listOfColumn: ColumnDefinition[] = [
     {
       name: 'company_name',
@@ -93,7 +95,7 @@ export class MainListComponent implements OnInit {
 
   ngOnInit(): void {
     //this.tmpinitData();
-    this.loadData();
+    this.loadDataPerUser()
     this.getNzFilters();
   }
 
@@ -182,10 +184,25 @@ export class MainListComponent implements OnInit {
       });
   }
 
-  loadData() {
+
+  loadDataPerUser(){
+    this.http.getAllCompany().subscribe({
+      next: data => {
+        var companies = data;
+
+        this.loadData(companies)
+      }
+    })
+  }
+
+  loadData(companies: Company[]) {
     var type = (this.roleService.checkPermission([1, 2, 3, 5, 7]) ? 7 : 6);
     type = (!this.roleService.checkPermission([1, 2, 3, 5, 6, 7]) ? 4 : type);
-    var fullname = (type === 6 ? this.roleService.getUserName()! : this.roleService.getFullName()!);
+    var fullname = (type === 6) ? companies.find(element => element.username === this.roleService.getUserName()!)?.username : this.roleService.getFullName()!;
+    
+    if(type === 6 && fullname === undefined){
+      type = -1;
+    }
 
     this.loadTechnologists();
     this.http.getCustomerRequirementsByUser(type!, fullname!).subscribe({
@@ -229,7 +246,7 @@ export class MainListComponent implements OnInit {
       }
     });
 
-    this.http.getWorkshopByUser(type, fullname).subscribe({
+    this.http.getWorkshopByUser(type, fullname!).subscribe({
       next: data => {
         data.forEach(element => {
 
@@ -265,7 +282,7 @@ export class MainListComponent implements OnInit {
       }
     });
 
-    this.http.getVisitorRegistrationByUser(type, fullname).subscribe({
+    this.http.getVisitorRegistrationByUser(type, fullname!).subscribe({
       next: data => {
         data.forEach(element => {
           this.listOfDisplayData = [...this.listOfDisplayData, {
@@ -318,7 +335,7 @@ export class MainListComponent implements OnInit {
       this.notificationService.createBasicNotification(2, translatedMessage, '', 'topRight');
     });
     this.getNzFilters();
-    this.loadData();
+    this.loadDataPerUser();
     //this.tmpinitData();
     this.listOfColumn.forEach(item => {
       item.sortOrder = null;
