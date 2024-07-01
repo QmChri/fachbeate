@@ -128,6 +128,11 @@ export class HttpService {
     return this.http.get<TechnologistAppointment>(API_URL + "appointment/other/id",{params: {id: id}})
   }
 
+  getOtherAppointmentByUser(type: number, fullname: string){
+    return this.http.get<TechnologistAppointment[]>(API_URL + "appointment/other/user", {params: {type: type, fullname: fullname}});
+  }
+
+
 
   getFinalReports():Observable<FinalReport[]>{
     return this.http.get<FinalReport[]>(API_URL + "appointment/finalReport");

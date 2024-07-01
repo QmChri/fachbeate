@@ -146,7 +146,7 @@ export class DashboardComponent implements OnInit {
     })
 
 
-    this.http.getOtherAppointments().subscribe({
+    this.http.getOtherAppointmentByUser(type, fullname!).subscribe({
       next: data => {
         data.forEach(value => {
           this.calendarEvnts = [...this.calendarEvnts, {
