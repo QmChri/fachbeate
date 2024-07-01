@@ -217,12 +217,9 @@ export class CustomerRequirementsComponent implements OnInit {
           dateOfVisit: customerVisit.dateOfVisit,
           reasonReports: rRepo
         }
-    }else{
-      finalReport = customerVisit.finalReport;
-    }
-
-
-      
+      }else{
+        finalReport = customerVisit.finalReport;
+      }
 
       const dialogRef = this.dialog.open(AbschlussBerichtComponent, {
         height: '42.5rem',
@@ -240,10 +237,6 @@ export class CustomerRequirementsComponent implements OnInit {
             });
           }
         });
-    } else {
-      if (customerVisit.finalReport != undefined) {
-        finalReport = customerVisit.finalReport!
-      }
     }
   }
 
