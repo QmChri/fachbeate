@@ -79,15 +79,16 @@ export class SeminarRegistrationComponent implements OnInit {
       !this.inputWorkshop.endDate ||
       !this.inputWorkshop.guests![0] ||
       !this.inputWorkshop.representative) {
-        this.translate.get(['STANDARD.please_fill_required_fields', 'STANDARD.assigned_repre_cons']).subscribe(translations => {
-          const message = translations['STANDARD.please_fill_required_fields'];
-          const anotherMessage = translations['STANDARD.assigned_repre_cons'];
-          this.notificationService.createBasicNotification(4, message, anotherMessage, 'topRight');
-        });
+      this.translate.get(['STANDARD.please_fill_required_fields', 'STANDARD.assigned_repre_cons']).subscribe(translations => {
+        const message = translations['STANDARD.please_fill_required_fields'];
+        const anotherMessage = translations['STANDARD.assigned_repre_cons'];
+        this.notificationService.createBasicNotification(4, message, anotherMessage, 'topRight');
+      });
       return false;
     }
     return true;
   }
+
   addTab() {
     this.tabs.push('Hotelbuchung: ' + this.tabs.length)
     this.selected.setValue(this.tabs.length - 1)
@@ -120,10 +121,8 @@ export class SeminarRegistrationComponent implements OnInit {
     this.languages.push(addItem);
   }
 
-  //TODO habe ich neu gemacht --> ist das richtig?
   release(department: string) {
     if (department === 'gl' && this.checkRequired()) {
-
       this.translate.get('STANDARD.approval_from_gl_granted').subscribe((translatedMessage: string) => {
         this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
       });
@@ -137,6 +136,7 @@ export class SeminarRegistrationComponent implements OnInit {
       this.inputWorkshop.releaseSupervisor = new Date();
       this.inputWorkshop.releaserSupervisor = this.roleService.getUserName()
     }
+    this.postWorkshopRequest();
   }
 
   changeCompany($event: any) {

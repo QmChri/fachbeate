@@ -70,13 +70,7 @@ export class CustomerRequirementsComponent implements OnInit {
   }
 
   release(department: string) {
-
     if (department === 'gl' && this.checkRequired()) {
-      this.translate.get(['STANDARD.approval_from_gl_granted', 'STANDARD.assigned_representative']).subscribe(translations => {
-        const message = translations['STANDARD.approval_from_gl_granted'];
-        const anotherMessage = translations['STANDARD.assigned_representative'];
-        this.notificationService.createBasicNotification(4, message, anotherMessage, 'topRight');
-      });
       this.translate.get('STANDARD.approval_from_gl_granted').subscribe((translatedMessage: string) => {
         this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
       });
@@ -91,6 +85,7 @@ export class CustomerRequirementsComponent implements OnInit {
       }); this.inputCustomerRequirement.releaseSupervisor = new Date();
       this.inputCustomerRequirement.releaserSupervisor = this.roleService.getUserName()
     }
+    this.postCustomerRequirement();
   }
 
   inputCustomerRequirement: CustomerRequirement = {

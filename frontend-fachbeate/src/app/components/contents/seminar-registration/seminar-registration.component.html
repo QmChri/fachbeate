@@ -7,8 +7,7 @@
         <button [disabled]="inputWorkshop.releaseManagement !== null && inputWorkshop.releaseManagement !== undefined"
             (nzOnConfirm)="release('gl')" *ngIf="roleService.checkPermission([1,7])" style="margin-right: 2rem;"
             nz-button nzType="primary" nz-popconfirm nzPopconfirmShowArrow="false" [nzIcon]="iconTpl"
-            [nzCancelText]="'DASHBOARD.cancel' | translate"
-            [nzOkText]="'STANDARD.ok' | translate"
+            [nzCancelText]="'DASHBOARD.cancel' | translate" [nzOkText]="'STANDARD.ok' | translate"
             [nzPopconfirmTitle]="'STANDARD.are_you_sure' | translate">
             <ng-template #iconTpl></ng-template>
             {{"CUSTOMER_REQUIREMENTS.approval_gl" | translate}}
@@ -16,8 +15,7 @@
         <button [disabled]="inputWorkshop.releaseSupervisor !== null && inputWorkshop.releaseSupervisor !== undefined"
             (nzOnConfirm)="release('al')" *ngIf="roleService.checkPermission([1,2,7])" style="margin-right: 2rem;"
             nz-button nzType="primary" nz-popconfirm nzPopconfirmShowArrow="false" [nzIcon]="iconTpl"
-            [nzCancelText]="'DASHBOARD.cancel' | translate"
-            [nzOkText]="'STANDARD.ok' | translate"
+            [nzCancelText]="'DASHBOARD.cancel' | translate" [nzOkText]="'STANDARD.ok' | translate"
             [nzPopconfirmTitle]="'STANDARD.are_you_sure' | translate">
             <ng-template #iconTpl></ng-template>
             {{"CUSTOMER_REQUIREMENTS.approval_al" | translate}}
@@ -126,7 +124,7 @@
 
                     <mat-form-field>
                         <mat-label>{{'SEMINAR_REGRISTRATION.responsible_advisors' | translate}}</mat-label>
-                        <mat-select multiple placeholder="{{'STANDARD.please_select | translate}}"
+                        <mat-select multiple placeholder="{{'STANDARD.please_select' | translate}}"
                             [ngModel]="inputWorkshop.techSelection" (valueChange)="changeTechnolgist($event)">
                             @for (t of technologists; track technologists) {
                             <mat-option [value]="t.id">{{t.firstName}} {{t.lastName}}</mat-option>
@@ -352,7 +350,7 @@
                 <!--TODO ngModels setzen-->
                 <div class="card-body">
                     @for (tab of tabs; track tab; let index = $index) {
-                    <p>{{index+1}}. {{"CUSTOMER_REQUIREMENTS.hotel_booking"|translate}} <p>
+                    <p>{{index+1}}. {{"CUSTOMER_REQUIREMENTS.hotel_booking"|translate}}<p>
                     <div class="center-items">
                         <mat-form-field class="smallInputSpecial">
                             <mat-label>{{'VISITOR_REGRISTRATION.location' | translate}}</mat-label>

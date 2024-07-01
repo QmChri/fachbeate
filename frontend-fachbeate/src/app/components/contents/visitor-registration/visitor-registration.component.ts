@@ -157,6 +157,7 @@ export class VisitorRegistrationComponent implements OnInit {
       this.inputVisitRegistration.releaseSupervisor = new Date();
       this.inputVisitRegistration.releaserSupervisor = this.roleService.getUserName()
     }
+    this.postVisitorRegistration();
   }
 
   openDialog(guests: Guest[]) {
