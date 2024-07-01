@@ -178,10 +178,7 @@ export class MainListComponent implements OnInit {
   loadData() {
     var type = (this.roleService.checkPermission([1, 2, 3, 5, 7]) ? 7 : 6);
     type = (!this.roleService.checkPermission([1, 2, 3, 5, 6, 7]) ? 4 : type);
-    var fullname = (type === 6 ? this.roleService.getUserName()! : this.roleService.getFullName()!);
-
-    console.log(type, fullname);
-    
+    var fullname = (type === 6 ? this.roleService.getUserName()! : this.roleService.getFullName()!);    
 
     this.loadTechnologists();
     this.http.getCustomerRequirementsByUser(type!, fullname!).subscribe({

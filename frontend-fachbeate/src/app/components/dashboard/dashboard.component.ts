@@ -151,7 +151,11 @@ export class DashboardComponent implements OnInit {
   }*/
   loadEvents() {
 
-    this.http.getCustomerRequirements().subscribe({
+    var type = (this.roleService.checkPermission([1, 2, 3, 5, 7]) ? 7 : 6);
+    type = (!this.roleService.checkPermission([1, 2, 3, 5, 6, 7]) ? 4 : type);
+    var fullname = (type === 6 ? this.roleService.getUserName()! : this.roleService.getFullName()!);    
+
+    this.http.getCustomerRequirementsByUser(type!, fullname!).subscribe({
       next: data => {
         data.forEach(value => {
           this.calendarEvnts = [...this.calendarEvnts, {
@@ -176,9 +180,9 @@ export class DashboardComponent implements OnInit {
       error: err => {
         console.log(err);
       }
-    })
+    });
 
-    this.http.getWorkshopRequirements().subscribe({
+    this.http.getWorkshopByUser(type, fullname).subscribe({
       next: data => {
         data.forEach(value => {
           this.calendarEvnts = [...this.calendarEvnts, {
@@ -205,7 +209,37 @@ export class DashboardComponent implements OnInit {
       error: err => {
         console.log(err);
       }
+    });
+
+    this.http.getVisitorRegistrationByUser(type, fullname).subscribe({
+      next: data => {
+        data.forEach(value => {
+          this.calendarEvnts = [...this.calendarEvnts, {
+            id: "w" + value.id,
+            title: value.name,
+            start: value.fromDate,
+            end: this.adjustEndDate(value.toDate!.toString()),
+            backgroundColor: "#f0f0f0",
+            borderColor: "#f0f0f0",
+          }]
+
+          this.calendarOptions.events = this.calendarEvnts.map(value => ({
+            id: value.id,
+            title: value.title,
+            start: value.start,
+            end: value.end,
+            backgroundColor: value.backgroundColor,
+            borderColor: value.borderColor,
+          }));
+
+        })
+
+      },
+      error: err => {
+        console.log(err);
+      }
     })
+
 
     this.http.getOtherAppointments().subscribe({
       next: data => {
