@@ -28,6 +28,7 @@ export class SeminarRegistrationComponent implements OnInit {
   reasonSelect: number = 0;
   languages: string[] = ['DE', 'EN', 'RU'];
   tabs = ['Hotelbuchung']
+  freigegeben: boolean = true;
   selected = new FormControl(0);
   inputWorkshop: WorkshopRequirement = {
     techSelection: [],
@@ -79,11 +80,7 @@ export class SeminarRegistrationComponent implements OnInit {
       !this.inputWorkshop.endDate ||
       !this.inputWorkshop.guests![0] ||
       !this.inputWorkshop.representative) {
-      this.translate.get(['STANDARD.please_fill_required_fields', 'STANDARD.assigned_repre_cons']).subscribe(translations => {
-        const message = translations['STANDARD.please_fill_required_fields'];
-        const anotherMessage = translations['STANDARD.assigned_repre_cons'];
-        this.notificationService.createBasicNotification(4, message, anotherMessage, 'topRight');
-      });
+      this.getNotification(4)
       return false;
     }
     return true;
@@ -123,20 +120,18 @@ export class SeminarRegistrationComponent implements OnInit {
 
   release(department: string) {
     if (department === 'gl' && this.checkRequired()) {
-      this.translate.get('STANDARD.approval_from_gl_granted').subscribe((translatedMessage: string) => {
-        this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
-      });
+      this.getNotification(2);
       this.inputWorkshop.releaseManagement = new Date();
       this.inputWorkshop.releaserManagement = this.roleService.getUserName()
+      this.postWorkshopRequest();
     }
     else if (department === 'al' && this.checkRequired()) {
-      this.translate.get('STANDARD.approval_from_al_granted').subscribe((translatedMessage: string) => {
-        this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
-      });
+      this.getNotification(3);
       this.inputWorkshop.releaseSupervisor = new Date();
       this.inputWorkshop.releaserSupervisor = this.roleService.getUserName()
+      this.postWorkshopRequest();
+
     }
-    this.postWorkshopRequest();
   }
 
   changeCompany($event: any) {
@@ -201,9 +196,7 @@ export class SeminarRegistrationComponent implements OnInit {
 
   postWorkshopRequest() {
     if (this.checkRequired()) {
-      this.translate.get('STANDARD.form_sent').subscribe((translatedMessage: string) => {
-        this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
-      });
+      this.getNotification(1);
       this.inputWorkshop.reason = "Seminaranmeldung"
       this.inputWorkshop.dateOfCreation = new Date();
 
@@ -227,6 +220,40 @@ export class SeminarRegistrationComponent implements OnInit {
           console.log(err);
         }
       })
+    }
+  }
+
+  getNotification(type: number) {
+    switch (type) {
+      case 1: { //Formular wurde gesendet
+        if (this.freigegeben) {
+          this.translate.get('STANDARD.form_sent').subscribe((translatedMessage: string) => {
+            this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
+          });
+        }
+        break;
+      }
+      case 2: { // Freigabe GL
+        this.translate.get('STANDARD.approval_from_gl_granted').subscribe((translatedMessage: string) => {
+          this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
+        });
+        this.freigegeben = false;
+        break;
+      }
+      case 3: { // Freigabe AL
+        this.translate.get('STANDARD.approval_from_al_granted').subscribe((translatedMessage: string) => {
+          this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
+        });
+        this.freigegeben = false;
+        break;
+      }
+      case 4: { // Pflichtfelder ausfüllen
+        this.translate.get(['STANDARD.please_fill_required_fields', 'STANDARD.assigned_representative']).subscribe(translations => {
+          const message = translations['STANDARD.please_fill_required_fields'];
+          const anotherMessage = translations['STANDARD.assigned_representative'];
+          this.notificationService.createBasicNotification(4, message, anotherMessage, 'topRight');
+        }); break;
+      }
     }
   }
 }

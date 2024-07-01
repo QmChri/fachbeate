@@ -89,12 +89,11 @@ export class MainListComponent implements OnInit {
     }
   ];
 
-  constructor(public translate: TranslateService,private router: Router, private http: HttpService, private notificationService: NotificationService, public roleService: RoleService) { }
+  constructor(public translate: TranslateService, private router: Router, private http: HttpService, private notificationService: NotificationService, public roleService: RoleService) { }
 
   ngOnInit(): void {
     //this.tmpinitData();
     this.loadData();
-    this.getNzFilters();
   }
 
   getNzFilters() {
@@ -102,51 +101,67 @@ export class MainListComponent implements OnInit {
 
     this.listOfColumn.find(element => element.name === 'company_name')!.listOfFilter =
       this.listOfDisplayData.reduce((uniqueFilters, element) => {
-        if (!uniqueFilters.some(filter => filter.value === element.name!)) {
-          uniqueFilters.push({ text: element.name!, value: element.name! });
+        const filterValue = element.name || "<Leer>";
+        if (!uniqueFilters.some(filter => filter.value === filterValue)) {
+          uniqueFilters.push({ text: filterValue, value: filterValue });
         }
         return uniqueFilters;
       }, [] as { text: string, value: string }[]);
+
     this.listOfColumn.find(element => element.name === 'requested_by')!.listOfFilter =
       this.listOfDisplayData.reduce((uniqueFilters, element) => {
-        if (!uniqueFilters.some(filter => filter.value === element.customerOrCompany!)) {
-          uniqueFilters.push({ text: element.customerOrCompany!, value: element.customerOrCompany! });
+        const filterValue = element.customerOrCompany || "<Leer>";
+        if (!uniqueFilters.some(filter => filter.value === filterValue)) {
+          uniqueFilters.push({ text: filterValue, value: filterValue });
         }
         return uniqueFilters;
-      }, [] as { text: string, value: string }[]); this.listOfColumn.find(element => element.name === 'status')!.listOfFilter =
-        this.listOfDisplayData.reduce((uniqueFilters, element) => {
-          if (!uniqueFilters.some(filter => filter.value === element.status!)) {
-            uniqueFilters.push({ text: element.status!, value: element.status! });
-          }
-          return uniqueFilters;
-        }, [] as { text: string, value: string }[]);
+      }, [] as { text: string, value: string }[]);
+
+    this.listOfColumn.find(element => element.name === 'status')!.listOfFilter =
+      this.listOfDisplayData.reduce((uniqueFilters, element) => {
+        const filterValue = element.status || "<Leer>";
+        if (!uniqueFilters.some(filter => filter.value === filterValue)) {
+          uniqueFilters.push({ text: filterValue, value: filterValue });
+        }
+        return uniqueFilters;
+      }, [] as { text: string, value: string }[]);
+
     this.listOfColumn.find(element => element.name === 'representative')!.listOfFilter =
       this.listOfDisplayData.reduce((uniqueFilters, element) => {
-        if (!uniqueFilters.some(filter => filter.value === element.vertreter!)) {
-          uniqueFilters.push({ text: element.vertreter!, value: element.vertreter! });
+        const filterValue = element.vertreter || "<Leer>";
+        if (!uniqueFilters.some(filter => filter.value === filterValue)) {
+          uniqueFilters.push({ text: filterValue, value: filterValue });
         }
         return uniqueFilters;
-      }, [] as { text: string, value: string }[]); this.listOfColumn.find(element => element.name === 'advisor')!.listOfFilter =
-        this.listOfDisplayData.reduce((uniqueFilters, element) => {
-          if (!uniqueFilters.some(filter => filter.value === element.fachberater!)) {
-            uniqueFilters.push({ text: element.fachberater!, value: element.fachberater! });
-          }
-          return uniqueFilters;
-        }, [] as { text: string, value: string }[]);
+      }, [] as { text: string, value: string }[]);
+
+    this.listOfColumn.find(element => element.name === 'advisor')!.listOfFilter =
+      this.listOfDisplayData.reduce((uniqueFilters, element) => {
+        const filterValue = element.fachberater || "<Leer>";
+        if (!uniqueFilters.some(filter => filter.value === filterValue)) {
+          uniqueFilters.push({ text: filterValue, value: filterValue });
+        }
+        return uniqueFilters;
+      }, [] as { text: string, value: string }[]);
+
     this.listOfColumn.find(element => element.name === 'customer')!.listOfFilter =
       this.listOfDisplayData.reduce((uniqueFilters, element) => {
-        if (!uniqueFilters.some(filter => filter.value === element.customer!)) {
-          uniqueFilters.push({ text: element.customer!, value: element.customer! });
+        const filterValue = element.customer || "<Leer>";
+        if (!uniqueFilters.some(filter => filter.value === filterValue)) {
+          uniqueFilters.push({ text: filterValue, value: filterValue });
         }
         return uniqueFilters;
       }, [] as { text: string, value: string }[]);
+
     this.listOfColumn.find(element => element.name === 'final_report')!.listOfFilter =
       this.listOfDisplayData.reduce((uniqueFilters, element) => {
-        if (!uniqueFilters.some(filter => filter.value === element.abschlussbericht!)) {
-          uniqueFilters.push({ text: element.abschlussbericht!, value: element.abschlussbericht! });
+        const filterValue = element.abschlussbericht || "<Leer>";
+        if (!uniqueFilters.some(filter => filter.value === filterValue)) {
+          uniqueFilters.push({ text: filterValue, value: filterValue });
         }
         return uniqueFilters;
       }, [] as { text: string, value: string }[]);
+
     this.listOfColumn.find(element => element.name === 'type')!.listOfFilter = this.listOfDisplayData.map(element => {
       let typeText;
       switch (element.type!.toString()) {
@@ -191,22 +206,17 @@ export class MainListComponent implements OnInit {
           }
 
           var cntFinalReports: number = 0;
-
           element.customerVisits.forEach(element => {
             if (element.finalReport !== undefined && element.finalReport !== null) {
               cntFinalReports = cntFinalReports + 1;
             }
           });
 
-          var color = cntFinalReports.toString().localeCompare(element.customerVisits.length.toString());
-          if (cntFinalReports === 0) { color = 1 }
-
-
           this.listOfDisplayData = [...this.listOfDisplayData, {
             id: element.id!,
             name: element.company?.name!,
             dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
-            customerOrCompany: "",
+            customerOrCompany: "<Leer>",
             status: "Freigegeben",
             vertreter: element.representative?.firstName! + " " + element.representative?.lastName!,
             fachberater: element.requestedTechnologist?.firstName! + " " + element.requestedTechnologist?.lastName!,
@@ -214,16 +224,17 @@ export class MainListComponent implements OnInit {
               start: element.startDate,
               end: element.endDate
             },
-            customer: "",
+            customer: "<Leer>",
             abschlussbericht: cntFinalReports + "/" + element.customerVisits.length,
             type: 0,
             visible: true
           }];
         });
+        this.getNzFilters();
       },
       error: err => {
+        console.log("kummst do her");
         console.log(err);
-
       }
     });
 
@@ -239,9 +250,9 @@ export class MainListComponent implements OnInit {
 
           this.listOfDisplayData = [...this.listOfDisplayData, {
             id: element.id!,
-            name: "",
+            name: "<Leer>",
             dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
-            customerOrCompany: "",
+            customerOrCompany: "<Leer>",
             status: "Freigegeben",
             vertreter: element.representative!.firstName + " " + element.representative!.lastName,
             fachberater: element.requestedTechnologist!.map(a => a.firstName + " " + a.lastName).toString(),
@@ -256,9 +267,10 @@ export class MainListComponent implements OnInit {
           }];
 
         });
+        this.getNzFilters();
       },
       error: err => {
-
+        console.log(err);
       }
     });
 
@@ -272,19 +284,19 @@ export class MainListComponent implements OnInit {
             customerOrCompany: element.customerOrCompany!,
             status: "!Freigegeben",
             vertreter: element.representative!.firstName + " " + element.representative!.lastName,
-            fachberater: "",
+            fachberater: "<Leer>",
             timespan: {
               start: element.fromDate,
               end: element.toDate
             },
-            customer: "",
-            abschlussbericht: "",
+            customer: "<Leer>",
+            abschlussbericht: "<Leer>",
             type: 2,
             visible: true
           }];
-
         });
 
+        this.getNzFilters();
       }
     })
   }
@@ -316,6 +328,7 @@ export class MainListComponent implements OnInit {
       this.notificationService.createBasicNotification(2, translatedMessage, '', 'topRight');
     });
     this.getNzFilters();
+    this.loadData();
     //this.tmpinitData();
     this.listOfColumn.forEach(item => {
       item.sortOrder = null;
@@ -348,171 +361,181 @@ export class MainListComponent implements OnInit {
     }
   }
 
-  /* tmpinitData() {
-     this.listOfDisplayData = [
-       {
-         id: 1,
-         name: "Project A - Long Name Test",
-         dateOfCreation: new Date("2023-06-01"),
-         customerOrCompany: "Example GmbH - Long Name Test",
-         status: "true",
-         vertreter: "B",
-         fachberater: "C",
-         timespan: {
-           start: new Date("2023-06-01"),
-           end: new Date("2023-06-30"),
-         },
-         customer: "A",
-         abschlussbericht: "Fertig",
-         type: 1,
-       },
-       {
-         id: 2,
-         name: "Project B - Testing Long Names",
-         dateOfCreation: new Date("2023-06-02"),
-         customerOrCompany: "Demo AG - Example Long Company Name",
-         status: "false",
-         vertreter: "C",
-         fachberater: "A",
-         timespan: {
-           start: new Date("2023-07-10"),
-           end: new Date("2023-07-31"),
-         },
-         customer: "F",
-         abschlussbericht: "In Arbeit",
-         type: 2,
-       },
-       {
-         id: 3,
-         name: "Project C - Another Long Test Name",
-         dateOfCreation: new Date("2023-06-03"),
-         customerOrCompany: "Test GmbH - Long Customer Name for Testing",
-         status: "true",
-         vertreter: "Hans Schmidt",
-         fachberater: "Sabine Fischer",
-         timespan: {
-           start: new Date("2023-08-05"),
-           end: new Date("2023-08-20"),
-         },
-         customer: "TEster langer Test",
-         abschlussbericht: "Fertig",
-         type: 0,
-       },
-       // Additional test data
-       {
-         id: 4,
-         name: "Project D - Extended Name for Testing",
-         dateOfCreation: new Date("2023-06-04"),
-         customerOrCompany: "Alpha Ltd. - Long Customer Company Name",
-         status: "true",
-         vertreter: "D",
-         fachberater: "E",
-         timespan: {
-           start: new Date("2023-09-01"),
-           end: new Date("2023-09-15"),
-         },
-         customer: "C",
-         abschlussbericht: "Fertig",
-         type: 1,
-       },
-       {
-         id: 5,
-         name: "Project E - Long Name Test for Data",
-         dateOfCreation: new Date("2023-06-05"),
-         customerOrCompany: "Beta Corp. - Test Company Name for Long Data",
-         status: "false",
-         vertreter: "E",
-         fachberater: "F",
-         timespan: {
-           start: new Date("2023-10-01"),
-           end: new Date("2023-10-10"),
-         },
-         customer: "D",
-         abschlussbericht: "Nicht gestartet",
-         type: 0,
-       },
-       {
-         id: 6,
-         name: "Project F - More Test Data with Long Names",
-         dateOfCreation: new Date("2023-06-06"),
-         customerOrCompany: "Gamma Inc. - Long Company Name for Testing",
-         status: "true",
-         vertreter: "F",
-         fachberater: "G",
-         timespan: {
-           start: new Date("2023-11-01"),
-           end: new Date("2023-11-20"),
-         },
-         customer: "E",
-         abschlussbericht: "In Arbeit",
-         type: 2,
-       },
-       {
-         id: 7,
-         name: "Project G - Final Test with Long Names",
-         dateOfCreation: new Date("2023-06-07"),
-         customerOrCompany: "Delta LLC - Long Name for Delta Company",
-         status: "false",
-         vertreter: "G",
-         fachberater: "H",
-         timespan: {
-           start: new Date("2023-12-01"),
-           end: new Date("2023-12-15"),
-         },
-         customer: "F",
-         abschlussbericht: "Fertig",
-         type: 1,
-       },
-       {
-         id: 8,
-         name: "Project H - Large Scale Testing Names",
-         dateOfCreation: new Date("2023-06-08"),
-         customerOrCompany: "Epsilon GmbH - Large Customer Name for Testing",
-         status: "true",
-         vertreter: "H",
-         fachberater: "I",
-         timespan: {
-           start: new Date("2023-12-20"),
-           end: new Date("2023-12-31"),
-         },
-         customer: "G",
-         abschlussbericht: "Fertig",
-         type: 0,
-       },
-       {
-         id: 9,
-         name: "Project I - Extensive Data with Long Names",
-         dateOfCreation: new Date("2023-06-09"),
-         customerOrCompany: "Zeta AG - Comprehensive Testing Name for Customer",
-         status: "false",
-         vertreter: "I",
-         fachberater: "J",
-         timespan: {
-           start: new Date("2024-01-01"),
-           end: new Date("2024-01-15"),
-         },
-         customer: "H",
-         abschlussbericht: "In Arbeit",
-         type: 2,
-       },
-       {
-         id: 10,
-         name: "Project J - Advanced Testing for Large Names",
-         dateOfCreation: new Date("2023-06-10"),
-         customerOrCompany: "Theta Corp. - Testing Company for Large Names",
-         status: "true",
-         vertreter: "J",
-         fachberater: "K",
-         timespan: {
-           start: new Date("2024-02-01"),
-           end: new Date("2024-02-10"),
-         },
-         customer: "I",
-         abschlussbericht: "Nicht gestartet",
-         type: 1,
-       },
-     ];
-   } */
+  tmpinitData() {
+    this.listOfDisplayData = [
+      {
+        id: 1,
+        name: "Project A - Long Name Test",
+        dateOfCreation: new Date("2023-06-01"),
+        customerOrCompany: "Example GmbH - Long Name Test",
+        status: "true",
+        vertreter: "B",
+        fachberater: "C",
+        timespan: {
+          start: new Date("2023-06-01"),
+          end: new Date("2023-06-30"),
+        },
+        customer: "A",
+        abschlussbericht: "Fertig",
+        type: 1,
+        visible: false
+      },
+      {
+        id: 2,
+        name: "Project B - Testing Long Names",
+        dateOfCreation: new Date("2023-06-02"),
+        customerOrCompany: "Demo AG - Example Long Company Name",
+        status: "false",
+        vertreter: "C",
+        fachberater: "A",
+        timespan: {
+          start: new Date("2023-07-10"),
+          end: new Date("2023-07-31"),
+        },
+        customer: "F",
+        abschlussbericht: "In Arbeit",
+        type: 2,
+        visible: false
+      },
+      {
+        id: 3,
+        name: "Project C - Another Long Test Name",
+        dateOfCreation: new Date("2023-06-03"),
+        customerOrCompany: "Test GmbH - Long Customer Name for Testing",
+        status: "true",
+        vertreter: "Hans Schmidt",
+        fachberater: "Sabine Fischer",
+        timespan: {
+          start: new Date("2023-08-05"),
+          end: new Date("2023-08-20"),
+        },
+        customer: "TEster langer Test",
+        abschlussbericht: "Fertig",
+        type: 0, visible: false
+
+      },
+      // Additional test data
+      {
+        id: 4,
+        name: "Project D - Extended Name for Testing",
+        dateOfCreation: new Date("2023-06-04"),
+        customerOrCompany: "Alpha Ltd. - Long Customer Company Name",
+        status: "true",
+        vertreter: "D",
+        fachberater: "E",
+        timespan: {
+          start: new Date("2023-09-01"),
+          end: new Date("2023-09-15"),
+        },
+        customer: "C",
+        abschlussbericht: "Fertig",
+        type: 1, visible: false
+
+      },
+      {
+        id: 5,
+        name: "Project E - Long Name Test for Data",
+        dateOfCreation: new Date("2023-06-05"),
+        customerOrCompany: "Beta Corp. - Test Company Name for Long Data",
+        status: "false",
+        vertreter: "E",
+        fachberater: "F",
+        timespan: {
+          start: new Date("2023-10-01"),
+          end: new Date("2023-10-10"),
+        },
+        customer: "D",
+        abschlussbericht: "Nicht gestartet",
+        type: 0, visible: false
+
+      },
+      {
+        id: 6,
+        name: "Project F - More Test Data with Long Names",
+        dateOfCreation: new Date("2023-06-06"),
+        customerOrCompany: "Gamma Inc. - Long Company Name for Testing",
+        status: "true",
+        vertreter: "F",
+        fachberater: "G",
+        timespan: {
+          start: new Date("2023-11-01"),
+          end: new Date("2023-11-20"),
+        },
+        customer: "E",
+        abschlussbericht: "In Arbeit",
+        type: 2, visible: false
+
+      },
+      {
+        id: 7,
+        name: "Project G - Final Test with Long Names",
+        dateOfCreation: new Date("2023-06-07"),
+        customerOrCompany: "Delta LLC - Long Name for Delta Company",
+        status: "false",
+        vertreter: "G",
+        fachberater: "H",
+        timespan: {
+          start: new Date("2023-12-01"),
+          end: new Date("2023-12-15"),
+        },
+        customer: "F",
+        abschlussbericht: "Fertig",
+        type: 1, visible: false
+
+      },
+      {
+        id: 8,
+        name: "Project H - Large Scale Testing Names",
+        dateOfCreation: new Date("2023-06-08"),
+        customerOrCompany: "Epsilon GmbH - Large Customer Name for Testing",
+        status: "true",
+        vertreter: "H",
+        fachberater: "I",
+        timespan: {
+          start: new Date("2023-12-20"),
+          end: new Date("2023-12-31"),
+        },
+        customer: "G",
+        abschlussbericht: "Fertig",
+        type: 0, visible: false
+
+      },
+      {
+        id: 9,
+        name: "Project I - Extensive Data with Long Names",
+        dateOfCreation: new Date("2023-06-09"),
+        customerOrCompany: "Zeta AG - Comprehensive Testing Name for Customer",
+        status: "false",
+        vertreter: "I",
+        fachberater: "J",
+        timespan: {
+          start: new Date("2024-01-01"),
+          end: new Date("2024-01-15"),
+        },
+        customer: "H",
+        abschlussbericht: "In Arbeit",
+        type: 2, visible: false
+
+      },
+      {
+        id: 10,
+        name: "Project J - Advanced Testing for Large Names",
+        dateOfCreation: new Date("2023-06-10"),
+        customerOrCompany: "Theta Corp. - Testing Company for Large Names",
+        status: "true",
+        vertreter: "J",
+        fachberater: "K",
+        timespan: {
+          start: new Date("2024-02-01"),
+          end: new Date("2024-02-10"),
+        },
+        customer: "I",
+        abschlussbericht: "Nicht gestartet",
+        type: 1, visible: false
+
+      },
+    ];
+  }
 }
 
 interface DataItem {

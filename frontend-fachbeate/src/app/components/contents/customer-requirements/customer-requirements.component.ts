@@ -29,6 +29,7 @@ export class CustomerRequirementsComponent implements OnInit {
   technologists: Technologist[] = [];
   representative: Representative[] = [];
   companies: Company[] = [];
+  freigegeben: boolean = true;
 
   constructor(private translate: TranslateService, private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute, private notificationService: NotificationService, public roleService: RoleService) { }
 
@@ -71,21 +72,17 @@ export class CustomerRequirementsComponent implements OnInit {
 
   release(department: string) {
     if (department === 'gl' && this.checkRequired()) {
-      this.translate.get('STANDARD.approval_from_gl_granted').subscribe((translatedMessage: string) => {
-        this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
-      });
+      this.getNotification(2);
       this.inputCustomerRequirement.releaseManagement = new Date();
       this.inputCustomerRequirement.releaserManagement = this.roleService.getUserName()
+      this.postCustomerRequirement();
     }
     else if (department === 'al' && this.checkRequired()) {
-      this.translate.get(['STANDARD.approval_from_al_granted', 'STANDARD.assigned_representative']).subscribe(translations => {
-        const message = translations['STANDARD.approval_from_al_granted'];
-        const anotherMessage = translations['STANDARD.assigned_representative'];
-        this.notificationService.createBasicNotification(4, message, anotherMessage, 'topRight');
-      }); this.inputCustomerRequirement.releaseSupervisor = new Date();
+      this.getNotification(3);
+      this.inputCustomerRequirement.releaseSupervisor = new Date();
       this.inputCustomerRequirement.releaserSupervisor = this.roleService.getUserName()
+      this.postCustomerRequirement();
     }
-    this.postCustomerRequirement();
   }
 
   inputCustomerRequirement: CustomerRequirement = {
@@ -139,9 +136,7 @@ export class CustomerRequirementsComponent implements OnInit {
 
   postCustomerRequirement() {
     if (this.checkRequired()) {
-      this.translate.get('STANDARD.form_sent').subscribe((translatedMessage: string) => {
-        this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
-      });
+      this.getNotification(1);
       this.inputCustomerRequirement.reason = "XXXX"
       this.inputCustomerRequirement.dateOfCreation = new Date();
 
@@ -151,7 +146,6 @@ export class CustomerRequirementsComponent implements OnInit {
       this.inputCustomerRequirement.lastEditor = this.roleService.getUserName(); this.http.postCustomerRequirement(this.inputCustomerRequirement).subscribe({
         next: data => {
           this.inputCustomerRequirement = data;
-
           data.customerVisits.forEach((element, index) => {
             element.selection = [
               (element.presentationOfNewProducts) ? 1 : 0,
@@ -162,7 +156,6 @@ export class CustomerRequirementsComponent implements OnInit {
             ];
             element.editId = index;
           });
-
         },
         error: err => {
           console.log(err);
@@ -176,11 +169,7 @@ export class CustomerRequirementsComponent implements OnInit {
       !this.inputCustomerRequirement.representative ||
       !this.inputCustomerRequirement.startDate ||
       !this.inputCustomerRequirement.endDate) {
-      this.translate.get(['STANDARD.please_fill_required_fields', 'STANDARD.assigned_representative']).subscribe(translations => {
-        const message = translations['STANDARD.please_fill_required_fields'];
-        const anotherMessage = translations['STANDARD.assigned_representative'];
-        this.notificationService.createBasicNotification(4, message, anotherMessage, 'topRight');
-      });
+      this.getNotification(4)
       return false;
     }
     return true;
@@ -220,9 +209,7 @@ export class CustomerRequirementsComponent implements OnInit {
           if (data.save) {
             customerVisit.finalReport = data.finalReport;
             this.postCustomerRequirement();
-            this.translate.get('STANDARD.final_report_added').subscribe((translatedMessage: string) => {
-              this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
-            });
+            this.getNotification(5);
           }
         });
     } else {
@@ -275,6 +262,45 @@ export class CustomerRequirementsComponent implements OnInit {
 
   changeRepresentative($event: any) {
     this.inputCustomerRequirement.representative = this.representative.find(elemnt => elemnt.id === $event);
+  }
+
+  getNotification(type: number) {
+    switch (type) {
+      case 1: { //Formular wurde gesendet
+        if (this.freigegeben) {
+          this.translate.get('STANDARD.form_sent').subscribe((translatedMessage: string) => {
+            this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
+          });
+        }
+        break;
+      }
+      case 2: { // Freigabe GL
+        this.translate.get('STANDARD.approval_from_gl_granted').subscribe((translatedMessage: string) => {
+          this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
+        });
+        this.freigegeben = false;
+        break;
+      }
+      case 3: { // Freigabe AL
+        this.translate.get('STANDARD.approval_from_al_granted').subscribe((translatedMessage: string) => {
+          this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
+        });
+        this.freigegeben = false;
+        break;
+      }
+      case 4: { // Pflichtfelder ausfüllen
+        this.translate.get(['STANDARD.please_fill_required_fields', 'STANDARD.assigned_representative']).subscribe(translations => {
+          const message = translations['STANDARD.please_fill_required_fields'];
+          const anotherMessage = translations['STANDARD.assigned_representative'];
+          this.notificationService.createBasicNotification(4, message, anotherMessage, 'topRight');
+        }); break;
+      }
+      case 5: { // Final Report
+        this.translate.get('STANDARD.final_report_added').subscribe((translatedMessage: string) => {
+          this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
+        }); break;
+      }
+    }
   }
 }
 

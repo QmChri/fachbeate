@@ -12,7 +12,7 @@
 </div>
 <hr>
 
-<nz-table #nzTable nzBordered [nzPageSize]="7" nzTableLayout="auto" [nzSize]="'small'" [nzData]="listOfDisplayData">
+<nz-table #nzTable nzBordered [nzPageSize]="7" nzShowSizeChanger  nzTableLayout="auto" [nzSize]="'small'" [nzData]="listOfDisplayData">
   <thead>
     <tr>
       <th [nzSortFn]="listOfColumn[0].sortFn" [(nzSortOrder)]="listOfColumn[0].sortOrder"

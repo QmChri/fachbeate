@@ -22,6 +22,7 @@ export class VisitorRegistrationComponent implements OnInit {
   geDip: String[] = []
   representative: Representative[] = [];
   selected = new FormControl(0);
+  freigegeben: boolean = true;
   languageControl = new FormControl();
   languageFilterCtrl = new FormControl();
   listOfCurrentPageData: readonly Department[] = [];
@@ -145,19 +146,16 @@ export class VisitorRegistrationComponent implements OnInit {
 
   release(department: string) {
     if (department === 'gl') {
-      this.translate.get('STANDARD.approval_from_gl_granted').subscribe((translatedMessage: string) => {
-        this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
-      });
+      this.getNotification(2);
       this.inputVisitRegistration.releaseManagement = new Date();
       this.inputVisitRegistration.releaserManagement = this.roleService.getUserName();
+      this.postVisitorRegistration();
     } else {
-      this.translate.get('STANDARD.approval_from_al_granted').subscribe((translatedMessage: string) => {
-        this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
-      });
+      this.getNotification(3);
       this.inputVisitRegistration.releaseSupervisor = new Date();
       this.inputVisitRegistration.releaserSupervisor = this.roleService.getUserName()
+      this.postVisitorRegistration();
     }
-    this.postVisitorRegistration();
   }
 
   openDialog(guests: Guest[]) {
@@ -214,9 +212,8 @@ export class VisitorRegistrationComponent implements OnInit {
 
   postVisitorRegistration() {
     this.inputVisitRegistration.creator = this.roleService.getUserName();
-    this.translate.get('STANDARD.form_sent').subscribe((translatedMessage: string) => {
-      this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
-    });    this.inputVisitRegistration.reason = "VisitorRegistration"
+    this.getNotification(1);
+    this.inputVisitRegistration.reason = "VisitorRegistration"
     this.inputVisitRegistration.plannedDepartmentVisits = []
 
     this.setOfCheckedId.forEach((value, key) => {
@@ -264,5 +261,39 @@ export class VisitorRegistrationComponent implements OnInit {
 
   changeRepresentative($event: any) {
     this.inputVisitRegistration.representative = this.representative.find(elemnt => elemnt.id === $event);
+  }
+
+  getNotification(type: number) {
+    switch (type) {
+      case 1: { //Formular wurde gesendet
+        if (this.freigegeben) {
+          this.translate.get('STANDARD.form_sent').subscribe((translatedMessage: string) => {
+            this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
+          });
+        }
+        break;
+      }
+      case 2: { // Freigabe GL
+        this.translate.get('STANDARD.approval_from_gl_granted').subscribe((translatedMessage: string) => {
+          this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
+        });
+        this.freigegeben = false;
+        break;
+      }
+      case 3: { // Freigabe AL
+        this.translate.get('STANDARD.approval_from_al_granted').subscribe((translatedMessage: string) => {
+          this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
+        });
+        this.freigegeben = false;
+        break;
+      }
+      case 4: { // Pflichtfelder ausfüllen
+        this.translate.get(['STANDARD.please_fill_required_fields', 'STANDARD.assigned_representative']).subscribe(translations => {
+          const message = translations['STANDARD.please_fill_required_fields'];
+          const anotherMessage = translations['STANDARD.assigned_representative'];
+          this.notificationService.createBasicNotification(4, message, anotherMessage, 'topRight');
+        }); break;
+      }
+    }
   }
 }
