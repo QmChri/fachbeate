@@ -6,6 +6,8 @@ import { HttpService } from '../../../services/http.service';
 import { Article } from '../../../models/article';
 import { NzNotificationPlacement, NzNotificationService } from 'ng-zorro-antd/notification';
 import { RoleService } from '../../../services/role.service';
+import { Technologist } from '../../../models/technologist';
+import { Representative } from '../../../models/representative';
 
 @Component({
   selector: 'app-abschluss-bericht',
@@ -16,6 +18,8 @@ export class AbschlussBerichtComponent implements OnInit {
   inputFinalReport: FinalReport = {}
   reasonSelect: number[] = []
   existingArticles: Article[] = []
+  technologists: Technologist[] = [];
+  representative: Representative[] = [];
 
  constructor(public roleService: RoleService,private notification: NzNotificationService,
     public dialogRef: MatDialogRef<AbschlussBerichtComponent>,
@@ -23,6 +27,7 @@ export class AbschlussBerichtComponent implements OnInit {
     private http: HttpService
   ) {
     this.inputFinalReport = finalReport;
+   
 
     if (finalReport.reasonReports !== undefined) {      
       this.inputFinalReport.reasonReports = this.inputFinalReport.reasonReports!.filter(element => element.reason !== 0);
@@ -34,6 +39,8 @@ export class AbschlussBerichtComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllArticles();
+    this.getTechnologist();
+    this.getRepresentative();
   }
 
   changeSelections(event: any) {
@@ -99,4 +106,36 @@ export class AbschlussBerichtComponent implements OnInit {
   deleteArticle(reason: number) {
     this.inputFinalReport.reasonReports?.find(element => element.reason === reason)?.presentedArticle.pop();
   }
+
+  
+  getTechnologist() {
+    this.http.getActiveTechnologist().subscribe({
+      next: data => {
+        this.technologists = data;
+      },
+      error: err => {
+        console.log(err);
+      }
+    });
+  }
+
+  getRepresentative() {
+    this.http.getActiveRepresentative().subscribe({
+      next: data => {
+        this.representative = data;
+      },
+      error: err => {
+        console.log(err);
+      }
+    });
+  }
+
+  changeTechnolgist($event: any) {
+    this.inputFinalReport.technologist = this.technologists.find(elemnt => elemnt.id === $event);
+  }
+
+  changeRepresentative($event: any) {
+    this.inputFinalReport.representative = this.representative.find(elemnt => elemnt.id === $event);
+  }
+
 }

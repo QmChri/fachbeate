@@ -9,10 +9,20 @@
                     <div class="card-body">
                         <div class="center-items">
                             <div class="displayBySide">
-                                <mat-form-field class="smallInput" *ngIf="roleService.checkPermission([1,2,4])">
-                                    <mat-label>{{"MAIN_LIST.advisor" | translate}}</mat-label>
-                                    <input matInput type="text" [(ngModel)]="inputFinalReport.technologist"
-                                        name="technologist">
+                                <mat-form-field>
+                                    <mat-label>{{"CUSTOMER_REQUIREMENTS.select_advisor"|translate}}</mat-label>
+                                    <mat-select
+                                        [ngModel]="(inputFinalReport.technologist === undefined)?undefined:inputFinalReport.technologist.id"
+                                        (valueChange)="changeTechnolgist($event)" required>
+                                        <mat-option>--</mat-option>
+                                        @for (t of technologists; track technologists) {
+                                        <mat-option [value]="t.id">{{t.firstName}} {{t.lastName}}</mat-option>
+                                        }
+                                    </mat-select>
+                                    <!----
+                                    @if (tohaControl.hasError('required')) {
+                                    <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
+                                    }-->
                                 </mat-form-field>
                                 <mat-form-field class="smallInput">
                                     <mat-label>{{"ABSCHLUSSBERICHT.company" | translate}}</mat-label>
@@ -25,10 +35,20 @@
                                 </mat-form-field>
                             </div>
                             <div class="displayBySide">
-                                <mat-form-field class="smallInput" *ngIf="roleService.checkPermission([1,3,6])">
-                                    <mat-label>{{"MAIN_LIST.representative" | translate}}</mat-label>
-                                    <input matInput type="text" [(ngModel)]="inputFinalReport.representative"
-                                        name="representative">
+                                <mat-form-field>
+                                    <mat-label>{{"MAIN_LIST.representative"|translate}}</mat-label>
+                                    <mat-select
+                                        [ngModel]="(inputFinalReport.representative === undefined)?undefined:inputFinalReport.representative.id"
+                                        (valueChange)="changeRepresentative($event)" required>
+                                        <mat-option>--</mat-option>
+                                        @for (r of representative; track representative) {
+                                        <mat-option [value]="r.id">{{r.firstName}} {{r.lastName}}</mat-option>
+                                        }
+                                    </mat-select>
+                                        <!--TODO
+                                    @if (tohaControl.hasError('required')) {
+                                    <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
+                                    }--->
                                 </mat-form-field>
                                 <mat-form-field class="smallInputSide">
                                     <mat-label>{{"ABSCHLUSSBERICHT.visit_date_general" | translate}}</mat-label>

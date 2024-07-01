@@ -1,12 +1,14 @@
 import { ReasonReport } from "./reason-report";
+import { Representative } from "./representative";
+import { Technologist } from "./technologist";
 
 export interface FinalReport {
 
     id?: number;
     state?: string;
 
-    technologist?: string;
-    representative?: string;
+    technologist?: Technologist;
+    representative?: Representative;
     dateOfVisit?: Date;
     company?: string;
     companyNr?: string;

@@ -1,10 +1,7 @@
 package entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
 
 import java.time.LocalDate;
@@ -15,8 +12,11 @@ import java.util.List;
 @Entity
 public class FinalReport extends PanacheEntity {
     public String state;
-    public String technologist;
-    public String representative;
+
+    @ManyToOne
+    public Technologist technologist;
+    @ManyToOne
+    public Representative representative;
     public Date dateOfVisit;
     public String company;
     public String companyNr;
@@ -45,8 +45,6 @@ public class FinalReport extends PanacheEntity {
     @Transactional(Transactional.TxType.REQUIRED)
     public void updateEntity(FinalReport newFinalReport) {
         this.state = newFinalReport.state;
-        this.technologist = newFinalReport.technologist;
-        this.representative = newFinalReport.representative;
         this.dateOfVisit = newFinalReport.dateOfVisit;
         this.company = newFinalReport.company;
         this.companyNr = newFinalReport.companyNr;
@@ -70,6 +68,10 @@ public class FinalReport extends PanacheEntity {
         for(ReasonReport r: newFinalReport.reasonReports){
             reasonReports.add(r.persistOrUpdate());
         }
+
+
+        this.technologist = newFinalReport.technologist.persistOrUpdate();
+        this.representative = newFinalReport.representative.persistOrUpdate();
 
     }
 

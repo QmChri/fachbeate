@@ -167,9 +167,9 @@ export class AbschlussBerichtListComponent {
             id: element.id!,
             company: (element.company!) ? element.company : "<Leer>",
             dateOfVisit: (element.dateOfVisit!) ? element.dateOfVisit : undefined!,
-            technologist: element.technologist!,
+            technologist: element.technologist!.firstName + " " + element.technologist!.lastName,
             toBeCompletedBy: element.doneUntil!,
-            representative: element.representative!,
+            representative: element.representative!.firstName + " " + element.representative!.lastName,
             customerContactDate: element.customerContactDate!,
             abschlussberichtFinished: (element.requestCompleted) ? "Ja" : "Nein",
             article: allArticles
@@ -211,9 +211,9 @@ export class AbschlussBerichtListComponent {
                 id: finalRep.id!,
                 company: (finalRep.company!) ? finalRep.company : "<Leer>",
                 dateOfVisit: (finalRep.dateOfVisit!) ? finalRep.dateOfVisit : undefined!,
-                technologist: finalRep.technologist!,
+                technologist: finalRep.technologist!.firstName + " " + finalRep.technologist!.lastName,
                 toBeCompletedBy: finalRep.reworkByRepresentativeDoneUntil!,
-                representative: finalRep.representative!,
+                representative: finalRep.representative!.firstName + " " + finalRep.representative!.lastName,
                 customerContactDate: finalRep.customerContactDate!,
                 abschlussberichtFinished: (finalRep.requestCompleted) ? "Ja" : "Nein",
                 article: []

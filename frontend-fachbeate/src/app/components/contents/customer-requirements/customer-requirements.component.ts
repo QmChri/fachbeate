@@ -190,10 +190,10 @@ export class CustomerRequirementsComponent implements OnInit {
         ].filter(element => element.reason !== 0);
 
         finalReport = {
-          technologist: this.inputCustomerRequirement.requestedTechnologist!.firstName + " " + this.inputCustomerRequirement.requestedTechnologist!.lastName,
+          technologist: this.inputCustomerRequirement.requestedTechnologist,
           company: customerVisit.companyName,
           companyNr: customerVisit.customerNr,
-          representative: this.inputCustomerRequirement.representative!.firstName + " " + this.inputCustomerRequirement.representative!.lastName,
+          representative: this.inputCustomerRequirement.representative,
           dateOfVisit: customerVisit.dateOfVisit,
           reasonReports: rRepo
         }
