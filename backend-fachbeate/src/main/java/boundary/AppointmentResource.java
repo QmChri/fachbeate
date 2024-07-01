@@ -54,7 +54,7 @@ public class AppointmentResource {
         }else if(user == 4) {
             return Response.ok(CustomerRequirement.find("requestedTechnologist.firstName = ?1 and requestedTechnologist.lastName = ?2", fullname.split(";")[0], fullname.split(";")[1]).list()).build();
         }else if(user == 6) {
-            return Response.ok(CustomerRequirement.find("creator", fullname).list()).build();
+            return Response.ok(CustomerRequirement.find("company.username", fullname).list()).build();
         }else if(user == 3){
             return Response.ok(CustomerRequirement.find("representative.firstName = ?1 and representative.lastName", fullname.split(";")[0], fullname.split(";")[1]).list()).build();
         }
@@ -98,7 +98,7 @@ public class AppointmentResource {
             return Response.ok(WorkshopRequirement.find("select work from WorkshopRequirement work join work.requestedTechnologist tech " +
                     "where tech.firstName = ?1 and tech.lastName = ?2", fullname.split(";")[0], fullname.split(";")[1]).list()).build();
         }else if(user == 6) {
-            return Response.ok(WorkshopRequirement.find("creator", fullname).list()).build();
+            return Response.ok(WorkshopRequirement.find("company.username", fullname).list()).build();
         }else if(user == 3){
             return Response.ok(WorkshopRequirement.find("representative.firstName = ?1 and representative.lastName", fullname.split(";")[0], fullname.split(";")[1]).list()).build();
         }
@@ -195,7 +195,7 @@ public class AppointmentResource {
         }else if(user == 4) {
             return Response.ok(FinalReport.find("technologist", fullname.split(";")[0]+" "+fullname.split(";")[1]).list()).build();
         }else if(user == 6) {
-            return Response.ok(CustomerRequirement.find("company", fullname).list()).build();
+            //TODO return Response.ok(CustomerRequirement.find("company", fullname).list()).build();
         }else if(user == 3){
             return Response.ok(CustomerRequirement.find("representative.firstName = ?1 and representative.lastName",fullname.split(";")[0]+" "+fullname.split(";")[1]).list()).build();
         }

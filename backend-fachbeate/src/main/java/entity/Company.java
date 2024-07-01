@@ -6,11 +6,15 @@ import jakarta.persistence.Entity;
 @Entity
 public class Company extends PanacheEntity {
     public String name;
+
+    public String username;
+
     public boolean active;
 
 
     public void updateEntity(Company newEntity){
         this.name = newEntity.name;
+        this.username = newEntity.username;
         this.active = newEntity.active;
     }
 

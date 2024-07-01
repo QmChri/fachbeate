@@ -41,7 +41,7 @@ export class CustomerRequirementsComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       if (params.get('id') != null) {
         this.http.getCustomerById(parseInt(params.get('id')!)).subscribe({
-          next: data => {            
+          next: data => {
             if (data != null) {
               this.inputCustomerRequirement = data;
 
@@ -135,8 +135,7 @@ export class CustomerRequirementsComponent implements OnInit {
   }
 
   postCustomerRequirement() {
-    console.log(this.inputCustomerRequirement);
-    
+
     if (this.checkRequired()) {
       this.getNotification(1);
       this.inputCustomerRequirement.reason = "XXXX"
