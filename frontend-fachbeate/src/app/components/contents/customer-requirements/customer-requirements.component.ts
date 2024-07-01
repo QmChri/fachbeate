@@ -144,10 +144,8 @@ export class CustomerRequirementsComponent implements OnInit {
 
   postCustomerRequirement() {
     if (this.checkRequired()) {
-      this.translate.get(['STANDARD.form_sent', 'STANDARD.assigned_representative']).subscribe(translations => {
-        const message = translations['STANDARD.please_fill_required_fields'];
-        const anotherMessage = translations['STANDARD.assigned_representative'];
-        this.notificationService.createBasicNotification(4, message, anotherMessage, 'topRight');
+      this.translate.get('STANDARD.form_sent').subscribe((translatedMessage: string) => {
+        this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
       });
       this.inputCustomerRequirement.reason = "XXXX"
       this.inputCustomerRequirement.dateOfCreation = new Date();
@@ -183,12 +181,12 @@ export class CustomerRequirementsComponent implements OnInit {
       !this.inputCustomerRequirement.representative ||
       !this.inputCustomerRequirement.startDate ||
       !this.inputCustomerRequirement.endDate) {
-        this.translate.get(['STANDARD.please_fill_required_fields', 'STANDARD.assigned_representative']).subscribe(translations => {
-          const message = translations['STANDARD.please_fill_required_fields'];
-          const anotherMessage = translations['STANDARD.assigned_representative'];
-          this.notificationService.createBasicNotification(4, message, anotherMessage, 'topRight');
-        });
-         return false;
+      this.translate.get(['STANDARD.please_fill_required_fields', 'STANDARD.assigned_representative']).subscribe(translations => {
+        const message = translations['STANDARD.please_fill_required_fields'];
+        const anotherMessage = translations['STANDARD.assigned_representative'];
+        this.notificationService.createBasicNotification(4, message, anotherMessage, 'topRight');
+      });
+      return false;
     }
     return true;
   }
