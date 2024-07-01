@@ -25,7 +25,6 @@
     <div>
         <button
             *ngIf="(inputCustomerRequirement.creator === undefined && roleService.checkPermission([6])) || roleService.checkPermission([1,2,3,4,5,7])"
-
             class="btn btn-success" (click)="postCustomerRequirement()">{{"CUSTOMER_REQUIREMENTS.send_form" |
             translate}}
         </button>
@@ -224,15 +223,16 @@
                 <!--TODO Bug gefixt jedoch wird das Datum jetzt schirch angezeigt (Fehler war .toString())
                 
                   <td>
-                    <label class="input-label" [hidden]="editId === data.editId" (click)="startEdit(data.editId)">{{
-                        (data.dateOfVisit !== undefined)?data.dateOfVisit!.toString().substring(0,10):' '}}</label>
+                    <label class="input-label" [hidden]="editId === data.editId" (click)="startEdit(data.editId)"></label>
                     <input placeholder="Pflichtfeld*" [hidden]="editId !== data.editId" type="date" nz-input
                         [(ngModel)]="data.dateOfVisit" />
                 </td>
                 -->
                 <td>
-                    <label class="input-label" [hidden]="editId === data.editId" (click)="startEdit(data.editId)">{{
-                        (data.dateOfVisit !== undefined)?data.dateOfVisit!.toString().substring(0,10):''}}</label>
+                    <label class="input-label" [hidden]="editId === data.editId" (click)="startEdit(data.editId)">
+
+                        {{(data.dateOfVisit !== null && data.dateOfVisit !== undefined)?data.dateOfVisit!.toString().substring(0,10):''}}
+                    </label>
                     <input [placeholder]="'CUSTOMER_REQUIREMENTS.mandatory_field' | translate"
                         [hidden]="editId !== data.editId" type="date" nz-input [(ngModel)]="data.dateOfVisit" />
                 </td>

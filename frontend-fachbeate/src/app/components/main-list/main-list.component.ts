@@ -100,15 +100,6 @@ export class MainListComponent implements OnInit {
   getNzFilters() {
     const uniqueFilter = new Set<string>();
 
-    this.listOfColumn.find(element => element.name === 'company_name')!.listOfFilter =
-      this.listOfDisplayData.reduce((uniqueFilters, element) => {
-        const filterValue = element.name || "<Leer>";
-        if (!uniqueFilters.some(filter => filter.value === filterValue)) {
-          uniqueFilters.push({ text: filterValue, value: filterValue });
-        }
-        return uniqueFilters;
-      }, [] as { text: string, value: string }[]);
-
     this.listOfColumn.find(element => element.name === 'requested_by')!.listOfFilter =
       this.listOfDisplayData.reduce((uniqueFilters, element) => {
         const filterValue = element.customerOrCompany || "<Leer>";

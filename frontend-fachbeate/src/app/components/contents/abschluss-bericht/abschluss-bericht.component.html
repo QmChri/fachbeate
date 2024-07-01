@@ -109,9 +109,9 @@
                                 <mat-form-field class="smallInputSide">
                                     <mat-label>{{"ABSCHLUSSBERICHT.completed" | translate}}</mat-label>
                                     <mat-select required [placeholder]="'STANDARD.please_select' | translate"
-                                        [ngModel]="inputFinalReport.requestCompleted" name="requestCompleted">
-                                        <mat-option [value]="1">{{"SEMINAR_REGRISTRATION.yes" | translate}}</mat-option>
-                                        <mat-option [value]="2">{{"SEMINAR_REGRISTRATION.no" | translate}}</mat-option>
+                                        [(ngModel)]="inputFinalReport.requestCompleted" name="requestCompleted">
+                                        <mat-option [value]="true">{{"SEMINAR_REGRISTRATION.yes" | translate}}</mat-option>
+                                        <mat-option [value]="false">{{"SEMINAR_REGRISTRATION.no" | translate}}</mat-option>
                                     </mat-select>
                                 </mat-form-field>
                             </div>

@@ -23,12 +23,7 @@ export class AbschlussBerichtComponent implements OnInit {
   ) {
     this.inputFinalReport = finalReport;
 
-    console.log(finalReport);
-    
-
-    if (finalReport.reasonReports !== undefined) {
-      
-      
+    if (finalReport.reasonReports !== undefined) {      
       this.inputFinalReport.reasonReports = this.inputFinalReport.reasonReports!.filter(element => element.reason !== 0);
       this.reasonSelect = this.inputFinalReport.reasonReports!.map(element => element.reason)
         .filter((reason): reason is number => reason !== undefined);
@@ -91,9 +86,7 @@ export class AbschlussBerichtComponent implements OnInit {
     }
   }
 
-  closeDialog(save: boolean) {
-    console.log(this.finalReport);
-    
+  closeDialog(save: boolean) {    
     this.dialogRef.close({ finalReport: this.finalReport, save: save });
   }
 

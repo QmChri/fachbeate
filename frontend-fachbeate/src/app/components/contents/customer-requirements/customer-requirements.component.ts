@@ -181,7 +181,6 @@ export class CustomerRequirementsComponent implements OnInit {
     var finalReport: FinalReport = {}
 
     if (this.checkRequired()) {
-
       if(customerVisit.finalReport === null || customerVisit.finalReport === undefined ){
         var rRepo: ReasonReport[] = [
           (customerVisit.presentationOfNewProducts) ? { reason: 1, presentedArticle: [] } : { reason: 0, presentedArticle: [] },
@@ -213,6 +212,7 @@ export class CustomerRequirementsComponent implements OnInit {
         data => {
           if (data.save) {
             customerVisit.finalReport = data.finalReport;
+            this.freigegeben = false;
             this.postCustomerRequirement();
             this.getNotification(5);
           }

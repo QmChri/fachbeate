@@ -13,7 +13,7 @@
 </div>
 <hr>
 
-<nz-table #nzTable nzBordered nzSimple [nzPageSize]="7" nzTableLayout="fixed" nzTableLayout="auto"
+<nz-table #nzTable nzBordered nzSimple  [nzPageSize]="10" nzShowSizeChanger nzTableLayout="fixed" nzTableLayout="auto"
     [nzData]="listOfDisplayData" class="striped-table">
     <thead>
         <tr>
@@ -50,11 +50,11 @@
     <tbody>
         <tr *ngFor="let data of nzTable.data">
             <td (dblclick)="openDialog(data)">{{ data.company }}</td>
-            <td (dblclick)="openDialog(data)">{{data.dateOfVisit | date:'dd.MM.yy'}}</td>
-            <td (dblclick)="openDialog(data)">{{ data.technologist }}</td>
-            <td (dblclick)="openDialog(data)">{{ data.toBeCompletedBy | date:'dd.MM.yy' }}</td>
+            <td (dblclick)="openDialog(data)">{{(data.dateOfVisit)? data.dateOfVisit.toString().substring(0,10) : '\<Leer\>'}}</td>
             <td (dblclick)="openDialog(data)">{{ data.representative }}</td>
-            <td (dblclick)="openDialog(data)">{{data.customerContactDate | date:'dd.MM.yy'}}</td>
+            <td (dblclick)="openDialog(data)">{{(data.toBeCompletedBy)? data.toBeCompletedBy.toString().substring(0,10) : '\<Leer\>'}}</td>
+            <td (dblclick)="openDialog(data)">{{ data.technologist }}</td>
+            <td (dblclick)="openDialog(data)">{{(data.customerContactDate)? data.customerContactDate.toString().substring(0,10) : '\<Leer\>'}}</td>
             <td (dblclick)="openDialog(data)">
                 <span style="display: flex;
                 flex-direction: row;

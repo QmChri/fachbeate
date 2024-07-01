@@ -25,7 +25,6 @@ export interface FinalReport {
     responseCustomer?: string;
     furtherActivities?: string;
     doneUntil?: Date;
-    // Mit Plus Möglichkeit noch einmal dasselbe einzugeben (Folge Nacharbeit)??
 
     interestingProducts?: string;
     requestCompleted?: boolean;
