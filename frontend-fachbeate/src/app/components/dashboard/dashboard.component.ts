@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { NewDateEntryComponent } from '../contents/new-date-entry/new-date-entry.component';
 import { TechnologistAppointment } from '../../models/technologist-appointment';
 import { RoleService } from '../../services/role.service';
+import { Company } from '../../models/company';
 
 @Component({
   selector: 'app-dashboard',
@@ -39,121 +40,25 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     console.log("KeycloakUser: " + this.roleServiceUserName);
     if (this.roleService.checkPermission(this.requiredRoles)) {
-      this.loadEvents();
+      this.loadDataPerUser();
     }
   }
-  //TODO jeder Fachberater/Vertreter darf auch nur die eigenen Einträge sehen
-  /*loadEvents() {
 
-    this.http.getCustomerRequirements().subscribe({
+  loadDataPerUser(){
+    this.http.getAllCompany().subscribe({
       next: data => {
+        var companies = data;
 
-        this.nameOfCalendarEvent = (data[this.i].requestedTechnologist?.firstName + "-" + data[this.i].requestedTechnologist?.lastName).toLocaleLowerCase();
-        console.log(this.nameOfCalendarEvent);
-        console.log(this.roleServiceUserName);
-        console.log(this.nameOfCalendarEvent === this.roleServiceUserName);
-        console.log(this.i);
-
-        if (this.nameOfCalendarEvent === this.roleServiceUserName!) {
-          data.forEach(value => {
-            this.calendarEvnts = [...this.calendarEvnts, {
-              id: "c" + value.id,
-              title: value.requestedTechnologist!.firstName + " " + value.requestedTechnologist!.lastName + " - " + value.company!.name,
-              start: value.startDate,
-              end: this.adjustEndDate(value.endDate!.toString()),
-              backgroundColor: value.requestedTechnologist!.color,
-              borderColor: value.requestedTechnologist!.color,
-            }]
-
-            this.calendarOptions.events = this.calendarEvnts.map(value => ({
-              id: value.id,
-              title: value.title,
-              start: value.start,
-              end: value.end,
-              backgroundColor: value.backgroundColor,
-              borderColor: value.borderColor,
-            }));
-
-          })
-        }
-        else {
-          data.forEach(value => { [] })
-        }
-        this.i++
-      },
-      error: err => {
-        console.log(err);
+        this.loadEvents(companies)
       }
     })
+  }
 
-    this.http.getWorkshopRequirements().subscribe({
-      next: data => {
-        data.forEach(value => {
-          this.calendarEvnts = [...this.calendarEvnts, {
-            id: "w" + value.id,
-            title: value.requestedTechnologist![0].firstName + " " + value.requestedTechnologist![0].lastName + " - " + value.company,
-            start: value.startDate,
-            end: this.adjustEndDate(value.endDate!.toString()),
-            backgroundColor: value.requestedTechnologist![0].color,
-            borderColor: value.requestedTechnologist![0].color,
-          }]
-
-          this.calendarOptions.events = this.calendarEvnts.map(value => ({
-            id: value.id,
-            title: value.title,
-            start: value.start,
-            end: value.end,
-            backgroundColor: value.backgroundColor,
-            borderColor: value.borderColor,
-          }));
-        })
-      },
-      error: err => {
-        console.log(err);
-      }
-    })
-
-    this.http.getOtherAppointments().subscribe({
-      next: data => {
-        console.log(this.nameOfCalendarEvent === this.roleServiceUserName!);
-
-        if (this.nameOfCalendarEvent === this.roleServiceUserName!) {
-          data.forEach(value => {
-            this.calendarEvnts = [...this.calendarEvnts, {
-              id: "o" + value.id,
-              title: value.requestedTechnologist!.firstName + " " + value.requestedTechnologist!.lastName + " - " + value.reason,
-              start: value.startDate,
-              end: this.adjustEndDate(value.endDate!.toString()),
-              backgroundColor: value.requestedTechnologist!.color,
-              borderColor: value.requestedTechnologist!.color,
-            }]
-          })
-
-          this.calendarOptions.events = this.calendarEvnts.map(value => ({
-            id: value.id,
-            title: value.title,
-            start: value.start,
-            end: value.end,
-            backgroundColor: value.backgroundColor,
-            borderColor: value.borderColor,
-          }));
-        }
-        else {
-          data.forEach(value => { [] })
-        }
-        this.i++
-      },
-      error: err => {
-        console.log(err);
-      }
-    })
-
-  }*/
-  loadEvents() {
+  loadEvents(companies: Company[]) {
 
     var type = (this.roleService.checkPermission([1, 2, 3, 5, 7]) ? 7 : 6);
     type = (!this.roleService.checkPermission([1, 2, 3, 5, 6, 7]) ? 4 : type);
-    var fullname = (type === 6 ? this.roleService.getUserName()! : this.roleService.getFullName()!);    
+    var fullname = (type === 6) ? companies.find(element => element.username === this.roleService.getUserName()!)?.username : this.roleService.getFullName()!;
 
     this.http.getCustomerRequirementsByUser(type!, fullname!).subscribe({
       next: data => {
@@ -182,7 +87,7 @@ export class DashboardComponent implements OnInit {
       }
     });
 
-    this.http.getWorkshopByUser(type, fullname).subscribe({
+    this.http.getWorkshopByUser(type, fullname!).subscribe({
       next: data => {
         data.forEach(value => {
           this.calendarEvnts = [...this.calendarEvnts, {
@@ -211,7 +116,7 @@ export class DashboardComponent implements OnInit {
       }
     });
 
-    this.http.getVisitorRegistrationByUser(type, fullname).subscribe({
+    this.http.getVisitorRegistrationByUser(type, fullname!).subscribe({
       next: data => {
         data.forEach(value => {
           this.calendarEvnts = [...this.calendarEvnts, {
@@ -305,7 +210,7 @@ export class DashboardComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(
       data => {
-        this.loadEvents()
+        this.loadDataPerUser()
       });
   }
 

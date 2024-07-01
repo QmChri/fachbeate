@@ -134,8 +134,6 @@ public class AppointmentResource {
     @Path("/visitorRegistration/user")
     @Authenticated
     public Response getVisitorRegistrationPerUser(@QueryParam("type") int user, @QueryParam("fullname") String fullname){
-        System.out.println("user"+ user + "fullname" + fullname);
-
         if (user==7) {
             return getVisitorRegistration();
         }else if(user == 6) {
@@ -178,6 +176,18 @@ public class AppointmentResource {
         return Response.ok(TechnologistAppointment.findById(id)).build();
     }
 
+    @GET
+    @Path("/other/user")
+    @Authenticated
+    public Response getOtherAppointmentPerUser(@QueryParam("type") int user, @QueryParam("fullname") String fullname){
+        if (user==7) {
+            return getOtherAppointments();
+        }else if(user == 4) {
+            return Response.ok(TechnologistAppointment.find("requestedTechnologist.firstName = ?1 and requestedTechnologist.lastName = ?2", fullname.split(";")[0], fullname.split(";")[1]).list()).build();
+        }
+        return Response.ok().build();
+    }
+
 
     @GET
     @Path("/finalReport")
@@ -202,6 +212,13 @@ public class AppointmentResource {
         return Response.ok().build();
     }
 
+    @POST
+    @Path("/finalReport")
+    @Authenticated
+    @Transactional
+    public Response postFinalReport(FinalReport finalReport){
+        return Response.ok(finalReport.persistOrUpdate()).build();
+    }
 
 
 

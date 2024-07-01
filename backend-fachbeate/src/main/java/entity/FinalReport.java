@@ -25,11 +25,18 @@ public class FinalReport extends PanacheEntity {
     public List<ReasonReport> reasonReports;
     public Date customerContactDate;
     public String responseCustomer;
-    public String furtherActivities;
+    public boolean furtherActivities;
     public Date doneUntil;
     public String interestingProducts;
     public boolean requestCompleted;
     public String summaryFinalReport;
+
+    public boolean reworkByTechnologist;
+    public Date reworkByTechnologistDoneUntil;
+    public String reworkByTechnologistState;
+
+    public boolean reworkByRepresentative;
+    public Date reworkByRepresentativeDoneUntil;
 
 
     public FinalReport() {
@@ -43,6 +50,12 @@ public class FinalReport extends PanacheEntity {
         this.dateOfVisit = newFinalReport.dateOfVisit;
         this.company = newFinalReport.company;
         this.companyNr = newFinalReport.companyNr;
+
+        this.reworkByTechnologist = newFinalReport.reworkByTechnologist;
+        this.reworkByTechnologistDoneUntil = newFinalReport.reworkByTechnologistDoneUntil;
+        this.reworkByTechnologistState = newFinalReport.reworkByTechnologistState;
+        this.reworkByRepresentative = newFinalReport.reworkByRepresentative;
+        this.reworkByRepresentativeDoneUntil = newFinalReport.reworkByRepresentativeDoneUntil;
 
         this.customerContactDate = newFinalReport.customerContactDate;
         this.responseCustomer = newFinalReport.responseCustomer;

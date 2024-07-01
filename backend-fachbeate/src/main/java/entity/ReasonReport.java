@@ -17,22 +17,12 @@ public class ReasonReport extends PanacheEntity {
 
     @ManyToMany
     public List<Article> presentedArticle;
-    public boolean reworkByTechnologist;
-    public Date reworkByTechnologistDoneUntil;
-    public String state;
 
-    public boolean reworkByRepresentative;
-    public Date reworkByRepresentativeDoneUntil;
 
     @Transactional(Transactional.TxType.REQUIRED)
     public void updateEntity(ReasonReport newEntity) {
         this.reason = newEntity.reason;
         this.carriedOutActivity = newEntity.carriedOutActivity;
-        this.reworkByTechnologist = newEntity.reworkByTechnologist;
-        this.reworkByTechnologistDoneUntil = newEntity.reworkByTechnologistDoneUntil;
-        this.state = newEntity.state;
-        this.reworkByRepresentative = newEntity.reworkByRepresentative;
-        this.reworkByRepresentativeDoneUntil = newEntity.reworkByRepresentativeDoneUntil;
 
         this.presentedArticle = new ArrayList<>();
         for(Article a : newEntity.presentedArticle){
