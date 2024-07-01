@@ -35,7 +35,7 @@ export const navbarData: INavbarData[] = [
         routeLink: 'app-abschluss-bericht-list',
         icon: 'fal fa-clipboard-list',
         label: 'final-reports',
-        role: [1,2,3,4,7]
+        role: [1,2,3,4,6,7]
     },
     {
         routeLink: "",

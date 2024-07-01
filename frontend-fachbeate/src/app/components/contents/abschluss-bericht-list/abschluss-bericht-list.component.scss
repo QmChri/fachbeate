@@ -28,15 +28,3 @@
   justify-content: space-between;
   align-items: center;
 }
-
-.centerRow {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: center;
-}
-
-.striped-table tbody tr:nth-child(even),
-.striped-table thead {
-  background-color: #dbdbdb;
-}

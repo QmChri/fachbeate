@@ -5,6 +5,7 @@ import { ReasonReport } from '../../../models/reason-report';
 import { HttpService } from '../../../services/http.service';
 import { Article } from '../../../models/article';
 import { NzNotificationPlacement, NzNotificationService } from 'ng-zorro-antd/notification';
+import { RoleService } from '../../../services/role.service';
 
 @Component({
   selector: 'app-abschluss-bericht',
@@ -16,7 +17,7 @@ export class AbschlussBerichtComponent implements OnInit {
   reasonSelect: number[] = []
   existingArticles: Article[] = []
 
- constructor(private notification: NzNotificationService,
+ constructor(public roleService: RoleService,private notification: NzNotificationService,
     public dialogRef: MatDialogRef<AbschlussBerichtComponent>,
     @Inject(MAT_DIALOG_DATA) public finalReport: FinalReport,
     private http: HttpService

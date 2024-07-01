@@ -9,7 +9,7 @@
                     <div class="card-body">
                         <div class="center-items">
                             <div class="displayBySide">
-                                <mat-form-field class="smallInput">
+                                <mat-form-field class="smallInput" *ngIf="roleService.checkPermission([1,2,4])">
                                     <mat-label>{{"MAIN_LIST.advisor" | translate}}</mat-label>
                                     <input matInput type="text" [(ngModel)]="inputFinalReport.technologist"
                                         name="technologist">
@@ -25,7 +25,7 @@
                                 </mat-form-field>
                             </div>
                             <div class="displayBySide">
-                                <mat-form-field class="smallInput">
+                                <mat-form-field class="smallInput" *ngIf="roleService.checkPermission([1,3,6])">
                                     <mat-label>{{"MAIN_LIST.representative" | translate}}</mat-label>
                                     <input matInput type="text" [(ngModel)]="inputFinalReport.representative"
                                         name="representative">
@@ -115,7 +115,7 @@
                                     </mat-select>
                                 </mat-form-field>
                             </div>
-                            <mat-form-field class="smallInput">
+                            <mat-form-field class="smallInput" *ngIf="roleService.checkPermission([1,3,6])">
                                 <mat-label>{{"ABSCHLUSSBERICHT.representative_summary" | translate}}</mat-label>
                                 <input matInput type="text" [(ngModel)]="inputFinalReport.summaryFinalReport"
                                     name="summaryFinalReport">
@@ -126,11 +126,11 @@
             </div>
             <div class="col-md-5 paddingBottom">
                 <div class="card">
-                    <div class="card-header text-white bg-danger">{{"ABSCHLUSSBERICHT.advisor_follow_up" | translate}}</div>
+                    <div class="card-header text-white bg-danger">{{"ABSCHLUSSBERICHT.follow_up" | translate}}</div>
                     <div class="card-body">
                         <div class="center-items">
                             <div class="header">
-                                <mat-form-field class="smallInputSide">
+                                <mat-form-field class="smallInputSide" *ngIf="roleService.checkPermission([1,2,4])">
                                     <mat-label>{{"ABSCHLUSSBERICHT.advisor_follow_up" | translate}}</mat-label>
                                     <mat-select required [placeholder]="'STANDARD.please_select' | translate"
                                         [(ngModel)]="inputFinalReport.reworkByTechnologist" name="reworkByTechnologist">
@@ -138,7 +138,7 @@
                                         <mat-option [value]="2">{{"SEMINAR_REGRISTRATION.no" | translate}}</mat-option>
                                     </mat-select>
                                 </mat-form-field>
-                                <mat-form-field class="smallInputSide">
+                                <mat-form-field class="smallInputSide" *ngIf="roleService.checkPermission([1,3,6])">
                                     <mat-label>{{"ABSCHLUSSBERICHT.representative_follow_up" | translate}}</mat-label>
                                     <mat-select required [placeholder]="'STANDARD.please_select' | translate"
                                         [(ngModel)]="inputFinalReport.reworkByRepresentative"

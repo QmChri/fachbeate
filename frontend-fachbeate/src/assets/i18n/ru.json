@@ -141,7 +141,8 @@
         "airport_transfer_train": "Трансфер аэропорт-поезд",
         "lunch": "Обед",
         "planned_department_visits": "Запланированные посещения отделов",
-        "number": "Количество","location": "Местоположение",
+        "number": "Количество",
+        "location": "Местоположение",
         "single_room": "Одноместный номер",
         "double_room": "Двухместный номер",
         "other_travel_requirements": "Другие требования к поездке",
@@ -216,6 +217,7 @@
         "company_function": "Должность в компании",
         "click_to_edit": "Нажмите для редактирования ...",
         "enter_here": "Введите здесь",
-        "delete_securely": "Безопасное удаление"
+        "delete_securely": "Безопасное удаление",
+        "user_name": "имя пользователя"
     }
 }
