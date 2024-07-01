@@ -1,6 +1,6 @@
 <div class="header">
     <div>
-        <h1 class="paddingSearch" style="margin-bottom: 0;">{{'CREATE-DEALER.header' | translate}}</h1>
+        <h1 class="paddingSearch" style="margin-bottom: 0;">{{'NAV.new-de' | translate}}</h1>
     </div>
 </div>
 <hr>
@@ -8,22 +8,22 @@
 <div class="row">
     <div class="col-md-3">
         <div class="card">
-            <div class="card-header text-white bg-danger">{{'CREATE-DEALER.allg' | translate}}</div>
+            <div class="card-header text-white bg-danger">{{'CREATION_SITES.general_data' | translate}}</div>
             <div class="card-body">
                 <div class="center-items">
                     <div class="displayBySide">
                         <mat-form-field class="smallInput">
-                            <mat-label>{{'CREATE-DEALER.dealerName' | translate}}</mat-label>
+                            <mat-label>{{'CREATION_SITES.first_name' | translate}}</mat-label>
                             <input required matInput type="text" [(ngModel)]="inputCompany.name" name="companyName">
                         </mat-form-field>
-                        <label class="languageBox">{{'CREATE-DEALER.active' | translate}}
+                        <label class="languageBox">{{'CREATION_SITES.active' | translate}}
                             <mat-checkbox color="warn" [(ngModel)]="inputCompany.active"></mat-checkbox>
                         </label>
                     </div>
                     <div class="displayBySide">
-                        <button class="btn btn-danger" matTooltip="{{'CREATE-DEALER.cancel' | translate}}"
+                        <button class="btn btn-danger" matTooltip="{{'DASHBOARD.cancel' | translate}}"
                             [hidden]="inputCompany.id===0" (click)="cancelEdit()"><i class="fa fa-times"></i></button>
-                        <button class="btn btn-success" matTooltip="{{'CREATE-DEALER.safe' | translate}}"
+                        <button class="btn btn-success" matTooltip="{{'STANDARD.save' | translate}}"
                             (click)="postDealer()"><i class="fa fa-save"></i></button>
                     </div>
                 </div>
@@ -31,16 +31,16 @@
         </div>
     </div>
     <div class="col-md-9">
-        <nz-table class="col" #editRowTable nzTableLayout="fixed" nzBordered [nzData]="companyList">
+        <nz-table class="col" #editRowTable [nzPageSize]="9" nzBordered [nzData]="companyList">
             <thead>
                 <tr>
-                    <th>{{'CREATE-DEALER.id' | translate}}</th>
-                    <th>{{'CREATE-DEALER.calling' | translate}}</th>
-                    <th>{{'CREATE-DEALER.active' | translate}}</th>
+                    <th>{{'CREATION_SITES.id' | translate}}</th>
+                    <th>{{'CREATION_SITES.designation' | translate}}</th>
+                    <th>{{'CREATION_SITES.active' | translate}}</th>
                 </tr>
             </thead>
             <tbody>
-                <tr matTooltip="{{'CREATE-DEALER.edit' | translate}}" *ngFor="let company of companyList"
+                <tr matTooltip="{{'CUSTOMER_REQUIREMENTS.edit' | translate}}" *ngFor="let company of editRowTable.data"
                     (click)="editRow(company.id!)">
                     <td>{{company.id}}</td>
                     <td>{{company.name}}</td>

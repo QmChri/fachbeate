@@ -1,83 +1,91 @@
 <div class="table-operations header">
   <div>
-    <h1 class="paddingSearch">{{'MAIN-LIST.header' | translate}}</h1>
+    <h1 class="paddingSearch">{{'MAIN_LIST.overview_requirements_registrations' | translate}}</h1>
   </div>
   <div>
     <nz-filter-trigger class="paddingSearch" [(nzVisible)]="visible" [nzActive]="searchValue.length > 0"
       [nzDropdownMenu]="menu">
       <i class="fa fa-search"></i>
     </nz-filter-trigger>
-    <button class="btn btn-secondary" (click)="resetSortAndFilters()">{{"MAIN-LIST.filter-clear"| translate}}</button>
+    <button class="btn btn-secondary" (click)="resetSortAndFilters()">{{"MAIN_LIST.reset_filter_sorting"| translate}}</button>
   </div>
 </div>
 <hr>
 
-<nz-table #nzTable nzBordered nzSimple [nzPageSize]="7" nzTableLayout="fixed" [nzSize]="'small'"  nzTableLayout="auto" [nzData]="listOfDisplayData"
-  class="striped-table">
+<nz-table #nzTable nzBordered [nzPageSize]="7" nzTableLayout="auto" [nzSize]="'small'" [nzData]="listOfDisplayData">
   <thead>
     <tr>
       <th [nzSortFn]="listOfColumn[0].sortFn" [(nzSortOrder)]="listOfColumn[0].sortOrder"
         [nzFilters]="listOfColumn[0].listOfFilter" [nzFilterFn]="listOfColumn[0].filterFn!">
-        {{'MAIN-LIST.'+listOfColumn[0].name|
+        {{'MAIN_LIST.'+listOfColumn[0].name|
         translate}}</th>
       <th [nzSortFn]="listOfColumn[1].sortFn" [(nzSortOrder)]="listOfColumn[1].sortOrder">
-        {{'MAIN-LIST.'+listOfColumn[1].name|
+        {{'MAIN_LIST.'+listOfColumn[1].name|
         translate}}</th>
       <th [nzSortFn]="listOfColumn[2].sortFn" [(nzSortOrder)]="listOfColumn[2].sortOrder"
         [nzFilters]="listOfColumn[2].listOfFilter" [nzFilterFn]="listOfColumn[2].filterFn!">
-        {{'MAIN-LIST.'+listOfColumn[2].name|
+        {{'MAIN_LIST.'+listOfColumn[2].name|
         translate}}</th>
       <th [nzSortFn]="listOfColumn[3].sortFn" [(nzSortOrder)]="listOfColumn[3].sortOrder"
         [nzFilters]="listOfColumn[3].listOfFilter" [nzFilterFn]="listOfColumn[3].filterFn!">
-        {{'MAIN-LIST.'+listOfColumn[3].name|
+        {{'MAIN_LIST.'+listOfColumn[3].name|
         translate}}</th>
       <th [nzSortFn]="listOfColumn[4].sortFn" [(nzSortOrder)]="listOfColumn[4].sortOrder"
         [nzFilters]="listOfColumn[4].listOfFilter" [nzFilterFn]="listOfColumn[4].filterFn!">
-        {{'MAIN-LIST.'+listOfColumn[4].name|
+        {{'MAIN_LIST.'+listOfColumn[4].name|
         translate}}</th>
       <th [nzSortFn]="listOfColumn[5].sortFn" [(nzSortOrder)]="listOfColumn[5].sortOrder"
         [nzFilters]="listOfColumn[5].listOfFilter" [nzFilterFn]="listOfColumn[5].filterFn!">
-        {{'MAIN-LIST.'+listOfColumn[5].name|
+        {{'MAIN_LIST.'+listOfColumn[5].name|
         translate}}</th>
-      <th> {{'MAIN-LIST.'+listOfColumn[6].name| translate}}</th>
+      <th> {{'MAIN_LIST.'+listOfColumn[6].name| translate}}</th>
       <th [nzSortFn]="listOfColumn[7].sortFn" [(nzSortOrder)]="listOfColumn[7].sortOrder"
         [nzFilters]="listOfColumn[7].listOfFilter" [nzFilterFn]="listOfColumn[7].filterFn!">
-        {{'MAIN-LIST.'+listOfColumn[7].name|
+        {{'MAIN_LIST.'+listOfColumn[7].name|
         translate}}</th>
       <th [nzSortFn]="listOfColumn[8].sortFn" [(nzSortOrder)]="listOfColumn[8].sortOrder"
         [nzFilters]="listOfColumn[8].listOfFilter" [nzFilterFn]="listOfColumn[8].filterFn!">
-        {{'MAIN-LIST.'+listOfColumn[8].name|
+        {{'MAIN_LIST.'+listOfColumn[8].name|
         translate}}</th>
       <th [nzSortFn]="listOfColumn[9].sortFn" [(nzSortOrder)]="listOfColumn[9].sortOrder"
         [nzFilters]="listOfColumn[9].listOfFilter" [nzFilterFn]="listOfColumn[9].filterFn!">
-        {{'MAIN-LIST.'+listOfColumn[9].name|
+        {{'MAIN_LIST.'+listOfColumn[9].name|
         translate}}</th>
+      <th *ngIf="roleService.checkPermission([1,2])"></th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let data of nzTable.data" matTooltip="Doppelklick um zu bearbeiten ...">
-      <td (dblclick)="openCRC(data.id!, data.type!)">{{data.name}}</td>
-      <td (dblclick)="openCRC(data.id!, data.type!)">{{ data.dateOfCreation!.toString() | date:'dd.MM.yy' }}</td>
-      <td (dblclick)="openCRC(data.id!, data.type!)">{{ data.customerOrCompany }}</td>
-      <td (dblclick)="openCRC(data.id!, data.type!)">{{ data.status }}</td>
-      <td (dblclick)="openCRC(data.id!, data.type!)">{{ data.vertreter }}</td>
-      <td (dblclick)="openCRC(data.id!, data.type!)">{{ data.fachberater }}</td>
-      <td (dblclick)="openCRC(data.id!, data.type!)">{{ data.timespan!.start!.toString() | date:'dd.MM.yy' }} - {{
-        data.timespan!.end!.toString() | date:'dd.MM.yy' }}</td>
-      <td (dblclick)="openCRC(data.id!, data.type!)">{{ data.customer }}</td>
-      <td (dblclick)="openCRC(data.id!, data.type!)">{{ data.abschlussbericht }}</td>
-      <!-- 
-      <td style="justify-content: center;" (dblclick)="openCRC(data.id!, data.type!)">
-        <div class="centerRow">
-          <span *ngIf="data.abschlussbericht!.split("/")!.[0].toString().localCompare(data.abschlussbericht!.split("/")!.[0].toString())" class="text-success">{{data.abschlussbericht}}</span>
-          <span *ngIf="data.abschlussberichtFarbe === -1" class="text-warning">{{data.abschlussbericht}}</span>
-          <span *ngIf="data.abschlussberichtFarbe === 1" class="text-danger">{{data.abschlussbericht}}</span>
-        </div>
+    <tr *ngFor="let data of nzTable.data">
+      <td (dblclick)="openCRC(data,data.id!, data.type!)">{{data.name}}</td>
+      <td (dblclick)="openCRC(data,data.id!, data.type!)">{{ data.dateOfCreation!.toString() | date:'dd.MM.yy' }}</td>
+      <td (dblclick)="openCRC(data,data.id!, data.type!)">{{ data.customerOrCompany }}</td>
+      <td (dblclick)="openCRC(data,data.id!, data.type!)">
+        <span style="display: flex;
+        flex-direction: row;
+        justify-content: center;" *ngIf="data.status === 'Freigegeben'" class="text-success">&#10004;</span>
+        <span style="display: flex;
+        flex-direction: row;
+        justify-content: center;" *ngIf="data.status === '!Freigegeben'" class="text-danger">&#10008;</span>
       </td>
-      -->
+      <td (dblclick)="openCRC(data,data.id!, data.type!)">{{ data.vertreter }}</td>
+      <td (dblclick)="openCRC(data,data.id!, data.type!)">{{ data.fachberater }}</td>
+      <td (dblclick)="openCRC(data,data.id!, data.type!)">{{ data.timespan!.start! | date:'dd.MM.yy' }} - {{
+        data.timespan!.end! | date:'dd.MM.yy' }}</td>
+      <td (dblclick)="openCRC(data,data.id!, data.type!)">{{ data.customer }}</td>
+      <td (dblclick)="openCRC(data,data.id!, data.type!)">{{data.abschlussbericht }}</td>
       <td>
-        <span>{{ ((data.type === 0) ? 'MAIN-LIST.tech-req' : (data.type === 1) ? 'MAIN-LIST.work-sem':
-          'MAIN-LIST.work-visit') | translate }}</span>
+        <span>{{ ((data.type === 0) ? 'MAIN_LIST.advisor_type' : (data.type === 1) ? 'MAIN_LIST.seminar':
+          'MAIN_LIST.visit') | translate }}</span>
+      </td>
+      <td *ngIf="roleService.checkPermission([1,2])">
+        <button class="btn btn-success" (click)="changeEditable(data)">
+          <div *ngIf="data.visible; else notVisible">
+            <i class="fas fa-eye"></i>
+          </div>
+          <ng-template #notVisible>
+            <i class="fas fa-eye-slash"></i>
+          </ng-template>
+        </button>
       </td>
     </tr>
   </tbody>
@@ -85,9 +93,9 @@
 <nz-dropdown-menu #menu="nzDropdownMenu">
   <div class="ant-table-filter-dropdown">
     <div class="search-box">
-      <input type="text" nz-input placeholder="Suche ..." [(ngModel)]="searchValue" />
-      <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">Search</button>
-      <button nz-button nzSize="small" (click)="resetSortAndFilters()">Reset</button>
+      <input type="text" nz-input [placeholder]="'MAIN_LIST.search' | translate" [(ngModel)]="searchValue" />
+      <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">{{"MAIN_LIST.search" | translate}}</button>
+      <button nz-button nzSize="small" (click)="resetSortAndFilters()">{{"MAIN_LIST.reset" | translate}}</button>
     </div>
   </div>
 </nz-dropdown-menu>

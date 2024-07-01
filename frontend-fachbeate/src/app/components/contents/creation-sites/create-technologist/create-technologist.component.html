@@ -1,6 +1,6 @@
 <div class="header">
     <div>
-        <h1 class="paddingSearch" style="margin-bottom: 0;">{{'CREATE-TECHNOLOGIST.header' | translate}}</h1>
+        <h1 class="paddingSearch" style="margin-bottom: 0;">{{'NAV.new-tech' | translate}}</h1>
     </div>
 </div>
 <hr>
@@ -8,48 +8,47 @@
 <div class="row">
     <div class="col-md-3">
         <div class="card">
-            <div class="card-header text-white bg-danger">{{'CREATE-TECHNOLOGIST.allg' | translate}}</div>
+            <div class="card-header text-white bg-danger">{{'CREATION_SITES.general_data' | translate}}</div>
             <div class="card-body">
                 <mat-form-field class="smallInput">
-                    <mat-label>{{'CREATE-TECHNOLOGIST.firstName' | translate}}</mat-label>
+                    <mat-label>{{'CREATION_SITES.first_name' | translate}}</mat-label>
                     <input required matInput type="text" [(ngModel)]="inputTechnologist.firstName" name="firstName">
                 </mat-form-field>
                 <mat-form-field class="smallInput">
-                    <mat-label>{{'CREATE-TECHNOLOGIST.lastName' | translate}}</mat-label>
+                    <mat-label>{{'CREATION_SITES.last_name' | translate}}</mat-label>
                     <input required matInput type="text" [(ngModel)]="inputTechnologist.lastName" name="lastName">
                 </mat-form-field>
                 <div class="displayBySide">
-                    <mat-form-field>
-                        <mat-label>{{'CREATE-TECHNOLOGIST.calendarColor' | translate}}</mat-label>
-                        <input required type="color" id="color" [(ngModel)]="inputTechnologist.color" matInput>
-                    </mat-form-field>
-                    <label class="languageBox">{{'CREATE-TECHNOLOGIST.active' | translate}}
+                    <label class="languageBox">{{'CREATION_SITES.calendar_color' | translate}}
+                        <nz-color-picker id="color" [(ngModel)]="inputTechnologist.color"></nz-color-picker>
+                    </label>
+                    <label class="languageBox">{{'CREATION_SITES.active' | translate}}
                         <mat-checkbox color="warn" [(ngModel)]="inputTechnologist.active"></mat-checkbox>
                     </label>
                 </div>
                 <div class="displayBySide">
-                    <button class="btn btn-danger" matTooltip="{{'CREATE-TECHNOLOGIST.cancel' | translate}}"
+                    <button class="btn btn-danger" matTooltip="{{'DASHBOARD.cancel' | translate}}"
                         [hidden]="inputTechnologist.id===0" (click)="cancelEdit()"><i class="fa fa-times"></i></button>
-                    <button class="btn btn-success" matTooltip="{{'CREATE-TECHNOLOGIST.safe' | translate}}"
+                    <button class="btn btn-success" matTooltip="{{'DASHBOARD.save' | translate}}"
                         (click)="postTechnologist()"><i class="fa fa-save"></i></button>
                 </div>
             </div>
         </div>
     </div>
     <div class="col-md-9">
-        <nz-table class="col" #editRowTable nzTableLayout="fixed" nzBordered [nzData]="technologistList">
+        <nz-table #editRowTable [nzPageSize]="9" nzBordered [nzData]="technologistList">
             <thead>
                 <tr>
-                    <th>{{'CREATE-TECHNOLOGIST.id' | translate}}</th>
-                    <th>{{'CREATE-TECHNOLOGIST.firstName' | translate}}</th>
-                    <th>{{'CREATE-TECHNOLOGIST.lastName' | translate}}</th>
-                    <th>{{'CREATE-TECHNOLOGIST.calendarColor' | translate}}</th>
-                    <th>{{'CREATE-TECHNOLOGIST.active' | translate}}</th>
+                    <th>{{'CREATION_SITES.id' | translate}}</th>
+                    <th>{{'CREATION_SITES.first_name' | translate}}</th>
+                    <th>{{'CREATION_SITES.last_name' | translate}}</th>
+                    <th>{{'CREATION_SITES.calendar_color' | translate}}</th>
+                    <th>{{'CREATION_SITES.active' | translate}}</th>
                 </tr>
             </thead>
             <tbody>
-                <tr matTooltip="{{'CREATE-TECHNOLOGIST.edit' | translate}}"
-                    *ngFor="let technologist of technologistList" (click)="editRow(technologist.id!, 0)">
+                <tr matTooltip="{{'CUSTOMER_REQUIREMENTS.edit' | translate}}"
+                    *ngFor="let technologist of editRowTable.data" (click)="editRow(technologist.id!, 0)">
                     <td>{{technologist.id}}</td>
                     <td>{{technologist.firstName}}</td>
                     <td>{{technologist.lastName}}</td>

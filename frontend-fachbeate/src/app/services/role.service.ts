@@ -1,11 +1,15 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { KeycloakService } from 'keycloak-angular';
 import { KeycloakProfile } from 'keycloak-js';
 
 @Injectable({
   providedIn: 'root'
 })
-export class RoleService{
+export class RoleService {
+
+  roleMap: Map<string, number> = new Map;
+  roles: string[] = [];
+  public userProfile: KeycloakProfile | null = null;
 
   constructor(private keycloak: KeycloakService) {
 
@@ -18,18 +22,15 @@ export class RoleService{
     //haendler-tochter:6
     //admin-frontend:7
 
-    this.roleMap.set("geschaeftsleitung",1)
-    this.roleMap.set("abteilungsleitung",2)
-    this.roleMap.set("vertreter-frontend",3)
-    this.roleMap.set("fachberater-frontend",4)
-    this.roleMap.set("front-office",5)
-    this.roleMap.set("haendler-tochter",6)
-    this.roleMap.set("admin-frontend",7)
-   }
+    this.roleMap.set("geschaeftsleitung", 1)
+    this.roleMap.set("abteilungsleitung", 2)
+    this.roleMap.set("vertreter", 3)
+    this.roleMap.set("fachberater", 4)
+    this.roleMap.set("front-office", 5)
+    this.roleMap.set("haendler-toechter", 6)
+    this.roleMap.set("admin", 7)
 
-  roleMap: Map<string, number> = new Map;
-  roles: string[] = [];
-  public userProfile: KeycloakProfile | null = null;
+  }
 
   async initialize(): Promise<void> {
     try {
@@ -56,18 +57,30 @@ export class RoleService{
     }
   }
 
-  checkPermission(requiredRoles: number[]){
-   return this.roles
+  checkPermission(requiredRoles: number[]) {
+    return this.roles
       .map(role => this.roleMap.get(role))
       .some(roleId => requiredRoles.includes(roleId!));
   }
 
-  setRoles(roles: string[]){
+  getPermissions() {
+    return this.roles;
+  }
+
+  getFullName() {
+    return this.userProfile!.firstName + ";" + this.userProfile!.lastName
+  }
+
+  getUserName() {
+    return this.userProfile!.username;
+  }
+
+  setRoles(roles: string[]) {
 
     this.roles = roles;
   }
 
-  setProfile(profile: KeycloakProfile){
+  setProfile(profile: KeycloakProfile) {
     this.userProfile = profile;
   }
 

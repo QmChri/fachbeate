@@ -6,7 +6,6 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./body.component.scss']
 })
 export class BodyComponent {
-
   @Input() collapsed = false;
   @Input() screenWidth = 0;
 

@@ -4,6 +4,7 @@ import { HttpService } from '../../../services/http.service';
 import { Technologist } from '../../../models/technologist';
 import { Article } from '../../../models/article';
 import { NotificationService } from '../../../services/notification.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-abschluss-bericht-list',
@@ -14,56 +15,53 @@ export class AbschlussBerichtListComponent {
   searchValue = '';
   visible = false;
   listOfData: DataItem[] = [];
-
   technologistList: Technologist[] = [];
-
   listOfDisplayData: DataItem[] = [];
-
   listOfColumn: ColumnDefinition[] = [
     {
-      name: 'company',
+      name: 'customer',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.company!.localeCompare(b.company!),
       listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => list.some(name => item.company.indexOf(name) !== -1)
     },
     {
-      name: 'datecustomerVisit',
+      name: 'visit_date',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.dateOfVisit!.valueOf() - b.dateOfVisit!.valueOf(),
       listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => true
     },
     {
-      name: 'responsibleFB',
+      name: 'responsible_advisor',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.technologist.localeCompare(b.technologist),
       listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => list.some(name => item.technologist.indexOf(name) !== -1)
     },
     {
-      name: 'toBeCompletedBy',
+      name: 'to_be_done_by',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.toBeCompletedBy!.valueOf() - b.toBeCompletedBy!.valueOf(),
       listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => true
     },
     {
-      name: 'responsibleRepresentative',
+      name: 'responsible_representative',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.representative!.localeCompare(b.representative!),
       listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => list.some(name => item.representative.indexOf(name) !== -1)
     },
     {
-      name: 'Kunde kontaktiert am',
+      name: 'customer_contacted_on',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.customerContactDate!.valueOf() - b.customerContactDate!.valueOf(),
       listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => true
     },
     {    //TODO fehlt noch Bericht abgeschlossen -> Hackerl wenn abgeschlossen
-      name: 'Bericht abgeschlossen',
+      name: 'report_completed',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.abschlussberichtFinished!.localeCompare(b.abschlussberichtFinished!),
       listOfFilter: [],
@@ -78,11 +76,10 @@ export class AbschlussBerichtListComponent {
     }
   ];
 
-  constructor(private router: Router, private http: HttpService, private notificationService: NotificationService) { }
+  constructor(private router: Router, private translate: TranslateService, private http: HttpService, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     //this.tmpinitData();
-  
     this.getNzFilters();
   }
 
@@ -97,49 +94,6 @@ export class AbschlussBerichtListComponent {
         }
         return uniqueFilters;
       }, [] as { text: string, value: string }[]);
-  }
-
-  tmpinitData() {
-    this.listOfDisplayData = [
-      {
-        company: 'Alpha Corporation',
-        dateOfVisit: new Date('2023-06-18'),
-        technologist: 'A',
-        toBeCompletedBy: new Date('2023-06-20'),
-        representative: 'A',
-        customerContactDate: new Date('2023-06-10'),
-        abschlussberichtFinished: 'Ja',
-        article: [
-          { name: 'Article 1', articleNr: 'A001' },
-          { name: 'Article 2', articleNr: 'A002' }
-        ]
-      },
-      {
-        company: 'Beta Industries',
-        dateOfVisit: new Date('2023-06-19'),
-        technologist: 'B',
-        toBeCompletedBy: new Date('2023-06-25'),
-        representative: 'B',
-        customerContactDate: new Date('2023-06-12'),
-        abschlussberichtFinished: 'Nein',
-        article: [
-          { name: 'Article 3', articleNr: 'B001' }
-        ]
-      },
-      {
-        company: 'Camma Technologies',
-        dateOfVisit: new Date('2023-06-20'),
-        technologist: 'C',
-        toBeCompletedBy: new Date('2023-06-28'),
-        representative: 'C',
-        customerContactDate: new Date('2023-06-14'),
-        abschlussberichtFinished: 'Nein',
-        article: [
-          { name: 'Article 4', articleNr: 'G001' },
-          { name: 'Article 5', articleNr: 'G002' }
-        ]
-      }
-    ];
   }
 
   loadData() {
@@ -202,9 +156,11 @@ export class AbschlussBerichtListComponent {
 
   resetSortAndFilters(): void {
     this.searchValue = '';
-    this.notificationService.createBasicNotification(2, 'Filter/Sortierung aufgehoben!', '', 'topRight');
+    this.translate.get('STANDARD.filter_sorting_removed').subscribe((translatedMessage: string) => {
+      this.notificationService.createBasicNotification(2, translatedMessage, '', 'topRight');
+    });
     this.getNzFilters();
-    this.tmpinitData();
+    //this.tmpinitData();
     this.listOfColumn.forEach(item => {
       item.sortOrder = null;
     });
@@ -228,6 +184,50 @@ export class AbschlussBerichtListComponent {
   getArticleListName(article: Article[]) {
     return article.map(element => element.name).toString().substring(0, 30)
   }
+
+  /*
+  tmpinitData() {
+    this.listOfDisplayData = [
+      {
+        company: 'Alpha Corporation',
+        dateOfVisit: new Date('2023-06-18'),
+        technologist: 'A',
+        toBeCompletedBy: new Date('2023-06-20'),
+        representative: 'A',
+        customerContactDate: new Date('2023-06-10'),
+        abschlussberichtFinished: 'Ja',
+        article: [
+          { name: 'Article 1', articleNr: 'A001' },
+          { name: 'Article 2', articleNr: 'A002' }
+        ]
+      },
+      {
+        company: 'Beta Industries',
+        dateOfVisit: new Date('2023-06-19'),
+        technologist: 'B',
+        toBeCompletedBy: new Date('2023-06-25'),
+        representative: 'B',
+        customerContactDate: new Date('2023-06-12'),
+        abschlussberichtFinished: 'Nein',
+        article: [
+          { name: 'Article 3', articleNr: 'B001' }
+        ]
+      },
+      {
+        company: 'Camma Technologies',
+        dateOfVisit: new Date('2023-06-20'),
+        technologist: 'C',
+        toBeCompletedBy: new Date('2023-06-28'),
+        representative: 'C',
+        customerContactDate: new Date('2023-06-14'),
+        abschlussberichtFinished: 'Nein',
+        article: [
+          { name: 'Article 4', articleNr: 'G001' },
+          { name: 'Article 5', articleNr: 'G002' }
+        ]
+      }
+    ];
+  }*/
 }
 
 interface DataItem {

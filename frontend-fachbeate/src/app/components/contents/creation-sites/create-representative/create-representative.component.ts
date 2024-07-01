@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Technologist } from '../../../../models/technologist';
 import { HttpService } from '../../../../services/http.service';
 import { Representative } from '../../../../models/representative';
 import { NotificationService } from '../../../../services/notification.service';
+import { TranslateService } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-create-representative',
   templateUrl: './create-representative.component.html',
@@ -15,11 +16,9 @@ export class CreateRepresentativeComponent implements OnInit {
     lastName: "",
     active: true,
   }
-
   representativeList: Representative[] = [];
 
-  constructor(private http: HttpService, private notificationService: NotificationService) {
-  }
+  constructor(private translate: TranslateService, private http: HttpService, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.loadRepresentatives();
@@ -39,11 +38,18 @@ export class CreateRepresentativeComponent implements OnInit {
 
   postRepresentative() {
     if (!this.inputRepresentative.firstName || this.inputRepresentative.firstName === "" || !this.inputRepresentative.lastName || this.inputRepresentative.lastName === "") {
-      this.notificationService.createBasicNotification(4, 'Bitte Pflichtfelder ausfüllen!', 'Vorname* & Nachname*', 'topRight')
+      this.translate.get(['STANDARD.please_fill_required_fields', 'STANDARD.first_and_last_name']).subscribe(translations => {
+        const message = translations['STANDARD.please_fill_required_fields'];
+        const anotherMessage = translations['STANDARD.first_and_last_name'];
+        this.notificationService.createBasicNotification(4, message, anotherMessage, 'topRight');
+      });
     }
     else {
-      this.notificationService.createBasicNotification(0, 'Neuer Vertreter angelegt!', this.inputRepresentative.firstName + ' ' +
-        this.inputRepresentative.lastName, 'topRight')
+      this.translate.get('STANDARD.new_representative_created').subscribe((translatedMessage: string) => {
+        this.notificationService.createBasicNotification(0, translatedMessage, this.inputRepresentative.firstName + ' ' +
+          this.inputRepresentative.lastName, 'topRight');
+      });
+
       this.http.postRepresentative(
         {
           id: this.inputRepresentative.id!,

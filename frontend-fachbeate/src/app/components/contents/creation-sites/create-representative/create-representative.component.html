@@ -1,36 +1,36 @@
 <div class="header">
     <div>
-        <h1 class="paddingSearch" style="margin-bottom: 0;">{{'CREATE-REPRESENTATIVE.header' | translate}}</h1>
+        <h1 class="paddingSearch" style="margin-bottom: 0;">{{'NAV.new-re' | translate}}</h1>
     </div>
 </div>
 <hr>
 <div class="row">
     <div class="col-md-3">
         <div class="card">
-            <div class="card-header text-white bg-danger">{{'CREATE-REPRESENTATIVE.allg' | translate}}</div>
+            <div class="card-header text-white bg-danger">{{'CREATION_SITES.general_data' | translate}}</div>
             <div class="card-body">
                 <div class="center-items">
                     <mat-form-field class="smallInput">
-                        <mat-label>{{'CREATE-REPRESENTATIVE.firstName' | translate}}</mat-label>
+                        <mat-label>{{'CREATION_SITES.first_name' | translate}}</mat-label>
                         <input required matInput type="text" [(ngModel)]="inputRepresentative.firstName"
                             name="firstName">
                     </mat-form-field>
                     <div class="displayBySide">
                         <mat-form-field class="smallInput">
-                            <mat-label>{{'CREATE-REPRESENTATIVE.lastName' | translate}}</mat-label>
+                            <mat-label>{{'CREATION_SITES.last_name' | translate}}</mat-label>
                             <input required matInput type="text" [(ngModel)]="inputRepresentative.lastName"
                                 name="lastName">
                         </mat-form-field>
 
-                        <label class="languageBox">{{'CREATE-REPRESENTATIVE.active' | translate}}
+                        <label class="languageBox">{{'CREATION_SITES.active' | translate}}
                             <mat-checkbox color="warn" [(ngModel)]="inputRepresentative.active"></mat-checkbox>
                         </label>
                     </div>
                     <div class="displayBySide">
-                        <button class="btn btn-danger" matTooltip="{{'CREATE-REPRESENTATIVE.cancel' | translate}}"
+                        <button class="btn btn-danger" matTooltip="{{'DASHBOARD.cancel' | translate}}"
                             [hidden]="inputRepresentative.id===0" (click)="cancelEdit()"><i
                                 class="fa fa-times"></i></button>
-                        <button class="btn btn-success" matTooltip="{{'CREATE-REPRESENTATIVE.safe' | translate}}"
+                        <button class="btn btn-success" matTooltip="{{'STANDARD.save' | translate}}"
                             (click)="postRepresentative()"><i class="fa fa-save"></i></button>
                     </div>
                 </div>
@@ -38,18 +38,18 @@
         </div>
     </div>
     <div class="col-md-9">
-        <nz-table class="col" #editRowTable nzTableLayout="fixed" nzBordered [nzData]="representativeList">
+        <nz-table class="col" #editRowTable [nzPageSize]="9" nzBordered [nzData]="representativeList">
             <thead>
                 <tr>
-                    <th>{{'CREATE-REPRESENTATIVE.id' | translate}}</th>
-                    <th>{{'CREATE-REPRESENTATIVE.firstName' | translate}}</th>
-                    <th>{{'CREATE-REPRESENTATIVE.lastName' | translate}}</th>
-                    <th>{{'CREATE-REPRESENTATIVE.active' | translate}}</th>
+                    <th>{{'CREATION_SITES.id' | translate}}</th>
+                    <th>{{'CREATION_SITES.first_name' | translate}}</th>
+                    <th>{{'CREATION_SITES.last_name' | translate}}</th>
+                    <th>{{'CREATION_SITES.active' | translate}}</th>
                 </tr>
             </thead>
             <tbody>
-                <tr matTooltip="{{'CREATE-REPRESENTATIVE.edit' | translate}}" (click)="editRow(repentative.id!, 1)"
-                    *ngFor="let repentative of representativeList">
+                <tr matTooltip="{{'CUSTOMER_REQUIREMENTS.edit' | translate}}" (click)="editRow(repentative.id!, 1)"
+                    *ngFor="let repentative of editRowTable.data">
                     <td>{{repentative.id}}</td>
                     <td>{{repentative.firstName}}</td>
                     <td>{{repentative.lastName}}</td>

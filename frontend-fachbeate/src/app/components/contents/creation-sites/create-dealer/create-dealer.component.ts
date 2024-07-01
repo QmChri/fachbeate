@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Technologist } from '../../../../models/technologist';
 import { HttpService } from '../../../../services/http.service';
-import { Representative } from '../../../../models/representative';
 import { Company } from '../../../../models/company';
 import { NotificationService } from '../../../../services/notification.service';
+import { TranslateService } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-create-dealer',
   templateUrl: './create-dealer.component.html',
@@ -11,10 +11,9 @@ import { NotificationService } from '../../../../services/notification.service';
 })
 export class CreateDealerComponent implements OnInit {
   inputCompany: Company = { active: true };
-
   companyList: Company[] = [];
 
-  constructor(private http: HttpService, private notificationService: NotificationService) {
+  constructor(private translate: TranslateService, private http: HttpService, private notificationService: NotificationService) {
   }
 
   ngOnInit(): void {
@@ -35,10 +34,16 @@ export class CreateDealerComponent implements OnInit {
 
   postDealer() {
     if (!this.inputCompany.name || this.inputCompany.name === "") {
-      this.notificationService.createBasicNotification(4, 'Bitte Pflichtfelder ausfüllen!', 'Händlerbezeichnung*', 'topRight')
+      this.translate.get(['STANDARD.please_fill_required_fields', 'STANDARD.dealer_name']).subscribe(translations => {
+        const message = translations['STANDARD.please_fill_required_fields'];
+        const anotherMessage = translations['STANDARD.dealer_name'];
+        this.notificationService.createBasicNotification(4, message, anotherMessage, 'topRight');
+      });
     }
     else {
-      this.notificationService.createBasicNotification(0, 'Neuer Händler angelegt!', this.inputCompany.name, 'topRight')
+      this.translate.get('STANDARD.new_dealer_created').subscribe((translatedMessage: string) => {
+        this.notificationService.createBasicNotification(0, translatedMessage, this.inputCompany.name!, 'topRight');
+      });
       this.http.postCompany(this.inputCompany).subscribe({
         next: data => {
           this.inputCompany = {

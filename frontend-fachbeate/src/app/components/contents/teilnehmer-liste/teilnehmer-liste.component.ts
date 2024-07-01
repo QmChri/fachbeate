@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Guest } from '../../../models/guest';
 import { NotificationService } from '../../../services/notification.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-teilnehmer-liste',
@@ -13,18 +14,19 @@ export class TeilnehmerListeComponent implements OnInit {
   editId: number | null = null;
   listOfData: Guest[] = [];
 
-  constructor(
+  constructor(private translate: TranslateService,
     public dialogRef: MatDialogRef<TeilnehmerListeComponent>, private notificationService: NotificationService,
     @Inject(MAT_DIALOG_DATA) public guests: Guest[]
   ) {
     if (guests !== null && guests !== undefined) {
       guests.forEach(element => this.addRow(element));
     }
-
-    if(this.listOfData.length === 0){
+    if (this.listOfData.length === 0) {
       this.addRow({})
     }
   }
+
+  ngOnInit(): void { }
 
   startEdit(id: number): void {
     this.editId = id;
@@ -53,27 +55,29 @@ export class TeilnehmerListeComponent implements OnInit {
     this.listOfData = this.listOfData.filter(d => d.editId !== id);
   }
 
-
   closeDialog(save: boolean) {
-    
     if (save) {
-      if(this.listOfData.some(item => (!item.sex || !item.firstName || !item.lastName || !item.function))){        
-        this.notificationService.createBasicNotification(4, 'Pflichtfelder ausfüllen!', '', 'topRight');
-      }else{
-      if (this.listOfData.length === 0) {
-        this.notificationService.createBasicNotification(2, 'Keine Teilnehmer hinzugefügt!', '', 'topRight');
+      if (this.listOfData.some(item => (!item.sex || !item.firstName || !item.lastName || !item.function))) {
+        this.translate.get(['STANDARD.please_fill_required_fields', 'STANDARD.sex_first_name_last_name']).subscribe(translations => {
+          const message = translations['STANDARD.please_fill_required_fields'];
+          const anotherMessage = translations['STANDARD.sex_first_name_last_name'];
+          this.notificationService.createBasicNotification(4, message, anotherMessage, 'topRight');
+        });
+      } else {
+        if (this.listOfData.length === 0) {
+          this.translate.get('STANDARD.no_participants_added').subscribe((translatedMessage: string) => {
+            this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
+          });
+        }
+        else {
+          this.translate.get('STANDARD.participants_added').subscribe((translatedMessage: string) => {
+            this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
+          });
+        }
+        this.dialogRef.close(this.listOfData);
       }
-      else {
-        this.notificationService.createBasicNotification(0, 'Teilnehmer hinzugefügt!', '', 'topRight');
-      }
-      this.dialogRef.close(this.listOfData);
-      }
-      
     } else {
       this.dialogRef.close(undefined);
     }
-  }
-
-  ngOnInit(): void {
   }
 }

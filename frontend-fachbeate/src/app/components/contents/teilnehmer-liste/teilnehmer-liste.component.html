@@ -1,18 +1,18 @@
 <div class="mainView">
     <div class="header">
-        <h1 style="margin: 0%;">{{'DIALOG-MEMBERS.memberList' | translate}}</h1>
+        <h1 style="margin: 0%;">Teilnehmerliste</h1>
         <!--<button (click)="addRow({})" class="btn btn-success">{{'DIALOG-MEMBERS.add' | translate}}</button>-->
-        <button (click)="addRow({})" nz-button nzType="primary">{{'DIALOG-MEMBERS.add' | translate}}</button>
+        <button (click)="addRow({})" nz-button nzType="primary">{{'CREATION_SITES.add' | translate}}</button>
     </div>
     <hr>
     <div>
         <nz-table #editRowTable [nzPageSize]="6" nzBordered nzSize="small" [nzData]="listOfData">
             <thead>
                 <tr>
-                    <th nzWidth="15%">{{'DIALOG-MEMBERS.gender' | translate}}</th>
-                    <th nzWidth="28%">{{'DIALOG-MEMBERS.firstName' | translate}}</th>
-                    <th nzWidth="28%">{{'DIALOG-MEMBERS.lastName' | translate}}</th>
-                    <th nzWidth="28%">{{'DIALOG-MEMBERS.companyFunction' | translate}}</th>
+                    <th nzWidth="15%">{{'CREATION_SITES.mr_mrs_div' | translate}}</th>
+                    <th nzWidth="28%">{{'CREATION_SITES.first_name' | translate}}</th>
+                    <th nzWidth="28%">{{'CREATION_SITES.last_name' | translate}}</th>
+                    <th nzWidth="28%">{{'CREATION_SITES.company_function' | translate}}</th>
                     <th></th><!--{{'DIALOG-MEMBERS.delete' | translate}} -->
                 </tr>
             </thead>
@@ -20,35 +20,40 @@
                 <tr *ngFor="let data of editRowTable.data" class="editable-row">
                     <td>
                         <nz-select style="min-width: 6rem;" [(ngModel)]="data.sex">
-                            <nz-option [nzValue]="1" nzLabel="Männlich"></nz-option>
-                            <nz-option [nzValue]="2" nzLabel="Weiblich"></nz-option>
-                            <nz-option [nzValue]="3" nzLabel="Divers"></nz-option>
+                            <nz-option [nzValue]="1" [nzLabel]="'CREATION_SITES.male' | translate"></nz-option>
+                            <nz-option [nzValue]="2" [nzLabel]="'CREATION_SITES.female' | translate"></nz-option>
+                            <nz-option [nzValue]="3" [nzLabel]="'CREATION_SITES.diverse' | translate"></nz-option>
                         </nz-select>
                     </td>
                     <td>
                         <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id!)">
-                            {{ (data.firstName)?data.firstName:"Hier eingaben ..." }}
+                            {{ (data.function) ? data.function : ('CREATION_SITES.enter_here' | translate) }}
                         </div>
-                        <input [hidden]="editId !== data.id" type="text" placeholder="Hier eingaben ..." nz-input
+                        <input [hidden]="editId !== data.id" type="text"
+                            [placeholder]="'CREATION_SITES.enter_here' | translate" nz-input
                             [(ngModel)]="data.firstName" />
                     </td>
                     <td>
                         <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id!)">
-                            {{ (data.lastName)?data.lastName:"Hier eingaben ..." }}
+                            {{ (data.function) ? data.function : ('CREATION_SITES.enter_here' | translate) }}
                         </div>
-                        <input [hidden]="editId !== data.id" type="text" placeholder="Hier eingaben ..." nz-input
+                        <input [hidden]="editId !== data.id" type="text"
+                            [placeholder]="'CREATION_SITES.enter_here' | translate" nz-input
                             [(ngModel)]="data.lastName" />
                     </td>
                     <td>
                         <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id!)">
-                            {{ (data.function)?data.function: "Hier eingaben ..." }}
+                            {{ (data.function) ? data.function : ('CREATION_SITES.enter_here' | translate) }}
                         </div>
-                        <input [hidden]="editId !== data.id" type="text" placeholder="Hier eingaben ..." nz-input
+                        <input [hidden]="editId !== data.id" type="text"
+                            [placeholder]="'CREATION_SITES.enter_here' | translate" nz-input
                             [(ngModel)]="data.function" />
                     </td>
                     <td>
                         <button class="btn btn-danger" nz-popconfirm [nzIcon]="iconTpl"
-                            nzPopconfirmTitle="Sicher löschen?" (nzOnConfirm)="deleteRow(data.editId!)">
+                            [nzCancelText]="'DASHBOARD.cancel' | translate" [nzOkText]="'STANDARD.ok' | translate"
+                            [nzPopconfirmTitle]="'CREATION_SITES.delete_securely' | translate"
+                            (nzOnConfirm)="deleteRow(data.editId!)">
                             <ng-template #iconTpl>
                                 <span nz-icon nzType="question-circle-o" style="color: red;"></span>
                             </ng-template>
@@ -62,6 +67,7 @@
 
 </div>
 <div class="mainView header" style="margin-top: auto;">
-    <div> <button (click)="closeDialog(false)" class="btn btn-secondary">Abbrechen</button></div>
-    <div> <button (click)="closeDialog(true)" class="btn btn-success">Speichern</button></div>
+    <div> <button (click)="closeDialog(false)" class="btn btn-secondary">{{'DASHBOARD.cancel' |translate}}</button>
+    </div>
+    <div> <button (click)="closeDialog(true)" class="btn btn-success">{{'STANDARD.save' |translate}}</button></div>
 </div>

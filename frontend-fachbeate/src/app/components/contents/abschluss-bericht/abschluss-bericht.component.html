@@ -1,51 +1,51 @@
 <div style="background-color: #f4f4f4;">
     <div class="mainView">
-        <h1 class="paddingSearch">Abschlussbericht</h1>
+        <h1 class="paddingSearch">{{"MAIN_LIST.final_report" | translate}}</h1>
         <hr>
         <div class="row">
             <div class="col-md-7 paddingBottom">
                 <div class="card">
-                    <div class="card-header text-white bg-danger">Allgemeines</div>
+                    <div class="card-header text-white bg-danger">{{"ABSCHLUSSBERICHT.general" | translate}}</div>
                     <div class="card-body">
                         <div class="center-items">
                             <div class="displayBySide">
                                 <mat-form-field class="smallInput">
-                                    <mat-label>Fachberater</mat-label>
+                                    <mat-label>{{"MAIN_LIST.advisor" | translate}}</mat-label>
                                     <input matInput type="text" [(ngModel)]="inputFinalReport.technologist"
                                         name="technologist">
                                 </mat-form-field>
                                 <mat-form-field class="smallInput">
-                                    <mat-label>Unternehmen</mat-label>
+                                    <mat-label>{{"ABSCHLUSSBERICHT.company" | translate}}</mat-label>
                                     <input matInput type="text" [(ngModel)]="inputFinalReport.company" name="company">
                                 </mat-form-field>
                                 <mat-form-field class="smallInput">
-                                    <mat-label>Kundennummer</mat-label>
+                                    <mat-label>{{"CUSTOMER_REQUIREMENTS.customer_number" | translate}}</mat-label>
                                     <input matInput type="text" [(ngModel)]="inputFinalReport.companyNr"
                                         name="companyNr">
                                 </mat-form-field>
                             </div>
                             <div class="displayBySide">
                                 <mat-form-field class="smallInput">
-                                    <mat-label>Vertreter</mat-label>
+                                    <mat-label>{{"MAIN_LIST.representative" | translate}}</mat-label>
                                     <input matInput type="text" [(ngModel)]="inputFinalReport.representative"
                                         name="representative">
                                 </mat-form-field>
                                 <mat-form-field class="smallInputSide">
-                                    <mat-label>Datum Besuch</mat-label>
+                                    <mat-label>{{"ABSCHLUSSBERICHT.visit_date_general" | translate}}</mat-label>
                                     <input matInput [matDatepicker]="picker1" type="text"
                                         [(ngModel)]="inputFinalReport.dateOfVisit" name="dateOfVisit">
                                     <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
                                     <mat-datepicker #picker1></mat-datepicker>
                                 </mat-form-field>
                                 <mat-form-field class="smallInput">
-                                    <mat-label>Grund des Besuchs</mat-label>
-                                    <mat-select required multiple placeholder="Auswählen . . . "
+                                    <mat-label>{{"ABSCHLUSSBERICHT.visit_reason_general" | translate}}</mat-label>
+                                    <mat-select required multiple [placeholder]="'STANDARD.please_select' | translate"
                                         [ngModel]="reasonSelect" name="resons">
-                                        <mat-option [value]="1">Vorstellung</mat-option>
-                                        <mat-option [value]="2">Problemlösung</mat-option>
-                                        <mat-option [value]="3">Rezepturopt.</mat-option>
-                                        <mat-option [value]="4">Musterproduktion</mat-option>
-                                        <mat-option [value]="5">Schulung</mat-option>
+                                        <mat-option [value]="1">{{"ABSCHLUSSBERICHT.introduction" | translate}}</mat-option>
+                                        <mat-option [value]="2">{{"ABSCHLUSSBERICHT.problem_solving" | translate}}</mat-option>
+                                        <mat-option [value]="3">{{"CUSTOMER_REQUIREMENTS.recipe_optimization" | translate}}</mat-option>
+                                        <mat-option [value]="4">{{"CUSTOMER_REQUIREMENTS.sample_production" | translate}}</mat-option>
+                                        <mat-option [value]="5">{{"CUSTOMER_REQUIREMENTS.training" | translate}}</mat-option>
                                     </mat-select>
                                 </mat-form-field>
                             </div>
@@ -55,34 +55,34 @@
             </div>
             <div class="col-md-5 paddingBottom">
                 <div class="card">
-                    <div class="card-header text-white bg-danger">Kunden Kommunikation</div>
+                    <div class="card-header text-white bg-danger">{{"ABSCHLUSSBERICHT.customer_communication" | translate}}</div>
                     <div class="card-body">
                         <div class="center-items">
                             <div class="displayBySide">
                                 <mat-form-field class="smallInputSide">
-                                    <mat-label>Kontaktiert am</mat-label>
+                                    <mat-label>{{"ABSCHLUSSBERICHT.contacted_on" | translate}}</mat-label>
                                     <input matInput [matDatepicker]="picker2" type="text"
                                         [(ngModel)]="inputFinalReport.customerContactDate" name="contactDate">
                                     <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
                                     <mat-datepicker #picker2></mat-datepicker>
                                 </mat-form-field>
                                 <mat-form-field class="smallInput">
-                                    <mat-label>Rückmeldung Kunde</mat-label>
+                                    <mat-label>{{"ABSCHLUSSBERICHT.customer_feedback" | translate}}</mat-label>
                                     <input matInput type="text" [(ngModel)]="inputFinalReport.responseCustomer"
                                         name="responseCustomer">
                                 </mat-form-field>
                             </div>
                             <div class="displayBySide">
                                 <mat-form-field class="smallInput">
-                                    <mat-label>Weitere Maßnahmen vereinbart</mat-label>
-                                    <mat-select required placeholder="Auswählen . . . "
+                                    <mat-label>{{"ABSCHLUSSBERICHT.further_actions" | translate}}</mat-label>
+                                    <mat-select required [placeholder]="'STANDARD.please_select' | translate"
                                         [ngModel]="inputFinalReport.furtherActivities" name="furtherActivities">
-                                        <mat-option [value]="1">Ja</mat-option>
-                                        <mat-option [value]="2">Nein</mat-option>
+                                        <mat-option [value]="1">{{"SEMINARANM.yes" | translate}}</mat-option>
+                                        <mat-option [value]="2">{{"SEMINARANM.no" | translate}}</mat-option>
                                     </mat-select>
                                 </mat-form-field>
                                 <mat-form-field class="smallInputSide">
-                                    <mat-label>Zu erledigen bis</mat-label>
+                                    <mat-label>{{"ABSCHLUSSBERICHT.to_be_done_by" | translate}}</mat-label>
                                     <input matInput [matDatepicker]="picker3" type="text"
                                         [(ngModel)]="inputFinalReport.doneUntil" name="doneUntil">
                                     <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
@@ -97,26 +97,26 @@
         <div class="row">
             <div class="col-md-5 paddingBottom">
                 <div class="card">
-                    <div class="card-header text-white bg-danger">Anforderungen / Zusammenfassung</div>
+                    <div class="card-header text-white bg-danger">{{"ABSCHLUSSBERICHT.requirements_summary" | translate}}</div>
                     <div class="card-body">
                         <div class="center-items">
                             <div class="displayBySide">
                                 <mat-form-field class="smallInput">
-                                    <mat-label>Weitere Produkte</mat-label>
+                                    <mat-label>{{"ABSCHLUSSBERICHT.additional_products" | translate}}</mat-label>
                                     <input matInput type="text" [(ngModel)]="inputFinalReport.interestingProducts"
                                         name="interestingProducts">
                                 </mat-form-field>
                                 <mat-form-field class="smallInputSide">
-                                    <mat-label>Abgeschlossen</mat-label>
-                                    <mat-select required placeholder="Auswählen . . . "
+                                    <mat-label>{{"ABSCHLUSSBERICHT.completed" | translate}}</mat-label>
+                                    <mat-select required [placeholder]="'STANDARD.please_select' | translate"
                                         [ngModel]="inputFinalReport.requestCompleted" name="requestCompleted">
-                                        <mat-option [value]="1">Ja</mat-option>
-                                        <mat-option [value]="2">Nein</mat-option>
+                                        <mat-option [value]="1">{{"SEMINARANM.yes" | translate}}</mat-option>
+                                        <mat-option [value]="2">{{"SEMINARANM.no" | translate}}</mat-option>
                                     </mat-select>
                                 </mat-form-field>
                             </div>
                             <mat-form-field class="smallInput">
-                                <mat-label>Zusammenfassung Vertreter</mat-label>
+                                <mat-label>{{"ABSCHLUSSBERICHT.representative_summary" | translate}}</mat-label>
                                 <input matInput type="text" [(ngModel)]="inputFinalReport.summaryFinalReport"
                                     name="summaryFinalReport">
                             </mat-form-field>
@@ -126,31 +126,31 @@
             </div>
             <div class="col-md-5 paddingBottom">
                 <div class="card">
-                    <div class="card-header text-white bg-danger">Nacharbeit Fachberater</div>
+                    <div class="card-header text-white bg-danger">{{"ABSCHLUSSBERICHT.advisor_follow_up" | translate}}</div>
                     <div class="card-body">
                         <div class="center-items">
                             <div class="header">
                                 <mat-form-field class="smallInputSide">
-                                    <mat-label>Nacharbeit Fachberater</mat-label>
-                                    <mat-select required placeholder="Auswählen . . . "
+                                    <mat-label>{{"ABSCHLUSSBERICHT.advisor_follow_up" | translate}}</mat-label>
+                                    <mat-select required [placeholder]="'STANDARD.please_select' | translate"
                                         [(ngModel)]="inputFinalReport.reworkByTechnologist" name="reworkByTechnologist">
-                                        <mat-option [value]="true">Ja</mat-option>
-                                        <mat-option [value]="false">Nein</mat-option>
+                                        <mat-option [value]="1">{{"SEMINARANM.yes" | translate}}</mat-option>
+                                        <mat-option [value]="2">{{"SEMINARANM.no" | translate}}</mat-option>
                                     </mat-select>
                                 </mat-form-field>
                                 <mat-form-field class="smallInputSide">
-                                    <mat-label>Nacharbeit Vertreter</mat-label>
-                                    <mat-select required placeholder="Auswählen . . . "
+                                    <mat-label>{{"ABSCHLUSSBERICHT.representative_follow_up" | translate}}</mat-label>
+                                    <mat-select required [placeholder]="'STANDARD.please_select' | translate"
                                         [(ngModel)]="inputFinalReport.reworkByRepresentative"
                                         name="reworkByRepresentive">
-                                        <mat-option [value]="true">Ja</mat-option>
-                                        <mat-option [value]="false">Nein</mat-option>
+                                        <mat-option [value]="1">{{"SEMINARANM.yes" | translate}}</mat-option>
+                                        <mat-option [value]="2">{{"SEMINARANM.no" | translate}}</mat-option>
                                     </mat-select>
                                 </mat-form-field>
                             </div>
                             <div class="header" *ngIf="inputFinalReport.reworkByTechnologist">
                                 <mat-form-field class="smallInputSide">
-                                    <mat-label>Zu erledigen bis</mat-label>
+                                    <mat-label>{{"ABSCHLUSSBERICHT.to_be_done_by" | translate}}</mat-label>
                                     <input matInput [matDatepicker]="picker5" type="text"
                                         [(ngModel)]="inputFinalReport.reworkByTechnologistDoneUntil"
                                         name="reworkByTechnologistDoneUntil">
@@ -158,12 +158,12 @@
                                     <mat-datepicker #picker5></mat-datepicker>
                                 </mat-form-field>
                                 <mat-form-field class="smallInput">
-                                    <mat-label>Status</mat-label>
+                                    <mat-label>{{"MAIN_LIST.status" | translate}}</mat-label>
                                     <input matInput type="text" [(ngModel)]="inputFinalReport.state" name="state">
                                 </mat-form-field>
                             </div>
                             <mat-form-field *ngIf="inputFinalReport.reworkByRepresentative">
-                                <mat-label>Zu erledigen bis</mat-label>
+                                <mat-label>{{"ABSCHLUSSBERICHT.to_be_done_by" | translate}}</mat-label>
                                 <input matInput [matDatepicker]="picker6" type="text"
                                     [(ngModel)]="inputFinalReport.reworkByRepresentativeDoneUntil"
                                     name="reworkByRepresentativeDoneUntil">
@@ -176,23 +176,23 @@
             </div>
             <div class="col-md-2 paddingBottom">
                 <div class="card">
-                    <div class="card-header text-white bg-danger">Bericht per Grund</div>
+                    <div class="card-header text-white bg-danger">{{"ABSCHLUSSBERICHT.report_by_reason" | translate}}</div>
                     <mat-button-toggle-group [ngModel]="reasonSelect" (change)="changeSelections($event)" vertical
                         multiple>
-                        <mat-button-toggle [value]="1">Vorstellung</mat-button-toggle>
-                        <mat-button-toggle [value]="2">Problemlösung</mat-button-toggle>
-                        <mat-button-toggle [value]="3">Rezepturopt.</mat-button-toggle>
-                        <mat-button-toggle [value]="4">Musterprod.</mat-button-toggle>
+                        <mat-button-toggle [value]="1">{{"CUSTOMER_REQUIREMENTS.presentation_of_new_products" | translate}}</mat-button-toggle>
+                        <mat-button-toggle [value]="2">{{"CUSTOMER_REQUIREMENTS.existing_products" | translate}}</mat-button-toggle>
+                        <mat-button-toggle [value]="3">{{"CUSTOMER_REQUIREMENTS.recipe_optimization" | translate}}</mat-button-toggle>
+                        <mat-button-toggle [value]="4">{{"CUSTOMER_REQUIREMENTS.sample_production" | translate}}</mat-button-toggle>
                     </mat-button-toggle-group>
                 </div>
             </div>
             <ng-container *ngFor="let reasonReport of inputFinalReport.reasonReports">
                 <div class="col-md-4 paddingBottom" *ngIf="reasonReport.reason === 1">
                     <div class="card" hideToggle>
-                        <div class="card-header bg-danger text-white">Vorstellung</div>
+                        <div class="card-header bg-danger text-white">{{"ABSCHLUSSBERICHT.introduction" | translate}}</div>
                         <div class="card-body">
                             <mat-form-field class="smallInput">
-                                <mat-label>Zusammenfassung</mat-label>
+                                <mat-label>{{"ABSCHLUSSBERICHT.summary" | translate}}</mat-label>
                                 <textarea matInput type="text" [(ngModel)]="reasonReport.carriedOutActivity"
                                     name="carriedOutActivity"></textarea>
                             </mat-form-field>
@@ -200,12 +200,12 @@
                             @for (article of reasonReport.presentedArticle; track $index) {
                             <div class="displayBySide">
                                 <mat-form-field class="artundnr">
-                                    <mat-label>Artikel</mat-label>
+                                    <mat-label>{{"ABSCHLUSSBERICHT.article" | translate}}</mat-label>
                                     <input matInput type="text" [(ngModel)]="article.name"
                                         name="articleName{{reasonReport.reason}}">
                                 </mat-form-field>
                                 <mat-form-field class="artundnr">
-                                    <mat-label>ArtikelNr</mat-label>
+                                    <mat-label>{{"ABSCHLUSSBERICHT.article_number" | translate}}</mat-label>
                                     <input matInput type="text" [(ngModel)]="article.articleNr"
                                         name="articleNumber{{reasonReport.reason}}"
                                         (ngModelChange)="insertOther(article, reasonReport.reason)">
@@ -228,10 +228,10 @@
                 </div>
                 <div class="col-md-4 paddingBottom" *ngIf="reasonReport.reason === 2">
                     <div class="card" hideToggle>
-                        <div class="card-header bg-danger text-white">Problemlösung</div>
+                        <div class="card-header bg-danger text-white">{{"ABSCHLUSSBERICHT.problem_solving" | translate}}</div>
                         <div class="card-body">
                             <mat-form-field class="smallInput">
-                                <mat-label>Zusammenfassung</mat-label>
+                                <mat-label>{{"ABSCHLUSSBERICHT.summary" | translate}}</mat-label>
                                 <textarea matInput type="text" [(ngModel)]="reasonReport.carriedOutActivity"
                                     name="carriedOutActivity"></textarea>
                             </mat-form-field>
@@ -239,12 +239,12 @@
                             @for (article of reasonReport.presentedArticle; track $index) {
                             <div class="displayBySide">
                                 <mat-form-field class="artundnr">
-                                    <mat-label>Artikel</mat-label>
+                                    <mat-label>{{"ABSCHLUSSBERICHT.article" | translate}}</mat-label>
                                     <input matInput type="text" [(ngModel)]="article.name"
                                         name="articleName{{reasonReport.reason}}">
                                 </mat-form-field>
                                 <mat-form-field class="artundnr">
-                                    <mat-label>ArtikelNr</mat-label>
+                                    <mat-label>{{"ABSCHLUSSBERICHT.article_number" | translate}}</mat-label>
                                     <input matInput type="text" [(ngModel)]="article.articleNr"
                                         name="articleNumber{{reasonReport.reason}}"
                                         (ngModelChange)="insertOther(article, reasonReport.reason)">
@@ -267,10 +267,10 @@
                 </div>
                 <div class="col-md-4 paddingBottom" *ngIf="reasonReport.reason === 3">
                     <div class="card" hideToggle>
-                        <div class="card-header bg-danger text-white">Rezepturopt.</div>
+                        <div class="card-header bg-danger text-white">{{"CUSTOMER_REQUIREMENTS.recipe_optimization" | translate}}</div>
                         <div class="card-body">
                             <mat-form-field class="smallInput">
-                                <mat-label>Zusammenfassung</mat-label>
+                                <mat-label>{{"ABSCHLUSSBERICHT.summary" | translate}}</mat-label>
                                 <textarea matInput type="text" [(ngModel)]="reasonReport.carriedOutActivity"
                                     name="carriedOutActivity"></textarea>
                             </mat-form-field>
@@ -278,12 +278,12 @@
                             @for (article of reasonReport.presentedArticle; track $index) {
                             <div class="displayBySide">
                                 <mat-form-field class="artundnr">
-                                    <mat-label>Artikel</mat-label>
+                                    <mat-label>{{"ABSCHLUSSBERICHT.article" | translate}}</mat-label>
                                     <input matInput type="text" [(ngModel)]="article.name"
                                         name="articleName{{reasonReport.reason}}">
                                 </mat-form-field>
                                 <mat-form-field class="artundnr">
-                                    <mat-label>ArtikelNr</mat-label>
+                                    <mat-label>{{"ABSCHLUSSBERICHT.article_number" | translate}}</mat-label>
                                     <input matInput type="text" [(ngModel)]="article.articleNr"
                                         name="articleNumber{{reasonReport.reason}}"
                                         (ngModelChange)="insertOther(article, reasonReport.reason)">
@@ -306,10 +306,10 @@
                 </div>
                 <div class="col-md-4 paddingBottom" *ngIf="reasonReport.reason === 4">
                     <div class="card" hideToggle>
-                        <div class="card-header bg-danger text-white">Musterproduktion</div>
+                        <div class="card-header bg-danger text-white">{{"CUSTOMER_REQUIREMENTS.sample_production" | translate}}</div>
                         <div class="card-body">
                             <mat-form-field class="smallInput">
-                                <mat-label>Zusammenfassung</mat-label>
+                                <mat-label>{{"ABSCHLUSSBERICHT.summary" | translate}}</mat-label>
                                 <textarea matInput type="text" [(ngModel)]="reasonReport.carriedOutActivity"
                                     name="carriedOutActivity"></textarea>
                             </mat-form-field>
@@ -317,12 +317,12 @@
                             @for (article of reasonReport.presentedArticle; track $index) {
                             <div class="displayBySide">
                                 <mat-form-field class="artundnr">
-                                    <mat-label>Artikel</mat-label>
+                                    <mat-label>{{"ABSCHLUSSBERICHT.article" | translate}}</mat-label>
                                     <input matInput type="text" [(ngModel)]="article.name"
                                         name="articleName{{reasonReport.reason}}">
                                 </mat-form-field>
                                 <mat-form-field class="artundnr">
-                                    <mat-label>ArtikelNr</mat-label>
+                                    <mat-label>{{"ABSCHLUSSBERICHT.article_number" | translate}}</mat-label>
                                     <input matInput type="text" [(ngModel)]="article.articleNr"
                                         name="articleNumber{{reasonReport.reason}}"
                                         (ngModelChange)="insertOther(article, reasonReport.reason)">
@@ -346,8 +346,8 @@
             </ng-container>
         </div>
         <div class="header">
-            <div> <button (click)="closeDialog(false)" class="btn btn-secondary">Abbrechen</button></div>
-            <div> <button (click)="closeDialog(true)" class="btn btn-success">Speichern</button></div>
+            <div> <button (click)="closeDialog(false)" class="btn btn-secondary">{{"DASHBOARD.cancel" | translate}}</button></div>
+            <div> <button (click)="closeDialog(true)" class="btn btn-success">{{"DASHBOARD.save" | translate}}</button></div>
         </div>
     </div>
 </div>

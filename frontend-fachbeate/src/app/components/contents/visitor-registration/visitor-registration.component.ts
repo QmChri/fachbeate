@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { Department } from '../../../models/department';
 import { VisitorRegistration } from '../../../models/visitor-registration';
 import { MatDialog } from '@angular/material/dialog';
@@ -8,6 +8,9 @@ import { HttpService } from '../../../services/http.service';
 import { Guest } from '../../../models/guest';
 import { ActivatedRoute } from '@angular/router';
 import { NotificationService } from '../../../services/notification.service';
+import { RoleService } from '../../../services/role.service';
+import { Representative } from '../../../models/representative';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-visitor-registration',
@@ -17,74 +20,27 @@ import { NotificationService } from '../../../services/notification.service';
 export class VisitorRegistrationComponent implements OnInit {
   buttonSelect: String[] = []
   geDip: String[] = []
-
+  representative: Representative[] = [];
+  selected = new FormControl(0);
+  languageControl = new FormControl();
+  languageFilterCtrl = new FormControl();
+  listOfCurrentPageData: readonly Department[] = [];
+  setOfCheckedId = new Map<number, [number?, string?]>();
+  abteilungen = [
+    { value: 'GL', label: 'Geschäftsleitung' },
+    { value: 'AB', label: 'Auftragsbearbeitung' }
+  ];
   inputVisitRegistration: VisitorRegistration = {
     plannedDepartmentVisits: [],
     guests: [],
     hotelBookings: []
   };
 
-  constructor(private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute,
-    private notificationService: NotificationService) { }
-
-  openDialog(guests: Guest[]) {
-
-    const dialogRef = this.dialog.open(TeilnehmerListeComponent, {
-      height: '37.6rem',
-      width: '50rem',
-      data: guests
-    });
-
-    dialogRef.afterClosed().subscribe(
-      data => {
-        if (data !== undefined && data !== null) {
-          this.inputVisitRegistration.guests = data;
-        }
-      });
-
-  }
-
-  selected = new FormControl(0);
-
-  addTab() {
-   this.inputVisitRegistration.hotelBookings = [...this.inputVisitRegistration.hotelBookings, {}]
-  }
-
-  deleteLast() {
-    if (this.inputVisitRegistration.hotelBookings.length != 1)
-      this.inputVisitRegistration.hotelBookings.pop();
-  }
-
-  languageControl = new FormControl();
-  languageFilterCtrl = new FormControl();
-
-  abteilungen = [
-    { value: 'GL', label: 'Geschäftsleitung' },
-    { value: 'AB', label: 'Auftragsbearbeitung' }
-  ];
-
-  listOfCurrentPageData: readonly Department[] = [];
-  setOfCheckedId = new Map<number,[number?, string?]>();
-
-
-  onItemChecked(id: number, checked: boolean): void {
-    if (checked) {
-      this.setOfCheckedId.set(id, [undefined!, ""]);
-    } else {
-      this.setOfCheckedId.delete(id);
-    }
-  }
-
-  onCurrentPageDataChange($event: readonly Department[]): void {
-    this.listOfCurrentPageData = $event;
-  }
-
-  inputDateChange(id: number, date: string) {
-    let tmpId = this.setOfCheckedId.get(id)![0];
-    this.setOfCheckedId.set(id, [(tmpId)?tmpId:undefined!, date]);
-  }
+  constructor(private translate: TranslateService, private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute,
+    private notificationService: NotificationService, public roleService: RoleService) { }
 
   ngOnInit(): void {
+    this.getRepresentative();
     this.addTab();
     this.route.paramMap.subscribe(params => {
       if (params.get('id') != null) {
@@ -94,8 +50,8 @@ export class VisitorRegistrationComponent implements OnInit {
               this.inputVisitRegistration = data;
 
               this.inputVisitRegistration.plannedDepartmentVisits.forEach(element => {
-                var tmpVisit = this.listOfCurrentPageData.find(pageData => pageData.name === element.department);                
-                this.setOfCheckedId.set(tmpVisit!.id, [element.id!,element.dateOfVisit!.toString().substring(0,10)])
+                var tmpVisit = this.listOfCurrentPageData.find(pageData => pageData.name === element.department);
+                this.setOfCheckedId.set(tmpVisit!.id, [element.id!, element.dateOfVisit!.toString().substring(0, 10)])
               })
 
               this.buttonSelect = [
@@ -119,19 +75,19 @@ export class VisitorRegistrationComponent implements OnInit {
     this.listOfCurrentPageData = [
       {
         id: 1,
-        name: 'boss',
+        name: 'management',
         checked: false,
         dateOfVisit: new Date()
       },
       {
         id: 2,
-        name: 'applicationTechnology',
+        name: 'application_technology',
         checked: false,
         dateOfVisit: new Date()
       },
       {
         id: 3,
-        name: 'productDevelopment',
+        name: 'product_development',
         checked: false,
         dateOfVisit: new Date()
       },
@@ -149,19 +105,19 @@ export class VisitorRegistrationComponent implements OnInit {
       },
       {
         id: 6,
-        name: 'payOffice',
+        name: 'payroll_office',
         checked: false,
         dateOfVisit: new Date()
       },
       {
         id: 7,
-        name: 'orderProcessing',
+        name: 'order_processing',
         checked: false,
         dateOfVisit: new Date()
       },
       {
         id: 8,
-        name: 'qualityMaterialsManagement',
+        name: 'quality_raw_material_management',
         checked: false,
         dateOfVisit: new Date()
       },
@@ -173,18 +129,76 @@ export class VisitorRegistrationComponent implements OnInit {
       },
       {
         id: 10,
-        name: 'legalFinance',
+        name: 'legal_financial_affairs',
         checked: false,
         dateOfVisit: new Date()
       },
       {
         id: 11,
-        name: 'innov8Labor',
+        name: 'innov8_lab',
         checked: false,
         dateOfVisit: new Date()
       }
     ]
 
+  }
+
+  release(department: string) {
+    if (department === 'gl') {
+      this.translate.get('STANDARD.approval_from_gl_granted').subscribe((translatedMessage: string) => {
+        this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
+      });
+      this.inputVisitRegistration.releaseManagement = new Date();
+      this.inputVisitRegistration.releaserManagement = this.roleService.getUserName();
+    } else {
+      this.translate.get('STANDARD.approval_from_al_granted').subscribe((translatedMessage: string) => {
+        this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
+      });
+      this.inputVisitRegistration.releaseSupervisor = new Date();
+      this.inputVisitRegistration.releaserSupervisor = this.roleService.getUserName()
+    }
+  }
+
+  openDialog(guests: Guest[]) {
+    const dialogRef = this.dialog.open(TeilnehmerListeComponent, {
+      height: '37.6rem',
+      width: '50rem',
+      data: guests
+    });
+
+    dialogRef.afterClosed().subscribe(
+      data => {
+        if (data !== undefined && data !== null) {
+          this.inputVisitRegistration.guests = data;
+        }
+      });
+
+  }
+
+  addTab() {
+    this.inputVisitRegistration.hotelBookings = [...this.inputVisitRegistration.hotelBookings, {}]
+  }
+
+  deleteLast() {
+    if (this.inputVisitRegistration.hotelBookings.length != 1)
+      this.inputVisitRegistration.hotelBookings.pop();
+  }
+
+  onItemChecked(id: number, checked: boolean): void {
+    if (checked) {
+      this.setOfCheckedId.set(id, [undefined!, ""]);
+    } else {
+      this.setOfCheckedId.delete(id);
+    }
+  }
+
+  onCurrentPageDataChange($event: readonly Department[]): void {
+    this.listOfCurrentPageData = $event;
+  }
+
+  inputDateChange(id: number, date: string) {
+    let tmpId = this.setOfCheckedId.get(id)![0];
+    this.setOfCheckedId.set(id, [(tmpId) ? tmpId : undefined!, date]);
   }
 
   changeSelections() {
@@ -198,9 +212,10 @@ export class VisitorRegistrationComponent implements OnInit {
   }
 
   postVisitorRegistration() {
-    this.notificationService.createBasicNotification(0,'Formular wurde gesendet!','','topRight');
-    this.inputVisitRegistration.reason = "VisitorRegistration"
-
+    this.inputVisitRegistration.creator = this.roleService.getUserName();
+    this.translate.get('STANDARD.form_sent').subscribe((translatedMessage: string) => {
+      this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
+    });    this.inputVisitRegistration.reason = "VisitorRegistration"
     this.inputVisitRegistration.plannedDepartmentVisits = []
 
     this.setOfCheckedId.forEach((value, key) => {
@@ -218,7 +233,7 @@ export class VisitorRegistrationComponent implements OnInit {
         this.inputVisitRegistration = data;
         this.inputVisitRegistration.plannedDepartmentVisits.forEach(element => {
           var tmpVisit = this.listOfCurrentPageData.find(pageData => pageData.name === element.department);
-          this.setOfCheckedId.set(tmpVisit!.id, [element.id!, element.dateOfVisit!.toString().substring(0,10)])
+          this.setOfCheckedId.set(tmpVisit!.id, [element.id!, element.dateOfVisit!.toString().substring(0, 10)])
         })
       },
       error: err => {
@@ -235,8 +250,18 @@ export class VisitorRegistrationComponent implements OnInit {
     return "";
   }
 
-}
+  getRepresentative() {
+    this.http.getActiveRepresentative().subscribe({
+      next: data => {
+        this.representative = data;
+      },
+      error: err => {
+        console.log(err);
+      }
+    });
+  }
 
-const today = new Date();
-const month = today.getMonth();
-const year = today.getFullYear();
+  changeRepresentative($event: any) {
+    this.inputVisitRegistration.representative = this.representative.find(elemnt => elemnt.id === $event);
+  }
+}

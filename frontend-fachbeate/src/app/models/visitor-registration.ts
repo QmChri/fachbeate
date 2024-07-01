@@ -1,14 +1,14 @@
 import { Guest } from "./guest";
 import { Hotelbooking } from "./hotelbooking";
 import { PlannedDepartmentVisit } from "./planned-department-visit";
+import { Representative } from "./representative";
 
 export interface VisitorRegistration {
     id?: number;
     dateOfCreation?: Date;
+
     name?: string;
     inputReason?: string;
-    // typeOfFormular zu reason umbenennen
-    //TODO neues Feld hinzugefügt --> muss im Backend noch gemacht werden
     reason?: string;
     fromDate?: Date;
     fromTime?: string;
@@ -18,7 +18,7 @@ export interface VisitorRegistration {
     arrivalFromCountry?: string;
     reasonForVisit?: string;
     languageEN?: boolean;
-    responsibleSupervisor?: string;
+    representative?: Representative;
     stayFromDate?: Date;
     stayFromTime?: string;
     stayToDate?: Date;
@@ -31,12 +31,15 @@ export interface VisitorRegistration {
     meetingRoomDate?: Date;
     meetingRoomTime?: string;
 
-    //TODO neu aber weiß nicht ob richtig
-    releaser?: string;
-    releaseManagement?: string;
-    releaseSupervisor?: string;
+    releaseManagement?: Date;
+    releaserManagement?: string;
 
-    //TODO neu muss im Backend noch hinzugefügt werden
+    releaseSupervisor?: Date;
+    releaserSupervisor?: string;
+
+    creator?: string;
+    lastEditor?: string;
+
     hotelBookings: Hotelbooking[]
 
     lunchNumber?: number;
