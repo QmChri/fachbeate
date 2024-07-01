@@ -215,7 +215,7 @@ export class DashboardComponent implements OnInit {
       next: data => {
         data.forEach(value => {
           this.calendarEvnts = [...this.calendarEvnts, {
-            id: "w" + value.id,
+            id: "v" + value.id,
             title: value.name,
             start: value.fromDate,
             end: this.adjustEndDate(value.toDate!.toString()),
@@ -277,6 +277,8 @@ export class DashboardComponent implements OnInit {
       this.router.navigate(['/customer-requirements', clickInfo.event.id.substring(1)]);
     } else if (clickInfo.event.id.substring(0, 1) === "w") {
       this.router.navigate(['/seminar-registration', clickInfo.event.id.substring(1)]);
+    } else if (clickInfo.event.id.substring(0, 1) === "v") {
+      this.router.navigate(['/visitorRegistration', clickInfo.event.id.substring(1)]);
     } else {
       var appointment: TechnologistAppointment;
 

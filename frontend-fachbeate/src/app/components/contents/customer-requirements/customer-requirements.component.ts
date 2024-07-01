@@ -40,7 +40,7 @@ export class CustomerRequirementsComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       if (params.get('id') != null) {
         this.http.getCustomerById(parseInt(params.get('id')!)).subscribe({
-          next: data => {
+          next: data => {            
             if (data != null) {
               this.inputCustomerRequirement = data;
 
@@ -200,23 +200,29 @@ export class CustomerRequirementsComponent implements OnInit {
 
     if (this.checkRequired()) {
 
-      var rRepo: ReasonReport[] = [
-        (customerVisit.presentationOfNewProducts) ? { reason: 1, presentedArticle: [] } : { reason: 0, presentedArticle: [] },
-        (customerVisit.existingProducts) ? { reason: 2, presentedArticle: [] } : { reason: 0, presentedArticle: [] },
-        (customerVisit.recipeOptimization) ? { reason: 3, presentedArticle: [] } : { reason: 0, presentedArticle: [] },
-        (customerVisit.sampleProduction) ? { reason: 4, presentedArticle: [] } : { reason: 0, presentedArticle: [] },
-        (customerVisit.training) ? { reason: 5, presentedArticle: [] } : { reason: 0, presentedArticle: [] }
-      ].filter(element => element.reason !== 0);
+      if(customerVisit.finalReport === null || customerVisit.finalReport === undefined ){
+        var rRepo: ReasonReport[] = [
+          (customerVisit.presentationOfNewProducts) ? { reason: 1, presentedArticle: [] } : { reason: 0, presentedArticle: [] },
+          (customerVisit.existingProducts) ? { reason: 2, presentedArticle: [] } : { reason: 0, presentedArticle: [] },
+          (customerVisit.recipeOptimization) ? { reason: 3, presentedArticle: [] } : { reason: 0, presentedArticle: [] },
+          (customerVisit.sampleProduction) ? { reason: 4, presentedArticle: [] } : { reason: 0, presentedArticle: [] },
+          (customerVisit.training) ? { reason: 5, presentedArticle: [] } : { reason: 0, presentedArticle: [] }
+        ].filter(element => element.reason !== 0);
+
+        finalReport = {
+          technologist: this.inputCustomerRequirement.requestedTechnologist!.firstName + " " + this.inputCustomerRequirement.requestedTechnologist!.lastName,
+          company: customerVisit.companyName,
+          companyNr: customerVisit.customerNr,
+          representative: this.inputCustomerRequirement.representative!.firstName + " " + this.inputCustomerRequirement.representative!.lastName,
+          dateOfVisit: customerVisit.dateOfVisit,
+          reasonReports: rRepo
+        }
+    }else{
+      finalReport = customerVisit.finalReport;
+    }
 
 
-      finalReport = {
-        technologist: this.inputCustomerRequirement.requestedTechnologist!.firstName + " " + this.inputCustomerRequirement.requestedTechnologist!.lastName,
-        company: customerVisit.companyName,
-        companyNr: customerVisit.customerNr,
-        representative: this.inputCustomerRequirement.representative!.firstName + " " + this.inputCustomerRequirement.representative!.lastName,
-        dateOfVisit: customerVisit.dateOfVisit,
-        reasonReports: rRepo
-      }
+      
 
       const dialogRef = this.dialog.open(AbschlussBerichtComponent, {
         height: '42.5rem',

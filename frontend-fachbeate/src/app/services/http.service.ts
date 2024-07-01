@@ -133,6 +133,10 @@ export class HttpService {
     return this.http.get<FinalReport[]>(API_URL + "appointment/finalReport");
   }
 
+  getFinalReportsByUser(type: number, fullname: string):Observable<FinalReport[]>{
+    return this.http.get<FinalReport[]>(API_URL + "appointment/finalReportByUser", {params: {type: type, fullname: fullname}});
+  }
+
 
   getAllArticles(): Observable<Article[]>{
     return this.http.get<Article[]>(API_URL + "appointment/article");
