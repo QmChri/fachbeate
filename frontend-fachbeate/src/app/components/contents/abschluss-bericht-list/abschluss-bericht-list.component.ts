@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Data, Router } from '@angular/router';
 import { HttpService } from '../../../services/http.service';
 import { Technologist } from '../../../models/technologist';
 import { Article } from '../../../models/article';
@@ -9,6 +9,7 @@ import { RoleService } from '../../../services/role.service';
 import { FinalReport } from '../../../models/final-report';
 import { MatDialog } from '@angular/material/dialog';
 import { AbschlussBerichtComponent } from '../abschluss-bericht/abschluss-bericht.component';
+import { Company } from '../../../models/company';
 
 @Component({
   selector: 'app-abschluss-bericht-list',
@@ -88,7 +89,7 @@ export class AbschlussBerichtListComponent {
 
   ngOnInit(): void {
     //this.tmpinitData();
-    this.loadData();
+    this.loadDataPerUser();
     this.getNzFilters();
   }
 
@@ -131,7 +132,17 @@ export class AbschlussBerichtListComponent {
       }, [] as { text: string, value: string }[]);
   }
 
-  loadData() {
+  loadDataPerUser(){
+    this.http.getAllCompany().subscribe({
+      next: data => {
+        var companies = data;
+
+        this.loadData(companies)
+      }
+    })
+  }
+
+  loadData(companies: Company[]) {
 
     this.loadTechnologists();
 
@@ -143,10 +154,11 @@ export class AbschlussBerichtListComponent {
 
     var type = (this.roleService.checkPermission([1, 2, 3, 5, 7]) ? 7 : 6);
     type = (!this.roleService.checkPermission([1, 2, 3, 5, 6, 7]) ? 4 : type);
-    var fullname = (type === 6 ? this.roleService.getUserName()! : this.roleService.getFullName()!);
+    var fullname = (type === 6) ? companies.find(element => element.username === this.roleService.getUserName()!)?.username : this.roleService.getFullName()!;
 
+    
 
-    this.http.getFinalReportsByUser(type, fullname).subscribe({
+    this.http.getFinalReportsByUser(type, fullname!).subscribe({
       next: data => {
         this.finalReports = data;
 
@@ -200,7 +212,24 @@ export class AbschlussBerichtListComponent {
         if (data.save) {
           this.http.postFinalReport(data.finalReport).subscribe({
             next: finalRep => {
-              this.loadData();
+              
+              var newEntity: DataItem = {
+                id: finalRep.id!,
+                company: (finalRep.company!) ? finalRep.company : "<Leer>",
+                dateOfVisit: (finalRep.dateOfVisit!) ? finalRep.dateOfVisit : undefined!,
+                technologist: finalRep.technologist!,
+                toBeCompletedBy: finalRep.reworkByRepresentativeDoneUntil!,
+                representative: finalRep.representative!,
+                customerContactDate: finalRep.customerContactDate!,
+                abschlussberichtFinished: (finalRep.requestCompleted) ? "Ja" : "Nein",
+                article: []
+              }
+              
+              finalRep.reasonReports!.forEach(element => {
+                newEntity.article = [...newEntity.article, ...element.presentedArticle]
+              });
+
+              this.listOfDisplayData = this.listOfDisplayData.map(entity => entity.id === finalRep.id ? newEntity : entity)
             }
           });
         }

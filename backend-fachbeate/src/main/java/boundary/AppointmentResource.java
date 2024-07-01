@@ -176,6 +176,18 @@ public class AppointmentResource {
         return Response.ok(TechnologistAppointment.findById(id)).build();
     }
 
+    @GET
+    @Path("/other/user")
+    @Authenticated
+    public Response getOtherAppointmentPerUser(@QueryParam("type") int user, @QueryParam("fullname") String fullname){
+        if (user==7) {
+            return getOtherAppointments();
+        }else if(user == 4) {
+            return Response.ok(TechnologistAppointment.find("requestedTechnologist.firstName = ?1 and requestedTechnologist.lastName = ?2", fullname.split(";")[0], fullname.split(";")[1]).list()).build();
+        }
+        return Response.ok().build();
+    }
+
 
     @GET
     @Path("/finalReport")
