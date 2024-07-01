@@ -143,6 +143,8 @@ export class CustomerRequirementsComponent implements OnInit {
   }
 
   postCustomerRequirement() {
+    console.log(this.inputCustomerRequirement);
+    
     if (this.checkRequired()) {
       this.translate.get(['STANDARD.form_sent', 'STANDARD.assigned_representative']).subscribe(translations => {
         const message = translations['STANDARD.please_fill_required_fields'];

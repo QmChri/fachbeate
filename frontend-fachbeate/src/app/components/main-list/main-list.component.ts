@@ -180,6 +180,9 @@ export class MainListComponent implements OnInit {
     type = (!this.roleService.checkPermission([1, 2, 3, 5, 6, 7]) ? 4 : type);
     var fullname = (type === 6 ? this.roleService.getUserName()! : this.roleService.getFullName()!);
 
+    console.log(type, fullname);
+    
+
     this.loadTechnologists();
     this.http.getCustomerRequirementsByUser(type!, fullname!).subscribe({
       next: data => {
@@ -207,7 +210,7 @@ export class MainListComponent implements OnInit {
             name: element.company?.name!,
             dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
             customerOrCompany: "",
-            status: "Freigegeben",
+            status: (element.releaseSupervisor && element.releaseManagement)?"Freigegeben":"!Freigegeben",
             vertreter: element.representative?.firstName! + " " + element.representative?.lastName!,
             fachberater: element.requestedTechnologist?.firstName! + " " + element.requestedTechnologist?.lastName!,
             timespan: {
@@ -242,7 +245,7 @@ export class MainListComponent implements OnInit {
             name: "",
             dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
             customerOrCompany: "",
-            status: "Freigegeben",
+            status: (element.releaseSupervisor && element.releaseManagement)?"Freigegeben":"!Freigegeben",
             vertreter: element.representative!.firstName + " " + element.representative!.lastName,
             fachberater: element.requestedTechnologist!.map(a => a.firstName + " " + a.lastName).toString(),
             timespan: {
@@ -270,7 +273,7 @@ export class MainListComponent implements OnInit {
             name: element.name!,
             dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
             customerOrCompany: element.customerOrCompany!,
-            status: "!Freigegeben",
+            status: (element.releaseSupervisor && element.releaseManagement)?"Freigegeben":"!Freigegeben",
             vertreter: element.representative!.firstName + " " + element.representative!.lastName,
             fachberater: "",
             timespan: {
