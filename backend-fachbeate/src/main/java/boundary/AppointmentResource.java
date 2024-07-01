@@ -82,6 +82,7 @@ public class AppointmentResource {
         return Response.ok(responseVisitorRegistration).build();
     }
 
+
     @GET
     @Path("/visitorRegistration")
     @Authenticated
