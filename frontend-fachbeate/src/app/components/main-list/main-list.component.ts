@@ -184,7 +184,6 @@ export class MainListComponent implements OnInit {
       });
   }
 
-
   loadDataPerUser(){
     this.http.getAllCompany().subscribe({
       next: data => {
@@ -226,7 +225,7 @@ export class MainListComponent implements OnInit {
             name: element.company?.name!,
             dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
             customerOrCompany: "<Leer>",
-            status: (element.releaseSupervisor && element.releaseManagement)?"Freigegeben":"!Freigegeben",
+            status: (element.releaseSupervisor && element.releaseManagement)?"Freigegeben":"Nicht-Freigegeben",
             vertreter: element.representative?.firstName! + " " + element.representative?.lastName!,
             fachberater: element.requestedTechnologist?.firstName! + " " + element.requestedTechnologist?.lastName!,
             timespan: {
@@ -261,7 +260,7 @@ export class MainListComponent implements OnInit {
             name: "<Leer>",
             dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
             customerOrCompany: "<Leer>",
-            status: (element.releaseSupervisor && element.releaseManagement)?"Freigegeben":"!Freigegeben",
+            status: (element.releaseSupervisor && element.releaseManagement)?"Freigegeben":"Nicht-Freigegeben",
             vertreter: element.representative!.firstName + " " + element.representative!.lastName,
             fachberater: element.requestedTechnologist!.map(a => a.firstName + " " + a.lastName).toString(),
             timespan: {
@@ -290,7 +289,7 @@ export class MainListComponent implements OnInit {
             name: element.name!,
             dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
             customerOrCompany: element.customerOrCompany!,
-            status: (element.releaseSupervisor && element.releaseManagement)?"Freigegeben":"!Freigegeben",
+            status: (element.releaseSupervisor && element.releaseManagement)?"Freigegeben":"Nicht-Freigegeben",
             vertreter: element.representative!.firstName + " " + element.representative!.lastName,
             fachberater: "<Leer>",
             timespan: {
@@ -335,7 +334,7 @@ export class MainListComponent implements OnInit {
       this.notificationService.createBasicNotification(2, translatedMessage, '', 'topRight');
     });
     this.getNzFilters();
-    this.loadDataPerUser();
+    //this.loadDataPerUser();
     //this.tmpinitData();
     this.listOfColumn.forEach(item => {
       item.sortOrder = null;

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Data, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { HttpService } from '../../../services/http.service';
 import { Technologist } from '../../../models/technologist';
 import { Article } from '../../../models/article';
@@ -19,6 +19,7 @@ import { Company } from '../../../models/company';
 export class AbschlussBerichtListComponent {
   searchValue = '';
   visible = false;
+  finalReports: FinalReport[] = []
   technologistList: Technologist[] = [];
   listOfDisplayData: DataItem[] = [];
   listOfColumn: ColumnDefinition[] = [
@@ -32,7 +33,7 @@ export class AbschlussBerichtListComponent {
     {
       name: 'visit_date',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.dateOfVisit!.valueOf() - b.dateOfVisit!.valueOf(),
+      sortFn: (a: DataItem, b: DataItem) => a.dateOfVisit!.valueOf().toString().localeCompare(b.dateOfVisit!.valueOf().toString()),
       listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => true
     },
@@ -46,7 +47,7 @@ export class AbschlussBerichtListComponent {
     {
       name: 'to_be_done_by',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.toBeCompletedBy!.valueOf() - b.toBeCompletedBy!.valueOf(),
+      sortFn: (a: DataItem, b: DataItem) => a.toBeCompletedBy!.valueOf().toString().localeCompare(b.toBeCompletedBy!.valueOf().toString()),
       listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => true
     },
@@ -60,11 +61,11 @@ export class AbschlussBerichtListComponent {
     {
       name: 'customer_contacted_on',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.customerContactDate!.valueOf() - b.customerContactDate!.valueOf(),
+      sortFn: (a: DataItem, b: DataItem) => a.customerContactDate!.valueOf().toString().localeCompare(b.customerContactDate!.valueOf().toString()),
       listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => true
     },
-    {    //TODO fehlt noch Bericht abgeschlossen -> Hackerl wenn abgeschlossen
+    {
       name: 'report_completed',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.abschlussberichtFinished!.localeCompare(b.abschlussberichtFinished!),
@@ -79,9 +80,6 @@ export class AbschlussBerichtListComponent {
       filterFn: (list: string[], item: DataItem) => true
     }
   ];
-
-  finalReports: FinalReport[] = []
-  noButtons: boolean = true;
 
   constructor(private router: Router, private translate: TranslateService,
     private http: HttpService, private notificationService: NotificationService,
@@ -143,9 +141,7 @@ export class AbschlussBerichtListComponent {
   }
 
   loadData(companies: Company[]) {
-
     this.loadTechnologists();
-
     this.http.getAllArticles().subscribe({
       next: data => {
         this.listOfColumn.find(element => element.name === 'article')!.listOfFilter = data.map(element => { return { text: element.name!, value: element.name! } })
@@ -155,8 +151,6 @@ export class AbschlussBerichtListComponent {
     var type = (this.roleService.checkPermission([1, 2, 3, 5, 7]) ? 7 : 6);
     type = (!this.roleService.checkPermission([1, 2, 3, 5, 6, 7]) ? 4 : type);
     var fullname = (type === 6) ? companies.find(element => element.username === this.roleService.getUserName()!)?.username : this.roleService.getFullName()!;
-
-    
 
     this.http.getFinalReportsByUser(type, fullname!).subscribe({
       next: data => {
@@ -174,7 +168,7 @@ export class AbschlussBerichtListComponent {
             company: (element.company!) ? element.company : "<Leer>",
             dateOfVisit: (element.dateOfVisit!) ? element.dateOfVisit : undefined!,
             technologist: element.technologist!,
-            toBeCompletedBy: element.reworkByRepresentativeDoneUntil!,
+            toBeCompletedBy: element.doneUntil!,
             representative: element.representative!,
             customerContactDate: element.customerContactDate!,
             abschlussberichtFinished: (element.requestCompleted) ? "Ja" : "Nein",
@@ -208,11 +202,11 @@ export class AbschlussBerichtListComponent {
     dialogRef.afterClosed().subscribe(
       data => {
         console.log(data);
-        
+
         if (data.save) {
           this.http.postFinalReport(data.finalReport).subscribe({
             next: finalRep => {
-              
+
               var newEntity: DataItem = {
                 id: finalRep.id!,
                 company: (finalRep.company!) ? finalRep.company : "<Leer>",
@@ -224,7 +218,7 @@ export class AbschlussBerichtListComponent {
                 abschlussberichtFinished: (finalRep.requestCompleted) ? "Ja" : "Nein",
                 article: []
               }
-              
+
               finalRep.reasonReports!.forEach(element => {
                 newEntity.article = [...newEntity.article, ...element.presentedArticle]
               });
@@ -243,7 +237,6 @@ export class AbschlussBerichtListComponent {
       this.notificationService.createBasicNotification(2, translatedMessage, '', 'topRight');
     });
     this.getNzFilters();
-    //this.tmpinitData();
     this.listOfColumn.forEach(item => {
       item.sortOrder = null;
     });
@@ -259,12 +252,15 @@ export class AbschlussBerichtListComponent {
       item.toBeCompletedBy.toString().includes(this.searchValue.toLocaleLowerCase()) ||
       item.representative.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
       item.customerContactDate.toString().includes(this.searchValue.toLocaleLowerCase()) ||
-      item.abschlussberichtFinished.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
-      item.article.valueOf().toString().includes(this.searchValue.toLocaleLowerCase()))
-    );
+      item.abschlussberichtFinished.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase())
+      //item.article.forEach(article => article.name?.valueOf().toLocaleLowerCase().includes(this.searchValue.toLocaleLowerCase()))
+    ));
   }
 
   getArticleListName(article: Article[]) {
+    if (article.length === 0) {
+      return "<Leer>"
+    }
     return article.map(element => element.name).toString().substring(0, 30)
   }
 

@@ -111,7 +111,7 @@
         "contacted_on": "Kontaktiert am",
         "customer_feedback": "Rückmeldung Kunde",
         "further_actions": "Weitere Maßnahmen",
-        "to_be_done_by": "Zu erledeigen bis",
+        "to_be_done_by": "Zu erledigen bis",
         "requirements_summary": "Anforderungen/Zusammenfassung",
         "additional_products": "Weitere Produkte",
         "completed": "Abgeschlossen",
@@ -123,7 +123,8 @@
         "problem_solving": "Problemlösung",
         "summary": "Zusammenfassung",
         "article": "Artikel",
-        "article_number": "Artikel Nr"
+        "article_number": "Artikel Nr",
+        "follow_up": "Nacharbeit"
     },
     "VISITOR_REGRISTRATION": {
         "visitor_registration": "Besucheranmeldung",
@@ -217,6 +218,7 @@
         "company_function": "Funktion im Unternehmen",
         "click_to_edit": "Zum Bearbeiten klicken …",
         "enter_here": "Hier eingeben",
-        "delete_securely": "Sicher löschen"
+        "delete_securely": "Sicher löschen",
+        "user_name": "Benutzername"
     }
 }

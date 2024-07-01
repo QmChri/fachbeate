@@ -217,6 +217,7 @@
         "company_function": "Company Function",
         "click_to_edit": "Click to edit …",
         "enter_here": "Enter here",
-        "delete_securely": "Delete securely"
+        "delete_securely": "Delete securely",
+        "user_name": "Username"
     }
 }

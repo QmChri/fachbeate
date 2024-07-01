@@ -65,7 +65,7 @@
         justify-content: center;" *ngIf="data.status === 'Freigegeben'" class="text-success">&#10004;</span>
         <span style="display: flex;
         flex-direction: row;
-        justify-content: center;" *ngIf="data.status === '!Freigegeben'" class="text-danger">&#10008;</span>
+        justify-content: center;" *ngIf="data.status === 'Nicht-Freigegeben'" class="text-danger">&#10008;</span>
       </td>
       <td (dblclick)="openCRC(data,data.id!, data.type!)">{{ data.vertreter }}</td>
       <td (dblclick)="openCRC(data,data.id!, data.type!)">{{ data.fachberater }}</td>
