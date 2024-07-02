@@ -367,7 +367,7 @@
         </div>
         <div class="header">
             <div> <button (click)="closeDialog(false)" class="btn btn-secondary">{{"DASHBOARD.cancel" | translate}}</button></div>
-            <div> <button (click)="closeDialog(true)" class="btn btn-success">{{"DASHBOARD.save" | translate}}</button></div>
+            <div> <button *ngIf="(inputFinalReport.creator === undefined && roleService.checkPermission([3,4,6])) || roleService.checkPermission([1,2,5,7])" (click)="closeDialog(true)" class="btn btn-success">{{"DASHBOARD.save" | translate}}</button></div>
         </div>
     </div>
 </div>

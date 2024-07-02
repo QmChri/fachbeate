@@ -7,6 +7,9 @@ export interface FinalReport {
     id?: number;
     state?: string;
 
+    creator?: string;
+    lastEditor?: string;
+
     technologist?: Technologist;
     representative?: Representative;
     dateOfVisit?: Date;

@@ -197,6 +197,7 @@ export class SeminarRegistrationComponent implements OnInit {
   postWorkshopRequest() {
     if (this.checkRequired()) {
       this.getNotification(1);
+      this.inputWorkshop.showUser = true;
       this.inputWorkshop.reason = "Seminaranmeldung"
       this.inputWorkshop.dateOfCreation = new Date();
 

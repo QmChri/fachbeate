@@ -12,6 +12,7 @@ import java.util.List;
 public class WorkshopRequirement extends PanacheEntity {
 
 
+    public boolean showUser;
     @ManyToMany
     public List<Technologist> requestedTechnologist;
     public Date startDate;
@@ -98,6 +99,8 @@ public class WorkshopRequirement extends PanacheEntity {
     }
 
     public void updateEntity(WorkshopRequirement newEntity){
+        this.showUser = newEntity.showUser;
+
         this.startDate = newEntity.startDate;
         this.endDate = newEntity.endDate;
         this.releaserManagement = newEntity.releaserManagement;

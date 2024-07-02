@@ -138,6 +138,7 @@ export class CustomerRequirementsComponent implements OnInit {
 
     if (this.checkRequired()) {
       this.getNotification(1);
+      this.inputCustomerRequirement.showUser = true;
       this.inputCustomerRequirement.reason = "XXXX"
       this.inputCustomerRequirement.dateOfCreation = new Date();
 

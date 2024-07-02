@@ -95,6 +95,10 @@ export class AbschlussBerichtComponent implements OnInit {
   }
 
   closeDialog(save: boolean) {    
+    this.finalReport.lastEditor = this.roleService.getUserName();
+    if(this.finalReport.creator === undefined){
+      this.finalReport.creator = this.roleService.getUserName();
+    }
     this.dialogRef.close({ finalReport: this.finalReport, save: save });
   }
 

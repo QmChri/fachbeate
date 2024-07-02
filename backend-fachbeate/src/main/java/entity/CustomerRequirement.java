@@ -12,6 +12,7 @@ import java.util.List;
 @Entity
 public class CustomerRequirement extends PanacheEntity {
 
+    public boolean showUser;
     @ManyToOne
     public Technologist requestedTechnologist;
     public Date startDate;
@@ -53,6 +54,8 @@ public class CustomerRequirement extends PanacheEntity {
 
     @Transactional(Transactional.TxType.REQUIRED)
     public void updateEntity(CustomerRequirement newCustomerRequirement){
+        this.showUser = newCustomerRequirement.showUser;
+
         this.startDate = newCustomerRequirement.startDate;
         this.endDate = newCustomerRequirement.endDate;
         this.releaserManagement = newCustomerRequirement.releaserManagement;

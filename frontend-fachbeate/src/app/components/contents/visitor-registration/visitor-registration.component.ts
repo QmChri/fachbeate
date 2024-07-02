@@ -211,8 +211,10 @@ export class VisitorRegistrationComponent implements OnInit {
   }
 
   postVisitorRegistration() {
+    
     this.inputVisitRegistration.creator = this.roleService.getUserName();
     this.getNotification(1);
+    this.inputVisitRegistration.showUser = true;
     this.inputVisitRegistration.reason = "VisitorRegistration"
     this.inputVisitRegistration.plannedDepartmentVisits = []
 

@@ -5,6 +5,9 @@ import { Representative } from "./representative";
 
 export interface VisitorRegistration {
     id?: number;
+    
+    showUser?: boolean;
+
     dateOfCreation?: Date;
 
     name?: string;

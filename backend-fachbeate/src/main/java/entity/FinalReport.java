@@ -13,6 +13,10 @@ import java.util.List;
 public class FinalReport extends PanacheEntity {
     public String state;
 
+    public String creator;
+    public String lastEditor;
+
+
     @ManyToOne
     public Technologist technologist;
     @ManyToOne
@@ -44,6 +48,10 @@ public class FinalReport extends PanacheEntity {
 
     @Transactional(Transactional.TxType.REQUIRED)
     public void updateEntity(FinalReport newFinalReport) {
+        this.creator = newFinalReport.creator;
+        this.lastEditor = newFinalReport.lastEditor;
+
+
         this.state = newFinalReport.state;
         this.dateOfVisit = newFinalReport.dateOfVisit;
         this.company = newFinalReport.company;

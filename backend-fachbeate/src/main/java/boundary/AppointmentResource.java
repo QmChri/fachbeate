@@ -12,6 +12,9 @@ import jakarta.ws.rs.core.Response;
 import org.hibernate.jdbc.Work;
 import org.jboss.logging.Logger;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Path("appointment")
 public class AppointmentResource {
 
@@ -52,11 +55,19 @@ public class AppointmentResource {
         if (user==7) {
             return getCustomerRequirement();
         }else if(user == 4) {
-            return Response.ok(CustomerRequirement.find("requestedTechnologist.firstName = ?1 and requestedTechnologist.lastName = ?2", fullname.split(";")[0], fullname.split(";")[1]).list()).build();
-        }else if(user == 6) {
-            return Response.ok(CustomerRequirement.find("company.username", fullname).list()).build();
-        }else if(user == 3){
-            return Response.ok(CustomerRequirement.find("representative.firstName = ?1 and representative.lastName", fullname.split(";")[0], fullname.split(";")[1]).list()).build();
+            return Response.ok(CustomerRequirement.find("requestedTechnologist.firstName = ?1 and requestedTechnologist.lastName = ?2 and showUser = true",
+                    fullname.split(";")[0], fullname.split(";")[1]).list()).build();
+        } else if(user == 6) {
+            return Response.ok(CustomerRequirement.find(
+                    "company.username = ?1 and showUser = true",
+                            fullname
+                ).list()).build();
+        } else if(user == 3){
+            return Response.ok(CustomerRequirement.find(
+                    "representative.firstName = ?1 and representative.lastName = ?2 and showUser = true",
+                                fullname.split(";")[0],
+                                fullname.split(";")[1]
+                    ).list()).build();
         }
         return Response.ok().build();
     }
@@ -95,12 +106,23 @@ public class AppointmentResource {
         if (user==7) {
             return getWorkshopRequirement();
         }else if(user == 4) {
-            return Response.ok(WorkshopRequirement.find("select work from WorkshopRequirement work join work.requestedTechnologist tech " +
-                    "where tech.firstName = ?1 and tech.lastName = ?2", fullname.split(";")[0], fullname.split(";")[1]).list()).build();
+            return Response.ok(WorkshopRequirement.find(
+                    "select work from WorkshopRequirement work join work.requestedTechnologist tech " +
+                        "where tech.firstName = ?1 and tech.lastName = ?2 and showUser = true",
+                            fullname.split(";")[0],
+                            fullname.split(";")[1]
+                    ).list()).build();
         }else if(user == 6) {
-            return Response.ok(WorkshopRequirement.find("company.username", fullname).list()).build();
+            return Response.ok(WorkshopRequirement.find(
+                    "company.username = ?1 and showUser = true",
+                        fullname
+                    ).list()).build();
         }else if(user == 3){
-            return Response.ok(WorkshopRequirement.find("representative.firstName = ?1 and representative.lastName", fullname.split(";")[0], fullname.split(";")[1]).list()).build();
+            return Response.ok(WorkshopRequirement.find(
+                    "representative.firstName = ?1 and representative.lastName = ?2 and showUser = true",
+                                fullname.split(";")[0],
+                                fullname.split(";")[1]
+                        ).list()).build();
         }
         return Response.ok().build();
     }
@@ -137,9 +159,15 @@ public class AppointmentResource {
         if (user==7) {
             return getVisitorRegistration();
         }else if(user == 6) {
-            return Response.ok(VisitorRegistration.find("creator", fullname).list()).build();
+            return Response.ok(VisitorRegistration.find(
+                    "creator = ?1 and showUser = true", fullname
+                    ).list()).build();
         }else if(user == 3){
-            return Response.ok(VisitorRegistration.find("representative.firstName = ?1 and representative.lastName", fullname.split(";")[0], fullname.split(";")[1]).list()).build();
+            return Response.ok(VisitorRegistration.find(
+                    "representative.firstName = ?1 and representative.lastName = ?2 and showUser = true",
+                            fullname.split(";")[0],
+                            fullname.split(";")[1]
+                    ).list()).build();
         }
         return Response.ok().build();
     }
@@ -183,7 +211,11 @@ public class AppointmentResource {
         if (user==7) {
             return getOtherAppointments();
         }else if(user == 4) {
-            return Response.ok(TechnologistAppointment.find("requestedTechnologist.firstName = ?1 and requestedTechnologist.lastName = ?2", fullname.split(";")[0], fullname.split(";")[1]).list()).build();
+            return Response.ok(TechnologistAppointment.find(
+                    "requestedTechnologist.firstName = ?1 and requestedTechnologist.lastName = ?2",
+                            fullname.split(";")[0],
+                            fullname.split(";")[1]
+                    ).list()).build();
         }
         return Response.ok().build();
     }
@@ -203,11 +235,33 @@ public class AppointmentResource {
         if (user==7) {
             return getFinalReports();
         }else if(user == 4) {
-            return Response.ok(FinalReport.find("technologist", fullname.split(";")[0]+" "+fullname.split(";")[1]).list()).build();
+            return Response.ok(FinalReport.find(
+                    "technologist.firstName = ?1 and technologist.lastName = ?2" +
+                            fullname.split(";")[0],
+                            fullname.split(";")[1]
+                    ).list()).build();
         }else if(user == 6) {
-            //TODO return Response.ok(CustomerRequirement.find("company", fullname).list()).build();
+            List<CustomerRequirement> customerRequirements = CustomerRequirement.find(
+                    "company.username",
+                    fullname
+            ).list();
+
+            List<FinalReport> finalReports = new ArrayList<>();
+            for (CustomerRequirement cr : customerRequirements) {
+                for (CustomerVisit visit : cr.customerVisits) {
+                    if(visit.finalReport != null) {
+                        finalReports.add(visit.finalReport);
+                    }
+                }
+            }
+
+            return Response.ok(finalReports).build();
         }else if(user == 3){
-            return Response.ok(CustomerRequirement.find("representative.firstName = ?1 and representative.lastName",fullname.split(";")[0]+" "+fullname.split(";")[1]).list()).build();
+            return Response.ok(FinalReport.find(
+                    "representative.firstName = ?1 and representative.lastName = ?2",
+                    fullname.split(";")[0],
+                            fullname.split(";")[1]
+                    ).list()).build();
         }
         return Response.ok().build();
     }
@@ -219,8 +273,6 @@ public class AppointmentResource {
     public Response postFinalReport(FinalReport finalReport){
         return Response.ok(finalReport.persistOrUpdate()).build();
     }
-
-
 
     @GET
     @Path("/article")

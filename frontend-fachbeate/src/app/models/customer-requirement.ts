@@ -5,6 +5,8 @@ import { Technologist } from "./technologist";
 
 export interface CustomerRequirement{
     id?: number;
+    showUser?: boolean;
+
     requestedTechnologist?: Technologist;
     startDate?: Date;
     endDate?: Date;

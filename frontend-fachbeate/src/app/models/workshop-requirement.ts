@@ -6,6 +6,8 @@ import { Technologist } from "./technologist";
 export interface WorkshopRequirement{
     id?: number;
     
+    showUser?: boolean;
+
     requestedTechnologist?: Technologist[];
     startDate?: Date;
     endDate?: Date;

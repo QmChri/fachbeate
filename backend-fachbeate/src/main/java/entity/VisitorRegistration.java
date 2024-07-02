@@ -11,7 +11,7 @@ import java.util.List;
 
 @Entity
 public class VisitorRegistration extends PanacheEntity {
-
+    public boolean showUser;
     public String releaserManagement;
     public Date releaseManagement;
 
@@ -81,6 +81,8 @@ public class VisitorRegistration extends PanacheEntity {
     }
 
     public void updateEntity(VisitorRegistration newVisitorRegistration) {
+
+        this.showUser = newVisitorRegistration.showUser;
 
         this.releaserManagement = newVisitorRegistration.releaserManagement;
         this.releaseManagement = newVisitorRegistration.releaseManagement;
