@@ -27,9 +27,9 @@ const routes: Routes = [
   { path: 'create-representative', component: CreateRepresentativeComponent, canActivate: [authGuard], data: { requiredRoles: [1, 7] } },
   { path: 'ab', component: AbschlussBerichtComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 7] } },
   //TODO Berechtigungen für Buchungsanforderungen
-  { path: 'app-booking-request', component: BookingRequestComponent, canActivate: [authGuard], data: { requiredRoles: [7] } },
+  { path: 'app-booking-request', component: BookingRequestComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 3, 4, 5, 6, 7] } },
   { path: 'mainList', component: MainListComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 3, 4, 5, 6, 7] } },
-  { path: '**', redirectTo: 'app-booking-request', pathMatch: 'full' },
+  { path: '**', redirectTo: 'mainList', pathMatch: 'full' },
 ];
 
 @NgModule({

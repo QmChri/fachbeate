@@ -41,7 +41,7 @@ export const navbarData: INavbarData[] = [
         routeLink: 'app-booking-request',
         icon: 'far fa-plane',
         label: 'bookin-request',
-        role: [7]
+        role: [1, 2, 3, 4, 5, 6, 7]
     },
     {
         routeLink: "",

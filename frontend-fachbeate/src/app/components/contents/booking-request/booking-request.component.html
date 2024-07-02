@@ -1,25 +1,28 @@
 <div class="header">
     <div>
-        <h1 class="paddingSearch" style="margin-bottom: 0;">{{"Buchungsanforderung" | translate}}
+        <h1 class="paddingSearch" style="margin-bottom: 0;">{{"BOOKING_REQUEST.bookingRequest" | translate}}
         </h1>
     </div>
     <div>
-        <button *ngIf="roleService.checkPermission([1,7])" style="margin-right: 2rem;" nz-button nzType="primary"
-            nz-popconfirm nzPopconfirmShowArrow="false" [nzIcon]="iconTpl"
+        <button [disabled]="booking.releaseManagement !== null && booking.releaseManagement !== undefined"
+            (nzOnConfirm)="release('gl')" *ngIf="roleService.checkPermission([1,7])" style="margin-right: 2rem;"
+            nz-button nzType="primary" nz-popconfirm nzPopconfirmShowArrow="false" [nzIcon]="iconTpl"
             [nzCancelText]="'DASHBOARD.cancel' | translate" [nzOkText]="'STANDARD.ok' | translate"
             [nzPopconfirmTitle]="'STANDARD.are_you_sure' | translate">
             <ng-template #iconTpl></ng-template>
             {{"CUSTOMER_REQUIREMENTS.approval_gl" | translate}}
         </button>
-        <button *ngIf="roleService.checkPermission([1,2,7])" style="margin-right: 2rem;" nz-button nzType="primary"
-            nz-popconfirm nzPopconfirmShowArrow="false" [nzIcon]="iconTpl"
+        <button [disabled]="booking.releaseSupervisor !== null && booking.releaseSupervisor !== undefined"
+            (nzOnConfirm)="release('al')" *ngIf="roleService.checkPermission([1,2,7])" style="margin-right: 2rem;"
+            nz-button nzType="primary" nz-popconfirm nzPopconfirmShowArrow="false" [nzIcon]="iconTpl"
             [nzCancelText]="'DASHBOARD.cancel' | translate" [nzOkText]="'STANDARD.ok' | translate"
             [nzPopconfirmTitle]="'STANDARD.are_you_sure' | translate">
             <ng-template #iconTpl></ng-template>
             {{"CUSTOMER_REQUIREMENTS.approval_al" | translate}}
         </button>
     </div>
-    <button class="btn btn-success" *ngIf="roleService.checkPermission([1,2,5,7])"
+    <button class="btn btn-success"
+        *ngIf="(booking.creator === undefined && roleService.checkPermission([3,4,6])) || roleService.checkPermission([1,2,5,7])"
         (click)="postBooking()">{{'CUSTOMER_REQUIREMENTS.send_form' |
         translate}}</button>
 </div>
@@ -28,18 +31,17 @@
 <div class="row">
     <div class="col-md-6 paddingBottom">
         <div class="card">
-            <div class="card-header  text-white bg-danger">{{"CUSTOMER_REQUIREMENTS.requirements_by" |
-                translate}}
+            <div class="card-header  text-white bg-danger">{{"BOOKING_REQUEST.businessTripBookingRequest" | translate}}
             </div>
             <div class="card-body" style="min-height: 15.3rem;">
                 <div class="center-items">
                     <div class="displayBySide">
                         <mat-form-field class="smallInputSide">
-                            <mat-label>{{"Name Mitarbeiter" | translate}}</mat-label>
+                            <mat-label>{{"BOOKING_REQUEST.employeeNameAndCompany" | translate}}</mat-label>
                             <input matInput>
                         </mat-form-field>
                         <mat-form-field class="smallInputSide">
-                            <mat-label>{{"Grund Reise" | translate}}</mat-label>
+                            <mat-label>{{"BOOKING_REQUEST.reasonForTrip" | translate}}</mat-label>
                             <input matInput>
                         </mat-form-field>
                     </div>
@@ -57,11 +59,11 @@
                             }
                         </mat-form-field>
                         <mat-form-field class="flightBookingInput">
-                            <mat-label>{{"Kostenübernahme"|translate}}</mat-label>
+                            <mat-label>{{"BOOKING_REQUEST.costCoverage"|translate}}</mat-label>
                             <mat-select>
                                 <mat-option>--</mat-option>
-                                <mat-option [value]="true">{{"Almi Gmbh"|translate}}</mat-option>
-                                <mat-option [value]="true">{{"Almi Tochter"|translate}}</mat-option>
+                                <mat-option [value]="true">{{"BOOKING_REQUEST.almiGmbH"|translate}}</mat-option>
+                                <mat-option [value]="true">{{"BOOKING_REQUEST.almiSubsidiary"|translate}}</mat-option>
                             </mat-select>
                             @if (bookingControl.hasError('required')) {
                             <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
@@ -76,12 +78,14 @@
         <div class="card" style="min-height: 15.4rem;">
             <div class="card-header text-white bg-danger">{{'VISITOR_REGRISTRATION.additional_requirements' |
                 translate}}</div>
-            <mat-button-toggle-group [(ngModel)]="buttonSelect" (valueChange)="changeSelections()" vertical multiple>
-                <mat-button-toggle value="1">{{'Flug Buchung Gabelflüge' | translate}}</mat-button-toggle>
-                <mat-button-toggle value="2">{{'Flug Buchung Hin- / Retour' | translate}}</mat-button-toggle>
-                <mat-button-toggle value="3">{{'Buchung Zugticket' | translate}}</mat-button-toggle>
-                <mat-button-toggle value="4">{{'Hotelbuchung' | translate}}</mat-button-toggle>
-                <mat-button-toggle value="5">{{'Leihwagen Buchung' | translate}}</mat-button-toggle>
+            <mat-button-toggle-group [(ngModel)]="buttonSelect"  vertical
+                multiple>
+                <mat-button-toggle value="1">{{'BOOKING_REQUEST.flightBookingMultiLeg' | translate}}</mat-button-toggle>
+                <mat-button-toggle value="2">{{'BOOKING_REQUEST.flightBookingRoundTrip' |
+                    translate}}</mat-button-toggle>
+                <mat-button-toggle value="3">{{'BOOKING_REQUEST.trainTicketBooking' | translate}}</mat-button-toggle>
+                <mat-button-toggle value="4">{{'CUSTOMER_REQUIREMENTS.hotel_booking' | translate}}</mat-button-toggle>
+                <mat-button-toggle value="5">{{'BOOKING_REQUEST.carRental' | translate}}</mat-button-toggle>
             </mat-button-toggle-group>
         </div>
     </div>
@@ -91,23 +95,24 @@
         <div class="row">
             <div class="col-md-6 paddingBottom" *ngIf="buttonSelect.includes('2')">
                 <div class="card">
-                    <div class="card-header bg-danger text-white">{{'Flug Buchung Hin- / Retour' | translate}}</div>
+                    <div class="card-header bg-danger text-white">{{'BOOKING_REQUEST.flightBookingRoundTrip' |
+                        translate}}</div>
                     <div class="card-body">
                         <div class="center-items">
                             <mat-form-field>
-                                <mat-label>{{'Von Flughafen' | translate}}</mat-label>
+                                <mat-label>{{'BOOKING_REQUEST.fromAirport' | translate}}</mat-label>
                                 <input matInput>
                             </mat-form-field>
                             <mat-form-field>
-                                <mat-label>{{'Alternativer Flughafen' | translate}}</mat-label>
+                                <mat-label>{{'BOOKING_REQUEST.alternativeAirport' | translate}}</mat-label>
                                 <input matInput>
                             </mat-form-field>
                             <mat-form-field>
-                                <mat-label>{{'Nach Flughafen' | translate}}</mat-label>
+                                <mat-label>{{'BOOKING_REQUEST.toAirport' | translate}}</mat-label>
                                 <input matInput>
                             </mat-form-field>
                             <mat-form-field>
-                                <mat-label>{{'Alternativer Flughafen' | translate}}</mat-label>
+                                <mat-label>{{'BOOKING_REQUEST.alternativeAirport' | translate}}</mat-label>
                                 <input matInput>
                             </mat-form-field>
                         </div>
@@ -116,23 +121,24 @@
             </div>
             <div class="col-md-6 paddingBottom" *ngIf="buttonSelect.includes('3')">
                 <div class="card">
-                    <div class="card-header bg-danger text-white">{{'Buchung Zugticket' | translate}}</div>
-                    <div class="card-body" >
+                    <div class="card-header bg-danger text-white">{{'BOOKING_REQUEST.trainTicketBooking' | translate}}
+                    </div>
+                    <div class="card-body">
                         <div class="center-items">
                             <mat-form-field>
-                                <mat-label>{{'Von Bahnhof' | translate}}</mat-label>
+                                <mat-label>{{'BOOKING_REQUEST.fromTrainStation' | translate}}</mat-label>
                                 <input matInput>
                             </mat-form-field>
                             <mat-form-field>
-                                <mat-label>{{'Alternative' | translate}}</mat-label>
+                                <mat-label>{{'BOOKING_REQUEST.alternativeAirport' | translate}}</mat-label>
                                 <input matInput>
                             </mat-form-field>
                             <mat-form-field>
-                                <mat-label>{{'Nach Bahnhof' | translate}}</mat-label>
+                                <mat-label>{{'BOOKING_REQUEST.toTrainStation' | translate}}</mat-label>
                                 <input matInput>
                             </mat-form-field>
                             <mat-form-field>
-                                <mat-label>{{'Alternative' | translate}}</mat-label>
+                                <mat-label>{{'BOOKING_REQUEST.alternativeAirport' | translate}}</mat-label>
                                 <input matInput>
                             </mat-form-field>
                         </div>
@@ -141,11 +147,12 @@
             </div>
             <div class="col-md-6 paddingBottom" *ngIf="buttonSelect.includes('4')">
                 <div class="card">
-                    <div class="card-header bg-danger text-white">{{'Hotelbuchung' | translate}}</div>
-                    <div class="card-body" >
+                    <div class="card-header bg-danger text-white">{{'CUSTOMER_REQUIREMENTS.hotel_booking' | translate}}
+                    </div>
+                    <div class="card-body">
                         <div class="center-items">
                             <mat-form-field>
-                                <mat-label>{{'Ort und gewünschte lage' | translate}}</mat-label>
+                                <mat-label>{{'BOOKING_REQUEST.locationAndDesiredArea' | translate}}</mat-label>
                                 <input matInput>
                             </mat-form-field>
                             <mat-form-field class="smallInputSpecial">
@@ -167,11 +174,11 @@
             </div>
             <div class="col-md-6 paddingBottom" *ngIf="buttonSelect.includes('5')">
                 <div class="card">
-                    <div class="card-header bg-danger text-white">{{'Leihwagen Buchung' | translate}}</div>
-                    <div class="card-body" >
+                    <div class="card-header bg-danger text-white">{{'BOOKING_REQUEST.carRental' | translate}}</div>
+                    <div class="card-body">
                         <div class="center-items">
                             <mat-form-field>
-                                <mat-label>{{'Ort Abholung und Rückgabe' | translate}}</mat-label>
+                                <mat-label>{{'BOOKING_REQUEST.pickupAndReturnLocation' | translate}}</mat-label>
                                 <input matInput>
                             </mat-form-field>
                             <mat-form-field class="smallInputSpecial">
@@ -195,14 +202,14 @@
     </div>
     <div class="col-5 paddingBottom">
         <div class="card paddingBottom" *ngIf="buttonSelect.includes('1')">
-            <div class="card-header text-white bg-danger paddingSearch">{{'Flug Buchung Gabelflüge' |
+            <div class="card-header text-white bg-danger paddingSearch">{{'BOOKING_REQUEST.flightBookingMultiLeg' |
                 translate}} </div>
             <div class="card-body">
                 @for (flightBooking of booking.flightBookings; track flightBooking; let index = $index)
                 {
                 <div class="displayBySide">
                     <div class="flightBookingInput">
-                        <h2>{{index+1}}. {{'Flug' | translate}}</h2>
+                        <h2>{{index+1}}. {{'BOOKING_REQUEST.flight' | translate}}</h2>
                     </div>
                     <mat-form-field class="flightBookingInput">
                         <mat-label>{{"DASHBOARD.from" | translate}}</mat-label>
@@ -214,21 +221,21 @@
                 <div class="center-items">
                     <div class="displayBySide">
                         <mat-form-field class="flightBookingInput">
-                            <mat-label>{{'Von Flughafen' | translate}}</mat-label>
+                            <mat-label>{{'BOOKING_REQUEST.fromAirport' | translate}}</mat-label>
                             <input matInput>
                         </mat-form-field>
                         <mat-form-field class="flightBookingInput">
-                            <mat-label>{{'Alternative' | translate}}</mat-label>
+                            <mat-label>{{'BOOKING_REQUEST.alternativeAirport' | translate}}</mat-label>
                             <input matInput>
                         </mat-form-field>
                     </div>
                     <div class="displayBySide">
                         <mat-form-field class="flightBookingInput">
-                            <mat-label>{{'Nach Flughafen' | translate}}</mat-label>
+                            <mat-label>{{'BOOKING_REQUEST.toAirport' | translate}}</mat-label>
                             <input matInput>
                         </mat-form-field>
                         <mat-form-field class="flightBookingInput">
-                            <mat-label>{{'Alternative' | translate}}</mat-label>
+                            <mat-label>{{'BOOKING_REQUEST.alternativeAirport' | translate}}</mat-label>
                             <input matInput>
                         </mat-form-field>
                     </div>
@@ -236,11 +243,11 @@
                 <div class="center-items">
                     <div class="displayBySide">
                         <mat-form-field class="flightBookingInput">
-                            <mat-label>{{"Bevorzugte Zeit "|translate}}</mat-label>
+                            <mat-label>{{"BOOKING_REQUEST.preferredTime"|translate}}</mat-label>
                             <mat-select>
-                                <mat-option [value]="1">{{"Morgens"|translate}}</mat-option>
-                                <mat-option [value]="2">{{"Mittags"|translate}}</mat-option>
-                                <mat-option [value]="3">{{"Abends"|translate}}</mat-option>
+                                <mat-option [value]="1">{{"BOOKING_REQUEST.morning"|translate}}</mat-option>
+                                <mat-option [value]="2">{{"BOOKING_REQUEST.noon"|translate}}</mat-option>
+                                <mat-option [value]="3">{{"BOOKING_REQUEST.evening"|translate}}</mat-option>
                             </mat-select>
                             @if (bookingControl.hasError('required')) {
                             <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
@@ -248,11 +255,11 @@
                         </mat-form-field>
                         <div class="displayBySide flightBookingInput">
                             <mat-form-field class="TIME">
-                                <mat-label>{{'Gepäck' | translate}}</mat-label>
+                                <mat-label>{{'BOOKING_REQUEST.luggageQuantity' | translate}}</mat-label>
                                 <input min="0" type="number" matInput>
                             </mat-form-field>
                             <mat-form-field class="TIME">
-                                <mat-label>{{'Kg' | translate}}</mat-label>
+                                <mat-label>{{'BOOKING_REQUEST.weightKg' | translate}}</mat-label>
                                 <input min="0" type="number" matInput>
                             </mat-form-field>
                         </div>

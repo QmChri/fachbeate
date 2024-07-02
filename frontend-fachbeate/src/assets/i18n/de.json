@@ -38,7 +38,12 @@
         "assigned_representative": "Vertreter* & Fachberater* & Von - Bis*",
         "assigned_repre_cons": "Händler/Töchter* & Vertreter* & Fachberater* & Von - Bis*",
         "are_you_sure": "Sind Sie sicher?",
-        "ok": "OK"
+        "ok": "OK",
+        "almi": "Almi",
+        "advisor_type": "Fachberater A.",
+        "seminar": "Seminar",
+        "visit": "Besuch",
+        "follow_up": "Nacharbeit"
     },
     "DASHBOARD": {
         "advisor_schedule_overview": "Terminübersicht Fachberater",
@@ -220,5 +225,34 @@
         "enter_here": "Hier eingeben",
         "delete_securely": "Sicher löschen",
         "user_name": "Benutzername"
+    },
+    "BOOKING_REQUEST": {
+      "bookingRequest": "Buchungsanforderung",
+      "businessTripBookingRequest": "Buchungsanforderung für Geschäftsreise",
+      "booking": "Buchung",
+      "employeeNameAndCompany": "Name Mitarbeiter + Firma",
+      "reasonForTrip": "Grund Reise",
+      "costCoverage": "Kostenübernahme",
+      "almiGmbH": "Almi Gmbh",
+      "almiSubsidiary": "Almi Tochter",
+      "flightBookingRoundTrip": "Flug Buchung Hin- / Retour",
+      "fromAirport": "Von Flughafen",
+      "alternativeAirport": "Alternativer Flughafen",
+      "toAirport": "Nach Flughafen",
+      "trainTicketBooking": "Buchung Zugticket",
+      "fromTrainStation": "Von Bahnhof",
+      "toTrainStation": "Nach Bahnhof",
+      "alternativeTrainStation": "Alternativer Bahnhof",
+      "flightBookingMultiLeg": "Flug Buchung Gabelflüge",
+      "flight": "Flug",
+      "preferredTime": "Bevorzugte Zeit",
+      "morning": "Morgens",
+      "noon": "Mittags",
+      "evening": "Abends",
+      "luggageQuantity": "Gepäck (Anzahl)",
+      "weightKg": "Gewicht (kg)",
+      "locationAndDesiredArea": "Ort und gewünschte Lage",
+      "pickupAndReturnLocation": "Ort Abholung und Rückgabe",
+      "carRental":"Leihwagen Buchung"
     }
 }
