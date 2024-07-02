@@ -62,6 +62,7 @@ import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { initializer } from './initializer.service';
 import { NzColorPickerModule } from 'ng-zorro-antd/color-picker';
+import { BookingRequestComponent } from './components/contents/booking-request/booking-request.component';
 
 
 @NgModule({
@@ -82,6 +83,7 @@ import { NzColorPickerModule } from 'ng-zorro-antd/color-picker';
     TeilnehmerListeComponent,
     CreateRepresentativeComponent,
     CreateDealerComponent,
+    BookingRequestComponent
   ],
   imports: [
     MatTooltipModule,

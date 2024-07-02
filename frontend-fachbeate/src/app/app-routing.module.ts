@@ -11,6 +11,7 @@ import { AbschlussBerichtListComponent } from './components/contents/abschluss-b
 import { CreateDealerComponent } from './components/contents/creation-sites/create-dealer/create-dealer.component';
 import { CreateRepresentativeComponent } from './components/contents/creation-sites/create-representative/create-representative.component';
 import { authGuard } from './services/auth.service';
+import { BookingRequestComponent } from './components/contents/booking-request/booking-request.component';
 
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 4, 5, 7] } },
@@ -25,8 +26,10 @@ const routes: Routes = [
   { path: 'create-dealer', component: CreateDealerComponent, canActivate: [authGuard], data: { requiredRoles: [1, 7] } },
   { path: 'create-representative', component: CreateRepresentativeComponent, canActivate: [authGuard], data: { requiredRoles: [1, 7] } },
   { path: 'ab', component: AbschlussBerichtComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 7] } },
+  //TODO Berechtigungen für Buchungsanforderungen
+  { path: 'app-booking-request', component: BookingRequestComponent, canActivate: [authGuard], data: { requiredRoles: [7] } },
   { path: 'mainList', component: MainListComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 3, 4, 5, 6, 7] } },
-  { path: '**', redirectTo: 'mainList', pathMatch: 'full' },
+  { path: '**', redirectTo: 'app-booking-request', pathMatch: 'full' },
 ];
 
 @NgModule({
