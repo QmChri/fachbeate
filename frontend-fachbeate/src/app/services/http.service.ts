@@ -151,4 +151,8 @@ export class HttpService {
     return this.http.get<Article[]>(API_URL + "appointment/article");
   }
 
+  changeVisiblility(type: number, id: number):Observable<Boolean>{
+    return this.http.get<Boolean>(API_URL + "appointment/visibility", {params: {type: type, id: id}})
+  }
+
 }

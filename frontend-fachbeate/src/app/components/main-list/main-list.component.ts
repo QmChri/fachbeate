@@ -238,7 +238,7 @@ export class MainListComponent implements OnInit {
             customer: "<Leer>",
             abschlussbericht: cntFinalReports + "/" + element.customerVisits.length,
             type: 0,
-            visible: true
+            visible: element.showUser!
           }];
         });
         this.getNzFilters();
@@ -273,7 +273,7 @@ export class MainListComponent implements OnInit {
             customer: element.customer!,
             abschlussbericht: 'false',
             type: 1,
-            visible: true
+            visible: element.showUser!
           }];
 
         });
@@ -302,7 +302,7 @@ export class MainListComponent implements OnInit {
             customer: "<Leer>",
             abschlussbericht: "<Leer>",
             type: 2,
-            visible: true
+            visible: element.showUser!
           }];
         });
         this.getNzFilters();
@@ -362,6 +362,9 @@ export class MainListComponent implements OnInit {
   }
 
   changeEditable(data: any) {
+    
+    this.http.changeVisiblility(data.type, data.id).subscribe();
+
     if (!data.visible) {
       data.visible = true
     }

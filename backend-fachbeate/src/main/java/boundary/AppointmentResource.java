@@ -4,10 +4,7 @@ import entity.*;
 import io.quarkus.security.Authenticated;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 import org.hibernate.jdbc.Work;
 import org.jboss.logging.Logger;
@@ -278,5 +275,28 @@ public class AppointmentResource {
     @Path("/article")
     @Authenticated
     public Response getArticles(){return Response.ok(Article.listAll()).build();}
+
+
+    @GET
+    @Path("/visibility")
+    @Authenticated
+    @Transactional
+    public Response changeVisibility(@QueryParam("type") int type, @QueryParam("id") int id){
+        if(type == 0){
+            CustomerRequirement cr = CustomerRequirement.findById(id);
+            cr.showUser = !cr.showUser;
+            return Response.ok(true).build();
+        }else if(type == 1){
+            WorkshopRequirement wr = WorkshopRequirement.findById(id);
+            wr.showUser = !wr.showUser;
+            return Response.ok(true).build();
+        }else if(type == 2){
+            VisitorRegistration vr = VisitorRegistration.findById(id);
+            vr.showUser = !vr.showUser;
+            return Response.ok(true).build();
+        }
+
+        return Response.ok().build();
+    }
 
 }
