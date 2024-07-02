@@ -150,7 +150,7 @@
                     <div class="card-body">
                         <div class="center-items">
                             <div class="header">
-                                <mat-form-field class="smallInputSide" *ngIf="roleService.checkPermission([1,2,4])">
+                                <mat-form-field class="smallInputSide" *ngIf="roleService.checkPermission([1,2,4,7])">
                                     <mat-label>{{"ABSCHLUSSBERICHT.advisor_follow_up" | translate}}</mat-label>
                                     <mat-select required [placeholder]="'STANDARD.please_select' | translate"
                                         [(ngModel)]="inputFinalReport.reworkByTechnologist" name="reworkByTechnologist">
@@ -158,7 +158,7 @@
                                         <mat-option [value]="false">{{"SEMINAR_REGRISTRATION.no" | translate}}</mat-option>
                                     </mat-select>
                                 </mat-form-field>
-                                <mat-form-field class="smallInputSide" *ngIf="roleService.checkPermission([1,3,6])">
+                                <mat-form-field class="smallInputSide" *ngIf="roleService.checkPermission([1,3,6,7])">
                                     <mat-label>{{"ABSCHLUSSBERICHT.representative_follow_up" | translate}}</mat-label>
                                     <mat-select required [placeholder]="'STANDARD.please_select' | translate"
                                         [(ngModel)]="inputFinalReport.reworkByRepresentative"
@@ -168,7 +168,7 @@
                                     </mat-select>
                                 </mat-form-field>
                             </div>
-                            <div class="header" *ngIf="inputFinalReport.reworkByTechnologist">
+                            <div class="header" *ngIf="inputFinalReport.reworkByTechnologist && roleService.checkPermission([1,2,4,7])">
                                 <mat-form-field class="smallInputSide">
                                     <mat-label>{{"ABSCHLUSSBERICHT.to_be_done_by" | translate}}</mat-label>
                                     <input matInput [matDatepicker]="picker5" type="text"
@@ -182,7 +182,7 @@
                                     <input matInput type="text" [(ngModel)]="inputFinalReport.state" name="state">
                                 </mat-form-field>
                             </div>
-                            <mat-form-field *ngIf="inputFinalReport.reworkByRepresentative">
+                            <mat-form-field *ngIf="inputFinalReport.reworkByRepresentative && roleService.checkPermission([1,3,6,7])">
                                 <mat-label>{{"ABSCHLUSSBERICHT.to_be_done_by" | translate}}</mat-label>
                                 <input matInput [matDatepicker]="picker6" type="text"
                                     [(ngModel)]="inputFinalReport.reworkByRepresentativeDoneUntil"
@@ -367,7 +367,15 @@
         </div>
         <div class="header">
             <div> <button (click)="closeDialog(false)" class="btn btn-secondary">{{"DASHBOARD.cancel" | translate}}</button></div>
-            <div> <button *ngIf="(inputFinalReport.creator === undefined && roleService.checkPermission([3,4,6])) || roleService.checkPermission([1,2,5,7])" (click)="closeDialog(true)" class="btn btn-success">{{"DASHBOARD.save" | translate}}</button></div>
+            <div> 
+                <button *ngIf="(inputFinalReport.creator === undefined && roleService.checkPermission([3,4,6])) 
+                || (!inputFinalReport.representativeEntered && roleService.checkPermission([3]))
+                || (!inputFinalReport.technologistEntered && roleService.checkPermission([4]))
+                || (roleService.checkPermission([1,2,5,7]))" 
+                (click)="closeDialog(true)" class="btn btn-success">
+                {{"DASHBOARD.save" | translate}}
+                </button>
+            </div>
         </div>
     </div>
 </div>

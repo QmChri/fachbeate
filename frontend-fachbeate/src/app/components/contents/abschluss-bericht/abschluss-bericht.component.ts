@@ -99,6 +99,13 @@ export class AbschlussBerichtComponent implements OnInit {
     if(this.finalReport.creator === undefined){
       this.finalReport.creator = this.roleService.getUserName();
     }
+    
+    if(this.roleService.checkPermission([3])){
+      this.finalReport.representativeEntered = true;
+    }else if(this.roleService.checkPermission([4])){
+      this.finalReport.technologistEntered = true;
+    }
+
     this.dialogRef.close({ finalReport: this.finalReport, save: save });
   }
 

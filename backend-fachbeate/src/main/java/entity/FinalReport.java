@@ -14,6 +14,8 @@ public class FinalReport extends PanacheEntity {
     public String state;
 
     public String creator;
+    public boolean technologistEntered;
+    public boolean representativeEntered;
     public String lastEditor;
 
 
@@ -50,6 +52,9 @@ public class FinalReport extends PanacheEntity {
     public void updateEntity(FinalReport newFinalReport) {
         this.creator = newFinalReport.creator;
         this.lastEditor = newFinalReport.lastEditor;
+
+        this.technologistEntered = newFinalReport.technologistEntered;
+        this.representativeEntered = newFinalReport.representativeEntered;
 
 
         this.state = newFinalReport.state;

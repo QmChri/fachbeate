@@ -8,6 +8,8 @@ export interface FinalReport {
     state?: string;
 
     creator?: string;
+    representativeEntered?: boolean;
+    technologistEntered?: boolean;
     lastEditor?: string;
 
     technologist?: Technologist;
