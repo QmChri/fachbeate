@@ -1,0 +1,26 @@
+<h1>{{"Fachberater Dashboard" | translate}}</h1>
+<hr>
+<nz-progress [nzPercent]="99.9" [nzStrokeColor]="{ '0%': '#108ee9', '100%': '#87d068' }"></nz-progress>
+<nz-progress [nzPercent]="99.9" [nzStrokeColor]="{ '0%': '#108ee9', '100%': '#87d068' }" nzStatus="active"></nz-progress>
+<div class="row header">
+    <div>
+
+        <nz-progress nzType="circle" [nzPercent]="90"
+            [nzStrokeColor]="{ '0%': '#108ee9', '50%': '#2db7f5', '100%': '#87d068' }"></nz-progress>
+        <nz-progress nzType="dashboard" [nzPercent]="100"
+            [nzStrokeColor]="{ '0%': '#108ee9', '100%': '#87d068' }"></nz-progress>
+    </div>
+    <div>
+        <nz-progress [nzPercent]="75" nzType="circle"></nz-progress>
+        <nz-progress [nzPercent]="70" nzType="circle" nzStatus="exception"></nz-progress>
+        <nz-progress [nzPercent]="100" nzType="circle"></nz-progress>
+    </div>
+</div>
+
+<div>
+    <nz-progress [nzPercent]="30"></nz-progress>
+    <nz-progress [nzPercent]="50" nzStatus="active"></nz-progress>
+    <nz-progress [nzPercent]="70" nzStatus="exception"></nz-progress>
+    <nz-progress [nzPercent]="100"></nz-progress>
+    <nz-progress [nzPercent]="50" [nzShowInfo]="false"></nz-progress>
+</div>

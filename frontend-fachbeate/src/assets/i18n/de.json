@@ -10,7 +10,9 @@
         "new-tech": "Neuer Fachberater",
         "new-re": "Neuer Vertreter",
         "new-de": "Neuer Händler",
-        "lan-sel": "Sprach Auswahl"
+        "lan-sel": "Sprach Auswahl",
+        "bookingRequest": "Buchungsanforderung für Geschäftsreise",
+        "dashboard": "Dashboard"
     },
     "STANDARD": {
         "please_select": "Bitte auswählen",

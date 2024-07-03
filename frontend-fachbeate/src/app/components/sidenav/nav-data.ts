@@ -2,52 +2,58 @@ import { INavbarData } from "./helper";
 
 export const navbarData: INavbarData[] = [
     {
-        routeLink: 'dashboard',
+        routeLink: 'calendar',
         icon: 'far fa-calendar-alt',
         label: 'date-view',
-        role: [1,2,4,5,7]
+        role: [1, 2, 4, 5, 7]
     },
     {
         routeLink: 'mainList',
         icon: 'fal fa-list',
         label: 'MAIN-LIST',
-        role: [1,2,3,4,5,6,7]
+        role: [1, 2, 3, 4, 5, 6, 7]
     },
     {
         routeLink: 'customer-requirements',
         icon: 'fas fa-envelope-open-text',
         label: 'req-tech',
-        role: [1,2,3,4,6,7]
+        role: [1, 2, 3, 4, 6, 7]
     },
     {
         routeLink: 'visitorRegistration',
         icon: 'fal fa-users',
         label: 'req-visitors',
-        role: [1,2,3,5,6,7]
+        role: [1, 2, 3, 5, 6, 7]
     },
     {
         routeLink: 'seminar-registration',
         icon: 'fal fa-book',
         label: 'req-workshop',
-        role: [1,2,3,5,6,7]
+        role: [1, 2, 3, 5, 6, 7]
     },
     {
-        routeLink: 'app-abschluss-bericht-list',
+        routeLink: 'abschluss-bericht-list',
         icon: 'fal fa-clipboard-list',
         label: 'final-reports',
-        role: [1,2,3,4,6,7]
+        role: [1, 2, 3, 4, 6, 7]
     },
     {
-        routeLink: 'app-booking-request',
+        routeLink: 'booking-request',
         icon: 'far fa-plane',
-        label: 'bookin-request',
+        label: 'bookingRequest',
+        role: [1, 2, 3, 4, 5, 6, 7]
+    },
+    {
+        routeLink: 'dashboard',
+        icon: 'fal fa-chart-line',
+        label: 'dashboard',
         role: [1, 2, 3, 4, 5, 6, 7]
     },
     {
         routeLink: "",
         icon: 'fal fa-user-plus',
         label: 'new',
-        role: [1,7],
+        role: [1, 7],
         items: [
             {
                 routeLink: 'create-technologist',

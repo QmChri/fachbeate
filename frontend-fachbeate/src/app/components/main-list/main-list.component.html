@@ -51,7 +51,7 @@
         [nzFilters]="listOfColumn[9].listOfFilter" [nzFilterFn]="listOfColumn[9].filterFn!">
         {{'MAIN_LIST.'+listOfColumn[9].name|
         translate}}</th>
-      <th *ngIf="roleService.checkPermission([1,2,7])"></th>
+      <th *ngIf="roleService.checkPermission([1,2,7])">Aktiv/Inaktiv</th>
     </tr>
   </thead>
   <tbody>
@@ -77,7 +77,7 @@
         <span>{{ ((data.type === 0) ? 'MAIN_LIST.advisor_type' : (data.type === 1) ? 'MAIN_LIST.seminar':
           'MAIN_LIST.visit') | translate }}</span>
       </td>
-      <td *ngIf="roleService.checkPermission([1,2,7])">
+      <td style="display: flex; flex-direction: row; justify-content: space-around" *ngIf="roleService.checkPermission([1,2,7])">
         <button class="btn btn-success" (click)="changeEditable(data)">
           <div *ngIf="data.visible; else notVisible">
             <i class="fas fa-eye"></i>

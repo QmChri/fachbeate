@@ -8,6 +8,8 @@ import { NzNotificationPlacement, NzNotificationService } from 'ng-zorro-antd/no
 import { RoleService } from '../../../services/role.service';
 import { Technologist } from '../../../models/technologist';
 import { Representative } from '../../../models/representative';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
 
 @Component({
   selector: 'app-abschluss-bericht',
@@ -20,16 +22,17 @@ export class AbschlussBerichtComponent implements OnInit {
   existingArticles: Article[] = []
   technologists: Technologist[] = [];
   representative: Representative[] = [];
+  fileList: NzUploadFile[] = [];
 
- constructor(public roleService: RoleService,private notification: NzNotificationService,
+  constructor(private msg: NzMessageService, public roleService: RoleService, private notification: NzNotificationService,
     public dialogRef: MatDialogRef<AbschlussBerichtComponent>,
     @Inject(MAT_DIALOG_DATA) public finalReport: FinalReport,
     private http: HttpService
   ) {
     this.inputFinalReport = finalReport;
-   
 
-    if (finalReport.reasonReports !== undefined) {      
+
+    if (finalReport.reasonReports !== undefined) {
       this.inputFinalReport.reasonReports = this.inputFinalReport.reasonReports!.filter(element => element.reason !== 0);
       this.reasonSelect = this.inputFinalReport.reasonReports!.map(element => element.reason)
         .filter((reason): reason is number => reason !== undefined);
@@ -94,7 +97,7 @@ export class AbschlussBerichtComponent implements OnInit {
     }
   }
 
-  closeDialog(save: boolean) {    
+  closeDialog(save: boolean) {
     this.dialogRef.close({ finalReport: this.finalReport, save: save });
   }
 
@@ -107,7 +110,6 @@ export class AbschlussBerichtComponent implements OnInit {
     this.inputFinalReport.reasonReports?.find(element => element.reason === reason)?.presentedArticle.pop();
   }
 
-  
   getTechnologist() {
     this.http.getActiveTechnologist().subscribe({
       next: data => {
@@ -138,4 +140,17 @@ export class AbschlussBerichtComponent implements OnInit {
     this.inputFinalReport.representative = this.representative.find(elemnt => elemnt.id === $event);
   }
 
+  beforeUpload = (file: NzUploadFile): boolean => {
+    if (this.fileList.length >= 10) {
+      this.msg.error('You can only upload up to 10 files.');
+      return false;
+    }
+    this.fileList = [...this.fileList, file];
+    return false;
+  };
+
+  handleChange(info: { file: NzUploadFile, fileList: NzUploadFile[] }): void {
+    const fileList = info.fileList.slice(-10);
+    this.fileList = fileList;
+  }
 }
