@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 public class Representative extends PanacheEntity {
     public String firstName;
     public String lastName;
+    public String email;
 
     public boolean active;
 
@@ -14,6 +15,7 @@ public class Representative extends PanacheEntity {
         this.firstName = newRepresentative.firstName;
         this.lastName = newRepresentative.lastName;
         this.active = newRepresentative.active;
+        this.email = newRepresentative.email;
     }
 
     public Representative persistOrUpdate(){

@@ -14,6 +14,7 @@ export class CreateRepresentativeComponent implements OnInit {
     id: 0,
     firstName: "",
     lastName: "",
+    email: "",
     active: true,
   }
   representativeList: Representative[] = [];
@@ -55,6 +56,7 @@ export class CreateRepresentativeComponent implements OnInit {
           id: this.inputRepresentative.id!,
           firstName: this.inputRepresentative.firstName!,
           lastName: this.inputRepresentative.lastName,
+          email: this.inputRepresentative.email,
           active: this.inputRepresentative.active
         }).subscribe({
           next: data => {
@@ -62,6 +64,7 @@ export class CreateRepresentativeComponent implements OnInit {
               id: 0,
               firstName: "",
               lastName: "",
+              email: "",
               active: true
             }
 
@@ -80,15 +83,17 @@ export class CreateRepresentativeComponent implements OnInit {
       id: 0,
       firstName: "",
       lastName: "",
+      email: "",
       active: true,
     }
   }
 
   editRow(id: number, type: number) {
     const representative: Representative = this.representativeList.find(element => element.id === id)!;
-    this.inputRepresentative.firstName = representative.firstName;
     this.inputRepresentative.id = representative.id;
+    this.inputRepresentative.firstName = representative.firstName;
     this.inputRepresentative.lastName = representative.lastName;
+    this.inputRepresentative.email = representative.email;
     this.inputRepresentative.active = representative.active;
   }
 }

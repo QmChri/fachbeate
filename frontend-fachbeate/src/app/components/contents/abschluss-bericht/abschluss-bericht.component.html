@@ -226,7 +226,7 @@
                                 </mat-form-field>
                                 <mat-form-field class="artundnr">
                                     <mat-label>{{"ABSCHLUSSBERICHT.article_number" | translate}}</mat-label>
-                                    <input matInput type="text" [(ngModel)]="article.articleNr"
+                                    <input matInput type="number" [(ngModel)]="article.articleNr"
                                         name="articleNumber{{reasonReport.reason}}"
                                         (ngModelChange)="insertOther(article, reasonReport.reason)">
                                 </mat-form-field>
