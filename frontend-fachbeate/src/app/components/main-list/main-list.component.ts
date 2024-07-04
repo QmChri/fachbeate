@@ -271,7 +271,7 @@ export class MainListComponent implements OnInit {
               end: element.endDate
             },
             customer: element.customer!,
-            abschlussbericht: 'false',
+            abschlussbericht: '<leer>',
             type: 1,
             visible: element.showUser!
           }];
