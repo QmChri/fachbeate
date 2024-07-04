@@ -246,6 +246,10 @@ export class CustomerRequirementsComponent implements OnInit {
     this.http.getActiveCompany().subscribe({
       next: data => {
         this.companies = data;
+
+        if(this.roleService.checkPermission([6])){
+          this.inputCustomerRequirement.company = this.companies.find(element => element.username === this.roleService.getUserName())!;
+        }
       },
       error: err => {
         console.log(err);
