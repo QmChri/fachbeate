@@ -41,17 +41,14 @@
         "ok": "хорошо"
     },
     "DASHBOARD": {
-        "advisor_schedule_overview": "Обзор расписания консультантов",
         "entry_for": "Запись для",
         "assigned_advisor": "Назначенный консультант",
         "reason": "Причина",
         "from": "От",
         "to": "До",
-        "cancel": "Отмена",
-        "save": "Сохранить"
+        "cancel": "Отмена"
     },
     "MAIN_LIST": {
-        "overview_requirements_registrations": "Обзор требований и регистраций",
         "search": "Поиск",
         "reset_filter_sorting": "Сбросить фильтр/сортировку",
         "reset": "Сбросить",

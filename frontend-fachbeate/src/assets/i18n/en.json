@@ -41,17 +41,14 @@
         "ok": "OK"
     },
     "DASHBOARD": {
-        "advisor_schedule_overview": "Advisor Schedule Overview",
         "entry_for": "Entry for",
         "assigned_advisor": "Assigned advisor",
         "reason": "Reason",
         "from": "From",
         "to": "To",
-        "cancel": "Cancel",
-        "save": "Save"
+        "cancel": "Cancel"
     },
     "MAIN_LIST": {
-        "overview_requirements_registrations": "Overview Requirements and Registrations",
         "search": "Search",
         "reset_filter_sorting": "Reset filter/sorting",
         "reset": "Reset",

@@ -53,17 +53,14 @@
         "ok": "OK"
     },
     "DASHBOARD": {
-        "advisor_schedule_overview": "Terminübersicht Fachberater",
         "entry_for": "Eintrag für",
         "assigned_advisor": "Zugeteilter Fachberater",
         "reason": "Grund",
         "from": "Von",
         "to": "Bis",
-        "cancel": "Abbrechen",
-        "save": "Speichern"
+        "cancel": "Abbrechen"
     },
     "MAIN_LIST": {
-        "overview_requirements_registrations": "Übersicht Anforderungen und Anmeldungen",
         "search": "Suche",
         "reset_filter_sorting": "Filter/Sortierung aufheben",
         "reset": "Zurücksetzen",
@@ -76,7 +73,7 @@
         "requested_period": "Angeforderter Zeitraum",
         "customer": "Kunde",
         "final_report": "Abschlussbericht",
-        "double_click_to_edit": "Doppelklick um zu bearbeiten ...",
+        "double_click_to_edit": "Doppelklick zum Bearbeiten …",
         "type": "Typ",
         "advisor_type": "Fachberater A.",
         "seminar": "Seminar",

@@ -33,7 +33,7 @@
                 <div class="displayBySide">
                     <button class="btn btn-danger" matTooltip="{{'DASHBOARD.cancel' | translate}}"
                         [hidden]="inputTechnologist.id===0" (click)="cancelEdit()"><i class="fa fa-times"></i></button>
-                    <button class="btn btn-success" matTooltip="{{'DASHBOARD.save' | translate}}"
+                    <button class="btn btn-success" matTooltip="{{'STANDARD.save' | translate}}"
                         (click)="postTechnologist()"><i class="fa fa-save"></i></button>
                 </div>
             </div>
@@ -51,7 +51,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr matTooltip="{{'CUSTOMER_REQUIREMENTS.edit' | translate}}"
+                <tr matTooltip="{{'CREATION_SITES.click_to_edit' | translate}}"
                     *ngFor="let technologist of editRowTable.data" (click)="editRow(technologist.id!, 0)">
                     <td>{{technologist.id}}</td>
                     <td>{{technologist.firstName}}</td>
