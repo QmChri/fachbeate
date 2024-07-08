@@ -124,7 +124,10 @@
         "summary": "Zusammenfassung",
         "article": "Artikel",
         "article_number": "Artikel Nr",
-        "follow_up": "Nacharbeiten durch Fachberater"
+        "follow_up": "Nacharbeiten durch Fachberater",
+        "information":"Informationen",
+        "recipe_optimization":"Rezepturen",
+        "product_development":"Produkt/Musteranforderung"
     },
     "VISITOR_REGRISTRATION": {
         "visitor_registration": "Besucheranmeldung",
