@@ -20,7 +20,7 @@ export class CreateTechnologistComponent implements OnInit {
   }
   technologistList: Technologist[] = [];
 
-  constructor(private translate: TranslateService, private http: HttpService, private notificationService: NotificationService) { }
+  constructor(public translate: TranslateService, private http: HttpService, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.loadTechnologists();

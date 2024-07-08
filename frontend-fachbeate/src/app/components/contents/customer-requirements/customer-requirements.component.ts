@@ -31,7 +31,7 @@ export class CustomerRequirementsComponent implements OnInit {
   companies: Company[] = [];
   freigegeben: boolean = true;
 
-  constructor(private translate: TranslateService, private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute, private notificationService: NotificationService, public roleService: RoleService) { }
+  constructor(public translate: TranslateService, private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute, private notificationService: NotificationService, public roleService: RoleService) { }
 
   ngOnInit(): void {
     this.getTechnologist();

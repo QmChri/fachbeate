@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
   isSideNavCollapsed = false;
   public userProfile: KeycloakProfile | null = null;
 
-  constructor(private translate: TranslateService, private roleService: RoleService) {
+  constructor(public translate: TranslateService, private roleService: RoleService) {
     this.translate.setDefaultLang('de');
   }
 

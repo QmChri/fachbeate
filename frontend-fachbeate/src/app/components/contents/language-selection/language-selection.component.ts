@@ -11,7 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class LanguageSelectionComponent {
 
-  constructor(private translate: TranslateService, private bottomSheetRef: MatBottomSheetRef<LanguageSelectionComponent>) {
+  constructor(public translate: TranslateService, private bottomSheetRef: MatBottomSheetRef<LanguageSelectionComponent>) {
     this.translate.setDefaultLang('de');
   }
   

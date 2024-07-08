@@ -37,7 +37,7 @@ export class SeminarRegistrationComponent implements OnInit {
     hotelBookings: []
   };
 
-  constructor(private translate: TranslateService, private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute,
+  constructor(public translate: TranslateService, private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute,
     private notificationService: NotificationService, public roleService: RoleService) {
   }
 

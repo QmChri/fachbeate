@@ -13,7 +13,7 @@ export class CreateDealerComponent implements OnInit {
   inputCompany: Company = { active: true };
   companyList: Company[] = [];
 
-  constructor(private translate: TranslateService, private http: HttpService, private notificationService: NotificationService) {
+  constructor(public translate: TranslateService, private http: HttpService, private notificationService: NotificationService) {
   }
 
   ngOnInit(): void {
