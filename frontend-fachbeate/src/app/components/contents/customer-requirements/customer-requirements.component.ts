@@ -167,14 +167,26 @@ export class CustomerRequirementsComponent implements OnInit {
   }
 
   checkRequired(): boolean {
-    if (!this.inputCustomerRequirement.requestedTechnologist ||
-      !this.inputCustomerRequirement.representative ||
-      !this.inputCustomerRequirement.startDate ||
-      !this.inputCustomerRequirement.endDate) {
-      this.getNotification(4)
-      return false;
+    var requiredFields: string[] = [
+      (this.inputCustomerRequirement.requestedTechnologist === undefined)?"assigned_technologist":"",
+      (this.inputCustomerRequirement.representative === undefined)?"assigned_repre":"",
+      (this.inputCustomerRequirement.startDate === undefined)?"assigned_from":"",
+      (this.inputCustomerRequirement.endDate === undefined)?"assigned_to":"",
+      (this.inputCustomerRequirement.customerVisits.filter(element => element.companyName === null || element.companyName === undefined || element.companyName === "").length !== 0)?"assigned_customer":"",
+      (this.inputCustomerRequirement.customerVisits.filter(element => element.address === null || element.address === undefined || element.address === "").length !== 0)?"assigned_address":"",
+      (this.inputCustomerRequirement.customerVisits.filter(element => element.dateOfVisit === null || element.dateOfVisit === undefined).length !== 0)?"assigned_dateOfVisit":"",
+      (this.inputCustomerRequirement.customerVisits.filter(element => element.productionAmount === null || element.productionAmount === undefined || element.productionAmount === "").length !== 0)?"assigned_productionAmount":"",
+    ].filter(element => element !== "");
+    
+    if(requiredFields.length !== 0){
+      this.translate.get(['STANDARD.please_fill_required_fields', ...requiredFields.map(element => "STANDARD."+element)]).subscribe(translations => {
+        const message = translations['STANDARD.please_fill_required_fields'];
+        const anotherMessage = requiredFields.map(element => translations["STANDARD."+element]).toString();
+        this.notificationService.createBasicNotification(4, message, anotherMessage, 'topRight');
+      });
     }
-    return true;
+
+    return requiredFields.length === 0;
   }
 
   openDialog(customerVisit: CustomerVisit) {
@@ -189,7 +201,7 @@ export class CustomerRequirementsComponent implements OnInit {
           (customerVisit.sampleProduction) ? { reason: 4, presentedArticle: [] } : { reason: 0, presentedArticle: [] },
           (customerVisit.training) ? { reason: 5, presentedArticle: [] } : { reason: 0, presentedArticle: [] }
         ].filter(element => element.reason !== 0);
-
+        
         finalReport = {
           technologist: this.inputCustomerRequirement.requestedTechnologist,
           company: customerVisit.companyName,
@@ -292,13 +304,6 @@ export class CustomerRequirementsComponent implements OnInit {
         });
         this.freigegeben = false;
         break;
-      }
-      case 4: { // Pflichtfelder ausfüllen
-        this.translate.get(['STANDARD.please_fill_required_fields', 'STANDARD.assigned_representative']).subscribe(translations => {
-          const message = translations['STANDARD.please_fill_required_fields'];
-          const anotherMessage = translations['STANDARD.assigned_representative'];
-          this.notificationService.createBasicNotification(4, message, anotherMessage, 'topRight');
-        }); break;
       }
       case 5: { // Final Report
         this.translate.get('STANDARD.final_report_added').subscribe((translatedMessage: string) => {

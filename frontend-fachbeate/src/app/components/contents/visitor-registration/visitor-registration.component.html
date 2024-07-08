@@ -82,7 +82,7 @@
                 <div class="paddingSearch">
                     <mat-form-field style="margin-right: 0.5rem;">
                         <mat-label>{{"VISITOR_REGRISTRATION.customer_company" | translate}}</mat-label>
-                        <textarea rows="1"  matInput required [(ngModel)]="inputVisitRegistration.customerOrCompany"></textarea>
+                        <textarea rows="1"  matInput [(ngModel)]="inputVisitRegistration.customerOrCompany"></textarea>
                     </mat-form-field>
                     <!--  <button class="btn btn-success teilButton"
                         matTooltip="{{'VISITOR_REGRISTRATION.participant_list' | translate}}"
@@ -122,7 +122,7 @@
                     <mat-label>{{"MAIN_LIST.representative"|translate}}</mat-label>
                     <mat-select
                         [ngModel]="(inputVisitRegistration.representative === undefined)?undefined:inputVisitRegistration.representative.id"
-                        (valueChange)="changeRepresentative($event)" required>
+                        (valueChange)="changeRepresentative($event)">
                         <mat-option>--</mat-option>
                         @for (r of representative; track representative) {
                         <mat-option [value]="r.id">{{r.firstName}} {{r.lastName}}</mat-option>

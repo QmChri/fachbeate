@@ -23,9 +23,7 @@
 
 .freigabe {
   display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  align-items: stretch;
+  justify-content: space-around;
 }
 
 .header {
