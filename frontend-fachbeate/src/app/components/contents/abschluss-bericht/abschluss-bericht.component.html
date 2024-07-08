@@ -171,8 +171,7 @@
                                             translate}}</mat-option>
                                     </mat-select>
                                 </mat-form-field>
-                                <mat-form-field
-                                    *ngIf="inputFinalReport.reworkByTechnologist && roleService.checkPermission([1,2,4,7])"
+                                <mat-form-field *ngIf="inputFinalReport.reworkByTechnologist && roleService.checkPermission([1,2,4,7])"
                                     class="nacharbeitSmall">
                                     <mat-label>{{"ABSCHLUSSBERICHT.to_be_done_by" | translate}}</mat-label>
                                     <input matInput [matDatepicker]="picker5" type="text" required
@@ -189,10 +188,9 @@
                             *ngIf="inputFinalReport.reworkByTechnologist && roleService.checkPermission([1,2,4,7])">
                             <mat-form-field>
                                 <mat-label>{{"Zu erledigen"|translate}}</mat-label>
-                                <mat-select (valueChange)="changeRepresentative($event)" required>
-                                    <mat-option>--</mat-option>
+                                <mat-select multiple [(ngModel)]="inputFinalReport.reworkToDo" (valueChange)="test()" required>
                                     @for (r of todoList; track todoList) {
-                                    <mat-option [value]="r.id">{{r.name}}</mat-option>
+                                    <mat-option [value]="r.id">{{r.name | translate}}</mat-option>
                                     }
                                 </mat-select>
                                 @if (control.hasError('required')) {
@@ -201,7 +199,7 @@
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-label>{{"ABSCHLUSSBERICHT.followVisist" | translate}}</mat-label>
-                                <mat-select required [placeholder]="'STANDARD.please_select' | translate">
+                                <mat-select [(ngModel)]="inputFinalReport.reworkFollowVisits" required [placeholder]="'STANDARD.please_select' | translate">
                                     <mat-option [value]="true">{{"SEMINAR_REGRISTRATION.yes" | translate}}</mat-option>
                                     <mat-option [value]="false">{{"SEMINAR_REGRISTRATION.no" | translate}}</mat-option>
                                 </mat-select>

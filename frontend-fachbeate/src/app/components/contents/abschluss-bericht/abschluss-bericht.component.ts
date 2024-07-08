@@ -17,15 +17,17 @@ import { FormControl, Validators } from '@angular/forms';
 })
 export class AbschlussBerichtComponent implements OnInit {
   control = new FormControl(null, Validators.required);
-  inputFinalReport: FinalReport = {}
+  inputFinalReport: FinalReport = {
+    reworkToDo: []
+  }
   reasonSelect: number[] = []
   existingArticles: Article[] = []
   technologists: Technologist[] = [];
   representative: Representative[] = [];
   todoList = [
-    { id: 1, name: 'Informationen' },
-    { id: 2, name: 'Rezepturen' },
-    { id: 3, name: 'Produkt / Muster Anforderung' }
+    { id: 1, name: 'ABSCHLUSSBERICHT.information' },
+    { id: 2, name: 'ABSCHLUSSBERICHT.recipe_optimization' },
+    { id: 3, name: 'ABSCHLUSSBERICHT.product_development' }
   ]; 
 
  constructor(public roleService: RoleService,private notification: NzNotificationService,
@@ -34,9 +36,14 @@ export class AbschlussBerichtComponent implements OnInit {
     private http: HttpService
   ) {
     this.inputFinalReport = finalReport;
-   
 
-    if (finalReport.reasonReports !== undefined) {      
+    this.inputFinalReport.reworkToDo = [
+      (this.inputFinalReport.reworkInformation)?1:0,
+      (this.inputFinalReport.reworkRecipe_optimization)?2:0,
+      (this.inputFinalReport.reworkProduct_development)?3:0
+    ].filter(element => element != 0);
+
+    if (finalReport.reasonReports !== undefined) {
       this.inputFinalReport.reasonReports = this.inputFinalReport.reasonReports!.filter(element => element.reason !== 0);
       this.reasonSelect = this.inputFinalReport.reasonReports!.map(element => element.reason)
         .filter((reason): reason is number => reason !== undefined);
@@ -119,6 +126,13 @@ export class AbschlussBerichtComponent implements OnInit {
       this.finalReport.creator = this.roleService.getUserName();
     }
     
+    this.finalReport.reworkInformation = this.finalReport.reworkToDo!.includes(1);
+    this.finalReport.reworkRecipe_optimization = this.finalReport.reworkToDo!.includes(2);
+    this.finalReport.reworkProduct_development = this.finalReport.reworkToDo!.includes(3);
+
+  console.log(this.finalReport);
+
+
     if(this.roleService.checkPermission([3])){
       this.finalReport.representativeEntered = true;
     }else if(this.roleService.checkPermission([4])){
@@ -165,6 +179,11 @@ export class AbschlussBerichtComponent implements OnInit {
 
   changeRepresentative($event: any) {
     this.inputFinalReport.representative = this.representative.find(elemnt => elemnt.id === $event);
+  }
+
+  test(){
+    console.log(this.finalReport);
+    
   }
 
 }

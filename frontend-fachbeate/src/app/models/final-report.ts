@@ -22,8 +22,13 @@ export interface FinalReport {
 
     reworkByTechnologist?: boolean;
     reworkByTechnologistDoneUntil?: Date;
-    reworkByTechnologistState?: string;
+    reworkFollowVisits?: boolean;
+    
+    reworkInformation?: boolean;
+    reworkRecipe_optimization?: boolean;
+    reworkProduct_development?: boolean;
 
+    
     reworkByRepresentative?: string;
     reworkByRepresentativeDoneUntil?: Date;
 
@@ -36,4 +41,6 @@ export interface FinalReport {
     interestingProducts?: string;
     requestCompleted?: boolean;
     summaryFinalReport?: string;
+
+    reworkToDo?: number[];
 }
