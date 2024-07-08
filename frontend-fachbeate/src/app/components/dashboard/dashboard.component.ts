@@ -38,7 +38,6 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log("KeycloakUser: " + this.roleServiceUserName);
     if (this.roleService.checkPermission(this.requiredRoles)) {
       this.loadDataPerUser();
     }

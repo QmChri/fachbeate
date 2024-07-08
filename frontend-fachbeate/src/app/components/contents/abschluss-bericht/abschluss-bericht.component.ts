@@ -51,13 +51,8 @@ export class AbschlussBerichtComponent implements OnInit {
       this.reasonSelect = this.inputFinalReport.reasonReports!.map(element => element.reason)
         .filter((reason): reason is number => reason !== undefined);
       if(finalReport.id === undefined || finalReport.id === 0){
-
-        this.finalReport.reasonReports!.forEach(reasonReport => {
-          console.log(finalReport);
-          
-          if(reasonReport.presentedArticle === undefined || reasonReport.presentedArticle.length === 0 ){
-            console.log("test");
-            
+        this.finalReport.reasonReports!.forEach(reasonReport => {          
+          if(reasonReport.presentedArticle === undefined || reasonReport.presentedArticle.length === 0 ){            
             reasonReport.presentedArticle = [{}]
           }
         });
@@ -125,25 +120,22 @@ export class AbschlussBerichtComponent implements OnInit {
 
   closeDialog(save: boolean) {  
     if(this.checkRequired())  {
-      this.finalReport.lastEditor = this.roleService.getUserName();
-      if(this.finalReport.creator === undefined){
-        this.finalReport.creator = this.roleService.getUserName();
+      this.inputFinalReport.lastEditor = this.roleService.getUserName();
+      if(this.inputFinalReport.creator === undefined){
+        this.inputFinalReport.creator = this.roleService.getUserName();
       }
       
-      this.finalReport.reworkInformation = this.finalReport.reworkToDo!.includes(1);
-      this.finalReport.reworkRecipe_optimization = this.finalReport.reworkToDo!.includes(2);
-      this.finalReport.reworkProduct_development = this.finalReport.reworkToDo!.includes(3);
-
-    console.log(this.finalReport);
-
+      this.inputFinalReport.reworkInformation = this.inputFinalReport.reworkToDo!.includes(1);
+      this.inputFinalReport.reworkRecipe_optimization = this.inputFinalReport.reworkToDo!.includes(2);
+      this.inputFinalReport.reworkProduct_development = this.inputFinalReport.reworkToDo!.includes(3);
 
       if(this.roleService.checkPermission([3])){
-        this.finalReport.representativeEntered = true;
+        this.inputFinalReport.representativeEntered = true;
       }else if(this.roleService.checkPermission([4])){
-        this.finalReport.technologistEntered = true;
+        this.inputFinalReport.technologistEntered = true;
       }
 
-      this.dialogRef.close({ finalReport: this.finalReport, save: save });
+      this.dialogRef.close({ finalReport: this.inputFinalReport, save: save });
     }
   }
 
@@ -183,13 +175,9 @@ export class AbschlussBerichtComponent implements OnInit {
       (this.inputFinalReport.technologist === null||this.inputFinalReport.technologist === undefined)?"assigned_technologist":"",
       (this.inputFinalReport.representative === null||this.inputFinalReport.representative === undefined)?"assigned_repre":"",
       (this.inputFinalReport.company === null||this.inputFinalReport.company === undefined)?"assigned_customer":"",
-      (this.inputFinalReport.companyNr === null||this.inputFinalReport.companyNr === undefined)?"assigned_customerNr":"",
       (this.inputFinalReport.dateOfVisit === null||this.inputFinalReport.dateOfVisit === undefined)?"assigned_dateOfVisit":"",
       (this.inputFinalReport.reworkToDo === null||this.inputFinalReport.reworkToDo === undefined)?"assigned_reason":"",
     ].filter(element => element !== "");
-
-    console.log(requiredFields);
-
 
     if(requiredFields.length !== 0){
       this.translate.get(['STANDARD.please_fill_required_fields', ...requiredFields.map(element => "STANDARD."+element)]).subscribe(translations => {
@@ -209,10 +197,4 @@ export class AbschlussBerichtComponent implements OnInit {
   changeRepresentative($event: any) {
     this.inputFinalReport.representative = this.representative.find(elemnt => elemnt.id === $event);
   }
-
-  test(){
-    console.log(this.finalReport);
-    
-  }
-
 }

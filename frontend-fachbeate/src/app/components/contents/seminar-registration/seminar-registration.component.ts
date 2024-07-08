@@ -87,9 +87,7 @@ export class SeminarRegistrationComponent implements OnInit {
   if(requiredFields.length !== 0){
     this.translate.get(['STANDARD.please_fill_required_fields', ...requiredFields.map(element => "STANDARD."+element)]).subscribe(translations => {
       const message = translations['STANDARD.please_fill_required_fields'];
-      const anotherMessage = requiredFields.map(element => translations["STANDARD."+element]).toString();
-      console.log(requiredFields.map(element => translations['STANDARD.'+element]));
-      
+      const anotherMessage = requiredFields.map(element => translations["STANDARD."+element]).toString();      
       this.notificationService.createBasicNotification(4, message, anotherMessage, 'topRight');
     });
   }
