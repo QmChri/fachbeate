@@ -12,7 +12,6 @@ import { CreateDealerComponent } from './components/contents/creation-sites/crea
 import { CreateRepresentativeComponent } from './components/contents/creation-sites/create-representative/create-representative.component';
 import { authGuard } from './services/auth.service';
 import { BookingRequestComponent } from './components/contents/booking-request/booking-request.component';
-import { DashboardComponent } from './components/contents/dashboard/dashboard.component';
 
 const routes: Routes = [
   { path: 'calendar', component: CalendarComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 4, 5, 7] } },
@@ -27,8 +26,6 @@ const routes: Routes = [
   { path: 'create-dealer', component: CreateDealerComponent, canActivate: [authGuard], data: { requiredRoles: [1, 7] } },
   { path: 'create-representative', component: CreateRepresentativeComponent, canActivate: [authGuard], data: { requiredRoles: [1, 7] } },
   { path: 'ab', component: AbschlussBerichtComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 7] } },
-  //TODO Berechtigungen für Buchungsanforderungen
-  { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 3, 4, 5, 6, 7] } },
   //TODO Berechtigungen für Buchungsanforderungen
   { path: 'booking-request', component: BookingRequestComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 3, 4, 5, 6, 7] } },
   { path: 'mainList', component: MainListComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 3, 4, 5, 6, 7] } },

@@ -63,7 +63,6 @@ import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { initializer } from './initializer.service';
 import { NzColorPickerModule } from 'ng-zorro-antd/color-picker';
 import { BookingRequestComponent } from './components/contents/booking-request/booking-request.component';
-import { DashboardComponent } from './components/contents/dashboard/dashboard.component';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 
@@ -86,8 +85,7 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
     CreateRepresentativeComponent,
     CreateDealerComponent,
     BookingRequestComponent,
-    CalendarComponent,
-    DashboardComponent
+    CalendarComponent
   ],
   imports: [
     MatTooltipModule,

@@ -44,12 +44,6 @@ export const navbarData: INavbarData[] = [
         role: [1, 2, 3, 4, 5, 6, 7]
     },
     {
-        routeLink: 'dashboard',
-        icon: 'fal fa-chart-line',
-        label: 'dashboard',
-        role: [1, 2, 3, 4, 5, 6, 7]
-    },
-    {
         routeLink: "",
         icon: 'fal fa-user-plus',
         label: 'new',
