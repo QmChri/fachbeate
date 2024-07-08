@@ -88,6 +88,13 @@ export class MainListComponent implements OnInit {
       sortFn: (a: DataItem, b: DataItem) => a.type!.valueOf().toString().localeCompare(b.type!.valueOf().toString()),
       listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => list.some(name => item.type!.valueOf().toString().indexOf(name.valueOf().toString()) !== -1)
+    },
+    {
+      name: 'id',
+      sortOrder: null,
+      sortFn: (a: DataItem, b: DataItem) => 1,
+      listOfFilter: [],
+      filterFn: (list: string[], item: DataItem) => true
     }
   ];
 

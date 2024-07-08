@@ -21,7 +21,7 @@
   margin-right: 8px;
 }
 
-.freigabe{
+.freigabe {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -35,8 +35,15 @@
   justify-content: space-between;
   align-items: center;
 }
+
 /*
 .striped-table tbody tr:nth-child(even),
 .striped-table thead {
     background-color: #dbdbdb; 
 }*/
+
+.centerTD {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}

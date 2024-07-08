@@ -78,6 +78,13 @@ export class AbschlussBerichtListComponent {
       sortFn: (a: DataItem, b: DataItem) => 1,
       listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => true
+    },
+    {
+      name: 'id',
+      sortOrder: null,
+      sortFn: (a: DataItem, b: DataItem) => 1,
+      listOfFilter: [],
+      filterFn: (list: string[], item: DataItem) => true
     }
   ];
 
@@ -121,7 +128,7 @@ export class AbschlussBerichtListComponent {
       }, [] as { text: string, value: string }[]);
 
 
-      this.listOfColumn.find(element => element.name === 'report_completed')!.listOfFilter =
+    this.listOfColumn.find(element => element.name === 'report_completed')!.listOfFilter =
       this.listOfDisplayData.reduce((uniqueFilters, element) => {
         if (!uniqueFilters.some(filter => filter.value === element.abschlussberichtFinished)) {
           uniqueFilters.push({ text: element.abschlussberichtFinished, value: element.abschlussberichtFinished });
@@ -130,7 +137,7 @@ export class AbschlussBerichtListComponent {
       }, [] as { text: string, value: string }[]);
   }
 
-  loadDataPerUser(){
+  loadDataPerUser() {
     this.http.getAllCompany().subscribe({
       next: data => {
         var companies = data;
