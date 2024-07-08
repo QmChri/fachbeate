@@ -29,7 +29,7 @@ export class MainListComponent implements OnInit {
     {
       name: 'creation_date',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.dateOfCreation!.valueOf() - b.dateOfCreation!.valueOf(),
+      sortFn: (a: DataItem, b: DataItem) => a.dateOfCreation!.toString().valueOf().localeCompare(b.dateOfCreation!.toString().valueOf()),
       listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => true
     },
@@ -43,9 +43,9 @@ export class MainListComponent implements OnInit {
     {
       name: 'status',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => 1,
+      sortFn: (a: DataItem, b: DataItem) => a.status!.toString().localeCompare(b.status!.toString()),
       listOfFilter: [],
-      filterFn: (list: string[], item: DataItem) => true
+      filterFn: (list: string[], item: DataItem) => list.some(name => item.status!.indexOf(name) !== -1)
     },
     {
       name: 'representative',
@@ -85,7 +85,7 @@ export class MainListComponent implements OnInit {
     {
       name: 'type',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.type!.valueOf().toString().localeCompare(b.type!.valueOf().toString()),
+      sortFn: (a: DataItem, b: DataItem) => a.type! - b.type!,
       listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => list.some(name => item.type!.valueOf().toString().indexOf(name.valueOf().toString()) !== -1)
     },
@@ -159,13 +159,13 @@ export class MainListComponent implements OnInit {
     this.listOfColumn.find(element => element.name === 'type')!.listOfFilter = this.listOfDisplayData.map(element => {
       let typeText;
       switch (element.type!.toString()) {
-        case '0':
+        case '1':
           typeText = 'Fachberater A.';
           break;
-        case '1':
+        case '2':
           typeText = 'Seminar';
           break;
-        case '2':
+        case '0':
           typeText = 'Besuch';
           break;
         default:
@@ -184,11 +184,10 @@ export class MainListComponent implements OnInit {
       });
   }
 
-  loadDataPerUser(){
+  loadDataPerUser() {
     this.http.getAllCompany().subscribe({
       next: data => {
         var companies = data;
-
         this.loadData(companies)
       }
     })
@@ -199,10 +198,8 @@ export class MainListComponent implements OnInit {
     type = (!this.roleService.checkPermission([1, 2, 4, 5, 6, 7]) ? 3 : type);
     type = (!this.roleService.checkPermission([1, 2, 3, 5, 6, 7]) ? 4 : type);
     var fullname = (type === 6) ? companies.find(element => element.username === this.roleService.getUserName()!)?.username : this.roleService.getEmail()!;
-    
-    console.log(type);
-    
-    if(type === 6 && fullname === undefined){
+
+    if (type === 6 && fullname === undefined) {
       type = -1;
     }
 
@@ -224,20 +221,20 @@ export class MainListComponent implements OnInit {
           });
 
           this.listOfDisplayData = [...this.listOfDisplayData, {
-            id: "F_"+element.id!,
+            id: "F_" + element.id!,
             name: element.company?.name!,
             dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
             customerOrCompany: element.creator,
-            status: (element.releaseSupervisor && element.releaseManagement)?"Freigegeben":"Nicht-Freigegeben",
+            status: (element.releaseSupervisor && element.releaseManagement) ? 'Freigegeben ' : 'Nicht-Freigegeben',
             vertreter: element.representative?.firstName! + " " + element.representative?.lastName!,
             fachberater: element.requestedTechnologist?.firstName! + " " + element.requestedTechnologist?.lastName!,
             timespan: {
               start: element.startDate,
               end: element.endDate
             },
-            customer: (element.customerVisits[0])?element.customerVisits[0].companyName!:"<leer>",
+            customer: (element.customerVisits[0]) ? element.customerVisits[0].companyName! : "<Leer>",
             abschlussbericht: cntFinalReports + "/" + element.customerVisits.length,
-            type: 0,
+            type: 1,
             visible: element.showUser!
           }];
         });
@@ -259,11 +256,11 @@ export class MainListComponent implements OnInit {
           }
 
           this.listOfDisplayData = [...this.listOfDisplayData, {
-            id: "S_"+element.id!,
+            id: "S_" + element.id!,
             name: "<Leer>",
             dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
             customerOrCompany: "<Leer>",
-            status: (element.releaseSupervisor && element.releaseManagement)?"Freigegeben":"Nicht-Freigegeben",
+            status: (element.releaseSupervisor && element.releaseManagement) ? 'Freigegeben ' : 'Nicht-Freigegeben',
             vertreter: element.representative!.firstName + " " + element.representative!.lastName,
             fachberater: element.requestedTechnologist!.map(a => a.firstName + " " + a.lastName).toString(),
             timespan: {
@@ -272,7 +269,7 @@ export class MainListComponent implements OnInit {
             },
             customer: element.customer!,
             abschlussbericht: '<leer>',
-            type: 1,
+            type: 2,
             visible: element.showUser!
           }];
 
@@ -292,16 +289,16 @@ export class MainListComponent implements OnInit {
             name: element.name!,
             dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
             customerOrCompany: element.customerOrCompany!,
-            status: (element.releaseSupervisor && element.releaseManagement)?"Freigegeben":"Nicht-Freigegeben",
+            status: (element.releaseSupervisor && element.releaseManagement) ? 'Freigegeben ' : 'Nicht-Freigegeben',
             vertreter: element.representative!.firstName + " " + element.representative!.lastName,
             fachberater: "<Leer>",
             timespan: {
               start: element.fromDate,
               end: element.toDate
             },
-            customer: (element.customerOrCompany)?element.customerOrCompany:"<leer>",
+            customer: (element.customerOrCompany) ? element.customerOrCompany : "<leer>",
             abschlussbericht: "<Leer>",
-            type: 2,
+            type: 0,
             visible: element.showUser!
           }];
         });
@@ -322,12 +319,12 @@ export class MainListComponent implements OnInit {
   openCRC(data: any, id: string, type: number) {
     if (data.visible) {
       if (type === 0) {
-        this.router.navigate(['/customer-requirements', id.split("_")[1]]);
-      } else if (type === 1) {
-        this.router.navigate(['/seminar-registration', id.split("_")[1]]);
-      } else if (type === 2) {
         this.router.navigate(['/visitorRegistration', id.split("_")[1]]);
-      }
+      } else if (type === 1) {
+        this.router.navigate(['/customer-requirements', id.split("_")[1]]);
+      } else if (type === 2) {
+        this.router.navigate(['/seminar-registration', id.split("_")[1]]);
+      } 
     }
   }
 
@@ -337,7 +334,7 @@ export class MainListComponent implements OnInit {
       this.notificationService.createBasicNotification(2, translatedMessage, '', 'topRight');
     });
     this.getNzFilters();
-    this.loadDataPerUser();
+    //this.loadDataPerUser();
     //this.tmpinitData();
     this.listOfColumn.forEach(item => {
       item.sortOrder = null;
@@ -362,7 +359,7 @@ export class MainListComponent implements OnInit {
   }
 
   changeEditable(data: any) {
-    
+
     this.http.changeVisiblility(data.type, data.id).subscribe();
 
     if (!data.visible) {

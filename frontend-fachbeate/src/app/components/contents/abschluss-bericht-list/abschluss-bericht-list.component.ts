@@ -33,35 +33,47 @@ export class AbschlussBerichtListComponent {
     {
       name: 'visit_date',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.dateOfVisit!.valueOf().toString().localeCompare(b.dateOfVisit!.valueOf().toString()),
+      sortFn: (a: DataItem, b: DataItem) => {
+        if (a.dateOfVisit === null || a.dateOfVisit === undefined) return 1;
+        if (b.dateOfVisit === null || b.dateOfVisit === undefined) return -1;
+        return Date.parse(a.dateOfVisit.toString()) - Date.parse(b.dateOfVisit.toString());
+      },
       listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => true
     },
     {
       name: 'responsible_representative',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.technologist.localeCompare(b.technologist),
+      sortFn: (a: DataItem, b: DataItem) => a.representative.localeCompare(b.representative),
       listOfFilter: [],
-      filterFn: (list: string[], item: DataItem) => list.some(name => item.technologist.indexOf(name) !== -1)
+      filterFn: (list: string[], item: DataItem) => list.some(name => item.representative.indexOf(name) !== -1)
     },
     {
       name: 'to_be_done_by',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.toBeCompletedBy!.valueOf().toString().localeCompare(b.toBeCompletedBy!.valueOf().toString()),
+      sortFn: (a: DataItem, b: DataItem) => {
+        if (a.toBeCompletedBy === null) return 1;
+        if (b.toBeCompletedBy === null) return -1;
+        return a.toBeCompletedBy.getTime() - b.toBeCompletedBy.getTime();
+      },
       listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => true
     },
     {
       name: 'responsible_advisor',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.representative!.localeCompare(b.representative!),
+      sortFn: (a: DataItem, b: DataItem) => a.technologist!.localeCompare(b.technologist!),
       listOfFilter: [],
-      filterFn: (list: string[], item: DataItem) => list.some(name => item.representative.indexOf(name) !== -1)
+      filterFn: (list: string[], item: DataItem) => list.some(name => item.technologist.indexOf(name) !== -1)
     },
     {
       name: 'customer_contacted_on',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.customerContactDate!.valueOf().toString().localeCompare(b.customerContactDate!.valueOf().toString()),
+      sortFn: (a: DataItem, b: DataItem) => {
+        if (a.customerContactDate === null || a.customerContactDate === undefined) return 1;
+        if (b.customerContactDate === null || b.customerContactDate === undefined) return -1;
+        return Date.parse(a.customerContactDate.toString()) - Date.parse(b.customerContactDate.toString());
+      },
       listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => true
     },
@@ -75,7 +87,13 @@ export class AbschlussBerichtListComponent {
     {
       name: 'article_number',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => 1,
+      sortFn: (a: DataItem, b: DataItem) => {
+        // Annahme: Wir vergleichen die Artikelnummern der ersten Elemente in a.article und b.article
+        const articleANr = a.article.length > 0 ? a.article[0].articleNr : 1;
+        const articleBNr = b.article.length > 0 ? b.article[0].articleNr : -1;
+
+        return articleANr! - articleBNr!;
+      },
       listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => true
     },
@@ -141,7 +159,6 @@ export class AbschlussBerichtListComponent {
     this.http.getAllCompany().subscribe({
       next: data => {
         var companies = data;
-
         this.loadData(companies)
       }
     })
@@ -151,7 +168,7 @@ export class AbschlussBerichtListComponent {
     this.loadTechnologists();
     this.http.getAllArticles().subscribe({
       next: data => {
-        this.listOfColumn.find(element => element.name === 'article')!.listOfFilter = data.map(element => { return { text: element.name!, value: element.name! } })
+        this.listOfColumn.find(element => element.name === 'article_number')!.listOfFilter = data.map(element => { return { text: element.name!, value: element.name! } })
       }
     })
 
@@ -174,7 +191,7 @@ export class AbschlussBerichtListComponent {
           this.listOfDisplayData = [...this.listOfDisplayData, {
             id: element.id!,
             company: (element.company!) ? element.company : "<Leer>",
-            dateOfVisit: (element.dateOfVisit!) ? element.dateOfVisit : undefined!,
+            dateOfVisit: (element.dateOfVisit!) ? element.dateOfVisit : null!,
             technologist: element.technologist!.firstName + " " + element.technologist!.lastName,
             toBeCompletedBy: element.doneUntil!,
             representative: element.representative!.firstName + " " + element.representative!.lastName,

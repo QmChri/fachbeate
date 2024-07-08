@@ -3,10 +3,10 @@
     <h1 class="paddingSearch">{{'MAIN_LIST.overview_requirements_registrations' | translate}}</h1>
   </div>
   <div>
-    <nz-filter-trigger class="paddingSearch" [(nzVisible)]="visible" [nzActive]="searchValue.length > 0"
+   <!-- <nz-filter-trigger class="paddingSearch" [(nzVisible)]="visible" [nzActive]="searchValue.length > 0"
       [nzDropdownMenu]="menu">
       <i class="fa fa-search"></i>
-    </nz-filter-trigger>
+    </nz-filter-trigger>--> 
     <button class="btn btn-secondary" (click)="resetSortAndFilters()">{{"MAIN_LIST.reset_filter_sorting"|
       translate}}</button>
   </div>
@@ -20,8 +20,7 @@
         {{'CREATION_SITES.'+listOfColumn[0].name | translate}}
       </th>
       <th [nzSortFn]="listOfColumn[1].sortFn" [(nzSortOrder)]="listOfColumn[1].sortOrder">
-        {{'MAIN_LIST.'+listOfColumn[1].name|
-        translate}}</th>
+        {{'MAIN_LIST.'+listOfColumn[1].name| translate}}</th>
       <th [nzSortFn]="listOfColumn[2].sortFn" [(nzSortOrder)]="listOfColumn[2].sortOrder"
         [nzFilters]="listOfColumn[2].listOfFilter" [nzFilterFn]="listOfColumn[2].filterFn!">
         {{'MAIN_LIST.'+listOfColumn[2].name|
@@ -43,8 +42,7 @@
         [nzFilters]="listOfColumn[7].listOfFilter" [nzFilterFn]="listOfColumn[7].filterFn!">
         {{'MAIN_LIST.'+listOfColumn[7].name|
         translate}}</th>
-      <th [nzSortFn]="listOfColumn[8].sortFn" [(nzSortOrder)]="listOfColumn[8].sortOrder"
-        [nzFilters]="listOfColumn[8].listOfFilter" [nzFilterFn]="listOfColumn[8].filterFn!">
+      <th [nzSortFn]="listOfColumn[8].sortFn" [(nzSortOrder)]="listOfColumn[8].sortOrder">
         {{'MAIN_LIST.'+listOfColumn[8].name|
         translate}}</th>
       <th [nzSortFn]="listOfColumn[9].sortFn" [(nzSortOrder)]="listOfColumn[9].sortOrder"
@@ -60,7 +58,7 @@
       <td (dblclick)="openCRC(data,data.id!, data.type!)">{{ data.dateOfCreation!.toString() | date:'dd.MM.yy' }}</td>
       <td (dblclick)="openCRC(data,data.id!, data.type!)">{{ data.customerOrCompany }}</td>
       <td (dblclick)="openCRC(data,data.id!, data.type!)">
-        <span *ngIf="data.status === 'Freigegeben'" class="text-success centerTD">&#10004;</span>
+        <span *ngIf="data.status === 'Freigegeben '" class="text-success centerTD">&#10004;</span>
         <span *ngIf="data.status === 'Nicht-Freigegeben'" class="text-danger centerTD">&#10008;</span>
       </td>
       <td (dblclick)="openCRC(data,data.id!, data.type!)">{{ data.vertreter }}</td>
@@ -69,8 +67,8 @@
         data.timespan!.end! | date:'dd.MM.yy' }}</td>
       <td (dblclick)="openCRC(data,data.id!, data.type!)">{{ data.customer }}</td>
       <td (dblclick)="openCRC(data,data.id!, data.type!)">{{data.abschlussbericht }}</td>
-      <td>
-        <span>{{ ((data.type === 0) ? 'MAIN_LIST.advisor_type' : (data.type === 1) ? 'MAIN_LIST.seminar':
+      <td (dblclick)="openCRC(data,data.id!, data.type!)">
+        <span>{{ ((data.type === 1) ? 'MAIN_LIST.advisor_type' : (data.type === 2) ? 'MAIN_LIST.seminar':
           'MAIN_LIST.visit') | translate }}</span>
       </td>
       <td *ngIf="roleService.checkPermission([1,2,7])" style="padding-bottom: 0px;padding-top: 0px;">

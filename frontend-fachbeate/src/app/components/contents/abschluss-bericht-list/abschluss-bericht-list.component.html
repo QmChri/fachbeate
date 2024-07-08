@@ -53,13 +53,11 @@
         <tr *ngFor="let data of nzTable.data">
             <td class="centerTD" (dblclick)="openDialog(data)">{{ data.id }}</td>
             <td (dblclick)="openDialog(data)">{{ data.company }}</td>
-            <td (dblclick)="openDialog(data)">{{(data.dateOfVisit)? data.dateOfVisit.toString().substring(0,10) : '\<Leer\>'}}</td>
+            <td (dblclick)="openDialog(data)">{{ (data.dateOfVisit ? (data.dateOfVisit | date:'dd.MM.yy') : '\<Leer\>') }}</td>
             <td (dblclick)="openDialog(data)">{{ data.representative }}</td>
-            <td (dblclick)="openDialog(data)">{{(data.toBeCompletedBy)? data.toBeCompletedBy.toString().substring(0,10)
-                : '\<Leer\>'}}</td>
+            <td (dblclick)="openDialog(data)">{{ (data.toBeCompletedBy ? (data.toBeCompletedBy | date:'dd.MM.yy') : '\<Leer\>') }}</td>
             <td (dblclick)="openDialog(data)">{{ data.technologist }}</td>
-            <td (dblclick)="openDialog(data)">{{(data.customerContactDate)?
-                data.customerContactDate.toString().substring(0,10) : '\<Leer\>'}}</td>
+            <td (dblclick)="openDialog(data)">{{ (data.customerContactDate ? (data.customerContactDate | date:'dd.MM.yy') : '\<Leer\>') }}</td>
             <td (dblclick)="openDialog(data)">
                 <span *ngIf="data.abschlussberichtFinished === 'Ja'" class="text-success centerTD">&#10004;</span>
                 <span *ngIf="data.abschlussberichtFinished === 'Nein'" class="text-danger centerTD">&#10008;</span>
