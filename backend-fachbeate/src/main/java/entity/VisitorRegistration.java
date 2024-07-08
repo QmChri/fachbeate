@@ -48,12 +48,14 @@ public class VisitorRegistration extends PanacheEntity {
     public Date meetingRoomDate;
     public String meetingRoomTime;
     public int lunchNumber;
-    public Date lunchDate;
+    public Date mealDateFrom;
+    public Date mealDateTo;
     public String lunchTime;
     public int veganMeals;
     public int vegetarianMeals;
     public String otherMealsDescription;
     public int otherMealsNumber;
+
     public Date transferFromDate;
     public Date transferToDate;
     public String otherTravelRequirements;
@@ -118,12 +120,14 @@ public class VisitorRegistration extends PanacheEntity {
 
 
         this.lunchNumber = newVisitorRegistration.lunchNumber;
-        this.lunchDate = newVisitorRegistration.lunchDate;
+        this.mealDateFrom = newVisitorRegistration.mealDateFrom;
+        this.mealDateTo = newVisitorRegistration.mealDateTo;
         this.lunchTime = newVisitorRegistration.lunchTime;
         this.veganMeals = newVisitorRegistration.veganMeals;
         this.vegetarianMeals = newVisitorRegistration.vegetarianMeals;
         this.otherMealsDescription = newVisitorRegistration.otherMealsDescription;
         this.otherMealsNumber = newVisitorRegistration.otherMealsNumber;
+
         this.transferFromDate = newVisitorRegistration.transferFromDate;
         this.transferToDate = newVisitorRegistration.transferToDate;
         this.otherTravelRequirements = newVisitorRegistration.otherTravelRequirements;

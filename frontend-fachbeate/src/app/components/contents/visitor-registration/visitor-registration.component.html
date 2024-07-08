@@ -287,12 +287,15 @@
                                 <mat-label>{{'VISITOR_REGRISTRATION.total_number' | translate}}</mat-label>
                                 <input type="number" min="0" matInput [(ngModel)]="inputVisitRegistration.lunchNumber">
                             </mat-form-field>
-                            <mat-form-field class="smallInput">
+                            
+                            <mat-form-field>
                                 <mat-label>{{'VISITOR_REGRISTRATION.date' | translate}}</mat-label>
-                                <input matInput [matDatepicker]="picker7"
-                                    [(ngModel)]="inputVisitRegistration.lunchDate">
-                                <mat-datepicker-toggle matIconSuffix [for]="picker7"></mat-datepicker-toggle>
-                                <mat-datepicker #picker7></mat-datepicker>
+                                <mat-date-range-input [rangePicker]="picker">
+                                    <input required matStartDate placeholder="Start date" [(ngModel)]="inputVisitRegistration.mealDateFrom">
+                                    <input required matEndDate placeholder="End date" [(ngModel)]="inputVisitRegistration.mealDateTo">
+                                </mat-date-range-input>
+                                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-date-range-picker #picker></mat-date-range-picker>
                             </mat-form-field>
                             <mat-form-field class="TIME">
                                 <mat-label>{{'VISITOR_REGRISTRATION.time' | translate}}</mat-label>
