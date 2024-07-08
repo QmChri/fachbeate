@@ -9,6 +9,8 @@ import { RoleService } from '../../../services/role.service';
 import { Technologist } from '../../../models/technologist';
 import { Representative } from '../../../models/representative';
 import { FormControl, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
+import { NotificationService } from '../../../services/notification.service';
 
 @Component({
   selector: 'app-abschluss-bericht',
@@ -33,7 +35,8 @@ export class AbschlussBerichtComponent implements OnInit {
  constructor(public roleService: RoleService,private notification: NzNotificationService,
     public dialogRef: MatDialogRef<AbschlussBerichtComponent>,
     @Inject(MAT_DIALOG_DATA) public finalReport: FinalReport,
-    private http: HttpService
+    private http: HttpService, private translate: TranslateService,
+    private notificationService: NotificationService
   ) {
     this.inputFinalReport = finalReport;
 
@@ -120,26 +123,28 @@ export class AbschlussBerichtComponent implements OnInit {
     }
   }
 
-  closeDialog(save: boolean) {    
-    this.finalReport.lastEditor = this.roleService.getUserName();
-    if(this.finalReport.creator === undefined){
-      this.finalReport.creator = this.roleService.getUserName();
+  closeDialog(save: boolean) {  
+    if(this.checkRequired())  {
+      this.finalReport.lastEditor = this.roleService.getUserName();
+      if(this.finalReport.creator === undefined){
+        this.finalReport.creator = this.roleService.getUserName();
+      }
+      
+      this.finalReport.reworkInformation = this.finalReport.reworkToDo!.includes(1);
+      this.finalReport.reworkRecipe_optimization = this.finalReport.reworkToDo!.includes(2);
+      this.finalReport.reworkProduct_development = this.finalReport.reworkToDo!.includes(3);
+
+    console.log(this.finalReport);
+
+
+      if(this.roleService.checkPermission([3])){
+        this.finalReport.representativeEntered = true;
+      }else if(this.roleService.checkPermission([4])){
+        this.finalReport.technologistEntered = true;
+      }
+
+      this.dialogRef.close({ finalReport: this.finalReport, save: save });
     }
-    
-    this.finalReport.reworkInformation = this.finalReport.reworkToDo!.includes(1);
-    this.finalReport.reworkRecipe_optimization = this.finalReport.reworkToDo!.includes(2);
-    this.finalReport.reworkProduct_development = this.finalReport.reworkToDo!.includes(3);
-
-  console.log(this.finalReport);
-
-
-    if(this.roleService.checkPermission([3])){
-      this.finalReport.representativeEntered = true;
-    }else if(this.roleService.checkPermission([4])){
-      this.finalReport.technologistEntered = true;
-    }
-
-    this.dialogRef.close({ finalReport: this.finalReport, save: save });
   }
 
   addArticle(reason: number) {
@@ -171,6 +176,30 @@ export class AbschlussBerichtComponent implements OnInit {
         console.log(err);
       }
     });
+  }
+
+  checkRequired():boolean{
+    var requiredFields: string[] = [
+      (this.inputFinalReport.technologist === null||this.inputFinalReport.technologist === undefined)?"assigned_technologist":"",
+      (this.inputFinalReport.representative === null||this.inputFinalReport.representative === undefined)?"assigned_repre":"",
+      (this.inputFinalReport.company === null||this.inputFinalReport.company === undefined)?"assigned_customer":"",
+      (this.inputFinalReport.companyNr === null||this.inputFinalReport.companyNr === undefined)?"assigned_customerNr":"",
+      (this.inputFinalReport.dateOfVisit === null||this.inputFinalReport.dateOfVisit === undefined)?"assigned_dateOfVisit":"",
+      (this.inputFinalReport.reworkToDo === null||this.inputFinalReport.reworkToDo === undefined)?"assigned_reason":"",
+    ].filter(element => element !== "");
+
+    console.log(requiredFields);
+
+
+    if(requiredFields.length !== 0){
+      this.translate.get(['STANDARD.please_fill_required_fields', ...requiredFields.map(element => "STANDARD."+element)]).subscribe(translations => {
+        const message = translations['STANDARD.please_fill_required_fields'];
+        const anotherMessage = requiredFields.map(element => translations["STANDARD."+element]).toString();
+        this.notificationService.createBasicNotification(4, message, anotherMessage, 'topRight');
+      });
+    }
+
+    return requiredFields.length === 0;
   }
 
   changeTechnolgist($event: any) {
