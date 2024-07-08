@@ -22,54 +22,54 @@ export class HttpService {
   constructor(private http: HttpClient) { }
 
   postCustomerRequirement(customerRequirement: CustomerRequirement): Observable<CustomerRequirement>{
-      return this.http.post<CustomerRequirement>(API_URL + "appointment/customerRequirement", customerRequirement);
+      return this.http.post<CustomerRequirement>(API_URL + "customerRequirement", customerRequirement);
   }
 
   getCustomerRequirementsByUser(type: number, fullname: string){
-    return this.http.get<CustomerRequirement[]>(API_URL + "appointment/customerRequirement/user", {params: {type: type, fullname: fullname}});
+    return this.http.get<CustomerRequirement[]>(API_URL + "customerRequirement/user", {params: {type: type, fullname: fullname}});
   }
 
   getCustomerRequirements() {
-    return this.http.get<CustomerRequirement[]>(API_URL + "appointment/customerRequirement");
+    return this.http.get<CustomerRequirement[]>(API_URL + "customerRequirement");
   }
 
   getCustomerById(id: number) {
-    return this.http.get<CustomerRequirement>(API_URL + "appointment/customerRequirement/id", {params: {id: id}});
+    return this.http.get<CustomerRequirement>(API_URL + "customerRequirement/id", {params: {id: id}});
   }
 
 
 
   postWorkshop(workshop: WorkshopRequirement): Observable<WorkshopRequirement>{
-    return this.http.post<WorkshopRequirement>(API_URL + "appointment/workshop", workshop);
+    return this.http.post<WorkshopRequirement>(API_URL + "workshop", workshop);
   }
 
   getWorkshopRequirements(){
-    return this.http.get<WorkshopRequirement[]>(API_URL + "appointment/workshop");
+    return this.http.get<WorkshopRequirement[]>(API_URL + "workshop");
   }
 
   getWorkshopById(id:number){
-    return this.http.get<WorkshopRequirement>(API_URL + "appointment/workshop/id", {params: {id: id}});
+    return this.http.get<WorkshopRequirement>(API_URL + "workshop/id", {params: {id: id}});
   }
 
   getWorkshopByUser(user: number, fullname: string): Observable<WorkshopRequirement[]>{
-    return this.http.get<WorkshopRequirement[]>(API_URL + "appointment/workshop/user", {params: {type: user, fullname: fullname}});
+    return this.http.get<WorkshopRequirement[]>(API_URL + "workshop/user", {params: {type: user, fullname: fullname}});
   }
 
 
   postVisitorRegistration(visitorRegistration: VisitorRegistration): Observable<VisitorRegistration>{
-    return this.http.post<VisitorRegistration>(API_URL + "appointment/visitorRegistration", visitorRegistration);
+    return this.http.post<VisitorRegistration>(API_URL + "visitorRegistration", visitorRegistration);
   }
 
   getVisitorRegistration(){
-    return this.http.get<VisitorRegistration[]>(API_URL + "appointment/visitorRegistration");
+    return this.http.get<VisitorRegistration[]>(API_URL + "visitorRegistration");
   }
 
   getVisitorRegistrationById(id:number){
-    return this.http.get<VisitorRegistration>(API_URL + "appointment/visitorRegistration/id", {params: {id: id}});
+    return this.http.get<VisitorRegistration>(API_URL + "visitorRegistration/id", {params: {id: id}});
   }
 
   getVisitorRegistrationByUser(type: number, fullname: string){
-    return this.http.get<VisitorRegistration[]>(API_URL + "appointment/visitorRegistration/user", {params: {type: type, fullname: fullname}});
+    return this.http.get<VisitorRegistration[]>(API_URL + "visitorRegistration/user", {params: {type: type, fullname: fullname}});
   }
 
 

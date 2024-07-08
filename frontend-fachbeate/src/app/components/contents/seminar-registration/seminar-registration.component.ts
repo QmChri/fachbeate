@@ -75,16 +75,25 @@ export class SeminarRegistrationComponent implements OnInit {
   }
 
   checkRequired(): boolean {
-    if (!this.inputWorkshop.company ||
-      !this.inputWorkshop.customer ||
-      !this.inputWorkshop.startDate ||
-      !this.inputWorkshop.endDate ||
-      !this.inputWorkshop.guests![0] ||
-      !this.inputWorkshop.representative) {
-      this.getNotification(4)
-      return false;
-    }
-    return true;
+    var requiredFields: string[] = [
+    (this.inputWorkshop.company === null || this.inputWorkshop.company === undefined)?"assigned_company":"",
+    (this.inputWorkshop.customer === null || this.inputWorkshop.customer === undefined)?"assigned_technologist":"",
+    (this.inputWorkshop.startDate === null || this.inputWorkshop.startDate === undefined)?"assigned_from":"",
+    (this.inputWorkshop.endDate === null || this.inputWorkshop.endDate === undefined)?"assigned_to":"",
+    (this.inputWorkshop.guests === null || this.inputWorkshop.guests === undefined)?"assigned_participants":"",
+    (this.inputWorkshop.representative === null || this.inputWorkshop.representative === undefined)?"assigned_repre":""
+  ].filter(element => element !== "");
+
+  if(requiredFields.length !== 0){
+    this.translate.get(['STANDARD.please_fill_required_fields', ...requiredFields.map(element => "STANDARD."+element)]).subscribe(translations => {
+      const message = translations['STANDARD.please_fill_required_fields'];
+      const anotherMessage = requiredFields.map(element => translations["STANDARD."+element]).toString();
+      console.log(requiredFields.map(element => translations['STANDARD.'+element]));
+      
+      this.notificationService.createBasicNotification(4, message, anotherMessage, 'topRight');
+    });
+  }
+    return requiredFields.length === 0;
   }
 
   addTab() {
@@ -251,13 +260,7 @@ export class SeminarRegistrationComponent implements OnInit {
         this.freigegeben = false;
         break;
       }
-      case 4: { // Pflichtfelder ausfüllen
-        this.translate.get(['STANDARD.please_fill_required_fields', 'STANDARD.assigned_representative']).subscribe(translations => {
-          const message = translations['STANDARD.please_fill_required_fields'];
-          const anotherMessage = translations['STANDARD.assigned_representative'];
-          this.notificationService.createBasicNotification(4, message, anotherMessage, 'topRight');
-        }); break;
-      }
+      
     }
   }
 }
