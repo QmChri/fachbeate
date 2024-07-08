@@ -43,9 +43,9 @@ export class MainListComponent implements OnInit {
     {
       name: 'status',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.status!.toString().localeCompare(b.status!.toString()),
+      sortFn: (a: DataItem, b: DataItem) => a.statusGL!.toString().localeCompare(b.statusGL!.toString()),
       listOfFilter: [],
-      filterFn: (list: string[], item: DataItem) => list.some(name => item.status!.indexOf(name) !== -1)
+      filterFn: (list: string[], item: DataItem) => list.some(name => item.statusGL!.indexOf(name) !== -1)
     },
     {
       name: 'representative',
@@ -113,7 +113,7 @@ export class MainListComponent implements OnInit {
 
     this.listOfColumn.find(element => element.name === 'status')!.listOfFilter =
       this.listOfDisplayData.reduce((uniqueFilters, element) => {
-        const filterValue = element.status || "<Leer>";
+        const filterValue = element.statusGL || "<Leer>";
         if (!uniqueFilters.some(filter => filter.value === filterValue)) {
           uniqueFilters.push({ text: filterValue, value: filterValue });
         }
@@ -225,7 +225,8 @@ export class MainListComponent implements OnInit {
             name: element.company?.name!,
             dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
             customerOrCompany: element.creator,
-            status: (element.releaseSupervisor && element.releaseManagement) ? 'Freigegeben ' : 'Nicht-Freigegeben',
+            statusGL: element.releaseSupervisor ? 'GL Freigegeben ' : 'GL Nicht-Freigegeben',
+            statusAL: element.releaseManagement ? 'AL Freigegeben ' : 'AL Nicht-Freigegeben',
             vertreter: element.representative?.firstName! + " " + element.representative?.lastName!,
             fachberater: element.requestedTechnologist?.firstName! + " " + element.requestedTechnologist?.lastName!,
             timespan: {
@@ -260,7 +261,8 @@ export class MainListComponent implements OnInit {
             name: "<Leer>",
             dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
             customerOrCompany: "<Leer>",
-            status: (element.releaseSupervisor && element.releaseManagement) ? 'Freigegeben ' : 'Nicht-Freigegeben',
+            statusGL: element.releaseSupervisor ? 'GL Freigegeben ' : 'GL Nicht-Freigegeben',
+            statusAL: element.releaseManagement ? 'AL Freigegeben ' : 'AL Nicht-Freigegeben',
             vertreter: element.representative!.firstName + " " + element.representative!.lastName,
             fachberater: element.requestedTechnologist!.map(a => a.firstName + " " + a.lastName).toString(),
             timespan: {
@@ -289,7 +291,8 @@ export class MainListComponent implements OnInit {
             name: element.name!,
             dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
             customerOrCompany: element.customerOrCompany!,
-            status: (element.releaseSupervisor && element.releaseManagement) ? 'Freigegeben ' : 'Nicht-Freigegeben',
+            statusGL: element.releaseSupervisor ? 'GL Freigegeben ' : 'GL Nicht-Freigegeben',
+            statusAL: element.releaseManagement ? 'AL Freigegeben ' : 'AL Nicht-Freigegeben',
             vertreter: element.representative!.firstName + " " + element.representative!.lastName,
             fachberater: "<Leer>",
             timespan: {
@@ -324,7 +327,7 @@ export class MainListComponent implements OnInit {
         this.router.navigate(['/customer-requirements', id.split("_")[1]]);
       } else if (type === 2) {
         this.router.navigate(['/seminar-registration', id.split("_")[1]]);
-      } 
+      }
     }
   }
 
@@ -348,7 +351,8 @@ export class MainListComponent implements OnInit {
       item.name!.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
       item.dateOfCreation!.toString().includes(this.searchValue.toLocaleLowerCase()) ||
       item.customerOrCompany!.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
-      item.status!.valueOf().toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.statusAL!.valueOf().toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.statusGL!.valueOf().toString().includes(this.searchValue.toLocaleLowerCase()) ||
       item.vertreter!.valueOf().toString().includes(this.searchValue.toLocaleLowerCase()) ||
       item.fachberater!.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
       item.timespan!.toString().includes(this.searchValue.toLocaleLowerCase()) ||
@@ -376,7 +380,8 @@ interface DataItem {
   name?: string;
   dateOfCreation?: Date;
   customerOrCompany?: string;
-  status?: string;
+  statusGL?: string;
+  statusAL?: string;
   vertreter?: string;
   fachberater?: string;
   timespan?: TimeSpan;
