@@ -246,6 +246,10 @@ export class CustomerRequirementsComponent implements OnInit {
     this.http.getActiveCompany().subscribe({
       next: data => {
         this.companies = data;
+
+        if(this.roleService.checkPermission([6])){
+          this.inputCustomerRequirement.company = this.companies.find(element => element.username === this.roleService.getUserName())!;
+        }
       },
       error: err => {
         console.log(err);
@@ -299,6 +303,11 @@ export class CustomerRequirementsComponent implements OnInit {
       case 5: { // Final Report
         this.translate.get('STANDARD.final_report_added').subscribe((translatedMessage: string) => {
           this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
+        }); break;
+      }
+      case 6: { // Final Report aber PFlichfelder fehlen
+        this.translate.get('STANDARD.please_fill_required_fields').subscribe((translatedMessage: string) => {
+          this.notificationService.createBasicNotification(4, translatedMessage, '', 'topRight');
         }); break;
       }
     }

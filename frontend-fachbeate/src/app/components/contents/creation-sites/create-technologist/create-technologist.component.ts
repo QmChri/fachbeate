@@ -14,6 +14,7 @@ export class CreateTechnologistComponent implements OnInit {
     id: 0,
     firstName: "",
     lastName: "",
+    email: "",
     active: true,
     color: "#ff0000"
   }
@@ -55,6 +56,7 @@ export class CreateTechnologistComponent implements OnInit {
             id: 0,
             firstName: "",
             lastName: "",
+            email: "",
             active: true,
             color: "#000000"
           }
@@ -74,6 +76,7 @@ export class CreateTechnologistComponent implements OnInit {
       id: 0,
       firstName: "",
       lastName: "",
+      email: "",
       active: true,
       color: ""
     }
@@ -81,9 +84,10 @@ export class CreateTechnologistComponent implements OnInit {
 
   editRow(id: number, type: number) {
     const technologist: Technologist = this.technologistList.find(element => element.id === id)!;
-    this.inputTechnologist.firstName = technologist.firstName;
     this.inputTechnologist.id = technologist.id;
+    this.inputTechnologist.firstName = technologist.firstName;
     this.inputTechnologist.lastName = technologist.lastName;
+    this.inputTechnologist.email = technologist.email;
     this.inputTechnologist.active = technologist.active;
     this.inputTechnologist.color = technologist.color;
   }

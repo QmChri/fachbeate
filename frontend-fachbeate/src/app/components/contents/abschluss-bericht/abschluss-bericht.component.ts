@@ -8,6 +8,7 @@ import { NzNotificationPlacement, NzNotificationService } from 'ng-zorro-antd/no
 import { RoleService } from '../../../services/role.service';
 import { Technologist } from '../../../models/technologist';
 import { Representative } from '../../../models/representative';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-abschluss-bericht',
@@ -15,11 +16,19 @@ import { Representative } from '../../../models/representative';
   styleUrl: './abschluss-bericht.component.scss'
 })
 export class AbschlussBerichtComponent implements OnInit {
-  inputFinalReport: FinalReport = {}
+  control = new FormControl(null, Validators.required);
+  inputFinalReport: FinalReport = {
+    reworkToDo: []
+  }
   reasonSelect: number[] = []
   existingArticles: Article[] = []
   technologists: Technologist[] = [];
   representative: Representative[] = [];
+  todoList = [
+    { id: 1, name: 'ABSCHLUSSBERICHT.information' },
+    { id: 2, name: 'ABSCHLUSSBERICHT.recipe_optimization' },
+    { id: 3, name: 'ABSCHLUSSBERICHT.product_development' }
+  ]; 
 
  constructor(public roleService: RoleService,private notification: NzNotificationService,
     public dialogRef: MatDialogRef<AbschlussBerichtComponent>,
@@ -27,12 +36,29 @@ export class AbschlussBerichtComponent implements OnInit {
     private http: HttpService
   ) {
     this.inputFinalReport = finalReport;
-   
 
-    if (finalReport.reasonReports !== undefined) {      
+    this.inputFinalReport.reworkToDo = [
+      (this.inputFinalReport.reworkInformation)?1:0,
+      (this.inputFinalReport.reworkRecipe_optimization)?2:0,
+      (this.inputFinalReport.reworkProduct_development)?3:0
+    ].filter(element => element != 0);
+
+    if (finalReport.reasonReports !== undefined) {
       this.inputFinalReport.reasonReports = this.inputFinalReport.reasonReports!.filter(element => element.reason !== 0);
       this.reasonSelect = this.inputFinalReport.reasonReports!.map(element => element.reason)
         .filter((reason): reason is number => reason !== undefined);
+      if(finalReport.id === undefined || finalReport.id === 0){
+
+        this.finalReport.reasonReports!.forEach(reasonReport => {
+          console.log(finalReport);
+          
+          if(reasonReport.presentedArticle === undefined || reasonReport.presentedArticle.length === 0 ){
+            console.log("test");
+            
+            reasonReport.presentedArticle = [{}]
+          }
+        });
+      }
     }
 
   }
@@ -53,7 +79,7 @@ export class AbschlussBerichtComponent implements OnInit {
       if (r !== null && r !== undefined) {
         newReasonReports = [...newReasonReports, r]
       } else {
-        newReasonReports = [...newReasonReports, { reason: element, presentedArticle: [] }]
+        newReasonReports = [...newReasonReports, { reason: element, presentedArticle: [{}] }]
       }
     })
     this.inputFinalReport.reasonReports = newReasonReports;
@@ -100,6 +126,13 @@ export class AbschlussBerichtComponent implements OnInit {
       this.finalReport.creator = this.roleService.getUserName();
     }
     
+    this.finalReport.reworkInformation = this.finalReport.reworkToDo!.includes(1);
+    this.finalReport.reworkRecipe_optimization = this.finalReport.reworkToDo!.includes(2);
+    this.finalReport.reworkProduct_development = this.finalReport.reworkToDo!.includes(3);
+
+  console.log(this.finalReport);
+
+
     if(this.roleService.checkPermission([3])){
       this.finalReport.representativeEntered = true;
     }else if(this.roleService.checkPermission([4])){
@@ -117,7 +150,6 @@ export class AbschlussBerichtComponent implements OnInit {
   deleteArticle(reason: number) {
     this.inputFinalReport.reasonReports?.find(element => element.reason === reason)?.presentedArticle.pop();
   }
-
   
   getTechnologist() {
     this.http.getActiveTechnologist().subscribe({
@@ -147,6 +179,11 @@ export class AbschlussBerichtComponent implements OnInit {
 
   changeRepresentative($event: any) {
     this.inputFinalReport.representative = this.representative.find(elemnt => elemnt.id === $event);
+  }
+
+  test(){
+    console.log(this.finalReport);
+    
   }
 
 }

@@ -8,8 +8,7 @@
             [disabled]="inputVisitRegistration.releaseManagement !== null && inputVisitRegistration.releaseManagement !== undefined"
             (nzOnConfirm)="release('gl')" *ngIf="roleService.checkPermission([1,7])" style="margin-right: 2rem;"
             nz-button nzType="primary" nz-popconfirm nzPopconfirmShowArrow="false" [nzIcon]="iconTpl"
-            [nzCancelText]="'DASHBOARD.cancel' | translate"
-            [nzOkText]="'STANDARD.ok' | translate"
+            [nzCancelText]="'DASHBOARD.cancel' | translate" [nzOkText]="'STANDARD.ok' | translate"
             [nzPopconfirmTitle]="'STANDARD.are_you_sure' | translate">
             <ng-template #iconTpl></ng-template>
             {{"CUSTOMER_REQUIREMENTS.approval_gl" | translate}}
@@ -18,15 +17,14 @@
             [disabled]="inputVisitRegistration.releaseSupervisor !== null && inputVisitRegistration.releaseSupervisor !== undefined"
             (nzOnConfirm)="release('al')" *ngIf="roleService.checkPermission([1,2,7])" style="margin-right: 2rem;"
             nz-button nzType="primary" nz-popconfirm nzPopconfirmShowArrow="false" [nzIcon]="iconTpl"
-            [nzCancelText]="'DASHBOARD.cancel' | translate"
-            [nzOkText]="'STANDARD.ok' | translate"
+            [nzCancelText]="'DASHBOARD.cancel' | translate" [nzOkText]="'STANDARD.ok' | translate"
             [nzPopconfirmTitle]="'STANDARD.are_you_sure' | translate">
             <ng-template #iconTpl></ng-template>
             {{"CUSTOMER_REQUIREMENTS.approval_al" | translate}}
         </button>
     </div>
-    <button  class="btn btn-success"
-            *ngIf="(inputVisitRegistration.creator === undefined && roleService.checkPermission([3,4,6])) || roleService.checkPermission([1,2,5,7])"
+    <button class="btn btn-success"
+        *ngIf="(inputVisitRegistration.creator === undefined && roleService.checkPermission([3,4,6])) || roleService.checkPermission([1,2,5,7])"
         (click)="postVisitorRegistration()">{{'CUSTOMER_REQUIREMENTS.send_form' |
         translate}}</button>
 </div>
@@ -41,11 +39,11 @@
                 <div class="displayBySide">
                     <mat-form-field class="smallInputSide">
                         <mat-label>{{"VISITOR_REGRISTRATION.name" | translate}}</mat-label>
-                        <input matInput [(ngModel)]="inputVisitRegistration.name">
+                        <textarea rows="1" matInput [(ngModel)]="inputVisitRegistration.name"></textarea>
                     </mat-form-field>
                     <mat-form-field class="smallInputSide">
                         <mat-label>{{"DASHBOARD.reason" | translate}}</mat-label>
-                        <input matInput [(ngModel)]="inputVisitRegistration.inputReason">
+                        <textarea rows="1" matInput [(ngModel)]="inputVisitRegistration.inputReason"></textarea>
                     </mat-form-field>
                 </div>
                 <div class="displayBySide">
@@ -84,7 +82,7 @@
                 <div class="paddingSearch">
                     <mat-form-field style="margin-right: 0.5rem;">
                         <mat-label>{{"VISITOR_REGRISTRATION.customer_company" | translate}}</mat-label>
-                        <input matInput required [(ngModel)]="inputVisitRegistration.customerOrCompany">
+                        <textarea rows="1"  matInput required [(ngModel)]="inputVisitRegistration.customerOrCompany"></textarea>
                     </mat-form-field>
                     <!--  <button class="btn btn-success teilButton"
                         matTooltip="{{'VISITOR_REGRISTRATION.participant_list' | translate}}"
@@ -105,7 +103,7 @@
                 <div class="displayBySide">
                     <mat-form-field>
                         <mat-label>{{'ABSCHLUSSBERICHT.visit_reason_general' | translate}}</mat-label>
-                        <input matInput [(ngModel)]="inputVisitRegistration.reasonForVisit">
+                        <textarea rows="1"  matInput [(ngModel)]="inputVisitRegistration.reasonForVisit"></textarea>
                     </mat-form-field>
                     <label class="languageBox">{{'STANDARD.language_en' | translate}}
                         <mat-checkbox color="warn" [(ngModel)]="inputVisitRegistration.languageEN"></mat-checkbox>
@@ -287,12 +285,15 @@
                                 <mat-label>{{'VISITOR_REGRISTRATION.total_number' | translate}}</mat-label>
                                 <input type="number" min="0" matInput [(ngModel)]="inputVisitRegistration.lunchNumber">
                             </mat-form-field>
-                            <mat-form-field class="smallInput">
+                            
+                            <mat-form-field>
                                 <mat-label>{{'VISITOR_REGRISTRATION.date' | translate}}</mat-label>
-                                <input matInput [matDatepicker]="picker7"
-                                    [(ngModel)]="inputVisitRegistration.lunchDate">
-                                <mat-datepicker-toggle matIconSuffix [for]="picker7"></mat-datepicker-toggle>
-                                <mat-datepicker #picker7></mat-datepicker>
+                                <mat-date-range-input [rangePicker]="picker">
+                                    <input required matStartDate placeholder="Start date" [(ngModel)]="inputVisitRegistration.mealDateFrom">
+                                    <input required matEndDate placeholder="End date" [(ngModel)]="inputVisitRegistration.mealDateTo">
+                                </mat-date-range-input>
+                                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-date-range-picker #picker></mat-date-range-picker>
                             </mat-form-field>
                             <mat-form-field class="TIME">
                                 <mat-label>{{'VISITOR_REGRISTRATION.time' | translate}}</mat-label>

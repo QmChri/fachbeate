@@ -20,16 +20,16 @@ export class MainListComponent implements OnInit {
 
   listOfColumn: ColumnDefinition[] = [
     {
-      name: 'company_name',
+      name: 'id',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.name!.toString().localeCompare(b.name!.toString()),
+      sortFn: (a: DataItem, b: DataItem) => 1,
       listOfFilter: [],
-      filterFn: (list: string[], item: DataItem) => list.some(a => item.name!.indexOf(a) !== -1)
+      filterFn: (list: string[], item: DataItem) => true
     },
     {
       name: 'creation_date',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.dateOfCreation!.valueOf() - b.dateOfCreation!.valueOf(),
+      sortFn: (a: DataItem, b: DataItem) => a.dateOfCreation!.toString().valueOf().localeCompare(b.dateOfCreation!.toString().valueOf()),
       listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => true
     },
@@ -43,9 +43,9 @@ export class MainListComponent implements OnInit {
     {
       name: 'status',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => 1,
+      sortFn: (a: DataItem, b: DataItem) => a.status!.toString().localeCompare(b.status!.toString()),
       listOfFilter: [],
-      filterFn: (list: string[], item: DataItem) => true
+      filterFn: (list: string[], item: DataItem) => list.some(name => item.status!.indexOf(name) !== -1)
     },
     {
       name: 'representative',
@@ -85,10 +85,10 @@ export class MainListComponent implements OnInit {
     {
       name: 'type',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.type!.valueOf().toString().localeCompare(b.type!.valueOf().toString()),
+      sortFn: (a: DataItem, b: DataItem) => a.type! - b.type!,
       listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => list.some(name => item.type!.valueOf().toString().indexOf(name.valueOf().toString()) !== -1)
-    }
+    },
   ];
 
   constructor(public translate: TranslateService, private router: Router, private http: HttpService, private notificationService: NotificationService, public roleService: RoleService) { }
@@ -159,13 +159,13 @@ export class MainListComponent implements OnInit {
     this.listOfColumn.find(element => element.name === 'type')!.listOfFilter = this.listOfDisplayData.map(element => {
       let typeText;
       switch (element.type!.toString()) {
-        case '0':
+        case '1':
           typeText = 'Fachberater A.';
           break;
-        case '1':
+        case '2':
           typeText = 'Seminar';
           break;
-        case '2':
+        case '0':
           typeText = 'Besuch';
           break;
         default:
@@ -184,11 +184,10 @@ export class MainListComponent implements OnInit {
       });
   }
 
-  loadDataPerUser(){
+  loadDataPerUser() {
     this.http.getAllCompany().subscribe({
       next: data => {
         var companies = data;
-
         this.loadData(companies)
       }
     })
@@ -198,11 +197,9 @@ export class MainListComponent implements OnInit {
     var type = (this.roleService.checkPermission([1, 2, 3, 5, 7]) ? 7 : 6);
     type = (!this.roleService.checkPermission([1, 2, 4, 5, 6, 7]) ? 3 : type);
     type = (!this.roleService.checkPermission([1, 2, 3, 5, 6, 7]) ? 4 : type);
-    var fullname = (type === 6) ? companies.find(element => element.username === this.roleService.getUserName()!)?.username : this.roleService.getFullName()!;
-    
-    console.log(type);
-    
-    if(type === 6 && fullname === undefined){
+    var fullname = (type === 6) ? companies.find(element => element.username === this.roleService.getUserName()!)?.username : this.roleService.getEmail()!;
+
+    if (type === 6 && fullname === undefined) {
       type = -1;
     }
 
@@ -224,20 +221,20 @@ export class MainListComponent implements OnInit {
           });
 
           this.listOfDisplayData = [...this.listOfDisplayData, {
-            id: element.id!,
+            id: "F_" + element.id!,
             name: element.company?.name!,
             dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
-            customerOrCompany: "<Leer>",
-            status: (element.releaseSupervisor && element.releaseManagement)?"Freigegeben":"Nicht-Freigegeben",
+            customerOrCompany: element.creator,
+            status: (element.releaseSupervisor && element.releaseManagement) ? 'Freigegeben ' : 'Nicht-Freigegeben',
             vertreter: element.representative?.firstName! + " " + element.representative?.lastName!,
             fachberater: element.requestedTechnologist?.firstName! + " " + element.requestedTechnologist?.lastName!,
             timespan: {
               start: element.startDate,
               end: element.endDate
             },
-            customer: "<Leer>",
+            customer: (element.customerVisits[0]) ? element.customerVisits[0].companyName! : "<Leer>",
             abschlussbericht: cntFinalReports + "/" + element.customerVisits.length,
-            type: 0,
+            type: 1,
             visible: element.showUser!
           }];
         });
@@ -259,11 +256,11 @@ export class MainListComponent implements OnInit {
           }
 
           this.listOfDisplayData = [...this.listOfDisplayData, {
-            id: element.id!,
+            id: "S_" + element.id!,
             name: "<Leer>",
             dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
             customerOrCompany: "<Leer>",
-            status: (element.releaseSupervisor && element.releaseManagement)?"Freigegeben":"Nicht-Freigegeben",
+            status: (element.releaseSupervisor && element.releaseManagement) ? 'Freigegeben ' : 'Nicht-Freigegeben',
             vertreter: element.representative!.firstName + " " + element.representative!.lastName,
             fachberater: element.requestedTechnologist!.map(a => a.firstName + " " + a.lastName).toString(),
             timespan: {
@@ -271,8 +268,8 @@ export class MainListComponent implements OnInit {
               end: element.endDate
             },
             customer: element.customer!,
-            abschlussbericht: 'false',
-            type: 1,
+            abschlussbericht: '<leer>',
+            type: 2,
             visible: element.showUser!
           }];
 
@@ -288,20 +285,20 @@ export class MainListComponent implements OnInit {
       next: data => {
         data.forEach(element => {
           this.listOfDisplayData = [...this.listOfDisplayData, {
-            id: element.id!,
+            id: "B_" + element.id!,
             name: element.name!,
             dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
             customerOrCompany: element.customerOrCompany!,
-            status: (element.releaseSupervisor && element.releaseManagement)?"Freigegeben":"Nicht-Freigegeben",
+            status: (element.releaseSupervisor && element.releaseManagement) ? 'Freigegeben ' : 'Nicht-Freigegeben',
             vertreter: element.representative!.firstName + " " + element.representative!.lastName,
             fachberater: "<Leer>",
             timespan: {
               start: element.fromDate,
               end: element.toDate
             },
-            customer: "<Leer>",
+            customer: (element.customerOrCompany) ? element.customerOrCompany : "<leer>",
             abschlussbericht: "<Leer>",
-            type: 2,
+            type: 0,
             visible: element.showUser!
           }];
         });
@@ -319,15 +316,15 @@ export class MainListComponent implements OnInit {
     })
   }
 
-  openCRC(data: any, id: number, type: number) {
+  openCRC(data: any, id: string, type: number) {
     if (data.visible) {
       if (type === 0) {
-        this.router.navigate(['/customer-requirements', id]);
+        this.router.navigate(['/visitorRegistration', id.split("_")[1]]);
       } else if (type === 1) {
-        this.router.navigate(['/seminar-registration', id]);
+        this.router.navigate(['/customer-requirements', id.split("_")[1]]);
       } else if (type === 2) {
-        this.router.navigate(['/visitorRegistration', id]);
-      }
+        this.router.navigate(['/seminar-registration', id.split("_")[1]]);
+      } 
     }
   }
 
@@ -362,7 +359,7 @@ export class MainListComponent implements OnInit {
   }
 
   changeEditable(data: any) {
-    
+
     this.http.changeVisiblility(data.type, data.id).subscribe();
 
     if (!data.visible) {
@@ -372,176 +369,10 @@ export class MainListComponent implements OnInit {
       data.visible = false
     }
   }
-
-  /* tmpinitData() {
-     this.listOfDisplayData = [
-       {
-         id: 1,
-         name: "Project A - Long Name Test",
-         dateOfCreation: new Date("2023-06-01"),
-         customerOrCompany: "Example GmbH - Long Name Test",
-         status: "true",
-         vertreter: "B",
-         fachberater: "C",
-         timespan: {
-           start: new Date("2023-06-01"),
-           end: new Date("2023-06-30"),
-         },
-         customer: "A",
-         abschlussbericht: "Fertig",
-         type: 1,
-       },
-       {
-         id: 2,
-         name: "Project B - Testing Long Names",
-         dateOfCreation: new Date("2023-06-02"),
-         customerOrCompany: "Demo AG - Example Long Company Name",
-         status: "false",
-         vertreter: "C",
-         fachberater: "A",
-         timespan: {
-           start: new Date("2023-07-10"),
-           end: new Date("2023-07-31"),
-         },
-         customer: "F",
-         abschlussbericht: "In Arbeit",
-         type: 2,
-       },
-       {
-         id: 3,
-         name: "Project C - Another Long Test Name",
-         dateOfCreation: new Date("2023-06-03"),
-         customerOrCompany: "Test GmbH - Long Customer Name for Testing",
-         status: "true",
-         vertreter: "Hans Schmidt",
-         fachberater: "Sabine Fischer",
-         timespan: {
-           start: new Date("2023-08-05"),
-           end: new Date("2023-08-20"),
-         },
-         customer: "TEster langer Test",
-         abschlussbericht: "Fertig",
-         type: 0,
-       },
-       // Additional test data
-       {
-         id: 4,
-         name: "Project D - Extended Name for Testing",
-         dateOfCreation: new Date("2023-06-04"),
-         customerOrCompany: "Alpha Ltd. - Long Customer Company Name",
-         status: "true",
-         vertreter: "D",
-         fachberater: "E",
-         timespan: {
-           start: new Date("2023-09-01"),
-           end: new Date("2023-09-15"),
-         },
-         customer: "C",
-         abschlussbericht: "Fertig",
-         type: 1,
-       },
-       {
-         id: 5,
-         name: "Project E - Long Name Test for Data",
-         dateOfCreation: new Date("2023-06-05"),
-         customerOrCompany: "Beta Corp. - Test Company Name for Long Data",
-         status: "false",
-         vertreter: "E",
-         fachberater: "F",
-         timespan: {
-           start: new Date("2023-10-01"),
-           end: new Date("2023-10-10"),
-         },
-         customer: "D",
-         abschlussbericht: "Nicht gestartet",
-         type: 0,
-       },
-       {
-         id: 6,
-         name: "Project F - More Test Data with Long Names",
-         dateOfCreation: new Date("2023-06-06"),
-         customerOrCompany: "Gamma Inc. - Long Company Name for Testing",
-         status: "true",
-         vertreter: "F",
-         fachberater: "G",
-         timespan: {
-           start: new Date("2023-11-01"),
-           end: new Date("2023-11-20"),
-         },
-         customer: "E",
-         abschlussbericht: "In Arbeit",
-         type: 2,
-       },
-       {
-         id: 7,
-         name: "Project G - Final Test with Long Names",
-         dateOfCreation: new Date("2023-06-07"),
-         customerOrCompany: "Delta LLC - Long Name for Delta Company",
-         status: "false",
-         vertreter: "G",
-         fachberater: "H",
-         timespan: {
-           start: new Date("2023-12-01"),
-           end: new Date("2023-12-15"),
-         },
-         customer: "F",
-         abschlussbericht: "Fertig",
-         type: 1,
-       },
-       {
-         id: 8,
-         name: "Project H - Large Scale Testing Names",
-         dateOfCreation: new Date("2023-06-08"),
-         customerOrCompany: "Epsilon GmbH - Large Customer Name for Testing",
-         status: "true",
-         vertreter: "H",
-         fachberater: "I",
-         timespan: {
-           start: new Date("2023-12-20"),
-           end: new Date("2023-12-31"),
-         },
-         customer: "G",
-         abschlussbericht: "Fertig",
-         type: 0,
-       },
-       {
-         id: 9,
-         name: "Project I - Extensive Data with Long Names",
-         dateOfCreation: new Date("2023-06-09"),
-         customerOrCompany: "Zeta AG - Comprehensive Testing Name for Customer",
-         status: "false",
-         vertreter: "I",
-         fachberater: "J",
-         timespan: {
-           start: new Date("2024-01-01"),
-           end: new Date("2024-01-15"),
-         },
-         customer: "H",
-         abschlussbericht: "In Arbeit",
-         type: 2,
-       },
-       {
-         id: 10,
-         name: "Project J - Advanced Testing for Large Names",
-         dateOfCreation: new Date("2023-06-10"),
-         customerOrCompany: "Theta Corp. - Testing Company for Large Names",
-         status: "true",
-         vertreter: "J",
-         fachberater: "K",
-         timespan: {
-           start: new Date("2024-02-01"),
-           end: new Date("2024-02-10"),
-         },
-         customer: "I",
-         abschlussbericht: "Nicht gestartet",
-         type: 1,
-       },
-     ];
-   } */
 }
 
 interface DataItem {
-  id?: number;
+  id?: string;
   name?: string;
   dateOfCreation?: Date;
   customerOrCompany?: string;

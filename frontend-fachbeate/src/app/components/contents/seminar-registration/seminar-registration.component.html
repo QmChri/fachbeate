@@ -34,7 +34,9 @@
                 <div class="center-items ">
                     <mat-form-field>
                         <mat-label>{{"CUSTOMER_REQUIREMENTS.dealers_daughters"|translate}}</mat-label>
-                        <mat-select [ngModel]="(inputWorkshop.company === undefined)?undefined:inputWorkshop.company.id"
+                        <mat-select 
+                        [disabled]="roleService.checkPermission([6])"
+                        [ngModel]="(inputWorkshop.company === undefined)?undefined:inputWorkshop.company.id"
                             required (valueChange)="changeCompany($event)">
                             <mat-option>--</mat-option>
                             @for (c of companies; track companies) {
@@ -84,9 +86,9 @@
                         <input matInput [(ngModel)]="inputWorkshop.travelType">
                     </mat-form-field>
                     <div class="paddingSearch">
-                        <mat-form-field style="max-width: 8rem;">
+                        <mat-form-field style="max-width: 10rem;">
                             <mat-label>{{'VISITOR_REGRISTRATION.number' | translate}}</mat-label>
-                            <input type="number" min="0" matInput [(ngModel)]="inputWorkshop.amountParticipants">
+                            <input required type="number" min="0" matInput [(ngModel)]="inputWorkshop.amountParticipants">
                         </mat-form-field>
                         <button class="btn teilButton"
                             [ngClass]="{'btn-success': inputWorkshop.guests && inputWorkshop.guests.length > 0, 'btn-danger': !inputWorkshop.guests || inputWorkshop.guests.length === 0}"
@@ -205,13 +207,12 @@
                     <div class="card-header bg-danger text-white">{{'VISITOR_REGRISTRATION.factory_tour' |
                         translate}}
                     </div>
-                    <div class="card-body minheigtCard">
+                    <div class="card-body">
                         <div class="displayBySide">
-                            <mat-form-field style="max-width: 8.5rem;" class="smallInput">
+                            <mat-form-field class="smallInput">
                                 <mat-label>{{'VISITOR_REGRISTRATION.number' | translate}}</mat-label>
-                                <input matInput [(ngModel)]="inputWorkshop.tourAmount">
+                                <input matInput type="number" [(ngModel)]="inputWorkshop.tourAmount">
                             </mat-form-field>
-
                             <mat-form-field class="smallInput">
                                 <mat-label>{{'VISITOR_REGRISTRATION.date' | translate}}</mat-label>
                                 <input matInput [matDatepicker]="picker5" [(ngModel)]="inputWorkshop.tourDate">
@@ -230,12 +231,12 @@
                 <div class="card" hideToggle>
                     <div class="card-header bg-danger text-white">{{'SEMINAR_REGRISTRATION.excursion' | translate}}
                     </div>
-                    <div class="card-body minheigtCard">
+                    <div class="card-body">
                         <div class="displayBySide">
                             <div class="center-items">
                                 <mat-form-field class="smallInput">
                                     <mat-label>{{'SEMINAR_REGRISTRATION.excursion_destination' | translate}}</mat-label>
-                                    <input matInput [(ngModel)]="inputWorkshop.tripLocation">
+                                    <textarea rows="1" matInput [(ngModel)]="inputWorkshop.tripLocation"></textarea>
                                 </mat-form-field>
                                 <mat-form-field class="smallInput">
                                     <mat-label>{{'SEMINAR_REGRISTRATION.other_notes_excursion' | translate}}</mat-label>
@@ -264,7 +265,7 @@
                         {{'SEMINAR_REGRISTRATION.airport_transfer_train_excursion' |
                         translate}}
                     </div>
-                    <div class="card-body minheigtCard">
+                    <div class="card-body">
                         <div class="displayBySide">
                             <div class="center-items">
                                 <mat-form-field class="smallInput">
@@ -296,19 +297,24 @@
             </div>
             <div class="col-md-6 paddingBottom" *ngIf="buttonSelect.includes('4')">
                 <div class="card" hideToggle>
-                    <div class="card-header bg-danger text-white">{{'SEMINAR_REGRISTRATION.lunch' | translate}}</div>
-                    <div class="card-body minheigtCard">
+                    <div class="card-header bg-danger text-white">{{'VISITOR_REGRISTRATION.lunch' | translate}}</div>
+                    <div class="card-body">
                         <div class="displayBySide">
                             <mat-form-field class="smallInputMittagAnz">
                                 <mat-label>{{'VISITOR_REGRISTRATION.number' | translate}}</mat-label>
                                 <input type="number" min="0" matInput [(ngModel)]="inputWorkshop.mealAmount">
                             </mat-form-field>
-                            <mat-form-field class="smallInput">
+
+                            <mat-form-field>
                                 <mat-label>{{'VISITOR_REGRISTRATION.date' | translate}}</mat-label>
-                                <input matInput [matDatepicker]="picker7" [(ngModel)]="inputWorkshop.mealDate">
-                                <mat-datepicker-toggle matIconSuffix [for]="picker7"></mat-datepicker-toggle>
-                                <mat-datepicker #picker7></mat-datepicker>
+                                <mat-date-range-input [rangePicker]="picker">
+                                    <input required matStartDate placeholder="Start date" [(ngModel)]="inputWorkshop.mealDateFrom">
+                                    <input required matEndDate placeholder="End date" [(ngModel)]="inputWorkshop.mealDateTo">
+                                </mat-date-range-input>
+                                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-date-range-picker #picker></mat-date-range-picker>
                             </mat-form-field>
+
                             <mat-form-field class="TIME">
                                 <mat-label>{{'VISITOR_REGRISTRATION.time' | translate}}</mat-label>
                                 <input type="time" matInput [(ngModel)]="inputWorkshop.mealTime">
@@ -349,18 +355,19 @@
                     translate}}</div>
                 <!--TODO ngModels setzen-->
                 <div class="card-body">
-                    @for (tab of tabs; track tab; let index = $index) {
-                    <p>{{index+1}}. {{"CUSTOMER_REQUIREMENTS.hotel_booking"|translate}}<p>
+                    @for (hotelbooking of inputWorkshop.hotelBookings; track hotelbooking; let index = $index)
+                    {<p>{{index+1}}. {{'CUSTOMER_REQUIREMENTS.hotel_booking' | translate}}</p>
                     <div class="center-items">
                         <mat-form-field class="smallInputSpecial">
                             <mat-label>{{'VISITOR_REGRISTRATION.location' | translate}}</mat-label>
-                            <input matInput>
+                            <input matInput [(ngModel)]="hotelbooking.hotelLocation">
                         </mat-form-field>
                         <mat-form-field class="smallInputSpecial">
                             <mat-label>{{'CUSTOMER_REQUIREMENTS.from_to' | translate}}</mat-label>
                             <mat-date-range-input [rangePicker]="picker3">
-                                <input matStartDate>
-                                <input matEndDate>
+                                <input matStartDate placeholder="Start date"
+                                    [(ngModel)]="hotelbooking.hotelStayFromDate">
+                                <input matEndDate placeholder="End date" [(ngModel)]="hotelbooking.hotelStayToDate">
                             </mat-date-range-input>
                             <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
                             <mat-date-range-picker #picker3></mat-date-range-picker>
@@ -369,14 +376,13 @@
                     <div class="displayBySide">
                         <mat-form-field class="NumberInput">
                             <mat-label>{{'VISITOR_REGRISTRATION.single_room' | translate}}</mat-label>
-                            <input type="number" min="0" matInput>
+                            <input type="number" min="0" matInput [(ngModel)]="hotelbooking.singleRooms">
                         </mat-form-field>
                         <mat-form-field class="NumberInput">
                             <mat-label>{{'VISITOR_REGRISTRATION.double_room' | translate}}</mat-label>
-                            <input type="number" min="0" matInput>
+                            <input type="number" min="0" matInput [(ngModel)]="hotelbooking.doubleRooms">
                         </mat-form-field>
                     </div>
-
                     }
                     <div class="header">
                         <div>

@@ -52,8 +52,8 @@ public class AppointmentResource {
         if (user==7) {
             return getCustomerRequirement();
         }else if(user == 4) {
-            return Response.ok(CustomerRequirement.find("requestedTechnologist.firstName = ?1 and requestedTechnologist.lastName = ?2 and showUser = true",
-                    fullname.split(";")[0], fullname.split(";")[1]).list()).build();
+            return Response.ok(CustomerRequirement.find("requestedTechnologist.email = ?1 and showUser = true",
+                   fullname).list()).build();
         } else if(user == 6) {
             return Response.ok(CustomerRequirement.find(
                     "company.username = ?1 and showUser = true",
@@ -61,9 +61,7 @@ public class AppointmentResource {
                 ).list()).build();
         } else if(user == 3){
             return Response.ok(CustomerRequirement.find(
-                    "representative.firstName = ?1 and representative.lastName = ?2 and showUser = true",
-                                fullname.split(";")[0],
-                                fullname.split(";")[1]
+                    "representative.email = ?1 and showUser = true",fullname
                     ).list()).build();
         }
         return Response.ok().build();
@@ -105,9 +103,7 @@ public class AppointmentResource {
         }else if(user == 4) {
             return Response.ok(WorkshopRequirement.find(
                     "select work from WorkshopRequirement work join work.requestedTechnologist tech " +
-                        "where tech.firstName = ?1 and tech.lastName = ?2 and showUser = true",
-                            fullname.split(";")[0],
-                            fullname.split(";")[1]
+                        "where tech.email = ?1 and showUser = true",fullname
                     ).list()).build();
         }else if(user == 6) {
             return Response.ok(WorkshopRequirement.find(
@@ -116,9 +112,7 @@ public class AppointmentResource {
                     ).list()).build();
         }else if(user == 3){
             return Response.ok(WorkshopRequirement.find(
-                    "representative.firstName = ?1 and representative.lastName = ?2 and showUser = true",
-                                fullname.split(";")[0],
-                                fullname.split(";")[1]
+                    "representative.email = ?1 and showUser = true",fullname
                         ).list()).build();
         }
         return Response.ok().build();
@@ -161,9 +155,7 @@ public class AppointmentResource {
                     ).list()).build();
         }else if(user == 3){
             return Response.ok(VisitorRegistration.find(
-                    "representative.firstName = ?1 and representative.lastName = ?2 and showUser = true",
-                            fullname.split(";")[0],
-                            fullname.split(";")[1]
+                    "representative = ?1 and showUser = true",fullname
                     ).list()).build();
         }
         return Response.ok().build();
@@ -209,9 +201,7 @@ public class AppointmentResource {
             return getOtherAppointments();
         }else if(user == 4) {
             return Response.ok(TechnologistAppointment.find(
-                    "requestedTechnologist.firstName = ?1 and requestedTechnologist.lastName = ?2",
-                            fullname.split(";")[0],
-                            fullname.split(";")[1]
+                    "requestedTechnologist.email", fullname
                     ).list()).build();
         }
         return Response.ok().build();
@@ -233,9 +223,7 @@ public class AppointmentResource {
             return getFinalReports();
         }else if(user == 4) {
             return Response.ok(FinalReport.find(
-                    "technologist.firstName = ?1 and technologist.lastName = ?2" +
-                            fullname.split(";")[0],
-                            fullname.split(";")[1]
+                    "technologist.email", fullname
                     ).list()).build();
         }else if(user == 6) {
             List<CustomerRequirement> customerRequirements = CustomerRequirement.find(
@@ -255,9 +243,7 @@ public class AppointmentResource {
             return Response.ok(finalReports).build();
         }else if(user == 3){
             return Response.ok(FinalReport.find(
-                    "representative.firstName = ?1 and representative.lastName = ?2",
-                    fullname.split(";")[0],
-                            fullname.split(";")[1]
+                    "representative.email", fullname
                     ).list()).build();
         }
         return Response.ok().build();

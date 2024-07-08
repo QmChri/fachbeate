@@ -67,10 +67,9 @@ export class RoleService {
     return this.roles;
   }
 
-  getFullName() {
-    return this.userProfile!.firstName + ";" + this.userProfile!.lastName
+  getEmail(){
+    return this.userProfile!.email;
   }
-
   getUserName() {
     return this.userProfile!.username;
   }

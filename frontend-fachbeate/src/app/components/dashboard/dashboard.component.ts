@@ -58,7 +58,7 @@ export class DashboardComponent implements OnInit {
 
     var type = (this.roleService.checkPermission([1, 2, 3, 5, 7]) ? 7 : 6);
     type = (!this.roleService.checkPermission([1, 2, 3, 5, 6, 7]) ? 4 : type);
-    var fullname = (type === 6) ? companies.find(element => element.username === this.roleService.getUserName()!)?.username : this.roleService.getFullName()!;
+    var fullname = (type === 6) ? companies.find(element => element.username === this.roleService.getUserName()!)?.username : this.roleService.getEmail()!;
 
     this.http.getCustomerRequirementsByUser(type!, fullname!).subscribe({
       next: data => {
