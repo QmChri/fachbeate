@@ -10,7 +10,7 @@
                         <div class="center-items">
                             <div class="displayBySide">
                                 <mat-form-field>
-                                    <mat-label>{{"CUSTOMER_REQUIREMENTS.select_advisor"|translate}}</mat-label>
+                                    <mat-label>{{"MAIN_LIST.advisor"|translate}}</mat-label>
                                     <mat-select [disabled]="roleService.checkPermission([6])"
                                         [ngModel]="(inputFinalReport.technologist === undefined)?undefined:inputFinalReport.technologist.id"
                                         (valueChange)="changeTechnolgist($event)" required>
@@ -19,15 +19,14 @@
                                         <mat-option [value]="t.id">{{t.firstName}} {{t.lastName}}</mat-option>
                                         }
                                     </mat-select>
-                                    <!----
-                                    @if (tohaControl.hasError('required')) {
+                                    @if (control.hasError('required')) {
                                     <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
-                                    }-->
+                                    }
                                 </mat-form-field>
                                 <mat-form-field class="smallInput">
                                     <mat-label>{{"ABSCHLUSSBERICHT.company" | translate}}</mat-label>
                                     <input [disabled]="roleService.checkPermission([6])" matInput type="text"
-                                        [(ngModel)]="inputFinalReport.company" name="company">
+                                        [(ngModel)]="inputFinalReport.company" name="company" required>
                                 </mat-form-field>
                                 <mat-form-field class="smallInput">
                                     <mat-label>{{"CUSTOMER_REQUIREMENTS.customer_number" | translate}}</mat-label>
@@ -46,14 +45,13 @@
                                         <mat-option [value]="r.id">{{r.firstName}} {{r.lastName}}</mat-option>
                                         }
                                     </mat-select>
-                                    <!--TODO
-                                    @if (tohaControl.hasError('required')) {
+                                    @if (control.hasError('required')) {
                                     <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
-                                    }--->
+                                    }
                                 </mat-form-field>
                                 <mat-form-field class="smallInputSide">
                                     <mat-label>{{"ABSCHLUSSBERICHT.visit_date_general" | translate}}</mat-label>
-                                    <input [disabled]="roleService.checkPermission([6])" matInput
+                                    <input [disabled]="roleService.checkPermission([6])" matInput required
                                         [matDatepicker]="picker1" type="text" [(ngModel)]="inputFinalReport.dateOfVisit"
                                         name="dateOfVisit">
                                     <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
@@ -75,6 +73,9 @@
                                         <mat-option [value]="5">{{"CUSTOMER_REQUIREMENTS.training" |
                                             translate}}</mat-option>
                                     </mat-select>
+                                    @if (control.hasError('required')) {
+                                    <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
+                                    }
                                 </mat-form-field>
                             </div>
                         </div>
@@ -181,6 +182,9 @@
                                         <mat-option [value]="false">{{"SEMINAR_REGRISTRATION.no" |
                                             translate}}</mat-option>
                                     </mat-select>
+                                    @if (control.hasError('required')) {
+                                    <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
+                                    }
                                 </mat-form-field>
                                 <mat-form-field
                                     *ngIf="inputFinalReport.reworkByTechnologist && roleService.checkPermission([1,2,4,7])"
@@ -219,6 +223,9 @@
                                     <mat-option [value]="true">{{"SEMINAR_REGRISTRATION.yes" | translate}}</mat-option>
                                     <mat-option [value]="false">{{"SEMINAR_REGRISTRATION.no" | translate}}</mat-option>
                                 </mat-select>
+                                @if (control.hasError('required')) {
+                                <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
+                                }
                             </mat-form-field>
                         </div>
                     </div>
@@ -413,7 +420,7 @@
             </ng-container>
         </div>
         <div class="header">
-            <div> <button  (click)="closeDialog(false)" class="btn btn-secondary">{{"DASHBOARD.cancel" |
+            <div> <button (click)="closeDialog(false)" class="btn btn-secondary">{{"DASHBOARD.cancel" |
                     translate}}</button></div>
             <div>
                 <button *ngIf="(inputFinalReport.creator === undefined && roleService.checkPermission([3,4,6])) 
