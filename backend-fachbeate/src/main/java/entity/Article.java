@@ -25,11 +25,6 @@ public class Article extends PanacheEntity {
             persisted.update(this);
             return persisted;
         }
-        Article a = Article.find("articleNr", this.articleNr).firstResult();
-        if(a != null && a.id != null){
-            a.update(this);
-            return a;
-        }
         this.id = null;
         this.persist();
         return this;

@@ -40,6 +40,18 @@ export class AbschlussBerichtComponent implements OnInit {
       this.inputFinalReport.reasonReports = this.inputFinalReport.reasonReports!.filter(element => element.reason !== 0);
       this.reasonSelect = this.inputFinalReport.reasonReports!.map(element => element.reason)
         .filter((reason): reason is number => reason !== undefined);
+      if(finalReport.id === undefined || finalReport.id === 0){
+
+        this.finalReport.reasonReports!.forEach(reasonReport => {
+          console.log(finalReport);
+          
+          if(reasonReport.presentedArticle === undefined || reasonReport.presentedArticle.length === 0 ){
+            console.log("test");
+            
+            reasonReport.presentedArticle = [{}]
+          }
+        });
+      }
     }
 
   }
@@ -60,7 +72,7 @@ export class AbschlussBerichtComponent implements OnInit {
       if (r !== null && r !== undefined) {
         newReasonReports = [...newReasonReports, r]
       } else {
-        newReasonReports = [...newReasonReports, { reason: element, presentedArticle: [] }]
+        newReasonReports = [...newReasonReports, { reason: element, presentedArticle: [{}] }]
       }
     })
     this.inputFinalReport.reasonReports = newReasonReports;

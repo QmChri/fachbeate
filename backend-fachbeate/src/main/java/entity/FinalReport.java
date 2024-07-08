@@ -41,10 +41,6 @@ public class FinalReport extends PanacheEntity {
     public Date reworkByTechnologistDoneUntil;
     public String reworkByTechnologistState;
 
-    public boolean reworkByRepresentative;
-    public Date reworkByRepresentativeDoneUntil;
-
-
     public FinalReport() {
     }
 
@@ -65,8 +61,6 @@ public class FinalReport extends PanacheEntity {
         this.reworkByTechnologist = newFinalReport.reworkByTechnologist;
         this.reworkByTechnologistDoneUntil = newFinalReport.reworkByTechnologistDoneUntil;
         this.reworkByTechnologistState = newFinalReport.reworkByTechnologistState;
-        this.reworkByRepresentative = newFinalReport.reworkByRepresentative;
-        this.reworkByRepresentativeDoneUntil = newFinalReport.reworkByRepresentativeDoneUntil;
 
         this.customerContactDate = newFinalReport.customerContactDate;
         this.responseCustomer = newFinalReport.responseCustomer;

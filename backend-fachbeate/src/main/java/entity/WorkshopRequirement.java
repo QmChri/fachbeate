@@ -42,6 +42,9 @@ public class WorkshopRequirement extends PanacheEntity {
     public Company company;
     public String customer;
 
+    @OneToMany
+    public List<HotelBooking> hotelBookings;
+
     public int amountParticipants;
     public String travelFrom;
     public String travelType;
@@ -78,7 +81,8 @@ public class WorkshopRequirement extends PanacheEntity {
     //Meal
     public boolean meal;
     public int mealAmount;
-    public Date mealDate;
+    public Date mealDateFrom;
+    public Date mealDateTo;
     public String mealTime;
 
     public int mealWishesVegan;
@@ -145,7 +149,8 @@ public class WorkshopRequirement extends PanacheEntity {
         this.tripLocation = newEntity.tripLocation;
         this.otherTripRequests = newEntity.otherTripRequests;
         this.mealAmount = newEntity.mealAmount;
-        this.mealDate = newEntity.mealDate;
+        this.mealDateFrom = newEntity.mealDateFrom;
+        this.mealDateTo = newEntity.mealDateTo;
         this.mealTime = newEntity.mealTime;
         this.mealWishesVegan = newEntity.mealWishesVegan;
         this.mealWishesVegetarian = newEntity.mealWishesVegetarian;
@@ -155,12 +160,17 @@ public class WorkshopRequirement extends PanacheEntity {
         this.diploma = newEntity.diploma;
         this.otherRequests = newEntity.otherRequests;
 
-        this.requestedTechnologist = new ArrayList<>();
+        this.company = newEntity.company.persistOrUpdate();
 
+        this.requestedTechnologist = new ArrayList<>();
         for(Technologist tech : newEntity.requestedTechnologist){
             this.requestedTechnologist.add(tech.persistOrUpdate());
         }
-        this.company = newEntity.company.persistOrUpdate();
+
+        this.hotelBookings = new ArrayList<>();
+        for(HotelBooking hotelBooking: newEntity.hotelBookings){
+            this.hotelBookings.add(hotelBooking.persistOrUpdate());
+        }
 
         this.guests = new ArrayList<>();
         for(Guest guest: newEntity.guests){
@@ -169,24 +179,29 @@ public class WorkshopRequirement extends PanacheEntity {
     }
 
     public WorkshopRequirement persistOrUpdate(){
+
         if(this.id != null && this.id != 0){
             WorkshopRequirement persisted = WorkshopRequirement.findById(this.id);
             persisted.updateEntity(this);
             return persisted;
         }
-        this.persist();
 
+        this.company = this.company.persistOrUpdate();
         this.representative = this.representative.persistOrUpdate();
 
         for(Technologist tech : this.requestedTechnologist){
             tech.persistOrUpdate();
         }
 
+        for(HotelBooking hotelBooking: this.hotelBookings){
+            hotelBooking.persistOrUpdate();
+        }
+
         for(Guest guest: this.guests){
             guest.persistOrUpdate();
         }
 
-        this.company = this.company.persistOrUpdate();
+        this.persist();
 
         return this;
     }

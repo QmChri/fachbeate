@@ -46,7 +46,8 @@ export interface VisitorRegistration {
     hotelBookings: Hotelbooking[]
 
     lunchNumber?: number;
-    lunchDate?: Date;
+    mealDateFrom?: Date;
+    mealDateTo?: Date;
     lunchTime?: string;
     veganMeals?: number;
     vegetarianMeals?: number;

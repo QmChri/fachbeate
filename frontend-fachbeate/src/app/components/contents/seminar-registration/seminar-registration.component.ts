@@ -33,7 +33,8 @@ export class SeminarRegistrationComponent implements OnInit {
   inputWorkshop: WorkshopRequirement = {
     techSelection: [],
     requestedTechnologist: [],
-    guests: []
+    guests: [],
+    hotelBookings: []
   };
 
   constructor(private translate: TranslateService, private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute,
@@ -87,14 +88,12 @@ export class SeminarRegistrationComponent implements OnInit {
   }
 
   addTab() {
-    this.tabs.push('Hotelbuchung: ' + this.tabs.length)
-    this.selected.setValue(this.tabs.length - 1)
+    this.inputWorkshop.hotelBookings = [...this.inputWorkshop.hotelBookings!, {}]
   }
 
   deleteLast() {
-    if (this.tabs.length != 1) {
-      this.tabs.pop();
-    }
+    if (this.inputWorkshop.hotelBookings!.length > 1)
+      this.inputWorkshop.hotelBookings!.pop();
   }
 
   openDialog(guests: Guest[]) {
