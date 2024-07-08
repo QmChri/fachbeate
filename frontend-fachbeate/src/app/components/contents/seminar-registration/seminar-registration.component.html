@@ -86,9 +86,9 @@
                         <input matInput [(ngModel)]="inputWorkshop.travelType">
                     </mat-form-field>
                     <div class="paddingSearch">
-                        <mat-form-field style="max-width: 8rem;">
+                        <mat-form-field style="max-width: 10rem;">
                             <mat-label>{{'VISITOR_REGRISTRATION.number' | translate}}</mat-label>
-                            <input type="number" min="0" matInput [(ngModel)]="inputWorkshop.amountParticipants">
+                            <input required type="number" min="0" matInput [(ngModel)]="inputWorkshop.amountParticipants">
                         </mat-form-field>
                         <button class="btn teilButton"
                             [ngClass]="{'btn-success': inputWorkshop.guests && inputWorkshop.guests.length > 0, 'btn-danger': !inputWorkshop.guests || inputWorkshop.guests.length === 0}"
