@@ -1,6 +1,6 @@
 <div class="table-operations header">
   <div>
-    <h1 class="paddingSearch">{{'MAIN_LIST.overview_requirements_registrations' | translate}}</h1>
+    <h1 class="paddingSearch">{{'NAV.MAIN-LIST' | translate}}</h1>
   </div>
   <div>
     <!-- <nz-filter-trigger class="paddingSearch" [(nzVisible)]="visible" [nzActive]="searchValue.length > 0"
@@ -53,7 +53,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let data of nzTable.data">
+    <tr *ngFor="let data of nzTable.data" matTooltip="{{'MAIN_LIST.double_click_to_edit' | translate}}">
       <td class="centerTD" (dblclick)="openCRC(data,data.id!, data.type!)">{{data.id}}</td>
       <td (dblclick)="openCRC(data,data.id!, data.type!)">{{ data.dateOfCreation!.toString() | date:'dd.MM.yy' }}</td>
       <td (dblclick)="openCRC(data,data.id!, data.type!)">{{ data.customerOrCompany }}</td>
