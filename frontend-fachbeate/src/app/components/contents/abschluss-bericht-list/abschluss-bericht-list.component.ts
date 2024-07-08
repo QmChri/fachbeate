@@ -73,7 +73,7 @@ export class AbschlussBerichtListComponent {
       filterFn: (list: string[], item: DataItem) => list.some(name => item.abschlussberichtFinished!.indexOf(name) !== -1)
     },
     {
-      name: 'article',
+      name: 'article_number',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => 1,
       listOfFilter: [],
@@ -269,7 +269,7 @@ export class AbschlussBerichtListComponent {
     if (article.length === 0) {
       return "<Leer>"
     }
-    return article.map(element => element.name).toString().substring(0, 30)
+    return article.map(element => element.articleNr).toString().substring(0, 30)
   }
 
   /*
