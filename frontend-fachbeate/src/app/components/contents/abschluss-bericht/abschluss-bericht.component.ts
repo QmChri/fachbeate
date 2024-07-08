@@ -8,6 +8,7 @@ import { NzNotificationPlacement, NzNotificationService } from 'ng-zorro-antd/no
 import { RoleService } from '../../../services/role.service';
 import { Technologist } from '../../../models/technologist';
 import { Representative } from '../../../models/representative';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-abschluss-bericht',
@@ -15,11 +16,17 @@ import { Representative } from '../../../models/representative';
   styleUrl: './abschluss-bericht.component.scss'
 })
 export class AbschlussBerichtComponent implements OnInit {
+  control = new FormControl(null, Validators.required);
   inputFinalReport: FinalReport = {}
   reasonSelect: number[] = []
   existingArticles: Article[] = []
   technologists: Technologist[] = [];
   representative: Representative[] = [];
+  todoList = [
+    { id: 1, name: 'Informationen' },
+    { id: 2, name: 'Rezepturen' },
+    { id: 3, name: 'Produkt / Muster Anforderung' }
+  ]; 
 
  constructor(public roleService: RoleService,private notification: NzNotificationService,
     public dialogRef: MatDialogRef<AbschlussBerichtComponent>,
@@ -117,7 +124,6 @@ export class AbschlussBerichtComponent implements OnInit {
   deleteArticle(reason: number) {
     this.inputFinalReport.reasonReports?.find(element => element.reason === reason)?.presentedArticle.pop();
   }
-
   
   getTechnologist() {
     this.http.getActiveTechnologist().subscribe({

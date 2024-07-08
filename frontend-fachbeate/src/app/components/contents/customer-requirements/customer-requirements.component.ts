@@ -305,6 +305,11 @@ export class CustomerRequirementsComponent implements OnInit {
           this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
         }); break;
       }
+      case 6: { // Final Report aber PFlichfelder fehlen
+        this.translate.get('STANDARD.please_fill_required_fields').subscribe((translatedMessage: string) => {
+          this.notificationService.createBasicNotification(4, translatedMessage, '', 'topRight');
+        }); break;
+      }
     }
   }
 }

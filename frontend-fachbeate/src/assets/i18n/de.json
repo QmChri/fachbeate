@@ -116,7 +116,7 @@
         "additional_products": "Weitere Produkte",
         "completed": "Abgeschlossen",
         "representative_summary": "Zusammenfassung Vertreter",
-        "advisor_follow_up": "Nacharbeit Fachberater",
+        "advisor_follow_up": "Nacharbeit erford.",
         "representative_follow_up": "Nacharbeit Vertreter",
         "report_by_reason": "Bericht per Grund",
         "introduction": "Vorstellung",
@@ -124,7 +124,7 @@
         "summary": "Zusammenfassung",
         "article": "Artikel",
         "article_number": "Artikel Nr",
-        "follow_up": "Nacharbeit"
+        "follow_up": "Nacharbeiten durch Fachberater"
     },
     "VISITOR_REGRISTRATION": {
         "visitor_registration": "Besucheranmeldung",

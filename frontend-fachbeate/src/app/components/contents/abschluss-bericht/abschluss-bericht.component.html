@@ -159,28 +159,52 @@
                 <div class="card">
                     <div class="card-header text-white bg-danger">{{"ABSCHLUSSBERICHT.follow_up" | translate}}</div>
                     <div class="card-body">
-                        <div class="centerNacharbeit">
-                            <mat-form-field class="nacharbeitSmall" *ngIf="roleService.checkPermission([1,2,4,7])">
-                                <mat-label>{{"ABSCHLUSSBERICHT.advisor_follow_up" | translate}}</mat-label>
-                                <mat-select required [placeholder]="'STANDARD.please_select' | translate"
-                                    [(ngModel)]="inputFinalReport.reworkByTechnologist" name="reworkByTechnologist">
+                        <div class="center-items">
+                            <div class="displayBySide">
+                                <mat-form-field class="nacharbeitSmall" *ngIf="roleService.checkPermission([1,2,4,7])">
+                                    <mat-label>{{"ABSCHLUSSBERICHT.advisor_follow_up" | translate}}</mat-label>
+                                    <mat-select required [placeholder]="'STANDARD.please_select' | translate"
+                                        [(ngModel)]="inputFinalReport.reworkByTechnologist" name="reworkByTechnologist">
+                                        <mat-option [value]="true">{{"SEMINAR_REGRISTRATION.yes"
+                                            |translate}}</mat-option>
+                                        <mat-option [value]="false">{{"SEMINAR_REGRISTRATION.no" |
+                                            translate}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field
+                                    *ngIf="inputFinalReport.reworkByTechnologist && roleService.checkPermission([1,2,4,7])"
+                                    class="nacharbeitSmall">
+                                    <mat-label>{{"ABSCHLUSSBERICHT.to_be_done_by" | translate}}</mat-label>
+                                    <input matInput [matDatepicker]="picker5" type="text" required
+                                        [(ngModel)]="inputFinalReport.reworkByTechnologistDoneUntil"
+                                        name="reworkByTechnologistDoneUntil">
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker5></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+
+                        </div>
+                        <!--TODO ngModels fehlen-->
+                        <div class="header"
+                            *ngIf="inputFinalReport.reworkByTechnologist && roleService.checkPermission([1,2,4,7])">
+                            <mat-form-field>
+                                <mat-label>{{"Zu erledigen"|translate}}</mat-label>
+                                <mat-select (valueChange)="changeRepresentative($event)" required>
+                                    <mat-option>--</mat-option>
+                                    @for (r of todoList; track todoList) {
+                                    <mat-option [value]="r.id">{{r.name}}</mat-option>
+                                    }
+                                </mat-select>
+                                @if (control.hasError('required')) {
+                                <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
+                                }
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>{{"ABSCHLUSSBERICHT.followVisist" | translate}}</mat-label>
+                                <mat-select required [placeholder]="'STANDARD.please_select' | translate">
                                     <mat-option [value]="true">{{"SEMINAR_REGRISTRATION.yes" | translate}}</mat-option>
                                     <mat-option [value]="false">{{"SEMINAR_REGRISTRATION.no" | translate}}</mat-option>
                                 </mat-select>
-                            </mat-form-field>
-                        </div>
-                        <div class="header" *ngIf="inputFinalReport.reworkByTechnologist && roleService.checkPermission([1,2,4,7])">
-                            <mat-form-field class="smallInputSide">
-                                <mat-label>{{"ABSCHLUSSBERICHT.to_be_done_by" | translate}}</mat-label>
-                                <input matInput [matDatepicker]="picker5" type="text"
-                                    [(ngModel)]="inputFinalReport.reworkByTechnologistDoneUntil"
-                                    name="reworkByTechnologistDoneUntil">
-                                <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
-                                <mat-datepicker #picker5></mat-datepicker>
-                            </mat-form-field>
-                            <mat-form-field class="smallInput">
-                                <mat-label>{{"MAIN_LIST.status" | translate}}</mat-label>
-                                <input matInput type="text" [(ngModel)]="inputFinalReport.state" name="state">
                             </mat-form-field>
                         </div>
                     </div>
