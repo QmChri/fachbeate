@@ -14,7 +14,7 @@ export class TeilnehmerListeComponent implements OnInit {
   editId: number | null = null;
   listOfData: Guest[] = [];
 
-  constructor(private translate: TranslateService,
+  constructor(public translate: TranslateService,
     public dialogRef: MatDialogRef<TeilnehmerListeComponent>, private notificationService: NotificationService,
     @Inject(MAT_DIALOG_DATA) public guests: Guest[]
   ) {

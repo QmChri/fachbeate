@@ -206,7 +206,7 @@
                             <mat-form-field>
                                 <mat-label>{{"Zu erledigen"|translate}}</mat-label>
                                 <mat-select [disabled]="roleService.checkPermission([6])" multiple
-                                    [(ngModel)]="inputFinalReport.reworkToDo" (valueChange)="test()" required>
+                                    [(ngModel)]="inputFinalReport.reworkToDo" required>
                                     @for (r of todoList; track todoList) {
                                     <mat-option [value]="r.id">{{r.name | translate}}</mat-option>
                                     }

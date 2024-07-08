@@ -19,7 +19,7 @@ export class CreateRepresentativeComponent implements OnInit {
   }
   representativeList: Representative[] = [];
 
-  constructor(private translate: TranslateService, private http: HttpService, private notificationService: NotificationService) { }
+  constructor(public translate: TranslateService, private http: HttpService, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.loadRepresentatives();

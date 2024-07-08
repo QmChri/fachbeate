@@ -28,7 +28,7 @@ export class NewDateEntryComponent implements OnInit {
   inputDate: TechnologistAppointment = {};
   technologists: Technologist[] = [];
 
-  constructor(private translate: TranslateService, public dialogRef: MatDialogRef<AbschlussBerichtComponent>,
+  constructor(public translate: TranslateService, public dialogRef: MatDialogRef<AbschlussBerichtComponent>,
     @Inject(MAT_DIALOG_DATA) public timeSpan: TechnologistAppointment,
     private http: HttpService, private notificationService: NotificationService
   ) {

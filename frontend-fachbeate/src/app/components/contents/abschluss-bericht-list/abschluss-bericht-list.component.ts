@@ -106,7 +106,7 @@ export class AbschlussBerichtListComponent {
     }
   ];
 
-  constructor(private router: Router, private translate: TranslateService,
+  constructor(private router: Router, public translate: TranslateService,
     private http: HttpService, private notificationService: NotificationService,
     private roleService: RoleService, private dialog: MatDialog) { }
 

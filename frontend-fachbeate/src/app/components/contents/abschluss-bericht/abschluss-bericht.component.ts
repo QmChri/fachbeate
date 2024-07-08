@@ -35,7 +35,7 @@ export class AbschlussBerichtComponent implements OnInit {
  constructor(public roleService: RoleService,private notification: NzNotificationService,
     public dialogRef: MatDialogRef<AbschlussBerichtComponent>,
     @Inject(MAT_DIALOG_DATA) public finalReport: FinalReport,
-    private http: HttpService, private translate: TranslateService,
+    private http: HttpService, public translate: TranslateService,
     private notificationService: NotificationService
   ) {
     this.inputFinalReport = finalReport;
