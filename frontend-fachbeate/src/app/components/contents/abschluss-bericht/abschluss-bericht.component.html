@@ -220,15 +220,15 @@
                             @for (article of reasonReport.presentedArticle; track $index) {
                             <div class="displayBySide">
                                 <mat-form-field class="artundnr">
-                                    <mat-label>{{"ABSCHLUSSBERICHT.article" | translate}}</mat-label>
-                                    <input matInput type="text" [(ngModel)]="article.name"
-                                        name="articleName{{reasonReport.reason}}">
-                                </mat-form-field>
-                                <mat-form-field class="artundnr">
                                     <mat-label>{{"ABSCHLUSSBERICHT.article_number" | translate}}</mat-label>
                                     <input matInput type="number" [(ngModel)]="article.articleNr"
                                         name="articleNumber{{reasonReport.reason}}"
                                         (ngModelChange)="insertOther(article, reasonReport.reason)">
+                                </mat-form-field>
+                                <mat-form-field class="artundnr">
+                                    <mat-label>{{"ABSCHLUSSBERICHT.article" | translate}}</mat-label>
+                                    <input matInput type="text" [(ngModel)]="article.name"
+                                        name="articleName{{reasonReport.reason}}">
                                 </mat-form-field>
                             </div>
                             }
@@ -259,15 +259,15 @@
                             @for (article of reasonReport.presentedArticle; track $index) {
                             <div class="displayBySide">
                                 <mat-form-field class="artundnr">
+                                    <mat-label>{{"ABSCHLUSSBERICHT.article_number" | translate}}</mat-label>
+                                    <input matInput type="number" [(ngModel)]="article.articleNr"
+                                        name="articleNumber{{reasonReport.reason}}"
+                                        (ngModelChange)="insertOther(article, reasonReport.reason)">
+                                </mat-form-field>
+                                <mat-form-field class="artundnr">
                                     <mat-label>{{"ABSCHLUSSBERICHT.article" | translate}}</mat-label>
                                     <input matInput type="text" [(ngModel)]="article.name"
                                         name="articleName{{reasonReport.reason}}">
-                                </mat-form-field>
-                                <mat-form-field class="artundnr">
-                                    <mat-label>{{"ABSCHLUSSBERICHT.article_number" | translate}}</mat-label>
-                                    <input matInput type="text" [(ngModel)]="article.articleNr"
-                                        name="articleNumber{{reasonReport.reason}}"
-                                        (ngModelChange)="insertOther(article, reasonReport.reason)">
                                 </mat-form-field>
                             </div>
                             }
@@ -298,15 +298,15 @@
                             @for (article of reasonReport.presentedArticle; track $index) {
                             <div class="displayBySide">
                                 <mat-form-field class="artundnr">
+                                    <mat-label>{{"ABSCHLUSSBERICHT.article_number" | translate}}</mat-label>
+                                    <input matInput type="number" [(ngModel)]="article.articleNr"
+                                        name="articleNumber{{reasonReport.reason}}"
+                                        (ngModelChange)="insertOther(article, reasonReport.reason)">
+                                </mat-form-field>
+                                <mat-form-field class="artundnr">
                                     <mat-label>{{"ABSCHLUSSBERICHT.article" | translate}}</mat-label>
                                     <input matInput type="text" [(ngModel)]="article.name"
                                         name="articleName{{reasonReport.reason}}">
-                                </mat-form-field>
-                                <mat-form-field class="artundnr">
-                                    <mat-label>{{"ABSCHLUSSBERICHT.article_number" | translate}}</mat-label>
-                                    <input matInput type="text" [(ngModel)]="article.articleNr"
-                                        name="articleNumber{{reasonReport.reason}}"
-                                        (ngModelChange)="insertOther(article, reasonReport.reason)">
                                 </mat-form-field>
                             </div>
                             }
@@ -337,15 +337,15 @@
                             @for (article of reasonReport.presentedArticle; track $index) {
                             <div class="displayBySide">
                                 <mat-form-field class="artundnr">
+                                    <mat-label>{{"ABSCHLUSSBERICHT.article_number" | translate}}</mat-label>
+                                    <input matInput type="number" [(ngModel)]="article.articleNr"
+                                        name="articleNumber{{reasonReport.reason}}"
+                                        (ngModelChange)="insertOther(article, reasonReport.reason)">
+                                </mat-form-field>
+                                <mat-form-field class="artundnr">
                                     <mat-label>{{"ABSCHLUSSBERICHT.article" | translate}}</mat-label>
                                     <input matInput type="text" [(ngModel)]="article.name"
                                         name="articleName{{reasonReport.reason}}">
-                                </mat-form-field>
-                                <mat-form-field class="artundnr">
-                                    <mat-label>{{"ABSCHLUSSBERICHT.article_number" | translate}}</mat-label>
-                                    <input matInput type="text" [(ngModel)]="article.articleNr"
-                                        name="articleNumber{{reasonReport.reason}}"
-                                        (ngModelChange)="insertOther(article, reasonReport.reason)">
                                 </mat-form-field>
                             </div>
                             }
