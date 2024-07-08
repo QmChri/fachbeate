@@ -17,12 +17,8 @@
   <thead>
     <tr>
       <th>
-        {{'CREATION_SITES.'+listOfColumn[10].name | translate}}
+        {{'CREATION_SITES.'+listOfColumn[0].name | translate}}
       </th>
-      <th [nzSortFn]="listOfColumn[0].sortFn" [(nzSortOrder)]="listOfColumn[0].sortOrder"
-        [nzFilters]="listOfColumn[0].listOfFilter" [nzFilterFn]="listOfColumn[0].filterFn!">
-        {{'MAIN_LIST.'+listOfColumn[0].name|
-        translate}}</th>
       <th [nzSortFn]="listOfColumn[1].sortFn" [(nzSortOrder)]="listOfColumn[1].sortOrder">
         {{'MAIN_LIST.'+listOfColumn[1].name|
         translate}}</th>
@@ -61,7 +57,6 @@
   <tbody>
     <tr *ngFor="let data of nzTable.data">
       <td class="centerTD" (dblclick)="openCRC(data,data.id!, data.type!)">{{data.id}}</td>
-      <td (dblclick)="openCRC(data,data.id!, data.type!)">{{data.name}}</td>
       <td (dblclick)="openCRC(data,data.id!, data.type!)">{{ data.dateOfCreation!.toString() | date:'dd.MM.yy' }}</td>
       <td (dblclick)="openCRC(data,data.id!, data.type!)">{{ data.customerOrCompany }}</td>
       <td (dblclick)="openCRC(data,data.id!, data.type!)">
