@@ -82,19 +82,14 @@
                 <div class="paddingSearch">
                     <mat-form-field style="margin-right: 0.5rem;">
                         <mat-label>{{"VISITOR_REGRISTRATION.customer_company" | translate}}</mat-label>
-                        <textarea rows="1"  matInput [(ngModel)]="inputVisitRegistration.customerOrCompany"></textarea>
+                        <textarea rows="1" matInput [(ngModel)]="inputVisitRegistration.customerOrCompany"></textarea>
                     </mat-form-field>
-                    <!--  <button class="btn btn-success teilButton"
-                        matTooltip="{{'VISITOR_REGRISTRATION.participant_list' | translate}}"
-                        (click)="openDialog((inputVisitRegistration.guests !== null && inputVisitRegistration.guests !== undefined)?inputVisitRegistration.guests:[])">
-                        <i class="fas fa-user-friends"></i>
-                    </button> -->
                     <button class="btn teilButton"
-                    [ngClass]="{'btn-success': inputVisitRegistration.guests && inputVisitRegistration.guests.length > 0, 'btn-danger': !inputVisitRegistration.guests || inputVisitRegistration.guests.length === 0}"
-                    matTooltip="{{'VISITOR_REGRISTRATION.participant_list' | translate}}"
-                    (click)="openDialog((inputVisitRegistration.guests !== null && inputVisitRegistration.guests !== undefined) ? inputVisitRegistration.guests : [])">
-                    <i class="fas fa-user-friends"></i>
-                </button>
+                        [ngClass]="{'btn-success': inputVisitRegistration.guests && inputVisitRegistration.guests.length > 0, 'btn-danger': !inputVisitRegistration.guests || inputVisitRegistration.guests.length === 0}"
+                        matTooltip="{{'VISITOR_REGRISTRATION.participant_list' | translate}}"
+                        (click)="openDialog((inputVisitRegistration.guests !== null && inputVisitRegistration.guests !== undefined) ? inputVisitRegistration.guests : [])">
+                        <i class="fas fa-user-friends"></i>
+                    </button>
                 </div>
                 <mat-form-field>
                     <mat-label>{{'VISITOR_REGRISTRATION.arrival_from_country' | translate}}</mat-label>
@@ -103,7 +98,7 @@
                 <div class="displayBySide">
                     <mat-form-field>
                         <mat-label>{{'ABSCHLUSSBERICHT.visit_reason_general' | translate}}</mat-label>
-                        <textarea rows="1"  matInput [(ngModel)]="inputVisitRegistration.reasonForVisit"></textarea>
+                        <textarea rows="1" matInput [(ngModel)]="inputVisitRegistration.reasonForVisit"></textarea>
                     </mat-form-field>
                     <label class="languageBox">{{'STANDARD.language_en' | translate}}
                         <mat-checkbox color="warn" [(ngModel)]="inputVisitRegistration.languageEN"></mat-checkbox>
@@ -163,7 +158,8 @@
     </div>
     <div class="col-md-3">
         <div class="card">
-            <div class="card-header text-white bg-danger">{{'VISITOR_REGRISTRATION.additional_requirements' | translate}}</div>
+            <div class="card-header text-white bg-danger">{{'VISITOR_REGRISTRATION.additional_requirements' |
+                translate}}</div>
             <mat-button-toggle-group [(ngModel)]="buttonSelect" (valueChange)="changeSelections()" vertical multiple>
                 <mat-button-toggle value="1">{{'VISITOR_REGRISTRATION.factory_tour' |
                     translate}}</mat-button-toggle>
@@ -258,7 +254,8 @@
                                     <mat-datepicker #picker5></mat-datepicker>
                                 </mat-form-field>
                                 <mat-form-field class="smallInput">
-                                    <mat-label>{{'VISITOR_REGRISTRATION.other_travel_requirements' | translate}}</mat-label>
+                                    <mat-label>{{'VISITOR_REGRISTRATION.other_travel_requirements' |
+                                        translate}}</mat-label>
                                     <input matInput [(ngModel)]="inputVisitRegistration.otherTravelRequirements">
                                 </mat-form-field>
                             </div>
@@ -285,12 +282,14 @@
                                 <mat-label>{{'VISITOR_REGRISTRATION.total_number' | translate}}</mat-label>
                                 <input type="number" min="0" matInput [(ngModel)]="inputVisitRegistration.lunchNumber">
                             </mat-form-field>
-                            
+
                             <mat-form-field>
                                 <mat-label>{{'CUSTOMER_REQUIREMENTS.from_to' | translate}}</mat-label>
                                 <mat-date-range-input [rangePicker]="picker">
-                                    <input required matStartDate placeholder="Start date" [(ngModel)]="inputVisitRegistration.mealDateFrom">
-                                    <input required matEndDate placeholder="End date" [(ngModel)]="inputVisitRegistration.mealDateTo">
+                                    <input required matStartDate placeholder="Start date"
+                                        [(ngModel)]="inputVisitRegistration.mealDateFrom">
+                                    <input required matEndDate placeholder="End date"
+                                        [(ngModel)]="inputVisitRegistration.mealDateTo">
                                 </mat-date-range-input>
                                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                                 <mat-date-range-picker #picker></mat-date-range-picker>
@@ -390,35 +389,38 @@
                 <div class="card-header text-white bg-danger paddingSearch">{{'CUSTOMER_REQUIREMENTS.hotel_booking' |
                     translate}} </div>
                 <div class="card-body">
-                    @for (hotelbooking of inputVisitRegistration.hotelBookings; track hotelbooking; let index = $index)
-                    {<p>{{index+1}}. {{'CUSTOMER_REQUIREMENTS.hotel_booking' | translate}}</p>
                     <div class="center-items">
-                        <mat-form-field class="smallInputSpecial">
-                            <mat-label>{{'VISITOR_REGRISTRATION.location' | translate}}</mat-label>
-                            <input matInput [(ngModel)]="hotelbooking.hotelLocation">
-                        </mat-form-field>
-                        <mat-form-field class="smallInputSpecial">
-                            <mat-label>{{'CUSTOMER_REQUIREMENTS.from_to' | translate}}</mat-label>
-                            <mat-date-range-input [rangePicker]="picker3">
-                                <input matStartDate placeholder="Start date"
-                                    [(ngModel)]="hotelbooking.hotelStayFromDate">
-                                <input matEndDate placeholder="End date" [(ngModel)]="hotelbooking.hotelStayToDate">
-                            </mat-date-range-input>
-                            <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
-                            <mat-date-range-picker #picker3></mat-date-range-picker>
-                        </mat-form-field>
+                        @for (hotelbooking of inputVisitRegistration.hotelBookings; track hotelbooking; let index =
+                        $index)
+                        {<p>{{index+1}}. {{'CUSTOMER_REQUIREMENTS.hotel_booking' | translate}}</p>
+                        <div class="center-items">
+                            <mat-form-field class="smallInputSpecial">
+                                <mat-label>{{'VISITOR_REGRISTRATION.location' | translate}}</mat-label>
+                                <input matInput [(ngModel)]="hotelbooking.hotelLocation">
+                            </mat-form-field>
+                            <mat-form-field class="smallInputSpecial">
+                                <mat-label>{{'CUSTOMER_REQUIREMENTS.from_to' | translate}}</mat-label>
+                                <mat-date-range-input [rangePicker]="picker3">
+                                    <input matStartDate placeholder="Start date"
+                                        [(ngModel)]="hotelbooking.hotelStayFromDate">
+                                    <input matEndDate placeholder="End date" [(ngModel)]="hotelbooking.hotelStayToDate">
+                                </mat-date-range-input>
+                                <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
+                                <mat-date-range-picker #picker3></mat-date-range-picker>
+                            </mat-form-field>
+                        </div>
+                        <div class="displayBySide">
+                            <mat-form-field class="NumberInput">
+                                <mat-label>{{'VISITOR_REGRISTRATION.single_room' | translate}}</mat-label>
+                                <input type="number" min="0" matInput [(ngModel)]="hotelbooking.singleRooms">
+                            </mat-form-field>
+                            <mat-form-field class="NumberInput">
+                                <mat-label>{{'VISITOR_REGRISTRATION.double_room' | translate}}</mat-label>
+                                <input type="number" min="0" matInput [(ngModel)]="hotelbooking.doubleRooms">
+                            </mat-form-field>
+                        </div>
+                        }
                     </div>
-                    <div class="displayBySide">
-                        <mat-form-field class="NumberInput">
-                            <mat-label>{{'VISITOR_REGRISTRATION.single_room' | translate}}</mat-label>
-                            <input type="number" min="0" matInput [(ngModel)]="hotelbooking.singleRooms">
-                        </mat-form-field>
-                        <mat-form-field class="NumberInput">
-                            <mat-label>{{'VISITOR_REGRISTRATION.double_room' | translate}}</mat-label>
-                            <input type="number" min="0" matInput [(ngModel)]="hotelbooking.doubleRooms">
-                        </mat-form-field>
-                    </div>
-                    }
                     <div class="header">
                         <div>
                             <button (click)="deleteLast()" class="btn btn-danger"><i class="fa fa-minus"></i></button>
@@ -440,9 +442,11 @@
     <br>
     <small>
         • ACHTUNG – Diese Angabe dient dem Front Office als allgemeine Information! <br>
-        • Die Abteilungen müssen im Voraus selbstständig informiert werden und Termine sind vorab selbstständig zu vereinbaren. <br>
+        • Die Abteilungen müssen im Voraus selbstständig informiert werden und Termine sind vorab selbstständig zu
+        vereinbaren. <br>
         • Die Teilnehmer-Liste ist vollständig ausgefüllt 10 Werktage vor Seminarbeginn zu übermitteln <br>
         • Das vollständig ausgefüllte Seminarprogramm ist spätestens 2 Wochen vor Seminarbeginn zu übermitteln!</small>
     <br>
-    Änderungen wie z.B. Anzahl der Besucher, Hotelbuchungen, Anreisedatum, usw. unverzüglich beim Front Office <a href="mailto:office&#64;almi.at">office&#64;almi.at</a> melden!
+    Änderungen wie z.B. Anzahl der Besucher, Hotelbuchungen, Anreisedatum, usw. unverzüglich beim Front Office <a
+        href="mailto:office&#64;almi.at">office&#64;almi.at</a> melden!
 </p>

@@ -26,7 +26,6 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-
 }
 
 .header {
@@ -60,7 +59,7 @@
             padding-right: 0.5rem;
         }
         .smallInputMittagAnz {
-            max-width: 8rem;
+            max-width: 6rem;
             padding-right: 0.5rem;
         }
 
@@ -72,6 +71,7 @@
 }
 
 .smallInputMittagAnz {
+    max-width: 8rem;
     padding-right: 0.5rem;
 }
 
@@ -85,11 +85,6 @@
 
 .paddingBottom {
     padding-bottom: 1rem;
-}
-
-.minheigtCard {
-    min-height: 14.2rem;
-    max-height: 14.3rem;
 }
 
 .paddings {
@@ -110,5 +105,5 @@
 }
 
 .NumberInput{
-    max-width: 6rem;
+    max-width: 5rem;
 }
