@@ -19,12 +19,20 @@ export class CreateTechnologistComponent implements OnInit {
     color: "#ff0000"
   }
   technologistList: Technologist[] = [];
+  letters = '0123456789ABCDEF';
 
   constructor(public translate: TranslateService, private http: HttpService, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.loadTechnologists();
   }
+
+  getRandomColor() {
+    this.inputTechnologist.color = '#';
+    for (var i = 0; i < 6; i++) {
+        this.inputTechnologist.color += this.letters[Math.floor(Math.random() * 16)];
+    }
+}
 
   loadTechnologists() {
     this.http.getAllTechnologist().subscribe({

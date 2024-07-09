@@ -24,11 +24,17 @@
                 </mat-form-field>
                 <div class="displayBySide">
                     <label class="languageBox">{{'CREATION_SITES.calendar_color' | translate}}
-                        <nz-color-picker id="color" [(ngModel)]="inputTechnologist.color"></nz-color-picker>
+                        <div class="displayBySide">
+                            <nz-color-picker id="color" [(ngModel)]="inputTechnologist.color"></nz-color-picker>
+                            <button style="margin-left: 0.5rem;" nz-button nzType="primary" [nzSize]="'small'" (click)="getRandomColor()">
+                                <i class="fas fa-sync"></i>
+                            </button>
+                        </div>
                     </label>
                     <label class="languageBox">{{'CREATION_SITES.active' | translate}}
                         <mat-checkbox color="warn" [(ngModel)]="inputTechnologist.active"></mat-checkbox>
                     </label>
+
                 </div>
                 <div class="displayBySide">
                     <button class="btn btn-danger" matTooltip="{{'DASHBOARD.cancel' | translate}}"
