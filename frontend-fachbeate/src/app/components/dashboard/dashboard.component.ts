@@ -27,6 +27,8 @@ export class DashboardComponent implements OnInit {
     select: (arg) => this.handleSelect(arg),
     events: [],
     firstDay: 1,
+    displayEventTime: false,
+    displayEventEnd: false
   };
   roleServiceUserName = this.roleService.getUserName();
   nameOfCalendarEvent: string = "";
@@ -64,7 +66,7 @@ export class DashboardComponent implements OnInit {
         data.forEach(value => {
           this.calendarEvnts = [...this.calendarEvnts, {
             id: "c" + value.id,
-            title: value.requestedTechnologist!.firstName + " " + value.requestedTechnologist!.lastName + " - " + value.company!.name,
+            title: "F_" + value.id+ " "+ value.requestedTechnologist!.firstName + " " + value.requestedTechnologist!.lastName + " - " + value.company!.name,
             start: value.startDate,
             end: this.adjustEndDate(value.endDate!.toString()),
             backgroundColor: value.requestedTechnologist!.color,
@@ -91,7 +93,7 @@ export class DashboardComponent implements OnInit {
         data.forEach(value => {
           this.calendarEvnts = [...this.calendarEvnts, {
             id: "w" + value.id,
-            title: value.requestedTechnologist![0].firstName + " " + value.requestedTechnologist![0].lastName + " - " + value.company,
+            title: "S_" + value.id + " " + value.requestedTechnologist![0].firstName + " " + value.requestedTechnologist![0].lastName + " - " + value.company!.name,
             start: value.startDate,
             end: this.adjustEndDate(value.endDate!.toString()),
             backgroundColor: value.requestedTechnologist![0].color,
@@ -120,7 +122,7 @@ export class DashboardComponent implements OnInit {
         data.forEach(value => {
           this.calendarEvnts = [...this.calendarEvnts, {
             id: "v" + value.id,
-            title: value.name,
+            title: "B_"+ value.id + " " + value.name,
             start: value.fromDate,
             end: this.adjustEndDate(value.toDate!.toString()),
             backgroundColor: "#f0f0f0",

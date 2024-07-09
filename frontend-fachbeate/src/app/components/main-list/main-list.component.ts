@@ -260,7 +260,7 @@ export class MainListComponent implements OnInit {
             id: "S_" + element.id!,
             name: "<Leer>",
             dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
-            customerOrCompany: "<Leer>",
+            customerOrCompany: element.creator,
             statusGL: element.releaseSupervisor ? 'GL Freigegeben ' : 'GL Nicht-Freigegeben',
             statusAL: element.releaseManagement ? 'AL Freigegeben ' : 'AL Nicht-Freigegeben',
             vertreter: element.representative!.firstName + " " + element.representative!.lastName,

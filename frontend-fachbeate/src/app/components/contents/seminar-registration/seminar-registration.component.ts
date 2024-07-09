@@ -80,8 +80,9 @@ export class SeminarRegistrationComponent implements OnInit {
     (this.inputWorkshop.customer === null || this.inputWorkshop.customer === undefined)?"assigned_technologist":"",
     (this.inputWorkshop.startDate === null || this.inputWorkshop.startDate === undefined)?"assigned_from":"",
     (this.inputWorkshop.endDate === null || this.inputWorkshop.endDate === undefined)?"assigned_to":"",
-    (this.inputWorkshop.guests === null || this.inputWorkshop.guests === undefined)?"assigned_participants":"",
-    (this.inputWorkshop.representative === null || this.inputWorkshop.representative === undefined)?"assigned_repre":""
+    (this.inputWorkshop.guests === null || this.inputWorkshop.guests === undefined || this.inputWorkshop.guests.length === 0)?"assigned_participants":"",
+    (this.inputWorkshop.representative === null || this.inputWorkshop.representative === undefined)?"assigned_repre":"",
+    (this.inputWorkshop.amountParticipants === null || this.inputWorkshop.amountParticipants === undefined || this.inputWorkshop.amountParticipants === 0)?"assigned_amount":""
   ].filter(element => element !== "");
 
   if(requiredFields.length !== 0){
@@ -210,6 +211,11 @@ export class SeminarRegistrationComponent implements OnInit {
       this.inputWorkshop.showUser = true;
       this.inputWorkshop.reason = "Seminaranmeldung"
       this.inputWorkshop.dateOfCreation = new Date();
+      if(this.inputWorkshop.creator === null || this.inputWorkshop.creator === undefined){
+        this.inputWorkshop.creator = this.roleService.getUserName();
+      }
+
+      this.inputWorkshop.lastEditor = this.inputWorkshop.lastEditor;
 
       this.http.postWorkshop(this.inputWorkshop).subscribe({
         next: data => {
