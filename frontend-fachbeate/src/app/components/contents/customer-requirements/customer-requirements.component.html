@@ -39,7 +39,7 @@
                     <div class="center-items ">
                         <mat-form-field>
                             <mat-label>{{"CUSTOMER_REQUIREMENTS.dealers_daughters"|translate}}</mat-label>
-                            <mat-select
+                            <mat-select required
                                 [disabled]="roleService.checkPermission([6])"
                                 [ngModel]="(inputCustomerRequirement.company === undefined)?undefined:inputCustomerRequirement.company.id"
                                 (valueChange)="changeCompany($event)">
@@ -254,13 +254,14 @@
                     <input nz-input [hidden]="editId !== data.editId" type="text" [(ngModel)]="data.productionAmount" />
                 </td>
                 <td>
-                    <div class="flugHotel"> <button matTooltip="{{'CUSTOMER_REQUIREMENTS.edit' | translate}}"
+                    <div class="flugHotel"> 
+                        <button matTooltip="{{'CUSTOMER_REQUIREMENTS.edit' | translate}}"
                             class="btn btn-success" (click)="startEdit(data.editId)" [hidden]="editId === data.editId">
                             <i class="fa fa-pencil"></i>
                         </button>
-                        <button matTooltip="{{'STANDARD.save' | translate}}" class="btn btn-success"
-                            (click)="stopEdit()" [hidden]="editId !== data.editId">
-                            <i class="fa fa-save"></i>
+                        <button matTooltip="{{'CUSTOMER_REQUIREMENTS.edit' | translate}}"
+                            class="btn btn-danger" (click)="stopEdit()" [hidden]="editId !== data.editId">
+                            <i class="fa fa-pencil"></i>
                         </button>
                         <button matTooltip="{{ 'STANDARD.remove' | translate }}" class="btn btn-danger" nz-popconfirm
                             nzPopconfirmShowArrow="false" [nzIcon]="iconTpl"

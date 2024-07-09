@@ -104,6 +104,8 @@ public class WorkshopRequirement extends PanacheEntity {
 
     public void updateEntity(WorkshopRequirement newEntity){
         this.showUser = newEntity.showUser;
+        this.lastEditor = newEntity.lastEditor;
+        this.creator = newEntity.creator;
 
         this.startDate = newEntity.startDate;
         this.endDate = newEntity.endDate;
@@ -118,6 +120,7 @@ public class WorkshopRequirement extends PanacheEntity {
 
         this.subject = newEntity.subject;
         this.company = newEntity.company;
+        this.customer = newEntity.customer;
         this.amountParticipants = newEntity.amountParticipants;
         this.travelFrom = newEntity.travelFrom;
         this.travelType = newEntity.travelType;
