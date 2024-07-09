@@ -21,7 +21,9 @@
             {{"CUSTOMER_REQUIREMENTS.approval_al" | translate}}
         </button>
     </div>
-    <button  class="btn btn-success" *ngIf="(inputWorkshop.creator === undefined && roleService.checkPermission([3,4,6])) || roleService.checkPermission([1,2,5,7])" (click)="postWorkshopRequest()">{{'CUSTOMER_REQUIREMENTS.send_form' |
+    <button class="btn btn-success"
+        *ngIf="(inputWorkshop.creator === undefined && roleService.checkPermission([3,4,6])) || roleService.checkPermission([1,2,5,7])"
+        (click)="postWorkshopRequest()">{{'CUSTOMER_REQUIREMENTS.send_form' |
         translate}}</button>
 </div>
 <hr>
@@ -34,19 +36,17 @@
                 <div class="center-items ">
                     <mat-form-field>
                         <mat-label>{{"CUSTOMER_REQUIREMENTS.dealers_daughters"|translate}}</mat-label>
-                        <mat-select 
-                        [disabled]="roleService.checkPermission([6])"
-                        [ngModel]="(inputWorkshop.company === undefined)?undefined:inputWorkshop.company.id"
+                        <mat-select [disabled]="roleService.checkPermission([6])"
+                            [ngModel]="(inputWorkshop.company === undefined)?undefined:inputWorkshop.company.id"
                             required (valueChange)="changeCompany($event)">
                             <mat-option>--</mat-option>
                             @for (c of companies; track companies) {
                             <mat-option [value]="c.id">{{c.name}}</mat-option>
                             }
                         </mat-select>
-                        <!--TODO error message-->
-                        <!---@if (tohaControl.hasError('required')) {
-                        <mat-error>{{"SEMINAR_REGRISTRATION.none-select" | translate}}</mat-error>
-                            }--->
+                        @if (control.hasError('required')) {
+                        <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
+                        }
                     </mat-form-field>
                 </div>
                 <mat-form-field>
@@ -88,7 +88,11 @@
                     <div class="paddingSearch">
                         <mat-form-field style="max-width: 10rem;">
                             <mat-label>{{'VISITOR_REGRISTRATION.number' | translate}}</mat-label>
-                            <input required type="number" min="0" matInput [(ngModel)]="inputWorkshop.amountParticipants">
+                            <input required type="number" min="0" matInput
+                                [(ngModel)]="inputWorkshop.amountParticipants">
+                            @if (control.hasError('required')) {
+                            <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
+                            }
                         </mat-form-field>
                         <button class="btn teilButton"
                             [ngClass]="{'btn-success': inputWorkshop.guests && inputWorkshop.guests.length > 0, 'btn-danger': !inputWorkshop.guests || inputWorkshop.guests.length === 0}"
@@ -117,11 +121,9 @@
                             <mat-option [value]="r.id">{{r.firstName}} {{r.lastName}}</mat-option>
                             }
                         </mat-select>
-                        <!--
-                        @if (tohaContro
-                        l.hasError('required')) {
+                        @if (control.hasError('required')) {
                         <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
-                        }---><!--TODO fehler---->
+                        }
                     </mat-form-field>
 
                     <mat-form-field>
@@ -306,10 +308,12 @@
                             </mat-form-field>
 
                             <mat-form-field>
-                                <mat-label>{{'VISITOR_REGRISTRATION.date' | translate}}</mat-label>
+                                <mat-label>{{'CUSTOMER_REQUIREMENTS.from_to' | translate}}</mat-label>
                                 <mat-date-range-input [rangePicker]="picker">
-                                    <input required matStartDate placeholder="Start date" [(ngModel)]="inputWorkshop.mealDateFrom">
-                                    <input required matEndDate placeholder="End date" [(ngModel)]="inputWorkshop.mealDateTo">
+                                    <input required matStartDate placeholder="Start date"
+                                        [(ngModel)]="inputWorkshop.mealDateFrom">
+                                    <input required matEndDate placeholder="End date"
+                                        [(ngModel)]="inputWorkshop.mealDateTo">
                                 </mat-date-range-input>
                                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                                 <mat-date-range-picker #picker></mat-date-range-picker>

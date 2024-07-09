@@ -27,6 +27,9 @@
                                     <mat-label>{{"ABSCHLUSSBERICHT.company" | translate}}</mat-label>
                                     <input [disabled]="roleService.checkPermission([6])" matInput type="text"
                                         [(ngModel)]="inputFinalReport.company" name="company" required>
+                                    @if (control.hasError('required')) {
+                                    <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
+                                    }
                                 </mat-form-field>
                                 <mat-form-field class="smallInput">
                                     <mat-label>{{"CUSTOMER_REQUIREMENTS.customer_number" | translate}}</mat-label>
@@ -54,13 +57,16 @@
                                     <input [disabled]="roleService.checkPermission([6])" matInput required
                                         [matDatepicker]="picker1" type="text" [(ngModel)]="inputFinalReport.dateOfVisit"
                                         name="dateOfVisit">
+                                    @if (control.hasError('required')) {
+                                    <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
+                                    }
                                     <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
                                     <mat-datepicker #picker1></mat-datepicker>
                                 </mat-form-field>
                                 <mat-form-field class="smallInput">
                                     <mat-label>{{"ABSCHLUSSBERICHT.visit_reason_general" | translate}}</mat-label>
                                     <mat-select [disabled]="roleService.checkPermission([6])" required multiple
-                                        [placeholder]="'STANDARD.please_select' | translate" [ngModel]="reasonSelect"
+                                        [placeholder]="'STANDARD.please_select' | translate" [(ngModel)]="reasonSelect"
                                         name="resons">
                                         <mat-option [value]="1">{{"ABSCHLUSSBERICHT.introduction" |
                                             translate}}</mat-option>
@@ -194,17 +200,18 @@
                                         [matDatepicker]="picker5" type="text" required
                                         [(ngModel)]="inputFinalReport.reworkByTechnologistDoneUntil"
                                         name="reworkByTechnologistDoneUntil">
+                                    @if (control.hasError('required')) {
+                                    <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
+                                    }
                                     <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
                                     <mat-datepicker #picker5></mat-datepicker>
                                 </mat-form-field>
                             </div>
-
                         </div>
-                        <!--TODO ngModels fehlen-->
                         <div class="header"
                             *ngIf="inputFinalReport.reworkByTechnologist && roleService.checkPermission([1,2,4,7])">
                             <mat-form-field>
-                                <mat-label>{{"Zu erledigen"|translate}}</mat-label>
+                                <mat-label>{{"ABSCHLUSSBERICHT.todo"|translate}}</mat-label>
                                 <mat-select [disabled]="roleService.checkPermission([6])" multiple
                                     [(ngModel)]="inputFinalReport.reworkToDo" required>
                                     @for (r of todoList; track todoList) {
@@ -216,7 +223,7 @@
                                 }
                             </mat-form-field>
                             <mat-form-field>
-                                <mat-label>{{"ABSCHLUSSBERICHT.followVisist" | translate}}</mat-label>
+                                <mat-label>{{"ABSCHLUSSBERICHT.follow_Visit" | translate}}</mat-label>
                                 <mat-select [disabled]="roleService.checkPermission([6])"
                                     [(ngModel)]="inputFinalReport.reworkFollowVisits" required
                                     [placeholder]="'STANDARD.please_select' | translate">

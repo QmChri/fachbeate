@@ -226,8 +226,6 @@ export class AbschlussBerichtListComponent {
 
     dialogRef.afterClosed().subscribe(
       data => {
-        console.log(data);
-
         if (data.save) {
           this.http.postFinalReport(data.finalReport).subscribe({
             next: finalRep => {

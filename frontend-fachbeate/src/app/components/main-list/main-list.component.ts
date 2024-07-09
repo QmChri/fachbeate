@@ -185,6 +185,8 @@ export class MainListComponent implements OnInit {
   }
 
   loadDataPerUser() {
+    this.listOfDisplayData = []
+
     this.http.getAllCompany().subscribe({
       next: data => {
         var companies = data;
@@ -260,7 +262,7 @@ export class MainListComponent implements OnInit {
             id: "S_" + element.id!,
             name: "<Leer>",
             dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
-            customerOrCompany: "<Leer>",
+            customerOrCompany: element.creator,
             statusGL: element.releaseSupervisor ? 'GL Freigegeben ' : 'GL Nicht-Freigegeben',
             statusAL: element.releaseManagement ? 'AL Freigegeben ' : 'AL Nicht-Freigegeben',
             vertreter: element.representative!.firstName + " " + element.representative!.lastName,
@@ -332,12 +334,12 @@ export class MainListComponent implements OnInit {
   }
 
   resetSortAndFilters(): void {
-    this.searchValue = '';
+    this.searchValue = "";
     this.translate.get('STANDARD.filter_sorting_removed').subscribe((translatedMessage: string) => {
       this.notificationService.createBasicNotification(2, translatedMessage, '', 'topRight');
     });
     this.getNzFilters();
-    //this.loadDataPerUser();
+    this.loadDataPerUser();
     //this.tmpinitData();
     this.listOfColumn.forEach(item => {
       item.sortOrder = null;
@@ -348,6 +350,7 @@ export class MainListComponent implements OnInit {
     this.visible = false;
     this.listOfDisplayData = this.listOfDisplayData.filter((item: DataItem) =>
     (
+      item.id!.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
       item.name!.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
       item.dateOfCreation!.toString().includes(this.searchValue.toLocaleLowerCase()) ||
       item.customerOrCompany!.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
