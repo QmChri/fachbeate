@@ -50,8 +50,8 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let data of nzTable.data"  matTooltip="{{'MAIN_LIST.double_click_to_edit' | translate}}">
-            <td class="centerTD" (dblclick)="openDialog(data)">{{ data.id }}</td>
+        <tr *ngFor="let data of nzTable.data">
+            <td (dblclick)="openDialog(data)">{{ data.id }}</td>
             <td (dblclick)="openDialog(data)">{{ data.company }}</td>
             <td (dblclick)="openDialog(data)">{{ (data.dateOfVisit ? (data.dateOfVisit | date:'dd.MM.yy') : '\<Leer\>') }}</td>
             <td (dblclick)="openDialog(data)">{{ data.representative }}</td>

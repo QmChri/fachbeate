@@ -85,22 +85,21 @@
                         <mat-label>{{'SEMINAR_REGRISTRATION.arrival_type' | translate}}</mat-label>
                         <input matInput [(ngModel)]="inputWorkshop.travelType">
                     </mat-form-field>
-                    <div class="paddingSearch">
-                        <mat-form-field style="max-width: 10rem;">
-                            <mat-label>{{'VISITOR_REGRISTRATION.number' | translate}}</mat-label>
-                            <input required type="number" min="0" matInput
-                                [(ngModel)]="inputWorkshop.amountParticipants">
-                            @if (control.hasError('required')) {
-                            <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
-                            }
-                        </mat-form-field>
-                        <button class="btn teilButton"
-                            [ngClass]="{'btn-success': inputWorkshop.guests && inputWorkshop.guests.length > 0, 'btn-danger': !inputWorkshop.guests || inputWorkshop.guests.length === 0}"
-                            matTooltip="{{'VISITOR_REGRISTRATION.participant_list' | translate}}"
-                            (click)="openDialog((inputWorkshop.guests !== null && inputWorkshop.guests !== undefined) ? inputWorkshop.guests : [])">
-                            <i class="fas fa-user-friends"></i>
-                        </button>
-                    </div>
+                </div>
+                <div class="paddingSearch">
+                    <mat-form-field style="margin-right: 0.5rem;">
+                        <mat-label>{{'VISITOR_REGRISTRATION.number' | translate}}</mat-label>
+                        <input required type="number" min="0" matInput [(ngModel)]="inputWorkshop.amountParticipants">
+                        @if (control.hasError('required')) {
+                        <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
+                        }
+                    </mat-form-field>
+                    <button class="btn teilButton"
+                        [ngClass]="{'btn-success': inputWorkshop.guests && inputWorkshop.guests.length > 0, 'btn-danger': !inputWorkshop.guests || inputWorkshop.guests.length === 0}"
+                        matTooltip="{{'VISITOR_REGRISTRATION.participant_list' | translate}}"
+                        (click)="openDialog((inputWorkshop.guests !== null && inputWorkshop.guests !== undefined) ? inputWorkshop.guests : [])">
+                        <i class="fas fa-user-friends"></i>
+                    </button>
                 </div>
             </div>
         </div>
@@ -305,14 +304,12 @@
                                 <mat-label>{{'VISITOR_REGRISTRATION.number' | translate}}</mat-label>
                                 <input type="number" min="0" matInput [(ngModel)]="inputWorkshop.mealAmount">
                             </mat-form-field>
-
                             <mat-form-field>
                                 <mat-label>{{'CUSTOMER_REQUIREMENTS.from_to' | translate}}</mat-label>
                                 <mat-date-range-input [rangePicker]="picker">
-                                    <input required matStartDate placeholder="Start date"
+                                    <input matStartDate placeholder="Start date"
                                         [(ngModel)]="inputWorkshop.mealDateFrom">
-                                    <input required matEndDate placeholder="End date"
-                                        [(ngModel)]="inputWorkshop.mealDateTo">
+                                    <input matEndDate placeholder="End date" [(ngModel)]="inputWorkshop.mealDateTo">
                                 </mat-date-range-input>
                                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                                 <mat-date-range-picker #picker></mat-date-range-picker>

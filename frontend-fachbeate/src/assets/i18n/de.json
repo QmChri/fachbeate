@@ -234,6 +234,7 @@
         "click_to_edit": "Zum Bearbeiten klicken …",
         "enter_here": "Hier eingeben",
         "delete_securely": "Sicher löschen",
-        "user_name": "Benutzername"
+        "user_name": "Benutzername",
+        "email": "Email"
     }
 }
