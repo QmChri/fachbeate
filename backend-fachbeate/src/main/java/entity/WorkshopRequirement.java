@@ -116,7 +116,6 @@ public class WorkshopRequirement extends PanacheEntity {
         this.hotelBooking = newEntity.hotelBooking;
         this.flightBooking = newEntity.flightBooking;
         this.reason = newEntity.reason;
-        this.representative = newEntity.representative.persistOrUpdate();
 
         this.subject = newEntity.subject;
         this.company = newEntity.company;
@@ -151,12 +150,15 @@ public class WorkshopRequirement extends PanacheEntity {
         this.tripTime = newEntity.tripTime;
         this.tripLocation = newEntity.tripLocation;
         this.otherTripRequests = newEntity.otherTripRequests;
+
+        this.meal = newEntity.meal;
         this.mealAmount = newEntity.mealAmount;
         this.mealDateFrom = newEntity.mealDateFrom;
         this.mealDateTo = newEntity.mealDateTo;
         this.mealTime = newEntity.mealTime;
         this.mealWishesVegan = newEntity.mealWishesVegan;
         this.mealWishesVegetarian = newEntity.mealWishesVegetarian;
+
         this.otherMealWishes = newEntity.otherMealWishes;
         this.otherMealWishesAmount = newEntity.otherMealWishesAmount;
         this.customerPresent = newEntity.customerPresent;
@@ -179,6 +181,9 @@ public class WorkshopRequirement extends PanacheEntity {
         for(Guest guest: newEntity.guests){
             this.guests.add(guest.persistOrUpdate());
         }
+
+        this.representative = newEntity.representative.persistOrUpdate();
+
     }
 
     public WorkshopRequirement persistOrUpdate(){
@@ -189,15 +194,20 @@ public class WorkshopRequirement extends PanacheEntity {
             return persisted;
         }
 
-        this.company = this.company.persistOrUpdate();
-        this.representative = this.representative.persistOrUpdate();
+        if(this.company != null) {
+            this.company = this.company.persistOrUpdate();
+        }
+
+        if(this.representative != null) {
+            this.representative = this.representative.persistOrUpdate();
+        }
 
         for(Technologist tech : this.requestedTechnologist){
             tech.persistOrUpdate();
         }
 
-        for(HotelBooking hotelBooking: this.hotelBookings){
-            hotelBooking.persistOrUpdate();
+        for(HotelBooking hb: this.hotelBookings){
+            hb.persistOrUpdate();
         }
 
         for(Guest guest: this.guests){

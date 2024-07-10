@@ -43,4 +43,11 @@ export interface FinalReport {
     summaryFinalReport?: string;
 
     reworkToDo?: number[];
+
+    presentationOfNewProducts?: boolean;
+    existingProducts?: boolean;
+    recipeOptimization?: boolean;
+    sampleProduction?: boolean;
+    training?: boolean;
+
 }

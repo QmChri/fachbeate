@@ -22,7 +22,7 @@ public class AppointmentResource {
     @POST
     @Path("/other")
     @Transactional
-    @Authenticated
+    //@Authenticated
     public Response postOtherAppointment(TechnologistAppointment technologistAppointment){
         if(technologistAppointment.id != null && technologistAppointment.id != 0) {
             TechnologistAppointment persisted = TechnologistAppointment.findById(technologistAppointment.id);
@@ -36,7 +36,7 @@ public class AppointmentResource {
 
     @GET
     @Path("/other")
-    @Authenticated
+    //@Authenticated
     public Response getOtherAppointments(){
         return Response.ok(TechnologistAppointment.listAll().stream().filter(
                 element -> !(element instanceof WorkshopRequirement) && !(element instanceof CustomerRequirement)
@@ -45,14 +45,14 @@ public class AppointmentResource {
 
     @GET
     @Path("/other/id")
-    @Authenticated
+    //@Authenticated
     public Response getOtherAppointmentPerId(@QueryParam("id") Long id){
         return Response.ok(TechnologistAppointment.findById(id)).build();
     }
 
     @GET
     @Path("/other/user")
-    @Authenticated
+    //@Authenticated
     public Response getOtherAppointmentPerUser(@QueryParam("type") int user, @QueryParam("fullname") String fullname){
         if (user==7) {
             return getOtherAppointments();
@@ -67,14 +67,14 @@ public class AppointmentResource {
 
     @GET
     @Path("/finalReport")
-    @Authenticated
+    //@Authenticated
     public Response getFinalReports(){
         return Response.ok(FinalReport.listAll()).build();
     }
 
     @GET
     @Path("/finalReportByUser")
-    @Authenticated
+    //@Authenticated
     public Response getFinalReportsByUser(@QueryParam("type") int user, @QueryParam("fullname") String fullname){
         if (user==7) {
             return getFinalReports();
@@ -108,7 +108,7 @@ public class AppointmentResource {
 
     @POST
     @Path("/finalReport")
-    @Authenticated
+    //@Authenticated
     @Transactional
     public Response postFinalReport(FinalReport finalReport){
         return Response.ok(finalReport.persistOrUpdate()).build();
@@ -116,13 +116,13 @@ public class AppointmentResource {
 
     @GET
     @Path("/article")
-    @Authenticated
+    //@Authenticated
     public Response getArticles(){return Response.ok(Article.listAll()).build();}
 
 
     @GET
     @Path("/visibility")
-    @Authenticated
+    //@Authenticated
     @Transactional
     public Response changeVisibility(@QueryParam("type") int type, @QueryParam("id") int id){
         if(type == 0){

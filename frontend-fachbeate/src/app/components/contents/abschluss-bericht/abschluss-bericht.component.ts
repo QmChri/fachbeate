@@ -22,7 +22,10 @@ export class AbschlussBerichtComponent implements OnInit {
   inputFinalReport: FinalReport = {
     reworkToDo: []
   }
-  reasonSelect: number[] = []
+
+  multiSelect: number[] = [];
+  reasonSelect: number[] = [];
+
   existingArticles: Article[] = []
   technologists: Technologist[] = [];
   representative: Representative[] = [];
@@ -46,10 +49,19 @@ export class AbschlussBerichtComponent implements OnInit {
       (this.inputFinalReport.reworkProduct_development)?3:0
     ].filter(element => element != 0);
 
+    this.reasonSelect = [
+      (this.inputFinalReport.presentationOfNewProducts)?1:0,
+      (this.inputFinalReport.existingProducts)?2:0,
+      (this.inputFinalReport.recipeOptimization)?3:0,
+      (this.inputFinalReport.sampleProduction)?4:0,
+      (this.inputFinalReport.training)?5:0
+    ]
+
     if (finalReport.reasonReports !== undefined) {
       this.inputFinalReport.reasonReports = this.inputFinalReport.reasonReports!.filter(element => element.reason !== 0);
-      this.reasonSelect = this.inputFinalReport.reasonReports!.map(element => element.reason)
+      this.multiSelect = this.inputFinalReport.reasonReports!.map(element => element.reason)
         .filter((reason): reason is number => reason !== undefined);
+      
       if(finalReport.id === undefined || finalReport.id === 0){
         this.finalReport.reasonReports!.forEach(reasonReport => {          
           if(reasonReport.presentedArticle === undefined || reasonReport.presentedArticle.length === 0 ){            
@@ -69,7 +81,7 @@ export class AbschlussBerichtComponent implements OnInit {
 
   changeSelections(event: any) {
     var newReasonReports: ReasonReport[] = [];
-    this.reasonSelect = event.value;
+    this.multiSelect = event.value;
 
     event.value.forEach((element: number) => {
       var r: ReasonReport = this.inputFinalReport.reasonReports!.find(p => p.reason === element)!
@@ -180,7 +192,7 @@ export class AbschlussBerichtComponent implements OnInit {
       (this.inputFinalReport.representative === null||this.inputFinalReport.representative === undefined)?"MAIN_LIST.representative":"",
       (this.inputFinalReport.company === null || this.inputFinalReport.company === undefined||this.inputFinalReport.company === "")?"ABSCHLUSSBERICHT.company":"",
       (this.inputFinalReport.dateOfVisit === null||this.inputFinalReport.dateOfVisit === undefined)?"ABSCHLUSSBERICHT.visit_date_general":"",
-      (this.reasonSelect === null||this.reasonSelect === undefined||this.reasonSelect.length === 0)?"ABSCHLUSSBERICHT.visit_reason_general":"",
+      (this.multiSelect === null||this.multiSelect === undefined||this.multiSelect.length === 0)?"ABSCHLUSSBERICHT.visit_reason_general":"",
       (this.inputFinalReport.reworkByTechnologist === null || this.inputFinalReport.reworkByTechnologist === undefined)?"ABSCHLUSSBERICHT.advisor_follow_up":"",
       (this.inputFinalReport.reworkByTechnologist === true && (this.inputFinalReport.reworkByTechnologistDoneUntil === null || this.inputFinalReport.reworkByTechnologistDoneUntil === undefined))?"ABSCHLUSSBERICHT.to_be_done_by":"",
       (this.inputFinalReport.reworkByTechnologist === true && (this.inputFinalReport.reworkToDo === null || this.inputFinalReport.reworkToDo === undefined || this.inputFinalReport.reworkToDo.length === 0))?"ABSCHLUSSBERICHT.todo":"",

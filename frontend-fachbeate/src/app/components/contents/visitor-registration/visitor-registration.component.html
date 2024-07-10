@@ -121,9 +121,9 @@
                 <mat-form-field>
                     <mat-label>{{"MAIN_LIST.representative"|translate}}</mat-label>
                     <mat-select
-                        [ngModel]="(inputVisitRegistration.representative === undefined)?undefined:inputVisitRegistration.representative.id"
+                        [ngModel]="(inputVisitRegistration.representative === null ||inputVisitRegistration.representative === undefined)?0:inputVisitRegistration.representative.id"
                         (valueChange)="changeRepresentative($event)">
-                        <mat-option>--</mat-option>
+                        <mat-option [value]="0">--</mat-option>
                         @for (r of representative; track representative) {
                         <mat-option [value]="r.id">{{r.firstName}} {{r.lastName}}</mat-option>
                         }

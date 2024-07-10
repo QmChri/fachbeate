@@ -212,6 +212,13 @@ export class CustomerRequirementsComponent implements OnInit {
           dateOfVisit: customerVisit.dateOfVisit,
           reasonReports: rRepo
         }
+
+        finalReport.presentationOfNewProducts = customerVisit.presentationOfNewProducts;
+        finalReport.existingProducts = customerVisit.existingProducts;
+        finalReport.recipeOptimization = customerVisit.recipeOptimization;
+        finalReport.sampleProduction = customerVisit.sampleProduction;
+        finalReport.training = customerVisit.training;
+
       }else{
         finalReport = customerVisit.finalReport;
       }

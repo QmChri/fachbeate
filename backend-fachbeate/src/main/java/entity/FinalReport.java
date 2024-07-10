@@ -18,7 +18,11 @@ public class FinalReport extends PanacheEntity {
     public boolean representativeEntered;
     public String lastEditor;
 
-
+    public boolean presentationOfNewProducts;
+    public boolean existingProducts;
+    public boolean recipeOptimization;
+    public boolean sampleProduction;
+    public boolean training;
     @ManyToOne
     public Technologist technologist;
     @ManyToOne
@@ -39,6 +43,7 @@ public class FinalReport extends PanacheEntity {
 
     public boolean reworkByTechnologist;
     public Date reworkByTechnologistDoneUntil;
+
     public boolean reworkFollowVisits;
     public boolean reworkInformation;
     public boolean reworkRecipe_optimization;
@@ -77,15 +82,23 @@ public class FinalReport extends PanacheEntity {
         this.requestCompleted = newFinalReport.requestCompleted;
         this.summaryFinalReport = newFinalReport.summaryFinalReport;
 
+        this.presentationOfNewProducts = newFinalReport.presentationOfNewProducts;
+        this.existingProducts = newFinalReport.existingProducts;
+        this.recipeOptimization = newFinalReport.recipeOptimization;
+        this.sampleProduction = newFinalReport.sampleProduction;
+        this.training = newFinalReport.training;
 
         this.reasonReports = new ArrayList<>();
         for(ReasonReport r: newFinalReport.reasonReports){
             reasonReports.add(r.persistOrUpdate());
         }
 
-
-        this.technologist = newFinalReport.technologist.persistOrUpdate();
-        this.representative = newFinalReport.representative.persistOrUpdate();
+        if(newFinalReport.technologist != null) {
+            this.technologist = newFinalReport.technologist.persistOrUpdate();
+        }
+        if(newFinalReport.representative != null) {
+            this.representative = newFinalReport.representative.persistOrUpdate();
+        }
 
     }
 

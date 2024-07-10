@@ -88,7 +88,7 @@ export class NewDateEntryComponent implements OnInit {
     }
     else {
       this.translate.get('STANDARD.new_entry_created').subscribe((translatedMessage: string) => {
-        this.notificationService.createBasicNotification(0, translatedMessage, 'für ' + this.inputDate.requestedTechnologist!.firstName + this.inputDate.requestedTechnologist!.lastName, 'topRight');
+        this.notificationService.createBasicNotification(0, translatedMessage, 'für ' + this.inputDate.requestedTechnologist!.firstName + " " + this.inputDate.requestedTechnologist!.lastName, 'topRight');
       });
       this.http.postOtherDate(this.inputDate).subscribe({
         next: data => {

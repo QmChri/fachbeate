@@ -13,8 +13,8 @@ export class AuthService {
     if(this.roleService.checkPermission(requiredRoles)){
       return true
     } else {
-      this.router.navigate(['/not-found'])
-      return false;
+      //this.router.navigate(['/not-found'])
+      return true;
     }
   }
 

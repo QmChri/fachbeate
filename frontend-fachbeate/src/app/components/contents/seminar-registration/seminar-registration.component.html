@@ -182,18 +182,17 @@
             <div class="card-header text-white bg-danger">{{'SEMINAR_REGRISTRATION.other_notes_excursion' | translate}}
             </div>
             <mat-button-toggle-group [ngModel]="buttonSelect" (change)="changeSelections($event, 0)" vertical multiple>
-                <mat-button-toggle value="1">{{'VISITOR_REGRISTRATION.factory_tour' | translate}}</mat-button-toggle>
-                <mat-button-toggle value="2">{{'SEMINAR_REGRISTRATION.excursion' | translate}}</mat-button-toggle>
-                <mat-button-toggle value="3">{{'SEMINAR_REGRISTRATION.airport_transfer_train_excursion' |
-                    translate}}</mat-button-toggle>
-                <mat-button-toggle value="4">{{'VISITOR_REGRISTRATION.lunch' | translate}}</mat-button-toggle>
-                <mat-button-toggle value="5">{{'CUSTOMER_REQUIREMENTS.hotel_booking' | translate}}</mat-button-toggle>
+                <mat-button-toggle [value]="1">{{'VISITOR_REGRISTRATION.factory_tour' | translate}}</mat-button-toggle>
+                <mat-button-toggle [value]="2">{{'SEMINAR_REGRISTRATION.excursion' | translate}}</mat-button-toggle>
+                <mat-button-toggle [value]="3">{{'SEMINAR_REGRISTRATION.airport_transfer_train_excursion' | translate}}</mat-button-toggle>
+                <mat-button-toggle [value]="4">{{'VISITOR_REGRISTRATION.lunch' | translate}}</mat-button-toggle>
+                <mat-button-toggle [value]="5">{{'CUSTOMER_REQUIREMENTS.hotel_booking' | translate}}</mat-button-toggle>
             </mat-button-toggle-group>
             <mat-button-toggle-group style="height: 2.7rem;" [ngModel]="buttonSelect"
                 (change)="changeSelections($event, 1)" multiple>
-                <mat-button-toggle style="width: 15rem;" value="6">{{'SEMINAR_REGRISTRATION.customer_gifts' |
+                <mat-button-toggle style="width: 15rem;" [value]="6">{{'SEMINAR_REGRISTRATION.customer_gifts' |
                     translate}}</mat-button-toggle>
-                <mat-button-toggle style="width: 15rem;" value="7">{{'SEMINAR_REGRISTRATION.diplomas' |
+                <mat-button-toggle style="width: 15rem;" [value]="7">{{'SEMINAR_REGRISTRATION.diplomas' |
                     translate}}</mat-button-toggle>
             </mat-button-toggle-group>
         </div>
@@ -204,7 +203,7 @@
 <div class="row">
     <div class="col-9">
         <div class="row">
-            <div class="col-md-6 paddingBottom" *ngIf="buttonSelect.includes('1')">
+            <div class="col-md-6 paddingBottom" *ngIf="buttonSelect.includes(1)">
                 <div class="card" hideToggle>
                     <div class="card-header bg-danger text-white">{{'VISITOR_REGRISTRATION.factory_tour' |
                         translate}}
@@ -229,7 +228,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 paddingBottom" *ngIf="buttonSelect.includes('2')">
+            <div class="col-md-6 paddingBottom" *ngIf="buttonSelect.includes(2)">
                 <div class="card" hideToggle>
                     <div class="card-header bg-danger text-white">{{'SEMINAR_REGRISTRATION.excursion' | translate}}
                     </div>
@@ -261,7 +260,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 paddingBottom" *ngIf="buttonSelect.includes('3')">
+            <div class="col-md-6 paddingBottom" *ngIf="buttonSelect.includes(3)">
                 <div class="card" hideToggle>
                     <div class="card-header bg-danger text-white">
                         {{'SEMINAR_REGRISTRATION.airport_transfer_train_excursion' |
@@ -297,7 +296,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 paddingBottom" *ngIf="buttonSelect.includes('4')">
+            <div class="col-md-6 paddingBottom" *ngIf="buttonSelect.includes(4)">
                 <div class="card" hideToggle>
                     <div class="card-header bg-danger text-white">{{'VISITOR_REGRISTRATION.lunch' | translate}}</div>
                     <div class="card-body">
@@ -353,7 +352,7 @@
         </div>
     </div>
     <div class="col-3">
-        <div class="paddingBottom" *ngIf="buttonSelect.includes('5')">
+        <div class="paddingBottom" *ngIf="buttonSelect.includes(5)">
             <div class="card">
                 <div class="card-header text-white bg-danger paddingSearch">{{'CUSTOMER_REQUIREMENTS.hotel_booking' |
                     translate}}</div>

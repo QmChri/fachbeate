@@ -31,7 +31,6 @@ public class ReasonReport extends PanacheEntity {
 
     }
 
-    @Transactional(Transactional.TxType.REQUIRED)
     public ReasonReport persistOrUpdate(){
         if(this.id == null || this.id == 0) {
             this.id = null;

@@ -4,6 +4,7 @@ import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.transaction.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -166,6 +167,7 @@ public class VisitorRegistration extends PanacheEntity {
         this.plannedDepartmentVisits = newVisitorRegistration.plannedDepartmentVisits;
     }
 
+    @Transactional
     public VisitorRegistration persistOrUpdate(){
         if(this.id == null || this.id == 0) {
             this.id = null;
@@ -182,7 +184,9 @@ public class VisitorRegistration extends PanacheEntity {
                 hotelBooking.persistOrUpdate();
             }
 
-            this.representative.persistOrUpdate();
+            if(this.representative != null) {
+                this.representative.persistOrUpdate();
+            }
 
             return this;
         }else{
