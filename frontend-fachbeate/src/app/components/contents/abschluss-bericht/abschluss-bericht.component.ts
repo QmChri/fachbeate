@@ -121,12 +121,12 @@ export class AbschlussBerichtComponent implements OnInit {
   insertOther(article: Article, reason: number) {
     var tmpArticle = this.existingArticles.find(element => element.articleNr!.toString() === article.articleNr!.toString());
 
+    this.inputFinalReport.reasonReports!.find(element => element.reason === reason)!
+    .presentedArticle.find(element => element.articleNr!.toString() === article.articleNr!.toString())!.id = 0;
+
     if (tmpArticle !== undefined) {
       this.inputFinalReport.reasonReports!.find(element => element.reason === reason)!
         .presentedArticle.find(element => element.articleNr!.toString() === article.articleNr!.toString())!.name = tmpArticle.name;
-
-      this.inputFinalReport.reasonReports!.find(element => element.reason === reason)!
-        .presentedArticle.find(element => element.articleNr!.toString() === article.articleNr!.toString())!.id = tmpArticle.id;
     }
   }
 
