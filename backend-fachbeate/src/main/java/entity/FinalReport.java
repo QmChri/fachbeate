@@ -31,7 +31,7 @@ public class FinalReport extends PanacheEntity {
     public String company;
     public String companyNr;
 
-    @OneToMany( fetch = FetchType.EAGER)
+    @OneToMany
     public List<ReasonReport> reasonReports;
     public Date customerContactDate;
     public String responseCustomer;
@@ -102,18 +102,15 @@ public class FinalReport extends PanacheEntity {
 
     }
 
-    @Transactional(Transactional.TxType.REQUIRED)
     public FinalReport persistOrUpdate(){
         if(this.id == null || this.id == 0) {
             this.id = null;
-            this.persist();
 
             for (ReasonReport reasonReport : this.reasonReports) {
                 reasonReport.persistOrUpdate();
             }
 
-
-
+            this.persist();
             return this;
         }else{
             FinalReport finalReport = FinalReport.findById(this.id);

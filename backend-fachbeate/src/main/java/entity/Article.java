@@ -26,14 +26,15 @@ public class Article extends PanacheEntity {
             persisted.update(this);
             return persisted;
         }
-        List<Article> nrArticle = Article.find("articleNr", this.articleNr).list();
-        if(nrArticle.isEmpty()){
+
+        Article nrArticle = Article.find("articleNr", this.articleNr).firstResult();
+        if(nrArticle == null){
             this.id = null;
             this.persist();
             return this;
         }
-
-        return nrArticle.get(0);
+        nrArticle.update(this);
+        return nrArticle;
     }
 
 }
