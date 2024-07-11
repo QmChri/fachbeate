@@ -19,6 +19,7 @@ import { Company } from '../../../models/company';
 export class AbschlussBerichtListComponent {
   searchValue = '';
   visible = false;
+  showArticles: number[] = [];
   finalReports: FinalReport[] = []
   technologistList: Technologist[] = [];
   listOfDisplayData: DataItem[] = [];
@@ -89,10 +90,15 @@ export class AbschlussBerichtListComponent {
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => {
         // Annahme: Wir vergleichen die Artikelnummern der ersten Elemente in a.article und b.article
-        const articleANr = a.article.length > 0 ? a.article[0].articleNr : 1;
-        const articleBNr = b.article.length > 0 ? b.article[0].articleNr : -1;
+        if(a.article[0]===null || a.article[0] === undefined){
+          return -1;
+        }
+        
+        if(b.article[0]===null || b.article[0] === undefined){
+          return 1;
+        }
 
-        return articleANr! - articleBNr!;
+        return a.article[0].articleNr!.localeCompare(b.article[0].articleNr!);
       },
       listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => true
@@ -227,6 +233,8 @@ export class AbschlussBerichtListComponent {
     dialogRef.afterClosed().subscribe(
       data => {
         if (data.save) {
+          console.log(data);
+          
           this.http.postFinalReport(data.finalReport).subscribe({
             next: finalRep => {
 
@@ -280,11 +288,19 @@ export class AbschlussBerichtListComponent {
     ));
   }
 
-  getArticleListName(article: Article[]) {
+  getArticleListName(article: Article[], id: number) {
     if (article.length === 0) {
       return "<Leer>"
     }
-    return article.map(element => element.articleNr).toString().substring(0, 30)
+    if(this.showArticles.includes(id)){
+      return article.map(element => element.articleNr);
+    }
+    var returnValue: string = article.map(element => element.articleNr).toString().substring(0, 15);    
+    return returnValue + ((returnValue.length == 15)?"...":"")
+  }
+
+  disableShow(id: number){
+    this.showArticles = this.showArticles.filter(element => element !== id);
   }
 
   /*

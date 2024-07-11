@@ -14,7 +14,7 @@ public class WorkshopResource {
 
 
     @POST
-    @Authenticated
+    //@Authenticated
     @Transactional
     public Response postWorkshopRequirement(WorkshopRequirement workshopRequirement){
         WorkshopRequirement responseWorkshopRequirement = workshopRequirement.persistOrUpdate();
@@ -25,21 +25,21 @@ public class WorkshopResource {
     }
 
     @GET
-    @Authenticated
+    //@Authenticated
     public Response getWorkshopRequirement(){
         return Response.ok(WorkshopRequirement.listAll()).build();
     }
 
     @GET
     @Path("/id")
-    @Authenticated
+    //@Authenticated
     public Response getWorkshopPerId(@QueryParam("id") Long id){
         return Response.ok(WorkshopRequirement.findById(id)).build();
     }
 
     @GET
     @Path("/user")
-    @Authenticated
+    //@Authenticated
     public Response getWorkshopPerUser(@QueryParam("type") int user, @QueryParam("fullname") String fullname){
         if (user==7) {
             return getWorkshopRequirement();

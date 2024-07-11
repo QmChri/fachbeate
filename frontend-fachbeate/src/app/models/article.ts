@@ -1,5 +1,5 @@
 export interface Article {
     id?: number;
     name?: string;
-    articleNr?: number;
+    articleNr?: string;
 }

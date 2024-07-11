@@ -295,7 +295,7 @@ export class MainListComponent implements OnInit {
             customerOrCompany: element.customerOrCompany!,
             statusGL: element.releaseSupervisor ? 'GL Freigegeben ' : 'GL Nicht-Freigegeben',
             statusAL: element.releaseManagement ? 'AL Freigegeben ' : 'AL Nicht-Freigegeben',
-            vertreter: element.representative!.firstName + " " + element.representative!.lastName,
+            vertreter: (element.representative !== null && element.representative !== undefined)?element.representative!.firstName + " " + element.representative!.lastName:"<Leer>",
             fachberater: "<Leer>",
             timespan: {
               start: element.fromDate,

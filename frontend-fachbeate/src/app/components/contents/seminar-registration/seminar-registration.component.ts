@@ -19,7 +19,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrl: './seminar-registration.component.scss'
 })
 export class SeminarRegistrationComponent implements OnInit {
-  buttonSelect: string[] = []
+  buttonSelect: number[] = []
   companies: Company[] = [];
   representative: Representative[] = [];
   control = new FormControl(null, Validators.required);
@@ -54,14 +54,14 @@ export class SeminarRegistrationComponent implements OnInit {
               this.inputWorkshop.techSelection = data.requestedTechnologist!.map(tech => tech.id!);
 
               this.buttonSelect = [
-                (data.hotelBooking) ? "1" : "",
-                (data.flightBooking) ? "2" : "",
-                (data.trip) ? "3" : "",
-                (data.companyTour) ? "4" : "",
-                (data.meal) ? "5" : "",
-                (data.customerPresent) ? "6" : "",
-                (data.diploma) ? "7" : ""
-              ].filter(p => p != "");
+                (data.hotelBooking) ? 5 : -1,
+                (data.flightBooking) ? 3 : -1,
+                (data.trip) ? 2 : -1,
+                (data.companyTour) ? 1 : -1,
+                (data.meal) ? 4 : -1,
+                (data.customerPresent) ? 6 : -1,
+                (data.diploma) ? 7 : -1
+              ].filter(p => p != -1);
             }
           },
           error: err => {
@@ -196,13 +196,13 @@ export class SeminarRegistrationComponent implements OnInit {
     this.buttonSelect = (section === 0) ? this.buttonSelect.filter(number => Number(number) >= 6 && Number(number) <= 7) : this.buttonSelect.filter(number => Number(number) >= 1 && Number(number) <= 5);
     this.buttonSelect = [...this.buttonSelect, ...event.value]
 
-    this.inputWorkshop.hotelBooking = this.buttonSelect.includes("1");
-    this.inputWorkshop.flightBooking = this.buttonSelect.includes("2");
-    this.inputWorkshop.trip = this.buttonSelect.includes("3");
-    this.inputWorkshop.companyTour = this.buttonSelect.includes("4");
-    this.inputWorkshop.meal = this.buttonSelect.includes("5");
-    this.inputWorkshop.customerPresent = this.buttonSelect.includes("6");
-    this.inputWorkshop.diploma = this.buttonSelect.includes("7");
+    this.inputWorkshop.companyTour = this.buttonSelect.includes(1);
+    this.inputWorkshop.trip = this.buttonSelect.includes(2);
+    this.inputWorkshop.flightBooking = this.buttonSelect.includes(3);
+    this.inputWorkshop.meal = this.buttonSelect.includes(4);
+    this.inputWorkshop.hotelBooking = this.buttonSelect.includes(5);
+    this.inputWorkshop.customerPresent = this.buttonSelect.includes(6);
+    this.inputWorkshop.diploma = this.buttonSelect.includes(7);
   }
 
   postWorkshopRequest() {
@@ -220,18 +220,19 @@ export class SeminarRegistrationComponent implements OnInit {
       this.http.postWorkshop(this.inputWorkshop).subscribe({
         next: data => {
           this.inputWorkshop = data;
-
+          console.log(data);
+          
           this.inputWorkshop.techSelection = data.requestedTechnologist!.map(element => element.id!);
 
           this.buttonSelect = [
-            (data.hotelBooking) ? "1" : "",
-            (data.flightBooking) ? "2" : "",
-            (data.trip) ? "3" : "",
-            (data.companyTour) ? "4" : "",
-            (data.meal) ? "5" : "",
-            (data.customerPresent) ? "6" : "",
-            (data.diploma) ? "7" : ""
-          ].filter(p => p != "");
+            (data.hotelBooking) ? 5 : -1,
+            (data.flightBooking) ? 3 : -1,
+            (data.trip) ? 2 : -1,
+            (data.companyTour) ? 1 : -1,
+            (data.meal) ? 4 : -1,
+            (data.customerPresent) ? 6 : -1,
+            (data.diploma) ? 7 : -1
+          ].filter(p => p != -1);
         },
         error: err => {
           console.log(err);

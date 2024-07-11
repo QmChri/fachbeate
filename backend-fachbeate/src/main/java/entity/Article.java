@@ -8,7 +8,7 @@ import jakarta.transaction.Transactional;
 public class Article extends PanacheEntity {
 
     public String name;
-    public int articleNr;
+    public String articleNr;
 
     public Article() {
     }
@@ -18,7 +18,6 @@ public class Article extends PanacheEntity {
         this.name = newEntity.name;
     }
 
-    @Transactional(Transactional.TxType.REQUIRED)
     public Article persistOrUpdate(){
         if(this.id != null && this.id != 0){
             Article persisted = Article.findById(this.id);

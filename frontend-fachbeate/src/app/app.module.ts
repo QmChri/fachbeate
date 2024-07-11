@@ -59,8 +59,8 @@ import { CreateDealerComponent } from './components/contents/creation-sites/crea
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
-import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
-import { initializer } from './initializer.service';
+import { /*KeycloakAngularModule,*/ KeycloakService } from 'keycloak-angular';
+//import { initializer } from './initializer.service';
 import { NzColorPickerModule } from 'ng-zorro-antd/color-picker';
 
 
@@ -124,7 +124,7 @@ import { NzColorPickerModule } from 'ng-zorro-antd/color-picker';
     MatButtonToggleModule,
     FullCalendarModule,
     MatIconModule,
-    KeycloakAngularModule,
+    //KeycloakAngularModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -140,12 +140,12 @@ import { NzColorPickerModule } from 'ng-zorro-antd/color-picker';
     provideAnimationsAsync(),
     { provide: NZ_I18N, useValue: de_DE },
     provideHttpClient(),
-    {
+    /*{
       provide: APP_INITIALIZER,
       useFactory: initializer,
       deps: [KeycloakService],
       multi: true
-    }
+    }*/
   ],
   bootstrap: [AppComponent]
 })

@@ -14,7 +14,7 @@ public class CustomerRequirementResource {
 
 
     @POST
-    @Authenticated
+    //@Authenticated
     @Transactional(Transactional.TxType.REQUIRED)
     public Response postCustomerRequirement(CustomerRequirement customerRequirement){
         CustomerRequirement responseCustomerRequirement = customerRequirement.persistOrUpdate();
@@ -24,14 +24,14 @@ public class CustomerRequirementResource {
         return Response.ok(responseCustomerRequirement).build();
     }
     @GET
-    @Authenticated
+    //@Authenticated
     public Response getCustomerRequirement(){
         return Response.ok(CustomerRequirement.listAll()).build();
     }
 
     @GET
     @Path("/id")
-    @Authenticated
+    //@Authenticated
     public Response getCustomerRequirementPerId(@QueryParam("id") Long id){
 
         CustomerRequirement cr = CustomerRequirement.findById(id);
@@ -40,7 +40,7 @@ public class CustomerRequirementResource {
 
     @GET
     @Path("/user")
-    @Authenticated
+    //@Authenticated
     public Response getCustomerRequirementPerUser(@QueryParam("type") int user, @QueryParam("fullname") String fullname){
         if (user==7) {
             return getCustomerRequirement();

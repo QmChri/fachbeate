@@ -16,7 +16,7 @@ import { Company } from '../../models/company';
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent implements OnInit {
-  requiredRoles = [1, 2, 4, 5];
+  requiredRoles = [1, 2, 4, 5,7];
   calendarEvnts: CalendarEvent[] = [];
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
@@ -125,8 +125,8 @@ export class DashboardComponent implements OnInit {
             title: "B_"+ value.id + " " + value.name,
             start: value.fromDate,
             end: this.adjustEndDate(value.toDate!.toString()),
-            backgroundColor: "#f0f0f0",
-            borderColor: "#f0f0f0",
+            backgroundColor: "#7D8471",
+            borderColor: "#000000",
           }]
 
           this.calendarOptions.events = this.calendarEvnts.map(value => ({
@@ -211,7 +211,9 @@ export class DashboardComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(
       data => {
-        this.loadDataPerUser()
+        if(this.roleService.checkPermission(this.requiredRoles)){
+          this.loadDataPerUser()
+        }
       });
   }
 

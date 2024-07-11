@@ -114,8 +114,6 @@ export class HttpService {
     return this.http.get<Company[]>(API_URL + "technologist/company/allActive");
   }
 
-
-
   postOtherDate(date: TechnologistAppointment): Observable<TechnologistAppointment>{
     return this.http.post<TechnologistAppointment>(API_URL + "appointment/other", date);
   }

@@ -13,7 +13,7 @@ import jakarta.ws.rs.core.Response;
 public class VisitorRegistrationResource {
 
     @POST
-    @Authenticated
+    ////@Authenticated
     @Transactional
     public Response postVisitorRegistration(VisitorRegistration visitorRegistration){
         VisitorRegistration responseVisitorRegistration = visitorRegistration.persistOrUpdate();
@@ -25,20 +25,20 @@ public class VisitorRegistrationResource {
 
 
     @GET
-    @Authenticated
+    //@Authenticated
     public Response getVisitorRegistration(){
         return Response.ok(VisitorRegistration.listAll()).build();
     }
 
     @GET
     @Path("/id")
-    @Authenticated
+    //@Authenticated
     public Response postVisitorRegistration(@QueryParam("id") Long id){
         return Response.ok(VisitorRegistration.findById(id)).build();
     }
     @GET
     @Path("/user")
-    @Authenticated
+    //@Authenticated
     public Response getVisitorRegistrationPerUser(@QueryParam("type") int user, @QueryParam("fullname") String fullname){
         if (user==7) {
             return getVisitorRegistration();
