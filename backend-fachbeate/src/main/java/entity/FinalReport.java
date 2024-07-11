@@ -111,6 +111,9 @@ public class FinalReport extends PanacheEntity {
             for (ReasonReport reasonReport : this.reasonReports) {
                 reasonReport.persistOrUpdate();
             }
+
+
+
             return this;
         }else{
             FinalReport finalReport = FinalReport.findById(this.id);

@@ -4,6 +4,8 @@ import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Entity;
 import jakarta.transaction.Transactional;
 
+import java.util.List;
+
 @Entity
 public class Article extends PanacheEntity {
 
@@ -24,9 +26,14 @@ public class Article extends PanacheEntity {
             persisted.update(this);
             return persisted;
         }
-        this.id = null;
-        this.persist();
-        return this;
+        List<Article> nrArticle = Article.find("articleNr", this.articleNr).list();
+        if(nrArticle.isEmpty()){
+            this.id = null;
+            this.persist();
+            return this;
+        }
+
+        return nrArticle.get(0);
     }
 
 }
