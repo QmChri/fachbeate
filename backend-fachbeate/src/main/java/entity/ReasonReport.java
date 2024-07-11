@@ -1,11 +1,9 @@
 package entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
+import org.hibernate.annotations.Cascade;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -34,12 +32,10 @@ public class ReasonReport extends PanacheEntity {
     public ReasonReport persistOrUpdate(){
         if(this.id == null || this.id == 0) {
             this.id = null;
-            this.persist();
-
             for(Article a : this.presentedArticle){
                 a = a.persistOrUpdate();
             }
-
+            this.persist();
             return this;
         }else{
             ReasonReport reasonReport = ReasonReport.findById(this.id);

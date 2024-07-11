@@ -277,7 +277,7 @@
                                 </mat-form-field>
                                 <mat-form-field class="artundnr">
                                     <mat-label>{{"ABSCHLUSSBERICHT.article" | translate}}</mat-label>
-                                    <input [disabled]="roleService.checkPermission([6])" matInput type="text"
+                                    <input [disabled]="roleService.checkPermission([6]) || isExisting(article)" matInput type="text"
                                         [(ngModel)]="article.name" name="articleName{{reasonReport.reason}}">
                                 </mat-form-field>
                             </div>
@@ -319,7 +319,7 @@
                                 </mat-form-field>
                                 <mat-form-field class="artundnr">
                                     <mat-label>{{"ABSCHLUSSBERICHT.article" | translate}}</mat-label>
-                                    <input [disabled]="roleService.checkPermission([6])" matInput type="text"
+                                    <input [disabled]="roleService.checkPermission([6]) || isExisting(article)" matInput type="text"
                                         [(ngModel)]="article.name" name="articleName{{reasonReport.reason}}">
                                 </mat-form-field>
                             </div>
@@ -361,7 +361,7 @@
                                 </mat-form-field>
                                 <mat-form-field class="artundnr">
                                     <mat-label>{{"ABSCHLUSSBERICHT.article" | translate}}</mat-label>
-                                    <input [disabled]="roleService.checkPermission([6])" matInput type="text"
+                                    <input [disabled]="roleService.checkPermission([6]) || isExisting(article)" matInput type="text"
                                         [(ngModel)]="article.name" name="articleName{{reasonReport.reason}}">
                                 </mat-form-field>
                             </div>
@@ -403,7 +403,7 @@
                                 </mat-form-field>
                                 <mat-form-field class="artundnr">
                                     <mat-label>{{"ABSCHLUSSBERICHT.article" | translate}}</mat-label>
-                                    <input [disabled]="roleService.checkPermission([6])" matInput type="text"
+                                    <input [disabled]="roleService.checkPermission([6]) || isExisting(article)" matInput type="text"
                                         [(ngModel)]="article.name" name="articleName{{reasonReport.reason}}">
                                 </mat-form-field>
                             </div>
