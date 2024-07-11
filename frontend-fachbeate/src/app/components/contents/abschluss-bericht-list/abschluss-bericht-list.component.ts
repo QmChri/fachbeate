@@ -243,7 +243,7 @@ export class AbschlussBerichtListComponent {
                 company: (finalRep.company!) ? finalRep.company : "<Leer>",
                 dateOfVisit: (finalRep.dateOfVisit!) ? finalRep.dateOfVisit : undefined!,
                 technologist: finalRep.technologist!.firstName + " " + finalRep.technologist!.lastName,
-                toBeCompletedBy: finalRep.reworkByRepresentativeDoneUntil!,
+                toBeCompletedBy: finalRep.doneUntil!,
                 representative: finalRep.representative!.firstName + " " + finalRep.representative!.lastName,
                 customerContactDate: finalRep.customerContactDate!,
                 abschlussberichtFinished: (finalRep.requestCompleted) ? "Ja" : "Nein",

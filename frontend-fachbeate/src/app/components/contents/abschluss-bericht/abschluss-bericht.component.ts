@@ -127,6 +127,8 @@ export class AbschlussBerichtComponent implements OnInit {
     if (tmpArticle !== undefined) {
       this.inputFinalReport.reasonReports!.find(element => element.reason === reason)!
         .presentedArticle.find(element => element.articleNr!.toString() === article.articleNr!.toString())!.name = tmpArticle.name;
+
+      
     }
   }
 
