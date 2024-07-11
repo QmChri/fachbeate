@@ -56,7 +56,7 @@
   <tbody>
     <tr *ngFor="let data of nzTable.data">
       <td (dblclick)="openCRC(data,data.id!, data.type!)">{{data.id}}</td>
-      <td (dblclick)="openCRC(data,data.id!, data.type!)">{{ data.dateOfCreation!.toString() | date:'dd.MM.yy' }}</td>
+      <td (dblclick)="openCRC(data,data.id!, data.type!)">{{ (data.dateOfCreation !== '\<Leer\>')?(data.dateOfCreation | date:'dd.MM.yy'):'\<Leer\>' }}</td>
       <td (dblclick)="openCRC(data,data.id!, data.type!)">{{ data.customerOrCompany }}</td>
       <td (dblclick)="openCRC(data,data.id!, data.type!)">
         <div class="freigabe">
