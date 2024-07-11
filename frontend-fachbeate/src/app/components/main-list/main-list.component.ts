@@ -94,7 +94,7 @@ export class MainListComponent implements OnInit {
   constructor(public translate: TranslateService, private router: Router, private http: HttpService, private notificationService: NotificationService, public roleService: RoleService) { }
 
   ngOnInit(): void {
-    //this.tmpinitData();
+    //this.tmpinitData();    
     this.loadDataPerUser()
     this.getNzFilters();
   }
@@ -185,6 +185,8 @@ export class MainListComponent implements OnInit {
   }
 
   loadDataPerUser() {
+
+    
     this.listOfDisplayData = []
 
     this.http.getAllCompany().subscribe({
@@ -199,46 +201,36 @@ export class MainListComponent implements OnInit {
     var type = (this.roleService.checkPermission([1, 2, 3, 5, 7]) ? 7 : 6);
     type = (!this.roleService.checkPermission([1, 2, 4, 5, 6, 7]) ? 3 : type);
     type = (!this.roleService.checkPermission([1, 2, 3, 5, 6, 7]) ? 4 : type);
+    type = (!this.roleService.checkPermission([1,2,5,6,7]) ? 8 : type);
     var fullname = (type === 6) ? companies.find(element => element.username === this.roleService.getUserName()!)?.username : this.roleService.getEmail()!;
 
     if (type === 6 && fullname === undefined) {
       type = -1;
     }
+console.log(type);
 
     this.loadTechnologists();
     this.http.getCustomerRequirementsByUser(type!, fullname!).subscribe({
       next: data => {
         data.forEach(element => {
-          var tmpStatus = "in-progress";
-          if ((element.releaseManagement != null && element.releaseManagement != undefined)
-            || (element.releaseSupervisor != null && element.releaseSupervisor != undefined)) {
-            tmpStatus = "open";
-          }
-
-          var cntFinalReports: number = 0;
-          element.customerVisits.forEach(element => {
-            if (element.finalReport !== undefined && element.finalReport !== null) {
-              cntFinalReports = cntFinalReports + 1;
-            }
-          });
 
           this.listOfDisplayData = [...this.listOfDisplayData, {
-            id: "F_" + element.id!,
-            name: element.company?.name!,
-            dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
-            customerOrCompany: element.creator,
-            statusGL: element.releaseSupervisor ? 'GL Freigegeben ' : 'GL Nicht-Freigegeben',
-            statusAL: element.releaseManagement ? 'AL Freigegeben ' : 'AL Nicht-Freigegeben',
-            vertreter: element.representative?.firstName! + " " + element.representative?.lastName!,
-            fachberater: element.requestedTechnologist?.firstName! + " " + element.requestedTechnologist?.lastName!,
+            id: element.id,
+            name: element.name,
+            dateOfCreation: element.dateOfCreation,
+            customerOrCompany: element.customerOrCompany,
+            statusGL: element.statusGL,
+            statusAL: element.statusAL,
+            vertreter: element.representative,
+            fachberater: element.technologist,
             timespan: {
-              start: element.startDate,
-              end: element.endDate
+              start: element.fromDate,
+              end: element.toDate
             },
-            customer: (element.customerVisits[0]) ? element.customerVisits[0].companyName! : "<Leer>",
-            abschlussbericht: cntFinalReports + "/" + element.customerVisits.length,
-            type: 1,
-            visible: element.showUser!
+            customer: element.customer,
+            abschlussbericht: element.finalReport,
+            type: element.type,
+            visible: element.visible
           }];
         });
         this.getNzFilters();
@@ -252,29 +244,23 @@ export class MainListComponent implements OnInit {
       next: data => {
         data.forEach(element => {
 
-          var tmpStatus = "in-progress";
-          if ((element.releaseManagement != null && element.releaseManagement != undefined)
-            || (element.releaseSupervisor != null && element.releaseSupervisor != undefined)) {
-            tmpStatus = "open";
-          }
-
-          this.listOfDisplayData = [...this.listOfDisplayData, {
-            id: "S_" + element.id!,
-            name: "<Leer>",
-            dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
-            customerOrCompany: element.creator,
-            statusGL: element.releaseSupervisor ? 'GL Freigegeben ' : 'GL Nicht-Freigegeben',
-            statusAL: element.releaseManagement ? 'AL Freigegeben ' : 'AL Nicht-Freigegeben',
-            vertreter: element.representative!.firstName + " " + element.representative!.lastName,
-            fachberater: element.requestedTechnologist!.map(a => a.firstName + " " + a.lastName).toString(),
+        this.listOfDisplayData = [...this.listOfDisplayData, {
+            id: element.id!,
+            name: element.name,
+            dateOfCreation: element.dateOfCreation,
+            customerOrCompany: element.customerOrCompany,
+            statusGL: element.statusGL,
+            statusAL: element.statusAL,
+            vertreter: element.representative,
+            fachberater: element.technologist,
             timespan: {
-              start: element.startDate,
-              end: element.endDate
+              start: element.fromDate,
+              end: element.toDate
             },
             customer: element.customer!,
-            abschlussbericht: '<leer>',
-            type: 2,
-            visible: element.showUser!
+            abschlussbericht: element.finalReport,
+            type: element.type,
+            visible: element.visible
           }];
 
         });
@@ -289,22 +275,22 @@ export class MainListComponent implements OnInit {
       next: data => {
         data.forEach(element => {
           this.listOfDisplayData = [...this.listOfDisplayData, {
-            id: "B_" + element.id!,
-            name: element.name!,
-            dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
-            customerOrCompany: element.customerOrCompany!,
-            statusGL: element.releaseSupervisor ? 'GL Freigegeben ' : 'GL Nicht-Freigegeben',
-            statusAL: element.releaseManagement ? 'AL Freigegeben ' : 'AL Nicht-Freigegeben',
-            vertreter: (element.representative !== null && element.representative !== undefined)?element.representative!.firstName + " " + element.representative!.lastName:"<Leer>",
-            fachberater: "<Leer>",
+            id: element.id!,
+            name: element.name,
+            dateOfCreation: element.dateOfCreation,
+            customerOrCompany: element.customerOrCompany,
+            statusGL: element.statusGL,
+            statusAL: element.statusAL,
+            vertreter: element.representative,
+            fachberater: element.technologist,
             timespan: {
               start: element.fromDate,
               end: element.toDate
             },
-            customer: (element.customerOrCompany) ? element.customerOrCompany : "<leer>",
-            abschlussbericht: "<Leer>",
-            type: 0,
-            visible: element.showUser!
+            customer: element.customer!,
+            abschlussbericht: element.finalReport,
+            type: element.type,
+            visible: element.visible
           }];
         });
         this.getNzFilters();
@@ -367,7 +353,7 @@ export class MainListComponent implements OnInit {
 
   changeEditable(data: any) {
 
-    this.http.changeVisiblility(data.type, data.id).subscribe();
+    this.http.changeVisiblility(data.type, data.id.split("_")[1]).subscribe();
 
     if (!data.visible) {
       data.visible = true
@@ -381,7 +367,7 @@ export class MainListComponent implements OnInit {
 interface DataItem {
   id?: string;
   name?: string;
-  dateOfCreation?: Date;
+  dateOfCreation?: string;
   customerOrCompany?: string;
   statusGL?: string;
   statusAL?: string;
@@ -395,8 +381,8 @@ interface DataItem {
 }
 
 interface TimeSpan {
-  start?: Date;
-  end?: Date;
+  start?: string;
+  end?: string;
 }
 
 interface ColumnDefinition {

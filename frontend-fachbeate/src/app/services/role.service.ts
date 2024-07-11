@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-//import { KeycloakService } from 'keycloak-angular';
-//import { KeycloakProfile } from 'keycloak-js';
+import { KeycloakService } from 'keycloak-angular';
+import { KeycloakProfile } from 'keycloak-js';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -9,10 +9,10 @@ import { environment } from '../../environments/environment';
 export class RoleService {
 
   roleMap: Map<string, number> = new Map;
-  roles: string[] = ["admin"];
-  //public userProfile: KeycloakProfile | null = null;
+  roles: string[] = [];
+  public userProfile: KeycloakProfile | null = null;
 
-  constructor(/*private keycloak: KeycloakService*/) {
+  constructor(private keycloak: KeycloakService) {
 
     // Zuteilung der Rollen auf levels(numbers) für einfachere Zurodnung
     //geschaeftsleitung:1
@@ -28,7 +28,7 @@ export class RoleService {
     this.roleMap.set("vertreter", 3)
     this.roleMap.set("fachberater", 4)
     this.roleMap.set("front-office", 5)
-    //this.roleMap.set("haendler-toechter", 6)
+    this.roleMap.set("haendler-toechter", 6)
     this.roleMap.set("admin", 7)
 
   }
@@ -44,7 +44,7 @@ export class RoleService {
 
   private async loadUserProfile(): Promise<void> {
     try {
-      //this.userProfile = await this.keycloak.loadUserProfile();
+      this.userProfile = await this.keycloak.loadUserProfile();
     } catch (error) {
       console.error('Error loading user profile:', error);
     }
@@ -52,14 +52,13 @@ export class RoleService {
 
   private async loadUserRoles(): Promise<void> {
     try {
-      //this.roles = await this.keycloak.getUserRoles();
+      this.roles = await this.keycloak.getUserRoles();
     } catch (error) {
       console.error('Error loading user roles:', error);
     }
   }
 
   checkPermission(requiredRoles: number[]) {
-    //return true;
     return this.roles
       .map(role => this.roleMap.get(role))
       .some(roleId => requiredRoles.includes(roleId!));
@@ -74,12 +73,12 @@ export class RoleService {
   }
 
   getEmail(){
-    return "none";
-    //return this.userProfile!.email;
+    //return "none";
+    return this.userProfile!.email;
   }
   getUserName() {
-    return "none"
-    //return this.userProfile!.username;
+    //return "none"
+    return this.userProfile!.username;
   }
 
   setRoles(roles: string[]) {
@@ -87,8 +86,8 @@ export class RoleService {
     this.roles = roles;
   }
 
-  /*setProfile(profile: KeycloakProfile) {
+  setProfile(profile: KeycloakProfile) {
     this.userProfile = profile;
-  }*/
+  }
 
 }

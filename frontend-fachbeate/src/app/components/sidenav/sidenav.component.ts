@@ -3,7 +3,7 @@ import { navbarData } from './nav-data';
 import { animate, keyframes, style, transition, trigger } from '@angular/animations';
 import { TranslateService } from '@ngx-translate/core';
 import { INavbarData } from './helper';
-//import { KeycloakService } from 'keycloak-angular';
+import { KeycloakService } from 'keycloak-angular';
 import { RoleService } from '../../services/role.service';
 import { NotificationService } from '../../services/notification.service';
 
@@ -52,7 +52,7 @@ export class SidenavComponent implements OnInit {
   multiple: boolean = false;
   currentUrl = "";
 
-  constructor(private notificationService: NotificationService, public translate: TranslateService, /*private readonly keycloak: KeycloakService,*/
+  constructor(private notificationService: NotificationService, public translate: TranslateService, private readonly keycloak: KeycloakService,
     public roleService: RoleService) {
     this.translate.addLangs(['en', 'de','ru']);
   }
@@ -67,7 +67,7 @@ export class SidenavComponent implements OnInit {
   }
 
   public async logout() {
-    //this.keycloak.logout();
+    this.keycloak.logout();
   }
 
   switchLanguage(language: string) {
