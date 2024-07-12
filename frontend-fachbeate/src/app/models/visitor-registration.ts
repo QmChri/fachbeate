@@ -8,8 +8,6 @@ export interface VisitorRegistration {
     
     showUser?: boolean;
 
-    dateOfCreation?: Date;
-
     name?: string;
     inputReason?: string;
     reason?: string;

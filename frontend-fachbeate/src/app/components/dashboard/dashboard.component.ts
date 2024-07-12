@@ -59,18 +59,20 @@ export class DashboardComponent implements OnInit {
 
     var type = (this.roleService.checkPermission([1, 2, 3, 5, 7]) ? 7 : 6);
     type = (!this.roleService.checkPermission([1, 2, 3, 5, 6, 7]) ? 4 : type);
+    type = (!this.roleService.checkPermission([1,2,5,6,7]) ? 8 : type);
+
     var fullname = (type === 6) ? companies.find(element => element.username === this.roleService.getUserName()!)?.username : this.roleService.getEmail()!;
 
     this.http.getCustomerRequirementsByUser(type!, fullname!).subscribe({
       next: data => {
         data.forEach(value => {
           this.calendarEvnts = [...this.calendarEvnts, {
-            id: "c" + value.id,
-            title: "F_" + value.id+ " "+ value.requestedTechnologist!.firstName + " " + value.requestedTechnologist!.lastName + " - " + value.company!.name,
-            start: value.startDate,
-            end: this.adjustEndDate(value.endDate!.toString()),
-            backgroundColor: value.requestedTechnologist!.color,
-            borderColor: value.requestedTechnologist!.color,
+            id: value.id,
+            title: value.id+ " "+ value.technologist + " - " + value.name,
+            start: new Date(value.fromDate),
+            end: this.adjustEndDate(value.toDate),
+            backgroundColor: value.calendarColor,
+            borderColor: value.calendarColor,
           }]
         })
 
@@ -92,12 +94,12 @@ export class DashboardComponent implements OnInit {
       next: data => {
         data.forEach(value => {
           this.calendarEvnts = [...this.calendarEvnts, {
-            id: "w" + value.id,
-            title: "S_" + value.id + " " + value.requestedTechnologist![0].firstName + " " + value.requestedTechnologist![0].lastName + " - " + value.company!.name,
-            start: value.startDate,
-            end: this.adjustEndDate(value.endDate!.toString()),
-            backgroundColor: value.requestedTechnologist![0].color,
-            borderColor: value.requestedTechnologist![0].color,
+            id: value.id,
+            title: value.id+ " "+ value.technologist + " - " + value.name,
+            start: new Date(value.fromDate),
+            end: this.adjustEndDate(value.toDate),
+            backgroundColor: value.calendarColor,
+            borderColor: value.calendarColor,
           }]
 
           this.calendarOptions.events = this.calendarEvnts.map(value => ({
@@ -119,14 +121,16 @@ export class DashboardComponent implements OnInit {
 
     this.http.getVisitorRegistrationByUser(type, fullname!).subscribe({
       next: data => {
+        
+
         data.forEach(value => {
           this.calendarEvnts = [...this.calendarEvnts, {
-            id: "v" + value.id,
-            title: "B_"+ value.id + " " + value.name,
-            start: value.fromDate,
-            end: this.adjustEndDate(value.toDate!.toString()),
-            backgroundColor: "#7D8471",
-            borderColor: "#000000",
+            id: value.id,
+            title: value.id+ " " + value.name,
+            start: new Date(value.fromDate),
+            end: this.adjustEndDate(value.toDate),
+            backgroundColor: value.calendarColor,
+            borderColor: value.calendarColor,
           }]
 
           this.calendarOptions.events = this.calendarEvnts.map(value => ({
@@ -179,12 +183,12 @@ export class DashboardComponent implements OnInit {
   }
 
   handleEventClick(clickInfo: any): void {
-    if (clickInfo.event.id.substring(0, 1) === "c") {
-      this.router.navigate(['/customer-requirements', clickInfo.event.id.substring(1)]);
-    } else if (clickInfo.event.id.substring(0, 1) === "w") {
-      this.router.navigate(['/seminar-registration', clickInfo.event.id.substring(1)]);
-    } else if (clickInfo.event.id.substring(0, 1) === "v") {
-      this.router.navigate(['/visitorRegistration', clickInfo.event.id.substring(1)]);
+    if (clickInfo.event.id.substring(0, 1) === "F") {
+      this.router.navigate(['/customer-requirements', clickInfo.event.id.substring(2)]);
+    } else if (clickInfo.event.id.substring(0, 1) === "S") {
+      this.router.navigate(['/seminar-registration', clickInfo.event.id.substring(2)]);
+    } else if (clickInfo.event.id.substring(0, 1) === "B") {
+      this.router.navigate(['/visitorRegistration', clickInfo.event.id.substring(2)]);
     } else {
       var appointment: TechnologistAppointment;
 
@@ -218,6 +222,7 @@ export class DashboardComponent implements OnInit {
   }
 
   adjustEndDate(endDate: string): Date {
+    
     const date = new Date(endDate);
     //date.setDate(date.getDate() + 1);
     date.setHours(5)

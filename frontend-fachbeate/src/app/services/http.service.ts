@@ -11,6 +11,7 @@ import { VisitorRegistration } from '../models/visitor-registration';
 import { Company } from '../models/company';
 import { Article } from '../models/article';
 import {environment} from "../../environments/environment";
+import { MainListDTO } from '../models/main-list-dto';
 
 const API_URL = environment.backendApi
 
@@ -26,7 +27,7 @@ export class HttpService {
   }
 
   getCustomerRequirementsByUser(type: number, fullname: string){
-    return this.http.get<CustomerRequirement[]>(API_URL + "customerRequirement/user", {params: {type: type, fullname: fullname}});
+    return this.http.get<MainListDTO[]>(API_URL + "customerRequirement/user", {params: {type: type, fullname: fullname}});
   }
 
   getCustomerRequirements() {
@@ -51,8 +52,8 @@ export class HttpService {
     return this.http.get<WorkshopRequirement>(API_URL + "workshop/id", {params: {id: id}});
   }
 
-  getWorkshopByUser(user: number, fullname: string): Observable<WorkshopRequirement[]>{
-    return this.http.get<WorkshopRequirement[]>(API_URL + "workshop/user", {params: {type: user, fullname: fullname}});
+  getWorkshopByUser(user: number, fullname: string): Observable<MainListDTO[]>{
+    return this.http.get<MainListDTO[]>(API_URL + "workshop/user", {params: {type: user, fullname: fullname}});
   }
 
 
@@ -69,7 +70,8 @@ export class HttpService {
   }
 
   getVisitorRegistrationByUser(type: number, fullname: string){
-    return this.http.get<VisitorRegistration[]>(API_URL + "visitorRegistration/user", {params: {type: type, fullname: fullname}});
+    
+    return this.http.get<MainListDTO[]>(API_URL + "visitorRegistration/user", {params: {type: type, fullname: fullname}});
   }
 
 

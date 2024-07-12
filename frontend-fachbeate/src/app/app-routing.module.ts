@@ -11,6 +11,7 @@ import { AbschlussBerichtListComponent } from './components/contents/abschluss-b
 import { CreateDealerComponent } from './components/contents/creation-sites/create-dealer/create-dealer.component';
 import { CreateRepresentativeComponent } from './components/contents/creation-sites/create-representative/create-representative.component';
 import { authGuard } from './services/auth.service';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 4, 5, 7] } },

@@ -1,6 +1,7 @@
 package boundary;
 
 import entity.VisitorRegistration;
+import entity.dto.MainListDTO;
 import io.quarkus.security.Authenticated;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.GET;
@@ -9,11 +10,14 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Response;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Path("visitorRegistration")
 public class VisitorRegistrationResource {
 
     @POST
-    ////@Authenticated
+    @Authenticated
     @Transactional
     public Response postVisitorRegistration(VisitorRegistration visitorRegistration){
         VisitorRegistration responseVisitorRegistration = visitorRegistration.persistOrUpdate();
@@ -25,32 +29,39 @@ public class VisitorRegistrationResource {
 
 
     @GET
-    //@Authenticated
+    @Authenticated
     public Response getVisitorRegistration(){
         return Response.ok(VisitorRegistration.listAll()).build();
     }
 
     @GET
     @Path("/id")
-    //@Authenticated
+    @Authenticated
     public Response postVisitorRegistration(@QueryParam("id") Long id){
         return Response.ok(VisitorRegistration.findById(id)).build();
     }
     @GET
     @Path("/user")
-    //@Authenticated
+    @Authenticated
     public Response getVisitorRegistrationPerUser(@QueryParam("type") int user, @QueryParam("fullname") String fullname){
+        List<VisitorRegistration> mapList = new ArrayList<>();
         if (user==7) {
-            return getVisitorRegistration();
+            mapList = VisitorRegistration.listAll();
         }else if(user == 6) {
-            return Response.ok(VisitorRegistration.find(
+            mapList = VisitorRegistration.find(
                     "creator = ?1 and showUser = true", fullname
-            ).list()).build();
+            ).list();
         }else if(user == 3){
-            return Response.ok(VisitorRegistration.find(
-                    "representative = ?1 and showUser = true",fullname
-            ).list()).build();
+            mapList = VisitorRegistration.find(
+                    "representative.email = ?1 and showUser = true",fullname
+            ).list();
+        }else if(user == 8){
+            mapList = VisitorRegistration.find(
+                    "representative.email = ?1 and showUser = true", fullname
+            ).list();
         }
-        return Response.ok().build();
+        return Response.ok(
+                mapList.stream().map(visit -> new MainListDTO().mapVisitToMainListDTO(visit)).toList()
+        ).build();
     }
 }

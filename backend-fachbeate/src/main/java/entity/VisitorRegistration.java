@@ -22,6 +22,8 @@ public class VisitorRegistration extends PanacheEntity {
     public String creator;
     public String lastEditor;
 
+
+
     @ManyToOne
     public Representative representative;
     public String reason;

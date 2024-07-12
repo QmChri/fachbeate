@@ -1,6 +1,9 @@
 package boundary;
 
 import entity.CustomerRequirement;
+import entity.CustomerVisit;
+import entity.VisitorRegistration;
+import entity.dto.MainListDTO;
 import io.quarkus.security.Authenticated;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.GET;
@@ -9,12 +12,15 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Response;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Path("customerRequirement")
 public class CustomerRequirementResource {
 
 
     @POST
-    //@Authenticated
+    @Authenticated
     @Transactional(Transactional.TxType.REQUIRED)
     public Response postCustomerRequirement(CustomerRequirement customerRequirement){
         CustomerRequirement responseCustomerRequirement = customerRequirement.persistOrUpdate();
@@ -24,14 +30,14 @@ public class CustomerRequirementResource {
         return Response.ok(responseCustomerRequirement).build();
     }
     @GET
-    //@Authenticated
+    @Authenticated
     public Response getCustomerRequirement(){
         return Response.ok(CustomerRequirement.listAll()).build();
     }
 
     @GET
     @Path("/id")
-    //@Authenticated
+    @Authenticated
     public Response getCustomerRequirementPerId(@QueryParam("id") Long id){
 
         CustomerRequirement cr = CustomerRequirement.findById(id);
@@ -40,24 +46,31 @@ public class CustomerRequirementResource {
 
     @GET
     @Path("/user")
-    //@Authenticated
+    @Authenticated
     public Response getCustomerRequirementPerUser(@QueryParam("type") int user, @QueryParam("fullname") String fullname){
+        List<CustomerRequirement> customerRequirements = new ArrayList<>();
+
         if (user==7) {
-            return getCustomerRequirement();
+            customerRequirements = CustomerRequirement.listAll();
         }else if(user == 4) {
-            return Response.ok(CustomerRequirement.find("requestedTechnologist.email = ?1 and showUser = true",
-                    fullname).list()).build();
+            customerRequirements = CustomerRequirement.find("requestedTechnologist.email = ?1 and showUser = true",
+                    fullname).list();
         } else if(user == 6) {
-            return Response.ok(CustomerRequirement.find(
+            customerRequirements = CustomerRequirement.find(
                     "company.username = ?1 and showUser = true",
                     fullname
-            ).list()).build();
+            ).list();
         } else if(user == 3){
-            return Response.ok(CustomerRequirement.find(
+            customerRequirements = CustomerRequirement.find(
                     "representative.email = ?1 and showUser = true",fullname
-            ).list()).build();
+            ).list();
+        }else if(user == 8){
+            customerRequirements = CustomerRequirement.find(
+                    "representative.email = ?1 or requestedTechnologist.email = ?1 and showUser = true", fullname
+            ).list();
         }
-        return Response.ok().build();
+
+        return Response.ok(customerRequirements.stream().map(req -> new MainListDTO().mapCustomerToMainListDTO(req)).toList()).build();
     }
 
 
