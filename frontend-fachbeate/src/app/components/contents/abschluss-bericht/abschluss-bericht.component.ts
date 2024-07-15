@@ -120,13 +120,13 @@ export class AbschlussBerichtComponent implements OnInit {
 
   isExisting(article: Article){
     if(article !== null && article !== undefined && article.articleNr !== null && article.articleNr !== undefined){
-      return this.existingArticles.find(element => element.articleNr!.toString() === article.articleNr!.toString()) !== undefined;
+      return this.existingArticles.find(element => element.articleNr === article.articleNr) !== undefined;
     }
     return false;
   }
 
   insertOther(article: Article, reason: number) {
-    var tmpArticle = this.existingArticles.find(element => element.articleNr!.toString() === article.articleNr!.toString());
+    var tmpArticle = this.existingArticles.find(element => element.articleNr === article.articleNr);
 
     this.inputFinalReport.reasonReports!.find(element => element.reason === reason)!
     .presentedArticle.find(element => element.articleNr!.toString() === article.articleNr!.toString())!.id = 0;
