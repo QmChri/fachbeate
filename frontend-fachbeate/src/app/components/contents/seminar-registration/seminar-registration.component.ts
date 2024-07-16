@@ -192,7 +192,10 @@ export class SeminarRegistrationComponent implements OnInit {
     );
   }
 
+  //Function for changing the booking selection
   changeSelections(event: any, section: number) {
+    // selection is divided into 2 subselections, it must be checked which
+    // one has just been updated and then it is set with the other one.
     this.buttonSelect = (section === 0) ? this.buttonSelect.filter(number => Number(number) >= 6 && Number(number) <= 7) : this.buttonSelect.filter(number => Number(number) >= 1 && Number(number) <= 5);
     this.buttonSelect = [...this.buttonSelect, ...event.value]
 
@@ -220,7 +223,6 @@ export class SeminarRegistrationComponent implements OnInit {
       this.http.postWorkshop(this.inputWorkshop).subscribe({
         next: data => {
           this.inputWorkshop = data;
-          console.log(data);
           
           this.inputWorkshop.techSelection = data.requestedTechnologist!.map(element => element.id!);
 

@@ -43,6 +43,7 @@ export class AbschlussBerichtComponent implements OnInit {
   ) {
     this.inputFinalReport = finalReport;
 
+    //region convert into numberlist for selections
     this.inputFinalReport.reworkToDo = [
       (this.inputFinalReport.reworkInformation)?1:0,
       (this.inputFinalReport.reworkRecipe_optimization)?2:0,
@@ -56,7 +57,7 @@ export class AbschlussBerichtComponent implements OnInit {
       (this.inputFinalReport.sampleProduction)?4:0,
       (this.inputFinalReport.training)?5:0
     ]
-
+    
     if (finalReport.reasonReports !== undefined) {
       this.inputFinalReport.reasonReports = this.inputFinalReport.reasonReports!.filter(element => element.reason !== 0);
       this.multiSelect = this.inputFinalReport.reasonReports!.map(element => element.reason)
@@ -70,6 +71,8 @@ export class AbschlussBerichtComponent implements OnInit {
         });
       }
     }
+    // endregion
+
 
   }
 
@@ -85,10 +88,11 @@ export class AbschlussBerichtComponent implements OnInit {
 
     event.value.forEach((element: number) => {
       var r: ReasonReport = this.inputFinalReport.reasonReports!.find(p => p.reason === element)!
-
+      // check if reasonreport allready exist
       if (r !== null && r !== undefined) {
         newReasonReports = [...newReasonReports, r]
       } else {
+        // if not existing
         newReasonReports = [...newReasonReports, { reason: element, presentedArticle: [{}] }]
       }
     })
@@ -126,6 +130,7 @@ export class AbschlussBerichtComponent implements OnInit {
   }
 
   insertOther(article: Article, reason: number) {
+    //region Set Article if the ArticleNr is already existing
     var tmpArticle = this.existingArticles.find(element => element.articleNr === article.articleNr);
 
     this.inputFinalReport.reasonReports!.find(element => element.reason === reason)!
@@ -136,28 +141,44 @@ export class AbschlussBerichtComponent implements OnInit {
         .presentedArticle.find(element => element.articleNr!.toString() === article.articleNr!.toString())!.name = tmpArticle.name;
 
     }
+    //endregion
+  
   }
 
   closeDialog(save: boolean) {  
 
-    console.log(this.inputFinalReport);
-    
+    if(this.checkRequired() || save === false)  {
+      //region Filter out all empty Articles
+      this.inputFinalReport.reasonReports = this.inputFinalReport.reasonReports!.filter(reasonReport => reasonReport !== null && reasonReport !== undefined);
 
-    if(this.checkRequired())  {
+      this.inputFinalReport.reasonReports.forEach(element => {
+        element.presentedArticle = element.presentedArticle.filter(article => 
+          (article.articleNr !== null && article.articleNr !== undefined && article.articleNr !== "") ||
+          (article.name !== null && article.name !== undefined && article.name !== "")
+        );
+      });
+      //endregion
+
+      //region Set the creator and last Editor
       this.inputFinalReport.lastEditor = this.roleService.getUserName();
       if(this.inputFinalReport.creator === undefined){
         this.inputFinalReport.creator = this.roleService.getUserName();
       }
-      
+      //endregion
+
+      //region set boolean for reasonselection
       this.inputFinalReport.reworkInformation = this.inputFinalReport.reworkToDo!.includes(1);
       this.inputFinalReport.reworkRecipe_optimization = this.inputFinalReport.reworkToDo!.includes(2);
       this.inputFinalReport.reworkProduct_development = this.inputFinalReport.reworkToDo!.includes(3);
+      //endregion
 
+      //region edit ckeck from Technologist and Representative
       if(this.roleService.checkPermission([3])){
         this.inputFinalReport.representativeEntered = true;
       }else if(this.roleService.checkPermission([4])){
         this.inputFinalReport.technologistEntered = true;
       }
+      //endregion
 
       this.dialogRef.close({ finalReport: this.inputFinalReport, save: save });
     }
@@ -205,6 +226,7 @@ export class AbschlussBerichtComponent implements OnInit {
       (this.inputFinalReport.reworkByTechnologist === true && (this.inputFinalReport.reworkByTechnologistDoneUntil === null || this.inputFinalReport.reworkByTechnologistDoneUntil === undefined))?"ABSCHLUSSBERICHT.to_be_done_by":"",
       (this.inputFinalReport.reworkByTechnologist === true && (this.inputFinalReport.reworkToDo === null || this.inputFinalReport.reworkToDo === undefined || this.inputFinalReport.reworkToDo.length === 0))?"ABSCHLUSSBERICHT.todo":"",
       (this.inputFinalReport.reworkByTechnologist === true && (this.inputFinalReport.reworkFollowVisits === null || this.inputFinalReport.reworkFollowVisits === undefined))?"ABSCHLUSSBERICHT.follow_Visit":"",
+      (this.inputFinalReport.reasonReports!.filter(reasonReport => reasonReport.presentedArticle.filter(article => ((article.articleNr === null || article.articleNr === undefined || article.articleNr === "") || (article.name === null || article.name === undefined || article.name === ""))).length > 0).length > 0)?"ABSCHLUSSBERICHT.article":""
     ].filter(element => element !== "");
 
     if(requiredFields.length !== 0){

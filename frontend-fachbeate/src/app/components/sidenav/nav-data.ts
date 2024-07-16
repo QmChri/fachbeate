@@ -1,11 +1,12 @@
 import { INavbarData } from "./helper";
 
+// All routes in the navbar are defined here
 export const navbarData: INavbarData[] = [
     {
-        routeLink: 'dashboard',
-        icon: 'far fa-calendar-alt',
-        label: 'date-view',
-        role: [1,2,4,5,7]
+        routeLink: 'dashboard',      // where to link "http://.../dashboard"
+        icon: 'far fa-calendar-alt', // the icon which is used in the navbar
+        label: 'date-view',          // the name of the translation
+        role: [1,2,4,5,7]            // the roles that are needed 
     },
     {
         routeLink: 'mainList',

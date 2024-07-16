@@ -1,10 +1,6 @@
 package control;
 
 import com.lowagie.text.*;
-import com.lowagie.text.Font;
-import com.lowagie.text.List;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 import jakarta.enterprise.context.ApplicationScoped;
 
