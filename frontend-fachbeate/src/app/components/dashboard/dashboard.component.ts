@@ -175,7 +175,7 @@ export class DashboardComponent implements OnInit {
             id: "o" + value.id,
             title: value.requestedTechnologist!.firstName + " " + value.requestedTechnologist!.lastName + " - " + value.reason,
             start: value.startDate,
-            end: this.adjustEndDate(value.endDate!.toString()),
+            end: value.endDate,
             backgroundColor: value.requestedTechnologist!.color,
             borderColor: value.requestedTechnologist!.color,
           }]

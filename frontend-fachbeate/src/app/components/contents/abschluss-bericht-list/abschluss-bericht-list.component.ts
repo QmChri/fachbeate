@@ -304,8 +304,8 @@ export class AbschlussBerichtListComponent {
     if(this.showArticles.includes(id)){
       return article.map(element => element.articleNr);
     }
-    var returnValue: string = article.map(element => element.articleNr).toString().substring(0, 15);    
-    return returnValue + ((returnValue.length == 15)?"...":"")
+    var returnValue: string = article.map(element => element.articleNr).toString().substring(0, 14);    
+    return returnValue + ((returnValue.length == 14)?"...":"")
   }
 
   disableShow(id: number){
