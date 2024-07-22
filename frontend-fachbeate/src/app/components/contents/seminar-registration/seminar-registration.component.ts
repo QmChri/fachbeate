@@ -217,7 +217,10 @@ export class SeminarRegistrationComponent implements OnInit {
       if(this.inputWorkshop.creator === null || this.inputWorkshop.creator === undefined){
         this.inputWorkshop.creator = this.roleService.getUserName();
       }
-
+      
+      this.inputWorkshop.startDate!.setHours(5);
+      this.inputWorkshop.endDate!.setHours(5);
+        
       this.inputWorkshop.lastEditor = this.inputWorkshop.lastEditor;
 
       this.http.postWorkshop(this.inputWorkshop).subscribe({

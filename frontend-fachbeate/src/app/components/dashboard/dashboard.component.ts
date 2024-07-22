@@ -76,8 +76,8 @@ export class DashboardComponent implements OnInit {
           this.calendarEvnts = [...this.calendarEvnts, {
             id: value.id,
             title: value.id+ " "+ value.technologist + " - " + value.name,
-            start: this.adjustEndDate(value.fromDate),
-            end: this.adjustEndDate(value.toDate),
+            start: new Date(value.fromDate),
+            end: new Date(value.toDate),
             backgroundColor: value.calendarColor,
             borderColor: value.calendarColor,
           }]
@@ -107,8 +107,8 @@ export class DashboardComponent implements OnInit {
           this.calendarEvnts = [...this.calendarEvnts, {
             id: value.id,
             title: value.id+ " "+ value.technologist + " - " + value.name,
-            start: this.adjustEndDate(value.fromDate),
-            end: this.adjustEndDate(value.toDate),
+            start: new Date(value.fromDate),
+            end: new Date(value.toDate),
             backgroundColor: value.calendarColor,
             borderColor: value.calendarColor,
           }]
@@ -140,8 +140,8 @@ export class DashboardComponent implements OnInit {
           this.calendarEvnts = [...this.calendarEvnts, {
             id: value.id,
             title: value.id+ " " + value.name,
-            start: this.adjustEndDate(value.fromDate),
-            end: this.adjustEndDate(value.toDate),
+            start: new Date(value.fromDate),
+            end: new Date(value.toDate),
             backgroundColor: value.calendarColor,
             borderColor: value.calendarColor,
           }]
@@ -240,14 +240,6 @@ export class DashboardComponent implements OnInit {
           this.loadDataPerUser()
         }
       });
-  }
-
-  adjustEndDate(endDate: string): Date {
-    
-    const date = new Date(endDate);
-    date.setDate(date.getDate() + 1);
-    //date.setHours(22)
-    return new Date(date.toISOString().split('T')[0]);
   }
 }
 
