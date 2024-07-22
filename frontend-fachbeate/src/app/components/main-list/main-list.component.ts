@@ -202,7 +202,7 @@ export class MainListComponent implements OnInit {
     type = (!this.roleService.checkPermission([1, 2, 4, 5, 6, 7]) ? 3 : type);
     type = (!this.roleService.checkPermission([1, 2, 3, 5, 6, 7]) ? 4 : type);
     type = (!this.roleService.checkPermission([1,2,5,6,7]) ? 8 : type);
-    var fullname = (type === 6) ? companies.find(element => element.username === this.roleService.getUserName()!)?.username : this.roleService.getEmail()!;
+    var fullname: string[] = [this.roleService.getUserName()!, this.roleService.getEmail()!];
 
     if (type === 6 && fullname === undefined) {
       type = -1;

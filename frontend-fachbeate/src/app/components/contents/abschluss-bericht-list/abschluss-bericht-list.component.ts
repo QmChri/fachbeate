@@ -186,7 +186,7 @@ export class AbschlussBerichtListComponent {
     //endregion
 
     //region Get the requirements for an specific user
-    var fullname = (type === 6) ? companies.find(element => element.username === this.roleService.getUserName()!)?.username : this.roleService.getEmail()!;
+    var fullname: string[] = [this.roleService.getUserName()!, this.roleService.getEmail()!];
 
     this.http.getFinalReportsByUser(type, fullname!).subscribe({
       next: data => {
