@@ -76,7 +76,7 @@ export class DashboardComponent implements OnInit {
           this.calendarEvnts = [...this.calendarEvnts, {
             id: value.id,
             title: value.id+ " "+ value.technologist + " - " + value.name,
-            start: new Date(value.fromDate),
+            start: this.adjustEndDate(value.fromDate),
             end: this.adjustEndDate(value.toDate),
             backgroundColor: value.calendarColor,
             borderColor: value.calendarColor,
@@ -107,7 +107,7 @@ export class DashboardComponent implements OnInit {
           this.calendarEvnts = [...this.calendarEvnts, {
             id: value.id,
             title: value.id+ " "+ value.technologist + " - " + value.name,
-            start: new Date(value.fromDate),
+            start: this.adjustEndDate(value.fromDate),
             end: this.adjustEndDate(value.toDate),
             backgroundColor: value.calendarColor,
             borderColor: value.calendarColor,
@@ -140,7 +140,7 @@ export class DashboardComponent implements OnInit {
           this.calendarEvnts = [...this.calendarEvnts, {
             id: value.id,
             title: value.id+ " " + value.name,
-            start: new Date(value.fromDate),
+            start: this.adjustEndDate(value.fromDate),
             end: this.adjustEndDate(value.toDate),
             backgroundColor: value.calendarColor,
             borderColor: value.calendarColor,
@@ -245,8 +245,8 @@ export class DashboardComponent implements OnInit {
   adjustEndDate(endDate: string): Date {
     
     const date = new Date(endDate);
-    //date.setDate(date.getDate() + 1);
-    date.setHours(22)
+    date.setDate(date.getDate() + 1);
+    //date.setHours(22)
     return new Date(date.toISOString().split('T')[0]);
   }
 }
