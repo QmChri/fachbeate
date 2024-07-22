@@ -90,6 +90,10 @@ export class NewDateEntryComponent implements OnInit {
       this.translate.get('STANDARD.new_entry_created').subscribe((translatedMessage: string) => {
         this.notificationService.createBasicNotification(0, translatedMessage, 'für ' + this.inputDate.requestedTechnologist!.firstName + " " + this.inputDate.requestedTechnologist!.lastName, 'topRight');
       });
+
+      this.inputDate.startDate!.setHours(5);
+      this.inputDate.endDate!.setHours(5);
+
       this.http.postOtherDate(this.inputDate).subscribe({
         next: data => {
           this.closeDialog();

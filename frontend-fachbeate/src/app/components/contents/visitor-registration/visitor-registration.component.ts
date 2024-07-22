@@ -223,7 +223,14 @@ export class VisitorRegistrationComponent implements OnInit {
       this.getNotification(1);
       this.inputVisitRegistration.showUser = true;
       this.inputVisitRegistration.reason = "VisitorRegistration"
-      this.inputVisitRegistration.plannedDepartmentVisits = []
+      this.inputVisitRegistration.plannedDepartmentVisits = [];
+
+      (this.inputVisitRegistration.fromDate!== null || this.inputVisitRegistration.fromDate!== null)?this.inputVisitRegistration.fromDate!.setHours(5):"";
+      (this.inputVisitRegistration.toDate!== null || this.inputVisitRegistration.toDate!== null)?this.inputVisitRegistration.toDate!.setHours(5):"";
+
+      (this.inputVisitRegistration.stayFromDate!== null || this.inputVisitRegistration.stayFromDate!== null)?this.inputVisitRegistration.stayFromDate!.setHours(5):"";
+      (this.inputVisitRegistration.stayToDate!== null || this.inputVisitRegistration.stayToDate!== null)?this.inputVisitRegistration.stayToDate!.setHours(5):"";
+
 
       this.setOfCheckedId.forEach((value, key) => {
         this.inputVisitRegistration.plannedDepartmentVisits = [...this.inputVisitRegistration.plannedDepartmentVisits!,
@@ -323,6 +330,7 @@ export class VisitorRegistrationComponent implements OnInit {
       (this.inputVisitRegistration.stayFromDate === null || this.inputVisitRegistration.stayFromDate === undefined)?"3/DASHBOARD.from":"",
       (this.inputVisitRegistration.stayToDate === null || this.inputVisitRegistration.stayToDate === undefined)?"3/DASHBOARD.to":"",
     ];
+
 
     checks[0] = (requriements.filter(firsts => firsts.split("/")[0] === "1").length === 4)
     checks[1] = (requriements.filter(firsts => firsts.split("/")[0] === "2").length === 4)
