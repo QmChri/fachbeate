@@ -1,6 +1,7 @@
 package entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -25,6 +26,7 @@ public class VisitorRegistration extends PanacheEntity {
 
 
     @ManyToOne
+    @Nullable
     public Representative representative;
     public String reason;
 

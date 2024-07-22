@@ -62,22 +62,25 @@ public class VisitorRegistrationResource {
     @GET
     @Path("/user")
     @Authenticated
-    public Response getVisitorRegistrationPerUser(@QueryParam("type") int user, @QueryParam("fullname") String fullname){
+    public Response getVisitorRegistrationPerUser(@QueryParam("type") int user, @QueryParam("fullname") List<String> fullname){
         List<VisitorRegistration> mapList = new ArrayList<>();
         if (user==7) {
             mapList = VisitorRegistration.listAll();
         }else if(user == 6) {
             mapList = VisitorRegistration.find(
-                    "creator = ?1 and showUser = true", fullname
+                    "creator = ?1 and showUser = true", fullname.get(0)
             ).list();
-        }else if(user == 3){
-            mapList = VisitorRegistration.find(
-                    "representative.email = ?1 and showUser = true",fullname
-            ).list();
-        }else if(user == 8){
-            mapList = VisitorRegistration.find(
-                    "representative.email = ?1 and showUser = true", fullname
-            ).list();
+        }else if(user == 3 || user == 8){
+            mapList = VisitorRegistration.listAll();
+            mapList = mapList.stream().filter(element -> {
+                if(element.representative != null){
+                    return element.representative.email.equals(fullname.get(1));
+                }
+                if(element.creator != null) {
+                    return element.creator.equals(fullname.get(0));
+                }
+                return false;
+            }).toList();
         }
         return Response.ok(
                 mapList.stream().map(visit -> new MainListDTO().mapVisitToMainListDTO(visit)).toList()

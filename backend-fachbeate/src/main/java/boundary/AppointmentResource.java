@@ -74,12 +74,12 @@ public class AppointmentResource {
     @GET
     @Path("/other/user")
     @Authenticated
-    public Response getOtherAppointmentPerUser(@QueryParam("type") int user, @QueryParam("fullname") String fullname){
+    public Response getOtherAppointmentPerUser(@QueryParam("type") int user, @QueryParam("fullname")List<String> fullname){
         if (user==7) {
             return getOtherAppointments();
         }else if(user == 4) {
             return Response.ok(TechnologistAppointment.find(
-                    "requestedTechnologist.email", fullname
+                    "requestedTechnologist.email = ?2 or creator = ?1", fullname.get(1), fullname.get(0)
                     ).list()).build();
         }
         return Response.ok().build();
@@ -105,17 +105,17 @@ public class AppointmentResource {
     @GET
     @Path("/finalReportByUser")
     @Authenticated
-    public Response getFinalReportsByUser(@QueryParam("type") int user, @QueryParam("fullname") String fullname){
+    public Response getFinalReportsByUser(@QueryParam("type") int user, @QueryParam("fullname") List<String> fullname){
         if (user==7) {
             return getFinalReports();
         }else if(user == 4) {
             return Response.ok(FinalReport.find(
-                    "technologist.email", fullname
+                    "technologist.email = ?1 or creator = ?2", fullname.get(1), fullname.get(0)
                     ).list()).build();
         }else if(user == 6) {
             List<CustomerRequirement> customerRequirements = CustomerRequirement.find(
-                    "company.username",
-                    fullname
+                    "company.username = ?1 or creator = ?1",
+                    fullname.get(0)
             ).list();
 
             List<FinalReport> finalReports = new ArrayList<>();
@@ -130,12 +130,12 @@ public class AppointmentResource {
             return Response.ok(finalReports).build();
         }else if(user == 3){
             return Response.ok(FinalReport.find(
-                    "representative.email", fullname
+                    "representative.email = ?1 or creator = ?2", fullname.get(1), fullname.get(0)
                     ).list()).build();
         }else if(user == 8){
             return Response.ok(FinalReport.find(
-                    "representative.email = ?1 or technologist.email = ?1 "
-                    ,fullname
+                    "representative.email = ?1 or technologist.email = ?1 or creator = ?2"
+                    ,fullname.get(1), fullname.get(0)
             ).list()).build();
         }
         return Response.ok().build();
