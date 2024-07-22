@@ -178,11 +178,14 @@ export class AbschlussBerichtListComponent {
       }
     })
 
+    //region set the type of user
     var type = (this.roleService.checkPermission([1, 2, 3, 5, 7]) ? 7 : 6);
     type = (!this.roleService.checkPermission([1, 2, 4, 5, 6, 7]) ? 3 : type);
     type = (!this.roleService.checkPermission([1, 2, 3, 5, 6, 7]) ? 4 : type);
     type = (!this.roleService.checkPermission([1,2,5,6,7]) ? 8 : type);
-    
+    //endregion
+
+    //region Get the requirements for an specific user
     var fullname = (type === 6) ? companies.find(element => element.username === this.roleService.getUserName()!)?.username : this.roleService.getEmail()!;
 
     this.http.getFinalReportsByUser(type, fullname!).subscribe({
@@ -214,6 +217,8 @@ export class AbschlussBerichtListComponent {
         console.log(err);
       }
     })
+    //endregion
+
   }
 
   loadTechnologists() {
@@ -226,17 +231,18 @@ export class AbschlussBerichtListComponent {
   }
 
   openDialog(dataItem: DataItem) {
+    //region Opening the Final Report Popup
     const dialogRef = this.dialog.open(AbschlussBerichtComponent, {
       height: '42.5rem',
       width: '80rem',
       data: this.finalReports.find(element => element.id === dataItem.id)
     });
+    // endregion
 
     dialogRef.afterClosed().subscribe(
       data => {
+        //region When the popup is closed, this data is transferred
         if (data.save) {
-          console.log(data);
-          
           this.http.postFinalReport(data.finalReport).subscribe({
             next: finalRep => {
 
@@ -260,6 +266,7 @@ export class AbschlussBerichtListComponent {
             }
           });
         }
+        // endregion
       });
 
   }

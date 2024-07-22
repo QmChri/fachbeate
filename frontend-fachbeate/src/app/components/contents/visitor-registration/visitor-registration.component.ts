@@ -37,6 +37,8 @@ export class VisitorRegistrationComponent implements OnInit {
     hotelBookings: []
   };
 
+  //Is the simular to Serminarangmelung
+
   constructor(public translate: TranslateService, private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute,
     private notificationService: NotificationService, public roleService: RoleService) { }
 

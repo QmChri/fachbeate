@@ -24,7 +24,6 @@ export interface CustomerRequirement{
     
     flightBooking?: boolean;
     hotelBooking?: boolean;
-    reason?: string;
     company?: Company;
     contact?: string;
     representative?: Representative;

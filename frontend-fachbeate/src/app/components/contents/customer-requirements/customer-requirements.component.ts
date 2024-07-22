@@ -40,6 +40,7 @@ export class CustomerRequirementsComponent implements OnInit {
 
     this.route.paramMap.subscribe(params => {
       if (params.get('id') != null) {
+        //region If the route contains an Id, the specific customerRequirement is picked out
         this.http.getCustomerById(parseInt(params.get('id')!)).subscribe({
           next: data => {
             if (data != null) {
@@ -64,12 +65,15 @@ export class CustomerRequirementsComponent implements OnInit {
             console.log(err);
           }
         });
+        //endregion
       } else {
+        // If not, a line is added in the customer visit
         this.addRow();
       }
     });
   }
 
+  //region Set approvals from the head of department and management
   release(department: string) {
     if (department === 'gl' && this.checkRequired()) {
       this.getNotification(2);
@@ -84,6 +88,7 @@ export class CustomerRequirementsComponent implements OnInit {
       this.postCustomerRequirement();
     }
   }
+  //endregion
 
   inputCustomerRequirement: CustomerRequirement = {
     customerVisits: []
@@ -98,6 +103,7 @@ export class CustomerRequirementsComponent implements OnInit {
   }
 
   addRow(): void {
+    //region Adds a new customer visit
     this.i = this.i + 1;
 
     this.inputCustomerRequirement.customerVisits = [
@@ -116,7 +122,10 @@ export class CustomerRequirementsComponent implements OnInit {
       }
     ];
 
+    // Sets the added visit to edit
     this.editId = this.i;
+
+    // endregion
   }
 
   deleteRow(id: number): void {
@@ -139,7 +148,6 @@ export class CustomerRequirementsComponent implements OnInit {
     if (this.checkRequired()) {
       this.getNotification(1);
       this.inputCustomerRequirement.showUser = true;
-      this.inputCustomerRequirement.reason = "XXXX"
       this.inputCustomerRequirement.dateOfCreation = new Date();
 
       if (this.inputCustomerRequirement.creator === undefined) {
@@ -196,6 +204,8 @@ export class CustomerRequirementsComponent implements OnInit {
 
     if (this.checkRequired()) {
       if(customerVisit.finalReport === null || customerVisit.finalReport === undefined ){
+
+        //region prepare for FinalReport popup
         var rRepo: ReasonReport[] = [
           (customerVisit.presentationOfNewProducts) ? { reason: 1, presentedArticle: [] } : { reason: 0, presentedArticle: [] },
           (customerVisit.existingProducts) ? { reason: 2, presentedArticle: [] } : { reason: 0, presentedArticle: [] },
@@ -218,17 +228,19 @@ export class CustomerRequirementsComponent implements OnInit {
         finalReport.recipeOptimization = customerVisit.recipeOptimization;
         finalReport.sampleProduction = customerVisit.sampleProduction;
         finalReport.training = customerVisit.training;
-
+        //endregion
       }else{
         finalReport = customerVisit.finalReport;
       }
 
+      //opening Abschlussbericht Popup
       const dialogRef = this.dialog.open(AbschlussBerichtComponent, {
         height: '42.5rem',
         width: '80rem',
         data: finalReport
       });
 
+      // When the popup is closed, the final report is saved
       dialogRef.afterClosed().subscribe(
         data => {
           if (data.save) {
@@ -278,6 +290,7 @@ export class CustomerRequirementsComponent implements OnInit {
     });
   }
 
+  //region Function when something changes in the selects
   changeTechnolgist($event: any) {
     this.inputCustomerRequirement.requestedTechnologist = this.technologists.find(elemnt => elemnt.id === $event);
   }

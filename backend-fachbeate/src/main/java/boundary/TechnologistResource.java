@@ -14,6 +14,10 @@ import jakarta.ws.rs.core.Response;
 @Path("technologist")
 public class TechnologistResource {
 
+    /**
+     * Post new Fachberater
+     * @param technologist
+     */
     @POST
     @Authenticated
     @Transactional
@@ -27,12 +31,20 @@ public class TechnologistResource {
         updateTechnologist.updateEntity(technologist);
     }
 
+    /**
+     * Get all Fachberater
+     * @return
+     */
     @GET
     @Authenticated
     public Response getAllTechnologists(){
         return Response.ok(Technologist.listAll()).build();
     }
 
+    /**
+     * Find all Fachberater which are Active
+     * @return
+     */
     @GET
     @Path("allActive")
     @Authenticated
@@ -40,7 +52,10 @@ public class TechnologistResource {
         return Response.ok(Technologist.find("active",true).list()).build();
     }
 
-
+    /**
+     * Post new Vertreter
+     * @param representative
+     */
     @POST
     @Path("representative")
     @Authenticated
@@ -56,6 +71,10 @@ public class TechnologistResource {
         return Response.ok(updateRepresentative).build();
     }
 
+    /**
+     * Get all Vertreter
+     * @return
+     */
     @GET
     @Path("representative")
     @Authenticated
@@ -63,6 +82,10 @@ public class TechnologistResource {
         return Response.ok(Representative.listAll()).build();
     }
 
+    /**
+     * Find all Vertreter which are Active
+     * @return
+     */
     @GET
     @Authenticated
     @Path("representative/allActive")
@@ -70,7 +93,10 @@ public class TechnologistResource {
         return Response.ok(Representative.find("active",true).list()).build();
     }
 
-
+    /**
+     * Post new Händler/Töchter
+     * @param company
+     */
     @POST
     @Authenticated
     @Path("company")
@@ -86,6 +112,10 @@ public class TechnologistResource {
         return Response.ok(updateCompany).build();
     }
 
+    /**
+     * Get all Händler/Töchter
+     * @return
+     */
     @GET
     @Authenticated
     @Path("company")
@@ -93,6 +123,10 @@ public class TechnologistResource {
         return Response.ok(Company.listAll()).build();
     }
 
+    /**
+     * Find all Händler/Töchter which are Active
+     * @return
+     */
     @GET
     @Authenticated
     @Path("company/allActive")

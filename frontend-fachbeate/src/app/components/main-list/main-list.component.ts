@@ -18,6 +18,7 @@ export class MainListComponent implements OnInit {
   technologistList: Technologist[] = [];
   listOfDisplayData: DataItem[] = [];
 
+  // All columns are defined here 
   listOfColumn: ColumnDefinition[] = [
     {
       name: 'id',
@@ -93,12 +94,12 @@ export class MainListComponent implements OnInit {
 
   constructor(public translate: TranslateService, private router: Router, private http: HttpService, private notificationService: NotificationService, public roleService: RoleService) { }
 
-  ngOnInit(): void {
-    //this.tmpinitData();    
+  ngOnInit(): void { 
     this.loadDataPerUser()
     this.getNzFilters();
   }
 
+  // All filters are defined here 
   getNzFilters() {
     const uniqueFilter = new Set<string>();
 
@@ -184,9 +185,8 @@ export class MainListComponent implements OnInit {
       });
   }
 
+  //All data for a user is received here
   loadDataPerUser() {
-
-    
     this.listOfDisplayData = []
 
     this.http.getAllCompany().subscribe({
@@ -207,8 +207,6 @@ export class MainListComponent implements OnInit {
     if (type === 6 && fullname === undefined) {
       type = -1;
     }
-console.log(type);
-
     this.loadTechnologists();
     this.http.getCustomerRequirementsByUser(type!, fullname!).subscribe({
       next: data => {
@@ -307,6 +305,7 @@ console.log(type);
     })
   }
 
+  //Differentiation of the ids
   openCRC(data: any, id: string, type: number) {
     if (data.visible) {
       if (type === 0) {

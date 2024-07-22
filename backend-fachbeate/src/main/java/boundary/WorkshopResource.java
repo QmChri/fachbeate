@@ -17,6 +17,11 @@ import java.util.List;
 @Path("/workshop")
 public class WorkshopResource {
 
+    /**
+     * Post a new Seminar Anmeldung
+     * @param workshopRequirement: Entity to persist
+     * @return persisted Entity
+     */
     @POST
     @Authenticated
     @Transactional
@@ -28,12 +33,20 @@ public class WorkshopResource {
         return Response.ok(responseWorkshopRequirement).build();
     }
 
+    /**
+     * List all Seminaranmeldungen
+     * @return
+     */
     @GET
     @Authenticated
     public Response getWorkshopRequirement(){
         return Response.ok(WorkshopRequirement.listAll()).build();
     }
 
+    /**
+     * Get Seminaranmeldungen by id
+     * @return
+     */
     @GET
     @Path("/id")
     @Authenticated
@@ -41,6 +54,12 @@ public class WorkshopResource {
         return Response.ok(WorkshopRequirement.findById(id)).build();
     }
 
+    /**
+     * Returns all Seminaranmeldungen that a specific user is allowed to see
+     * @param user: Roles from the user which is currently logged in
+     * @param fullname: Name from the user which is currently logged in
+     * @return
+     */
     @GET
     @Path("/user")
     @Authenticated

@@ -18,7 +18,11 @@ import java.util.List;
 @Path("customerRequirement")
 public class CustomerRequirementResource {
 
-
+    /**
+     * Post a new Fachberateranforderung
+     * @param customerRequirement: Entity to persist
+     * @return persisted Entity
+     */
     @POST
     @Authenticated
     @Transactional(Transactional.TxType.REQUIRED)
@@ -29,12 +33,21 @@ public class CustomerRequirementResource {
         }
         return Response.ok(responseCustomerRequirement).build();
     }
+
+    /**
+     * List all Fachberater Anforderungen
+     * @return
+     */
     @GET
     @Authenticated
     public Response getCustomerRequirement(){
         return Response.ok(CustomerRequirement.listAll()).build();
     }
 
+    /**
+     * Get Fachberater Anforderungen by id
+     * @return
+     */
     @GET
     @Path("/id")
     @Authenticated
@@ -44,6 +57,12 @@ public class CustomerRequirementResource {
         return Response.ok(cr).build();
     }
 
+    /**
+     * Returns all Fachberater Anforderungen that a specific user is allowed to see
+     * @param user: Roles from the user which is currently logged in
+     * @param fullname: Name from the user which is currently logged in
+     * @return
+     */
     @GET
     @Path("/user")
     @Authenticated

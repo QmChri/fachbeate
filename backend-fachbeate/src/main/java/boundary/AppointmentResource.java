@@ -19,6 +19,12 @@ public class AppointmentResource {
     @Inject
     Logger log;
 
+    /***
+     * This method persists a calendar entry
+     *
+     * @param technologistAppointment
+     * @return The persisted entry
+     */
     @POST
     @Path("/other")
     @Transactional
@@ -34,15 +40,23 @@ public class AppointmentResource {
         return Response.ok(technologistAppointment).build();
     }
 
+    /***
+     * Returns all other calendar entries, i.e. not
+     * Fachberater Anforderung, Besucher Anmeldung or Seminar Anmeldung
+     * @return
+     */
     @GET
     @Path("/other")
     @Authenticated
     public Response getOtherAppointments(){
-        return Response.ok(TechnologistAppointment.listAll().stream().filter(
-                element -> !(element instanceof WorkshopRequirement) && !(element instanceof CustomerRequirement)
-        )).build();
+        return Response.ok(TechnologistAppointment.listAll()).build();
     }
 
+    /***
+     * Returns another calendar entry with the Id
+     * @param id
+     * @return
+     */
     @GET
     @Path("/other/id")
     @Authenticated
@@ -50,6 +64,13 @@ public class AppointmentResource {
         return Response.ok(TechnologistAppointment.findById(id)).build();
     }
 
+    /**
+     * Returns the other calendar entries
+     * that a specific user is allowed to see
+     * @param user: Roles from the user which is currently logged in
+     * @param fullname: Name from the user which is currently logged in
+     * @return
+     */
     @GET
     @Path("/other/user")
     @Authenticated
@@ -64,7 +85,10 @@ public class AppointmentResource {
         return Response.ok().build();
     }
 
-
+    /***
+     * Returns all final reports
+     * @return
+     */
     @GET
     @Path("/finalReport")
     @Authenticated
@@ -72,6 +96,12 @@ public class AppointmentResource {
         return Response.ok(FinalReport.listAll()).build();
     }
 
+    /***
+     * Returns all final reports that a specific user is allowed to see
+     * @param user: Roles from the user which is currently logged in
+     * @param fullname: Name from the user which is currently logged in
+     * @return
+     */
     @GET
     @Path("/finalReportByUser")
     @Authenticated
@@ -111,6 +141,11 @@ public class AppointmentResource {
         return Response.ok().build();
     }
 
+    /**
+     * Post a new FinalReport
+     * @param finalReport: Report to Persist
+     * @return persisted Article
+     */
     @POST
     @Path("/finalReport")
     @Authenticated
@@ -119,12 +154,20 @@ public class AppointmentResource {
         return Response.ok(finalReport.persistOrUpdate()).build();
     }
 
+    /**
+     * @return List of all Articles
+     */
     @GET
     @Path("/article")
     @Authenticated
     public Response getArticles(){return Response.ok(Article.listAll()).build();}
 
-
+    /**
+     * "Geschäftsleitung" can change the views of orders in the main list.
+     * @param type: Type whether it is a 0. Besucheranmeldung, 1. Fachberateranforderung, 2. Workshopanforderung
+     * @param id: Id von der Anforderung
+     * @return
+     */
     @GET
     @Path("/visibility")
     @Authenticated
@@ -133,18 +176,18 @@ public class AppointmentResource {
         if(type == 1){
             CustomerRequirement cr = CustomerRequirement.findById(id);
             cr.showUser = !cr.showUser;
-            return Response.ok(true).build();
+            return Response.ok().build();
         }else if(type == 2){
             WorkshopRequirement wr = WorkshopRequirement.findById(id);
             wr.showUser = !wr.showUser;
-            return Response.ok(true).build();
+            return Response.ok().build();
         }else if(type == 0){
             VisitorRegistration vr = VisitorRegistration.findById(id);
             vr.showUser = !vr.showUser;
-            return Response.ok(true).build();
+            return Response.ok().build();
         }
 
-        return Response.ok().build();
+        return Response.notModified().build();
     }
 
 

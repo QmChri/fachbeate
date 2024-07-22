@@ -16,6 +16,11 @@ import java.util.List;
 @Path("visitorRegistration")
 public class VisitorRegistrationResource {
 
+    /**
+     * Post a new Besucheranmeldung
+     * @param visitorRegistration: Entity to persist
+     * @return persisted Entity
+     */
     @POST
     @Authenticated
     @Transactional
@@ -27,19 +32,33 @@ public class VisitorRegistrationResource {
         return Response.ok(responseVisitorRegistration).build();
     }
 
-
+    /**
+     * List all Besucheranmeldungen
+     * @return
+     */
     @GET
     @Authenticated
     public Response getVisitorRegistration(){
         return Response.ok(VisitorRegistration.listAll()).build();
     }
 
+    /**
+     * Get Besucheranmeldungen by id
+     * @return
+     */
     @GET
     @Path("/id")
     @Authenticated
     public Response postVisitorRegistration(@QueryParam("id") Long id){
         return Response.ok(VisitorRegistration.findById(id)).build();
     }
+
+    /**
+     * Returns all Besucheranmeldungen that a specific user is allowed to see
+     * @param user: Roles from the user which is currently logged in
+     * @param fullname: Name from the user which is currently logged in
+     * @return
+     */
     @GET
     @Path("/user")
     @Authenticated

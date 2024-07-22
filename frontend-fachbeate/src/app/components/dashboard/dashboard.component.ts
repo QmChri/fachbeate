@@ -18,6 +18,8 @@ import { Company } from '../../models/company';
 export class DashboardComponent implements OnInit {
   requiredRoles = [1, 2, 4, 5,7];
   calendarEvnts: CalendarEvent[] = [];
+
+  //Setting the calendar settings
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
     plugins: [dayGridPlugin, interactionPlugin],
@@ -30,6 +32,7 @@ export class DashboardComponent implements OnInit {
     displayEventTime: false,
     displayEventEnd: false
   };
+
   roleServiceUserName = this.roleService.getUserName();
   nameOfCalendarEvent: string = "";
   i: number = 0;
@@ -44,7 +47,7 @@ export class DashboardComponent implements OnInit {
       this.loadDataPerUser();
     }
   }
-
+  //Pull all data that a user is allowed to see
   loadDataPerUser(){
     this.http.getAllCompany().subscribe({
       next: data => {
@@ -55,8 +58,8 @@ export class DashboardComponent implements OnInit {
     })
   }
 
-  loadEvents(companies: Company[]) {
 
+  loadEvents(companies: Company[]) {
     var type = (this.roleService.checkPermission([1, 2, 3, 5, 7]) ? 7 : 6);
     type = (!this.roleService.checkPermission([1, 2, 3, 5, 6, 7]) ? 4 : type);
     type = (!this.roleService.checkPermission([1,2,5,6,7]) ? 8 : type);
@@ -182,7 +185,11 @@ export class DashboardComponent implements OnInit {
     this.openDialog({ startDate: new Date(clickInfo.startStr), endDate: new Date(clickInfo.endStr) })
   }
 
+  // When a calendar event is pressed
   handleEventClick(clickInfo: any): void {
+    /** As the IDs for the 3 requirements start at 1, a distinction must
+     *  be made as to which event is clicked on. Hence the F, S, B distinctions
+     * */
     if (clickInfo.event.id.substring(0, 1) === "F") {
       this.router.navigate(['/customer-requirements', clickInfo.event.id.substring(2)]);
     } else if (clickInfo.event.id.substring(0, 1) === "S") {
