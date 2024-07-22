@@ -26,7 +26,7 @@ export class HttpService {
       return this.http.post<CustomerRequirement>(API_URL + "customerRequirement", customerRequirement);
   }
 
-  getCustomerRequirementsByUser(type: number, fullname: string){
+  getCustomerRequirementsByUser(type: number, fullname: string[]){
     return this.http.get<MainListDTO[]>(API_URL + "customerRequirement/user", {params: {type: type, fullname: fullname}});
   }
 
@@ -52,7 +52,7 @@ export class HttpService {
     return this.http.get<WorkshopRequirement>(API_URL + "workshop/id", {params: {id: id}});
   }
 
-  getWorkshopByUser(user: number, fullname: string): Observable<MainListDTO[]>{
+  getWorkshopByUser(user: number, fullname: string[]): Observable<MainListDTO[]>{
     return this.http.get<MainListDTO[]>(API_URL + "workshop/user", {params: {type: user, fullname: fullname}});
   }
 
@@ -69,7 +69,7 @@ export class HttpService {
     return this.http.get<VisitorRegistration>(API_URL + "visitorRegistration/id", {params: {id: id}});
   }
 
-  getVisitorRegistrationByUser(type: number, fullname: string){
+  getVisitorRegistrationByUser(type: number, fullname: string[]){
     
     return this.http.get<MainListDTO[]>(API_URL + "visitorRegistration/user", {params: {type: type, fullname: fullname}});
   }
@@ -128,7 +128,7 @@ export class HttpService {
     return this.http.get<TechnologistAppointment>(API_URL + "appointment/other/id",{params: {id: id}})
   }
 
-  getOtherAppointmentByUser(type: number, fullname: string){
+  getOtherAppointmentByUser(type: number, fullname: string[]){
     return this.http.get<TechnologistAppointment[]>(API_URL + "appointment/other/user", {params: {type: type, fullname: fullname}});
   }
 
@@ -138,7 +138,7 @@ export class HttpService {
     return this.http.get<FinalReport[]>(API_URL + "appointment/finalReport");
   }
 
-  getFinalReportsByUser(type: number, fullname: string):Observable<FinalReport[]>{
+  getFinalReportsByUser(type: number, fullname: string[]):Observable<FinalReport[]>{
     return this.http.get<FinalReport[]>(API_URL + "appointment/finalReportByUser", {params: {type: type, fullname: fullname}});
   }
 

@@ -24,7 +24,7 @@
         </button>
     </div>
     <button class="btn btn-success"
-        *ngIf="(inputVisitRegistration.creator === undefined && roleService.checkPermission([3,4,6])) || roleService.checkPermission([1,2,5,7])"
+        *ngIf="(inputVisitRegistration.creator === undefined && roleService.checkPermission([6])) || roleService.checkPermission([1,2,3,4,5,7])"
         (click)="postVisitorRegistration()">{{'CUSTOMER_REQUIREMENTS.send_form' |
         translate}}</button>
 </div>

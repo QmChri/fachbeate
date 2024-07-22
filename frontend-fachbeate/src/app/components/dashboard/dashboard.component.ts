@@ -64,10 +64,14 @@ export class DashboardComponent implements OnInit {
     type = (!this.roleService.checkPermission([1, 2, 3, 5, 6, 7]) ? 4 : type);
     type = (!this.roleService.checkPermission([1,2,5,6,7]) ? 8 : type);
 
-    var fullname = (type === 6) ? companies.find(element => element.username === this.roleService.getUserName()!)?.username : this.roleService.getEmail()!;
+    var fullname: string[] = [this.roleService.getUserName()!, this.roleService.getEmail()!];
 
     this.http.getCustomerRequirementsByUser(type!, fullname!).subscribe({
       next: data => {
+        if(data === null ||data === undefined){
+          return
+        }
+
         data.forEach(value => {
           this.calendarEvnts = [...this.calendarEvnts, {
             id: value.id,
@@ -95,6 +99,10 @@ export class DashboardComponent implements OnInit {
 
     this.http.getWorkshopByUser(type, fullname!).subscribe({
       next: data => {
+        if(data === null ||data === undefined){
+          return
+        }
+
         data.forEach(value => {
           this.calendarEvnts = [...this.calendarEvnts, {
             id: value.id,
@@ -124,7 +132,9 @@ export class DashboardComponent implements OnInit {
 
     this.http.getVisitorRegistrationByUser(type, fullname!).subscribe({
       next: data => {
-        
+        if(data === null ||data === undefined){
+          return
+        }
 
         data.forEach(value => {
           this.calendarEvnts = [...this.calendarEvnts, {
@@ -156,6 +166,10 @@ export class DashboardComponent implements OnInit {
 
     this.http.getOtherAppointmentByUser(type, fullname!).subscribe({
       next: data => {
+        
+        if(data === null ||data === undefined){
+          return
+        }
         data.forEach(value => {
           this.calendarEvnts = [...this.calendarEvnts, {
             id: "o" + value.id,
@@ -179,7 +193,7 @@ export class DashboardComponent implements OnInit {
         console.log(err);
       }
     })
-
+    
   }
   handleSelect(clickInfo: any) {
     this.openDialog({ startDate: new Date(clickInfo.startStr), endDate: new Date(clickInfo.endStr) })

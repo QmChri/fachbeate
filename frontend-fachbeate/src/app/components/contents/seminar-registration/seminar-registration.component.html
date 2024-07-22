@@ -22,7 +22,7 @@
         </button>
     </div>
     <button class="btn btn-success"
-        *ngIf="(inputWorkshop.creator === undefined && roleService.checkPermission([3,4,6])) || roleService.checkPermission([1,2,5,7])"
+        *ngIf="(inputWorkshop.creator === undefined && roleService.checkPermission([6])) || roleService.checkPermission([1,2,3,4,5,7])"
         (click)="postWorkshopRequest()">{{'CUSTOMER_REQUIREMENTS.send_form' |
         translate}}</button>
 </div>
