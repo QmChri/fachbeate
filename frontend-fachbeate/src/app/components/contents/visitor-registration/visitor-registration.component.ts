@@ -319,15 +319,16 @@ export class VisitorRegistrationComponent implements OnInit {
       (this.inputVisitRegistration.guests === null || this.inputVisitRegistration.guests === undefined || this.inputVisitRegistration.guests.length === 0)?"2/VISITOR_REGRISTRATION.participant_list":"",
       (this.inputVisitRegistration.arrivalFromCountry === null || this.inputVisitRegistration.arrivalFromCountry === undefined || this.inputVisitRegistration.arrivalFromCountry === "")?"2/VISITOR_REGRISTRATION.arrival_from_country":"",
       (this.inputVisitRegistration.reasonForVisit === null || this.inputVisitRegistration.reasonForVisit === undefined || this.inputVisitRegistration.reasonForVisit === "")?"2/ABSCHLUSSBERICHT.visit_reason_general":"",
-      (this.inputVisitRegistration.representative === null || this.inputVisitRegistration.representative === undefined || this.inputVisitRegistration.representative )?"3/MAIN_LIST.representative":"",
-      (this.inputVisitRegistration.stayFromDate === null || this.inputVisitRegistration.stayFromDate === undefined || this.inputVisitRegistration.stayFromDate)?"3/DASHBOARD.from":"",
-      (this.inputVisitRegistration.stayToDate === null || this.inputVisitRegistration.stayToDate === undefined || this.inputVisitRegistration.stayToDate)?"3/DASHBOARD.to":"",
+      (this.inputVisitRegistration.representative === null || this.inputVisitRegistration.representative === undefined)?"3/MAIN_LIST.representative":"",
+      (this.inputVisitRegistration.stayFromDate === null || this.inputVisitRegistration.stayFromDate === undefined)?"3/DASHBOARD.from":"",
+      (this.inputVisitRegistration.stayToDate === null || this.inputVisitRegistration.stayToDate === undefined)?"3/DASHBOARD.to":"",
     ];
-
 
     checks[0] = (requriements.filter(firsts => firsts.split("/")[0] === "1").length === 4)
     checks[1] = (requriements.filter(firsts => firsts.split("/")[0] === "2").length === 4)
     checks[2] = (requriements.filter(firsts => firsts.split("/")[0] === "3").length === 3)
+    
+    
     
 
     requriements = requriements.filter(element => {

@@ -232,7 +232,7 @@ export class DashboardComponent implements OnInit {
     
     const date = new Date(endDate);
     //date.setDate(date.getDate() + 1);
-    date.setHours(5)
+    date.setHours(22)
     return new Date(date.toISOString().split('T')[0]);
   }
 }
