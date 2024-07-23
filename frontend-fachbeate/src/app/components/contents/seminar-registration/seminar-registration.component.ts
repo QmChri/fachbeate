@@ -51,6 +51,9 @@ export class SeminarRegistrationComponent implements OnInit {
             if (data != null) {
               this.inputWorkshop = data;
 
+              this.inputWorkshop.startDate = this.convertToDate(this.inputWorkshop.startDate);
+              this.inputWorkshop.endDate = this.convertToDate(this.inputWorkshop.endDate);
+
               this.inputWorkshop.techSelection = data.requestedTechnologist!.map(tech => tech.id!);
 
               this.buttonSelect = [
@@ -218,8 +221,9 @@ export class SeminarRegistrationComponent implements OnInit {
         this.inputWorkshop.creator = this.roleService.getUserName();
       }
       
-      this.inputWorkshop.startDate!.setHours(5);
-      this.inputWorkshop.endDate!.setHours(5);
+      (this.inputWorkshop.startDate!== null || this.inputWorkshop.startDate!== undefined)?new Date(this.inputWorkshop.startDate!.toString()).setHours(5):"";
+      (this.inputWorkshop.endDate!== null || this.inputWorkshop.endDate!== undefined)?new Date(this.inputWorkshop.endDate!.toString()).setHours(5):"";
+
         
       this.inputWorkshop.lastEditor = this.inputWorkshop.lastEditor;
 
@@ -272,5 +276,9 @@ export class SeminarRegistrationComponent implements OnInit {
       }
       
     }
+  }
+
+  convertToDate(date: any): Date | undefined {
+    return (date !== null && date !== undefined) ? new Date(date.toString()) : undefined;
   }
 }
