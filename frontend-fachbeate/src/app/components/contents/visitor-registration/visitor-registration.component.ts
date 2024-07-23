@@ -56,6 +56,14 @@ export class VisitorRegistrationComponent implements OnInit {
                 var tmpVisit = this.listOfCurrentPageData.find(pageData => pageData.name === element.department);
                 this.setOfCheckedId.set(tmpVisit!.id, [element.id!, element.dateOfVisit!.toString().substring(0, 10)])
               })
+              
+              // When the data is being loaded, sometimes the dates are converted from TypeScript into strings.
+              // To ensure all necessary dates are in the correct format, I convert them.
+
+              this.inputVisitRegistration.fromDate = this.convertToDate(this.inputVisitRegistration.fromDate);
+              this.inputVisitRegistration.toDate = this.convertToDate(this.inputVisitRegistration.fromDate);
+              this.inputVisitRegistration.stayFromDate = this.convertToDate(this.inputVisitRegistration.fromDate);
+              this.inputVisitRegistration.stayToDate = this.convertToDate(this.inputVisitRegistration.fromDate);
 
               this.buttonSelect = [
                 (data.hotelBooking) ? "1" : "",
@@ -66,6 +74,7 @@ export class VisitorRegistrationComponent implements OnInit {
                 (data.customerPresent) ? "6" : "",
                 (data.diploma) ? "7" : ""
               ].filter(p => p != "");
+
             }
           },
           error: err => {
@@ -219,17 +228,19 @@ export class VisitorRegistrationComponent implements OnInit {
 
   postVisitorRegistration() {
     if(this.checkRequired()){
+      console.log("required");
+      
       this.inputVisitRegistration.creator = this.roleService.getUserName();
       this.getNotification(1);
       this.inputVisitRegistration.showUser = true;
       this.inputVisitRegistration.reason = "VisitorRegistration"
       this.inputVisitRegistration.plannedDepartmentVisits = [];
 
-      (this.inputVisitRegistration.fromDate!== null || this.inputVisitRegistration.fromDate!== null)?this.inputVisitRegistration.fromDate!.setHours(5):"";
-      (this.inputVisitRegistration.toDate!== null || this.inputVisitRegistration.toDate!== null)?this.inputVisitRegistration.toDate!.setHours(5):"";
+      (this.inputVisitRegistration.fromDate!== null || this.inputVisitRegistration.fromDate!== undefined)?new Date(this.inputVisitRegistration.fromDate!.toString()).setHours(5):"";
+      (this.inputVisitRegistration.toDate!== null || this.inputVisitRegistration.toDate!== undefined)?new Date(this.inputVisitRegistration.toDate!.toString()).setHours(5):"";
 
-      (this.inputVisitRegistration.stayFromDate!== null || this.inputVisitRegistration.stayFromDate!== null)?this.inputVisitRegistration.stayFromDate!.setHours(5):"";
-      (this.inputVisitRegistration.stayToDate!== null || this.inputVisitRegistration.stayToDate!== null)?this.inputVisitRegistration.stayToDate!.setHours(5):"";
+      (this.inputVisitRegistration.stayFromDate!== null && this.inputVisitRegistration.stayFromDate!== undefined)?new Date(this.inputVisitRegistration.stayFromDate!.toString()).setHours(5):"";
+      (this.inputVisitRegistration.stayToDate!== null && this.inputVisitRegistration.stayToDate!== undefined)?new Date(this.inputVisitRegistration.stayToDate!.toString()).setHours(5):"";
 
 
       this.setOfCheckedId.forEach((value, key) => {
@@ -248,7 +259,7 @@ export class VisitorRegistrationComponent implements OnInit {
           this.inputVisitRegistration.plannedDepartmentVisits.forEach(element => {
             var tmpVisit = this.listOfCurrentPageData.find(pageData => pageData.name === element.department);
             this.setOfCheckedId.set(tmpVisit!.id, [element.id!, element.dateOfVisit!.toString().substring(0, 10)])
-          })
+          })          
         },
         error: err => {
           console.log(err);
@@ -353,5 +364,9 @@ export class VisitorRegistrationComponent implements OnInit {
     }
 
     return requriements.length === 0;
-  } 
+  }
+
+  convertToDate(date: any): Date | undefined {
+    return (date !== null && date !== undefined) ? new Date(date.toString()) : undefined;
+  }
 }

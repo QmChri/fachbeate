@@ -256,12 +256,12 @@
                 <td>
                     <div class="flugHotel"> 
                         <button matTooltip="{{'CUSTOMER_REQUIREMENTS.edit' | translate}}"
-                            class="btn btn-success" (click)="startEdit(data.editId)" [hidden]="editId === data.editId">
+                            class="btn btn-secondary" (click)="startEdit(data.editId)" [hidden]="editId === data.editId">
                             <i class="fa fa-pencil"></i>
                         </button>
                         <button matTooltip="{{'CUSTOMER_REQUIREMENTS.edit' | translate}}"
-                            class="btn btn-danger" (click)="stopEdit()" [hidden]="editId !== data.editId">
-                            <i class="fa fa-pencil"></i>
+                            class="btn btn-success" (click)="stopEdit()" [hidden]="editId !== data.editId">
+                            <i class="fas fa-check"></i>
                         </button>
                         <button matTooltip="{{ 'STANDARD.remove' | translate }}" class="btn btn-danger" nz-popconfirm
                             nzPopconfirmShowArrow="false" [nzIcon]="iconTpl"
