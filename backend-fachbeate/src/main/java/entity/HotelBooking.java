@@ -25,6 +25,7 @@ public class HotelBooking extends PanacheEntity {
         this.doubleRooms = newEntity.doubleRooms;
     }
 
+    @Transactional
     public HotelBooking persistOrUpdate(){
         if(this.id != null && this.id != 0){
             HotelBooking persisted = HotelBooking.findById(this.id);

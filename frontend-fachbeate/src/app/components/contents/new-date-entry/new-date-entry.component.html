@@ -19,8 +19,7 @@
         </mat-form-field>
         <mat-form-field>
             <mat-label>{{"DASHBOARD.reason" | translate}}</mat-label>
-            <mat-select required [placeholder]="'STANDARD.please_select' | translate" [(ngModel)]="inputDate.reason" name="resons">
-
+            <mat-select required [(ngModel)]="inputDate.reason" name="resons">
                 @for (re of reasons; track reasons) {
                 <mat-option [value]="re">{{re}}</mat-option>
                 }
@@ -31,9 +30,8 @@
                     </button>
                 </div>
             </mat-select>
+            <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
         </mat-form-field>
-
-        <!--<nz-date-picker nzSize="large" [nzFormat]="dateFormat"></nz-date-picker>  -->
         <mat-form-field>
             <mat-label>{{"DASHBOARD.from" | translate}}</mat-label>
             <input required matInput [matDatepicker]="picker1" type="text" [(ngModel)]="inputDate.startDate"
@@ -51,8 +49,9 @@
     <br>
 
     <div class="header">
-        <div> <button (click)="closeDialog()" class="btn btn-secondary">{{"DASHBOARD.cancel" | translate}}</button></div>
-        <div> <button (click)="save()" class="btn btn-success">{{"DASHBOARD.save" | translate}}</button></div>
+        <div> <button (click)="closeDialog()" class="btn btn-secondary">{{"DASHBOARD.cancel" | translate}}</button>
+        </div>
+        <div> <button (click)="save()" class="btn btn-success">{{"STANDARD.save" | translate}}</button></div>
     </div>
 
 

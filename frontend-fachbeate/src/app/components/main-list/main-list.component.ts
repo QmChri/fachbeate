@@ -18,18 +18,19 @@ export class MainListComponent implements OnInit {
   technologistList: Technologist[] = [];
   listOfDisplayData: DataItem[] = [];
 
+  // All columns are defined here 
   listOfColumn: ColumnDefinition[] = [
     {
-      name: 'company_name',
+      name: 'id',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.name!.toString().localeCompare(b.name!.toString()),
+      sortFn: (a: DataItem, b: DataItem) => 1,
       listOfFilter: [],
-      filterFn: (list: string[], item: DataItem) => list.some(a => item.name!.indexOf(a) !== -1)
+      filterFn: (list: string[], item: DataItem) => true
     },
     {
       name: 'creation_date',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.dateOfCreation!.valueOf() - b.dateOfCreation!.valueOf(),
+      sortFn: (a: DataItem, b: DataItem) => a.dateOfCreation!.toString().valueOf().localeCompare(b.dateOfCreation!.toString().valueOf()),
       listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => true
     },
@@ -43,9 +44,9 @@ export class MainListComponent implements OnInit {
     {
       name: 'status',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => 1,
+      sortFn: (a: DataItem, b: DataItem) => a.statusGL!.toString().localeCompare(b.statusGL!.toString()),
       listOfFilter: [],
-      filterFn: (list: string[], item: DataItem) => true
+      filterFn: (list: string[], item: DataItem) => list.some(name => item.statusGL!.indexOf(name) !== -1)
     },
     {
       name: 'representative',
@@ -85,20 +86,20 @@ export class MainListComponent implements OnInit {
     {
       name: 'type',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.type!.valueOf().toString().localeCompare(b.type!.valueOf().toString()),
+      sortFn: (a: DataItem, b: DataItem) => a.type! - b.type!,
       listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => list.some(name => item.type!.valueOf().toString().indexOf(name.valueOf().toString()) !== -1)
-    }
+    },
   ];
 
   constructor(public translate: TranslateService, private router: Router, private http: HttpService, private notificationService: NotificationService, public roleService: RoleService) { }
 
-  ngOnInit(): void {
-    //this.tmpinitData();
+  ngOnInit(): void { 
     this.loadDataPerUser()
     this.getNzFilters();
   }
 
+  // All filters are defined here 
   getNzFilters() {
     const uniqueFilter = new Set<string>();
 
@@ -113,7 +114,7 @@ export class MainListComponent implements OnInit {
 
     this.listOfColumn.find(element => element.name === 'status')!.listOfFilter =
       this.listOfDisplayData.reduce((uniqueFilters, element) => {
-        const filterValue = element.status || "<Leer>";
+        const filterValue = element.statusGL || "<Leer>";
         if (!uniqueFilters.some(filter => filter.value === filterValue)) {
           uniqueFilters.push({ text: filterValue, value: filterValue });
         }
@@ -159,13 +160,13 @@ export class MainListComponent implements OnInit {
     this.listOfColumn.find(element => element.name === 'type')!.listOfFilter = this.listOfDisplayData.map(element => {
       let typeText;
       switch (element.type!.toString()) {
-        case '0':
+        case '1':
           typeText = 'Fachberater A.';
           break;
-        case '1':
+        case '2':
           typeText = 'Seminar';
           break;
-        case '2':
+        case '0':
           typeText = 'Besuch';
           break;
         default:
@@ -184,11 +185,13 @@ export class MainListComponent implements OnInit {
       });
   }
 
-  loadDataPerUser(){
+  //All data for a user is received here
+  loadDataPerUser() {
+    this.listOfDisplayData = []
+
     this.http.getAllCompany().subscribe({
       next: data => {
         var companies = data;
-
         this.loadData(companies)
       }
     })
@@ -196,46 +199,36 @@ export class MainListComponent implements OnInit {
 
   loadData(companies: Company[]) {
     var type = (this.roleService.checkPermission([1, 2, 3, 5, 7]) ? 7 : 6);
+    type = (!this.roleService.checkPermission([1, 2, 4, 5, 6, 7]) ? 3 : type);
     type = (!this.roleService.checkPermission([1, 2, 3, 5, 6, 7]) ? 4 : type);
-    var fullname = (type === 6) ? companies.find(element => element.username === this.roleService.getUserName()!)?.username : this.roleService.getFullName()!;
-    
-    if(type === 6 && fullname === undefined){
+    type = (!this.roleService.checkPermission([1,2,5,6,7]) ? 8 : type);
+    var fullname: string[] = [this.roleService.getUserName()!, this.roleService.getEmail()!];
+
+    if (type === 6 && fullname === undefined) {
       type = -1;
     }
-
     this.loadTechnologists();
     this.http.getCustomerRequirementsByUser(type!, fullname!).subscribe({
       next: data => {
         data.forEach(element => {
-          var tmpStatus = "in-progress";
-          if ((element.releaseManagement != null && element.releaseManagement != undefined)
-            || (element.releaseSupervisor != null && element.releaseSupervisor != undefined)) {
-            tmpStatus = "open";
-          }
-
-          var cntFinalReports: number = 0;
-          element.customerVisits.forEach(element => {
-            if (element.finalReport !== undefined && element.finalReport !== null) {
-              cntFinalReports = cntFinalReports + 1;
-            }
-          });
 
           this.listOfDisplayData = [...this.listOfDisplayData, {
-            id: element.id!,
-            name: element.company?.name!,
-            dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
-            customerOrCompany: "<Leer>",
-            status: (element.releaseSupervisor && element.releaseManagement)?"Freigegeben":"Nicht-Freigegeben",
-            vertreter: element.representative?.firstName! + " " + element.representative?.lastName!,
-            fachberater: element.requestedTechnologist?.firstName! + " " + element.requestedTechnologist?.lastName!,
+            id: element.id,
+            name: element.name,
+            dateOfCreation: element.dateOfCreation,
+            customerOrCompany: element.customerOrCompany,
+            statusGL: element.statusGL,
+            statusAL: element.statusAL,
+            vertreter: element.representative,
+            fachberater: element.technologist,
             timespan: {
-              start: element.startDate,
-              end: element.endDate
+              start: element.fromDate,
+              end: element.toDate
             },
-            customer: "<Leer>",
-            abschlussbericht: cntFinalReports + "/" + element.customerVisits.length,
-            type: 0,
-            visible: true
+            customer: element.customer,
+            abschlussbericht: element.finalReport,
+            type: element.type,
+            visible: element.visible
           }];
         });
         this.getNzFilters();
@@ -249,28 +242,23 @@ export class MainListComponent implements OnInit {
       next: data => {
         data.forEach(element => {
 
-          var tmpStatus = "in-progress";
-          if ((element.releaseManagement != null && element.releaseManagement != undefined)
-            || (element.releaseSupervisor != null && element.releaseSupervisor != undefined)) {
-            tmpStatus = "open";
-          }
-
-          this.listOfDisplayData = [...this.listOfDisplayData, {
+        this.listOfDisplayData = [...this.listOfDisplayData, {
             id: element.id!,
-            name: "<Leer>",
-            dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
-            customerOrCompany: "<Leer>",
-            status: (element.releaseSupervisor && element.releaseManagement)?"Freigegeben":"Nicht-Freigegeben",
-            vertreter: element.representative!.firstName + " " + element.representative!.lastName,
-            fachberater: element.requestedTechnologist!.map(a => a.firstName + " " + a.lastName).toString(),
+            name: element.name,
+            dateOfCreation: element.dateOfCreation,
+            customerOrCompany: element.customerOrCompany,
+            statusGL: element.statusGL,
+            statusAL: element.statusAL,
+            vertreter: element.representative,
+            fachberater: element.technologist,
             timespan: {
-              start: element.startDate,
-              end: element.endDate
+              start: element.fromDate,
+              end: element.toDate
             },
             customer: element.customer!,
-            abschlussbericht: 'false',
-            type: 1,
-            visible: true
+            abschlussbericht: element.finalReport,
+            type: element.type,
+            visible: element.visible
           }];
 
         });
@@ -286,20 +274,21 @@ export class MainListComponent implements OnInit {
         data.forEach(element => {
           this.listOfDisplayData = [...this.listOfDisplayData, {
             id: element.id!,
-            name: element.name!,
-            dateOfCreation: element.dateOfCreation !== undefined ? element.dateOfCreation : new Date(),
-            customerOrCompany: element.customerOrCompany!,
-            status: (element.releaseSupervisor && element.releaseManagement)?"Freigegeben":"Nicht-Freigegeben",
-            vertreter: element.representative!.firstName + " " + element.representative!.lastName,
-            fachberater: "<Leer>",
+            name: element.name,
+            dateOfCreation: element.dateOfCreation,
+            customerOrCompany: element.customerOrCompany,
+            statusGL: element.statusGL,
+            statusAL: element.statusAL,
+            vertreter: element.representative,
+            fachberater: element.technologist,
             timespan: {
               start: element.fromDate,
               end: element.toDate
             },
-            customer: "<Leer>",
-            abschlussbericht: "<Leer>",
-            type: 2,
-            visible: true
+            customer: element.customer!,
+            abschlussbericht: element.finalReport,
+            type: element.type,
+            visible: element.visible
           }];
         });
         this.getNzFilters();
@@ -316,25 +305,26 @@ export class MainListComponent implements OnInit {
     })
   }
 
-  openCRC(data: any, id: number, type: number) {
+  //Differentiation of the ids
+  openCRC(data: any, id: string, type: number) {
     if (data.visible) {
       if (type === 0) {
-        this.router.navigate(['/customer-requirements', id]);
+        this.router.navigate(['/visitorRegistration', id.split("_")[1]]);
       } else if (type === 1) {
-        this.router.navigate(['/seminar-registration', id]);
+        this.router.navigate(['/customer-requirements', id.split("_")[1]]);
       } else if (type === 2) {
-        this.router.navigate(['/visitorRegistration', id]);
+        this.router.navigate(['/seminar-registration', id.split("_")[1]]);
       }
     }
   }
 
   resetSortAndFilters(): void {
-    this.searchValue = '';
+    this.searchValue = "";
     this.translate.get('STANDARD.filter_sorting_removed').subscribe((translatedMessage: string) => {
       this.notificationService.createBasicNotification(2, translatedMessage, '', 'topRight');
     });
     this.getNzFilters();
-    //this.loadDataPerUser();
+    this.loadDataPerUser();
     //this.tmpinitData();
     this.listOfColumn.forEach(item => {
       item.sortOrder = null;
@@ -345,10 +335,12 @@ export class MainListComponent implements OnInit {
     this.visible = false;
     this.listOfDisplayData = this.listOfDisplayData.filter((item: DataItem) =>
     (
+      item.id!.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
       item.name!.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
       item.dateOfCreation!.toString().includes(this.searchValue.toLocaleLowerCase()) ||
       item.customerOrCompany!.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
-      item.status!.valueOf().toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.statusAL!.valueOf().toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.statusGL!.valueOf().toString().includes(this.searchValue.toLocaleLowerCase()) ||
       item.vertreter!.valueOf().toString().includes(this.searchValue.toLocaleLowerCase()) ||
       item.fachberater!.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
       item.timespan!.toString().includes(this.searchValue.toLocaleLowerCase()) ||
@@ -359,6 +351,9 @@ export class MainListComponent implements OnInit {
   }
 
   changeEditable(data: any) {
+
+    this.http.changeVisiblility(data.type, data.id.split("_")[1]).subscribe();
+
     if (!data.visible) {
       data.visible = true
     }
@@ -366,180 +361,15 @@ export class MainListComponent implements OnInit {
       data.visible = false
     }
   }
-
-  /* tmpinitData() {
-     this.listOfDisplayData = [
-       {
-         id: 1,
-         name: "Project A - Long Name Test",
-         dateOfCreation: new Date("2023-06-01"),
-         customerOrCompany: "Example GmbH - Long Name Test",
-         status: "true",
-         vertreter: "B",
-         fachberater: "C",
-         timespan: {
-           start: new Date("2023-06-01"),
-           end: new Date("2023-06-30"),
-         },
-         customer: "A",
-         abschlussbericht: "Fertig",
-         type: 1,
-       },
-       {
-         id: 2,
-         name: "Project B - Testing Long Names",
-         dateOfCreation: new Date("2023-06-02"),
-         customerOrCompany: "Demo AG - Example Long Company Name",
-         status: "false",
-         vertreter: "C",
-         fachberater: "A",
-         timespan: {
-           start: new Date("2023-07-10"),
-           end: new Date("2023-07-31"),
-         },
-         customer: "F",
-         abschlussbericht: "In Arbeit",
-         type: 2,
-       },
-       {
-         id: 3,
-         name: "Project C - Another Long Test Name",
-         dateOfCreation: new Date("2023-06-03"),
-         customerOrCompany: "Test GmbH - Long Customer Name for Testing",
-         status: "true",
-         vertreter: "Hans Schmidt",
-         fachberater: "Sabine Fischer",
-         timespan: {
-           start: new Date("2023-08-05"),
-           end: new Date("2023-08-20"),
-         },
-         customer: "TEster langer Test",
-         abschlussbericht: "Fertig",
-         type: 0,
-       },
-       // Additional test data
-       {
-         id: 4,
-         name: "Project D - Extended Name for Testing",
-         dateOfCreation: new Date("2023-06-04"),
-         customerOrCompany: "Alpha Ltd. - Long Customer Company Name",
-         status: "true",
-         vertreter: "D",
-         fachberater: "E",
-         timespan: {
-           start: new Date("2023-09-01"),
-           end: new Date("2023-09-15"),
-         },
-         customer: "C",
-         abschlussbericht: "Fertig",
-         type: 1,
-       },
-       {
-         id: 5,
-         name: "Project E - Long Name Test for Data",
-         dateOfCreation: new Date("2023-06-05"),
-         customerOrCompany: "Beta Corp. - Test Company Name for Long Data",
-         status: "false",
-         vertreter: "E",
-         fachberater: "F",
-         timespan: {
-           start: new Date("2023-10-01"),
-           end: new Date("2023-10-10"),
-         },
-         customer: "D",
-         abschlussbericht: "Nicht gestartet",
-         type: 0,
-       },
-       {
-         id: 6,
-         name: "Project F - More Test Data with Long Names",
-         dateOfCreation: new Date("2023-06-06"),
-         customerOrCompany: "Gamma Inc. - Long Company Name for Testing",
-         status: "true",
-         vertreter: "F",
-         fachberater: "G",
-         timespan: {
-           start: new Date("2023-11-01"),
-           end: new Date("2023-11-20"),
-         },
-         customer: "E",
-         abschlussbericht: "In Arbeit",
-         type: 2,
-       },
-       {
-         id: 7,
-         name: "Project G - Final Test with Long Names",
-         dateOfCreation: new Date("2023-06-07"),
-         customerOrCompany: "Delta LLC - Long Name for Delta Company",
-         status: "false",
-         vertreter: "G",
-         fachberater: "H",
-         timespan: {
-           start: new Date("2023-12-01"),
-           end: new Date("2023-12-15"),
-         },
-         customer: "F",
-         abschlussbericht: "Fertig",
-         type: 1,
-       },
-       {
-         id: 8,
-         name: "Project H - Large Scale Testing Names",
-         dateOfCreation: new Date("2023-06-08"),
-         customerOrCompany: "Epsilon GmbH - Large Customer Name for Testing",
-         status: "true",
-         vertreter: "H",
-         fachberater: "I",
-         timespan: {
-           start: new Date("2023-12-20"),
-           end: new Date("2023-12-31"),
-         },
-         customer: "G",
-         abschlussbericht: "Fertig",
-         type: 0,
-       },
-       {
-         id: 9,
-         name: "Project I - Extensive Data with Long Names",
-         dateOfCreation: new Date("2023-06-09"),
-         customerOrCompany: "Zeta AG - Comprehensive Testing Name for Customer",
-         status: "false",
-         vertreter: "I",
-         fachberater: "J",
-         timespan: {
-           start: new Date("2024-01-01"),
-           end: new Date("2024-01-15"),
-         },
-         customer: "H",
-         abschlussbericht: "In Arbeit",
-         type: 2,
-       },
-       {
-         id: 10,
-         name: "Project J - Advanced Testing for Large Names",
-         dateOfCreation: new Date("2023-06-10"),
-         customerOrCompany: "Theta Corp. - Testing Company for Large Names",
-         status: "true",
-         vertreter: "J",
-         fachberater: "K",
-         timespan: {
-           start: new Date("2024-02-01"),
-           end: new Date("2024-02-10"),
-         },
-         customer: "I",
-         abschlussbericht: "Nicht gestartet",
-         type: 1,
-       },
-     ];
-   } */
 }
 
 interface DataItem {
-  id?: number;
+  id?: string;
   name?: string;
-  dateOfCreation?: Date;
+  dateOfCreation?: string;
   customerOrCompany?: string;
-  status?: string;
+  statusGL?: string;
+  statusAL?: string;
   vertreter?: string;
   fachberater?: string;
   timespan?: TimeSpan;
@@ -550,8 +380,8 @@ interface DataItem {
 }
 
 interface TimeSpan {
-  start?: Date;
-  end?: Date;
+  start?: string;
+  end?: string;
 }
 
 interface ColumnDefinition {

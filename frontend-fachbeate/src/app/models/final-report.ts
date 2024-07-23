@@ -7,6 +7,11 @@ export interface FinalReport {
     id?: number;
     state?: string;
 
+    creator?: string;
+    representativeEntered?: boolean;
+    technologistEntered?: boolean;
+    lastEditor?: string;
+
     technologist?: Technologist;
     representative?: Representative;
     dateOfVisit?: Date;
@@ -17,8 +22,13 @@ export interface FinalReport {
 
     reworkByTechnologist?: boolean;
     reworkByTechnologistDoneUntil?: Date;
-    reworkByTechnologistState?: string;
+    reworkFollowVisits?: boolean;
+    
+    reworkInformation?: boolean;
+    reworkRecipe_optimization?: boolean;
+    reworkProduct_development?: boolean;
 
+    
     reworkByRepresentative?: string;
     reworkByRepresentativeDoneUntil?: Date;
 
@@ -31,4 +41,13 @@ export interface FinalReport {
     interestingProducts?: string;
     requestCompleted?: boolean;
     summaryFinalReport?: string;
+
+    reworkToDo?: number[];
+
+    presentationOfNewProducts?: boolean;
+    existingProducts?: boolean;
+    recipeOptimization?: boolean;
+    sampleProduction?: boolean;
+    training?: boolean;
+
 }

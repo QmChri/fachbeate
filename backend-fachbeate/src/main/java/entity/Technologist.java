@@ -8,6 +8,7 @@ public class Technologist extends PanacheEntity {
 
     public String firstName;
     public String lastName;
+    public String email;
     public String color;
 
     public boolean active;
@@ -21,6 +22,7 @@ public class Technologist extends PanacheEntity {
         this.lastName = technologist.lastName;
         this.active = technologist.active;
         this.color = technologist.color;
+        this.email = technologist.email;
     }
 
     public Technologist persistOrUpdate(){
@@ -29,7 +31,7 @@ public class Technologist extends PanacheEntity {
             persisted.updateEntity(this);
             return persisted;
         }
-
+        this.id = null;
         this.persist();
         return this;
     }

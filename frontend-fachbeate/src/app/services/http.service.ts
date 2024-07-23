@@ -11,6 +11,7 @@ import { VisitorRegistration } from '../models/visitor-registration';
 import { Company } from '../models/company';
 import { Article } from '../models/article';
 import {environment} from "../../environments/environment";
+import { MainListDTO } from '../models/main-list-dto';
 
 const API_URL = environment.backendApi
 
@@ -22,99 +23,98 @@ export class HttpService {
   constructor(private http: HttpClient) { }
 
   postCustomerRequirement(customerRequirement: CustomerRequirement): Observable<CustomerRequirement>{
-      return this.http.post<CustomerRequirement>(API_URL + "appointment/customerRequirement", customerRequirement);
+      return this.http.post<CustomerRequirement>(API_URL + "customerRequirement", customerRequirement);
   }
 
-  getCustomerRequirementsByUser(type: number, fullname: string){
-    return this.http.get<CustomerRequirement[]>(API_URL + "appointment/customerRequirement/user", {params: {type: type, fullname: fullname}});
+  getCustomerRequirementsByUser(type: number, fullname: string[]){
+    return this.http.get<MainListDTO[]>(API_URL + "customerRequirement/user", {params: {type: type, fullname: fullname}});
   }
 
   getCustomerRequirements() {
-    return this.http.get<CustomerRequirement[]>(API_URL + "appointment/customerRequirement");
+    return this.http.get<CustomerRequirement[]>(API_URL + "customerRequirement");
   }
 
   getCustomerById(id: number) {
-    return this.http.get<CustomerRequirement>(API_URL + "appointment/customerRequirement/id", {params: {id: id}});
+    return this.http.get<CustomerRequirement>(API_URL + "customerRequirement/id", {params: {id: id}});
   }
 
 
 
   postWorkshop(workshop: WorkshopRequirement): Observable<WorkshopRequirement>{
-    return this.http.post<WorkshopRequirement>(API_URL + "appointment/workshop", workshop);
+    return this.http.post<WorkshopRequirement>(API_URL + "workshop", workshop);
   }
 
   getWorkshopRequirements(){
-    return this.http.get<WorkshopRequirement[]>(API_URL + "appointment/workshop");
+    return this.http.get<WorkshopRequirement[]>(API_URL + "workshop");
   }
 
   getWorkshopById(id:number){
-    return this.http.get<WorkshopRequirement>(API_URL + "appointment/workshop/id", {params: {id: id}});
+    return this.http.get<WorkshopRequirement>(API_URL + "workshop/id", {params: {id: id}});
   }
 
-  getWorkshopByUser(user: number, fullname: string): Observable<WorkshopRequirement[]>{
-    return this.http.get<WorkshopRequirement[]>(API_URL + "appointment/workshop/user", {params: {type: user, fullname: fullname}});
+  getWorkshopByUser(user: number, fullname: string[]): Observable<MainListDTO[]>{
+    return this.http.get<MainListDTO[]>(API_URL + "workshop/user", {params: {type: user, fullname: fullname}});
   }
 
 
   postVisitorRegistration(visitorRegistration: VisitorRegistration): Observable<VisitorRegistration>{
-    return this.http.post<VisitorRegistration>(API_URL + "appointment/visitorRegistration", visitorRegistration);
+    return this.http.post<VisitorRegistration>(API_URL + "visitorRegistration", visitorRegistration);
   }
 
   getVisitorRegistration(){
-    return this.http.get<VisitorRegistration[]>(API_URL + "appointment/visitorRegistration");
+    return this.http.get<VisitorRegistration[]>(API_URL + "visitorRegistration");
   }
 
   getVisitorRegistrationById(id:number){
-    return this.http.get<VisitorRegistration>(API_URL + "appointment/visitorRegistration/id", {params: {id: id}});
+    return this.http.get<VisitorRegistration>(API_URL + "visitorRegistration/id", {params: {id: id}});
   }
 
-  getVisitorRegistrationByUser(type: number, fullname: string){
-    return this.http.get<VisitorRegistration[]>(API_URL + "appointment/visitorRegistration/user", {params: {type: type, fullname: fullname}});
+  getVisitorRegistrationByUser(type: number, fullname: string[]){
+    
+    return this.http.get<MainListDTO[]>(API_URL + "visitorRegistration/user", {params: {type: type, fullname: fullname}});
   }
 
 
 
   getAllTechnologist() : Observable<Technologist[]> {
-    return this.http.get<Technologist[]>(API_URL+ "technologist");
+    return this.http.get<Technologist[]>(API_URL+ "users/technologist");
   }
 
   getActiveTechnologist(): Observable<Technologist[]>{
-    return this.http.get<Technologist[]>(API_URL + "technologist/allActive");
+    return this.http.get<Technologist[]>(API_URL + "users/technologist/allActive");
   }
 
   postTechnologist(technologist: Technologist) {
-    return this.http.post(API_URL + "technologist", technologist);
+    return this.http.post(API_URL + "users/technologist", technologist);
   }
   
   
   
   postRepresentative(representative: Representative): Observable<Representative>{
-    return this.http.post(API_URL+ "technologist/representative", representative);
+    return this.http.post(API_URL+ "users/representative", representative);
   }  
   
   getAllRepresentative() : Observable<Representative[]> {
-    return this.http.get<Representative[]>(API_URL+ "technologist/representative");
+    return this.http.get<Representative[]>(API_URL+ "users/representative");
   }
 
   getActiveRepresentative(): Observable<Representative[]>{
-    return this.http.get<Representative[]>(API_URL + "technologist/representative/allActive");
+    return this.http.get<Representative[]>(API_URL + "users/representative/allActive");
   }
 
 
 
   postCompany(company: Company): Observable<Company>{
-    return this.http.post(API_URL+ "technologist/company", company);
+    return this.http.post(API_URL+ "users/company", company);
   }  
   
   getAllCompany() : Observable<Company[]> {
-    return this.http.get<Company[]>(API_URL+ "technologist/company");
+    return this.http.get<Company[]>(API_URL+ "users/company");
   }
 
   getActiveCompany(): Observable<Company[]>{
-    return this.http.get<Company[]>(API_URL + "technologist/company/allActive");
+    return this.http.get<Company[]>(API_URL + "users/company/allActive");
   }
-
-
 
   postOtherDate(date: TechnologistAppointment): Observable<TechnologistAppointment>{
     return this.http.post<TechnologistAppointment>(API_URL + "appointment/other", date);
@@ -128,7 +128,7 @@ export class HttpService {
     return this.http.get<TechnologistAppointment>(API_URL + "appointment/other/id",{params: {id: id}})
   }
 
-  getOtherAppointmentByUser(type: number, fullname: string){
+  getOtherAppointmentByUser(type: number, fullname: string[]){
     return this.http.get<TechnologistAppointment[]>(API_URL + "appointment/other/user", {params: {type: type, fullname: fullname}});
   }
 
@@ -138,7 +138,7 @@ export class HttpService {
     return this.http.get<FinalReport[]>(API_URL + "appointment/finalReport");
   }
 
-  getFinalReportsByUser(type: number, fullname: string):Observable<FinalReport[]>{
+  getFinalReportsByUser(type: number, fullname: string[]):Observable<FinalReport[]>{
     return this.http.get<FinalReport[]>(API_URL + "appointment/finalReportByUser", {params: {type: type, fullname: fullname}});
   }
 
@@ -149,6 +149,10 @@ export class HttpService {
 
   getAllArticles(): Observable<Article[]>{
     return this.http.get<Article[]>(API_URL + "appointment/article");
+  }
+
+  changeVisiblility(type: number, id: number):Observable<Boolean>{
+    return this.http.get<Boolean>(API_URL + "appointment/visibility", {params: {type: type, id: id}})
   }
 
 }

@@ -1,11 +1,14 @@
 import { Company } from "./company";
 import { Guest } from "./guest";
+import { Hotelbooking } from "./hotelbooking";
 import { Representative } from "./representative";
 import { Technologist } from "./technologist";
 
 export interface WorkshopRequirement{
     id?: number;
     
+    showUser?: boolean;
+
     requestedTechnologist?: Technologist[];
     startDate?: Date;
     endDate?: Date;
@@ -41,6 +44,7 @@ export interface WorkshopRequirement{
     
     representative?: Representative;
 
+    hotelBookings?: Hotelbooking[];    
     
     locationAndDesiredPlace?: string;
     locationFromDate?: Date;
@@ -69,7 +73,8 @@ export interface WorkshopRequirement{
 
     meal?: boolean;
     mealAmount?: number;
-    mealDate?: Date;
+    mealDateFrom?: Date;
+    mealDateTo?: Date;
     mealTime?: string;
     mealWishesVegan?: number;
     mealWishesVegetarian?: number;

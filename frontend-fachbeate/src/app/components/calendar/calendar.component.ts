@@ -11,23 +11,28 @@ import { RoleService } from '../../services/role.service';
 import { Company } from '../../models/company';
 
 @Component({
-  selector: 'calendar',
-  templateUrl: './calendar.component.html',
-  styleUrl: './calendar.component.scss'
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrl: './dashboard.component.scss'
 })
-export class CalendarComponent implements OnInit {
-  requiredRoles = [1, 2, 4, 5];
+export class DashboardComponent implements OnInit {
+  requiredRoles = [1, 2, 4, 5,7];
   calendarEvnts: CalendarEvent[] = [];
+
+  //Setting the calendar settings
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
     plugins: [dayGridPlugin, interactionPlugin],
-    height: 680,
+    height: 850,
     eventClick: (arg) => this.handleEventClick(arg),
     selectable: true,
     select: (arg) => this.handleSelect(arg),
     events: [],
     firstDay: 1,
+    displayEventTime: false,
+    displayEventEnd: false
   };
+
   roleServiceUserName = this.roleService.getUserName();
   nameOfCalendarEvent: string = "";
   i: number = 0;
@@ -42,7 +47,7 @@ export class CalendarComponent implements OnInit {
       this.loadDataPerUser();
     }
   }
-
+  //Pull all data that a user is allowed to see
   loadDataPerUser(){
     this.http.getAllCompany().subscribe({
       next: data => {
@@ -53,22 +58,28 @@ export class CalendarComponent implements OnInit {
     })
   }
 
-  loadEvents(companies: Company[]) {
 
+  loadEvents(companies: Company[]) {
     var type = (this.roleService.checkPermission([1, 2, 3, 5, 7]) ? 7 : 6);
     type = (!this.roleService.checkPermission([1, 2, 3, 5, 6, 7]) ? 4 : type);
-    var fullname = (type === 6) ? companies.find(element => element.username === this.roleService.getUserName()!)?.username : this.roleService.getFullName()!;
+    type = (!this.roleService.checkPermission([1,2,5,6,7]) ? 8 : type);
+
+    var fullname: string[] = [this.roleService.getUserName()!, this.roleService.getEmail()!];
 
     this.http.getCustomerRequirementsByUser(type!, fullname!).subscribe({
       next: data => {
+        if(data === null ||data === undefined){
+          return
+        }
+
         data.forEach(value => {
           this.calendarEvnts = [...this.calendarEvnts, {
-            id: "c" + value.id,
-            title: value.requestedTechnologist!.firstName + " " + value.requestedTechnologist!.lastName + " - " + value.company!.name,
-            start: value.startDate,
-            end: this.adjustEndDate(value.endDate!.toString()),
-            backgroundColor: value.requestedTechnologist!.color,
-            borderColor: value.requestedTechnologist!.color,
+            id: value.id,
+            title: value.id+ " "+ value.technologist + " - " + value.name,
+            start: new Date(value.fromDate),
+            end: new Date(value.toDate),
+            backgroundColor: value.calendarColor,
+            borderColor: value.calendarColor,
           }]
         })
 
@@ -88,14 +99,18 @@ export class CalendarComponent implements OnInit {
 
     this.http.getWorkshopByUser(type, fullname!).subscribe({
       next: data => {
+        if(data === null ||data === undefined){
+          return
+        }
+
         data.forEach(value => {
           this.calendarEvnts = [...this.calendarEvnts, {
-            id: "w" + value.id,
-            title: value.requestedTechnologist![0].firstName + " " + value.requestedTechnologist![0].lastName + " - " + value.company,
-            start: value.startDate,
-            end: this.adjustEndDate(value.endDate!.toString()),
-            backgroundColor: value.requestedTechnologist![0].color,
-            borderColor: value.requestedTechnologist![0].color,
+            id: value.id,
+            title: value.id+ " "+ value.technologist + " - " + value.name,
+            start: new Date(value.fromDate),
+            end: new Date(value.toDate),
+            backgroundColor: value.calendarColor,
+            borderColor: value.calendarColor,
           }]
 
           this.calendarOptions.events = this.calendarEvnts.map(value => ({
@@ -117,14 +132,18 @@ export class CalendarComponent implements OnInit {
 
     this.http.getVisitorRegistrationByUser(type, fullname!).subscribe({
       next: data => {
+        if(data === null ||data === undefined){
+          return
+        }
+
         data.forEach(value => {
           this.calendarEvnts = [...this.calendarEvnts, {
-            id: "v" + value.id,
-            title: value.name,
-            start: value.fromDate,
-            end: this.adjustEndDate(value.toDate!.toString()),
-            backgroundColor: "#f0f0f0",
-            borderColor: "#f0f0f0",
+            id: value.id,
+            title: value.id+ " " + value.name,
+            start: new Date(value.fromDate),
+            end: new Date(value.toDate),
+            backgroundColor: value.calendarColor,
+            borderColor: value.calendarColor,
           }]
 
           this.calendarOptions.events = this.calendarEvnts.map(value => ({
@@ -147,12 +166,16 @@ export class CalendarComponent implements OnInit {
 
     this.http.getOtherAppointmentByUser(type, fullname!).subscribe({
       next: data => {
+
+        if(data === null ||data === undefined){
+          return
+        }
         data.forEach(value => {
           this.calendarEvnts = [...this.calendarEvnts, {
             id: "o" + value.id,
             title: value.requestedTechnologist!.firstName + " " + value.requestedTechnologist!.lastName + " - " + value.reason,
             start: value.startDate,
-            end: this.adjustEndDate(value.endDate!.toString()),
+            end: value.endDate,
             backgroundColor: value.requestedTechnologist!.color,
             borderColor: value.requestedTechnologist!.color,
           }]
@@ -176,13 +199,17 @@ export class CalendarComponent implements OnInit {
     this.openDialog({ startDate: new Date(clickInfo.startStr), endDate: new Date(clickInfo.endStr) })
   }
 
+  // When a calendar event is pressed
   handleEventClick(clickInfo: any): void {
-    if (clickInfo.event.id.substring(0, 1) === "c") {
-      this.router.navigate(['/customer-requirements', clickInfo.event.id.substring(1)]);
-    } else if (clickInfo.event.id.substring(0, 1) === "w") {
-      this.router.navigate(['/seminar-registration', clickInfo.event.id.substring(1)]);
-    } else if (clickInfo.event.id.substring(0, 1) === "v") {
-      this.router.navigate(['/visitorRegistration', clickInfo.event.id.substring(1)]);
+    /** As the IDs for the 3 requirements start at 1, a distinction must
+     *  be made as to which event is clicked on. Hence the F, S, B distinctions
+     * */
+    if (clickInfo.event.id.substring(0, 1) === "F") {
+      this.router.navigate(['/customer-requirements', clickInfo.event.id.substring(2)]);
+    } else if (clickInfo.event.id.substring(0, 1) === "S") {
+      this.router.navigate(['/seminar-registration', clickInfo.event.id.substring(2)]);
+    } else if (clickInfo.event.id.substring(0, 1) === "B") {
+      this.router.navigate(['/visitorRegistration', clickInfo.event.id.substring(2)]);
     } else {
       var appointment: TechnologistAppointment;
 
@@ -209,15 +236,10 @@ export class CalendarComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(
       data => {
-        this.loadDataPerUser()
+        if(this.roleService.checkPermission(this.requiredRoles)){
+          this.loadDataPerUser()
+        }
       });
-  }
-
-  adjustEndDate(endDate: string): Date {
-    const date = new Date(endDate);
-    //date.setDate(date.getDate() + 1);
-    date.setHours(5)
-    return new Date(date.toISOString().split('T')[0]);
   }
 }
 

@@ -23,7 +23,7 @@
         </button>
     </div>
     <div>
-        <button *ngIf="(inputCustomerRequirement.creator === undefined && roleService.checkPermission([3,4,6])) || roleService.checkPermission([1,2,5,7])"
+        <button *ngIf="(inputCustomerRequirement.creator === undefined && roleService.checkPermission([6])) || roleService.checkPermission([1,2,3,4,5,7])"
             class="btn btn-success" (click)="postCustomerRequirement()">{{"CUSTOMER_REQUIREMENTS.send_form" |
             translate}}
         </button>
@@ -39,7 +39,8 @@
                     <div class="center-items ">
                         <mat-form-field>
                             <mat-label>{{"CUSTOMER_REQUIREMENTS.dealers_daughters"|translate}}</mat-label>
-                            <mat-select
+                            <mat-select required
+                                [disabled]="roleService.checkPermission([6])"
                                 [ngModel]="(inputCustomerRequirement.company === undefined)?undefined:inputCustomerRequirement.company.id"
                                 (valueChange)="changeCompany($event)">
                                 <mat-option>--</mat-option>
@@ -253,13 +254,14 @@
                     <input nz-input [hidden]="editId !== data.editId" type="text" [(ngModel)]="data.productionAmount" />
                 </td>
                 <td>
-                    <div class="flugHotel"> <button matTooltip="{{'CUSTOMER_REQUIREMENTS.edit' | translate}}"
-                            class="btn btn-success" (click)="startEdit(data.editId)" [hidden]="editId === data.editId">
+                    <div class="flugHotel"> 
+                        <button matTooltip="{{'CUSTOMER_REQUIREMENTS.edit' | translate}}"
+                            class="btn btn-secondary" (click)="startEdit(data.editId)" [hidden]="editId === data.editId">
                             <i class="fa fa-pencil"></i>
                         </button>
-                        <button matTooltip="{{'STANDARD.save' | translate}}" class="btn btn-success"
-                            (click)="stopEdit()" [hidden]="editId !== data.editId">
-                            <i class="fa fa-save"></i>
+                        <button matTooltip="{{'CUSTOMER_REQUIREMENTS.edit' | translate}}"
+                            class="btn btn-success" (click)="stopEdit()" [hidden]="editId !== data.editId">
+                            <i class="fas fa-check"></i>
                         </button>
                         <button matTooltip="{{ 'STANDARD.remove' | translate }}" class="btn btn-danger" nz-popconfirm
                             nzPopconfirmShowArrow="false" [nzIcon]="iconTpl"
@@ -271,7 +273,7 @@
                             </ng-template>
                             <i class="fa fa-trash"></i>
                         </button>
-                        <button *ngIf="roleService.checkPermission([1,2,3,4,6])" class="btn btn-success"
+                        <button *ngIf="roleService.checkPermission([1,2,3,4,7])" class="btn btn-success"
                             [matTooltip]="'MAIN_LIST.final_report' | translate" (click)="openDialog(data)">
                             <i class="fa fa-file"></i>
                         </button>

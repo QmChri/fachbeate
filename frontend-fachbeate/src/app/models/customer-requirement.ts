@@ -5,6 +5,8 @@ import { Technologist } from "./technologist";
 
 export interface CustomerRequirement{
     id?: number;
+    showUser?: boolean;
+
     requestedTechnologist?: Technologist;
     startDate?: Date;
     endDate?: Date;
@@ -22,7 +24,6 @@ export interface CustomerRequirement{
     
     flightBooking?: boolean;
     hotelBooking?: boolean;
-    reason?: string;
     company?: Company;
     contact?: string;
     representative?: Representative;

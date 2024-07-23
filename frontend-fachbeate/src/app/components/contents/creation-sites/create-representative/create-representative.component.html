@@ -15,11 +15,16 @@
                         <input required matInput type="text" [(ngModel)]="inputRepresentative.firstName"
                             name="firstName">
                     </mat-form-field>
+                    <mat-form-field class="smallInput">
+                        <mat-label>{{'CREATION_SITES.last_name' | translate}}</mat-label>
+                        <input required matInput type="text" [(ngModel)]="inputRepresentative.lastName"
+                            name="lastName">
+                    </mat-form-field>
                     <div class="displayBySide">
                         <mat-form-field class="smallInput">
-                            <mat-label>{{'CREATION_SITES.last_name' | translate}}</mat-label>
-                            <input required matInput type="text" [(ngModel)]="inputRepresentative.lastName"
-                                name="lastName">
+                            <mat-label>{{'CREATION_SITES.email' | translate}}</mat-label>
+                            <input required matInput type="text" [(ngModel)]="inputRepresentative.email"
+                                name="email">
                         </mat-form-field>
 
                         <label class="languageBox">{{'CREATION_SITES.active' | translate}}
@@ -48,7 +53,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr matTooltip="{{'CUSTOMER_REQUIREMENTS.edit' | translate}}" (click)="editRow(repentative.id!, 1)"
+                <tr matTooltip="{{'CREATION_SITES.click_to_edit' | translate}}" (click)="editRow(repentative.id!, 1)"
                     *ngFor="let repentative of editRowTable.data">
                     <td>{{repentative.id}}</td>
                     <td>{{repentative.firstName}}</td>

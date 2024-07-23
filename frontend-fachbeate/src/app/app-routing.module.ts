@@ -14,6 +14,8 @@ import { authGuard } from './services/auth.service';
 import { BookingRequestComponent } from './components/contents/booking-request/booking-request.component';
 
 const routes: Routes = [
+  // path: (e.g. "http://.../dashboard",) the authGuard checks the roles that are specified in the data
+  { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 4, 5, 7] } },
   { path: 'calendar', component: CalendarComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 4, 5, 7] } },
   { path: 'customer-requirements', component: CustomerRequirementsComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 3, 4, 6, 7] } },
   { path: 'customer-requirements/:id', component: CustomerRequirementsComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 3, 4, 6, 7] } },

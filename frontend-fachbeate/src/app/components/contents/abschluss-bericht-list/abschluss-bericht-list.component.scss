@@ -28,3 +28,16 @@
   justify-content: space-between;
   align-items: center;
 }
+
+.centerTD{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.article {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}

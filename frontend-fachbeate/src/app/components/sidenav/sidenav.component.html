@@ -8,29 +8,31 @@
         </button>
     </div>
     <ul class="sidenav-nav">
-        <li class="sidenav-nav-item" *ngFor="let data of navData" (click)="handleCLick(data)">
-            <div *ngIf="roleService.checkPermission(data.role!)">
-                <a class="sidenav-nav-link" *ngIf="data.items && data.items.length > 0">
-                    <i class="sidenav-link-icon" [class]="data.icon"></i>
-                    <span class="sidenav-link-text" @fadeInOut *ngIf="collapsed">
-                        {{"NAV."+data.label | translate}}
-                    </span>
-                    <i *ngIf="data.items && collapsed" class="menu-collapse-icon"
-                        [ngClass]="data.expanded ? 'fal fa-angle-down' : 'fal fa-angle-right' "></i>
-                </a>
-                <a class="sidenav-nav-link" *ngIf="!data.items || (data.items && data.items.length === 0)"
-                    [routerLink]="[data.routeLink]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-                    <i class="sidenav-link-icon" [class]="data.icon"></i>
-                    <span class="sidenav-link-text" @fadeInOut *ngIf="collapsed">
-                        {{"NAV."+data.label | translate}}
-                    </span>
-                </a>
-                <div *ngIf="collapsed && data.items && data.items.length > 0">
-                    <app-sublevel-menu [data]="data" [collapsed]="collapsed" [multiple]="multiple"
-                        [expanded]="data.expanded"></app-sublevel-menu>
+        <ng-container *ngFor="let data of navData">
+            <li class="sidenav-nav-item" (click)="handleCLick(data)" *ngIf="roleService.checkPermission(data.role!)">
+                <div *ngIf="roleService.checkPermission(data.role!)">
+                    <a class="sidenav-nav-link" *ngIf="data.items && data.items.length > 0">
+                        <i class="sidenav-link-icon" [class]="data.icon"></i>
+                        <span class="sidenav-link-text" @fadeInOut *ngIf="collapsed">
+                            {{"NAV."+data.label | translate}}
+                        </span>
+                        <i *ngIf="data.items && collapsed" class="menu-collapse-icon"
+                            [ngClass]="data.expanded ? 'fal fa-angle-down' : 'fal fa-angle-right' "></i>
+                    </a>
+                    <a class="sidenav-nav-link" *ngIf="!data.items || (data.items && data.items.length === 0)"
+                        [routerLink]="[data.routeLink]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        <i class="sidenav-link-icon" [class]="data.icon"></i>
+                        <span class="sidenav-link-text" @fadeInOut *ngIf="collapsed">
+                            {{"NAV."+data.label | translate}}
+                        </span>
+                    </a>
+                    <div *ngIf="collapsed && data.items && data.items.length > 0">
+                        <app-sublevel-menu [data]="data" [collapsed]="collapsed" [multiple]="multiple"
+                            [expanded]="data.expanded"></app-sublevel-menu>
+                    </div>
                 </div>
-            </div>
-        </li>
+            </li>
+        </ng-container>
         <li class="sidenav-nav-item logout">
 
             <a class="sidenav-nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
@@ -55,7 +57,8 @@
                                 fill="#fff" opacity=".2"></path>
                         </svg>
                     </div>
-                    <div (click)="switchLanguage('')" class="header">
+                    <!--Bei Click Sprache auf Englisch umstellen-->
+                    <div (click)="switchLanguage('en')" class="header">
                         Englisch
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 32 32">
                             <rect x="1" y="4" width="30" height="24" rx="4" ry="4" fill="#071b65"></rect>
@@ -86,7 +89,7 @@
                                 fill="#fff" opacity=".2"></path>
                         </svg>
                     </div>
-                    <div (click)="switchLanguage('')" class="header">
+                    <div (click)="switchLanguage('ru')" class="header">
                         Russisch
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 32 32">
                             <path fill="#1435a1" d="M1 11H31V21H1z"></path>

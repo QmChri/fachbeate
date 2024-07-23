@@ -1,16 +1,17 @@
 package boundary;
 
 import entity.*;
+import entity.dto.MainListDTO;
 import io.quarkus.security.Authenticated;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 import org.hibernate.jdbc.Work;
 import org.jboss.logging.Logger;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Path("appointment")
 public class AppointmentResource {
@@ -18,133 +19,12 @@ public class AppointmentResource {
     @Inject
     Logger log;
 
-    @POST
-    @Path("/customerRequirement")
-    @Authenticated
-    @Transactional(Transactional.TxType.REQUIRED)
-    public Response postCustomerRequirement(CustomerRequirement customerRequirement){
-        CustomerRequirement responseCustomerRequirement = customerRequirement.persistOrUpdate();
-        if(responseCustomerRequirement == null){
-            return Response.serverError().build();
-        }
-        return Response.ok(responseCustomerRequirement).build();
-    }
-    @GET
-    @Path("/customerRequirement")
-    @Authenticated
-    public Response getCustomerRequirement(){
-        return Response.ok(CustomerRequirement.listAll()).build();
-    }
-
-     @GET
-     @Path("/customerRequirement/id")
-     @Authenticated
-     public Response getCustomerRequirementPerId(@QueryParam("id") Long id){
-
-         CustomerRequirement cr = CustomerRequirement.findById(id);
-         return Response.ok(cr).build();
-     }
-
-    @GET
-    @Path("/customerRequirement/user")
-    @Authenticated
-    public Response getCustomerRequirementPerUser(@QueryParam("type") int user, @QueryParam("fullname") String fullname){
-        if (user==7) {
-            return getCustomerRequirement();
-        }else if(user == 4) {
-            return Response.ok(CustomerRequirement.find("requestedTechnologist.firstName = ?1 and requestedTechnologist.lastName = ?2", fullname.split(";")[0], fullname.split(";")[1]).list()).build();
-        }else if(user == 6) {
-            return Response.ok(CustomerRequirement.find("company.username", fullname).list()).build();
-        }else if(user == 3){
-            return Response.ok(CustomerRequirement.find("representative.firstName = ?1 and representative.lastName", fullname.split(";")[0], fullname.split(";")[1]).list()).build();
-        }
-        return Response.ok().build();
-    }
-
-
-    @POST
-    @Path("/workshop")
-    @Authenticated
-    @Transactional
-    public Response postWorkshopRequirement(WorkshopRequirement workshopRequirement){
-        WorkshopRequirement responseWorkshopRequirement = workshopRequirement.persistOrUpdate();
-        if(responseWorkshopRequirement == null){
-            return Response.serverError().build();
-        }
-        return Response.ok(responseWorkshopRequirement).build();
-    }
-
-    @GET
-    @Path("/workshop")
-    @Authenticated
-    public Response getWorkshopRequirement(){
-        return Response.ok(WorkshopRequirement.listAll()).build();
-    }
-
-    @GET
-    @Path("/workshop/id")
-    @Authenticated
-    public Response getWorkshopPerId(@QueryParam("id") Long id){
-        return Response.ok(WorkshopRequirement.findById(id)).build();
-    }
-
-    @GET
-    @Path("/workshop/user")
-    @Authenticated
-    public Response getWorkshopPerUser(@QueryParam("type") int user, @QueryParam("fullname") String fullname){
-        if (user==7) {
-            return getWorkshopRequirement();
-        }else if(user == 4) {
-            return Response.ok(WorkshopRequirement.find("select work from WorkshopRequirement work join work.requestedTechnologist tech " +
-                    "where tech.firstName = ?1 and tech.lastName = ?2", fullname.split(";")[0], fullname.split(";")[1]).list()).build();
-        }else if(user == 6) {
-            return Response.ok(WorkshopRequirement.find("company.username", fullname).list()).build();
-        }else if(user == 3){
-            return Response.ok(WorkshopRequirement.find("representative.firstName = ?1 and representative.lastName", fullname.split(";")[0], fullname.split(";")[1]).list()).build();
-        }
-        return Response.ok().build();
-    }
-    @POST
-    @Path("/visitorRegistration")
-    @Authenticated
-    @Transactional
-    public Response postVisitorRegistration(VisitorRegistration visitorRegistration){
-        VisitorRegistration responseVisitorRegistration = visitorRegistration.persistOrUpdate();
-        if(responseVisitorRegistration == null){
-            return Response.serverError().build();
-        }
-        return Response.ok(responseVisitorRegistration).build();
-    }
-
-
-    @GET
-    @Path("/visitorRegistration")
-    @Authenticated
-    public Response getVisitorRegistration(){
-        return Response.ok(VisitorRegistration.listAll()).build();
-    }
-
-    @GET
-    @Path("/visitorRegistration/id")
-    @Authenticated
-    public Response postVisitorRegistration(@QueryParam("id") Long id){
-        return Response.ok(VisitorRegistration.findById(id)).build();
-    }
-    @GET
-    @Path("/visitorRegistration/user")
-    @Authenticated
-    public Response getVisitorRegistrationPerUser(@QueryParam("type") int user, @QueryParam("fullname") String fullname){
-        if (user==7) {
-            return getVisitorRegistration();
-        }else if(user == 6) {
-            return Response.ok(VisitorRegistration.find("creator", fullname).list()).build();
-        }else if(user == 3){
-            return Response.ok(VisitorRegistration.find("representative.firstName = ?1 and representative.lastName", fullname.split(";")[0], fullname.split(";")[1]).list()).build();
-        }
-        return Response.ok().build();
-    }
-
-
+    /***
+     * This method persists a calendar entry
+     *
+     * @param technologistAppointment
+     * @return The persisted entry
+     */
     @POST
     @Path("/other")
     @Transactional
@@ -160,15 +40,23 @@ public class AppointmentResource {
         return Response.ok(technologistAppointment).build();
     }
 
+    /***
+     * Returns all other calendar entries, i.e. not
+     * Fachberater Anforderung, Besucher Anmeldung or Seminar Anmeldung
+     * @return
+     */
     @GET
     @Path("/other")
     @Authenticated
     public Response getOtherAppointments(){
-        return Response.ok(TechnologistAppointment.listAll().stream().filter(
-                element -> !(element instanceof WorkshopRequirement) && !(element instanceof CustomerRequirement)
-        )).build();
+        return Response.ok(TechnologistAppointment.listAll()).build();
     }
 
+    /***
+     * Returns another calendar entry with the Id
+     * @param id
+     * @return
+     */
     @GET
     @Path("/other/id")
     @Authenticated
@@ -176,19 +64,31 @@ public class AppointmentResource {
         return Response.ok(TechnologistAppointment.findById(id)).build();
     }
 
+    /**
+     * Returns the other calendar entries
+     * that a specific user is allowed to see
+     * @param user: Roles from the user which is currently logged in
+     * @param fullname: Name from the user which is currently logged in
+     * @return
+     */
     @GET
     @Path("/other/user")
     @Authenticated
-    public Response getOtherAppointmentPerUser(@QueryParam("type") int user, @QueryParam("fullname") String fullname){
+    public Response getOtherAppointmentPerUser(@QueryParam("type") int user, @QueryParam("fullname")List<String> fullname){
         if (user==7) {
             return getOtherAppointments();
         }else if(user == 4) {
-            return Response.ok(TechnologistAppointment.find("requestedTechnologist.firstName = ?1 and requestedTechnologist.lastName = ?2", fullname.split(";")[0], fullname.split(";")[1]).list()).build();
+            return Response.ok(TechnologistAppointment.find(
+                    "requestedTechnologist.email = ?2 or creator = ?1", fullname.get(1), fullname.get(0)
+                    ).list()).build();
         }
         return Response.ok().build();
     }
 
-
+    /***
+     * Returns all final reports
+     * @return
+     */
     @GET
     @Path("/finalReport")
     @Authenticated
@@ -196,22 +96,56 @@ public class AppointmentResource {
         return Response.ok(FinalReport.listAll()).build();
     }
 
+    /***
+     * Returns all final reports that a specific user is allowed to see
+     * @param user: Roles from the user which is currently logged in
+     * @param fullname: Name from the user which is currently logged in
+     * @return
+     */
     @GET
     @Path("/finalReportByUser")
     @Authenticated
-    public Response getFinalReportsByUser(@QueryParam("type") int user, @QueryParam("fullname") String fullname){
+    public Response getFinalReportsByUser(@QueryParam("type") int user, @QueryParam("fullname") List<String> fullname){
         if (user==7) {
             return getFinalReports();
         }else if(user == 4) {
-            return Response.ok(FinalReport.find("technologist", fullname.split(";")[0]+" "+fullname.split(";")[1]).list()).build();
+            return Response.ok(FinalReport.find(
+                    "technologist.email = ?1 or creator = ?2", fullname.get(1), fullname.get(0)
+                    ).list()).build();
         }else if(user == 6) {
-            //TODO return Response.ok(CustomerRequirement.find("company", fullname).list()).build();
+            List<CustomerRequirement> customerRequirements = CustomerRequirement.find(
+                    "company.username = ?1 or creator = ?1",
+                    fullname.get(0)
+            ).list();
+
+            List<FinalReport> finalReports = new ArrayList<>();
+            for (CustomerRequirement cr : customerRequirements) {
+                for (CustomerVisit visit : cr.customerVisits) {
+                    if(visit.finalReport != null) {
+                        finalReports.add(visit.finalReport);
+                    }
+                }
+            }
+
+            return Response.ok(finalReports).build();
         }else if(user == 3){
-            return Response.ok(CustomerRequirement.find("representative.firstName = ?1 and representative.lastName",fullname.split(";")[0]+" "+fullname.split(";")[1]).list()).build();
+            return Response.ok(FinalReport.find(
+                    "representative.email = ?1 or creator = ?2", fullname.get(1), fullname.get(0)
+                    ).list()).build();
+        }else if(user == 8){
+            return Response.ok(FinalReport.find(
+                    "representative.email = ?1 or technologist.email = ?1 or creator = ?2"
+                    ,fullname.get(1), fullname.get(0)
+            ).list()).build();
         }
         return Response.ok().build();
     }
 
+    /**
+     * Post a new FinalReport
+     * @param finalReport: Report to Persist
+     * @return persisted Article
+     */
     @POST
     @Path("/finalReport")
     @Authenticated
@@ -220,11 +154,42 @@ public class AppointmentResource {
         return Response.ok(finalReport.persistOrUpdate()).build();
     }
 
-
-
+    /**
+     * @return List of all Articles
+     */
     @GET
     @Path("/article")
     @Authenticated
     public Response getArticles(){return Response.ok(Article.listAll()).build();}
+
+    /**
+     * "Geschäftsleitung" can change the views of orders in the main list.
+     * @param type: Type whether it is a 0. Besucheranmeldung, 1. Fachberateranforderung, 2. Workshopanforderung
+     * @param id: Id von der Anforderung
+     * @return
+     */
+    @GET
+    @Path("/visibility")
+    @Authenticated
+    @Transactional
+    public Response changeVisibility(@QueryParam("type") int type, @QueryParam("id") int id){
+        if(type == 1){
+            CustomerRequirement cr = CustomerRequirement.findById(id);
+            cr.showUser = !cr.showUser;
+            return Response.ok().build();
+        }else if(type == 2){
+            WorkshopRequirement wr = WorkshopRequirement.findById(id);
+            wr.showUser = !wr.showUser;
+            return Response.ok().build();
+        }else if(type == 0){
+            VisitorRegistration vr = VisitorRegistration.findById(id);
+            vr.showUser = !vr.showUser;
+            return Response.ok().build();
+        }
+
+        return Response.notModified().build();
+    }
+
+
 
 }

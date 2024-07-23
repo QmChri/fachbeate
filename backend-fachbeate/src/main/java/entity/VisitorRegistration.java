@@ -1,9 +1,11 @@
 package entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.transaction.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,7 +13,7 @@ import java.util.List;
 
 @Entity
 public class VisitorRegistration extends PanacheEntity {
-
+    public boolean showUser;
     public String releaserManagement;
     public Date releaseManagement;
 
@@ -21,7 +23,10 @@ public class VisitorRegistration extends PanacheEntity {
     public String creator;
     public String lastEditor;
 
+
+
     @ManyToOne
+    @Nullable
     public Representative representative;
     public String reason;
 
@@ -48,12 +53,14 @@ public class VisitorRegistration extends PanacheEntity {
     public Date meetingRoomDate;
     public String meetingRoomTime;
     public int lunchNumber;
-    public Date lunchDate;
+    public Date mealDateFrom;
+    public Date mealDateTo;
     public String lunchTime;
     public int veganMeals;
     public int vegetarianMeals;
     public String otherMealsDescription;
     public int otherMealsNumber;
+
     public Date transferFromDate;
     public Date transferToDate;
     public String otherTravelRequirements;
@@ -81,6 +88,8 @@ public class VisitorRegistration extends PanacheEntity {
     }
 
     public void updateEntity(VisitorRegistration newVisitorRegistration) {
+
+        this.showUser = newVisitorRegistration.showUser;
 
         this.releaserManagement = newVisitorRegistration.releaserManagement;
         this.releaseManagement = newVisitorRegistration.releaseManagement;
@@ -116,19 +125,20 @@ public class VisitorRegistration extends PanacheEntity {
 
 
         this.lunchNumber = newVisitorRegistration.lunchNumber;
-        this.lunchDate = newVisitorRegistration.lunchDate;
+        this.mealDateFrom = newVisitorRegistration.mealDateFrom;
+        this.mealDateTo = newVisitorRegistration.mealDateTo;
         this.lunchTime = newVisitorRegistration.lunchTime;
         this.veganMeals = newVisitorRegistration.veganMeals;
         this.vegetarianMeals = newVisitorRegistration.vegetarianMeals;
         this.otherMealsDescription = newVisitorRegistration.otherMealsDescription;
         this.otherMealsNumber = newVisitorRegistration.otherMealsNumber;
+
         this.transferFromDate = newVisitorRegistration.transferFromDate;
         this.transferToDate = newVisitorRegistration.transferToDate;
         this.otherTravelRequirements = newVisitorRegistration.otherTravelRequirements;
         this.transferFrom = newVisitorRegistration.transferFrom;
         this.transferTo = newVisitorRegistration.transferTo;
 
-        this.hotelBooking = newVisitorRegistration.hotelBooking;
         this.flightBooking = newVisitorRegistration.flightBooking;
         this.trip = newVisitorRegistration.trip;
         this.companyTour = newVisitorRegistration.companyTour;
@@ -151,6 +161,7 @@ public class VisitorRegistration extends PanacheEntity {
         for(Guest guest: newVisitorRegistration.guests){
             this.guests.add(guest.persistOrUpdate());
         }
+
         this.hotelBookings = new ArrayList<>();
         for(HotelBooking hotelBooking: newVisitorRegistration.hotelBookings){
             this.hotelBookings.add(hotelBooking.persistOrUpdate());
@@ -160,11 +171,10 @@ public class VisitorRegistration extends PanacheEntity {
         this.plannedDepartmentVisits = newVisitorRegistration.plannedDepartmentVisits;
     }
 
+    @Transactional
     public VisitorRegistration persistOrUpdate(){
         if(this.id == null || this.id == 0) {
             this.id = null;
-            this.persist();
-
             for (PlannedDepartmentVisit visit : this.plannedDepartmentVisits) {
                 visit = visit.persistOrUpdate();
             }
@@ -176,8 +186,11 @@ public class VisitorRegistration extends PanacheEntity {
                 hotelBooking.persistOrUpdate();
             }
 
-            this.representative.persistOrUpdate();
+            if(this.representative != null) {
+                this.representative.persistOrUpdate();
+            }
 
+            this.persist();
             return this;
         }else{
             VisitorRegistration visitorRegistration = VisitorRegistration.findById(this.id);

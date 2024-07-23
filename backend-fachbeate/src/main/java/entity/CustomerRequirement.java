@@ -12,6 +12,7 @@ import java.util.List;
 @Entity
 public class CustomerRequirement extends PanacheEntity {
 
+    public boolean showUser;
     @ManyToOne
     public Technologist requestedTechnologist;
     public Date startDate;
@@ -53,6 +54,8 @@ public class CustomerRequirement extends PanacheEntity {
 
     @Transactional(Transactional.TxType.REQUIRED)
     public void updateEntity(CustomerRequirement newCustomerRequirement){
+        this.showUser = newCustomerRequirement.showUser;
+
         this.startDate = newCustomerRequirement.startDate;
         this.endDate = newCustomerRequirement.endDate;
         this.releaserManagement = newCustomerRequirement.releaserManagement;
@@ -65,7 +68,6 @@ public class CustomerRequirement extends PanacheEntity {
 
         this.company = newCustomerRequirement.company;
         this.contact = newCustomerRequirement.contact;
-        this.representative = newCustomerRequirement.representative.persistOrUpdate();
         this.furtherNotes = newCustomerRequirement.furtherNotes;
         this.internalNote = newCustomerRequirement.internalNote;
 
@@ -74,14 +76,13 @@ public class CustomerRequirement extends PanacheEntity {
             this.customerVisits.add(visit.persistOrUpdate());
         }
 
-        if(newCustomerRequirement.requestedTechnologist.id != null && newCustomerRequirement.requestedTechnologist.id != 0) {
-            this.requestedTechnologist = Technologist.findById(newCustomerRequirement.requestedTechnologist.id);
-            this.requestedTechnologist.updateEntity(newCustomerRequirement.requestedTechnologist);
-            return;
+        if(newCustomerRequirement.representative != null){
+            this.representative = newCustomerRequirement.representative.persistOrUpdate();
         }
 
-        newCustomerRequirement.requestedTechnologist.persist();
-        this.requestedTechnologist = newCustomerRequirement.requestedTechnologist;
+        if(newCustomerRequirement.requestedTechnologist != null){
+            this.requestedTechnologist = newCustomerRequirement.requestedTechnologist.persistOrUpdate();
+        }
     }
 
 
@@ -95,9 +96,16 @@ public class CustomerRequirement extends PanacheEntity {
                 visit = visit.persistOrUpdate();
             }
 
-            this.representative = this.representative.persistOrUpdate();
-            this.requestedTechnologist = this.requestedTechnologist.persistOrUpdate();
-            this.company = this.company.persistOrUpdate();
+            if(this.representative != null) {
+                this.representative = this.representative.persistOrUpdate();
+            }
+
+            if(this.requestedTechnologist != null) {
+                this.requestedTechnologist = this.requestedTechnologist.persistOrUpdate();
+            }
+            if(this.company != null) {
+                this.company = this.company.persistOrUpdate();
+            }
 
             return this;
         }else{

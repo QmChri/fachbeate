@@ -46,11 +46,8 @@
             max-width: 12rem;
         }
 
-        .smallInputMittagAnz {
-            max-width: 8rem;
-        }
-
-        .smallInputSide {
+        .smallInputSide
+        .nacharbeitSmall {
             max-width: 12rem;
         }
 
@@ -60,22 +57,17 @@
     }
 }
 
-.minheigtCard {
-    min-height: 12.1rem;
-    max-height: 12.5rem;
-}
-
-
 .mainView {
     margin: 1.5rem;
 }
 
-.smallInputMittagAnz {
-    padding-right: 0.5rem;
-}
-
 .smallInputSide {
     max-width: 13.25rem;
+}
+
+.nacharbeitSmall{
+    min-width: 13rem;
+    max-width: 13rem;
 }
 
 .artundnr {
@@ -84,6 +76,12 @@
 
 .paddingBottom {
     padding-bottom: 1rem;
+}
+
+.centerNacharbeit{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 
 ::ng-deep .ant-upload-list {

@@ -19,6 +19,7 @@ import { Company } from '../../../models/company';
 export class AbschlussBerichtListComponent {
   searchValue = '';
   visible = false;
+  showArticles: number[] = [];
   finalReports: FinalReport[] = []
   technologistList: Technologist[] = [];
   listOfDisplayData: DataItem[] = [];
@@ -33,35 +34,47 @@ export class AbschlussBerichtListComponent {
     {
       name: 'visit_date',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.dateOfVisit!.valueOf().toString().localeCompare(b.dateOfVisit!.valueOf().toString()),
+      sortFn: (a: DataItem, b: DataItem) => {
+        if (a.dateOfVisit === null || a.dateOfVisit === undefined) return 1;
+        if (b.dateOfVisit === null || b.dateOfVisit === undefined) return -1;
+        return Date.parse(a.dateOfVisit.toString()) - Date.parse(b.dateOfVisit.toString());
+      },
       listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => true
     },
     {
       name: 'responsible_representative',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.technologist.localeCompare(b.technologist),
+      sortFn: (a: DataItem, b: DataItem) => a.representative.localeCompare(b.representative),
       listOfFilter: [],
-      filterFn: (list: string[], item: DataItem) => list.some(name => item.technologist.indexOf(name) !== -1)
+      filterFn: (list: string[], item: DataItem) => list.some(name => item.representative.indexOf(name) !== -1)
     },
     {
       name: 'to_be_done_by',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.toBeCompletedBy!.valueOf().toString().localeCompare(b.toBeCompletedBy!.valueOf().toString()),
+      sortFn: (a: DataItem, b: DataItem) => {
+        if (a.toBeCompletedBy === null) return 1;
+        if (b.toBeCompletedBy === null) return -1;
+        return a.toBeCompletedBy.getTime() - b.toBeCompletedBy.getTime();
+      },
       listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => true
     },
     {
       name: 'responsible_advisor',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.representative!.localeCompare(b.representative!),
+      sortFn: (a: DataItem, b: DataItem) => a.technologist!.localeCompare(b.technologist!),
       listOfFilter: [],
-      filterFn: (list: string[], item: DataItem) => list.some(name => item.representative.indexOf(name) !== -1)
+      filterFn: (list: string[], item: DataItem) => list.some(name => item.technologist.indexOf(name) !== -1)
     },
     {
       name: 'customer_contacted_on',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.customerContactDate!.valueOf().toString().localeCompare(b.customerContactDate!.valueOf().toString()),
+      sortFn: (a: DataItem, b: DataItem) => {
+        if (a.customerContactDate === null || a.customerContactDate === undefined) return 1;
+        if (b.customerContactDate === null || b.customerContactDate === undefined) return -1;
+        return Date.parse(a.customerContactDate.toString()) - Date.parse(b.customerContactDate.toString());
+      },
       listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => true
     },
@@ -73,7 +86,25 @@ export class AbschlussBerichtListComponent {
       filterFn: (list: string[], item: DataItem) => list.some(name => item.abschlussberichtFinished!.indexOf(name) !== -1)
     },
     {
-      name: 'article',
+      name: 'article_number',
+      sortOrder: null,
+      sortFn: (a: DataItem, b: DataItem) => {
+        // Annahme: Wir vergleichen die Artikelnummern der ersten Elemente in a.article und b.article
+        if(a.article[0]===null || a.article[0] === undefined){
+          return -1;
+        }
+        
+        if(b.article[0]===null || b.article[0] === undefined){
+          return 1;
+        }
+
+        return a.article[0].articleNr!.localeCompare(b.article[0].articleNr!);
+      },
+      listOfFilter: [],
+      filterFn: (list: string[], item: DataItem) => true
+    },
+    {
+      name: 'id',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => 1,
       listOfFilter: [],
@@ -81,7 +112,7 @@ export class AbschlussBerichtListComponent {
     }
   ];
 
-  constructor(private router: Router, private translate: TranslateService,
+  constructor(private router: Router, public translate: TranslateService,
     private http: HttpService, private notificationService: NotificationService,
     private roleService: RoleService, private dialog: MatDialog) { }
 
@@ -121,7 +152,7 @@ export class AbschlussBerichtListComponent {
       }, [] as { text: string, value: string }[]);
 
 
-      this.listOfColumn.find(element => element.name === 'report_completed')!.listOfFilter =
+    this.listOfColumn.find(element => element.name === 'report_completed')!.listOfFilter =
       this.listOfDisplayData.reduce((uniqueFilters, element) => {
         if (!uniqueFilters.some(filter => filter.value === element.abschlussberichtFinished)) {
           uniqueFilters.push({ text: element.abschlussberichtFinished, value: element.abschlussberichtFinished });
@@ -130,11 +161,10 @@ export class AbschlussBerichtListComponent {
       }, [] as { text: string, value: string }[]);
   }
 
-  loadDataPerUser(){
+  loadDataPerUser() {
     this.http.getAllCompany().subscribe({
       next: data => {
         var companies = data;
-
         this.loadData(companies)
       }
     })
@@ -144,13 +174,19 @@ export class AbschlussBerichtListComponent {
     this.loadTechnologists();
     this.http.getAllArticles().subscribe({
       next: data => {
-        this.listOfColumn.find(element => element.name === 'article')!.listOfFilter = data.map(element => { return { text: element.name!, value: element.name! } })
+        this.listOfColumn.find(element => element.name === 'article_number')!.listOfFilter = data.map(element => { return { text: element.name!, value: element.name! } })
       }
     })
 
+    //region set the type of user
     var type = (this.roleService.checkPermission([1, 2, 3, 5, 7]) ? 7 : 6);
+    type = (!this.roleService.checkPermission([1, 2, 4, 5, 6, 7]) ? 3 : type);
     type = (!this.roleService.checkPermission([1, 2, 3, 5, 6, 7]) ? 4 : type);
-    var fullname = (type === 6) ? companies.find(element => element.username === this.roleService.getUserName()!)?.username : this.roleService.getFullName()!;
+    type = (!this.roleService.checkPermission([1,2,5,6,7]) ? 8 : type);
+    //endregion
+
+    //region Get the requirements for an specific user
+    var fullname: string[] = [this.roleService.getUserName()!, this.roleService.getEmail()!];
 
     this.http.getFinalReportsByUser(type, fullname!).subscribe({
       next: data => {
@@ -166,7 +202,7 @@ export class AbschlussBerichtListComponent {
           this.listOfDisplayData = [...this.listOfDisplayData, {
             id: element.id!,
             company: (element.company!) ? element.company : "<Leer>",
-            dateOfVisit: (element.dateOfVisit!) ? element.dateOfVisit : undefined!,
+            dateOfVisit: (element.dateOfVisit!) ? element.dateOfVisit : null!,
             technologist: element.technologist!.firstName + " " + element.technologist!.lastName,
             toBeCompletedBy: element.doneUntil!,
             representative: element.representative!.firstName + " " + element.representative!.lastName,
@@ -181,6 +217,8 @@ export class AbschlussBerichtListComponent {
         console.log(err);
       }
     })
+    //endregion
+
   }
 
   loadTechnologists() {
@@ -193,16 +231,17 @@ export class AbschlussBerichtListComponent {
   }
 
   openDialog(dataItem: DataItem) {
+    //region Opening the Final Report Popup
     const dialogRef = this.dialog.open(AbschlussBerichtComponent, {
       height: '42.5rem',
       width: '80rem',
       data: this.finalReports.find(element => element.id === dataItem.id)
     });
+    // endregion
 
     dialogRef.afterClosed().subscribe(
       data => {
-        console.log(data);
-
+        //region When the popup is closed, this data is transferred
         if (data.save) {
           this.http.postFinalReport(data.finalReport).subscribe({
             next: finalRep => {
@@ -212,7 +251,7 @@ export class AbschlussBerichtListComponent {
                 company: (finalRep.company!) ? finalRep.company : "<Leer>",
                 dateOfVisit: (finalRep.dateOfVisit!) ? finalRep.dateOfVisit : undefined!,
                 technologist: finalRep.technologist!.firstName + " " + finalRep.technologist!.lastName,
-                toBeCompletedBy: finalRep.reworkByRepresentativeDoneUntil!,
+                toBeCompletedBy: finalRep.doneUntil!,
                 representative: finalRep.representative!.firstName + " " + finalRep.representative!.lastName,
                 customerContactDate: finalRep.customerContactDate!,
                 abschlussberichtFinished: (finalRep.requestCompleted) ? "Ja" : "Nein",
@@ -227,6 +266,7 @@ export class AbschlussBerichtListComponent {
             }
           });
         }
+        // endregion
       });
 
   }
@@ -257,11 +297,19 @@ export class AbschlussBerichtListComponent {
     ));
   }
 
-  getArticleListName(article: Article[]) {
+  getArticleListName(article: Article[], id: number) {
     if (article.length === 0) {
       return "<Leer>"
     }
-    return article.map(element => element.name).toString().substring(0, 30)
+    if(this.showArticles.includes(id)){
+      return article.map(element => element.articleNr);
+    }
+    var returnValue: string = article.map(element => element.articleNr).toString().substring(0, 14);    
+    return returnValue + ((returnValue.length == 14)?"...":"")
+  }
+
+  disableShow(id: number){
+    this.showArticles = this.showArticles.filter(element => element !== id);
   }
 
   /*

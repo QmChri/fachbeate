@@ -1,27 +1,27 @@
 <div class="table-operations header">
   <div>
-    <h1 class="paddingSearch">{{'MAIN_LIST.overview_requirements_registrations' | translate}}</h1>
+    <h1 class="paddingSearch">{{'NAV.MAIN-LIST' | translate}}</h1>
   </div>
   <div>
     <nz-filter-trigger class="paddingSearch" [(nzVisible)]="visible" [nzActive]="searchValue.length > 0"
       [nzDropdownMenu]="menu">
       <i class="fa fa-search"></i>
     </nz-filter-trigger>
-    <button class="btn btn-secondary" (click)="resetSortAndFilters()">{{"MAIN_LIST.reset_filter_sorting"| translate}}</button>
+    <button class="btn btn-secondary" (click)="resetSortAndFilters()">{{"MAIN_LIST.reset_filter_sorting"|
+      translate}}</button>
   </div>
 </div>
 <hr>
 
-<nz-table #nzTable nzBordered [nzPageSize]="10" nzShowSizeChanger  nzTableLayout="auto" [nzSize]="'small'" [nzData]="listOfDisplayData">
+<nz-table #nzTable nzBordered [nzPageSize]="20" nzShowSizeChanger [nzSize]="'small'" [nzTableLayout]="'auto'"
+  [nzData]="listOfDisplayData">
   <thead>
     <tr>
-      <th [nzSortFn]="listOfColumn[0].sortFn" [(nzSortOrder)]="listOfColumn[0].sortOrder"
-        [nzFilters]="listOfColumn[0].listOfFilter" [nzFilterFn]="listOfColumn[0].filterFn!">
-        {{'MAIN_LIST.'+listOfColumn[0].name|
-        translate}}</th>
+      <th>
+        {{'CREATION_SITES.'+listOfColumn[0].name | translate}}
+      </th>
       <th [nzSortFn]="listOfColumn[1].sortFn" [(nzSortOrder)]="listOfColumn[1].sortOrder">
-        {{'MAIN_LIST.'+listOfColumn[1].name|
-        translate}}</th>
+        {{'MAIN_LIST.'+listOfColumn[1].name| translate}}</th>
       <th [nzSortFn]="listOfColumn[2].sortFn" [(nzSortOrder)]="listOfColumn[2].sortOrder"
         [nzFilters]="listOfColumn[2].listOfFilter" [nzFilterFn]="listOfColumn[2].filterFn!">
         {{'MAIN_LIST.'+listOfColumn[2].name|
@@ -43,29 +43,28 @@
         [nzFilters]="listOfColumn[7].listOfFilter" [nzFilterFn]="listOfColumn[7].filterFn!">
         {{'MAIN_LIST.'+listOfColumn[7].name|
         translate}}</th>
-      <th [nzSortFn]="listOfColumn[8].sortFn" [(nzSortOrder)]="listOfColumn[8].sortOrder"
-        [nzFilters]="listOfColumn[8].listOfFilter" [nzFilterFn]="listOfColumn[8].filterFn!">
+      <th [nzSortFn]="listOfColumn[8].sortFn" [(nzSortOrder)]="listOfColumn[8].sortOrder">
         {{'MAIN_LIST.'+listOfColumn[8].name|
         translate}}</th>
       <th [nzSortFn]="listOfColumn[9].sortFn" [(nzSortOrder)]="listOfColumn[9].sortOrder"
         [nzFilters]="listOfColumn[9].listOfFilter" [nzFilterFn]="listOfColumn[9].filterFn!">
         {{'MAIN_LIST.'+listOfColumn[9].name|
         translate}}</th>
-      <th *ngIf="roleService.checkPermission([1,2,7])">Aktiv/Inaktiv</th>
+      <th *ngIf="roleService.checkPermission([1,2,7])"></th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let data of nzTable.data">
-      <td (dblclick)="openCRC(data,data.id!, data.type!)">{{data.name}}</td>
-      <td (dblclick)="openCRC(data,data.id!, data.type!)">{{ data.dateOfCreation!.toString() | date:'dd.MM.yy' }}</td>
+      <td (dblclick)="openCRC(data,data.id!, data.type!)">{{data.id}}</td>
+      <td (dblclick)="openCRC(data,data.id!, data.type!)">{{ (data.dateOfCreation !== '\<Leer\>')?(data.dateOfCreation | date:'dd.MM.yy'):'\<Leer\>' }}</td>
       <td (dblclick)="openCRC(data,data.id!, data.type!)">{{ data.customerOrCompany }}</td>
       <td (dblclick)="openCRC(data,data.id!, data.type!)">
-        <span style="display: flex;
-        flex-direction: row;
-        justify-content: center;" *ngIf="data.status === 'Freigegeben'" class="text-success">&#10004;</span>
-        <span style="display: flex;
-        flex-direction: row;
-        justify-content: center;" *ngIf="data.status === 'Nicht-Freigegeben'" class="text-danger">&#10008;</span>
+        <div class="freigabe">
+          <span *ngIf="data.statusAL === 'AL Freigegeben '" class="text-success centerTD">&#10004;</span>
+          <span *ngIf="data.statusAL === 'AL Nicht-Freigegeben'" class="text-danger centerTD">&#10008;</span>
+          <span *ngIf="data.statusGL === 'GL Freigegeben '" class="text-success centerTD">&#10004;</span>
+          <span *ngIf="data.statusGL === 'GL Nicht-Freigegeben'" class="text-danger centerTD">&#10008;</span>
+        </div>
       </td>
       <td (dblclick)="openCRC(data,data.id!, data.type!)">{{ data.vertreter }}</td>
       <td (dblclick)="openCRC(data,data.id!, data.type!)">{{ data.fachberater }}</td>
@@ -73,12 +72,12 @@
         data.timespan!.end! | date:'dd.MM.yy' }}</td>
       <td (dblclick)="openCRC(data,data.id!, data.type!)">{{ data.customer }}</td>
       <td (dblclick)="openCRC(data,data.id!, data.type!)">{{data.abschlussbericht }}</td>
-      <td>
-        <span>{{ ((data.type === 0) ? 'MAIN_LIST.advisor_type' : (data.type === 1) ? 'MAIN_LIST.seminar':
+      <td (dblclick)="openCRC(data,data.id!, data.type!)">
+        <span>{{ ((data.type === 1) ? 'MAIN_LIST.advisor_type' : (data.type === 2) ? 'MAIN_LIST.seminar':
           'MAIN_LIST.visit') | translate }}</span>
       </td>
-      <td style="display: flex; flex-direction: row; justify-content: space-around" *ngIf="roleService.checkPermission([1,2,7])">
-        <button class="btn btn-success" (click)="changeEditable(data)">
+      <td *ngIf="roleService.checkPermission([1,2,7])" style="padding-bottom: 0px;padding-top: 0px;">
+        <button nz-button nzType="primary" (click)="changeEditable(data)">
           <div *ngIf="data.visible; else notVisible">
             <i class="fas fa-eye"></i>
           </div>
@@ -94,7 +93,8 @@
   <div class="ant-table-filter-dropdown">
     <div class="search-box">
       <input type="text" nz-input [placeholder]="'MAIN_LIST.search' | translate" [(ngModel)]="searchValue" />
-      <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">{{"MAIN_LIST.search" | translate}}</button>
+      <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">{{"MAIN_LIST.search" |
+        translate}}</button>
       <button nz-button nzSize="small" (click)="resetSortAndFilters()">{{"MAIN_LIST.reset" | translate}}</button>
     </div>
   </div>

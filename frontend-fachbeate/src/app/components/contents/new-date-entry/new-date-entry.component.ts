@@ -28,7 +28,7 @@ export class NewDateEntryComponent implements OnInit {
   inputDate: TechnologistAppointment = {};
   technologists: Technologist[] = [];
 
-  constructor(private translate: TranslateService, public dialogRef: MatDialogRef<AbschlussBerichtComponent>,
+  constructor(public translate: TranslateService, public dialogRef: MatDialogRef<AbschlussBerichtComponent>,
     @Inject(MAT_DIALOG_DATA) public timeSpan: TechnologistAppointment,
     private http: HttpService, private notificationService: NotificationService
   ) {
@@ -71,17 +71,29 @@ export class NewDateEntryComponent implements OnInit {
   }
 
   save() {
-    if (this.inputDate.requestedTechnologist === undefined || this.inputDate.reason === undefined) {
-      this.translate.get(['STANDARD.please_fill_required_fields', 'STANDARD.assigned_consultant']).subscribe(translations => {
+
+    var requiredFields: string[] = [
+      (this.inputDate.requestedTechnologist === null || this.inputDate.requestedTechnologist === undefined)?"assigned_technologist":"",
+      (this.inputDate.reason === null || this.inputDate.reason === undefined)?"assigned_reason":"",
+      (this.inputDate.startDate === null || this.inputDate.startDate === undefined)?"assigned_from":"",
+      (this.inputDate.endDate === null || this.inputDate.endDate === undefined)?"assigned_to":"",
+      ].filter(element => element !== "");
+
+    if (requiredFields.length !== 0) {
+      this.translate.get(['STANDARD.please_fill_required_fields', ...requiredFields.map(element => "STANDARD."+element)]).subscribe(translations => {
         const message = translations['STANDARD.please_fill_required_fields'];
-        const anotherMessage = translations['STANDARD.assigned_consultant'];
+        const anotherMessage = requiredFields.map(element => translations["STANDARD."+element]).toString();
         this.notificationService.createBasicNotification(4, message, anotherMessage, 'topRight');
       });
     }
     else {
       this.translate.get('STANDARD.new_entry_created').subscribe((translatedMessage: string) => {
-        this.notificationService.createBasicNotification(0, translatedMessage, 'für ' + this.inputDate.requestedTechnologist!.firstName + this.inputDate.requestedTechnologist!.lastName, 'topRight');
+        this.notificationService.createBasicNotification(0, translatedMessage, 'für ' + this.inputDate.requestedTechnologist!.firstName + " " + this.inputDate.requestedTechnologist!.lastName, 'topRight');
       });
+
+      this.inputDate.startDate!.setHours(5);
+      this.inputDate.endDate!.setHours(5);
+
       this.http.postOtherDate(this.inputDate).subscribe({
         next: data => {
           this.closeDialog();

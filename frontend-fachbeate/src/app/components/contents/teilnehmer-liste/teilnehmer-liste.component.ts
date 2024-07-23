@@ -14,7 +14,7 @@ export class TeilnehmerListeComponent implements OnInit {
   editId: number | null = null;
   listOfData: Guest[] = [];
 
-  constructor(private translate: TranslateService,
+  constructor(public translate: TranslateService,
     public dialogRef: MatDialogRef<TeilnehmerListeComponent>, private notificationService: NotificationService,
     @Inject(MAT_DIALOG_DATA) public guests: Guest[]
   ) {
@@ -57,19 +57,15 @@ export class TeilnehmerListeComponent implements OnInit {
 
   closeDialog(save: boolean) {
     if (save) {
-      if (this.listOfData.some(item => (!item.sex || !item.firstName || !item.lastName || !item.function))) {
+      if (this.listOfData.length === 0||this.listOfData.some(item => (!item.sex || !item.firstName || !item.lastName || !item.function))) {
         this.translate.get(['STANDARD.please_fill_required_fields', 'STANDARD.sex_first_name_last_name']).subscribe(translations => {
           const message = translations['STANDARD.please_fill_required_fields'];
           const anotherMessage = translations['STANDARD.sex_first_name_last_name'];
           this.notificationService.createBasicNotification(4, message, anotherMessage, 'topRight');
         });
       } else {
-        if (this.listOfData.length === 0) {
-          this.translate.get('STANDARD.no_participants_added').subscribe((translatedMessage: string) => {
-            this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
-          });
-        }
-        else {
+        
+         if(this.listOfData.length !== 0) {
           this.translate.get('STANDARD.participants_added').subscribe((translatedMessage: string) => {
             this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
           });

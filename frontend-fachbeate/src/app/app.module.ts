@@ -65,6 +65,8 @@ import { NzColorPickerModule } from 'ng-zorro-antd/color-picker';
 import { BookingRequestComponent } from './components/contents/booking-request/booking-request.component';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
+
 
 @NgModule({
   declarations: [
@@ -109,6 +111,7 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
     MatFormFieldModule,
     NzSelectModule,
     MatInputModule,
+    NzUploadModule,
     MatExpansionModule,
     ScrollingModule,
     MatTabsModule,

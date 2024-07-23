@@ -14,16 +14,25 @@ export class CreateTechnologistComponent implements OnInit {
     id: 0,
     firstName: "",
     lastName: "",
+    email: "",
     active: true,
     color: "#ff0000"
   }
   technologistList: Technologist[] = [];
+  letters = '0123456789ABCDEF';
 
-  constructor(private translate: TranslateService, private http: HttpService, private notificationService: NotificationService) { }
+  constructor(public translate: TranslateService, private http: HttpService, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.loadTechnologists();
   }
+
+  getRandomColor() {
+    this.inputTechnologist.color = '#';
+    for (var i = 0; i < 6; i++) {
+        this.inputTechnologist.color += this.letters[Math.floor(Math.random() * 16)];
+    }
+}
 
   loadTechnologists() {
     this.http.getAllTechnologist().subscribe({
@@ -55,6 +64,7 @@ export class CreateTechnologistComponent implements OnInit {
             id: 0,
             firstName: "",
             lastName: "",
+            email: "",
             active: true,
             color: "#000000"
           }
@@ -74,6 +84,7 @@ export class CreateTechnologistComponent implements OnInit {
       id: 0,
       firstName: "",
       lastName: "",
+      email: "",
       active: true,
       color: ""
     }
@@ -81,9 +92,10 @@ export class CreateTechnologistComponent implements OnInit {
 
   editRow(id: number, type: number) {
     const technologist: Technologist = this.technologistList.find(element => element.id === id)!;
-    this.inputTechnologist.firstName = technologist.firstName;
     this.inputTechnologist.id = technologist.id;
+    this.inputTechnologist.firstName = technologist.firstName;
     this.inputTechnologist.lastName = technologist.lastName;
+    this.inputTechnologist.email = technologist.email;
     this.inputTechnologist.active = technologist.active;
     this.inputTechnologist.color = technologist.color;
   }

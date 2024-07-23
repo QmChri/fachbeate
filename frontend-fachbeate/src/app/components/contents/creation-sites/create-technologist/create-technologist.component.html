@@ -18,18 +18,28 @@
                     <mat-label>{{'CREATION_SITES.last_name' | translate}}</mat-label>
                     <input required matInput type="text" [(ngModel)]="inputTechnologist.lastName" name="lastName">
                 </mat-form-field>
+                <mat-form-field class="smallInput">
+                    <mat-label>{{'CREATION_SITES.email' | translate}}</mat-label>
+                    <input required matInput type="text" [(ngModel)]="inputTechnologist.email" name="email">
+                </mat-form-field>
                 <div class="displayBySide">
                     <label class="languageBox">{{'CREATION_SITES.calendar_color' | translate}}
-                        <nz-color-picker id="color" [(ngModel)]="inputTechnologist.color"></nz-color-picker>
+                        <div class="displayBySide">
+                            <nz-color-picker id="color" [(ngModel)]="inputTechnologist.color"></nz-color-picker>
+                            <button style="margin-left: 0.5rem;" nz-button nzType="primary" [nzSize]="'small'" (click)="getRandomColor()">
+                                <i class="fas fa-sync"></i>
+                            </button>
+                        </div>
                     </label>
                     <label class="languageBox">{{'CREATION_SITES.active' | translate}}
                         <mat-checkbox color="warn" [(ngModel)]="inputTechnologist.active"></mat-checkbox>
                     </label>
+
                 </div>
                 <div class="displayBySide">
                     <button class="btn btn-danger" matTooltip="{{'DASHBOARD.cancel' | translate}}"
                         [hidden]="inputTechnologist.id===0" (click)="cancelEdit()"><i class="fa fa-times"></i></button>
-                    <button class="btn btn-success" matTooltip="{{'DASHBOARD.save' | translate}}"
+                    <button class="btn btn-success" matTooltip="{{'STANDARD.save' | translate}}"
                         (click)="postTechnologist()"><i class="fa fa-save"></i></button>
                 </div>
             </div>
@@ -47,7 +57,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr matTooltip="{{'CUSTOMER_REQUIREMENTS.edit' | translate}}"
+                <tr matTooltip="{{'CREATION_SITES.click_to_edit' | translate}}"
                     *ngFor="let technologist of editRowTable.data" (click)="editRow(technologist.id!, 0)">
                     <td>{{technologist.id}}</td>
                     <td>{{technologist.firstName}}</td>

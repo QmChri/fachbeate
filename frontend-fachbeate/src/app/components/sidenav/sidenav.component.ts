@@ -52,7 +52,7 @@ export class SidenavComponent implements OnInit {
   multiple: boolean = false;
   currentUrl = "";
 
-  constructor(private notificationService: NotificationService, private translate: TranslateService, private readonly keycloak: KeycloakService,
+  constructor(private notificationService: NotificationService, public translate: TranslateService, private readonly keycloak: KeycloakService,
     public roleService: RoleService) {
     this.translate.addLangs(['en', 'de','ru']);
   }

@@ -5,7 +5,8 @@ import { Representative } from "./representative";
 
 export interface VisitorRegistration {
     id?: number;
-    dateOfCreation?: Date;
+    
+    showUser?: boolean;
 
     name?: string;
     inputReason?: string;
@@ -43,7 +44,8 @@ export interface VisitorRegistration {
     hotelBookings: Hotelbooking[]
 
     lunchNumber?: number;
-    lunchDate?: Date;
+    mealDateFrom?: Date;
+    mealDateTo?: Date;
     lunchTime?: string;
     veganMeals?: number;
     vegetarianMeals?: number;

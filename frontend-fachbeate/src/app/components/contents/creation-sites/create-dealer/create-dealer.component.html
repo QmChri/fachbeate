@@ -13,7 +13,7 @@
                 <div class="center-items">
                     <div class="displayBySide">
                         <mat-form-field class="smallInput">
-                            <mat-label>{{'CREATION_SITES.first_name' | translate}}</mat-label>
+                            <mat-label>{{'MAIN_LIST.company_name' | translate}}</mat-label>
                             <input required matInput type="text" [(ngModel)]="inputCompany.name" name="companyName">
                         </mat-form-field>
                         
@@ -49,7 +49,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr matTooltip="{{'CUSTOMER_REQUIREMENTS.edit' | translate}}" *ngFor="let company of editRowTable.data"
+                <tr matTooltip="{{'CREATION_SITES.click_to_edit' | translate}}" *ngFor="let company of editRowTable.data"
                     (click)="editRow(company.id!)">
                     <td>{{company.id}}</td>
                     <td>{{company.name}}</td>

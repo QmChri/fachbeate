@@ -14,7 +14,7 @@ export class AuthService {
       return true
     } else {
       this.router.navigate(['/not-found'])
-      return false;
+      return true;
     }
   }
 

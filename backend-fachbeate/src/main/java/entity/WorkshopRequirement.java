@@ -12,6 +12,7 @@ import java.util.List;
 public class WorkshopRequirement extends PanacheEntity {
 
 
+    public boolean showUser;
     @ManyToMany
     public List<Technologist> requestedTechnologist;
     public Date startDate;
@@ -40,6 +41,9 @@ public class WorkshopRequirement extends PanacheEntity {
     @ManyToOne
     public Company company;
     public String customer;
+
+    @OneToMany
+    public List<HotelBooking> hotelBookings;
 
     public int amountParticipants;
     public String travelFrom;
@@ -77,7 +81,8 @@ public class WorkshopRequirement extends PanacheEntity {
     //Meal
     public boolean meal;
     public int mealAmount;
-    public Date mealDate;
+    public Date mealDateFrom;
+    public Date mealDateTo;
     public String mealTime;
 
     public int mealWishesVegan;
@@ -98,6 +103,10 @@ public class WorkshopRequirement extends PanacheEntity {
     }
 
     public void updateEntity(WorkshopRequirement newEntity){
+        this.showUser = newEntity.showUser;
+        this.lastEditor = newEntity.lastEditor;
+        this.creator = newEntity.creator;
+
         this.startDate = newEntity.startDate;
         this.endDate = newEntity.endDate;
         this.releaserManagement = newEntity.releaserManagement;
@@ -107,10 +116,10 @@ public class WorkshopRequirement extends PanacheEntity {
         this.hotelBooking = newEntity.hotelBooking;
         this.flightBooking = newEntity.flightBooking;
         this.reason = newEntity.reason;
-        this.representative = newEntity.representative.persistOrUpdate();
 
         this.subject = newEntity.subject;
         this.company = newEntity.company;
+        this.customer = newEntity.customer;
         this.amountParticipants = newEntity.amountParticipants;
         this.travelFrom = newEntity.travelFrom;
         this.travelType = newEntity.travelType;
@@ -141,49 +150,71 @@ public class WorkshopRequirement extends PanacheEntity {
         this.tripTime = newEntity.tripTime;
         this.tripLocation = newEntity.tripLocation;
         this.otherTripRequests = newEntity.otherTripRequests;
+
+        this.meal = newEntity.meal;
         this.mealAmount = newEntity.mealAmount;
-        this.mealDate = newEntity.mealDate;
+        this.mealDateFrom = newEntity.mealDateFrom;
+        this.mealDateTo = newEntity.mealDateTo;
         this.mealTime = newEntity.mealTime;
         this.mealWishesVegan = newEntity.mealWishesVegan;
         this.mealWishesVegetarian = newEntity.mealWishesVegetarian;
+
         this.otherMealWishes = newEntity.otherMealWishes;
         this.otherMealWishesAmount = newEntity.otherMealWishesAmount;
         this.customerPresent = newEntity.customerPresent;
         this.diploma = newEntity.diploma;
         this.otherRequests = newEntity.otherRequests;
 
-        this.requestedTechnologist = new ArrayList<>();
+        this.company = newEntity.company.persistOrUpdate();
 
+        this.requestedTechnologist = new ArrayList<>();
         for(Technologist tech : newEntity.requestedTechnologist){
             this.requestedTechnologist.add(tech.persistOrUpdate());
         }
-        this.company = newEntity.company.persistOrUpdate();
+
+        this.hotelBookings = new ArrayList<>();
+        for(HotelBooking hotelBooking: newEntity.hotelBookings){
+            this.hotelBookings.add(hotelBooking.persistOrUpdate());
+        }
 
         this.guests = new ArrayList<>();
         for(Guest guest: newEntity.guests){
             this.guests.add(guest.persistOrUpdate());
         }
+
+        this.representative = newEntity.representative.persistOrUpdate();
+
     }
 
     public WorkshopRequirement persistOrUpdate(){
+
         if(this.id != null && this.id != 0){
             WorkshopRequirement persisted = WorkshopRequirement.findById(this.id);
             persisted.updateEntity(this);
             return persisted;
         }
-        this.persist();
 
-        this.representative = this.representative.persistOrUpdate();
+        if(this.company != null) {
+            this.company = this.company.persistOrUpdate();
+        }
+
+        if(this.representative != null) {
+            this.representative = this.representative.persistOrUpdate();
+        }
 
         for(Technologist tech : this.requestedTechnologist){
             tech.persistOrUpdate();
+        }
+
+        for(HotelBooking hb: this.hotelBookings){
+            hb.persistOrUpdate();
         }
 
         for(Guest guest: this.guests){
             guest.persistOrUpdate();
         }
 
-        this.company = this.company.persistOrUpdate();
+        this.persist();
 
         return this;
     }

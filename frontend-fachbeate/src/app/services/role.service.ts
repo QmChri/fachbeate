@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { KeycloakService } from 'keycloak-angular';
 import { KeycloakProfile } from 'keycloak-js';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -63,15 +64,20 @@ export class RoleService {
       .some(roleId => requiredRoles.includes(roleId!));
   }
 
+  getAllUser(){
+
+  }
+
   getPermissions() {
     return this.roles;
   }
 
-  getFullName() {
-    return this.userProfile!.firstName + ";" + this.userProfile!.lastName
+  getEmail(){
+    //return "none";
+    return this.userProfile!.email;
   }
-
   getUserName() {
+    //return "none"
     return this.userProfile!.username;
   }
 
