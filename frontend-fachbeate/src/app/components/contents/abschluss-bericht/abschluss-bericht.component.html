@@ -1,8 +1,13 @@
 <div style="background-color: #f4f4f4;">
     <div class="mainView">
+        <div class="header">
+            <div>
+                <h1 class="paddingSearch">{{"MAIN_LIST.final_report" | translate}}</h1>
+            </div>
+        </div>
         <div class="displayBySide">
             <h1 style="margin-bottom: 0px;">{{"MAIN_LIST.final_report" | translate}}</h1>
-            <nz-upload [nzFileType]="'image/png,image/jpg,image/heif,application/pdf'" 
+            <nz-upload [nzFileType]="'image/png,image/jpg,image/heif,application/pdf'"
             [nzBeforeUpload]="beforeUpload" [nzFileList]="fileList">
                 <button nzType="primary" nz-button>
                     <span nz-icon nzType="upload"></span>
@@ -58,6 +63,8 @@
                                         }
                                     </mat-select>
                                     @if (control.hasError('required')) {
+                                    <!--TODO
+                                    @if (tohaControl.hasError('required')) {
                                     <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
                                     }
                                 </mat-form-field>
@@ -192,8 +199,8 @@
                                     <mat-select [disabled]="roleService.checkPermission([6])" required
                                         [placeholder]="'STANDARD.please_select' | translate"
                                         [(ngModel)]="inputFinalReport.reworkByTechnologist" name="reworkByTechnologist">
-                                        <mat-option [value]="true">{{"SEMINAR_REGRISTRATION.yes"
-                                            |translate}}</mat-option>
+                                        <mat-option [value]="true">{{"SEMINAR_REGRISTRATION.yes" |
+                                            translate}}</mat-option>
                                         <mat-option [value]="false">{{"SEMINAR_REGRISTRATION.no" |
                                             translate}}</mat-option>
                                     </mat-select>
@@ -249,7 +256,8 @@
             </div>
             <div class="col-md-2 paddingBottom">
                 <div class="card">
-                    <div class="card-header text-white bg-danger">{{"ABSCHLUSSBERICHT.report_by_reason" | translate}}
+                    <div class="card-header text-white bg-danger">{{"ABSCHLUSSBERICHT.report_by_reason" |
+                        translate}}
                     </div>
                     <mat-button-toggle-group [disabled]="roleService.checkPermission([6])" [ngModel]="multiSelect"
                         (change)="changeSelections($event)" vertical multiple>
@@ -267,7 +275,8 @@
             <ng-container *ngFor="let reasonReport of inputFinalReport.reasonReports">
                 <div class="col-md-4 paddingBottom" *ngIf="reasonReport.reason === 1">
                     <div class="card" hideToggle>
-                        <div class="card-header bg-danger text-white">{{"ABSCHLUSSBERICHT.introduction" | translate}}
+                        <div class="card-header bg-danger text-white">{{"ABSCHLUSSBERICHT.introduction" |
+                            translate}}
                         </div>
                         <div class="card-body">
                             <mat-form-field class="smallInput">
@@ -310,7 +319,8 @@
                 </div>
                 <div class="col-md-4 paddingBottom" *ngIf="reasonReport.reason === 2">
                     <div class="card" hideToggle>
-                        <div class="card-header bg-danger text-white">{{"ABSCHLUSSBERICHT.problem_solving" | translate}}
+                        <div class="card-header bg-danger text-white">{{"ABSCHLUSSBERICHT.problem_solving" |
+                            translate}}
                         </div>
                         <div class="card-body">
                             <mat-form-field class="smallInput">
@@ -353,7 +363,8 @@
                 </div>
                 <div class="col-md-4 paddingBottom" *ngIf="reasonReport.reason === 3">
                     <div class="card" hideToggle>
-                        <div class="card-header bg-danger text-white">{{"CUSTOMER_REQUIREMENTS.recipe_optimization" |
+                        <div class="card-header bg-danger text-white">{{"CUSTOMER_REQUIREMENTS.recipe_optimization"
+                            |
                             translate}}</div>
                         <div class="card-body">
                             <mat-form-field class="smallInput">
@@ -439,15 +450,32 @@
                 </div>
             </ng-container>
         </div>
+        <div class="row">
+            <div class="col-md-12 paddingBottom">
+                <div class="card">
+                    <div class="card-header text-white bg-danger">{{"Datei Ablage" | translate}}</div>
+                    <div class="card-body">
+                        <nz-upload [nzFileList]="fileList" [nzBeforeUpload]="beforeUpload" [nzLimit]="10"
+                            [nzMultiple]="true" [nzShowUploadList]="true" [nzShowButton]="fileList.length < 10"
+                            [nzListType]="'picture-card'" (nzChange)="handleChange($event)">
+                            <button *ngIf="fileList.length <= 10" nz-button>
+                                <i nz-icon nzType="upload"></i> Upload
+                            </button>
+                        </nz-upload>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="header">
             <div> <button (click)="closeDialog(false)" class="btn btn-secondary">{{"DASHBOARD.cancel" |
                     translate}}</button></div>
             <div>
-                <button *ngIf="(inputFinalReport.creator === undefined && roleService.checkPermission([3,4,6])) 
+                <button *ngIf="(inputFinalReport.creator === undefined && roleService.checkPermission([3,4,6]))
                 || (!inputFinalReport.representativeEntered && roleService.checkPermission([3]))
                 || (!inputFinalReport.technologistEntered && roleService.checkPermission([4]))
                 || (roleService.checkPermission([1,2,5,7]))" (click)="closeDialog(true)" class="btn btn-success">
-                    {{"STANDARD.save" | translate}}
+                    {{"STANDARD.save" |
+                    translate}}
                 </button>
             </div>
         </div>

@@ -2,7 +2,7 @@ import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { BodyComponent } from './components/body/body.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { CalendarComponent } from './components/calendar/calendar.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
@@ -62,6 +62,9 @@ import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { initializer } from './initializer.service';
 import { NzColorPickerModule } from 'ng-zorro-antd/color-picker';
+import { BookingRequestComponent } from './components/contents/booking-request/booking-request.component';
+import { NzProgressModule } from 'ng-zorro-antd/progress';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 
 
@@ -71,7 +74,7 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
     BodyComponent,
     SidenavComponent,
     SublevelMenuComponent,
-    DashboardComponent,
+    CalendarComponent,
     CustomerRequirementsComponent,
     SeminarRegistrationComponent,
     MainListComponent,
@@ -83,6 +86,8 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
     TeilnehmerListeComponent,
     CreateRepresentativeComponent,
     CreateDealerComponent,
+    BookingRequestComponent,
+    CalendarComponent
   ],
   imports: [
     MatTooltipModule,
@@ -123,6 +128,8 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
     CommonModule,
     MatOptionModule,
     NzEmptyModule,
+    NzProgressModule,
+    NzUploadModule,
     MatButtonToggleModule,
     FullCalendarModule,
     MatIconModule,

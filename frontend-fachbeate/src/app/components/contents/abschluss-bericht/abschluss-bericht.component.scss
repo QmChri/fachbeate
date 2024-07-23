@@ -83,3 +83,22 @@
     flex-direction: row;
     justify-content: center;
 }
+
+::ng-deep .ant-upload-list {
+    display: flex;
+}
+
+:host ::ng-deep .upload-list-inline .ant-upload-list-item {
+    float: left;
+    width: 200px;
+    margin-right: 8px;
+  }
+  :host ::ng-deep .upload-list-inline [class*='-upload-list-rtl'] .ant-upload-list-item {
+    float: right;
+  }
+  :host ::ng-deep .upload-list-inline .ant-upload-animate-enter {
+    animation-name: uploadAnimateInlineIn;
+  }
+  :host ::ng-deep .upload-list-inline .ant-upload-animate-leave {
+    animation-name: uploadAnimateInlineOut;
+  }

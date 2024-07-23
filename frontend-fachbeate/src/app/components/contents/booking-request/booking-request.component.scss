@@ -1,0 +1,72 @@
+.center-items {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+}
+
+.paddingSearch {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.displayBySide {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+@media (max-width: 1600px) {
+    .displayBySide {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        flex-wrap: nowrap;
+
+        .flightBookingInput{
+            min-width: 15rem;
+            max-width: 15rem;
+        }
+
+        .smallInputSide {
+            min-width: 18.5rem;
+            max-width: 18.5rem;
+
+        }
+    }
+}
+
+.smallInputSide {
+    min-width: 21.5rem;
+    max-width: 21.5rem;
+}
+
+.flightBookingInput{
+    min-width: 19rem;
+    max-width: 19rem;
+}
+
+.paddingBottom {
+    padding-bottom: 1rem;
+}
+
+.TIME {
+    max-width: 7rem;
+}

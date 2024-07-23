@@ -166,7 +166,7 @@ export class DashboardComponent implements OnInit {
 
     this.http.getOtherAppointmentByUser(type, fullname!).subscribe({
       next: data => {
-        
+
         if(data === null ||data === undefined){
           return
         }
@@ -193,7 +193,7 @@ export class DashboardComponent implements OnInit {
         console.log(err);
       }
     })
-    
+
   }
   handleSelect(clickInfo: any) {
     this.openDialog({ startDate: new Date(clickInfo.startStr), endDate: new Date(clickInfo.endStr) })
