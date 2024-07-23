@@ -11,11 +11,11 @@ import { RoleService } from '../../services/role.service';
 import { Company } from '../../models/company';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss'
+  selector: 'calendar',
+  templateUrl: './calendar.component.html',
+  styleUrl: './calendar.component.scss'
 })
-export class DashboardComponent implements OnInit {
+export class CalendarComponent implements OnInit {
   requiredRoles = [1, 2, 4, 5,7];
   calendarEvnts: CalendarEvent[] = [];
 

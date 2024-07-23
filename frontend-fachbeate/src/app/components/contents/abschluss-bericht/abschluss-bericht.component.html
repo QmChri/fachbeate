@@ -1,19 +1,7 @@
 <div style="background-color: #f4f4f4;">
     <div class="mainView">
         <div class="header">
-            <div>
-                <h1 class="paddingSearch">{{"MAIN_LIST.final_report" | translate}}</h1>
-            </div>
-        </div>
-        <div class="displayBySide">
-            <h1 style="margin-bottom: 0px;">{{"MAIN_LIST.final_report" | translate}}</h1>
-            <nz-upload [nzFileType]="'image/png,image/jpg,image/heif,application/pdf'"
-            [nzBeforeUpload]="beforeUpload" [nzFileList]="fileList">
-                <button nzType="primary" nz-button>
-                    <span nz-icon nzType="upload"></span>
-                    Anhang hochladen
-                </button>
-            </nz-upload>
+            <h1 class="paddingSearch">{{"MAIN_LIST.final_report" | translate}}</h1>
         </div>
         <hr>
         <div class="row">
@@ -63,8 +51,6 @@
                                         }
                                     </mat-select>
                                     @if (control.hasError('required')) {
-                                    <!--TODO
-                                    @if (tohaControl.hasError('required')) {
                                     <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
                                     }
                                 </mat-form-field>
@@ -457,8 +443,8 @@
                     <div class="card-body">
                         <nz-upload [nzFileList]="fileList" [nzBeforeUpload]="beforeUpload" [nzLimit]="10"
                             [nzMultiple]="true" [nzShowUploadList]="true" [nzShowButton]="fileList.length < 10"
-                            [nzListType]="'picture-card'" (nzChange)="handleChange($event)">
-                            <button *ngIf="fileList.length <= 10" nz-button>
+                            [nzListType]="'picture-card'" (nzChange)="handleChange($event)" class="custom-upload">
+                            <button nz-button>
                                 <i nz-icon nzType="upload"></i> Upload
                             </button>
                         </nz-upload>

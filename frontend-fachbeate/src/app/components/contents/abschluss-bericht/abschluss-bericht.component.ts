@@ -8,13 +8,11 @@ import { NzNotificationPlacement, NzNotificationService } from 'ng-zorro-antd/no
 import { RoleService } from '../../../services/role.service';
 import { Technologist } from '../../../models/technologist';
 import { Representative } from '../../../models/representative';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { FormControl, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from '../../../services/notification.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
 
 @Component({
   selector: 'app-abschluss-bericht',
@@ -40,18 +38,14 @@ export class AbschlussBerichtComponent implements OnInit {
     { id: 3, name: 'ABSCHLUSSBERICHT.product_development' }
   ];
 
-  fileList: NzUploadFile[] = [
-    //TODO hier müssen die Anhänge reingeladen werden
-  ];
-
-  constructor(private msg: NzMessageService, public roleService: RoleService, private notification: NzNotificationService,private msg: NzMessageService,
+  constructor(public roleService: RoleService, private notification: NzNotificationService, private msg: NzMessageService,
     public dialogRef: MatDialogRef<AbschlussBerichtComponent>,
     @Inject(MAT_DIALOG_DATA) public finalReport: FinalReport,
     private http: HttpService, public translate: TranslateService,
     private notificationService: NotificationService
   ) {
     this.inputFinalReport = finalReport;
-//region convert into numberlist for selections
+    //region convert into numberlist for selections
     this.inputFinalReport.reworkToDo = [
       (this.inputFinalReport.reworkInformation) ? 1 : 0,
       (this.inputFinalReport.reworkRecipe_optimization) ? 2 : 0,
@@ -153,8 +147,6 @@ export class AbschlussBerichtComponent implements OnInit {
 
   }
 
-  closeDialog(save: boolean) {
-    this.dialogRef.close({ finalReport: this.finalReport, save: save });
   closeDialog(save: boolean) {
 
     if (this.checkRequired() || save === false) {
@@ -259,24 +251,20 @@ export class AbschlussBerichtComponent implements OnInit {
   }
 
   beforeUpload = (file: NzUploadFile): boolean => {
+    const icCorrectFileType = file.type === 'application/pdf' || file.type === 'image/png' || file.type === 'image/jpg'|| file.type === 'image/jpeg' || file.type === 'image/heif'; 
+    if (!icCorrectFileType) {
+      this.msg.error('Nur PDF/PNG/JPG/HEIF sind erlaubt!');
+      return false;
+    }
     if (this.fileList.length >= 10) {
-      this.msg.error('You can only upload up to 10 files.');
+      this.msg.error('Nur 10 Files erlaubt!');
       return false;
     }
+    // Datei zur Liste hinzufügen
     this.fileList = [...this.fileList, file];
-    return false;
-  };
-  beforeUpload = (file: NzUploadFile): boolean => {
-    const isPdfOrPng = file.type === 'application/pdf' || file.type === 'image/png'|| file.type === 'image/jpg'|| file.type === 'image/heif';
-    if (!isPdfOrPng) {
-      this.msg.error('PDF/PNG/JPG/HEIF sind erlaubt!');
-      return false;
-    }
     return true;
   };
 
-
-}
 
   handleChange(info: { file: NzUploadFile, fileList: NzUploadFile[] }): void {
     const fileList = info.fileList.slice(-10);

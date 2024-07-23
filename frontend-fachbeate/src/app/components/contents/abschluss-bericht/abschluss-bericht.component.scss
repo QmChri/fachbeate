@@ -46,8 +46,7 @@
             max-width: 12rem;
         }
 
-        .smallInputSide
-        .nacharbeitSmall {
+        .smallInputSide .nacharbeitSmall {
             max-width: 12rem;
         }
 
@@ -65,7 +64,7 @@
     max-width: 13.25rem;
 }
 
-.nacharbeitSmall{
+.nacharbeitSmall {
     min-width: 13rem;
     max-width: 13rem;
 }
@@ -78,27 +77,8 @@
     padding-bottom: 1rem;
 }
 
-.centerNacharbeit{
+.custom-upload {
     display: flex;
-    flex-direction: row;
-    justify-content: center;
+    flex-wrap: wrap;
+    justify-content: flex-start;
 }
-
-::ng-deep .ant-upload-list {
-    display: flex;
-}
-
-:host ::ng-deep .upload-list-inline .ant-upload-list-item {
-    float: left;
-    width: 200px;
-    margin-right: 8px;
-  }
-  :host ::ng-deep .upload-list-inline [class*='-upload-list-rtl'] .ant-upload-list-item {
-    float: right;
-  }
-  :host ::ng-deep .upload-list-inline .ant-upload-animate-enter {
-    animation-name: uploadAnimateInlineIn;
-  }
-  :host ::ng-deep .upload-list-inline .ant-upload-animate-leave {
-    animation-name: uploadAnimateInlineOut;
-  }
