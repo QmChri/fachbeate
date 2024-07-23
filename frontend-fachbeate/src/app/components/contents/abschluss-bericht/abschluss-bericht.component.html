@@ -2,9 +2,9 @@
     <div class="mainView">
         <div class="displayBySide">
             <h1 style="margin-bottom: 0px;">{{"MAIN_LIST.final_report" | translate}}</h1>
-            <nz-upload  [nzFileType]="'image/png,image/jpg,image/jpeg,image/png,image/heif,application/pdf'" 
-            nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76" [nzFileList]="fileList">
-                <button nz-button>
+            <nz-upload [nzFileType]="'image/png,image/jpg,image/heif,application/pdf'" 
+            [nzBeforeUpload]="beforeUpload" [nzFileList]="fileList">
+                <button nzType="primary" nz-button>
                     <span nz-icon nzType="upload"></span>
                     Anhang hochladen
                 </button>
