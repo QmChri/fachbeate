@@ -61,9 +61,9 @@ export class VisitorRegistrationComponent implements OnInit {
               // To ensure all necessary dates are in the correct format, I convert them.
 
               this.inputVisitRegistration.fromDate = this.convertToDate(this.inputVisitRegistration.fromDate);
-              this.inputVisitRegistration.toDate = this.convertToDate(this.inputVisitRegistration.fromDate);
-              this.inputVisitRegistration.stayFromDate = this.convertToDate(this.inputVisitRegistration.fromDate);
-              this.inputVisitRegistration.stayToDate = this.convertToDate(this.inputVisitRegistration.fromDate);
+              this.inputVisitRegistration.toDate = this.convertToDate(this.inputVisitRegistration.toDate);
+              this.inputVisitRegistration.stayFromDate = this.convertToDate(this.inputVisitRegistration.stayFromDate);
+              this.inputVisitRegistration.stayToDate = this.convertToDate(this.inputVisitRegistration.stayToDate);
 
               this.buttonSelect = [
                 (data.hotelBooking) ? "1" : "",
