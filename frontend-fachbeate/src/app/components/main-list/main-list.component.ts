@@ -94,7 +94,7 @@ export class MainListComponent implements OnInit {
 
   constructor(public translate: TranslateService, private router: Router, private http: HttpService, private notificationService: NotificationService, public roleService: RoleService) { }
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
     this.loadDataPerUser()
     this.getNzFilters();
   }
@@ -201,7 +201,7 @@ export class MainListComponent implements OnInit {
     var type = (this.roleService.checkPermission([1, 2, 3, 5, 7]) ? 7 : 6);
     type = (!this.roleService.checkPermission([1, 2, 4, 5, 6, 7]) ? 3 : type);
     type = (!this.roleService.checkPermission([1, 2, 3, 5, 6, 7]) ? 4 : type);
-    type = (!this.roleService.checkPermission([1,2,5,6,7]) ? 8 : type);
+    type = (!this.roleService.checkPermission([1, 2, 5, 6, 7]) ? 8 : type);
     var fullname: string[] = [this.roleService.getUserName()!, this.roleService.getEmail()!];
 
     if (type === 6 && fullname === undefined) {
@@ -242,7 +242,7 @@ export class MainListComponent implements OnInit {
       next: data => {
         data.forEach(element => {
 
-        this.listOfDisplayData = [...this.listOfDisplayData, {
+          this.listOfDisplayData = [...this.listOfDisplayData, {
             id: element.id!,
             name: element.name,
             dateOfCreation: element.dateOfCreation,
@@ -332,11 +332,12 @@ export class MainListComponent implements OnInit {
   }
 
   search(): void {
-    this.visible = false;
+    this.visible = false; console.log(this.searchValue);
+
     this.listOfDisplayData = this.listOfDisplayData.filter((item: DataItem) =>
     (
       item.id!.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
-      item.name!.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      //item.name!.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
       item.dateOfCreation!.toString().includes(this.searchValue.toLocaleLowerCase()) ||
       item.customerOrCompany!.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
       item.statusAL!.valueOf().toString().includes(this.searchValue.toLocaleLowerCase()) ||
