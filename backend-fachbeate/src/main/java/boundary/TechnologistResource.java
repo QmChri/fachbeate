@@ -11,14 +11,27 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Response;
 
-@Path("technologist")
+@Path("users")
 public class TechnologistResource {
+
+    /**
+     * Get all Fachberater
+     * @return
+     */
+    @GET
+    @Path("technologist")
+    @Authenticated
+    public Response getAllTechnologists(){
+        return Response.ok(Technologist.listAll()).build();
+    }
+
 
     /**
      * Post new Fachberater
      * @param technologist
      */
     @POST
+    @Path("technologist")
     @Authenticated
     @Transactional
     public void postTechnologist(Technologist technologist){
@@ -32,21 +45,11 @@ public class TechnologistResource {
     }
 
     /**
-     * Get all Fachberater
-     * @return
-     */
-    @GET
-    @Authenticated
-    public Response getAllTechnologists(){
-        return Response.ok(Technologist.listAll()).build();
-    }
-
-    /**
      * Find all Fachberater which are Active
      * @return
      */
     @GET
-    @Path("allActive")
+    @Path("technologist/allActive")
     @Authenticated
     public Response getActiveTechnologists(){
         return Response.ok(Technologist.find("active",true).list()).build();

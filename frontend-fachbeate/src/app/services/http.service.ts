@@ -77,43 +77,43 @@ export class HttpService {
 
 
   getAllTechnologist() : Observable<Technologist[]> {
-    return this.http.get<Technologist[]>(API_URL+ "technologist");
+    return this.http.get<Technologist[]>(API_URL+ "users/technologist");
   }
 
   getActiveTechnologist(): Observable<Technologist[]>{
-    return this.http.get<Technologist[]>(API_URL + "technologist/allActive");
+    return this.http.get<Technologist[]>(API_URL + "users/technologist/allActive");
   }
 
   postTechnologist(technologist: Technologist) {
-    return this.http.post(API_URL + "technologist", technologist);
+    return this.http.post(API_URL + "users/technologist", technologist);
   }
   
   
   
   postRepresentative(representative: Representative): Observable<Representative>{
-    return this.http.post(API_URL+ "technologist/representative", representative);
+    return this.http.post(API_URL+ "users/representative", representative);
   }  
   
   getAllRepresentative() : Observable<Representative[]> {
-    return this.http.get<Representative[]>(API_URL+ "technologist/representative");
+    return this.http.get<Representative[]>(API_URL+ "users/representative");
   }
 
   getActiveRepresentative(): Observable<Representative[]>{
-    return this.http.get<Representative[]>(API_URL + "technologist/representative/allActive");
+    return this.http.get<Representative[]>(API_URL + "users/representative/allActive");
   }
 
 
 
   postCompany(company: Company): Observable<Company>{
-    return this.http.post(API_URL+ "technologist/company", company);
+    return this.http.post(API_URL+ "users/company", company);
   }  
   
   getAllCompany() : Observable<Company[]> {
-    return this.http.get<Company[]>(API_URL+ "technologist/company");
+    return this.http.get<Company[]>(API_URL+ "users/company");
   }
 
   getActiveCompany(): Observable<Company[]>{
-    return this.http.get<Company[]>(API_URL + "technologist/company/allActive");
+    return this.http.get<Company[]>(API_URL + "users/company/allActive");
   }
 
   postOtherDate(date: TechnologistAppointment): Observable<TechnologistAppointment>{
