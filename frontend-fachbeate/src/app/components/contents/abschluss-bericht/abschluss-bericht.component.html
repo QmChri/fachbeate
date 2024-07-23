@@ -1,6 +1,15 @@
 <div style="background-color: #f4f4f4;">
     <div class="mainView">
-        <h1 class="paddingSearch">{{"MAIN_LIST.final_report" | translate}}</h1>
+        <div class="displayBySide">
+            <h1 style="margin-bottom: 0px;">{{"MAIN_LIST.final_report" | translate}}</h1>
+            <nz-upload  [nzFileType]="'image/png,image/jpg,image/jpeg,image/png,image/heif,application/pdf'" 
+            nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76" [nzFileList]="fileList">
+                <button nz-button>
+                    <span nz-icon nzType="upload"></span>
+                    Anhang hochladen
+                </button>
+            </nz-upload>
+        </div>
         <hr>
         <div class="row">
             <div class="col-md-7 paddingBottom">
@@ -277,8 +286,9 @@
                                 </mat-form-field>
                                 <mat-form-field class="artundnr">
                                     <mat-label>{{"ABSCHLUSSBERICHT.article" | translate}}</mat-label>
-                                    <input [disabled]="roleService.checkPermission([6]) || isExisting(article)" matInput type="text"
-                                        [(ngModel)]="article.name" name="articleName{{reasonReport.reason}}">
+                                    <input [disabled]="roleService.checkPermission([6]) || isExisting(article)" matInput
+                                        type="text" [(ngModel)]="article.name"
+                                        name="articleName{{reasonReport.reason}}">
                                 </mat-form-field>
                             </div>
                             }
@@ -319,8 +329,9 @@
                                 </mat-form-field>
                                 <mat-form-field class="artundnr">
                                     <mat-label>{{"ABSCHLUSSBERICHT.article" | translate}}</mat-label>
-                                    <input [disabled]="roleService.checkPermission([6]) || isExisting(article)" matInput type="text"
-                                        [(ngModel)]="article.name" name="articleName{{reasonReport.reason}}">
+                                    <input [disabled]="roleService.checkPermission([6]) || isExisting(article)" matInput
+                                        type="text" [(ngModel)]="article.name"
+                                        name="articleName{{reasonReport.reason}}">
                                 </mat-form-field>
                             </div>
                             }
@@ -361,8 +372,9 @@
                                 </mat-form-field>
                                 <mat-form-field class="artundnr">
                                     <mat-label>{{"ABSCHLUSSBERICHT.article" | translate}}</mat-label>
-                                    <input [disabled]="roleService.checkPermission([6]) || isExisting(article)" matInput type="text"
-                                        [(ngModel)]="article.name" name="articleName{{reasonReport.reason}}">
+                                    <input [disabled]="roleService.checkPermission([6]) || isExisting(article)" matInput
+                                        type="text" [(ngModel)]="article.name"
+                                        name="articleName{{reasonReport.reason}}">
                                 </mat-form-field>
                             </div>
                             }
@@ -403,8 +415,9 @@
                                 </mat-form-field>
                                 <mat-form-field class="artundnr">
                                     <mat-label>{{"ABSCHLUSSBERICHT.article" | translate}}</mat-label>
-                                    <input [disabled]="roleService.checkPermission([6]) || isExisting(article)" matInput type="text"
-                                        [(ngModel)]="article.name" name="articleName{{reasonReport.reason}}">
+                                    <input [disabled]="roleService.checkPermission([6]) || isExisting(article)" matInput
+                                        type="text" [(ngModel)]="article.name"
+                                        name="articleName{{reasonReport.reason}}">
                                 </mat-form-field>
                             </div>
                             }

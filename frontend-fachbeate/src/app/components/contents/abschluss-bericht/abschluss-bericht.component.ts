@@ -11,6 +11,8 @@ import { Representative } from '../../../models/representative';
 import { FormControl, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from '../../../services/notification.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
 
 @Component({
   selector: 'app-abschluss-bericht',
@@ -33,218 +35,252 @@ export class AbschlussBerichtComponent implements OnInit {
     { id: 1, name: 'ABSCHLUSSBERICHT.information' },
     { id: 2, name: 'ABSCHLUSSBERICHT.recipe_optimization' },
     { id: 3, name: 'ABSCHLUSSBERICHT.product_development' }
-  ]; 
+  ];
 
- constructor(public roleService: RoleService,private notification: NzNotificationService,
-    public dialogRef: MatDialogRef<AbschlussBerichtComponent>,
-    @Inject(MAT_DIALOG_DATA) public finalReport: FinalReport,
-    private http: HttpService, public translate: TranslateService,
-    private notificationService: NotificationService
-  ) {
-    this.inputFinalReport = finalReport;
-
-    //region convert into numberlist for selections
-    this.inputFinalReport.reworkToDo = [
-      (this.inputFinalReport.reworkInformation)?1:0,
-      (this.inputFinalReport.reworkRecipe_optimization)?2:0,
-      (this.inputFinalReport.reworkProduct_development)?3:0
-    ].filter(element => element != 0);
-
-    this.reasonSelect = [
-      (this.inputFinalReport.presentationOfNewProducts)?1:0,
-      (this.inputFinalReport.existingProducts)?2:0,
-      (this.inputFinalReport.recipeOptimization)?3:0,
-      (this.inputFinalReport.sampleProduction)?4:0,
-      (this.inputFinalReport.training)?5:0
-    ]
-    
-    if (finalReport.reasonReports !== undefined) {
-      this.inputFinalReport.reasonReports = this.inputFinalReport.reasonReports!.filter(element => element.reason !== 0);
-      this.multiSelect = this.inputFinalReport.reasonReports!.map(element => element.reason)
-        .filter((reason): reason is number => reason !== undefined);
-      
-      if(finalReport.id === undefined || finalReport.id === 0){
-        this.finalReport.reasonReports!.forEach(reasonReport => {          
-          if(reasonReport.presentedArticle === undefined || reasonReport.presentedArticle.length === 0 ){            
-            reasonReport.presentedArticle = [{}]
-          }
-        });
-      }
+  fileList: NzUploadFile[] = [
+    {
+      uid: '1',
+      name: 'xxx.png',
+      status: 'done',
+      response: 'geht eh guad eini', // custom error message to show
+      url: 'http://www.baidu.com/xxx.png'
+    },
+    {
+      uid: '2',
+      name: 'yyy.png',
+      status: 'done',
+      url: 'http://www.baidu.com/yyy.png'
+    },
+    {
+      uid: '3',
+      name: 'zzz.png',
+      status: 'error',
+      response: 'Server Error 500', // custom error message to show
+      url: 'http://www.baidu.com/zzz.png'
     }
-    // endregion
+  ];
 
+constructor(public roleService: RoleService, private notification: NzNotificationService, private msg: NzMessageService,
+  public dialogRef: MatDialogRef<AbschlussBerichtComponent>,
+  @Inject(MAT_DIALOG_DATA) public finalReport: FinalReport,
+  private http: HttpService, public translate: TranslateService,
+  private notificationService: NotificationService
+) {
+  this.inputFinalReport = finalReport;
 
-  }
+  //region convert into numberlist for selections
+  this.inputFinalReport.reworkToDo = [
+    (this.inputFinalReport.reworkInformation) ? 1 : 0,
+    (this.inputFinalReport.reworkRecipe_optimization) ? 2 : 0,
+    (this.inputFinalReport.reworkProduct_development) ? 3 : 0
+  ].filter(element => element != 0);
 
-  ngOnInit(): void {
-    this.getAllArticles();
-    this.getTechnologist();
-    this.getRepresentative();
-  }
+  this.reasonSelect = [
+    (this.inputFinalReport.presentationOfNewProducts) ? 1 : 0,
+    (this.inputFinalReport.existingProducts) ? 2 : 0,
+    (this.inputFinalReport.recipeOptimization) ? 3 : 0,
+    (this.inputFinalReport.sampleProduction) ? 4 : 0,
+    (this.inputFinalReport.training) ? 5 : 0
+  ]
 
-  changeSelections(event: any) {
-    var newReasonReports: ReasonReport[] = [];
-    this.multiSelect = event.value;
+  if (finalReport.reasonReports !== undefined) {
+    this.inputFinalReport.reasonReports = this.inputFinalReport.reasonReports!.filter(element => element.reason !== 0);
+    this.multiSelect = this.inputFinalReport.reasonReports!.map(element => element.reason)
+      .filter((reason): reason is number => reason !== undefined);
 
-    event.value.forEach((element: number) => {
-      var r: ReasonReport = this.inputFinalReport.reasonReports!.find(p => p.reason === element)!
-      // check if reasonreport allready exist
-      if (r !== null && r !== undefined) {
-        newReasonReports = [...newReasonReports, r]
-      } else {
-        // if not existing
-        newReasonReports = [...newReasonReports, { reason: element, presentedArticle: [{}] }]
-      }
-    })
-    this.inputFinalReport.reasonReports = newReasonReports;
-
-  }
-
-  createBasicNotification(notificationStyle: number, text: string, text2: string, position: NzNotificationPlacement): void {
-    if (notificationStyle === 1) {
-      this.notification.warning(
-        text, text2,
-        { nzPlacement: position }
-      );
+    if (finalReport.id === undefined || finalReport.id === 0) {
+      this.finalReport.reasonReports!.forEach(reasonReport => {
+        if (reasonReport.presentedArticle === undefined || reasonReport.presentedArticle.length === 0) {
+          reasonReport.presentedArticle = [{}]
+        }
+      });
     }
+  }
+  // endregion
+
+
+}
+
+ngOnInit(): void {
+  this.getAllArticles();
+  this.getTechnologist();
+  this.getRepresentative();
+}
+
+changeSelections(event: any) {
+  var newReasonReports: ReasonReport[] = [];
+  this.multiSelect = event.value;
+
+  event.value.forEach((element: number) => {
+    var r: ReasonReport = this.inputFinalReport.reasonReports!.find(p => p.reason === element)!
+    // check if reasonreport allready exist
+    if (r !== null && r !== undefined) {
+      newReasonReports = [...newReasonReports, r]
+    } else {
+      // if not existing
+      newReasonReports = [...newReasonReports, { reason: element, presentedArticle: [{}] }]
+    }
+  })
+  this.inputFinalReport.reasonReports = newReasonReports;
+
+}
+
+createBasicNotification(notificationStyle: number, text: string, text2: string, position: NzNotificationPlacement): void {
+  if(notificationStyle === 1) {
+  this.notification.warning(
+    text, text2,
+    { nzPlacement: position }
+  );
+}
     else {
-      this.notification.success(
-        text, text2,
-        { nzPlacement: position }
-      );
-    }
+  this.notification.success(
+    text, text2,
+    { nzPlacement: position }
+  );
+}
   }
 
-  getAllArticles() {
-    this.http.getAllArticles().subscribe({
-      next: data => this.existingArticles = data,
-      error: err => console.log(err)
-    })
+getAllArticles() {
+  this.http.getAllArticles().subscribe({
+    next: data => this.existingArticles = data,
+    error: err => console.log(err)
+  })
+}
+
+isExisting(article: Article){
+  if (article !== null && article !== undefined && article.articleNr !== null && article.articleNr !== undefined) {
+    return this.existingArticles.find(element => element.articleNr === article.articleNr) !== undefined;
   }
+  return false;
+}
 
-  isExisting(article: Article){
-    if(article !== null && article !== undefined && article.articleNr !== null && article.articleNr !== undefined){
-      return this.existingArticles.find(element => element.articleNr === article.articleNr) !== undefined;
-    }
-    return false;
-  }
+insertOther(article: Article, reason: number) {
+  //region Set Article if the ArticleNr is already existing
+  var tmpArticle = this.existingArticles.find(element => element.articleNr === article.articleNr);
 
-  insertOther(article: Article, reason: number) {
-    //region Set Article if the ArticleNr is already existing
-    var tmpArticle = this.existingArticles.find(element => element.articleNr === article.articleNr);
-
-    this.inputFinalReport.reasonReports!.find(element => element.reason === reason)!
+  this.inputFinalReport.reasonReports!.find(element => element.reason === reason)!
     .presentedArticle.find(element => element.articleNr!.toString() === article.articleNr!.toString())!.id = 0;
 
-    if (tmpArticle !== undefined) {
-      this.inputFinalReport.reasonReports!.find(element => element.reason === reason)!
-        .presentedArticle.find(element => element.articleNr!.toString() === article.articleNr!.toString())!.name = tmpArticle.name;
+  if (tmpArticle !== undefined) {
+    this.inputFinalReport.reasonReports!.find(element => element.reason === reason)!
+      .presentedArticle.find(element => element.articleNr!.toString() === article.articleNr!.toString())!.name = tmpArticle.name;
 
+  }
+  //endregion
+
+}
+
+closeDialog(save: boolean) {
+
+  if (this.checkRequired() || save === false) {
+    //region Filter out all empty Articles
+    this.inputFinalReport.reasonReports = this.inputFinalReport.reasonReports!.filter(reasonReport => reasonReport !== null && reasonReport !== undefined);
+
+    this.inputFinalReport.reasonReports.forEach(element => {
+      element.presentedArticle = element.presentedArticle.filter(article =>
+        (article.articleNr !== null && article.articleNr !== undefined && article.articleNr !== "") ||
+        (article.name !== null && article.name !== undefined && article.name !== "")
+      );
+    });
+    //endregion
+
+    //region Set the creator and last Editor
+    this.inputFinalReport.lastEditor = this.roleService.getUserName();
+    if (this.inputFinalReport.creator === undefined) {
+      this.inputFinalReport.creator = this.roleService.getUserName();
     }
     //endregion
-  
-  }
 
-  closeDialog(save: boolean) {  
+    //region set boolean for reasonselection
+    this.inputFinalReport.reworkInformation = this.inputFinalReport.reworkToDo!.includes(1);
+    this.inputFinalReport.reworkRecipe_optimization = this.inputFinalReport.reworkToDo!.includes(2);
+    this.inputFinalReport.reworkProduct_development = this.inputFinalReport.reworkToDo!.includes(3);
+    //endregion
 
-    if(this.checkRequired() || save === false)  {
-      //region Filter out all empty Articles
-      this.inputFinalReport.reasonReports = this.inputFinalReport.reasonReports!.filter(reasonReport => reasonReport !== null && reasonReport !== undefined);
-
-      this.inputFinalReport.reasonReports.forEach(element => {
-        element.presentedArticle = element.presentedArticle.filter(article => 
-          (article.articleNr !== null && article.articleNr !== undefined && article.articleNr !== "") ||
-          (article.name !== null && article.name !== undefined && article.name !== "")
-        );
-      });
-      //endregion
-
-      //region Set the creator and last Editor
-      this.inputFinalReport.lastEditor = this.roleService.getUserName();
-      if(this.inputFinalReport.creator === undefined){
-        this.inputFinalReport.creator = this.roleService.getUserName();
-      }
-      //endregion
-
-      //region set boolean for reasonselection
-      this.inputFinalReport.reworkInformation = this.inputFinalReport.reworkToDo!.includes(1);
-      this.inputFinalReport.reworkRecipe_optimization = this.inputFinalReport.reworkToDo!.includes(2);
-      this.inputFinalReport.reworkProduct_development = this.inputFinalReport.reworkToDo!.includes(3);
-      //endregion
-
-      //region edit ckeck from Technologist and Representative
-      if(this.roleService.checkPermission([3])){
-        this.inputFinalReport.representativeEntered = true;
-      }else if(this.roleService.checkPermission([4])){
-        this.inputFinalReport.technologistEntered = true;
-      }
-      //endregion
-
-      this.dialogRef.close({ finalReport: this.inputFinalReport, save: save });
+    //region edit ckeck from Technologist and Representative
+    if (this.roleService.checkPermission([3])) {
+      this.inputFinalReport.representativeEntered = true;
+    } else if (this.roleService.checkPermission([4])) {
+      this.inputFinalReport.technologistEntered = true;
     }
-  }
+    //endregion
 
-  addArticle(reason: number) {
-    var reasonReport = this.finalReport.reasonReports!.find(element => element.reason === reason)!
-    reasonReport.presentedArticle = [...reasonReport.presentedArticle!, {}]
+    this.dialogRef.close({ finalReport: this.inputFinalReport, save: save });
   }
+}
 
-  deleteArticle(reason: number) {
-    this.inputFinalReport.reasonReports?.find(element => element.reason === reason)?.presentedArticle.pop();
-  }
-  
-  getTechnologist() {
-    this.http.getActiveTechnologist().subscribe({
-      next: data => {
-        this.technologists = data;
-      },
-      error: err => {
-        console.log(err);
-      }
+addArticle(reason: number) {
+  var reasonReport = this.finalReport.reasonReports!.find(element => element.reason === reason)!
+  reasonReport.presentedArticle = [...reasonReport.presentedArticle!, {}]
+}
+
+deleteArticle(reason: number) {
+  this.inputFinalReport.reasonReports?.find(element => element.reason === reason)?.presentedArticle.pop();
+}
+
+getTechnologist() {
+  this.http.getActiveTechnologist().subscribe({
+    next: data => {
+      this.technologists = data;
+    },
+    error: err => {
+      console.log(err);
+    }
+  });
+}
+
+getRepresentative() {
+  this.http.getActiveRepresentative().subscribe({
+    next: data => {
+      this.representative = data;
+    },
+    error: err => {
+      console.log(err);
+    }
+  });
+}
+
+checkRequired():boolean{
+  var requiredFields: string[] = [
+    (this.inputFinalReport.technologist === null || this.inputFinalReport.technologist === undefined) ? "MAIN_LIST.advisor" : "",
+    (this.inputFinalReport.representative === null || this.inputFinalReport.representative === undefined) ? "MAIN_LIST.representative" : "",
+    (this.inputFinalReport.company === null || this.inputFinalReport.company === undefined || this.inputFinalReport.company === "") ? "ABSCHLUSSBERICHT.company" : "",
+    (this.inputFinalReport.dateOfVisit === null || this.inputFinalReport.dateOfVisit === undefined) ? "ABSCHLUSSBERICHT.visit_date_general" : "",
+    (this.multiSelect === null || this.multiSelect === undefined || this.multiSelect.length === 0) ? "ABSCHLUSSBERICHT.visit_reason_general" : "",
+    (this.inputFinalReport.reworkByTechnologist === null || this.inputFinalReport.reworkByTechnologist === undefined) ? "ABSCHLUSSBERICHT.advisor_follow_up" : "",
+    (this.inputFinalReport.reworkByTechnologist === true && (this.inputFinalReport.reworkByTechnologistDoneUntil === null || this.inputFinalReport.reworkByTechnologistDoneUntil === undefined)) ? "ABSCHLUSSBERICHT.to_be_done_by" : "",
+    (this.inputFinalReport.reworkByTechnologist === true && (this.inputFinalReport.reworkToDo === null || this.inputFinalReport.reworkToDo === undefined || this.inputFinalReport.reworkToDo.length === 0)) ? "ABSCHLUSSBERICHT.todo" : "",
+    (this.inputFinalReport.reworkByTechnologist === true && (this.inputFinalReport.reworkFollowVisits === null || this.inputFinalReport.reworkFollowVisits === undefined)) ? "ABSCHLUSSBERICHT.follow_Visit" : "",
+    (this.inputFinalReport.reasonReports!.filter(reasonReport => reasonReport.presentedArticle.filter(article => ((article.articleNr === null || article.articleNr === undefined || article.articleNr === "") || (article.name === null || article.name === undefined || article.name === ""))).length > 0).length > 0) ? "ABSCHLUSSBERICHT.article" : ""
+  ].filter(element => element !== "");
+
+  if (requiredFields.length !== 0) {
+    this.translate.get(['STANDARD.please_fill_required_fields', ...requiredFields.map(element => element)]).subscribe(translations => {
+      const message = translations['STANDARD.please_fill_required_fields'];
+      const anotherMessage = requiredFields.map(element => translations[element]).toString();
+      this.notificationService.createBasicNotification(4, message, anotherMessage, 'topRight');
     });
   }
 
-  getRepresentative() {
-    this.http.getActiveRepresentative().subscribe({
-      next: data => {
-        this.representative = data;
-      },
-      error: err => {
-        console.log(err);
-      }
-    });
-  }
+  return requiredFields.length === 0;
+}
 
-  checkRequired():boolean{
-    var requiredFields: string[] = [
-      (this.inputFinalReport.technologist === null||this.inputFinalReport.technologist === undefined)?"MAIN_LIST.advisor":"",
-      (this.inputFinalReport.representative === null||this.inputFinalReport.representative === undefined)?"MAIN_LIST.representative":"",
-      (this.inputFinalReport.company === null || this.inputFinalReport.company === undefined||this.inputFinalReport.company === "")?"ABSCHLUSSBERICHT.company":"",
-      (this.inputFinalReport.dateOfVisit === null||this.inputFinalReport.dateOfVisit === undefined)?"ABSCHLUSSBERICHT.visit_date_general":"",
-      (this.multiSelect === null||this.multiSelect === undefined||this.multiSelect.length === 0)?"ABSCHLUSSBERICHT.visit_reason_general":"",
-      (this.inputFinalReport.reworkByTechnologist === null || this.inputFinalReport.reworkByTechnologist === undefined)?"ABSCHLUSSBERICHT.advisor_follow_up":"",
-      (this.inputFinalReport.reworkByTechnologist === true && (this.inputFinalReport.reworkByTechnologistDoneUntil === null || this.inputFinalReport.reworkByTechnologistDoneUntil === undefined))?"ABSCHLUSSBERICHT.to_be_done_by":"",
-      (this.inputFinalReport.reworkByTechnologist === true && (this.inputFinalReport.reworkToDo === null || this.inputFinalReport.reworkToDo === undefined || this.inputFinalReport.reworkToDo.length === 0))?"ABSCHLUSSBERICHT.todo":"",
-      (this.inputFinalReport.reworkByTechnologist === true && (this.inputFinalReport.reworkFollowVisits === null || this.inputFinalReport.reworkFollowVisits === undefined))?"ABSCHLUSSBERICHT.follow_Visit":"",
-      (this.inputFinalReport.reasonReports!.filter(reasonReport => reasonReport.presentedArticle.filter(article => ((article.articleNr === null || article.articleNr === undefined || article.articleNr === "") || (article.name === null || article.name === undefined || article.name === ""))).length > 0).length > 0)?"ABSCHLUSSBERICHT.article":""
-    ].filter(element => element !== "");
+changeTechnolgist($event: any) {
+  this.inputFinalReport.technologist = this.technologists.find(elemnt => elemnt.id === $event);
+}
 
-    if(requiredFields.length !== 0){
-      this.translate.get(['STANDARD.please_fill_required_fields', ...requiredFields.map(element => element)]).subscribe(translations => {
-        const message = translations['STANDARD.please_fill_required_fields'];
-        const anotherMessage = requiredFields.map(element => translations[element]).toString();
-        this.notificationService.createBasicNotification(4, message, anotherMessage, 'topRight');
-      });
-    }
+changeRepresentative($event: any) {
+  this.inputFinalReport.representative = this.representative.find(elemnt => elemnt.id === $event);
+}
 
-    return requiredFields.length === 0;
-  }
-
-  changeTechnolgist($event: any) {
-    this.inputFinalReport.technologist = this.technologists.find(elemnt => elemnt.id === $event);
-  }
-
-  changeRepresentative($event: any) {
-    this.inputFinalReport.representative = this.representative.find(elemnt => elemnt.id === $event);
+handleChange(info: NzUploadChangeParam): void {
+  if(info.file.status !== 'uploading') {
+  console.log(info.file, info.fileList);
+}
+if (info.file.status === 'done') {
+  this.msg.success(`${info.file.name} file uploaded successfully`);
+} else if (info.file.status === 'error') {
+  this.msg.error(`${info.file.name} file upload failed.`);
+}
   }
 }

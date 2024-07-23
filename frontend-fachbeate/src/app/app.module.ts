@@ -62,6 +62,7 @@ import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { initializer } from './initializer.service';
 import { NzColorPickerModule } from 'ng-zorro-antd/color-picker';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
 
 
 @NgModule({
@@ -105,6 +106,7 @@ import { NzColorPickerModule } from 'ng-zorro-antd/color-picker';
     MatFormFieldModule,
     NzSelectModule,
     MatInputModule,
+    NzUploadModule,
     MatExpansionModule,
     ScrollingModule,
     MatTabsModule,

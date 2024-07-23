@@ -23,7 +23,7 @@ export class DashboardComponent implements OnInit {
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
     plugins: [dayGridPlugin, interactionPlugin],
-    height: 680,
+    height: 850,
     eventClick: (arg) => this.handleEventClick(arg),
     selectable: true,
     select: (arg) => this.handleSelect(arg),
