@@ -426,16 +426,12 @@ export class MainListComponent implements OnInit {
         }
       };
     }
-
-    // Erstelle eine neue Arbeitsmappe
+    // neue Arbeitsmappe
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
-    // Speichere die Arbeitsmappe
     XLSX.writeFile(wb, this.fileName);
   }
 
-  // Datum formatieren
   formatDate(date?: string): string {
     if (!date) return '<Leer>';
     return new Date(date).toLocaleDateString();
