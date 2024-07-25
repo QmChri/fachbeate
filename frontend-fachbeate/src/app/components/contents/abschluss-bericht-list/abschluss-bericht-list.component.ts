@@ -12,7 +12,7 @@ import { AbschlussBerichtComponent } from '../abschluss-bericht/abschluss-berich
 import { Company } from '../../../models/company';
 
 @Component({
-  selector: 'app-abschluss-bericht-list',
+  selector: 'abschluss-bericht-list',
   templateUrl: './abschluss-bericht-list.component.html',
   styleUrl: './abschluss-bericht-list.component.scss'
 })

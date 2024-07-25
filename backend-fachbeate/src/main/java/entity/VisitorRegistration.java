@@ -139,6 +139,7 @@ public class VisitorRegistration extends PanacheEntity {
         this.transferFrom = newVisitorRegistration.transferFrom;
         this.transferTo = newVisitorRegistration.transferTo;
 
+        this.hotelBooking = newVisitorRegistration.hotelBooking;
         this.flightBooking = newVisitorRegistration.flightBooking;
         this.hotelBooking = newVisitorRegistration.hotelBooking;
         this.trip = newVisitorRegistration.trip;
@@ -164,8 +165,8 @@ public class VisitorRegistration extends PanacheEntity {
         }
 
         this.hotelBookings = new ArrayList<>();
-        for(HotelBooking hotelBooking: newVisitorRegistration.hotelBookings){
-            this.hotelBookings.add(hotelBooking.persistOrUpdate());
+        for(HotelBooking hb: newVisitorRegistration.hotelBookings){
+            this.hotelBookings.add(hb.persistOrUpdate());
         }
 
         this.representative = newVisitorRegistration.representative;

@@ -6,6 +6,9 @@ import { NotificationService } from '../../services/notification.service';
 import { RoleService } from '../../services/role.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Company } from '../../models/company';
+import * as XLSX from 'xlsx';
+import { timestamp } from 'rxjs';
+
 
 @Component({
   selector: 'app-main-list',
@@ -94,7 +97,7 @@ export class MainListComponent implements OnInit {
 
   constructor(public translate: TranslateService, private router: Router, private http: HttpService, private notificationService: NotificationService, public roleService: RoleService) { }
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
     this.loadDataPerUser()
     this.getNzFilters();
   }
@@ -201,7 +204,7 @@ export class MainListComponent implements OnInit {
     var type = (this.roleService.checkPermission([1, 2, 3, 5, 7]) ? 7 : 6);
     type = (!this.roleService.checkPermission([1, 2, 4, 5, 6, 7]) ? 3 : type);
     type = (!this.roleService.checkPermission([1, 2, 3, 5, 6, 7]) ? 4 : type);
-    type = (!this.roleService.checkPermission([1,2,5,6,7]) ? 8 : type);
+    type = (!this.roleService.checkPermission([1, 2, 5, 6, 7]) ? 8 : type);
     var fullname: string[] = [this.roleService.getUserName()!, this.roleService.getEmail()!];
 
     if (type === 6 && fullname === undefined) {
@@ -242,7 +245,7 @@ export class MainListComponent implements OnInit {
       next: data => {
         data.forEach(element => {
 
-        this.listOfDisplayData = [...this.listOfDisplayData, {
+          this.listOfDisplayData = [...this.listOfDisplayData, {
             id: element.id!,
             name: element.name,
             dateOfCreation: element.dateOfCreation,
@@ -332,11 +335,12 @@ export class MainListComponent implements OnInit {
   }
 
   search(): void {
-    this.visible = false;
+    this.visible = false; console.log(this.searchValue);
+
     this.listOfDisplayData = this.listOfDisplayData.filter((item: DataItem) =>
     (
       item.id!.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
-      item.name!.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      //item.name!.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
       item.dateOfCreation!.toString().includes(this.searchValue.toLocaleLowerCase()) ||
       item.customerOrCompany!.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
       item.statusAL!.valueOf().toString().includes(this.searchValue.toLocaleLowerCase()) ||
@@ -360,6 +364,81 @@ export class MainListComponent implements OnInit {
     else {
       data.visible = false
     }
+  }
+
+  fileName = 'TableData.xlsx';
+
+  exportToExcel(): void {
+    const typeDescriptions: { [key: number]: string } = {
+      1: 'Fachberater A.',
+      2: 'Seminar',
+      3: 'Besuch'
+    };
+
+    const exportData = this.listOfDisplayData.map(item => ({
+      id: item.id || '<Leer>',
+      name: item.name || '<Leer>',
+      dateOfCreation: this.formatDate(item.dateOfCreation),
+      customerOrCompany: item.customerOrCompany || '<Leer>',
+      statusGL: item.statusGL || '<Leer>',
+      statusAL: item.statusAL || '<Leer>',
+      vertreter: item.vertreter || '<Leer>',
+      fachberater: item.fachberater || '<Leer>',
+      timestamp: this.formatTimespan(item.timespan),
+      customer: item.customer || '<Leer>',
+      abschlussbericht: item.abschlussbericht || '<Leer>',
+      Type: typeDescriptions[item.type!] || '<Leer>',
+      visible: item.visible ? 'Yes' : 'No'
+    }));
+
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(exportData);
+
+    // Hinzufügen von Autofilter
+    const range = XLSX.utils.decode_range(ws['!ref'] || '');
+    ws['!autofilter'] = {
+      ref: XLSX.utils.encode_range({ s: { r: 0, c: 0 }, e: { r: range.e.r, c: range.e.c } })
+    };
+    
+    const colWidth: number[] = [];
+    for (let C = range.s.c; C <= range.e.c; ++C) {
+      let maxWidth = 10; // Mindestbreite
+      for (let R = range.s.r; R <= range.e.r; ++R) {
+        const address = XLSX.utils.encode_cell({ r: R, c: C });
+        const cell = ws[address];
+        if (cell && cell.v) {
+          const cellLength = cell.v.toString().length;
+          maxWidth = Math.max(maxWidth, cellLength);
+        }
+      }
+      colWidth[C] = maxWidth + 6; // Extra Platz für Padding
+    }
+    ws['!cols'] = colWidth.map(width => ({ wpx: width * 5 }));
+
+    // Formatierung der Header-Zeile
+    for (let C = range.s.c; C <= range.e.c; ++C) {
+      const address = XLSX.utils.encode_cell({ r: 0, c: C });
+      if (!ws[address]) continue;
+      ws[address].s = {
+        font: {
+          bold: true,
+          color: { rgb: 'FFFFFF' },
+          sz: 20, // Schriftgröße
+        }
+      };
+    }
+    // neue Arbeitsmappe
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    XLSX.writeFile(wb, this.fileName);
+  }
+
+  formatDate(date?: string): string {
+    if (!date) return '<Leer>';
+    return new Date(date).toLocaleDateString();
+  }
+  formatTimespan(timespan?: TimeSpan): string {
+    if (!timespan || !timespan.start || !timespan.end) return '<Leer>';
+    return `${this.formatDate(timespan.start)} - ${this.formatDate(timespan.end)}`;
   }
 }
 

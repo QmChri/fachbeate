@@ -10,7 +10,6 @@
     flex-direction: column;
     flex-wrap: nowrap;
     justify-content: space-evenly;
-    min-height: 12.5rem;
 }
 
 .paddingSearch {
@@ -18,7 +17,6 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin: auto;
 }
 
 .header {
@@ -42,43 +40,33 @@
         justify-content: space-between;
         flex-wrap: nowrap;
 
-        .smallInput {
-            max-width: 12rem;
+        .flightBookingInput{
+            min-width: 15rem;
+            max-width: 15rem;
         }
 
-        .smallInputSide .nacharbeitSmall {
-            max-width: 12rem;
-        }
+        .smallInputSide {
+            min-width: 18.5rem;
+            max-width: 18.5rem;
 
-        .artundnr {
-            max-width: 10rem;
         }
     }
 }
 
-.mainView {
-    margin: 1.5rem;
-}
-
 .smallInputSide {
-    max-width: 13.25rem;
+    min-width: 21.5rem;
+    max-width: 21.5rem;
 }
 
-.nacharbeitSmall {
-    min-width: 13rem;
-    max-width: 13rem;
-}
-
-.artundnr {
-    max-width: 10.5rem;
+.flightBookingInput{
+    min-width: 19rem;
+    max-width: 19rem;
 }
 
 .paddingBottom {
     padding-bottom: 1rem;
 }
 
-.custom-upload {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
+.TIME {
+    max-width: 7rem;
 }
