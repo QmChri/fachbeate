@@ -2,7 +2,7 @@ name: CI build
 
 on:
   push:
-    branches: [ main, phase_1_corrections ]
+    branches: [ main ]
 
 env:
   REGISTRY: ghcr.io
