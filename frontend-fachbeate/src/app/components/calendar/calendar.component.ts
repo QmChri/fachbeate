@@ -77,7 +77,7 @@ export class CalendarComponent implements OnInit {
             id: value.id,
             title: value.id+ " "+ value.technologist + " - " + value.name,
             start: new Date(value.fromDate),
-            end: this.adjustDate(value.toDate),
+            end: new Date(value.toDate),
             backgroundColor: value.calendarColor,
             borderColor: value.calendarColor,
           }]
@@ -108,7 +108,7 @@ export class CalendarComponent implements OnInit {
             id: value.id,
             title: value.id+ " "+ value.technologist + " - " + value.name,
             start: new Date(value.fromDate),
-            end: this.adjustDate(value.toDate),
+            end: new Date(value.toDate),
             backgroundColor: value.calendarColor,
             borderColor: value.calendarColor,
           }]
@@ -141,7 +141,7 @@ export class CalendarComponent implements OnInit {
             id: value.id,
             title: value.id+ " " + value.name,
             start: new Date(value.fromDate),
-            end: this.adjustDate(value.toDate),
+            end: new Date(value.toDate),
             backgroundColor: value.calendarColor,
             borderColor: value.calendarColor,
           }]
@@ -175,7 +175,7 @@ export class CalendarComponent implements OnInit {
             id: "o" + value.id,
             title: value.requestedTechnologist!.firstName + " " + value.requestedTechnologist!.lastName + " - " + value.reason,
             start: value.startDate,
-            end: this.adjustDate(value.endDate!.toString())!,
+            end: value.endDate,
             backgroundColor: value.requestedTechnologist!.color,
             borderColor: value.requestedTechnologist!.color,
           }]
@@ -240,14 +240,6 @@ export class CalendarComponent implements OnInit {
           this.loadDataPerUser()
         }
       });
-  }
-
-
-  adjustDate(value: string): Date{
-    const date = new Date(value);
-    date.setDate(date.getDate() + 1);
-
-    return date;
   }
 }
 
