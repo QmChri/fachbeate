@@ -150,8 +150,8 @@ export class CustomerRequirementsComponent implements OnInit {
       this.inputCustomerRequirement.showUser = true;
       this.inputCustomerRequirement.dateOfCreation = new Date();
 
-      this.inputCustomerRequirement.startDate!.setHours(5);
-      this.inputCustomerRequirement.endDate!.setHours(5);
+      (this.inputCustomerRequirement.startDate)??this.inputCustomerRequirement.startDate!.setHours(5);
+      (this.inputCustomerRequirement.endDate)??this.inputCustomerRequirement.endDate!.setHours(5);
 
       if (this.inputCustomerRequirement.creator === undefined) {
         this.inputCustomerRequirement.creator = this.roleService.getUserName();

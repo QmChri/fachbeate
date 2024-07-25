@@ -61,7 +61,7 @@ export class AbschlussBerichtComponent implements OnInit {
     ]
 
     if (finalReport.reasonReports !== undefined) {
-      this.inputFinalReport.reasonReports = this.inputFinalReport.reasonReports!.filter(element => element.reason !== 0);
+      this.inputFinalReport.reasonReports = this.inputFinalReport.reasonReports!.filter(element => (element.reason !== 0 && element.reason !== 5));
       this.multiSelect = this.inputFinalReport.reasonReports!.map(element => element.reason)
         .filter((reason): reason is number => reason !== undefined);
 
@@ -230,6 +230,9 @@ export class AbschlussBerichtComponent implements OnInit {
       (this.inputFinalReport.reworkByTechnologist === true && (this.inputFinalReport.reworkFollowVisits === null || this.inputFinalReport.reworkFollowVisits === undefined)) ? "ABSCHLUSSBERICHT.follow_Visit" : "",
       (this.inputFinalReport.reasonReports!.filter(reasonReport => reasonReport.presentedArticle.filter(article => ((article.articleNr === null || article.articleNr === undefined || article.articleNr === "") || (article.name === null || article.name === undefined || article.name === ""))).length > 0).length > 0) ? "ABSCHLUSSBERICHT.article" : ""
     ].filter(element => element !== "");
+
+console.log(this.inputFinalReport.reasonReports);
+
 
     if (requiredFields.length !== 0) {
       this.translate.get(['STANDARD.please_fill_required_fields', ...requiredFields.map(element => element)]).subscribe(translations => {
