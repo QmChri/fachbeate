@@ -3,10 +3,10 @@ import { INavbarData } from "./helper";
 // All routes in the navbar are defined here
 export const navbarData: INavbarData[] = [
     {
-        routeLink: 'dashboard',      // where to link "http://.../dashboard"
+        routeLink: 'calendar',      // where to link "http://.../dashboard"
         icon: 'far fa-calendar-alt', // the icon which is used in the navbar
         label: 'date-view',          // the name of the translation
-        role: [1,2,4,5,7]            // the roles that are needed 
+        role: [1, 2, 4, 5, 7]            // the roles that are needed
     },
     {
         routeLink: 'mainList',
@@ -33,10 +33,17 @@ export const navbarData: INavbarData[] = [
         role: [1,2,3,5,6,7]
     },
     {
-        routeLink: 'app-abschluss-bericht-list',
+        routeLink: 'abschluss-bericht-list',
         icon: 'fal fa-clipboard-list',
         label: 'final-reports',
         role: [1,2,3,4,6,7]
+    },
+    {
+        //routeLink: 'booking-request',
+        routeLink: '',
+        icon: 'far fa-plane',
+        label: 'bookingRequest',
+        role: [1, 2, 3, 4, 5, 6, 7]
     },
     {
         routeLink: "",

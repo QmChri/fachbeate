@@ -314,7 +314,6 @@
                                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                                 <mat-date-range-picker #picker></mat-date-range-picker>
                             </mat-form-field>
-
                             <mat-form-field class="TIME">
                                 <mat-label>{{'VISITOR_REGRISTRATION.time' | translate}}</mat-label>
                                 <input type="time" matInput [(ngModel)]="inputWorkshop.mealTime">
@@ -356,7 +355,8 @@
                 <!--TODO ngModels setzen-->
                 <div class="card-body">
                     @for (hotelbooking of inputWorkshop.hotelBookings; track hotelbooking; let index = $index)
-                    {<p>{{index+1}}. {{'CUSTOMER_REQUIREMENTS.hotel_booking' | translate}}</p>
+                    {<p>{{index+1}}. {{'CUSTOMER_REQUIREMENTS.hotel_booking' | translate}}
+                    </p>
                     <div class="center-items">
                         <mat-form-field class="smallInputSpecial">
                             <mat-label>{{'VISITOR_REGRISTRATION.location' | translate}}</mat-label>
