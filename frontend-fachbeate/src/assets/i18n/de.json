@@ -242,7 +242,9 @@
         "click_to_edit": "Zum Bearbeiten klicken …",
         "enter_here": "Hier eingeben",
         "delete_securely": "Sicher löschen",
-        "user_name": "Benutzername"
+        "user_name": "Benutzername",
+        "email": "Email"
+
     },
     "BOOKING_REQUEST": {
         "bookingRequest": "Buchungsanforderung",
@@ -272,7 +274,6 @@
         "locationAndDesiredArea": "Ort und gewünschte Lage",
         "pickupAndReturnLocation": "Ort Abholung und Rückgabe",
         "carRental": "Leihwagen Buchung",
-        "user_name": "Benutzername",
-        "email": "Email"
+        "user_name": "Benutzername"
     }
 }
