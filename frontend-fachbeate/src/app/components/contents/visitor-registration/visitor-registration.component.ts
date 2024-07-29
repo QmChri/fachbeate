@@ -232,7 +232,7 @@ export class VisitorRegistrationComponent implements OnInit {
     if(this.checkRequired()){
       console.log("required");
       
-      if(this.inputVisitRegistration.id !== null && this.inputVisitRegistration.id !== undefined && this.inputVisitRegistration.id !== 0){
+      if(this.inputVisitRegistration.id === null || this.inputVisitRegistration.id === undefined || this.inputVisitRegistration.id === 0){
         this.inputVisitRegistration.dateOfCreation = new Date();
         this.inputVisitRegistration.creator = this.roleService.getUserName();
       }
@@ -244,7 +244,7 @@ export class VisitorRegistrationComponent implements OnInit {
       this.inputVisitRegistration.reason = "VisitorRegistration"
       this.inputVisitRegistration.plannedDepartmentVisits = [];
 
-      (this.inputVisitRegistration.fromDate!== null && this.inputVisitRegistration.fromDate!== undefined)?new Date(this.inputVisitRegistration.fromDate!.toString()).setHours(5):"";
+      (this.inputVisitRegistration.fromDate !== null && this.inputVisitRegistration.fromDate!== undefined)?new Date(this.inputVisitRegistration.fromDate!.toString()).setHours(5):"";
       (this.inputVisitRegistration.toDate!== null && this.inputVisitRegistration.toDate!== undefined)?new Date(this.inputVisitRegistration.toDate!.toString()).setHours(5):"";
 
       (this.inputVisitRegistration.stayFromDate!== null && this.inputVisitRegistration.stayFromDate!== undefined)?new Date(this.inputVisitRegistration.stayFromDate!.toString()).setHours(5):"";
