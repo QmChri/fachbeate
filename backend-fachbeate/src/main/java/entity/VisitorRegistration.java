@@ -141,7 +141,6 @@ public class VisitorRegistration extends PanacheEntity {
 
         this.hotelBooking = newVisitorRegistration.hotelBooking;
         this.flightBooking = newVisitorRegistration.flightBooking;
-        this.hotelBooking = newVisitorRegistration.hotelBooking;
         this.trip = newVisitorRegistration.trip;
         this.companyTour = newVisitorRegistration.companyTour;
         this.meal = newVisitorRegistration.meal;
