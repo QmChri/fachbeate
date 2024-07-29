@@ -189,7 +189,8 @@
                             <div class="center-items">
                                 <mat-form-field class="smallInput">
                                     <mat-label>{{'VISITOR_REGRISTRATION.number' | translate}}</mat-label>
-                                    <input matInput min="0" type="number" [(ngModel)]="inputVisitRegistration.numberOfPeopleTour">
+                                    <input matInput min="0" type="number"
+                                        [(ngModel)]="inputVisitRegistration.numberOfPeopleTour">
                                 </mat-form-field>
                                 <mat-form-field class="smallInput">
                                     <mat-label>{{'VISITOR_REGRISTRATION.date' | translate}}</mat-label>
@@ -278,12 +279,11 @@
                     <div class="card-header bg-danger text-white">{{'VISITOR_REGRISTRATION.lunch' | translate}}</div>
                     <div class="card-body minheigtCard">
                         <div class="displayBySide">
-                            <mat-form-field class="smallInputMittagAnz">
+                            <mat-form-field class="smallInput">
                                 <mat-label>{{'VISITOR_REGRISTRATION.total_number' | translate}}</mat-label>
                                 <input type="number" min="0" matInput [(ngModel)]="inputVisitRegistration.lunchNumber">
                             </mat-form-field>
-
-                            <mat-form-field>
+                            <mat-form-field class="smallInput">
                                 <mat-label>{{'CUSTOMER_REQUIREMENTS.from_to' | translate}}</mat-label>
                                 <mat-date-range-input [rangePicker]="picker">
                                     <input required matStartDate placeholder="Start date"
@@ -300,24 +300,23 @@
                             </mat-form-field>
                         </div>
                         <div class="displayBySide">
-                            <mat-form-field class="NumberInput">
+                            <mat-form-field class="smallInput">
                                 <mat-label>{{'VISITOR_REGRISTRATION.vegan' | translate}}</mat-label>
                                 <input
-                                    matTooltip="{{inputVisitRegistration.veganMeals}}/{{inputVisitRegistration.lunchNumber}} essen vegan."
+                                    matTooltip="{{inputVisitRegistration.veganMeals}}/{{inputVisitRegistration.lunchNumber}}"
                                     type="number" min="0" matInput [(ngModel)]="inputVisitRegistration.veganMeals">
                             </mat-form-field>
-                            <mat-form-field class="NumberInput">
-                                <mat-label>{{'VISITOR_REGRISTRATION.vegetarian' | translate}}</mat-label>
+                            <mat-form-field class="smallInput">
+                                <mat-label>{{'VISITOR_REGRISTRATION.halal' | translate}}</mat-label>
                                 <input
-                                    matTooltip="{{inputVisitRegistration.vegetarianMeals}}/{{inputVisitRegistration.lunchNumber}} essen vegetarisch."
-                                    type="number" min="0" matInput [(ngModel)]="inputVisitRegistration.vegetarianMeals">
+                                    matTooltip="{{inputVisitRegistration.halalMeals}}/{{inputVisitRegistration.lunchNumber}}"
+                                    type="number" min="0" matInput [(ngModel)]="inputVisitRegistration.halalMeals">
                             </mat-form-field>
-
-                            <mat-form-field class="NumberInput">
+                            <mat-form-field class="smallInput">
                                 <mat-label>{{'VISITOR_REGRISTRATION.other' | translate}}</mat-label>
                                 <input type="text" matInput [(ngModel)]="inputVisitRegistration.otherMealsDescription">
                             </mat-form-field>
-                            <mat-form-field class="NumberInput">
+                            <mat-form-field>
                                 <mat-label>{{'VISITOR_REGRISTRATION.number'| translate}}</mat-label>
                                 <input
                                     matTooltip="{{inputVisitRegistration.otherMealsNumber}}/{{inputVisitRegistration.lunchNumber}}"
@@ -335,12 +334,12 @@
                     </div>
                     <div class="card-body">
                         <div class="displayBySide">
-                            <nz-table class="col" nzShowPagination="false" [nzData]="buttonSelect" nzBordered>
+                            <nz-table nzSize="small" class="col" nzShowPagination="false" [nzData]="buttonSelect" nzBordered>
                                 <thead>
                                     <tr>
                                         <th></th>
                                         <th>{{'VISITOR_REGRISTRATION.department' | translate}}</th>
-                                        <th width="150px">{{'VISITOR_REGRISTRATION.date' | translate}}</th>
+                                        <th>{{'VISITOR_REGRISTRATION.date' | translate}}</th>
                                     </tr>
                                 </thead>
                                 <tbody nzNoResult>
@@ -356,12 +355,12 @@
                                     </tr>
                                 </tbody>
                             </nz-table>
-                            <nz-table class="col" nzShowPagination="false" [nzData]="buttonSelect" nzBordered>
+                            <nz-table nzSize="small" class="col" nzShowPagination="false" [nzData]="buttonSelect" nzBordered>
                                 <thead>
                                     <tr>
                                         <th></th>
                                         <th>{{'VISITOR_REGRISTRATION.department' | translate}}</th>
-                                        <th width="150px">{{'VISITOR_REGRISTRATION.date' | translate}}</th>
+                                        <th>{{'VISITOR_REGRISTRATION.date' | translate}}</th>
                                     </tr>
                                 </thead>
                                 <tbody nzNoResult>
@@ -389,38 +388,33 @@
                 <div class="card-header text-white bg-danger paddingSearch">{{'CUSTOMER_REQUIREMENTS.hotel_booking' |
                     translate}} </div>
                 <div class="card-body">
-                    <div class="center-items">
-                        @for (hotelbooking of inputVisitRegistration.hotelBookings; track hotelbooking; let index =
-                        $index)
-                        {<p>{{index+1}}. {{'CUSTOMER_REQUIREMENTS.hotel_booking' | translate}}</p>
-                        <div class="center-items">
-                            <mat-form-field class="smallInputSpecial">
-                                <mat-label>{{'VISITOR_REGRISTRATION.location' | translate}}</mat-label>
-                                <input matInput [(ngModel)]="hotelbooking.hotelLocation">
-                            </mat-form-field>
-                            <mat-form-field class="smallInputSpecial">
-                                <mat-label>{{'CUSTOMER_REQUIREMENTS.from_to' | translate}}</mat-label>
-                                <mat-date-range-input [rangePicker]="picker3">
-                                    <input matStartDate placeholder="Start date"
-                                        [(ngModel)]="hotelbooking.hotelStayFromDate">
-                                    <input matEndDate placeholder="End date" [(ngModel)]="hotelbooking.hotelStayToDate">
-                                </mat-date-range-input>
-                                <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
-                                <mat-date-range-picker #picker3></mat-date-range-picker>
-                            </mat-form-field>
-                        </div>
-                        <div class="displayBySide">
-                            <mat-form-field class="NumberInput">
-                                <mat-label>{{'VISITOR_REGRISTRATION.single_room' | translate}}</mat-label>
-                                <input type="number" min="0" matInput [(ngModel)]="hotelbooking.singleRooms">
-                            </mat-form-field>
-                            <mat-form-field class="NumberInput">
-                                <mat-label>{{'VISITOR_REGRISTRATION.double_room' | translate}}</mat-label>
-                                <input type="number" min="0" matInput [(ngModel)]="hotelbooking.doubleRooms">
-                            </mat-form-field>
-                        </div>
-                        }
+                    @for (hotelbooking of inputVisitRegistration.hotelBookings; track hotelbooking; let index =
+                    $index)
+                    {<p>{{index+1}}. {{'CUSTOMER_REQUIREMENTS.hotel_booking' | translate}}</p>
+                    <mat-form-field>
+                        <mat-label>{{'VISITOR_REGRISTRATION.location' | translate}}</mat-label>
+                        <input matInput [(ngModel)]="hotelbooking.hotelLocation">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>{{'CUSTOMER_REQUIREMENTS.from_to' | translate}}</mat-label>
+                        <mat-date-range-input [rangePicker]="picker3">
+                            <input matStartDate placeholder="Start date" [(ngModel)]="hotelbooking.hotelStayFromDate">
+                            <input matEndDate placeholder="End date" [(ngModel)]="hotelbooking.hotelStayToDate">
+                        </mat-date-range-input>
+                        <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
+                        <mat-date-range-picker #picker3></mat-date-range-picker>
+                    </mat-form-field>
+                    <div class="displayBySide">
+                        <mat-form-field class="smallInput">
+                            <mat-label>{{'VISITOR_REGRISTRATION.single_room' | translate}}</mat-label>
+                            <input type="number" min="0" matInput [(ngModel)]="hotelbooking.singleRooms">
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>{{'VISITOR_REGRISTRATION.double_room' | translate}}</mat-label>
+                            <input type="number" min="0" matInput [(ngModel)]="hotelbooking.doubleRooms">
+                        </mat-form-field>
                     </div>
+                    }
                     <div class="header">
                         <div>
                             <button (click)="deleteLast()" class="btn btn-danger"><i class="fa fa-minus"></i></button>

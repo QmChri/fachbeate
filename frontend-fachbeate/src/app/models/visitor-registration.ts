@@ -50,7 +50,7 @@ export interface VisitorRegistration {
     mealDateTo?: Date;
     lunchTime?: string;
     veganMeals?: number;
-    vegetarianMeals?: number;
+    halalMeals?: number;
     otherMealsDescription?: string;
     otherMealsNumber?: number;
     transferFromDate?: Date;

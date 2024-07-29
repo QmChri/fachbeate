@@ -77,7 +77,7 @@ export interface WorkshopRequirement{
     mealDateTo?: Date;
     mealTime?: string;
     mealWishesVegan?: number;
-    mealWishesVegetarian?: number;
+    mealWisheshalal?: number;
     otherMealWishes?: string;
     otherMealWishesAmount?: number;
 
