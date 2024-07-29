@@ -181,7 +181,11 @@
         "customer_gifts": "Customer gifts",
         "diplomas": "Diplomas",
         "excursion_destination": "Excursion destination",
-        "other_notes_excursion": "Other notes"
+        "other_notes_excursion": "Other notes",
+        "travel_car": "Car",
+        "travel_flight": "Flght",
+        "travel_train": "Train",
+        "travel_bus": "Bus"
     },
     "ABSCHLUSS_BERICHT_LIST": {
         "final_reports_overview": "Final Reports Overview",

@@ -208,7 +208,11 @@
         "customer_gifts": "Kundengeschenke",
         "diplomas": "Diplome",
         "excursion_destination": "Ausflugsziel",
-        "other_notes_excursion": "Sonstige Anmerkungen"
+        "other_notes_excursion": "Sonstige Anmerkungen",
+        "travel_car": "PKW",
+        "travel_flight": "Flug",
+        "travel_train": "Zug",
+        "travel_bus": "Bus"
     },
     "ABSCHLUSS_BERICHT_LIST": {
         "final_reports_overview": "Übersicht Abschlussberichte",

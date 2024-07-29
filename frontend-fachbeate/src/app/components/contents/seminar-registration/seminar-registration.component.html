@@ -83,7 +83,14 @@
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>{{'SEMINAR_REGRISTRATION.arrival_type' | translate}}</mat-label>
-                        <input matInput [(ngModel)]="inputWorkshop.travelType">
+                        
+                        <mat-select placeholder="{{'STANDARD.please_select'|translate}} " [(ngModel)]="inputWorkshop.travelType">
+                            <mat-option [value]="'car'">{{"SEMINAR_REGRISTRATION.travel_car" | translate}}</mat-option>
+                            <mat-option [value]="'train'">{{"SEMINAR_REGRISTRATION.travel_flight" | translate}}</mat-option>
+                            <mat-option [value]="'flight'">{{"SEMINAR_REGRISTRATION.travel_train" | translate}}</mat-option>
+                            <mat-option [value]="'bus'">{{"SEMINAR_REGRISTRATION.travel_bus" | translate}}</mat-option>
+                    </mat-select>
+
                     </mat-form-field>
                 </div>
                 <div class="paddingSearch">
