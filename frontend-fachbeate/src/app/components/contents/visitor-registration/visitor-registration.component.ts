@@ -230,7 +230,6 @@ export class VisitorRegistrationComponent implements OnInit {
 
   postVisitorRegistration() {
     if(this.checkRequired()){
-      console.log("required");
       
       if(this.inputVisitRegistration.id === null || this.inputVisitRegistration.id === undefined || this.inputVisitRegistration.id === 0){
         this.inputVisitRegistration.dateOfCreation = new Date();
@@ -244,12 +243,11 @@ export class VisitorRegistrationComponent implements OnInit {
       this.inputVisitRegistration.reason = "VisitorRegistration"
       this.inputVisitRegistration.plannedDepartmentVisits = [];
 
-      (this.inputVisitRegistration.fromDate !== null && this.inputVisitRegistration.fromDate!== undefined)?new Date(this.inputVisitRegistration.fromDate!.toString()).setHours(5):"";
-      (this.inputVisitRegistration.toDate!== null && this.inputVisitRegistration.toDate!== undefined)?new Date(this.inputVisitRegistration.toDate!.toString()).setHours(5):"";
+      (this.inputVisitRegistration.fromDate !== null && this.inputVisitRegistration.fromDate!== undefined)?this.inputVisitRegistration.fromDate.setHours(5):"";
+      (this.inputVisitRegistration.toDate!== null && this.inputVisitRegistration.toDate!== undefined)?this.inputVisitRegistration.toDate.setHours(5):"";
 
-      (this.inputVisitRegistration.stayFromDate!== null && this.inputVisitRegistration.stayFromDate!== undefined)?new Date(this.inputVisitRegistration.stayFromDate!.toString()).setHours(5):"";
-      (this.inputVisitRegistration.stayToDate!== null && this.inputVisitRegistration.stayToDate!== undefined)?new Date(this.inputVisitRegistration.stayToDate!.toString()).setHours(5):"";
-
+      (this.inputVisitRegistration.stayFromDate!== null && this.inputVisitRegistration.stayFromDate!== undefined)?this.inputVisitRegistration.stayFromDate.setHours(5):"";
+      (this.inputVisitRegistration.stayToDate!== null && this.inputVisitRegistration.stayToDate!== undefined)?this.inputVisitRegistration.stayToDate!.setHours(5):"";
 
       this.setOfCheckedId.forEach((value, key) => {
         this.inputVisitRegistration.plannedDepartmentVisits = [...this.inputVisitRegistration.plannedDepartmentVisits!,

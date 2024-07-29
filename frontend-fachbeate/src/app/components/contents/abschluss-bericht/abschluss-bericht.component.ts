@@ -222,6 +222,7 @@ export class AbschlussBerichtComponent implements OnInit {
       (this.inputFinalReport.technologist === null || this.inputFinalReport.technologist === undefined) ? "MAIN_LIST.advisor" : "",
       (this.inputFinalReport.representative === null || this.inputFinalReport.representative === undefined) ? "MAIN_LIST.representative" : "",
       (this.inputFinalReport.company === null || this.inputFinalReport.company === undefined || this.inputFinalReport.company === "") ? "ABSCHLUSSBERICHT.company" : "",
+      (this.inputFinalReport.summaryFinalReport === null || this.inputFinalReport.summaryFinalReport === undefined || this.inputFinalReport.summaryFinalReport === "") ? "ABSCHLUSSBERICHT.representative_summary" : "",
       (this.inputFinalReport.dateOfVisit === null || this.inputFinalReport.dateOfVisit === undefined) ? "ABSCHLUSSBERICHT.visit_date_general" : "",
       (this.multiSelect === null || this.multiSelect === undefined || this.multiSelect.length === 0) ? "ABSCHLUSSBERICHT.visit_reason_general" : "",
       (this.inputFinalReport.reworkByTechnologist === null || this.inputFinalReport.reworkByTechnologist === undefined) ? "ABSCHLUSSBERICHT.advisor_follow_up" : "",

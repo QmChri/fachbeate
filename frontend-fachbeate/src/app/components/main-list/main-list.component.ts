@@ -213,6 +213,9 @@ export class MainListComponent implements OnInit {
     this.loadTechnologists();
     this.http.getCustomerRequirementsByUser(type!, fullname!).subscribe({
       next: data => {
+
+        console.log(data);
+        
         data.forEach(element => {
 
           this.listOfDisplayData = [...this.listOfDisplayData, {

@@ -75,7 +75,7 @@
       <td (dblclick)="openCRC(data,data.id!, data.type!)">{{ data.vertreter }}</td>
       <td (dblclick)="openCRC(data,data.id!, data.type!)">{{ data.fachberater }}</td>
       <td (dblclick)="openCRC(data, data.id!, data.type!)">
-        {{ data.timespan!.start === undefined ||data.timespan!.start === '\<Leer\>' ?  '\<Leer\>':(data.timespan!.end | date:'dd.MM.yy') }} - 
+        {{ data.timespan!.start === undefined ||data.timespan!.start === '\<Leer\>' ?  '\<Leer\>':(data.timespan!.start | date:'dd.MM.yy') }} - 
         {{ data.timespan!.end === undefined || data.timespan!.end === '\<Leer\>' ? '\<Leer\>':(data.timespan!.end | date:'dd.MM.yy') }}
       </td>
       <td (dblclick)="openCRC(data,data.id!, data.type!)">{{ data.customer }}</td>
