@@ -81,6 +81,8 @@ export class VisitorRegistrationComponent implements OnInit {
             console.log(err);
           }
         });
+      }else{
+        this.addTab()
       }
     });
 

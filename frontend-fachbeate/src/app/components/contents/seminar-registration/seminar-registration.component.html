@@ -183,7 +183,8 @@
             <mat-button-toggle-group [ngModel]="buttonSelect" (change)="changeSelections($event, 0)" vertical multiple>
                 <mat-button-toggle [value]="1">{{'VISITOR_REGRISTRATION.factory_tour' | translate}}</mat-button-toggle>
                 <mat-button-toggle [value]="2">{{'SEMINAR_REGRISTRATION.excursion' | translate}}</mat-button-toggle>
-                <mat-button-toggle [value]="3">{{'SEMINAR_REGRISTRATION.airport_transfer_train_excursion' | translate}}</mat-button-toggle>
+                <mat-button-toggle [value]="3">{{'SEMINAR_REGRISTRATION.airport_transfer_train_excursion' |
+                    translate}}</mat-button-toggle>
                 <mat-button-toggle [value]="4">{{'VISITOR_REGRISTRATION.lunch' | translate}}</mat-button-toggle>
                 <mat-button-toggle [value]="5">{{'CUSTOMER_REQUIREMENTS.hotel_booking' | translate}}</mat-button-toggle>
             </mat-button-toggle-group>
@@ -239,7 +240,8 @@
                                     <textarea rows="1" matInput [(ngModel)]="inputWorkshop.tripLocation"></textarea>
                                 </mat-form-field>
                                 <mat-form-field class="smallInput">
-                                    <mat-label>{{'SEMINAR_REGRISTRATION.additional_requirements' | translate}}</mat-label>
+                                    <mat-label>{{'SEMINAR_REGRISTRATION.additional_requirements' |
+                                        translate}}</mat-label>
                                     <input matInput [(ngModel)]="inputWorkshop.otherTripRequests">
                                 </mat-form-field>
                             </div>
@@ -300,11 +302,11 @@
                     <div class="card-header bg-danger text-white">{{'VISITOR_REGRISTRATION.lunch' | translate}}</div>
                     <div class="card-body">
                         <div class="displayBySide">
-                            <mat-form-field class="smallInputMittagAnz">
+                            <mat-form-field class="smallInput">
                                 <mat-label>{{'VISITOR_REGRISTRATION.number' | translate}}</mat-label>
                                 <input type="number" min="0" matInput [(ngModel)]="inputWorkshop.mealAmount">
                             </mat-form-field>
-                            <mat-form-field>
+                            <mat-form-field class="smallInput">
                                 <mat-label>{{'CUSTOMER_REQUIREMENTS.from_to' | translate}}</mat-label>
                                 <mat-date-range-input [rangePicker]="picker">
                                     <input matStartDate placeholder="Start date"
@@ -320,23 +322,22 @@
                             </mat-form-field>
                         </div>
                         <div class="displayBySide">
-                            <mat-form-field class="NumberInput">
+                            <mat-form-field class="smallInput">
                                 <mat-label>{{'VISITOR_REGRISTRATION.vegan' | translate}}</mat-label>
                                 <input matTooltip="{{inputWorkshop.mealWishesVegan}}/{{inputWorkshop.mealAmount}}"
                                     type="number" min="0" matInput [(ngModel)]="inputWorkshop.mealWishesVegan">
                             </mat-form-field>
-                            <mat-form-field
-                                matTooltip="{{inputWorkshop.mealWishesVegetarian}}/{{inputWorkshop.mealAmount}}"
-                                class="NumberInput">
-                                <mat-label>{{'VISITOR_REGRISTRATION.vegetarian' | translate}}</mat-label>
-                                <input type="number" min="0" matInput [(ngModel)]="inputWorkshop.mealWishesVegetarian">
+                            <mat-form-field class="smallInput">
+                                <mat-label>{{'VISITOR_REGRISTRATION.halal' | translate}}</mat-label>
+                                <input matTooltip="{{inputWorkshop.mealWisheshalal}}/{{inputWorkshop.mealAmount}}"
+                                    type="number" min="0" matInput [(ngModel)]="inputWorkshop.mealWisheshalal">
                             </mat-form-field>
-                            <mat-form-field class="NumberInput">
+                            <mat-form-field class="smallInput">
                                 <mat-label>{{'VISITOR_REGRISTRATION.other' | translate}}</mat-label>
                                 <input matTooltip="{{inputWorkshop.otherMealWishes}}/{{inputWorkshop.mealAmount}}"
                                     type="text" matInput [(ngModel)]="inputWorkshop.otherMealWishes">
                             </mat-form-field>
-                            <mat-form-field class="NumberInput">
+                            <mat-form-field class="smallInput">
                                 <mat-label>{{'VISITOR_REGRISTRATION.number' | translate}}</mat-label>
                                 <input matTooltip="{{inputWorkshop.otherMealWishesAmount}}/{{inputWorkshop.mealAmount}}"
                                     type="number" min="0" matInput [(ngModel)]="inputWorkshop.otherMealWishesAmount">
