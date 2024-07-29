@@ -230,7 +230,13 @@ export class VisitorRegistrationComponent implements OnInit {
     if(this.checkRequired()){
       console.log("required");
       
-      this.inputVisitRegistration.creator = this.roleService.getUserName();
+      if(this.inputVisitRegistration.id !== null && this.inputVisitRegistration.id !== undefined && this.inputVisitRegistration.id !== 0){
+        this.inputVisitRegistration.dateOfCreation = new Date();
+        this.inputVisitRegistration.creator = this.roleService.getUserName();
+      }
+
+      this.inputVisitRegistration.lastEditor = this.roleService.getUserName();
+
       this.getNotification(1);
       this.inputVisitRegistration.showUser = true;
       this.inputVisitRegistration.reason = "VisitorRegistration"

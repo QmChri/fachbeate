@@ -194,20 +194,19 @@
                                     <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
                                     }
                                 </mat-form-field>
-                                <mat-form-field
-                                    *ngIf="inputFinalReport.reworkByTechnologist && roleService.checkPermission([1,2,4,7])"
-                                    class="nacharbeitSmall">
-                                    <mat-label>{{"ABSCHLUSSBERICHT.to_be_done_by" | translate}}</mat-label>
-                                    <input [disabled]="roleService.checkPermission([6])" matInput
-                                        [matDatepicker]="picker5" type="text" required
-                                        [(ngModel)]="inputFinalReport.reworkByTechnologistDoneUntil"
-                                        name="reworkByTechnologistDoneUntil">
+                                <mat-form-field>
+                                    <mat-label>{{"ABSCHLUSSBERICHT.follow_Visit" | translate}}</mat-label>
+                                    <mat-select [disabled]="roleService.checkPermission([6])"
+                                        [(ngModel)]="inputFinalReport.reworkFollowVisits" required
+                                        [placeholder]="'STANDARD.please_select' | translate">
+                                        <mat-option [value]="true">{{"SEMINAR_REGRISTRATION.yes" | translate}}</mat-option>
+                                        <mat-option [value]="false">{{"SEMINAR_REGRISTRATION.no" | translate}}</mat-option>
+                                    </mat-select>
                                     @if (control.hasError('required')) {
                                     <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
                                     }
-                                    <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
-                                    <mat-datepicker #picker5></mat-datepicker>
                                 </mat-form-field>
+                                
                             </div>
                         </div>
                         <div class="header"
@@ -224,18 +223,19 @@
                                 <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
                                 }
                             </mat-form-field>
-                            <mat-form-field>
-                                <mat-label>{{"ABSCHLUSSBERICHT.follow_Visit" | translate}}</mat-label>
-                                <mat-select [disabled]="roleService.checkPermission([6])"
-                                    [(ngModel)]="inputFinalReport.reworkFollowVisits" required
-                                    [placeholder]="'STANDARD.please_select' | translate">
-                                    <mat-option [value]="true">{{"SEMINAR_REGRISTRATION.yes" | translate}}</mat-option>
-                                    <mat-option [value]="false">{{"SEMINAR_REGRISTRATION.no" | translate}}</mat-option>
-                                </mat-select>
-                                @if (control.hasError('required')) {
-                                <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
-                                }
-                            </mat-form-field>
+                            <mat-form-field
+                                    class="nacharbeitSmall">
+                                    <mat-label>{{"ABSCHLUSSBERICHT.to_be_done_by" | translate}}</mat-label>
+                                    <input [disabled]="roleService.checkPermission([6])" matInput
+                                        [matDatepicker]="picker5" type="text" required
+                                        [(ngModel)]="inputFinalReport.reworkByTechnologistDoneUntil"
+                                        name="reworkByTechnologistDoneUntil">
+                                    @if (control.hasError('required')) {
+                                    <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
+                                    }
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker5></mat-datepicker>
+                                </mat-form-field>
                         </div>
                     </div>
                 </div>

@@ -22,7 +22,7 @@ public class VisitorRegistration extends PanacheEntity {
 
     public String creator;
     public String lastEditor;
-
+    public Date dateOfCreation;
 
 
     @ManyToOne

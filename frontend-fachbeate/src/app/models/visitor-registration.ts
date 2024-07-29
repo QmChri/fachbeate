@@ -7,6 +7,7 @@ export interface VisitorRegistration {
     id?: number;
     
     showUser?: boolean;
+    dateOfCreation?: Date;
 
     name?: string;
     inputReason?: string;
@@ -39,6 +40,7 @@ export interface VisitorRegistration {
     releaserSupervisor?: string;
 
     creator?: string;
+
     lastEditor?: string;
 
     hotelBookings: Hotelbooking[]

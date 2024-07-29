@@ -69,7 +69,7 @@ public class MainListDTO {
 
         this.id=  "B_" + element.id;
         this.name= element.name;
-        this.dateOfCreation = "<Leer>";
+        this.dateOfCreation = (element.dateOfCreation != null)?element.dateOfCreation.toString():"<Leer>";
         this.customerOrCompany= element.creator;
         this.statusGL= (element.releaseSupervisor!=null) ? "GL Freigegeben " : "GL Nicht-Freigegeben";
         this.statusAL= (element.releaseManagement!=null) ? "AL Freigegeben " : "AL Nicht-Freigegeben";
