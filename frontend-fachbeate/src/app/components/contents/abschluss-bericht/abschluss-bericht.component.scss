@@ -56,10 +56,6 @@
     }
 }
 
-.mainView {
-    margin: 1.5rem;
-}
-
 .smallInputSide {
     max-width: 13.25rem;
 }
@@ -82,3 +78,18 @@
     flex-wrap: wrap;
     justify-content: flex-start;
 }
+
+/* full-size-dialog.component.css */
+:host {
+    display: block;
+    height: 100%;
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .mat-dialog-container {
+    height: 100%;
+    width: 100%;
+    max-width: 100%;
+  }
+  

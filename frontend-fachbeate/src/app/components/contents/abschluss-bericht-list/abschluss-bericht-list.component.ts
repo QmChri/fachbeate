@@ -90,11 +90,11 @@ export class AbschlussBerichtListComponent {
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => {
         // Annahme: Wir vergleichen die Artikelnummern der ersten Elemente in a.article und b.article
-        if(a.article[0]===null || a.article[0] === undefined){
+        if (a.article[0] === null || a.article[0] === undefined) {
           return -1;
         }
-        
-        if(b.article[0]===null || b.article[0] === undefined){
+
+        if (b.article[0] === null || b.article[0] === undefined) {
           return 1;
         }
 
@@ -182,7 +182,7 @@ export class AbschlussBerichtListComponent {
     var type = (this.roleService.checkPermission([1, 2, 3, 5, 7]) ? 7 : 6);
     type = (!this.roleService.checkPermission([1, 2, 4, 5, 6, 7]) ? 3 : type);
     type = (!this.roleService.checkPermission([1, 2, 3, 5, 6, 7]) ? 4 : type);
-    type = (!this.roleService.checkPermission([1,2,5,6,7]) ? 8 : type);
+    type = (!this.roleService.checkPermission([1, 2, 5, 6, 7]) ? 8 : type);
     //endregion
 
     //region Get the requirements for an specific user
@@ -233,10 +233,14 @@ export class AbschlussBerichtListComponent {
   openDialog(dataItem: DataItem) {
     //region Opening the Final Report Popup
     const dialogRef = this.dialog.open(AbschlussBerichtComponent, {
-      height: '42.5rem',
-      width: '80rem',
+      width: '90%',
+      height: '90%',
+      maxWidth: '90vw',
+      maxHeight: '90vh',
+      panelClass: 'full-screen-dialog',
       data: this.finalReports.find(element => element.id === dataItem.id)
     });
+    
     // endregion
 
     dialogRef.afterClosed().subscribe(
@@ -301,14 +305,14 @@ export class AbschlussBerichtListComponent {
     if (article.length === 0) {
       return "<Leer>"
     }
-    if(this.showArticles.includes(id)){
+    if (this.showArticles.includes(id)) {
       return article.map(element => element.articleNr);
     }
-    var returnValue: string = article.map(element => element.articleNr).toString().substring(0, 14);    
-    return returnValue + ((returnValue.length == 14)?"...":"")
+    var returnValue: string = article.map(element => element.articleNr).toString().substring(0, 14);
+    return returnValue + ((returnValue.length == 14) ? "..." : "")
   }
 
-  disableShow(id: number){
+  disableShow(id: number) {
     this.showArticles = this.showArticles.filter(element => element !== id);
   }
 
