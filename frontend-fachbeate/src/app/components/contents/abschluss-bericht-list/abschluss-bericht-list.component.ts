@@ -237,7 +237,6 @@ export class AbschlussBerichtListComponent {
       height: '90%',
       maxWidth: '90vw',
       maxHeight: '90vh',
-      panelClass: 'full-screen-dialog',
       data: this.finalReports.find(element => element.id === dataItem.id)
     });
     

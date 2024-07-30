@@ -15,7 +15,6 @@ import { Company } from '../../../models/company';
 import { NotificationService } from '../../../services/notification.service';
 import { RoleService } from '../../../services/role.service';
 import { TranslateService } from '@ngx-translate/core';
-import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'app-customer-requirements',
@@ -154,29 +153,29 @@ export class CustomerRequirementsComponent implements OnInit {
 
       if (this.inputCustomerRequirement.startDate !== null && this.inputCustomerRequirement.startDate !== undefined) {
         if (typeof this.inputCustomerRequirement.startDate === 'string' || typeof this.inputCustomerRequirement.startDate === 'number') {
-            this.inputCustomerRequirement.startDate = new Date(this.inputCustomerRequirement.startDate);
+          this.inputCustomerRequirement.startDate = new Date(this.inputCustomerRequirement.startDate);
         }
         if (this.inputCustomerRequirement.startDate instanceof Date) {
-            this.inputCustomerRequirement.startDate.setHours(5);
+          this.inputCustomerRequirement.startDate.setHours(5);
         } else {
-            console.log("startDate is not a valid Date object");
+          console.log("startDate is not a valid Date object");
         }
-    } else {
+      } else {
         console.log("startDate is not defined");
-    }
+      }
 
-    if (this.inputCustomerRequirement.endDate !== null && this.inputCustomerRequirement.endDate !== undefined) {
+      if (this.inputCustomerRequirement.endDate !== null && this.inputCustomerRequirement.endDate !== undefined) {
         if (typeof this.inputCustomerRequirement.endDate === 'string' || typeof this.inputCustomerRequirement.endDate === 'number') {
-            this.inputCustomerRequirement.endDate = new Date(this.inputCustomerRequirement.endDate);
+          this.inputCustomerRequirement.endDate = new Date(this.inputCustomerRequirement.endDate);
         }
         if (this.inputCustomerRequirement.endDate instanceof Date) {
-            this.inputCustomerRequirement.endDate.setHours(5);
+          this.inputCustomerRequirement.endDate.setHours(5);
         } else {
-            console.log("endDate is not a valid Date object");
+          console.log("endDate is not a valid Date object");
         }
-    } else {
+      } else {
         console.log("endDate is not defined");
-    }
+      }
 
 
       if (this.inputCustomerRequirement.creator === undefined) {
@@ -264,8 +263,10 @@ export class CustomerRequirementsComponent implements OnInit {
 
       //opening Abschlussbericht Popup
       const dialogRef = this.dialog.open(AbschlussBerichtComponent, {
-        height: '42.5rem',
-        width: '80rem',
+        width: '90%',
+        height: '90%',
+        maxWidth: '90vw',
+        maxHeight: '90vh',
         data: finalReport
       });
 
