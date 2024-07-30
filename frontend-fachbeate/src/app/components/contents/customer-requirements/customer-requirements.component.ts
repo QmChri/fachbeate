@@ -29,7 +29,9 @@ export class CustomerRequirementsComponent implements OnInit {
   technologists: Technologist[] = [];
   representative: Representative[] = [];
   companies: Company[] = [];
+  datesOfVisits: Date[][] = [[]];
   freigegeben: boolean = true;
+  dateFormat = 'dd.MM.yy';
 
   constructor(public translate: TranslateService, private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute, private notificationService: NotificationService, public roleService: RoleService) { }
 
@@ -113,7 +115,8 @@ export class CustomerRequirementsComponent implements OnInit {
         companyName: '',
         address: '',
         contactPerson: '',
-        dateOfVisit: undefined,
+        fromDateOfVisit: undefined,
+        toDateOfVisit: undefined,
         presentationOfNewProducts: false,
         existingProducts: false,
         recipeOptimization: false,
@@ -142,10 +145,9 @@ export class CustomerRequirementsComponent implements OnInit {
     }
   }
 
-  postCustomerRequirement() {
-
-
-
+  postCustomerRequirement() {      
+    console.log(this.inputCustomerRequirement.customerVisits);
+     
     if (this.checkRequired()) {
       this.getNotification(1);
       this.inputCustomerRequirement.showUser = true;

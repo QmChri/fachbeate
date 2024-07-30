@@ -182,7 +182,7 @@
 </div>
 <hr>
 <div class="row">
-    <nz-table class="col" #editRowTable nzTableLayout="fixed" nzBordered
+    <nz-table class="col" #editRowTable nzTableLayout="fixed" nzSize="small" nzBordered
         [nzData]="inputCustomerRequirement.customerVisits!">
         <thead>
             <tr>
@@ -221,14 +221,16 @@
                     <input [hidden]="editId !== data.editId" type="text" nz-input [(ngModel)]="data.contactPerson" />
                 </td>
                 <td>
-                    <label class="input-label" [hidden]="editId === data.editId" (click)="startEdit(data.editId)">
-
-                        {{(data.dateOfVisit !== null && data.dateOfVisit !==
-                        undefined)?data.dateOfVisit!.toString().substring(0,10):''}}
-                    </label>
-                    <input [placeholder]="'CUSTOMER_REQUIREMENTS.mandatory_field' | translate"
-                        [hidden]="editId !== data.editId" type="date" nz-input [(ngModel)]="data.dateOfVisit" />
+                    <label class="input-label" [hidden]="editId === data.editId"
+                        (click)="startEdit(data.editId)">{{data.dateOfVisit?.toString()?.substring(0,10)}}</label>
+                    <nz-range-picker [hidden]="editId !== data.editId" [nzFormat]="dateFormat" [(ngModel)]="data.dateOfVisit" nzSize="small"></nz-range-picker>
                 </td>
+                <!--
+                <td>
+                  
+                    <input [placeholder]="'CUSTOMER_REQUIREMENTS.mandatory_field' | translate"
+                         type="date" nz-input [(ngModel)]="data.dateOfVisit" />
+                </td>-->
                 <td>
                     <mat-select multiple placeholder="{{'STANDARD.please_select'|translate}} "
                         [ngModel]="data.selection" (selectionChange)="selChange($event, data.editId)">

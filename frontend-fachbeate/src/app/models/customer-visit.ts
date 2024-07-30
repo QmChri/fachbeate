@@ -6,7 +6,8 @@ export class CustomerVisit {
     customerNr?: string;
     address?: string;
     contactPerson?: string;
-    dateOfVisit?: Date;
+    fromDateOfVisit?: Date;
+    toDateOfVisit?: Date;
     productionAmount?: string;
     presentationOfNewProducts: boolean;
     existingProducts: boolean;
