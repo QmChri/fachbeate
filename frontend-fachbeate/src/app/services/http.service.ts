@@ -57,7 +57,7 @@ export class HttpService {
   }
 
 
-  postVisitorRegistration(visitorRegistration: VisitorRegistration): Observable<VisitorRegistration>{
+  postVisitorRegistration(visitorRegistration: VisitorRegistration): Observable<VisitorRegistration>{    
     return this.http.post<VisitorRegistration>(API_URL + "visitorRegistration", visitorRegistration);
   }
 

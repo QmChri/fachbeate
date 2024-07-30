@@ -34,7 +34,8 @@ export class SeminarRegistrationComponent implements OnInit {
     techSelection: [],
     requestedTechnologist: [],
     guests: [],
-    hotelBookings: []
+    hotelBookings: [],
+    flights: []
   };
 
   constructor(public translate: TranslateService, private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute,
@@ -72,7 +73,7 @@ export class SeminarRegistrationComponent implements OnInit {
           }
         });
       } else {
-        this.addTab();
+        this.addTab(1);
       }
     });
     this.getTechnologists();
@@ -99,13 +100,22 @@ export class SeminarRegistrationComponent implements OnInit {
     return requiredFields.length === 0;
   }
 
-  addTab() {
-    this.inputWorkshop.hotelBookings = [...this.inputWorkshop.hotelBookings!, {}]
+  addTab(type: number) {
+    if(type === 1){
+      this.inputWorkshop.hotelBookings = [...this.inputWorkshop.hotelBookings!, {}]
+    }else if(type === 2){
+      this.inputWorkshop.flights = [...this.inputWorkshop.flights, {}]
+    }
   }
 
-  deleteLast() {
-    if (this.inputWorkshop.hotelBookings!.length > 1)
-      this.inputWorkshop.hotelBookings!.pop();
+  deleteLast(type: number) {
+    if(type === 1){
+      if (this.inputWorkshop.hotelBookings!.length > 1)
+        this.inputWorkshop.hotelBookings!.pop();
+    }else if(type === 2){
+      if (this.inputWorkshop.flights!.length > 1)
+        this.inputWorkshop.flights!.pop();
+    }
   }
 
   openDialog(guests: Guest[]) {

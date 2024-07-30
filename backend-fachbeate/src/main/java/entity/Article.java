@@ -11,6 +11,7 @@ public class Article extends PanacheEntity {
 
     public String name;
     public String articleNr;
+    public String summary;
 
     public Article() {
     }
@@ -18,6 +19,7 @@ public class Article extends PanacheEntity {
     public void update(Article newEntity){
         this.articleNr = newEntity.articleNr;
         this.name = newEntity.name;
+        this.summary = newEntity.summary;
     }
 
     public Article persistOrUpdate(){

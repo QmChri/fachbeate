@@ -1,5 +1,6 @@
 import { Guest } from "./guest";
 import { Hotelbooking } from "./hotelbooking";
+import { MeetingRoomReservation } from "./meeting-room-reservation";
 import { PlannedDepartmentVisit } from "./planned-department-visit";
 import { Representative } from "./representative";
 
@@ -29,9 +30,7 @@ export interface VisitorRegistration {
     tourLanguageEN?: boolean;
     tourDate?: Date;
     tourTime?: string;
-    numberOfPeopleMeetingRoom?: number;
-    meetingRoomDate?: Date;
-    meetingRoomTime?: string;
+    meetingRoomReservations: MeetingRoomReservation[];
 
     releaseManagement?: Date;
     releaserManagement?: string;

@@ -145,9 +145,9 @@ export class CustomerRequirementsComponent implements OnInit {
     }
   }
 
-  postCustomerRequirement() {      
+  postCustomerRequirement() {
     console.log(this.inputCustomerRequirement.customerVisits);
-     
+
     if (this.checkRequired()) {
       this.getNotification(1);
       this.inputCustomerRequirement.showUser = true;
@@ -163,7 +163,7 @@ export class CustomerRequirementsComponent implements OnInit {
           console.log("startDate is not a valid Date object");
         }
       } else {
-        console.log("startDate is not defined");
+          console.log("startDate is not defined");
       }
 
       if (this.inputCustomerRequirement.endDate !== null && this.inputCustomerRequirement.endDate !== undefined) {

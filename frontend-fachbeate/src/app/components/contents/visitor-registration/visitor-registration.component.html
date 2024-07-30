@@ -215,26 +215,38 @@
                 </div>
             </div>
             <div class="col-md-6 paddingBottom" *ngIf="buttonSelect.includes('2')">
-                <div class="card" hideToggle>
-                    <div class="card-header bg-danger text-white">{{'VISITOR_REGRISTRATION.meeting_room' | translate}}
-                    </div>
-                    <div class="card-body minheigtCard">
+                <div class="card">
+                    <div class="card-header text-white bg-danger paddingSearch">{{'VISITOR_REGRISTRATION.meeting_room' |
+                        translate}} </div>
+                    <div class="card-body">
+                        @for (meetingroom of inputVisitRegistration.meetingRoomReservations; track meetingroom; let index =
+                        $index)
+                        {<p>{{index+1}}. {{'VISITOR_REGRISTRATION.meeting_room' | translate}}</p>
+                        <mat-form-field>
+                            <mat-label>{{'VISITOR_REGRISTRATION.location' | translate}}</mat-label>
+                            <input matInput type="number" [min]="0" [(ngModel)]="meetingroom.numberOfPeopleMeetingRoom">
+                        </mat-form-field>
                         <div class="displayBySide">
-                            <mat-form-field class="smallInput">
-                                <mat-label>{{'VISITOR_REGRISTRATION.number' | translate}}</mat-label>
-                                <input matInput [(ngModel)]="inputVisitRegistration.numberOfPeopleMeetingRoom">
-                            </mat-form-field>
                             <mat-form-field class="smallInput">
                                 <mat-label>{{'VISITOR_REGRISTRATION.date' | translate}}</mat-label>
                                 <input matInput [matDatepicker]="picker5"
-                                    [(ngModel)]="inputVisitRegistration.meetingRoomDate">
+                                    [(ngModel)]="meetingroom.meetingRoomDate">
                                 <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
                                 <mat-datepicker #picker5></mat-datepicker>
                             </mat-form-field>
                             <mat-form-field class="TIME">
                                 <mat-label>{{'VISITOR_REGRISTRATION.time' | translate}}</mat-label>
-                                <input type="time" matInput [(ngModel)]="inputVisitRegistration.meetingRoomTime">
+                                <input type="time" matInput [(ngModel)]="meetingroom.meetingRoomTime">
                             </mat-form-field>
+                        </div>
+                        }
+                        <div class="header">
+                            <div>
+                                <button (click)="deleteLast(2)" class="btn btn-danger"><i class="fa fa-minus"></i></button>
+                            </div>
+                            <div>
+                                <button (click)="addTab(2)" class="btn btn-success"> <i class="fa fa-plus"></i></button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -417,10 +429,10 @@
                     }
                     <div class="header">
                         <div>
-                            <button (click)="deleteLast()" class="btn btn-danger"><i class="fa fa-minus"></i></button>
+                            <button (click)="deleteLast(1)" class="btn btn-danger"><i class="fa fa-minus"></i></button>
                         </div>
                         <div>
-                            <button (click)="addTab()" class="btn btn-success"> <i class="fa fa-plus"></i></button>
+                            <button (click)="addTab(1)" class="btn btn-success"> <i class="fa fa-plus"></i></button>
                         </div>
                     </div>
                 </div>

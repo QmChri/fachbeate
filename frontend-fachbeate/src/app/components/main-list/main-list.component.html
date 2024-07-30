@@ -55,7 +55,8 @@
         [nzFilters]="listOfColumn[9].listOfFilter" [nzFilterFn]="listOfColumn[9].filterFn!">
         {{'MAIN_LIST.'+listOfColumn[9].name|
         translate}}</th>
-      <th *ngIf="roleService.checkPermission([1,2,7])"></th>
+      <th *ngIf="roleService.checkPermission([1,2,7])">{{'MAIN_LIST.'+listOfColumn[10].name|
+        translate}}</th>
     </tr>
   </thead>
   <tbody>
@@ -75,7 +76,7 @@
       <td (dblclick)="openCRC(data,data.id!, data.type!)">{{ data.vertreter }}</td>
       <td (dblclick)="openCRC(data,data.id!, data.type!)">{{ data.fachberater }}</td>
       <td (dblclick)="openCRC(data, data.id!, data.type!)">
-        {{ data.timespan!.start === undefined ||data.timespan!.start === '\<Leer\>' ?  '\<Leer\>':(data.timespan!.start | date:'dd.MM.yy') }} - 
+        {{ data.timespan!.start === undefined ||data.timespan!.start === '\<Leer\>' ?  '\<Leer\>':(data.timespan!.start | date:'dd.MM.yy') }} -
         {{ data.timespan!.end === undefined || data.timespan!.end === '\<Leer\>' ? '\<Leer\>':(data.timespan!.end | date:'dd.MM.yy') }}
       </td>
       <td (dblclick)="openCRC(data,data.id!, data.type!)">{{ data.customer }}</td>
@@ -84,7 +85,7 @@
         <span>{{ ((data.type === 1) ? 'MAIN_LIST.advisor_type' : (data.type === 2) ? 'MAIN_LIST.seminar':
           'MAIN_LIST.visit') | translate }}</span>
       </td>
-      <td *ngIf="roleService.checkPermission([1,2,7])" style="padding-bottom: 0px;padding-top: 0px;">
+      <td *ngIf="roleService.checkPermission([1,2,7])" style="padding-bottom: 0px; padding-top: 0px;">
         <button nz-button nzType="primary" (click)="changeEditable(data)">
           <div *ngIf="data.visible; else notVisible">
             <i class="fas fa-eye"></i>

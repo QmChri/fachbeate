@@ -86,7 +86,8 @@
         "type": "Typ",
         "advisor_type": "Fachberater A.",
         "seminar": "Seminar",
-        "visit": "Besuch"
+        "visit": "Besuch",
+        "canceled": "Storniert"
     },
     "CUSTOMER_REQUIREMENTS": {
         "advisor_request": "Fachberater Anforderung",
