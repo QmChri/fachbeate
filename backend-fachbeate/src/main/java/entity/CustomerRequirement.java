@@ -90,7 +90,6 @@ public class CustomerRequirement extends PanacheEntity {
     public CustomerRequirement persistOrUpdate(){
         if(this.id == null || this.id == 0) {
             this.id = null;
-            this.persist();
 
             for (CustomerVisit visit : this.customerVisits) {
                 visit = visit.persistOrUpdate();
@@ -107,6 +106,7 @@ public class CustomerRequirement extends PanacheEntity {
                 this.company = this.company.persistOrUpdate();
             }
 
+            this.persist();
             return this;
         }else{
             CustomerRequirement customerRequirement = CustomerRequirement.findById(this.id);
