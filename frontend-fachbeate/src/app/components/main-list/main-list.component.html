@@ -43,7 +43,7 @@
         [nzFilters]="listOfColumn[5].listOfFilter" [nzFilterFn]="listOfColumn[5].filterFn!">
         {{'MAIN_LIST.'+listOfColumn[5].name|
         translate}}</th>
-      <th> {{'MAIN_LIST.'+listOfColumn[6].name| translate}}</th>
+      <th [nzSortFn]="listOfColumn[6].sortFn" [(nzSortOrder)]="listOfColumn[6].sortOrder"> {{'MAIN_LIST.'+listOfColumn[6].name| translate}}</th>
       <th [nzSortFn]="listOfColumn[7].sortFn" [(nzSortOrder)]="listOfColumn[7].sortOrder"
         [nzFilters]="listOfColumn[7].listOfFilter" [nzFilterFn]="listOfColumn[7].filterFn!">
         {{'MAIN_LIST.'+listOfColumn[7].name|

@@ -79,17 +79,8 @@
     justify-content: flex-start;
 }
 
-/* full-size-dialog.component.css */
-:host {
-    display: block;
-    height: 100%;
-    width: 100%;
-    max-width: 100%;
-  }
-  
-  .mat-dialog-container {
-    height: 100%;
-    width: 100%;
-    max-width: 100%;
-  }
-  
+
+.mainView {
+    max-height: -webkit-fill-available;
+    background-color: #f4f4f4;
+}
