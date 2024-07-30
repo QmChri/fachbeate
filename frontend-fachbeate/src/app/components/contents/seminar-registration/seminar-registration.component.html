@@ -86,8 +86,8 @@
                         
                         <mat-select placeholder="{{'STANDARD.please_select'|translate}} " [(ngModel)]="inputWorkshop.travelType">
                             <mat-option [value]="'car'">{{"SEMINAR_REGRISTRATION.travel_car" | translate}}</mat-option>
-                            <mat-option [value]="'train'">{{"SEMINAR_REGRISTRATION.travel_flight" | translate}}</mat-option>
-                            <mat-option [value]="'flight'">{{"SEMINAR_REGRISTRATION.travel_train" | translate}}</mat-option>
+                            <mat-option [value]="'train'">{{"SEMINAR_REGRISTRATION.travel_train" | translate}}</mat-option>
+                            <mat-option [value]="'flight'">{{"SEMINAR_REGRISTRATION.travel_flight" | translate}}</mat-option>
                             <mat-option [value]="'bus'">{{"SEMINAR_REGRISTRATION.travel_bus" | translate}}</mat-option>
                     </mat-select>
 
@@ -275,30 +275,38 @@
                         translate}}
                     </div>
                     <div class="card-body">
-                        <div class="displayBySide">
+                        <div class="card-body">
+                            @for (flight of inputWorkshop.flights; track flight; let index = $index)
+                            {<p>{{index+1}}. {{'BOOKING_REQUEST.flight' | translate}}
+                            </p>
                             <div class="center-items">
+                                
                                 <mat-form-field class="smallInput">
                                     <mat-label>{{'VISITOR_REGRISTRATION.date' | translate}}</mat-label>
-                                    <input matInput [(ngModel)]="inputWorkshop.flightHereDateTime"
-                                        [matDatepicker]="picker4">
-                                    <mat-datepicker-toggle matIconSuffix [for]="picker4"></mat-datepicker-toggle>
-                                    <mat-datepicker #picker4></mat-datepicker>
-                                </mat-form-field>
-                                <mat-form-field class="smallInput">
-                                    <mat-label>{{'VISITOR_REGRISTRATION.other_travel_requirements' |
-                                        translate}}</mat-label>
-                                    <input matInput [(ngModel)]="inputWorkshop.otherTravelRequests">
+                                    <input matInput [matDatepicker]="picker5"
+                                        [(ngModel)]="flight.flightDate">
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker5></mat-datepicker>
                                 </mat-form-field>
                             </div>
-                            <div class="center-items">
-                                <mat-form-field class="smallInput">
-                                    <mat-label>{{'DASHBOARD.from' | translate}}</mat-label>
-                                    <input matInput [(ngModel)]="inputWorkshop.flightFrom">
+                            <div class="displayBySide">
+                                <mat-form-field class="smallInputSpecial">
+                                    <mat-label>{{'STANDARD.assigned_from' | translate}}</mat-label>
+                                    <input matInput [(ngModel)]="flight.flightFrom">
                                 </mat-form-field>
-                                <mat-form-field class="smallInput">
-                                    <mat-label>{{'DASHBOARD.to' | translate}}</mat-label>
-                                    <input matInput [(ngModel)]="inputWorkshop.flightTo">
+                                <mat-form-field class="smallInputSpecial">
+                                    <mat-label>{{'STANDARD.assigned_to' | translate}}</mat-label>
+                                    <input matInput [(ngModel)]="flight.flightTo">
                                 </mat-form-field>
+                            </div>
+                            }
+                            <div class="header">
+                                <div>
+                                    <button (click)="deleteLast(2)" class="btn btn-danger"><i class="fa fa-minus"></i></button>
+                                </div>
+                                <div>
+                                    <button (click)="addTab(2)" class="btn btn-success"> <i class="fa fa-plus"></i></button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -394,10 +402,10 @@
                     }
                     <div class="header">
                         <div>
-                            <button (click)="deleteLast()" class="btn btn-danger"><i class="fa fa-minus"></i></button>
+                            <button (click)="deleteLast(1)" class="btn btn-danger"><i class="fa fa-minus"></i></button>
                         </div>
                         <div>
-                            <button (click)="addTab()" class="btn btn-success"> <i class="fa fa-plus"></i></button>
+                            <button (click)="addTab(1)" class="btn btn-success"> <i class="fa fa-plus"></i></button>
                         </div>
                     </div>
                 </div>

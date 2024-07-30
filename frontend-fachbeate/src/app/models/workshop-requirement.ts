@@ -1,4 +1,5 @@
 import { Company } from "./company";
+import { FlightBooking } from "./flight-booking";
 import { Guest } from "./guest";
 import { Hotelbooking } from "./hotelbooking";
 import { Representative } from "./representative";
@@ -28,6 +29,8 @@ export interface WorkshopRequirement{
     flightBooking?: boolean;
     hotelBooking?: boolean;
     reason?: string;
+
+    flights: FlightBooking[];
 
     subject?: string;
     

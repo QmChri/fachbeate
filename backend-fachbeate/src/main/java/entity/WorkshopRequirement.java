@@ -2,6 +2,7 @@ package entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.core.Response;
 
 import java.util.ArrayList;
@@ -58,10 +59,9 @@ public class WorkshopRequirement extends PanacheEntity {
     public int amountSingleRooms;
     public int amountDoubleRooms;
 
-    public Date flightHereDateTime;
-    public Date flightReturnDateTime;
-    public String flightFrom;
-    public String flightTo;
+    @OneToMany
+    public List<FlightBooking> flights;
+
     public String otherTravelRequests;
 
     // Ausflug
@@ -132,10 +132,6 @@ public class WorkshopRequirement extends PanacheEntity {
         this.amountSingleRooms = newEntity.amountSingleRooms;
         this.amountDoubleRooms = newEntity.amountDoubleRooms;
 
-        this.flightHereDateTime = newEntity.flightHereDateTime;
-        this.flightReturnDateTime = newEntity.flightReturnDateTime;
-        this.flightFrom = newEntity.flightFrom;
-        this.flightTo = newEntity.flightTo;
         this.otherTravelRequests = newEntity.otherTravelRequests;
 
         // Tour
@@ -177,6 +173,11 @@ public class WorkshopRequirement extends PanacheEntity {
             this.hotelBookings.add(hotelBooking.persistOrUpdate());
         }
 
+        this.flights = new ArrayList<>();
+        for(FlightBooking flight: newEntity.flights){
+            this.flights.add(flight.persistOrUpdate());
+        }
+
         this.guests = new ArrayList<>();
         for(Guest guest: newEntity.guests){
             this.guests.add(guest.persistOrUpdate());
@@ -186,13 +187,15 @@ public class WorkshopRequirement extends PanacheEntity {
 
     }
 
+     @Transactional
     public WorkshopRequirement persistOrUpdate(){
-
         if(this.id != null && this.id != 0){
             WorkshopRequirement persisted = WorkshopRequirement.findById(this.id);
             persisted.updateEntity(this);
             return persisted;
         }
+
+        this.id = null;
 
         if(this.company != null) {
             this.company = this.company.persistOrUpdate();
@@ -210,12 +213,15 @@ public class WorkshopRequirement extends PanacheEntity {
             hb.persistOrUpdate();
         }
 
+        for(FlightBooking fb: this.flights){
+            fb.persistOrUpdate();
+        }
+
         for(Guest guest: this.guests){
             guest.persistOrUpdate();
         }
 
         this.persist();
-
         return this;
     }
 
