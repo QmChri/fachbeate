@@ -15,6 +15,7 @@ import { Company } from '../../../models/company';
 import { NotificationService } from '../../../services/notification.service';
 import { RoleService } from '../../../services/role.service';
 import { TranslateService } from '@ngx-translate/core';
+import { formatRange } from '@fullcalendar/core';
 
 @Component({
   selector: 'app-customer-requirements',
@@ -29,7 +30,6 @@ export class CustomerRequirementsComponent implements OnInit {
   technologists: Technologist[] = [];
   representative: Representative[] = [];
   companies: Company[] = [];
-  datesOfVisits: Date[][] = [[]];
   freigegeben: boolean = true;
   dateFormat = 'dd.MM.yy';
 
@@ -49,6 +49,11 @@ export class CustomerRequirementsComponent implements OnInit {
               this.inputCustomerRequirement = data;
 
               this.inputCustomerRequirement.customerVisits.forEach((element, index) => {
+                element.dateSelect = [
+                  element.fromDateOfVisit!,
+                  element.toDateOfVisit!
+                ]
+
                 element.selection = [
                   (element.presentationOfNewProducts) ? 1 : 0,
                   (element.existingProducts) ? 2 : 0,
@@ -179,6 +184,11 @@ export class CustomerRequirementsComponent implements OnInit {
         console.log("endDate is not defined");
       }
 
+      this.inputCustomerRequirement.customerVisits.forEach(element => {
+        element.fromDateOfVisit = element.dateSelect![0];
+        element.toDateOfVisit = element.dateSelect![1];
+      });
+
 
       if (this.inputCustomerRequirement.creator === undefined) {
         this.inputCustomerRequirement.creator = this.roleService.getUserName();
@@ -213,7 +223,7 @@ export class CustomerRequirementsComponent implements OnInit {
       (this.inputCustomerRequirement.company === null || this.inputCustomerRequirement.company === undefined) ? "assigned_company" : "",
       (this.inputCustomerRequirement.customerVisits.filter(element => element.companyName === null || element.companyName === undefined || element.companyName === "").length !== 0) ? "assigned_customer" : "",
       (this.inputCustomerRequirement.customerVisits.filter(element => element.address === null || element.address === undefined || element.address === "").length !== 0) ? "assigned_address" : "",
-      (this.inputCustomerRequirement.customerVisits.filter(element => element.dateOfVisit === null || element.dateOfVisit === undefined).length !== 0) ? "assigned_dateOfVisit" : "",
+      (this.inputCustomerRequirement.customerVisits.filter(element => element.dateSelect!.length === 2).length !== 0) ? "assigned_dateOfVisit" : "",
       (this.inputCustomerRequirement.customerVisits.filter(element => element.presentationOfNewProducts === false && element.existingProducts === false && element.recipeOptimization === false && element.sampleProduction === false && element.training === false).length !== 0) ? "assigned_reason" : "",
       (this.inputCustomerRequirement.customerVisits.filter(element => element.productionAmount === null || element.productionAmount === undefined || element.productionAmount === "").length !== 0) ? "assigned_productionAmount" : ""
     ].filter(element => element !== "");
@@ -249,7 +259,7 @@ export class CustomerRequirementsComponent implements OnInit {
           company: customerVisit.companyName,
           companyNr: customerVisit.customerNr,
           representative: this.inputCustomerRequirement.representative,
-          dateOfVisit: customerVisit.dateOfVisit,
+          dateOfVisit: customerVisit.fromDateOfVisit,
           reasonReports: rRepo
         }
 

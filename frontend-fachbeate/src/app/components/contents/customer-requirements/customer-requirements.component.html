@@ -222,8 +222,8 @@
                 </td>
                 <td>
                     <label class="input-label" [hidden]="editId === data.editId"
-                        (click)="startEdit(data.editId)">{{data.dateOfVisit?.toString()?.substring(0,10)}}</label>
-                    <nz-range-picker [hidden]="editId !== data.editId" [nzFormat]="dateFormat" [(ngModel)]="data.dateOfVisit" nzSize="small"></nz-range-picker>
+                        (click)="startEdit(data.editId)">{{data.fromDateOfVisit?.toString()?.substring(0,10)}}</label>
+                    <nz-range-picker [hidden]="editId !== data.editId" [nzFormat]="dateFormat" [(ngModel)]="data.dateSelect" nzSize="small"></nz-range-picker>
                 </td>
                 <!--
                 <td>
