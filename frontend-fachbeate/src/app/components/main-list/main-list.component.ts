@@ -68,7 +68,11 @@ export class MainListComponent implements OnInit {
     {
       name: 'requested_period',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.timespan!.valueOf().toString().localeCompare(b.timespan!.valueOf().toString()),
+      sortFn: (a: DataItem, b: DataItem) => {
+        const aStart = a.timespan?.start?.valueOf()?.toString() ?? '';
+        const bStart = b.timespan?.start?.valueOf()?.toString() ?? '';
+        return aStart.localeCompare(bStart);
+      },
       listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => true
     },
@@ -398,7 +402,7 @@ export class MainListComponent implements OnInit {
     ws['!autofilter'] = {
       ref: XLSX.utils.encode_range({ s: { r: 0, c: 0 }, e: { r: range.e.r, c: range.e.c } })
     };
-    
+
     const colWidth: number[] = [];
     for (let C = range.s.c; C <= range.e.c; ++C) {
       let maxWidth = 10; // Mindestbreite
