@@ -213,9 +213,6 @@ export class MainListComponent implements OnInit {
     this.loadTechnologists();
     this.http.getCustomerRequirementsByUser(type!, fullname!).subscribe({
       next: data => {
-
-        console.log(data);
-        
         data.forEach(element => {
 
           this.listOfDisplayData = [...this.listOfDisplayData, {
@@ -315,7 +312,7 @@ export class MainListComponent implements OnInit {
   openCRC(data: any, id: string, type: number) {
     if (data.visible) {
       if (type === 0) {
-        this.router.navigate(['/visitorRegistration', id.split("_")[1]]);
+        this.router.navigate(['/visitor-registration', id.split("_")[1]]);
       } else if (type === 1) {
         this.router.navigate(['/customer-requirements', id.split("_")[1]]);
       } else if (type === 2) {
@@ -338,7 +335,7 @@ export class MainListComponent implements OnInit {
   }
 
   search(): void {
-    this.visible = false; console.log(this.searchValue);
+    this.visible = false;
 
     this.listOfDisplayData = this.listOfDisplayData.filter((item: DataItem) =>
     (

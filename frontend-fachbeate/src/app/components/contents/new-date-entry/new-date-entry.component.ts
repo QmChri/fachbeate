@@ -19,11 +19,9 @@ export class NewDateEntryComponent implements OnInit {
   reasons: string[] = ['Urlaub',
     'Zeitausgleich',
     'Vorläufige Kundenreservierung',
-    'Seminar',
     'Messe',
     'HomeOffice',
-    'Haus Oftering',
-    'Kundenbesuch'];
+    'Haus Oftering'];
 
   inputDate: TechnologistAppointment = {};
   technologists: Technologist[] = [];
