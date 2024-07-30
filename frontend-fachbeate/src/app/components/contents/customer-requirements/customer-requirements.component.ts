@@ -152,10 +152,31 @@ export class CustomerRequirementsComponent implements OnInit {
       this.inputCustomerRequirement.showUser = true;
       this.inputCustomerRequirement.dateOfCreation = new Date();
 
-      (this.inputCustomerRequirement.startDate!==null && this.inputCustomerRequirement.startDate !== undefined)?this.inputCustomerRequirement.startDate!.setHours(5):console.log("not");
-      (this.inputCustomerRequirement.endDate!==null && this.inputCustomerRequirement.endDate !== undefined)?this.inputCustomerRequirement.endDate!.setHours(5):console.log("not");
-      
-
+      if (this.inputCustomerRequirement.startDate !== null && this.inputCustomerRequirement.startDate !== undefined) {
+        if (typeof this.inputCustomerRequirement.startDate === 'string' || typeof this.inputCustomerRequirement.startDate === 'number') {
+            this.inputCustomerRequirement.startDate = new Date(this.inputCustomerRequirement.startDate);
+        }
+        if (this.inputCustomerRequirement.startDate instanceof Date) {
+            this.inputCustomerRequirement.startDate.setHours(5);
+        } else {
+            console.log("startDate is not a valid Date object");
+        }
+    } else {
+        console.log("startDate is not defined");
+    }
+    
+    if (this.inputCustomerRequirement.endDate !== null && this.inputCustomerRequirement.endDate !== undefined) {
+        if (typeof this.inputCustomerRequirement.endDate === 'string' || typeof this.inputCustomerRequirement.endDate === 'number') {
+            this.inputCustomerRequirement.endDate = new Date(this.inputCustomerRequirement.endDate);
+        }
+        if (this.inputCustomerRequirement.endDate instanceof Date) {
+            this.inputCustomerRequirement.endDate.setHours(5);
+        } else {
+            console.log("endDate is not a valid Date object");
+        }
+    } else {
+        console.log("endDate is not defined");
+    }
 
       if (this.inputCustomerRequirement.creator === undefined) {
         this.inputCustomerRequirement.creator = this.roleService.getUserName();
