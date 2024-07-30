@@ -29,7 +29,7 @@
   align-items: center;
 }
 
-.centerTD{
+.centerTD {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -40,4 +40,13 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+}
+
+.full-screen-dialog .mat-dialog-container {
+  padding: 0;
+}
+
+.mainView {
+  min-height: -webkit-fill-available;
+  background-color: #f4f4f4;
 }
