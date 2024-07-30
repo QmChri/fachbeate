@@ -153,7 +153,7 @@
         "visitor_registration": "Besucheranmeldung",
         "almi_group_employee_registration": "Anmeldung Almi Group Mitarbeiter",
         "name": "Name",
-        "time": "Uhrzeit",
+        "time": "Uhrzeit*",
         "customer_visit_registration": "Anmeldung Kundenbesuch",
         "customer_company": "Kunde/Unternehmen",
         "participant_list": "Teilnehmerliste",
@@ -208,7 +208,11 @@
         "customer_gifts": "Kundengeschenke",
         "diplomas": "Diplome",
         "excursion_destination": "Ausflugsziel",
-        "other_notes_excursion": "Sonstige Anmerkungen"
+        "other_notes_excursion": "Sonstige Anmerkungen",
+        "travel_car": "PKW",
+        "travel_flight": "Flug",
+        "travel_train": "Zug",
+        "travel_bus": "Bus"
     },
     "ABSCHLUSS_BERICHT_LIST": {
         "final_reports_overview": "Übersicht Abschlussberichte",

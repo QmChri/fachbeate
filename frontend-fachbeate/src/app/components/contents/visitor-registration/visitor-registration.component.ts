@@ -339,6 +339,8 @@ export class VisitorRegistrationComponent implements OnInit {
       (this.inputVisitRegistration.inputReason === null || this.inputVisitRegistration.inputReason === undefined || this.inputVisitRegistration.inputReason === "")?"1/DASHBOARD.reason":"",
       (this.inputVisitRegistration.fromDate === null || this.inputVisitRegistration.fromDate === undefined)?"1/DASHBOARD.from":"",
       (this.inputVisitRegistration.toDate === null || this.inputVisitRegistration.toDate === undefined)?"1/DASHBOARD.to":"",
+      (this.inputVisitRegistration.fromTime === null || this.inputVisitRegistration.fromTime === undefined || this.inputVisitRegistration.fromTime === "")?"1/VISITOR_REGRISTRATION.time":"",
+      (this.inputVisitRegistration.toTime === null || this.inputVisitRegistration.toTime === undefined || this.inputVisitRegistration.toTime === "")?"1/VISITOR_REGRISTRATION.time":"",
       (this.inputVisitRegistration.customerOrCompany === null || this.inputVisitRegistration.customerOrCompany === undefined || this.inputVisitRegistration.customerOrCompany === "")?"2/VISITOR_REGRISTRATION.customer_company":"",
       (this.inputVisitRegistration.guests === null || this.inputVisitRegistration.guests === undefined || this.inputVisitRegistration.guests.length === 0)?"2/VISITOR_REGRISTRATION.participant_list":"",
       (this.inputVisitRegistration.arrivalFromCountry === null || this.inputVisitRegistration.arrivalFromCountry === undefined || this.inputVisitRegistration.arrivalFromCountry === "")?"2/VISITOR_REGRISTRATION.arrival_from_country":"",
@@ -349,7 +351,7 @@ export class VisitorRegistrationComponent implements OnInit {
     ];
 
 
-    checks[0] = (requriements.filter(firsts => firsts.split("/")[0] === "1").length === 4)
+    checks[0] = (requriements.filter(firsts => firsts.split("/")[0] === "1").length === 6)
     checks[1] = (requriements.filter(firsts => firsts.split("/")[0] === "2").length === 4)
     checks[2] = (requriements.filter(firsts => firsts.split("/")[0] === "3").length === 3)
     

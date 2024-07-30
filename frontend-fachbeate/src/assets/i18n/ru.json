@@ -200,7 +200,11 @@
         "customer_gifts": "Подарки для клиентов",
         "diplomas": "Дипломы",
         "excursion_destination": "Пункт назначения экскурсии",
-        "other_notes_excursion": "Дополнительные замечания"
+        "other_notes_excursion": "Дополнительные замечания",
+        "travel_car": "Автомобиль",
+        "travel_flight": "Рейс",
+        "travel_train": "Поезд",
+        "travel_bus": "Автобус"
     },
     "ABSCHLUSS_BERICHT_LIST": {
         "final_reports_overview": "Отчеты о проделанной работе",
