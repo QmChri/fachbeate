@@ -34,7 +34,8 @@ export class VisitorRegistrationComponent implements OnInit {
   inputVisitRegistration: VisitorRegistration = {
     plannedDepartmentVisits: [],
     guests: [],
-    hotelBookings: []
+    hotelBookings: [],
+    meetingRoomReservations: []
   };
 
   //Is the simular to Serminarangmelung
@@ -82,7 +83,7 @@ export class VisitorRegistrationComponent implements OnInit {
           }
         });
       }else{
-        this.addTab()
+        this.addTab(1)
       }
     });
 
@@ -187,13 +188,22 @@ export class VisitorRegistrationComponent implements OnInit {
 
   }
 
-  addTab() {
-    this.inputVisitRegistration.hotelBookings = [...this.inputVisitRegistration.hotelBookings, {}]
+  addTab(type: number) {
+    if(type === 1){
+      this.inputVisitRegistration.hotelBookings = [...this.inputVisitRegistration.hotelBookings, {}]
+    }else if(type === 2){
+      this.inputVisitRegistration.meetingRoomReservations = [...this.inputVisitRegistration.meetingRoomReservations, {}]
+    }
   }
 
-  deleteLast() {
-    if (this.inputVisitRegistration.hotelBookings.length != 1)
-      this.inputVisitRegistration.hotelBookings.pop();
+  deleteLast(type: number) {
+    if(type === 1){
+      if (this.inputVisitRegistration.hotelBookings.length > 1)
+        this.inputVisitRegistration.hotelBookings.pop();
+    }else if(type === 2){
+      if (this.inputVisitRegistration.meetingRoomReservations.length > 1)
+        this.inputVisitRegistration.meetingRoomReservations.pop();
+    }
   }
 
   onItemChecked(id: number, checked: boolean): void {
@@ -223,7 +233,7 @@ export class VisitorRegistrationComponent implements OnInit {
     this.inputVisitRegistration.diploma = this.buttonSelect.includes("7");
 
     if(this.inputVisitRegistration.hotelBooking){
-      this.addTab();
+      this.addTab(1);
     }
 
   }

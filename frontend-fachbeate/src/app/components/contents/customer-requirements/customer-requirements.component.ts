@@ -15,7 +15,6 @@ import { Company } from '../../../models/company';
 import { NotificationService } from '../../../services/notification.service';
 import { RoleService } from '../../../services/role.service';
 import { TranslateService } from '@ngx-translate/core';
-import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'app-customer-requirements',
@@ -161,22 +160,22 @@ export class CustomerRequirementsComponent implements OnInit {
         } else {
             console.log("startDate is not a valid Date object");
         }
-    } else {
-        console.log("startDate is not defined");
-    }
+      } else {
+          console.log("startDate is not defined");
+      }
 
-    if (this.inputCustomerRequirement.endDate !== null && this.inputCustomerRequirement.endDate !== undefined) {
-        if (typeof this.inputCustomerRequirement.endDate === 'string' || typeof this.inputCustomerRequirement.endDate === 'number') {
-            this.inputCustomerRequirement.endDate = new Date(this.inputCustomerRequirement.endDate);
-        }
-        if (this.inputCustomerRequirement.endDate instanceof Date) {
-            this.inputCustomerRequirement.endDate.setHours(5);
-        } else {
-            console.log("endDate is not a valid Date object");
-        }
-    } else {
-        console.log("endDate is not defined");
-    }
+      if (this.inputCustomerRequirement.endDate !== null && this.inputCustomerRequirement.endDate !== undefined) {
+          if (typeof this.inputCustomerRequirement.endDate === 'string' || typeof this.inputCustomerRequirement.endDate === 'number') {
+              this.inputCustomerRequirement.endDate = new Date(this.inputCustomerRequirement.endDate);
+          }
+          if (this.inputCustomerRequirement.endDate instanceof Date) {
+              this.inputCustomerRequirement.endDate.setHours(5);
+          } else {
+              console.log("endDate is not a valid Date object");
+          }
+      } else {
+          console.log("endDate is not defined");
+      }
 
 
       if (this.inputCustomerRequirement.creator === undefined) {

@@ -21,7 +21,7 @@ export class MainListComponent implements OnInit {
   technologistList: Technologist[] = [];
   listOfDisplayData: DataItem[] = [];
 
-  // All columns are defined here 
+  // All columns are defined here
   listOfColumn: ColumnDefinition[] = [
     {
       name: 'id',
@@ -93,6 +93,13 @@ export class MainListComponent implements OnInit {
       listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => list.some(name => item.type!.valueOf().toString().indexOf(name.valueOf().toString()) !== -1)
     },
+    {
+      name: 'canceled',
+      sortOrder: null,
+      sortFn: (a, b) => 0,
+      listOfFilter: [],
+      filterFn: (list, item) => true,
+    }
   ];
 
   constructor(public translate: TranslateService, private router: Router, private http: HttpService, private notificationService: NotificationService, public roleService: RoleService) { }
@@ -102,7 +109,7 @@ export class MainListComponent implements OnInit {
     this.getNzFilters();
   }
 
-  // All filters are defined here 
+  // All filters are defined here
   getNzFilters() {
     const uniqueFilter = new Set<string>();
 
@@ -398,7 +405,7 @@ export class MainListComponent implements OnInit {
     ws['!autofilter'] = {
       ref: XLSX.utils.encode_range({ s: { r: 0, c: 0 }, e: { r: range.e.r, c: range.e.c } })
     };
-    
+
     const colWidth: number[] = [];
     for (let C = range.s.c; C <= range.e.c; ++C) {
       let maxWidth = 10; // Mindestbreite

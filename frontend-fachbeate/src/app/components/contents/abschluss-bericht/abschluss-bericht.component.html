@@ -1,430 +1,443 @@
-<div class="mainView" mat-dialog-content>
-    <div class="header">
-        <h1 class="paddingSearch">{{"MAIN_LIST.final_report" | translate}}</h1>
-    </div>
-    <hr>
-    <div class="row">
-        <div class="col-md-7 paddingBottom">
-            <div class="card">
-                <div class="card-header text-white bg-danger">{{"ABSCHLUSSBERICHT.general" | translate}}</div>
-                <div class="card-body">
-                    <div class="center-items">
-                        <div class="displayBySide">
-                            <mat-form-field>
-                                <mat-label>{{"MAIN_LIST.advisor"|translate}}</mat-label>
-                                <mat-select [disabled]="roleService.checkPermission([6])"
-                                    [ngModel]="(inputFinalReport.technologist === undefined)?undefined:inputFinalReport.technologist.id"
-                                    (valueChange)="changeTechnolgist($event)" required>
-                                    <mat-option>--</mat-option>
-                                    @for (t of technologists; track technologists) {
-                                    <mat-option [value]="t.id">{{t.firstName}} {{t.lastName}}</mat-option>
+<div style="background-color: #f4f4f4;">
+    <div class="mainView">
+        <div class="header">
+            <h1 class="paddingSearch">{{"MAIN_LIST.final_report" | translate}}</h1>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-7 paddingBottom">
+                <div class="card">
+                    <div class="card-header text-white bg-danger">{{"ABSCHLUSSBERICHT.general" | translate}}</div>
+                    <div class="card-body">
+                        <div class="center-items">
+                            <div class="displayBySide">
+                                <mat-form-field>
+                                    <mat-label>{{"MAIN_LIST.advisor"|translate}}</mat-label>
+                                    <mat-select [disabled]="roleService.checkPermission([6])"
+                                        [ngModel]="(inputFinalReport.technologist === undefined)?undefined:inputFinalReport.technologist.id"
+                                        (valueChange)="changeTechnolgist($event)" required>
+                                        <mat-option>--</mat-option>
+                                        @for (t of technologists; track technologists) {
+                                        <mat-option [value]="t.id">{{t.firstName}} {{t.lastName}}</mat-option>
+                                        }
+                                    </mat-select>
+                                    @if (control.hasError('required')) {
+                                    <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
                                     }
-                                </mat-select>
-                                @if (control.hasError('required')) {
-                                <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
-                                }
-                            </mat-form-field>
-                            <mat-form-field class="smallInput">
-                                <mat-label>{{"ABSCHLUSSBERICHT.company" | translate}}</mat-label>
-                                <input [disabled]="roleService.checkPermission([6])" matInput type="text"
-                                    [(ngModel)]="inputFinalReport.company" name="company" required>
-                                @if (control.hasError('required')) {
-                                <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
-                                }
-                            </mat-form-field>
-                            <mat-form-field class="smallInput">
-                                <mat-label>{{"CUSTOMER_REQUIREMENTS.customer_number" | translate}}</mat-label>
-                                <input [disabled]="roleService.checkPermission([6])" matInput type="text"
-                                    [(ngModel)]="inputFinalReport.companyNr" name="companyNr">
-                            </mat-form-field>
+                                </mat-form-field>
+                                <mat-form-field class="smallInput">
+                                    <mat-label>{{"ABSCHLUSSBERICHT.company" | translate}}</mat-label>
+                                    <input [disabled]="roleService.checkPermission([6])" matInput type="text"
+                                        [(ngModel)]="inputFinalReport.company" name="company" required>
+                                    @if (control.hasError('required')) {
+                                    <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
+                                    }
+                                </mat-form-field>
+                                <mat-form-field class="smallInput">
+                                    <mat-label>{{"CUSTOMER_REQUIREMENTS.customer_number" | translate}}</mat-label>
+                                    <input [disabled]="roleService.checkPermission([6])" matInput type="text"
+                                        [(ngModel)]="inputFinalReport.companyNr" name="companyNr">
+                                </mat-form-field>
+                            </div>
+                            <div class="displayBySide">
+                                <mat-form-field>
+                                    <mat-label>{{"MAIN_LIST.representative"|translate}}</mat-label>
+                                    <mat-select [disabled]="roleService.checkPermission([6])"
+                                        [ngModel]="(inputFinalReport.representative === undefined)?undefined:inputFinalReport.representative.id"
+                                        (valueChange)="changeRepresentative($event)" required>
+                                        <mat-option>--</mat-option>
+                                        @for (r of representative; track representative) {
+                                        <mat-option [value]="r.id">{{r.firstName}} {{r.lastName}}</mat-option>
+                                        }
+                                    </mat-select>
+                                    @if (control.hasError('required')) {
+                                    <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
+                                    }
+                                </mat-form-field>
+                                <mat-form-field class="smallInputSide">
+                                    <mat-label>{{"ABSCHLUSSBERICHT.visit_date_general" | translate}}</mat-label>
+                                    <input [disabled]="roleService.checkPermission([6])" matInput required
+                                        [matDatepicker]="picker1" type="text" [(ngModel)]="inputFinalReport.dateOfVisit"
+                                        name="dateOfVisit">
+                                    @if (control.hasError('required')) {
+                                    <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
+                                    }
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker1></mat-datepicker>
+                                </mat-form-field>
+                                <mat-form-field class="smallInput">
+                                    <mat-label>{{"ABSCHLUSSBERICHT.visit_reason_general" | translate}}</mat-label>
+                                    <mat-select [disabled]="roleService.checkPermission([6])" required multiple
+                                        [placeholder]="'STANDARD.please_select' | translate" [(ngModel)]="reasonSelect"
+                                        name="resons">
+                                        <mat-option disabled [value]="1">{{"ABSCHLUSSBERICHT.introduction" |
+                                            translate}}</mat-option>
+                                        <mat-option disabled [value]="2">{{"ABSCHLUSSBERICHT.problem_solving" |
+                                            translate}}</mat-option>
+                                        <mat-option disabled [value]="3">{{"CUSTOMER_REQUIREMENTS.recipe_optimization" |
+                                            translate}}</mat-option>
+                                        <mat-option disabled [value]="4">{{"CUSTOMER_REQUIREMENTS.sample_production" |
+                                            translate}}</mat-option>
+                                        <mat-option disabled [value]="5">{{"CUSTOMER_REQUIREMENTS.training" |
+                                            translate}}</mat-option>
+                                    </mat-select>
+                                    @if (control.hasError('required')) {
+                                    <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
+                                    }
+                                </mat-form-field>
+                            </div>
                         </div>
-                        <div class="displayBySide">
-                            <mat-form-field>
-                                <mat-label>{{"MAIN_LIST.representative"|translate}}</mat-label>
-                                <mat-select [disabled]="roleService.checkPermission([6])"
-                                    [ngModel]="(inputFinalReport.representative === undefined)?undefined:inputFinalReport.representative.id"
-                                    (valueChange)="changeRepresentative($event)" required>
-                                    <mat-option>--</mat-option>
-                                    @for (r of representative; track representative) {
-                                    <mat-option [value]="r.id">{{r.firstName}} {{r.lastName}}</mat-option>
-                                    }
-                                </mat-select>
-                                @if (control.hasError('required')) {
-                                <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
-                                }
-                            </mat-form-field>
-                            <mat-form-field class="smallInputSide">
-                                <mat-label>{{"ABSCHLUSSBERICHT.visit_date_general" | translate}}</mat-label>
-                                <input [disabled]="roleService.checkPermission([6])" matInput required
-                                    [matDatepicker]="picker1" type="text" [(ngModel)]="inputFinalReport.dateOfVisit"
-                                    name="dateOfVisit">
-                                @if (control.hasError('required')) {
-                                <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
-                                }
-                                <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
-                                <mat-datepicker #picker1></mat-datepicker>
-                            </mat-form-field>
-                            <mat-form-field class="smallInput">
-                                <mat-label>{{"ABSCHLUSSBERICHT.visit_reason_general" | translate}}</mat-label>
-                                <mat-select [disabled]="roleService.checkPermission([6])" required multiple
-                                    [placeholder]="'STANDARD.please_select' | translate" [(ngModel)]="reasonSelect"
-                                    name="resons">
-                                    <mat-option disabled [value]="1">{{"ABSCHLUSSBERICHT.introduction" |
-                                        translate}}</mat-option>
-                                    <mat-option disabled [value]="2">{{"ABSCHLUSSBERICHT.problem_solving" |
-                                        translate}}</mat-option>
-                                    <mat-option disabled [value]="3">{{"CUSTOMER_REQUIREMENTS.recipe_optimization" |
-                                        translate}}</mat-option>
-                                    <mat-option disabled [value]="4">{{"CUSTOMER_REQUIREMENTS.sample_production" |
-                                        translate}}</mat-option>
-                                    <mat-option disabled [value]="5">{{"CUSTOMER_REQUIREMENTS.training" |
-                                        translate}}</mat-option>
-                                </mat-select>
-                                @if (control.hasError('required')) {
-                                <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
-                                }
-                            </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 paddingBottom">
+                <div class="card">
+                    <div class="card-header text-white bg-danger">{{"ABSCHLUSSBERICHT.customer_communication" |
+                        translate}}</div>
+                    <div class="card-body">
+                        <div class="center-items">
+                            <div class="displayBySide">
+                                <mat-form-field class="smallInputSide">
+                                    <mat-label>{{"ABSCHLUSSBERICHT.contacted_on" | translate}}</mat-label>
+                                    <input [disabled]="roleService.checkPermission([6])" matInput
+                                        [matDatepicker]="picker2" type="text"
+                                        [(ngModel)]="inputFinalReport.customerContactDate" name="contactDate">
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker2></mat-datepicker>
+                                </mat-form-field>
+                                <mat-form-field class="smallInput">
+                                    <mat-label>{{"ABSCHLUSSBERICHT.customer_feedback" | translate}}</mat-label>
+                                    <textarea [disabled]="roleService.checkPermission([6])" rows="1" matInput
+                                        type="text" [(ngModel)]="inputFinalReport.responseCustomer"
+                                        name="responseCustomer"></textarea>
+                                </mat-form-field>
+                            </div>
+                            <div class="displayBySide">
+                                <mat-form-field class="smallInput">
+                                    <mat-label>{{"ABSCHLUSSBERICHT.further_actions" | translate}}</mat-label>
+                                    <mat-select [disabled]="roleService.checkPermission([6])" required
+                                        [placeholder]="'STANDARD.please_select' | translate"
+                                        [(ngModel)]="inputFinalReport.furtherActivities" name="furtherActivities">
+                                        <mat-option [value]="true">{{"SEMINAR_REGRISTRATION.yes" |
+                                            translate}}</mat-option>
+                                        <mat-option [value]="false">{{"SEMINAR_REGRISTRATION.no" |
+                                            translate}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field class="smallInputSide">
+                                    <mat-label>{{"ABSCHLUSSBERICHT.to_be_done_by" | translate}}</mat-label>
+                                    <input [disabled]="roleService.checkPermission([6])" matInput
+                                        [matDatepicker]="picker3" type="text" [(ngModel)]="inputFinalReport.doneUntil"
+                                        name="doneUntil">
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker3></mat-datepicker>
+                                </mat-form-field>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-5 paddingBottom">
-            <div class="card">
-                <div class="card-header text-white bg-danger">{{"ABSCHLUSSBERICHT.customer_communication" |
-                    translate}}</div>
-                <div class="card-body">
-                    <div class="center-items">
-                        <div class="displayBySide">
-                            <mat-form-field class="smallInputSide">
-                                <mat-label>{{"ABSCHLUSSBERICHT.contacted_on" | translate}}</mat-label>
-                                <input [disabled]="roleService.checkPermission([6])" matInput [matDatepicker]="picker2"
-                                    type="text" [(ngModel)]="inputFinalReport.customerContactDate" name="contactDate">
-                                <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
-                                <mat-datepicker #picker2></mat-datepicker>
-                            </mat-form-field>
-                            <mat-form-field class="smallInput">
-                                <mat-label>{{"ABSCHLUSSBERICHT.customer_feedback" | translate}}</mat-label>
+        <div class="row">
+            <div class="col-md-5 paddingBottom">
+                <div class="card">
+                    <div class="card-header text-white bg-danger">{{"ABSCHLUSSBERICHT.requirements_summary" |
+                        translate}}</div>
+                    <div class="card-body">
+                        <div class="center-items">
+                            <div class="displayBySide">
+                                <mat-form-field class="smallInput">
+                                    <mat-label>{{"ABSCHLUSSBERICHT.additional_products" | translate}}</mat-label>
+                                    <input [disabled]="roleService.checkPermission([6])" matInput type="text"
+                                        [(ngModel)]="inputFinalReport.interestingProducts" name="interestingProducts">
+                                </mat-form-field>
+                                <mat-form-field class="smallInputSide">
+                                    <mat-label>{{"ABSCHLUSSBERICHT.completed" | translate}}</mat-label>
+                                    <mat-select [disabled]="roleService.checkPermission([6])" required
+                                        [placeholder]="'STANDARD.please_select' | translate"
+                                        [(ngModel)]="inputFinalReport.requestCompleted" name="requestCompleted">
+                                        <mat-option [value]="true">{{"SEMINAR_REGRISTRATION.yes" |
+                                            translate}}</mat-option>
+                                        <mat-option [value]="false">{{"SEMINAR_REGRISTRATION.no" |
+                                            translate}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <mat-form-field class="smallInput" *ngIf="roleService.checkPermission([1,3,6])">
+                                <mat-label>{{"ABSCHLUSSBERICHT.representative_summary" | translate}}</mat-label>
                                 <textarea [disabled]="roleService.checkPermission([6])" rows="1" matInput type="text"
-                                    [(ngModel)]="inputFinalReport.responseCustomer" name="responseCustomer"></textarea>
-                            </mat-form-field>
-                        </div>
-                        <div class="displayBySide">
-                            <mat-form-field class="smallInput">
-                                <mat-label>{{"ABSCHLUSSBERICHT.further_actions" | translate}}</mat-label>
-                                <mat-select [disabled]="roleService.checkPermission([6])" required
-                                    [placeholder]="'STANDARD.please_select' | translate"
-                                    [(ngModel)]="inputFinalReport.furtherActivities" name="furtherActivities">
-                                    <mat-option [value]="true">{{"SEMINAR_REGRISTRATION.yes" |
-                                        translate}}</mat-option>
-                                    <mat-option [value]="false">{{"SEMINAR_REGRISTRATION.no" |
-                                        translate}}</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                            <mat-form-field class="smallInputSide">
-                                <mat-label>{{"ABSCHLUSSBERICHT.to_be_done_by" | translate}}</mat-label>
-                                <input [disabled]="roleService.checkPermission([6])" matInput [matDatepicker]="picker3"
-                                    type="text" [(ngModel)]="inputFinalReport.doneUntil" name="doneUntil">
-                                <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
-                                <mat-datepicker #picker3></mat-datepicker>
+                                    [(ngModel)]="inputFinalReport.summaryFinalReport"
+                                    name="summaryFinalReport"></textarea>
                             </mat-form-field>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-5 paddingBottom">
-            <div class="card">
-                <div class="card-header text-white bg-danger">{{"ABSCHLUSSBERICHT.requirements_summary" |
-                    translate}}</div>
-                <div class="card-body">
-                    <div class="center-items">
-                        <div class="displayBySide">
-                            <mat-form-field class="smallInput">
-                                <mat-label>{{"ABSCHLUSSBERICHT.additional_products" | translate}}</mat-label>
-                                <input [disabled]="roleService.checkPermission([6])" matInput type="text"
-                                    [(ngModel)]="inputFinalReport.interestingProducts" name="interestingProducts">
-                            </mat-form-field>
-                            <mat-form-field class="smallInputSide">
-                                <mat-label>{{"ABSCHLUSSBERICHT.completed" | translate}}</mat-label>
-                                <mat-select [disabled]="roleService.checkPermission([6])" required
-                                    [placeholder]="'STANDARD.please_select' | translate"
-                                    [(ngModel)]="inputFinalReport.requestCompleted" name="requestCompleted">
-                                    <mat-option [value]="true">{{"SEMINAR_REGRISTRATION.yes" |
-                                        translate}}</mat-option>
-                                    <mat-option [value]="false">{{"SEMINAR_REGRISTRATION.no" |
-                                        translate}}</mat-option>
-                                </mat-select>
-                            </mat-form-field>
+            <div class="col-md-5 paddingBottom">
+                <div class="card">
+                    <div class="card-header text-white bg-danger">{{"ABSCHLUSSBERICHT.follow_up" | translate}}</div>
+                    <div class="card-body">
+                        <div class="center-items">
+                            <div class="displayBySide">
+                                <mat-form-field class="nacharbeitSmall"
+                                    *ngIf="roleService.checkPermission([1,2,4,6,7])">
+                                    <mat-label>{{"ABSCHLUSSBERICHT.advisor_follow_up" | translate}}</mat-label>
+                                    <mat-select [disabled]="roleService.checkPermission([6])" required
+                                        [placeholder]="'STANDARD.please_select' | translate"
+                                        [(ngModel)]="inputFinalReport.reworkByTechnologist" name="reworkByTechnologist">
+                                        <mat-option [value]="true">{{"SEMINAR_REGRISTRATION.yes" |
+                                            translate}}</mat-option>
+                                        <mat-option [value]="false">{{"SEMINAR_REGRISTRATION.no" |
+                                            translate}}</mat-option>
+                                    </mat-select>
+                                    @if (control.hasError('required')) {
+                                    <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
+                                    }
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <mat-label>{{"ABSCHLUSSBERICHT.follow_Visit" | translate}}</mat-label>
+                                    <mat-select [disabled]="roleService.checkPermission([6])"
+                                        [(ngModel)]="inputFinalReport.reworkFollowVisits" required
+                                        [placeholder]="'STANDARD.please_select' | translate">
+                                        <mat-option [value]="true">{{"SEMINAR_REGRISTRATION.yes" | translate}}</mat-option>
+                                        <mat-option [value]="false">{{"SEMINAR_REGRISTRATION.no" | translate}}</mat-option>
+                                    </mat-select>
+                                    @if (control.hasError('required')) {
+                                    <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
+                                    }
+                                </mat-form-field>
+
+                            </div>
                         </div>
-                        <mat-form-field class="smallInput" *ngIf="roleService.checkPermission([1,3,6])">
-                            <mat-label>{{"ABSCHLUSSBERICHT.representative_summary" | translate}}</mat-label>
-                            <textarea [disabled]="roleService.checkPermission([6])" rows="1" matInput type="text"
-                                [(ngModel)]="inputFinalReport.summaryFinalReport" name="summaryFinalReport"></textarea>
-                        </mat-form-field>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-5 paddingBottom">
-            <div class="card">
-                <div class="card-header text-white bg-danger">{{"ABSCHLUSSBERICHT.follow_up" | translate}}</div>
-                <div class="card-body">
-                    <div class="center-items">
-                        <div class="displayBySide">
-                            <mat-form-field class="nacharbeitSmall" *ngIf="roleService.checkPermission([1,2,4,6,7])">
-                                <mat-label>{{"ABSCHLUSSBERICHT.advisor_follow_up" | translate}}</mat-label>
-                                <mat-select [disabled]="roleService.checkPermission([6])" required
-                                    [placeholder]="'STANDARD.please_select' | translate"
-                                    [(ngModel)]="inputFinalReport.reworkByTechnologist" name="reworkByTechnologist">
-                                    <mat-option [value]="true">{{"SEMINAR_REGRISTRATION.yes" |
-                                        translate}}</mat-option>
-                                    <mat-option [value]="false">{{"SEMINAR_REGRISTRATION.no" |
-                                        translate}}</mat-option>
-                                </mat-select>
-                                @if (control.hasError('required')) {
-                                <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
-                                }
-                            </mat-form-field>
+                        <div class="header"
+                            *ngIf="inputFinalReport.reworkByTechnologist && roleService.checkPermission([1,2,4,7])">
                             <mat-form-field>
-                                <mat-label>{{"ABSCHLUSSBERICHT.follow_Visit" | translate}}</mat-label>
-                                <mat-select [disabled]="roleService.checkPermission([6])"
-                                    [(ngModel)]="inputFinalReport.reworkFollowVisits" required
-                                    [placeholder]="'STANDARD.please_select' | translate">
-                                    <mat-option [value]="true">{{"SEMINAR_REGRISTRATION.yes" | translate}}</mat-option>
-                                    <mat-option [value]="false">{{"SEMINAR_REGRISTRATION.no" | translate}}</mat-option>
+                                <mat-label>{{"ABSCHLUSSBERICHT.todo"|translate}}</mat-label>
+                                <mat-select [disabled]="roleService.checkPermission([6])" multiple
+                                    [(ngModel)]="inputFinalReport.reworkToDo" required>
+                                    @for (r of todoList; track todoList) {
+                                    <mat-option [value]="r.id">{{r.name | translate}}</mat-option>
+                                    }
                                 </mat-select>
                                 @if (control.hasError('required')) {
                                 <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
                                 }
                             </mat-form-field>
-
+                            <mat-form-field
+                                    class="nacharbeitSmall">
+                                    <mat-label>{{"ABSCHLUSSBERICHT.to_be_done_by" | translate}}</mat-label>
+                                    <input [disabled]="roleService.checkPermission([6])" matInput
+                                        [matDatepicker]="picker5" type="text" required
+                                        [(ngModel)]="inputFinalReport.reworkByTechnologistDoneUntil"
+                                        name="reworkByTechnologistDoneUntil">
+                                    @if (control.hasError('required')) {
+                                    <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
+                                    }
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker5></mat-datepicker>
+                                </mat-form-field>
                         </div>
                     </div>
-                    <div class="header"
-                        *ngIf="inputFinalReport.reworkByTechnologist && roleService.checkPermission([1,2,4,7])">
-                        <mat-form-field>
-                            <mat-label>{{"ABSCHLUSSBERICHT.todo"|translate}}</mat-label>
-                            <mat-select [disabled]="roleService.checkPermission([6])" multiple
-                                [(ngModel)]="inputFinalReport.reworkToDo" required>
-                                @for (r of todoList; track todoList) {
-                                <mat-option [value]="r.id">{{r.name | translate}}</mat-option>
-                                }
-                            </mat-select>
-                            @if (control.hasError('required')) {
-                            <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
-                            }
-                        </mat-form-field>
-                        <mat-form-field class="nacharbeitSmall">
-                            <mat-label>{{"ABSCHLUSSBERICHT.to_be_done_by" | translate}}</mat-label>
-                            <input [disabled]="roleService.checkPermission([6])" matInput [matDatepicker]="picker5"
-                                type="text" required [(ngModel)]="inputFinalReport.reworkByTechnologistDoneUntil"
-                                name="reworkByTechnologistDoneUntil">
-                            @if (control.hasError('required')) {
-                            <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
-                            }
-                            <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
-                            <mat-datepicker #picker5></mat-datepicker>
-                        </mat-form-field>
-                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-2 paddingBottom">
-            <div class="card">
-                <div class="card-header text-white bg-danger">{{"ABSCHLUSSBERICHT.report_by_reason" |
-                    translate}}
-                </div>
-                <mat-button-toggle-group [disabled]="roleService.checkPermission([6])" [ngModel]="multiSelect"
-                    (change)="changeSelections($event)" vertical multiple>
-                    <mat-button-toggle [value]="1">{{"CUSTOMER_REQUIREMENTS.presentation_of_new_products" |
-                        translate}}</mat-button-toggle>
-                    <mat-button-toggle [value]="2">{{"CUSTOMER_REQUIREMENTS.existing_products" |
-                        translate}}</mat-button-toggle>
-                    <mat-button-toggle [value]="3">{{"CUSTOMER_REQUIREMENTS.recipe_optimization" |
-                        translate}}</mat-button-toggle>
-                    <mat-button-toggle [value]="4">{{"CUSTOMER_REQUIREMENTS.sample_production" |
-                        translate}}</mat-button-toggle>
-                </mat-button-toggle-group>
-            </div>
-        </div>
-        <ng-container *ngFor="let reasonReport of inputFinalReport.reasonReports">
-            <div class="col-md-4 paddingBottom" *ngIf="reasonReport.reason === 1">
-                <div class="card" hideToggle>
-                    <div class="card-header bg-danger text-white">{{"ABSCHLUSSBERICHT.introduction" |
+            <div class="col-md-2 paddingBottom">
+                <div class="card">
+                    <div class="card-header text-white bg-danger">{{"ABSCHLUSSBERICHT.report_by_reason" |
                         translate}}
                     </div>
-                    <div class="card-body">
-                        <mat-form-field class="smallInput">
-                            <mat-label>{{"ABSCHLUSSBERICHT.summary" | translate}}</mat-label>
-                            <textarea [disabled]="roleService.checkPermission([6])" matInput type="text"
-                                [(ngModel)]="reasonReport.carriedOutActivity" name="carriedOutActivity"></textarea>
-                        </mat-form-field>
-
-                        @for (article of reasonReport.presentedArticle; track $index) {
-                        <div class="displayBySide">
-                            <mat-form-field class="artundnr">
-                                <mat-label>{{"ABSCHLUSSBERICHT.article_number" | translate}}</mat-label>
-                                <input [disabled]="roleService.checkPermission([6])" matInput type="text"
-                                    [(ngModel)]="article.articleNr" name="articleNumber{{reasonReport.reason}}"
-                                    (ngModelChange)="insertOther(article, reasonReport.reason)">
-                            </mat-form-field>
-                            <mat-form-field class="artundnr">
-                                <mat-label>{{"ABSCHLUSSBERICHT.article" | translate}}</mat-label>
-                                <input [disabled]="roleService.checkPermission([6]) || isExisting(article)" matInput
-                                    type="text" [(ngModel)]="article.name" name="articleName{{reasonReport.reason}}">
-                            </mat-form-field>
+                    <mat-button-toggle-group [disabled]="roleService.checkPermission([6])" [ngModel]="multiSelect"
+                        (change)="changeSelections($event)" vertical multiple>
+                        <mat-button-toggle [value]="1">{{"CUSTOMER_REQUIREMENTS.presentation_of_new_products" |
+                            translate}}</mat-button-toggle>
+                        <mat-button-toggle [value]="2">{{"CUSTOMER_REQUIREMENTS.existing_products" |
+                            translate}}</mat-button-toggle>
+                        <mat-button-toggle [value]="3">{{"CUSTOMER_REQUIREMENTS.recipe_optimization" |
+                            translate}}</mat-button-toggle>
+                        <mat-button-toggle [value]="4">{{"CUSTOMER_REQUIREMENTS.sample_production" |
+                            translate}}</mat-button-toggle>
+                    </mat-button-toggle-group>
+                </div>
+            </div>
+            <ng-container *ngFor="let reasonReport of inputFinalReport.reasonReports">
+                <div class="col-md-4 paddingBottom" *ngIf="reasonReport.reason === 1">
+                    <div class="card" hideToggle>
+                        <div class="card-header bg-danger text-white">{{"ABSCHLUSSBERICHT.introduction" |
+                            translate}}
                         </div>
-                        }
-                        <div class="header">
-                            <div>
-                                <button [disabled]="roleService.checkPermission([6])"
-                                    (click)="deleteArticle(reasonReport.reason)" class="btn btn-danger"><i
-                                        class="fa fa-minus"></i>
-                                </button>
+                        <div class="card-body">
+                        
+                            @for (article of reasonReport.presentedArticle; track $index) {
+                            <div class="displayBySide">
+                                <mat-form-field class="artundnr">
+                                    <mat-label>{{"ABSCHLUSSBERICHT.article_number" | translate}}</mat-label>
+                                    <input [disabled]="roleService.checkPermission([6])" matInput type="text"
+                                        [(ngModel)]="article.articleNr" name="articleNumber{{reasonReport.reason}}"
+                                        (ngModelChange)="insertOther(article, reasonReport.reason)">
+                                </mat-form-field>
+                                <mat-form-field class="artundnr">
+                                    <mat-label>{{"ABSCHLUSSBERICHT.article" | translate}}</mat-label>
+                                    <input [disabled]="roleService.checkPermission([6]) || isExisting(article)" matInput
+                                        type="text" [(ngModel)]="article.name"
+                                        name="articleName{{reasonReport.reason}}">
+                                </mat-form-field>
                             </div>
-                            <div> <button [disabled]="roleService.checkPermission([6])"
-                                    (click)="addArticle(reasonReport.reason!)" class="btn btn-success">
-                                    <i class="fa fa-plus"></i>
-                                </button>
+                            <mat-form-field class="smallInput">
+                                <mat-label>{{"ABSCHLUSSBERICHT.summary" | translate}}</mat-label>
+                                <textarea [disabled]="roleService.checkPermission([6])" matInput type="text"
+                                    [(ngModel)]="article.summary" name="carriedOutActivity"></textarea>
+                            </mat-form-field>
+                            }
+                            <div class="header">
+                                <div>
+                                    <button [disabled]="roleService.checkPermission([6])"
+                                        (click)="deleteArticle(reasonReport.reason)" class="btn btn-danger"><i
+                                            class="fa fa-minus"></i>
+                                    </button>
+                                </div>
+                                <div> <button [disabled]="roleService.checkPermission([6])"
+                                        (click)="addArticle(reasonReport.reason!)" class="btn btn-success">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-4 paddingBottom" *ngIf="reasonReport.reason === 2">
-                <div class="card" hideToggle>
-                    <div class="card-header bg-danger text-white">{{"ABSCHLUSSBERICHT.problem_solving" |
-                        translate}}
-                    </div>
-                    <div class="card-body">
-                        <mat-form-field class="smallInput">
-                            <mat-label>{{"ABSCHLUSSBERICHT.summary" | translate}}</mat-label>
-                            <textarea [disabled]="roleService.checkPermission([6])" matInput type="text"
-                                [(ngModel)]="reasonReport.carriedOutActivity" name="carriedOutActivity"></textarea>
-                        </mat-form-field>
-
-                        @for (article of reasonReport.presentedArticle; track $index) {
-                        <div class="displayBySide">
-                            <mat-form-field class="artundnr">
-                                <mat-label>{{"ABSCHLUSSBERICHT.article_number" | translate}}</mat-label>
-                                <input [disabled]="roleService.checkPermission([6])" matInput type="text"
-                                    [(ngModel)]="article.articleNr" name="articleNumber{{reasonReport.reason}}"
-                                    (ngModelChange)="insertOther(article, reasonReport.reason)">
-                            </mat-form-field>
-                            <mat-form-field class="artundnr">
-                                <mat-label>{{"ABSCHLUSSBERICHT.article" | translate}}</mat-label>
-                                <input [disabled]="roleService.checkPermission([6]) || isExisting(article)" matInput
-                                    type="text" [(ngModel)]="article.name" name="articleName{{reasonReport.reason}}">
-                            </mat-form-field>
+                <div class="col-md-4 paddingBottom" *ngIf="reasonReport.reason === 2">
+                    <div class="card" hideToggle>
+                        <div class="card-header bg-danger text-white">{{"ABSCHLUSSBERICHT.problem_solving" |
+                            translate}}
                         </div>
-                        }
-                        <div class="header">
-                            <div>
-                                <button [disabled]="roleService.checkPermission([6])"
-                                    (click)="deleteArticle(reasonReport.reason)" class="btn btn-danger"><i
-                                        class="fa fa-minus"></i>
-                                </button>
+                        <div class="card-body">
+                            
+
+                            @for (article of reasonReport.presentedArticle; track $index) {
+                            <div class="displayBySide">
+                                <mat-form-field class="artundnr">
+                                    <mat-label>{{"ABSCHLUSSBERICHT.article_number" | translate}}</mat-label>
+                                    <input [disabled]="roleService.checkPermission([6])" matInput type="text"
+                                        [(ngModel)]="article.articleNr" name="articleNumber{{reasonReport.reason}}"
+                                        (ngModelChange)="insertOther(article, reasonReport.reason)">
+                                </mat-form-field>
+                                <mat-form-field class="artundnr">
+                                    <mat-label>{{"ABSCHLUSSBERICHT.article" | translate}}</mat-label>
+                                    <input [disabled]="roleService.checkPermission([6]) || isExisting(article)" matInput
+                                        type="text" [(ngModel)]="article.name"
+                                        name="articleName{{reasonReport.reason}}">
+                                </mat-form-field>
                             </div>
-                            <div> <button [disabled]="roleService.checkPermission([6])"
-                                    (click)="addArticle(reasonReport.reason!)" class="btn btn-success">
-                                    <i class="fa fa-plus"></i>
-                                </button>
+                            <mat-form-field class="smallInput">
+                                <mat-label>{{"ABSCHLUSSBERICHT.summary" | translate}}</mat-label>
+                                <textarea [disabled]="roleService.checkPermission([6])" matInput type="text"
+                                    [(ngModel)]="article.summary" name="carriedOutActivity"></textarea>
+                            </mat-form-field>
+                            }
+                            <div class="header">
+                                <div>
+                                    <button [disabled]="roleService.checkPermission([6])"
+                                        (click)="deleteArticle(reasonReport.reason)" class="btn btn-danger"><i
+                                            class="fa fa-minus"></i>
+                                    </button>
+                                </div>
+                                <div> <button [disabled]="roleService.checkPermission([6])"
+                                        (click)="addArticle(reasonReport.reason!)" class="btn btn-success">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-4 paddingBottom" *ngIf="reasonReport.reason === 3">
-                <div class="card" hideToggle>
-                    <div class="card-header bg-danger text-white">{{"CUSTOMER_REQUIREMENTS.recipe_optimization"
-                        |
-                        translate}}</div>
-                    <div class="card-body">
-                        <mat-form-field class="smallInput">
-                            <mat-label>{{"ABSCHLUSSBERICHT.summary" | translate}}</mat-label>
-                            <textarea [disabled]="roleService.checkPermission([6])" matInput type="text"
-                                [(ngModel)]="reasonReport.carriedOutActivity" name="carriedOutActivity"></textarea>
-                        </mat-form-field>
+                <div class="col-md-4 paddingBottom" *ngIf="reasonReport.reason === 3">
+                    <div class="card" hideToggle>
+                        <div class="card-header bg-danger text-white">{{"CUSTOMER_REQUIREMENTS.recipe_optimization"
+                            |
+                            translate}}</div>
+                        <div class="card-body">
 
-                        @for (article of reasonReport.presentedArticle; track $index) {
-                        <div class="displayBySide">
-                            <mat-form-field class="artundnr">
-                                <mat-label>{{"ABSCHLUSSBERICHT.article_number" | translate}}</mat-label>
-                                <input [disabled]="roleService.checkPermission([6])" matInput type="text"
-                                    [(ngModel)]="article.articleNr" name="articleNumber{{reasonReport.reason}}"
-                                    (ngModelChange)="insertOther(article, reasonReport.reason)">
-                            </mat-form-field>
-                            <mat-form-field class="artundnr">
-                                <mat-label>{{"ABSCHLUSSBERICHT.article" | translate}}</mat-label>
-                                <input [disabled]="roleService.checkPermission([6]) || isExisting(article)" matInput
-                                    type="text" [(ngModel)]="article.name" name="articleName{{reasonReport.reason}}">
-                            </mat-form-field>
-                        </div>
-                        }
-                        <div class="header">
-                            <div>
-                                <button [disabled]="roleService.checkPermission([6])"
-                                    (click)="deleteArticle(reasonReport.reason)" class="btn btn-danger"><i
-                                        class="fa fa-minus"></i>
-                                </button>
+                            @for (article of reasonReport.presentedArticle; track $index) {
+                            <div class="displayBySide">
+                                <mat-form-field class="artundnr">
+                                    <mat-label>{{"ABSCHLUSSBERICHT.article_number" | translate}}</mat-label>
+                                    <input [disabled]="roleService.checkPermission([6])" matInput type="text"
+                                        [(ngModel)]="article.articleNr" name="articleNumber{{reasonReport.reason}}"
+                                        (ngModelChange)="insertOther(article, reasonReport.reason)">
+                                </mat-form-field>
+                                <mat-form-field class="artundnr">
+                                    <mat-label>{{"ABSCHLUSSBERICHT.article" | translate}}</mat-label>
+                                    <input [disabled]="roleService.checkPermission([6]) || isExisting(article)" matInput
+                                        type="text" [(ngModel)]="article.name"
+                                        name="articleName{{reasonReport.reason}}">
+                                </mat-form-field>
+                                <mat-form-field class="smallInput">
+                                    <mat-label>{{"ABSCHLUSSBERICHT.summary" | translate}}</mat-label>
+                                    <textarea [disabled]="roleService.checkPermission([6])" matInput type="text"
+                                        [(ngModel)]="article.summary" name="carriedOutActivity"></textarea>
+                                </mat-form-field>
                             </div>
-                            <div> <button [disabled]="roleService.checkPermission([6])"
-                                    (click)="addArticle(reasonReport.reason!)" class="btn btn-success">
-                                    <i class="fa fa-plus"></i>
-                                </button>
+                            }
+                            <div class="header">
+                                <div>
+                                    <button [disabled]="roleService.checkPermission([6])"
+                                        (click)="deleteArticle(reasonReport.reason)" class="btn btn-danger"><i
+                                            class="fa fa-minus"></i>
+                                    </button>
+                                </div>
+                                <div> <button [disabled]="roleService.checkPermission([6])"
+                                        (click)="addArticle(reasonReport.reason!)" class="btn btn-success">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-4 paddingBottom" *ngIf="reasonReport.reason === 4">
-                <div class="card" hideToggle>
-                    <div class="card-header bg-danger text-white">{{"CUSTOMER_REQUIREMENTS.sample_production" |
-                        translate}}</div>
-                    <div class="card-body">
-                        <mat-form-field class="smallInput">
-                            <mat-label>{{"ABSCHLUSSBERICHT.summary" | translate}}</mat-label>
-                            <textarea [disabled]="roleService.checkPermission([6])" matInput type="text"
-                                [(ngModel)]="reasonReport.carriedOutActivity" name="carriedOutActivity"></textarea>
-                        </mat-form-field>
-
-                        @for (article of reasonReport.presentedArticle; track $index) {
-                        <div class="displayBySide">
-                            <mat-form-field class="artundnr">
-                                <mat-label>{{"ABSCHLUSSBERICHT.article_number" | translate}}</mat-label>
-                                <input [disabled]="roleService.checkPermission([6])" matInput type="text"
-                                    [(ngModel)]="article.articleNr" name="articleNumber{{reasonReport.reason}}"
-                                    (ngModelChange)="insertOther(article, reasonReport.reason)">
-                            </mat-form-field>
-                            <mat-form-field class="artundnr">
-                                <mat-label>{{"ABSCHLUSSBERICHT.article" | translate}}</mat-label>
-                                <input [disabled]="roleService.checkPermission([6]) || isExisting(article)" matInput
-                                    type="text" [(ngModel)]="article.name" name="articleName{{reasonReport.reason}}">
-                            </mat-form-field>
-                        </div>
-                        }
-                        <div class="header">
-                            <div>
-                                <button [disabled]="roleService.checkPermission([6])"
-                                    (click)="deleteArticle(reasonReport.reason)" class="btn btn-danger"><i
-                                        class="fa fa-minus"></i>
-                                </button>
+                <div class="col-md-4 paddingBottom" *ngIf="reasonReport.reason === 4">
+                    <div class="card" hideToggle>
+                        <div class="card-header bg-danger text-white">{{"CUSTOMER_REQUIREMENTS.sample_production" |
+                            translate}}</div>
+                        <div class="card-body">
+                            
+                            @for (article of reasonReport.presentedArticle; track $index) {
+                            <div class="displayBySide">
+                                <mat-form-field class="artundnr">
+                                    <mat-label>{{"ABSCHLUSSBERICHT.article_number" | translate}}</mat-label>
+                                    <input [disabled]="roleService.checkPermission([6])" matInput type="text"
+                                        [(ngModel)]="article.articleNr" name="articleNumber{{reasonReport.reason}}"
+                                        (ngModelChange)="insertOther(article, reasonReport.reason)">
+                                </mat-form-field>
+                                <mat-form-field class="artundnr">
+                                    <mat-label>{{"ABSCHLUSSBERICHT.article" | translate}}</mat-label>
+                                    <input [disabled]="roleService.checkPermission([6]) || isExisting(article)" matInput
+                                        type="text" [(ngModel)]="article.name"
+                                        name="articleName{{reasonReport.reason}}">
+                                </mat-form-field>
                             </div>
-                            <div> <button [disabled]="roleService.checkPermission([6])"
-                                    (click)="addArticle(reasonReport.reason!)" class="btn btn-success">
-                                    <i class="fa fa-plus"></i>
-                                </button>
+                            <mat-form-field class="smallInput">
+                                <mat-label>{{"ABSCHLUSSBERICHT.summary" | translate}}</mat-label>
+                                <textarea [disabled]="roleService.checkPermission([6])" matInput type="text"
+                                    [(ngModel)]="article.summary" name="carriedOutActivity"></textarea>
+                            </mat-form-field>
+                            }
+                            <div class="header">
+                                <div>
+                                    <button [disabled]="roleService.checkPermission([6])"
+                                        (click)="deleteArticle(reasonReport.reason)" class="btn btn-danger"><i
+                                            class="fa fa-minus"></i>
+                                    </button>
+                                </div>
+                                <div> <button [disabled]="roleService.checkPermission([6])"
+                                        (click)="addArticle(reasonReport.reason!)" class="btn btn-success">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </ng-container>
-    </div>
-    <!---<div class="row">
+            </ng-container>
+        </div>
+        <!---<div class="row">
             <div class="col-md-12 paddingBottom">
                 <div class="card">
                     <div class="card-header text-white bg-danger">{{"Datei Ablage" | translate}}</div>
@@ -440,17 +453,18 @@
                 </div>
             </div>
         </div>-->
-    <div class="header">
-        <div> <button (click)="closeDialog(false)" class="btn btn-secondary">{{"DASHBOARD.cancel" |
-                translate}}</button></div>
-        <div>
-            <button *ngIf="(inputFinalReport.creator === undefined && roleService.checkPermission([3,4,6]))
+        <div class="header">
+            <div> <button (click)="closeDialog(false)" class="btn btn-secondary">{{"DASHBOARD.cancel" |
+                    translate}}</button></div>
+            <div>
+                <button *ngIf="(inputFinalReport.creator === undefined && roleService.checkPermission([3,4,6]))
                 || (!inputFinalReport.representativeEntered && roleService.checkPermission([3]))
                 || (!inputFinalReport.technologistEntered && roleService.checkPermission([4]))
                 || (roleService.checkPermission([1,2,5,7]))" (click)="closeDialog(true)" class="btn btn-success">
-                {{"STANDARD.save" |
-                translate}}
-            </button>
+                    {{"STANDARD.save" |
+                    translate}}
+                </button>
+            </div>
         </div>
     </div>
 </div>

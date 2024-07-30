@@ -49,9 +49,6 @@ public class VisitorRegistration extends PanacheEntity {
     public boolean tourLanguageEN;
     public Date tourDate;
     public String tourTime;
-    public int numberOfPeopleMeetingRoom;
-    public Date meetingRoomDate;
-    public String meetingRoomTime;
     public int lunchNumber;
     public Date mealDateFrom;
     public Date mealDateTo;
@@ -80,6 +77,9 @@ public class VisitorRegistration extends PanacheEntity {
 
     @OneToMany
     public List<PlannedDepartmentVisit> plannedDepartmentVisits;
+
+    @OneToMany
+    public List<MeetingRoomReservation> meetingRoomReservations;
 
     @OneToMany
     public List<Guest> guests;
@@ -119,9 +119,6 @@ public class VisitorRegistration extends PanacheEntity {
         this.tourLanguageEN = newVisitorRegistration.tourLanguageEN;
         this.tourDate = newVisitorRegistration.tourDate;
         this.tourTime = newVisitorRegistration.tourTime;
-        this.numberOfPeopleMeetingRoom = newVisitorRegistration.numberOfPeopleMeetingRoom;
-        this.meetingRoomDate = newVisitorRegistration.meetingRoomDate;
-        this.meetingRoomTime = newVisitorRegistration.meetingRoomTime;
 
 
         this.lunchNumber = newVisitorRegistration.lunchNumber;
@@ -168,6 +165,11 @@ public class VisitorRegistration extends PanacheEntity {
             this.hotelBookings.add(hb.persistOrUpdate());
         }
 
+        this.meetingRoomReservations = new ArrayList<>();
+        for(MeetingRoomReservation mrr: newVisitorRegistration.meetingRoomReservations){
+            this.meetingRoomReservations.add(mrr.persistOrUpdate());
+        }
+
         this.representative = newVisitorRegistration.representative;
         this.plannedDepartmentVisits = newVisitorRegistration.plannedDepartmentVisits;
     }
@@ -183,8 +185,13 @@ public class VisitorRegistration extends PanacheEntity {
             for(Guest guest: this.guests){
                 guest.persistOrUpdate();
             }
+
             for(HotelBooking hotelBooking: this.hotelBookings){
                 hotelBooking.persistOrUpdate();
+            }
+
+            for(MeetingRoomReservation mrr: this.meetingRoomReservations){
+                mrr.persistOrUpdate();
             }
 
             if(this.representative != null) {

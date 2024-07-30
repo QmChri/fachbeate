@@ -65,7 +65,8 @@
         "type": "Type",
         "advisor_type": "Advisor A.",
         "seminar": "Seminar",
-        "visit": "Visit"
+        "visit": "Visit",
+        "canceled": "Canceled"
     },
     "CUSTOMER_REQUIREMENTS": {
         "advisor_request": "Advisor Request",
