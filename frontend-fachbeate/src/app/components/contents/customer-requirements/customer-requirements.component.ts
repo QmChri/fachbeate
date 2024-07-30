@@ -15,6 +15,7 @@ import { Company } from '../../../models/company';
 import { NotificationService } from '../../../services/notification.service';
 import { RoleService } from '../../../services/role.service';
 import { TranslateService } from '@ngx-translate/core';
+import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'app-customer-requirements',
@@ -121,7 +122,6 @@ export class CustomerRequirementsComponent implements OnInit {
         training: false,
       }
     ];
-
     // Sets the added visit to edit
     this.editId = this.i;
 
@@ -164,7 +164,7 @@ export class CustomerRequirementsComponent implements OnInit {
     } else {
         console.log("startDate is not defined");
     }
-    
+
     if (this.inputCustomerRequirement.endDate !== null && this.inputCustomerRequirement.endDate !== undefined) {
         if (typeof this.inputCustomerRequirement.endDate === 'string' || typeof this.inputCustomerRequirement.endDate === 'number') {
             this.inputCustomerRequirement.endDate = new Date(this.inputCustomerRequirement.endDate);
@@ -177,6 +177,7 @@ export class CustomerRequirementsComponent implements OnInit {
     } else {
         console.log("endDate is not defined");
     }
+
 
       if (this.inputCustomerRequirement.creator === undefined) {
         this.inputCustomerRequirement.creator = this.roleService.getUserName();
@@ -204,22 +205,22 @@ export class CustomerRequirementsComponent implements OnInit {
 
   checkRequired(): boolean {
     var requiredFields: string[] = [
-      (this.inputCustomerRequirement.requestedTechnologist === undefined)?"assigned_technologist":"",
-      (this.inputCustomerRequirement.representative === undefined)?"assigned_repre":"",
-      (this.inputCustomerRequirement.startDate === undefined)?"assigned_from":"",
-      (this.inputCustomerRequirement.endDate === undefined)?"assigned_to":"",
-      (this.inputCustomerRequirement.company === null || this.inputCustomerRequirement.company === undefined)?"assigned_company":"",
-      (this.inputCustomerRequirement.customerVisits.filter(element => element.companyName === null || element.companyName === undefined || element.companyName === "").length !== 0)?"assigned_customer":"",
-      (this.inputCustomerRequirement.customerVisits.filter(element => element.address === null || element.address === undefined || element.address === "").length !== 0)?"assigned_address":"",
-      (this.inputCustomerRequirement.customerVisits.filter(element => element.dateOfVisit === null || element.dateOfVisit === undefined).length !== 0)?"assigned_dateOfVisit":"",
-      (this.inputCustomerRequirement.customerVisits.filter(element => element.presentationOfNewProducts===false  && element.existingProducts===false && element.recipeOptimization===false && element.sampleProduction===false && element.training===false).length !== 0)?"assigned_reason":"",
-      (this.inputCustomerRequirement.customerVisits.filter(element => element.productionAmount === null || element.productionAmount === undefined || element.productionAmount === "").length !== 0)?"assigned_productionAmount":""
+      (this.inputCustomerRequirement.requestedTechnologist === undefined) ? "assigned_technologist" : "",
+      (this.inputCustomerRequirement.representative === undefined) ? "assigned_repre" : "",
+      (this.inputCustomerRequirement.startDate === undefined) ? "assigned_from" : "",
+      (this.inputCustomerRequirement.endDate === undefined) ? "assigned_to" : "",
+      (this.inputCustomerRequirement.company === null || this.inputCustomerRequirement.company === undefined) ? "assigned_company" : "",
+      (this.inputCustomerRequirement.customerVisits.filter(element => element.companyName === null || element.companyName === undefined || element.companyName === "").length !== 0) ? "assigned_customer" : "",
+      (this.inputCustomerRequirement.customerVisits.filter(element => element.address === null || element.address === undefined || element.address === "").length !== 0) ? "assigned_address" : "",
+      (this.inputCustomerRequirement.customerVisits.filter(element => element.dateOfVisit === null || element.dateOfVisit === undefined).length !== 0) ? "assigned_dateOfVisit" : "",
+      (this.inputCustomerRequirement.customerVisits.filter(element => element.presentationOfNewProducts === false && element.existingProducts === false && element.recipeOptimization === false && element.sampleProduction === false && element.training === false).length !== 0) ? "assigned_reason" : "",
+      (this.inputCustomerRequirement.customerVisits.filter(element => element.productionAmount === null || element.productionAmount === undefined || element.productionAmount === "").length !== 0) ? "assigned_productionAmount" : ""
     ].filter(element => element !== "");
-    
-    if(requiredFields.length !== 0){
-      this.translate.get(['STANDARD.please_fill_required_fields', ...requiredFields.map(element => "STANDARD."+element)]).subscribe(translations => {
+
+    if (requiredFields.length !== 0) {
+      this.translate.get(['STANDARD.please_fill_required_fields', ...requiredFields.map(element => "STANDARD." + element)]).subscribe(translations => {
         const message = translations['STANDARD.please_fill_required_fields'];
-        const anotherMessage = requiredFields.map(element => translations["STANDARD."+element]).toString();
+        const anotherMessage = requiredFields.map(element => translations["STANDARD." + element]).toString();
         this.notificationService.createBasicNotification(4, message, anotherMessage, 'topRight');
       });
     }
@@ -231,7 +232,7 @@ export class CustomerRequirementsComponent implements OnInit {
     var finalReport: FinalReport = {}
 
     if (this.checkRequired()) {
-      if(customerVisit.finalReport === null || customerVisit.finalReport === undefined ){
+      if (customerVisit.finalReport === null || customerVisit.finalReport === undefined) {
 
         //region prepare for FinalReport popup
         var rRepo: ReasonReport[] = [
@@ -241,7 +242,7 @@ export class CustomerRequirementsComponent implements OnInit {
           (customerVisit.sampleProduction) ? { reason: 4, presentedArticle: [] } : { reason: 0, presentedArticle: [] },
           (customerVisit.training) ? { reason: 5, presentedArticle: [] } : { reason: 0, presentedArticle: [] }
         ].filter(element => element.reason !== 0);
-        
+
         finalReport = {
           technologist: this.inputCustomerRequirement.requestedTechnologist,
           company: customerVisit.companyName,
@@ -257,7 +258,7 @@ export class CustomerRequirementsComponent implements OnInit {
         finalReport.sampleProduction = customerVisit.sampleProduction;
         finalReport.training = customerVisit.training;
         //endregion
-      }else{
+      } else {
         finalReport = customerVisit.finalReport;
       }
 
@@ -308,7 +309,7 @@ export class CustomerRequirementsComponent implements OnInit {
       next: data => {
         this.companies = data;
 
-        if(this.roleService.checkPermission([6])){
+        if (this.roleService.checkPermission([6])) {
           this.inputCustomerRequirement.company = this.companies.find(element => element.username === this.roleService.getUserName())!;
         }
       },

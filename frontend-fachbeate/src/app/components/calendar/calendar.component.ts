@@ -209,7 +209,7 @@ export class CalendarComponent implements OnInit {
     } else if (clickInfo.event.id.substring(0, 1) === "S") {
       this.router.navigate(['/seminar-registration', clickInfo.event.id.substring(2)]);
     } else if (clickInfo.event.id.substring(0, 1) === "B") {
-      this.router.navigate(['/visitorRegistration', clickInfo.event.id.substring(2)]);
+      this.router.navigate(['/visitor-registration', clickInfo.event.id.substring(2)]);
     } else {
       var appointment: TechnologistAppointment;
 

@@ -23,7 +23,8 @@
         </button>
     </div>
     <div>
-        <button *ngIf="(inputCustomerRequirement.creator === undefined && roleService.checkPermission([6])) || roleService.checkPermission([1,2,3,4,5,7])"
+        <button
+            *ngIf="(inputCustomerRequirement.creator === undefined && roleService.checkPermission([6])) || roleService.checkPermission([1,2,3,4,5,7])"
             class="btn btn-success" (click)="postCustomerRequirement()">{{"CUSTOMER_REQUIREMENTS.send_form" |
             translate}}
         </button>
@@ -39,8 +40,7 @@
                     <div class="center-items ">
                         <mat-form-field>
                             <mat-label>{{"CUSTOMER_REQUIREMENTS.dealers_daughters"|translate}}</mat-label>
-                            <mat-select required
-                                [disabled]="roleService.checkPermission([6])"
+                            <mat-select required [disabled]="roleService.checkPermission([6])"
                                 [ngModel]="(inputCustomerRequirement.company === undefined)?undefined:inputCustomerRequirement.company.id"
                                 (valueChange)="changeCompany($event)">
                                 <mat-option>--</mat-option>
@@ -191,7 +191,7 @@
                 <th>{{"CUSTOMER_REQUIREMENTS.country" | translate}}</th>
                 <th>{{"CUSTOMER_REQUIREMENTS.contact_person" | translate}}</th>
                 <th>{{"CUSTOMER_REQUIREMENTS.visit_date" | translate}}</th>
-                <th>{{"ABSCHLUSSBERICHT.visit_reason_general" | translate}}</th>
+                <th width="19%">{{"ABSCHLUSSBERICHT.visit_reason_general" | translate}}</th>
                 <th>{{"CUSTOMER_REQUIREMENTS.production_tons_per_day" | translate}}</th>
                 <th></th>
             </tr>
@@ -220,23 +220,16 @@
                         (click)="startEdit(data.editId)">{{data.contactPerson}}</label>
                     <input [hidden]="editId !== data.editId" type="text" nz-input [(ngModel)]="data.contactPerson" />
                 </td>
-                <!--TODO Bug gefixt jedoch wird das Datum jetzt schirch angezeigt (Fehler war .toString())
-                
-                  <td>
-                    <label class="input-label" [hidden]="editId === data.editId" (click)="startEdit(data.editId)"></label>
-                    <input placeholder="Pflichtfeld*" [hidden]="editId !== data.editId" type="date" nz-input
-                        [(ngModel)]="data.dateOfVisit" />
-                </td>
-                -->
                 <td>
                     <label class="input-label" [hidden]="editId === data.editId" (click)="startEdit(data.editId)">
 
-                        {{(data.dateOfVisit !== null && data.dateOfVisit !== undefined)?data.dateOfVisit!.toString().substring(0,10):''}}
+                        {{(data.dateOfVisit !== null && data.dateOfVisit !==
+                        undefined)?data.dateOfVisit!.toString().substring(0,10):''}}
                     </label>
                     <input [placeholder]="'CUSTOMER_REQUIREMENTS.mandatory_field' | translate"
                         [hidden]="editId !== data.editId" type="date" nz-input [(ngModel)]="data.dateOfVisit" />
                 </td>
-                <td class="multiple-select">
+                <td>
                     <mat-select multiple placeholder="{{'STANDARD.please_select'|translate}} "
                         [ngModel]="data.selection" (selectionChange)="selChange($event, data.editId)">
                         <mat-option [value]="1">{{"CUSTOMER_REQUIREMENTS.presentation_of_new_products" |
@@ -253,14 +246,14 @@
                         (click)="startEdit(data.editId)">{{data.productionAmount}}</label>
                     <input nz-input [hidden]="editId !== data.editId" type="text" [(ngModel)]="data.productionAmount" />
                 </td>
-                <td>
-                    <div class="flugHotel"> 
-                        <button matTooltip="{{'CUSTOMER_REQUIREMENTS.edit' | translate}}"
-                            class="btn btn-secondary" (click)="startEdit(data.editId)" [hidden]="editId === data.editId">
+                <td class="buttonsStyle">
+                    <div class="flugHotel">
+                        <button matTooltip="{{'CUSTOMER_REQUIREMENTS.edit' | translate}}" class="btn btn-secondary"
+                            (click)="startEdit(data.editId)" [hidden]="editId === data.editId">
                             <i class="fa fa-pencil"></i>
                         </button>
-                        <button matTooltip="{{'CUSTOMER_REQUIREMENTS.edit' | translate}}"
-                            class="btn btn-success" (click)="stopEdit()" [hidden]="editId !== data.editId">
+                        <button matTooltip="{{'CUSTOMER_REQUIREMENTS.edit' | translate}}" class="btn btn-success"
+                            (click)="stopEdit()" [hidden]="editId !== data.editId">
                             <i class="fas fa-check"></i>
                         </button>
                         <button matTooltip="{{ 'STANDARD.remove' | translate }}" class="btn btn-danger" nz-popconfirm
