@@ -168,7 +168,7 @@ export class CustomerRequirementsComponent implements OnInit {
           console.log("startDate is not a valid Date object");
         }
       } else {
-          console.log("startDate is not defined");
+        console.log("startDate is not defined");
       }
 
       if (this.inputCustomerRequirement.endDate !== null && this.inputCustomerRequirement.endDate !== undefined) {
@@ -276,7 +276,6 @@ export class CustomerRequirementsComponent implements OnInit {
       //opening Abschlussbericht Popup
       const dialogRef = this.dialog.open(AbschlussBerichtComponent, {
         width: '90%',
-        height: '90%',
         maxWidth: '90vw',
         maxHeight: '90vh',
         data: finalReport

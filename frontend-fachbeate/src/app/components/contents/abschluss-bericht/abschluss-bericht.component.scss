@@ -41,11 +41,7 @@
         flex-direction: row;
         justify-content: space-between;
         flex-wrap: nowrap;
-
-        .smallInput {
-            max-width: 12rem;
-        }
-
+        
         .smallInputSide .nacharbeitSmall {
             max-width: 12rem;
         }
@@ -81,6 +77,9 @@
 
 
 .mainView {
-    max-height: -webkit-fill-available;
     background-color: #f4f4f4;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
 }

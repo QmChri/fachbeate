@@ -234,7 +234,6 @@ export class AbschlussBerichtListComponent {
     //region Opening the Final Report Popup
     const dialogRef = this.dialog.open(AbschlussBerichtComponent, {
       width: '90%',
-      height: '90%',
       maxWidth: '90vw',
       maxHeight: '90vh',
       data: this.finalReports.find(element => element.id === dataItem.id)

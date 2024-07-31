@@ -220,17 +220,11 @@
                         (click)="startEdit(data.editId)">{{data.contactPerson}}</label>
                     <input [hidden]="editId !== data.editId" type="text" nz-input [(ngModel)]="data.contactPerson" />
                 </td>
-                <td>
+                <td style="text-align: center;">
                     <label class="input-label" [hidden]="editId === data.editId"
                         (click)="startEdit(data.editId)">{{data.fromDateOfVisit?.toString()?.substring(0,10)}}</label>
                     <nz-range-picker [hidden]="editId !== data.editId" [nzFormat]="dateFormat" [(ngModel)]="data.dateSelect" nzSize="small"></nz-range-picker>
                 </td>
-                <!--
-                <td>
-                  
-                    <input [placeholder]="'CUSTOMER_REQUIREMENTS.mandatory_field' | translate"
-                         type="date" nz-input [(ngModel)]="data.dateOfVisit" />
-                </td>-->
                 <td>
                     <mat-select multiple placeholder="{{'STANDARD.please_select'|translate}} "
                         [ngModel]="data.selection" (selectionChange)="selChange($event, data.editId)">
