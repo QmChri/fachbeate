@@ -196,7 +196,7 @@ export class CustomerRequirementsComponent implements OnInit {
       this.inputCustomerRequirement.lastEditor = this.roleService.getUserName(); this.http.postCustomerRequirement(this.inputCustomerRequirement).subscribe({
         next: data => {
           this.inputCustomerRequirement = data;
-          data.customerVisits.forEach((element, index) => {
+          this.inputCustomerRequirement.customerVisits.forEach((element, index) => {
             element.selection = [
               (element.presentationOfNewProducts) ? 1 : 0,
               (element.existingProducts) ? 2 : 0,
@@ -204,6 +204,12 @@ export class CustomerRequirementsComponent implements OnInit {
               (element.sampleProduction) ? 4 : 0,
               (element.training) ? 5 : 0
             ];
+
+            element.dateSelect = [
+              element.fromDateOfVisit!,
+              element.toDateOfVisit!,
+            ].filter(element => element !== null && element !== undefined);
+            
             element.editId = index;
           });
         },

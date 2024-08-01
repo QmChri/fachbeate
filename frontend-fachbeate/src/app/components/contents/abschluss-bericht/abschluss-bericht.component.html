@@ -350,9 +350,7 @@
                 </div>
                 <div class="col-md-4 paddingBottom" *ngIf="reasonReport.reason === 3">
                     <div class="card" hideToggle>
-                        <div class="card-header bg-danger text-white">{{"CUSTOMER_REQUIREMENTS.recipe_optimization"
-                            |
-                            translate}}</div>
+                        <div class="card-header bg-danger text-white">{{"CUSTOMER_REQUIREMENTS.recipe_optimization"|translate}}</div>
                         <div class="card-body">
 
                             @for (article of reasonReport.presentedArticle; track $index) {
@@ -369,12 +367,12 @@
                                         type="text" [(ngModel)]="article.name"
                                         name="articleName{{reasonReport.reason}}">
                                 </mat-form-field>
-                                <mat-form-field class="smallInput">
-                                    <mat-label>{{"ABSCHLUSSBERICHT.summary" | translate}}</mat-label>
-                                    <textarea [disabled]="roleService.checkPermission([6])" matInput type="text"
-                                        [(ngModel)]="article.summary" name="carriedOutActivity"></textarea>
-                                </mat-form-field>
                             </div>
+                            <mat-form-field class="smallInput">
+                                <mat-label>{{"ABSCHLUSSBERICHT.summary" | translate}}</mat-label>
+                                <textarea [disabled]="roleService.checkPermission([6])" matInput type="text"
+                                    [(ngModel)]="article.summary" name="carriedOutActivity"></textarea>
+                            </mat-form-field>
                             }
                             <div class="header">
                                 <div>
