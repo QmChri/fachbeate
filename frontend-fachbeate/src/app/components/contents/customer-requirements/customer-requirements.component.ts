@@ -223,7 +223,7 @@ export class CustomerRequirementsComponent implements OnInit {
       (this.inputCustomerRequirement.company === null || this.inputCustomerRequirement.company === undefined) ? "assigned_company" : "",
       (this.inputCustomerRequirement.customerVisits.filter(element => element.companyName === null || element.companyName === undefined || element.companyName === "").length !== 0) ? "assigned_customer" : "",
       (this.inputCustomerRequirement.customerVisits.filter(element => element.address === null || element.address === undefined || element.address === "").length !== 0) ? "assigned_address" : "",
-      (this.inputCustomerRequirement.customerVisits.filter(element => element.dateSelect!.length === 2).length !== 0) ? "assigned_dateOfVisit" : "",
+      (this.inputCustomerRequirement.customerVisits.filter(element => element.dateSelect!.length !== 2).length !== 0) ? "assigned_dateOfVisit" : "",
       (this.inputCustomerRequirement.customerVisits.filter(element => element.presentationOfNewProducts === false && element.existingProducts === false && element.recipeOptimization === false && element.sampleProduction === false && element.training === false).length !== 0) ? "assigned_reason" : "",
       (this.inputCustomerRequirement.customerVisits.filter(element => element.productionAmount === null || element.productionAmount === undefined || element.productionAmount === "").length !== 0) ? "assigned_productionAmount" : ""
     ].filter(element => element !== "");
