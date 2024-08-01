@@ -129,7 +129,9 @@
         "problem_solving": "Problem solving",
         "summary": "Summary",
         "article": "Article",
-        "article_number": "Article number"
+        "article_number": "Article number",
+        "article_length": "Article number - 7 Digits"
+
     },
     "VISITOR_REGRISTRATION": {
         "visitor_registration": "Visitor Registration",

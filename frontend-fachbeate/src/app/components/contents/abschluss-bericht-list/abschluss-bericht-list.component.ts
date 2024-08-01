@@ -98,7 +98,7 @@ export class AbschlussBerichtListComponent {
           return 1;
         }
 
-        return a.article[0].articleNr!.localeCompare(b.article[0].articleNr!);
+        return a.article[0].articleNr! - b.article[0].articleNr!;
       },
       listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => true

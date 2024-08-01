@@ -146,6 +146,7 @@
         "summary": "Zusammenfassung",
         "article": "Artikel",
         "article_number": "Artikel Nr",
+        "article_length": "Artikel Nr - 7 Stellen",
         "follow_up": "Nacharbeiten durch Fachberater",
         "information": "Informationen",
         "recipe_optimization": "Rezeptur Optimierung",

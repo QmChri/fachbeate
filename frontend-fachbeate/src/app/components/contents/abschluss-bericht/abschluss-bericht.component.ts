@@ -155,7 +155,7 @@ export class AbschlussBerichtComponent implements OnInit {
 
       this.inputFinalReport.reasonReports.forEach(element => {
         element.presentedArticle = element.presentedArticle.filter(article =>
-          (article.articleNr !== null && article.articleNr !== undefined && article.articleNr !== "") ||
+          (article.articleNr !== null && article.articleNr !== undefined) ||
           (article.name !== null && article.name !== undefined && article.name !== "")
         );
       });
@@ -229,7 +229,8 @@ export class AbschlussBerichtComponent implements OnInit {
       (this.inputFinalReport.reworkByTechnologist === true && (this.inputFinalReport.reworkByTechnologistDoneUntil === null || this.inputFinalReport.reworkByTechnologistDoneUntil === undefined)) ? "ABSCHLUSSBERICHT.to_be_done_by" : "",
       (this.inputFinalReport.reworkByTechnologist === true && (this.inputFinalReport.reworkToDo === null || this.inputFinalReport.reworkToDo === undefined || this.inputFinalReport.reworkToDo.length === 0)) ? "ABSCHLUSSBERICHT.todo" : "",
       (this.inputFinalReport.reworkFollowVisits === null || this.inputFinalReport.reworkFollowVisits === undefined) ? "ABSCHLUSSBERICHT.follow_Visit" : "",
-      (this.inputFinalReport.reasonReports!.filter(reasonReport => reasonReport.presentedArticle.filter(article => ((article.articleNr === null || article.articleNr === undefined || article.articleNr === "") || (article.name === null || article.name === undefined || article.name === ""))).length > 0).length > 0) ? "ABSCHLUSSBERICHT.article" : ""
+      (this.inputFinalReport.reasonReports!.filter(reasonReport => reasonReport.presentedArticle.filter(article => ((article.articleNr === null || article.articleNr === undefined) || (article.name === null || article.name === undefined || article.name === ""))).length > 0).length > 0) ? "ABSCHLUSSBERICHT.article" : "",
+      (this.inputFinalReport.reasonReports!.filter(reasonReport => reasonReport.presentedArticle.filter(article => ((article.articleNr !== null || article.articleNr !== undefined) && article.articleNr!.toString().length !== 7)).length > 0).length > 0) ? "ABSCHLUSSBERICHT.article_length" : ""
     ].filter(element => element !== "");
 
     if (requiredFields.length !== 0) {
