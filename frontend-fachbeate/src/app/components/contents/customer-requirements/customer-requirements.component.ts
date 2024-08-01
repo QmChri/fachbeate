@@ -150,8 +150,6 @@ export class CustomerRequirementsComponent implements OnInit {
   }
 
   postCustomerRequirement() {
-    console.log(this.inputCustomerRequirement.customerVisits);
-
     if (this.checkRequired()) {
       this.getNotification(1);
       this.inputCustomerRequirement.showUser = true;

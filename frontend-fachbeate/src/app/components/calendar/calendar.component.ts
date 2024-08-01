@@ -11,6 +11,7 @@ import { RoleService } from '../../services/role.service';
 import { Company } from '../../models/company';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from '../../services/notification.service';
+import multiMonthPlugin from '@fullcalendar/multimonth'
 
 @Component({
   selector: 'calendar',
@@ -34,16 +35,16 @@ export class CalendarComponent implements OnInit {
     { label: 'filter1', value: 'S_' },
     { label: 'filter2', value: 'F_' },
     { label: 'filter3', value: 'B_' }];
-
   filterArray: string[] = [];
 
   //Setting the calendar settings
   calendarOptions: CalendarOptions = {
-    initialView: 'dayGridMonth',
-    //initialView: 'multiMonthYear',
-    plugins: [dayGridPlugin, interactionPlugin],
-    //plugins: [multiMonthPlugin, interactionPlugin],
-    height: 850,
+    //initialView: 'dayGridMonth',
+    initialView: 'multiMonthYear',
+   // plugins: [dayGridPlugin, interactionPlugin],
+    plugins: [multiMonthPlugin, interactionPlugin],
+    multiMonthMaxColumns: 5,
+
     eventClick: (arg) => this.handleEventClick(arg),
     selectable: true,
     select: (arg) => this.handleSelect(arg),
@@ -109,7 +110,6 @@ export class CalendarComponent implements OnInit {
       );
     });
 
-    console.log(this.filterArray);
     this.calendarOptions.events = tmpEvents.filter(element => {
       return element.title!.includes(this.searchValue);
     }

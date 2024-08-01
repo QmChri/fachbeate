@@ -224,15 +224,20 @@
                     <input [hidden]="editId !== data.editId" type="text" nz-input [(ngModel)]="data.contactPerson" />
                 </td>
                 <td style="text-align: center;">
-                    <label class="input-label" [hidden]="editId === data.editId"
-                        (click)="startEdit(data.editId)">{{
+                    <label class="input-label" [hidden]="editId === data.editId" (click)="startEdit(data.editId)">
+                        {{
                             (data.dateSelect !== null && data.dateSelect !== undefined &&data.dateSelect!.length === 2)?
-                            data.dateSelect![0].toString().substring(0,10) + " - " + data.dateSelect![1].toString().substring(0,10):
-                            ""
-                        }}</label>
+                                data.dateSelect[0]
+                                 + " - " +
+                                data.dateSelect[1]
+                            : ""
+                        }}
+                    </label>
                     <nz-range-picker [hidden]="editId !== data.editId" [nzFormat]="dateFormat"
                         [(ngModel)]="data.dateSelect" nzSize="small"></nz-range-picker>
                 </td>
+
+
                 <td>
                     <mat-select multiple placeholder="{{'STANDARD.please_select'|translate}} "
                         [ngModel]="data.selection" (selectionChange)="selChange($event, data.editId)">
