@@ -16,7 +16,7 @@ import { Company } from '../../models/company';
   styleUrl: './calendar.component.scss'
 })
 export class CalendarComponent implements OnInit {
-  requiredRoles = [1, 2, 4, 5,7];
+  requiredRoles = [1, 2, 4, 5, 7];
   calendarEvnts: CalendarEvent[] = [];
 
   //Setting the calendar settings
