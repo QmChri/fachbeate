@@ -206,7 +206,7 @@ export class CustomerRequirementsComponent implements OnInit {
               element.fromDateOfVisit!,
               element.toDateOfVisit!,
             ].filter(element => element !== null && element !== undefined);
-            
+
             element.editId = index;
           });
         },
@@ -296,6 +296,39 @@ export class CustomerRequirementsComponent implements OnInit {
         });
     }
   }
+  /*
+  listOfWorkshops: DataItem[] = [];
+
+  checkIfTechnologistIsAvailable(): boolean {
+    var type = (this.roleService.checkPermission([1, 2, 3, 5, 7]) ? 7 : 6);
+    type = (!this.roleService.checkPermission([1, 2, 4, 5, 6, 7]) ? 3 : type);
+    type = (!this.roleService.checkPermission([1, 2, 3, 5, 6, 7]) ? 4 : type);
+    type = (!this.roleService.checkPermission([1, 2, 5, 6, 7]) ? 8 : type);
+    var fullname: string[] = [this.roleService.getUserName()!, this.roleService.getEmail()!];
+
+    this.http.getWorkshopByUser(type, fullname!).subscribe({
+      next: data => {
+        data.forEach(element => {
+          this.listOfWorkshops = [...this.listOfWorkshops, {
+            id: element.id!,
+            dateOfCreation: element.dateOfCreation,
+            fachberater: element.technologist,
+            timespan: {
+              start: element.fromDate,
+              end: element.toDate
+            }
+          }];
+        });
+      },
+      error: err => {
+        console.log(err);
+      }
+    });
+    if (this.listOfWorkshops.map(s => s.fachberater === "Dariusz Müller")) {
+      return true;
+    }
+    return false
+  }*/
 
   getTechnologist() {
     this.http.getActiveTechnologist().subscribe({
@@ -388,4 +421,16 @@ export class CustomerRequirementsComponent implements OnInit {
 interface Toechterhaeandler {
   value: string;
   viewValue: string;
+}
+
+interface DataItem {
+  id?: string;
+  dateOfCreation?: string;
+  fachberater?: string;
+  timespan?: TimeSpan;
+}
+
+interface TimeSpan {
+  start?: string;
+  end?: string;
 }
