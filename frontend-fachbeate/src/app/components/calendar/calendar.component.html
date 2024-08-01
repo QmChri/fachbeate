@@ -7,8 +7,8 @@
         <nz-dropdown-menu #menu="nzDropdownMenu">
             <div class="ant-table-filter-dropdown">
                 <div class="search-box">
-                    <nz-select class="nzselect" [(ngModel)]="searchValue" nzPlaceHolder="{{'MAIN_LIST.search' | translate}}"
-                        nzShowSearch>
+                    <nz-select class="nzselect" [(ngModel)]="searchValue"
+                        nzPlaceHolder="{{'MAIN_LIST.search' | translate}}" nzShowSearch>
                         <nz-option *ngFor="let option of listOfAdvisor" [nzLabel]="option"
                             [nzValue]="option"></nz-option>
                     </nz-select>
@@ -31,10 +31,10 @@
         <nz-dropdown-menu #bookings="nzDropdownMenu">
             <div class="ant-table-filter-dropdown">
                 <div class="search-box">
-                    <nz-select class="nzselect" [(ngModel)]="searchValue" nzPlaceHolder="{{'MAIN_LIST.search' | translate}}"
-                        nzShowSearch>
-                        <nz-option *ngFor="let option of listOfBooking" [nzLabel]="option.label"
-                            [nzValue]="option.value"></nz-option>
+                    <nz-select class="nzselect" [(ngModel)]="searchValue"
+                        nzPlaceHolder="{{'MAIN_LIST.search' | translate}}" nzShowSearch>
+                        <nz-option *ngFor="let option of listOfBooking" nzLabel="{{'STANDARD.'+ option.label |
+                        translate}}" [nzValue]="option.value"></nz-option>
                     </nz-select>
                     <div class="search-box2">
                         <button nz-button nzSize="small" nzType="primary" (click)="search()"

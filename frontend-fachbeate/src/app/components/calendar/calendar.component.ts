@@ -25,15 +25,15 @@ export class CalendarComponent implements OnInit {
   visible2 = false;
   listOfAdvisor: string[] = [];
   listOfBooking: Array<{ label: string; value: string }> = [
-    { label: 'Urlaub', value: 'Urlaub' },
-    { label: 'Zeitausgleich', value: 'Zeitausgleich' },
-    { label: 'Vorläufige Kundenreservierung', value: 'Vorläufige Kundenreservierung' },
-    { label: 'Messe', value: 'Messe' },
-    { label: 'HomeOffice', value: 'HomeOffice' },
-    { label: 'Haus Oftering', value: 'Haus Oftering' },
-    { label: 'Seminar A.', value: 'S_' },
-    { label: 'Fachberater A.', value: 'F_' },
-    { label: 'Buchungs A.', value: 'B_' }];
+    { label: 'holiday', value: 'Urlaub' },
+    { label: 'ausgleich', value: 'Zeitausgleich' },
+    { label: 'reservation', value: 'Vorläufige Kundenreservierung' },
+    { label: 'fair', value: 'Messe' },
+    { label: 'homeF', value: 'HomeOffice' },
+    { label: 'houseO', value: 'Haus Oftering' },
+    { label: 'filter1', value: 'S_' },
+    { label: 'filter2', value: 'F_' },
+    { label: 'filter3', value: 'B_' }];
 
   filterArray: string[] = [];
 

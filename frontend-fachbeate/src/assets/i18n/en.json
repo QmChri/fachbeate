@@ -45,7 +45,16 @@
         "visit": "Visit",
         "follow_up": "Rework",
         "filter_1": "Filter - Advisor",
-        "filter_2": "Filter - Booking"
+        "filter_2": "Filter - Booking",
+        "holiday": "Holiday",
+        "ausgleich": "Time compensation",
+        "reservation": "Preliminary customer reservation",
+        "fair": "Fair",
+        "homeF": "Home Office",
+        "houseO": "House Oftering",
+        "filter1": "Workshop R.",
+        "filter2": "Advisor R.",
+        "filter3": "Booking R."
     },
     "DASHBOARD": {
         "entry_for": "Entry for",
@@ -73,7 +82,8 @@
         "advisor_type": "Advisor A.",
         "seminar": "Seminar",
         "visit": "Visit",
-        "canceled": "Canceled"
+        "canceled": "Canceled",
+        "berichte": "Reports"
     },
     "CUSTOMER_REQUIREMENTS": {
         "advisor_request": "Advisor Request",

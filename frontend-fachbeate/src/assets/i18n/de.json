@@ -60,7 +60,16 @@
         "visit": "Besuch",
         "follow_up": "Nacharbeit",
         "filter_1": "Filter - Fachberater",
-        "filter_2": "Filter - Buchung"
+        "filter_2": "Filter - Buchung",
+        "holiday": "Urlaub",
+        "ausgleich": "Zeitausgleich",
+        "reservation": "Vorläufige Kundenreservierung",
+        "fair": "Messe",
+        "homeF": "Home Office",
+        "houseO": "Haus Oftering",
+        "filter1": "Seminar A.",
+        "filter2": "Fachberater A.",
+        "filter3": "Buchungs A."
     },
     "DASHBOARD": {
         "advisor_schedule_overview": "Terminübersicht Fachberater",
@@ -89,7 +98,8 @@
         "advisor_type": "Fachberater A.",
         "seminar": "Seminar",
         "visit": "Besuch",
-        "canceled": "Storniert"
+        "canceled": "Storniert",
+        "berichte": "Berichte"
     },
     "CUSTOMER_REQUIREMENTS": {
         "advisor_request": "Fachberater Anforderung",
