@@ -9,6 +9,8 @@ import { NewDateEntryComponent } from '../contents/new-date-entry/new-date-entry
 import { TechnologistAppointment } from '../../models/technologist-appointment';
 import { RoleService } from '../../services/role.service';
 import { Company } from '../../models/company';
+import { TranslateService } from '@ngx-translate/core';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'calendar',
@@ -16,13 +18,31 @@ import { Company } from '../../models/company';
   styleUrl: './calendar.component.scss'
 })
 export class CalendarComponent implements OnInit {
-  requiredRoles = [1, 2, 4, 5,7];
+  requiredRoles = [1, 2, 4, 5, 7];
   calendarEvnts: CalendarEvent[] = [];
+  searchValue = '';
+  visible = false;
+  visible2 = false;
+  listOfAdvisor: string[] = [];
+  listOfBooking: Array<{ label: string; value: string }> = [
+    { label: 'Urlaub', value: 'Urlaub' },
+    { label: 'Zeitausgleich', value: 'Zeitausgleich' },
+    { label: 'Vorläufige Kundenreservierung', value: 'Vorläufige Kundenreservierung' },
+    { label: 'Messe', value: 'Messe' },
+    { label: 'HomeOffice', value: 'HomeOffice' },
+    { label: 'Haus Oftering', value: 'Haus Oftering' },
+    { label: 'Seminar A.', value: 'S_' },
+    { label: 'Fachberater A.', value: 'F_' },
+    { label: 'Buchungs A.', value: 'B_' }];
+
+  filterArray: string[] = [];
 
   //Setting the calendar settings
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
+    //initialView: 'multiMonthYear',
     plugins: [dayGridPlugin, interactionPlugin],
+    //plugins: [multiMonthPlugin, interactionPlugin],
     height: 850,
     eventClick: (arg) => this.handleEventClick(arg),
     selectable: true,
@@ -37,7 +57,7 @@ export class CalendarComponent implements OnInit {
   nameOfCalendarEvent: string = "";
   i: number = 0;
 
-  constructor(
+  constructor(public translate: TranslateService, private notificationService: NotificationService,
     private http: HttpService, private router: Router, private dialog: MatDialog,
     public roleService: RoleService
   ) { }
@@ -45,10 +65,66 @@ export class CalendarComponent implements OnInit {
   ngOnInit(): void {
     if (this.roleService.checkPermission(this.requiredRoles)) {
       this.loadDataPerUser();
-    }
+
+    } this.loadFilters();
   }
+
+  loadFilters() {
+    this.http.getActiveTechnologist().subscribe({
+      next: data => {
+        this.listOfAdvisor = data.map(element => element.firstName + " " + element.lastName)
+      }
+    })
+  }
+
+  resetBookingFilter() {
+    this.searchValue = "";
+    this.translate.get('STANDARD.filter_sorting_removed').subscribe((translatedMessage: string) => {
+      this.notificationService.createBasicNotification(2, translatedMessage, '', 'topRight');
+    });
+    this.filterArray = this.filterArray.filter(element => !this.listOfBooking.map(e => e.value).includes(element));
+    this.search();
+  }
+
+  resetAdvisorFilter() {
+    this.searchValue = "";
+    this.translate.get('STANDARD.filter_sorting_removed').subscribe((translatedMessage: string) => {
+      this.notificationService.createBasicNotification(2, translatedMessage, '', 'topRight');
+    });
+    this.filterArray = this.filterArray.filter(element => !this.listOfAdvisor.includes(element));
+    this.search();
+
+  }
+
+  search(): void {
+    if (this.searchValue !== "")
+      this.filterArray.push(this.searchValue);
+
+    let tmpEvents = this.calendarEvnts;
+
+    this.filterArray.forEach(element => {
+      tmpEvents = tmpEvents.filter(event => {
+        return event.title!.includes(element);
+      }
+      );
+    });
+
+    console.log(this.filterArray);
+    this.calendarOptions.events = tmpEvents.filter(element => {
+      return element.title!.includes(this.searchValue);
+    }
+    ).map(value => ({
+      id: value.id,
+      title: value.title,
+      start: value.start,
+      end: value.end,
+      backgroundColor: value.backgroundColor,
+      borderColor: value.borderColor,
+    }));
+  }
+
   //Pull all data that a user is allowed to see
-  loadDataPerUser(){
+  loadDataPerUser() {
     this.http.getAllCompany().subscribe({
       next: data => {
         var companies = data;
@@ -58,24 +134,23 @@ export class CalendarComponent implements OnInit {
     })
   }
 
-
   loadEvents(companies: Company[]) {
     var type = (this.roleService.checkPermission([1, 2, 3, 5, 7]) ? 7 : 6);
     type = (!this.roleService.checkPermission([1, 2, 3, 5, 6, 7]) ? 4 : type);
-    type = (!this.roleService.checkPermission([1,2,5,6,7]) ? 8 : type);
+    type = (!this.roleService.checkPermission([1, 2, 5, 6, 7]) ? 8 : type);
 
     var fullname: string[] = [this.roleService.getUserName()!, this.roleService.getEmail()!];
 
     this.http.getCustomerRequirementsByUser(type!, fullname!).subscribe({
       next: data => {
-        if(data === null ||data === undefined){
+        if (data === null || data === undefined) {
           return
         }
 
         data.forEach(value => {
           this.calendarEvnts = [...this.calendarEvnts, {
             id: value.id,
-            title: value.id+ " "+ value.technologist + " - " + value.name,
+            title: value.id + " " + value.technologist + " - " + value.name,
             start: new Date(value.fromDate),
             end: new Date(value.toDate),
             backgroundColor: value.calendarColor,
@@ -99,14 +174,14 @@ export class CalendarComponent implements OnInit {
 
     this.http.getWorkshopByUser(type, fullname!).subscribe({
       next: data => {
-        if(data === null ||data === undefined){
+        if (data === null || data === undefined) {
           return
         }
 
         data.forEach(value => {
           this.calendarEvnts = [...this.calendarEvnts, {
             id: value.id,
-            title: value.id+ " "+ value.technologist + " - " + value.name,
+            title: value.id + " " + value.technologist + " - " + value.name,
             start: new Date(value.fromDate),
             end: new Date(value.toDate),
             backgroundColor: value.calendarColor,
@@ -132,14 +207,14 @@ export class CalendarComponent implements OnInit {
 
     this.http.getVisitorRegistrationByUser(type, fullname!).subscribe({
       next: data => {
-        if(data === null ||data === undefined){
+        if (data === null || data === undefined) {
           return
         }
 
         data.forEach(value => {
           this.calendarEvnts = [...this.calendarEvnts, {
             id: value.id,
-            title: value.id+ " " + value.name,
+            title: value.id + " " + value.name,
             start: new Date(value.fromDate),
             end: new Date(value.toDate),
             backgroundColor: value.calendarColor,
@@ -167,7 +242,7 @@ export class CalendarComponent implements OnInit {
     this.http.getOtherAppointmentByUser(type, fullname!).subscribe({
       next: data => {
 
-        if(data === null ||data === undefined){
+        if (data === null || data === undefined) {
           return
         }
         data.forEach(value => {
@@ -195,6 +270,7 @@ export class CalendarComponent implements OnInit {
     })
 
   }
+
   handleSelect(clickInfo: any) {
     this.openDialog({ startDate: new Date(clickInfo.startStr), endDate: new Date(clickInfo.endStr) })
   }
@@ -211,8 +287,6 @@ export class CalendarComponent implements OnInit {
     } else if (clickInfo.event.id.substring(0, 1) === "B") {
       this.router.navigate(['/visitor-registration', clickInfo.event.id.substring(2)]);
     } else {
-      var appointment: TechnologistAppointment;
-
       this.http.getOtherAppointmentById(Number(clickInfo.event.id.substring(1))).subscribe({
         next: data => {
           this.openDialog(data);
@@ -236,7 +310,7 @@ export class CalendarComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(
       data => {
-        if(this.roleService.checkPermission(this.requiredRoles)){
+        if (this.roleService.checkPermission(this.requiredRoles)) {
           this.loadDataPerUser()
         }
       });

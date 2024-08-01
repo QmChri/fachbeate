@@ -47,11 +47,18 @@
         "assigned_address": "Страна",
         "assigned_dateOfVisit": "Дата посещения",
         "assigned_reason": "Цель",
-        "assigned_amount":"Количество человек",
+        "assigned_amount": "Количество человек",
         "assigned_productionAmount": "Produktionen Tonnen/Tag",
         "assigned_repre_cons": "Дилеры/Дочерние компании* и Представитель* и Консультант* и С - По*",
         "are_you_sure": "Вы уверены?",
-        "ok": "хорошо"
+        "ok": "хорошо",
+        "almi": "Almi",
+        "advisor_type": "Тип консультанта A.",
+        "seminar": "Семинар",
+        "visit": "Визит",
+        "follow_up": "Последующая работа",
+        "filter_1": "Фильтр - Консультант",
+        "filter_2": "Фильтр - Бронирование"
     },
     "DASHBOARD": {
         "entry_for": "Запись о/об",
@@ -136,11 +143,11 @@
         "article": "Продукт",
         "article_number": "Артикул",
         "follow_up": "Последующая работа технолога-консультанта",
-        "information":"Информация",
-        "recipe_optimization":"Рецептуры",
-        "product_development":"Запрос продукта/образца",
-        "todo" : "Сроки исполнения",
-        "follow_Visit" : "Запрос клиентом повторного посещения "
+        "information": "Информация",
+        "recipe_optimization": "Рецептуры",
+        "product_development": "Запрос продукта/образца",
+        "todo": "Сроки исполнения",
+        "follow_Visit": "Запрос клиентом повторного посещения "
     },
     "VISITOR_REGRISTRATION": {
         "visitor_registration": "Заявка на посещение",

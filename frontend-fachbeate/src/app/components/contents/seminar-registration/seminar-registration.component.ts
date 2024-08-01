@@ -101,18 +101,18 @@ export class SeminarRegistrationComponent implements OnInit {
   }
 
   addTab(type: number) {
-    if(type === 1){
+    if (type === 1) {
       this.inputWorkshop.hotelBookings = [...this.inputWorkshop.hotelBookings!, {}]
-    }else if(type === 2){
+    } else if (type === 2) {
       this.inputWorkshop.flights = [...this.inputWorkshop.flights, {}]
     }
   }
 
   deleteLast(type: number) {
-    if(type === 1){
+    if (type === 1) {
       if (this.inputWorkshop.hotelBookings!.length > 1)
         this.inputWorkshop.hotelBookings!.pop();
-    }else if(type === 2){
+    } else if (type === 2) {
       if (this.inputWorkshop.flights!.length > 1)
         this.inputWorkshop.flights!.pop();
     }
@@ -291,5 +291,13 @@ export class SeminarRegistrationComponent implements OnInit {
 
   convertToDate(date: any): Date | undefined {
     return (date !== null && date !== undefined) ? new Date(date.toString()) : undefined;
+  }
+  listOfItem = ['jack', 'lucy'];
+  index = 0;
+  addItem2(input: HTMLInputElement): void {
+    const value = input.value;
+    if (this.listOfItem.indexOf(value) === -1) {
+      this.listOfItem = [...this.listOfItem, input.value || `New item ${this.index++}`];
+    }
   }
 }

@@ -58,7 +58,9 @@
         "advisor_type": "Fachberater A.",
         "seminar": "Seminar",
         "visit": "Besuch",
-        "follow_up": "Nacharbeit"
+        "follow_up": "Nacharbeit",
+        "filter_1": "Filter - Fachberater",
+        "filter_2": "Filter - Buchung"
     },
     "DASHBOARD": {
         "advisor_schedule_overview": "Terminübersicht Fachberater",
@@ -135,7 +137,7 @@
         "requirements_summary": "Abschließender Bericht – Vertreter",
         "additional_products": "Weitere Produkte",
         "completed": "Abgeschlossen",
-        "representative_summary": "Zusammenfassung Abschlussbericht*",
+        "representative_summary": "Zusammenfassung Abschlussbericht",
         "advisor_follow_up": "Nacharbeit erforderlich",
         "representative_follow_up": "Nacharbeit Vertreter",
         "report_by_reason": "Bericht per Grund",

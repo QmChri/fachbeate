@@ -7,7 +7,6 @@ import { RoleService } from '../../services/role.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Company } from '../../models/company';
 import * as XLSX from 'xlsx';
-import { timestamp } from 'rxjs';
 
 
 @Component({
@@ -20,6 +19,7 @@ export class MainListComponent implements OnInit {
   visible = false;
   technologistList: Technologist[] = [];
   listOfDisplayData: DataItem[] = [];
+  fileName = 'TableData.xlsx';
 
   // All columns are defined here
   listOfColumn: ColumnDefinition[] = [
@@ -376,8 +376,6 @@ export class MainListComponent implements OnInit {
       data.visible = false
     }
   }
-
-  fileName = 'TableData.xlsx';
 
   exportToExcel(): void {
     const typeDescriptions: { [key: number]: string } = {

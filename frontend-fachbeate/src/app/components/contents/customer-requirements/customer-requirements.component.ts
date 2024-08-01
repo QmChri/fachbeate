@@ -15,7 +15,6 @@ import { Company } from '../../../models/company';
 import { NotificationService } from '../../../services/notification.service';
 import { RoleService } from '../../../services/role.service';
 import { TranslateService } from '@ngx-translate/core';
-import { formatRange } from '@fullcalendar/core';
 
 @Component({
   selector: 'app-customer-requirements',

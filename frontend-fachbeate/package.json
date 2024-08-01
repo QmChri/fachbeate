@@ -25,6 +25,7 @@
     "@fullcalendar/core": "^6.1.12",
     "@fullcalendar/daygrid": "^6.1.12",
     "@fullcalendar/interaction": "^6.1.11",
+    "@fullcalendar/multimonth": "^6.1.15",
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",
     "angular-calendar": "^0.31.1",
