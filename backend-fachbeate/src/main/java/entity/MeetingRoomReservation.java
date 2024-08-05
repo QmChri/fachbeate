@@ -8,12 +8,12 @@ import java.util.Date;
 @Entity
 public class MeetingRoomReservation extends PanacheEntity {
 
-    public int numberOfPeopleMeetingRoom;
+    public String meetingRoomLocation;
     public Date meetingRoomDate;
     public String meetingRoomTime;
 
     public void update(MeetingRoomReservation newEntity){
-        this.numberOfPeopleMeetingRoom = newEntity.numberOfPeopleMeetingRoom;
+        this.meetingRoomLocation = newEntity.meetingRoomLocation;
         this.meetingRoomDate = newEntity.meetingRoomDate;
         this.meetingRoomTime = newEntity.meetingRoomTime;
     }

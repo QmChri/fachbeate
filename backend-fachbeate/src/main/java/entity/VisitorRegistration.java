@@ -54,7 +54,7 @@ public class VisitorRegistration extends PanacheEntity {
     public Date mealDateTo;
     public String lunchTime;
     public int veganMeals;
-    public int vegetarianMeals;
+    public int halalMeals;
     public String otherMealsDescription;
     public int otherMealsNumber;
 
@@ -66,13 +66,12 @@ public class VisitorRegistration extends PanacheEntity {
 
     @OneToMany
     public List<HotelBooking> hotelBookings;
-    public boolean hotelBooking;
-    public boolean flightBooking;
-    public boolean trip;
-    public boolean companyTour;
+    public boolean factoryTour;
+    public boolean meetingroom;
+    public boolean airportTransferTrain;
     public boolean meal;
-    public boolean customerPresent;
-    public boolean diploma;
+    public boolean hotelBooking;
+    public boolean isPlannedDepartmentVisits;
 
 
     @OneToMany
@@ -126,7 +125,7 @@ public class VisitorRegistration extends PanacheEntity {
         this.mealDateTo = newVisitorRegistration.mealDateTo;
         this.lunchTime = newVisitorRegistration.lunchTime;
         this.veganMeals = newVisitorRegistration.veganMeals;
-        this.vegetarianMeals = newVisitorRegistration.vegetarianMeals;
+        this.halalMeals = newVisitorRegistration.halalMeals;
         this.otherMealsDescription = newVisitorRegistration.otherMealsDescription;
         this.otherMealsNumber = newVisitorRegistration.otherMealsNumber;
 
@@ -136,13 +135,12 @@ public class VisitorRegistration extends PanacheEntity {
         this.transferFrom = newVisitorRegistration.transferFrom;
         this.transferTo = newVisitorRegistration.transferTo;
 
-        this.hotelBooking = newVisitorRegistration.hotelBooking;
-        this.flightBooking = newVisitorRegistration.flightBooking;
-        this.trip = newVisitorRegistration.trip;
-        this.companyTour = newVisitorRegistration.companyTour;
+        this.factoryTour = newVisitorRegistration.factoryTour;
+        this.meetingroom = newVisitorRegistration.meetingroom;
+        this.airportTransferTrain = newVisitorRegistration.airportTransferTrain;
         this.meal = newVisitorRegistration.meal;
-        this.customerPresent = newVisitorRegistration.customerPresent;
-        this.diploma = newVisitorRegistration.diploma;
+        this.hotelBooking = newVisitorRegistration.hotelBooking;
+        this.isPlannedDepartmentVisits = newVisitorRegistration.isPlannedDepartmentVisits;
 
         for (PlannedDepartmentVisit visit : newVisitorRegistration.plannedDepartmentVisits) {
             if(visit.id == null || visit.id == 0) {

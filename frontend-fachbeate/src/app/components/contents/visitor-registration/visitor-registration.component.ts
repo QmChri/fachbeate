@@ -57,7 +57,7 @@ export class VisitorRegistrationComponent implements OnInit {
 
               this.inputVisitRegistration.plannedDepartmentVisits.forEach(element => {
                 var tmpVisit = this.listOfCurrentPageData.find(pageData => pageData.name === element.department);
-                this.setOfCheckedId.set(tmpVisit!.id, [element.id!, element.dateOfVisit!.toString().substring(0, 10)])
+                this.setOfCheckedId.set(tmpVisit!.id, [element.id!, (element.dateOfVisit !== null && element.dateOfVisit !== undefined)?element.dateOfVisit!.toString().substring(0, 10):""])
               })
               
               // When the data is being loaded, sometimes the dates are converted from TypeScript into strings.
@@ -69,14 +69,17 @@ export class VisitorRegistrationComponent implements OnInit {
               this.inputVisitRegistration.stayToDate = this.convertToDate(this.inputVisitRegistration.stayToDate);
 
               this.buttonSelect = [
-                (data.hotelBooking) ? "1" : "",
-                (data.flightBooking) ? "2" : "",
-                (data.trip) ? "3" : "",
-                (data.companyTour) ? "4" : "",
-                (data.meal) ? "5" : "",
-                (data.customerPresent) ? "6" : "",
-                (data.diploma) ? "7" : ""
+                (data.factoryTour)? "1" : "",
+                (data.meetingroom)? "2" : "",
+                (data.airportTransferTrain)? "3" : "",
+                (data.meal)? "4" : "",
+                (data.hotelBooking)? "5" : "",
+                (data.isPlannedDepartmentVisits)? "6" : "",
+
               ].filter(p => p != "");
+
+              console.log(this.buttonSelect);
+              
 
             }
           },
@@ -84,8 +87,6 @@ export class VisitorRegistrationComponent implements OnInit {
             console.log(err);
           }
         });
-      }else{
-        this.addTab(1)
       }
     });
 
@@ -223,21 +224,28 @@ export class VisitorRegistrationComponent implements OnInit {
   }
 
   inputDateChange(id: number, date: string) {
+    console.log(id);
+    console.log(date);
+    
+    
     let tmpId = this.setOfCheckedId.get(id)![0];
     this.setOfCheckedId.set(id, [(tmpId) ? tmpId : undefined!, date]);
   }
 
   changeSelections() {
-    this.inputVisitRegistration.hotelBooking = this.buttonSelect.includes("1");
-    this.inputVisitRegistration.flightBooking = this.buttonSelect.includes("2");
-    this.inputVisitRegistration.trip = this.buttonSelect.includes("3");
-    this.inputVisitRegistration.companyTour = this.buttonSelect.includes("4");
-    this.inputVisitRegistration.meal = this.buttonSelect.includes("5");
-    this.inputVisitRegistration.customerPresent = this.buttonSelect.includes("6");
-    this.inputVisitRegistration.diploma = this.buttonSelect.includes("7");
+    this.inputVisitRegistration.factoryTour = this.buttonSelect.includes("1");
+    this.inputVisitRegistration.meetingroom = this.buttonSelect.includes("2");
+    this.inputVisitRegistration.airportTransferTrain = this.buttonSelect.includes("3");
+    this.inputVisitRegistration.meal = this.buttonSelect.includes("4");
+    this.inputVisitRegistration.hotelBooking = this.buttonSelect.includes("5");
+    this.inputVisitRegistration.isPlannedDepartmentVisits = this.buttonSelect.includes("6");
 
-    if(this.inputVisitRegistration.hotelBooking){
+    if(this.inputVisitRegistration.hotelBooking && this.inputVisitRegistration.hotelBookings.length === 0){
       this.addTab(1);
+    }
+
+    if(this.inputVisitRegistration.meetingroom && this.inputVisitRegistration.meetingRoomReservations.length === 0){
+      this.addTab(2);
     }
 
   }
@@ -257,8 +265,8 @@ export class VisitorRegistrationComponent implements OnInit {
       this.inputVisitRegistration.reason = "VisitorRegistration"
       this.inputVisitRegistration.plannedDepartmentVisits = [];
 
-      (this.inputVisitRegistration.fromDate !== null && this.inputVisitRegistration.fromDate!== undefined)?this.inputVisitRegistration.fromDate.setHours(5):"";
-      (this.inputVisitRegistration.toDate!== null && this.inputVisitRegistration.toDate!== undefined)?this.inputVisitRegistration.toDate.setHours(5):"";
+      this.inputVisitRegistration.fromDate = (this.inputVisitRegistration.fromDate !== null && this.inputVisitRegistration.fromDate!== undefined)?new Date(this.inputVisitRegistration.fromDate.setHours(5)):this.inputVisitRegistration.fromDate;
+      this.inputVisitRegistration.toDate = (this.inputVisitRegistration.toDate!== null && this.inputVisitRegistration.toDate!== undefined)?new Date(this.inputVisitRegistration.toDate.setHours(5)):this.inputVisitRegistration.toDate;
 
       (this.inputVisitRegistration.stayFromDate!== null && this.inputVisitRegistration.stayFromDate!== undefined)?this.inputVisitRegistration.stayFromDate.setHours(5):"";
       (this.inputVisitRegistration.stayToDate!== null && this.inputVisitRegistration.stayToDate!== undefined)?this.inputVisitRegistration.stayToDate!.setHours(5):"";

@@ -59,13 +59,13 @@ export interface VisitorRegistration {
     transferTo?: string;
     plannedDepartmentVisits: PlannedDepartmentVisit[];
 
-    hotelBooking?: boolean;
-    flightBooking?: boolean;
-    trip?: boolean;
-    companyTour?: boolean;
+    factoryTour?: boolean;
+    meetingroom?: boolean;
+    airportTransferTrain?: boolean;
     meal?: boolean;
-    customerPresent?: boolean;
-    diploma?: boolean;
+    hotelBooking?: boolean;
+    isPlannedDepartmentVisits?: boolean;
+
 
     guests?: Guest[];
 }
