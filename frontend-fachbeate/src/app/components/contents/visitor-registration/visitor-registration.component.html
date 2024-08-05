@@ -233,7 +233,7 @@
                         {<p>{{index+1}}. {{'VISITOR_REGRISTRATION.meeting_room' | translate}}</p>
                         <mat-form-field>
                             <mat-label>{{'VISITOR_REGRISTRATION.location' | translate}}</mat-label>
-                            <input matInput type="number" [min]="0" [(ngModel)]="meetingroom.numberOfPeopleMeetingRoom">
+                            <input matInput [(ngModel)]="meetingroom.meetingRoomLocation">
                         </mat-form-field>
                         <div class="displayBySide">
                             <mat-form-field class="smallInput">

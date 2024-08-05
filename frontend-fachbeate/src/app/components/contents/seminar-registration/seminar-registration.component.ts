@@ -75,6 +75,7 @@ export class SeminarRegistrationComponent implements OnInit {
         });
       } else {
         this.addTab(1);
+        this.addTab(2);
       }
     });
     this.getTechnologists();
