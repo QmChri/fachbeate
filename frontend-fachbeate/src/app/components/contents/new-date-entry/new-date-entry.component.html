@@ -6,7 +6,7 @@
                 {{inputDate.requestedTechnologist?.lastName}}</h1>
         </div>
         <div *ngIf="inputDate.id !== undefined && inputDate.id !== null">
-            <button matTooltip="{{ 'STANDARD.remove' | translate }}" class="btn btn-danger btn-sm" nz-popconfirm
+            <button *ngIf="roleService.checkPermission([1,2,7])" matTooltip="{{ 'STANDARD.remove' | translate }}" class="btn btn-danger btn-sm" nz-popconfirm
                 nzPopconfirmShowArrow="false" [nzIcon]="iconTpl" [nzCancelText]="'DASHBOARD.cancel' | translate"
                 [nzOkText]="'STANDARD.ok' | translate" [nzPopconfirmTitle]="'STANDARD.are_you_sure' | translate"
                 (nzOnConfirm)="deleteEntry(inputDate)">

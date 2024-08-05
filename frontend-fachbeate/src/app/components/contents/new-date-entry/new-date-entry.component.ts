@@ -6,6 +6,7 @@ import { HttpService } from '../../../services/http.service';
 import { TechnologistAppointment } from '../../../models/technologist-appointment';
 import { NotificationService } from '../../../services/notification.service';
 import { TranslateService } from '@ngx-translate/core';
+import { RoleService } from '../../../services/role.service';
 
 @Component({
   selector: 'app-new-date-entry',
@@ -28,7 +29,7 @@ export class NewDateEntryComponent implements OnInit {
 
   constructor(public translate: TranslateService, public dialogRef: MatDialogRef<AbschlussBerichtComponent>,
     @Inject(MAT_DIALOG_DATA) public timeSpan: TechnologistAppointment,
-    private http: HttpService, private notificationService: NotificationService
+    private http: HttpService, private notificationService: NotificationService, public roleService: RoleService
   ) {
   }
 
