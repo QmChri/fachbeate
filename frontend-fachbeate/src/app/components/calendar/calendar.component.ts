@@ -48,7 +48,29 @@ export class CalendarComponent implements OnInit {
     events: [],
     firstDay: 1,
     displayEventTime: false,
-    displayEventEnd: false
+    displayEventEnd: false,
+    eventContent: (arg) => {
+      // Erstellen Sie benutzerdefinierten HTML-Inhalt mit Inline-Stilen
+
+      const { event } = arg;
+      if (this.calendarEvnts.find(element => element.id === arg.event._def.publicId)!.visible === false) {
+        return {
+          html: `
+          <div style="
+            background: repeating-linear-gradient(
+              45deg, 
+              rgba(0, 0, 0, 0.3), /* Leicht durchsichtiges Schwarz */
+              rgba(0, 0, 0, 0.3) 10px, /* Breite der Striche */
+              rgba(0, 0, 0, 0) 10px, /* Transparenz nach den Strichen */
+              rgba(0, 0, 0, 0) 20px /* Abstand zwischen den Strichen */
+            );
+          ">
+            ${event.title}
+          </div>
+          `}
+      }
+      return event.title
+    }
   };
 
   roleServiceUserName = this.roleService.getUserName();
@@ -60,7 +82,8 @@ export class CalendarComponent implements OnInit {
     public roleService: RoleService
   ) { }
 
-  ngOnInit(): void {    if (this.roleService.checkPermission(this.requiredRoles)) {
+  ngOnInit(): void {
+    if (this.roleService.checkPermission(this.requiredRoles)) {
       this.loadDataPerUser();
     } this.loadFilters();
   }
@@ -150,6 +173,7 @@ export class CalendarComponent implements OnInit {
             end: new Date(value.toDate),
             backgroundColor: value.calendarColor,
             borderColor: value.calendarColor,
+            visible: value.visible
           }]
         })
 
@@ -181,6 +205,7 @@ export class CalendarComponent implements OnInit {
             end: new Date(value.toDate),
             backgroundColor: value.calendarColor,
             borderColor: value.calendarColor,
+            visible: value.visible
           }]
 
           this.calendarOptions.events = this.calendarEvnts.map(value => ({
@@ -214,6 +239,7 @@ export class CalendarComponent implements OnInit {
             end: new Date(value.toDate),
             backgroundColor: value.calendarColor,
             borderColor: value.calendarColor,
+            visible: value.visible
           }]
 
           this.calendarOptions.events = this.calendarEvnts.map(value => ({
@@ -248,6 +274,7 @@ export class CalendarComponent implements OnInit {
             end: value.endDate,
             backgroundColor: value.requestedTechnologist!.color,
             borderColor: value.requestedTechnologist!.color,
+            visible: true
           }]
         })
         this.calendarOptions.events = this.calendarEvnts.map(value => ({
@@ -298,7 +325,7 @@ export class CalendarComponent implements OnInit {
     timeSpan.endDate = new Date(timeSpan.endDate!)
 
     const dialogRef = this.dialog.open(NewDateEntryComponent, {
-      height: '32.5rem',
+      height: '30.5rem',
       width: '25rem',
       data: timeSpan
     });
@@ -318,5 +345,6 @@ interface CalendarEvent {
   start?: Date,
   end?: Date,
   backgroundColor?: string,
-  borderColor?: string
+  borderColor?: string,
+  visible?: boolean;
 }

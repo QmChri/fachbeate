@@ -49,6 +49,10 @@ export class NewDateEntryComponent implements OnInit {
     this.getTechnologists();
   }
 
+  getFirstLetter(name: string): string {
+    return name ? name.charAt(0) : '';
+  }
+
   deleteEntry(entry: TechnologistAppointment) {
     this.http.deleteAppointment(entry).subscribe({
       next: data => {

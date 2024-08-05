@@ -63,6 +63,7 @@ public class MainListDTO {
         this.visible= element.showUser;
         this.calendarColor=(element.requestedTechnologist != null&&!element.requestedTechnologist.isEmpty())?element.requestedTechnologist.get(0).color:"#808080";
 
+
         return this;
     }
 
