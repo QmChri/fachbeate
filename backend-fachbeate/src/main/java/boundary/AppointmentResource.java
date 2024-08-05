@@ -53,6 +53,19 @@ public class AppointmentResource {
     }
 
     /***
+     * Deletes calendar entrie, i.e. not
+     * @return
+     */
+    @DELETE
+    @Path("/appointment/delete")
+    @Authenticated
+    public Response deleteAppointment(@QueryParam("id") Long id){
+        TechnologistAppointment.deleteById(id);
+
+        return Response.ok(true).build();
+    }
+
+    /***
      * Returns another calendar entry with the Id
      * @param id
      * @return

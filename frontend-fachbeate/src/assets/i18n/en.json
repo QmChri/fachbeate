@@ -54,7 +54,8 @@
         "houseO": "House Oftering",
         "filter1": "Workshop R.",
         "filter2": "Advisor R.",
-        "filter3": "Booking R."
+        "filter3": "Booking R.",
+        "calendar_change": "Calendar change"
     },
     "DASHBOARD": {
         "entry_for": "Entry for",
@@ -141,7 +142,6 @@
         "article": "Article",
         "article_number": "Article number",
         "article_length": "Article number - 7 Digits"
-
     },
     "VISITOR_REGRISTRATION": {
         "visitor_registration": "Visitor Registration",

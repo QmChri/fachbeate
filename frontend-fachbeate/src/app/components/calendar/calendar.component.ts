@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CalendarOptions } from '@fullcalendar/core';
+import { Calendar, CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { HttpService } from '../../services/http.service';
 import { Router } from '@angular/router';
@@ -39,12 +39,9 @@ export class CalendarComponent implements OnInit {
 
   //Setting the calendar settings
   calendarOptions: CalendarOptions = {
-    //initialView: 'dayGridMonth',
-    initialView: 'multiMonthYear',
-   // plugins: [dayGridPlugin, interactionPlugin],
-    plugins: [multiMonthPlugin, interactionPlugin],
+    initialView: 'dayGridMonth',
+    plugins: [multiMonthPlugin, dayGridPlugin, interactionPlugin],
     multiMonthMaxColumns: 5,
-
     eventClick: (arg) => this.handleEventClick(arg),
     selectable: true,
     select: (arg) => this.handleSelect(arg),
@@ -63,10 +60,8 @@ export class CalendarComponent implements OnInit {
     public roleService: RoleService
   ) { }
 
-  ngOnInit(): void {
-    if (this.roleService.checkPermission(this.requiredRoles)) {
+  ngOnInit(): void {    if (this.roleService.checkPermission(this.requiredRoles)) {
       this.loadDataPerUser();
-
     } this.loadFilters();
   }
 
@@ -303,7 +298,7 @@ export class CalendarComponent implements OnInit {
     timeSpan.endDate = new Date(timeSpan.endDate!)
 
     const dialogRef = this.dialog.open(NewDateEntryComponent, {
-      height: '31rem',
+      height: '32.5rem',
       width: '25rem',
       data: timeSpan
     });

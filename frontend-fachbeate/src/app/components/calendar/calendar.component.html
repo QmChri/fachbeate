@@ -34,7 +34,7 @@
                     <nz-select class="nzselect" [(ngModel)]="searchValue"
                         nzPlaceHolder="{{'MAIN_LIST.search' | translate}}" nzShowSearch>
                         <nz-option *ngFor="let option of listOfBooking" nzLabel="{{'STANDARD.'+ option.label |
-                        translate}}" [nzValue]="option.value"></nz-option>
+                            translate}}" [nzValue]="option.value"></nz-option>
                     </nz-select>
                     <div class="search-box2">
                         <button nz-button nzSize="small" nzType="primary" (click)="search()"
@@ -48,5 +48,4 @@
         </nz-dropdown-menu>
     </div>
 </div>
-
 <full-calendar [options]="calendarOptions"></full-calendar>
