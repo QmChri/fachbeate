@@ -227,9 +227,9 @@
                     <label class="input-label" [hidden]="editId === data.editId" (click)="startEdit(data.editId)">
                         {{
                             (data.dateSelect !== null && data.dateSelect !== undefined &&data.dateSelect!.length === 2)?
-                                data.dateSelect[0]
+                                data.dateSelect[0].toString().substring(0,10)
                                  + " - " +
-                                data.dateSelect[1]
+                                data.dateSelect[1].toString().substring(0,10)
                             : ""
                         }}
                     </label>

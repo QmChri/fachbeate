@@ -49,8 +49,6 @@ export class CustomerRequirementsComponent implements OnInit {
     if (!reqTechDate) {
       return true; // Kein passender Technologe gefunden, daher alle Daten deaktivieren
     }
-    console.log(new Date(current.setHours(7)))
-
     // Überprüfen, ob das aktuelle Datum in einem der Zeiträume liegt
     const isDateValid = reqTechDate.appointments.some(
       element => this.isDateBetween(new Date(current.setHours(7)), new Date(element[0].toString()), new Date(element[1].toString()))
@@ -64,8 +62,6 @@ export class CustomerRequirementsComponent implements OnInit {
   }
 
   disabledDate = (current: Date): boolean => {
-    console.log();
-
     return (current && this.inputCustomerRequirement.startDate !== undefined && this.inputCustomerRequirement.endDate !== undefined) && (current < this.inputCustomerRequirement.startDate! || current > this.inputCustomerRequirement.endDate!);
   };
 
@@ -277,10 +273,6 @@ export class CustomerRequirementsComponent implements OnInit {
   }
 
   isDateRangeValid(newFrom: Date, newTo: Date, existingRanges: Date[][]): boolean {
-    console.log(newTo);
-    console.log(newFrom);
-    console.log(existingRanges);
-
     return !existingRanges.some(range => this.isOverlapping(newFrom, newTo, new Date(range[0].toString()), new Date(range[1].toString())));
   }
 

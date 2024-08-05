@@ -81,11 +81,9 @@ export class HttpService {
     return this.http.get<Technologist[]>(API_URL+ "users/technologist");
   }
 
-  /*
   getActiveTechnologist(): Observable<Technologist[]>{
     return this.http.get<Technologist[]>(API_URL + "users/technologist/allActive");
   }
-    */
 
   getActiveWithDates(): Observable<TechDateDTO[]>{
     return this.http.get<TechDateDTO[]>(API_URL + "users/technologist/activeWithDates");

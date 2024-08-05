@@ -83,19 +83,13 @@ export class SeminarRegistrationComponent implements OnInit {
 
   disableTechDate = (current: Date): boolean => {
 
-    console.log(this.inputWorkshop.requestedTechnologist);
-    
-
     if (this.inputWorkshop.requestedTechnologist === undefined) {
       return true; // Keine Technologenanforderung, also alle Daten deaktivieren
     }
-  
+
     const reqTechDate = this.technologists.filter(
       element => this.inputWorkshop.requestedTechnologist!.some(tech =>tech.id === element.technologist.id)
     );
-
-    console.log(reqTechDate);
-    
   
     if (!reqTechDate) {
       return true; // Kein passender Technologe gefunden, daher alle Daten deaktivieren
