@@ -48,6 +48,7 @@
         "assigned_customer": "Name des Unternehmens",
         "assigned_address": "Land",
         "assigned_dateOfVisit": "Datum Besuches",
+        "assigned_date": "Datum ungültig",
         "assigned_reason": "Grund",
         "assigned_amount": "Personenanzahl",
         "assigned_productionAmount": "Produktionen Tonnen/Tag",

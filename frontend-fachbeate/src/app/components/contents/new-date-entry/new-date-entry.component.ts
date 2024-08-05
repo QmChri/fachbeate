@@ -6,6 +6,7 @@ import { HttpService } from '../../../services/http.service';
 import { TechnologistAppointment } from '../../../models/technologist-appointment';
 import { NotificationService } from '../../../services/notification.service';
 import { TranslateService } from '@ngx-translate/core';
+import { TechDateDTO } from '../../../models/tech-date-dto';
 import { RoleService } from '../../../services/role.service';
 
 @Component({
@@ -25,7 +26,7 @@ export class NewDateEntryComponent implements OnInit {
     'Haus Oftering'];
 
   inputDate: TechnologistAppointment = {};
-  technologists: Technologist[] = [];
+  technologists: TechDateDTO[] = [];
 
   constructor(public translate: TranslateService, public dialogRef: MatDialogRef<AbschlussBerichtComponent>,
     @Inject(MAT_DIALOG_DATA) public timeSpan: TechnologistAppointment,
@@ -70,7 +71,7 @@ export class NewDateEntryComponent implements OnInit {
   }
 
   getTechnologists() {
-    this.http.getActiveTechnologist().subscribe({
+    this.http.getActiveWithDates().subscribe({
       next: data => {
         this.technologists = data;
       },
@@ -126,7 +127,7 @@ export class NewDateEntryComponent implements OnInit {
   }
 
   changeTechnolgist($event: any) {
-    this.inputDate.requestedTechnologist = this.technologists.find(elemnt => elemnt.id === $event);
+    this.inputDate.requestedTechnologist = this.technologists.find(elemnt => elemnt.technologist.id === $event)!.technologist;
   }
 
 }

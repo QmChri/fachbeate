@@ -15,6 +15,8 @@ import { Company } from '../../../models/company';
 import { NotificationService } from '../../../services/notification.service';
 import { RoleService } from '../../../services/role.service';
 import { TranslateService } from '@ngx-translate/core';
+import { formatRange } from '@fullcalendar/core';
+import { TechDateDTO } from '../../../models/tech-date-dto';
 
 @Component({
   selector: 'app-customer-requirements',
@@ -26,13 +28,42 @@ export class CustomerRequirementsComponent implements OnInit {
   editId: number | null = null;
   tohaControl = new FormControl<Toechterhaeandler | null>(null, Validators.required);
   selectedValue?: string;
-  technologists: Technologist[] = [];
+  technologists: TechDateDTO[] = [];
   representative: Representative[] = [];
   companies: Company[] = [];
   freigegeben: boolean = true;
   dateFormat = 'dd.MM.yy';
 
   constructor(public translate: TranslateService, private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute, private notificationService: NotificationService, public roleService: RoleService) { }
+
+
+  disableTechDate = (current: Date): boolean => {
+    if (!this.inputCustomerRequirement.requestedTechnologist) {
+      return true; // Keine Technologenanforderung, also alle Daten deaktivieren
+    }
+
+    const reqTechDate = this.technologists.find(
+      element => this.inputCustomerRequirement.requestedTechnologist!.id === element.technologist.id
+    );
+
+    if (!reqTechDate) {
+      return true; // Kein passender Technologe gefunden, daher alle Daten deaktivieren
+    }
+    // Überprüfen, ob das aktuelle Datum in einem der Zeiträume liegt
+    const isDateValid = reqTechDate.appointments.some(
+      element => this.isDateBetween(new Date(current.setHours(7)), new Date(element[0].toString()), new Date(element[1].toString()))
+    );
+
+    return !isDateValid; // Datum deaktivieren, wenn es nicht gültig ist
+  }
+
+  isDateBetween(date: Date, startDate: Date, endDate: Date): boolean {
+    return date > new Date(startDate.setHours(5)) && date < new Date(endDate.setHours(8));
+  }
+
+  disabledDate = (current: Date): boolean => {
+    return (current && this.inputCustomerRequirement.startDate !== undefined && this.inputCustomerRequirement.endDate !== undefined) && (current < this.inputCustomerRequirement.startDate! || current > this.inputCustomerRequirement.endDate!);
+  };
 
   ngOnInit(): void {
     this.getTechnologist();
@@ -161,11 +192,7 @@ export class CustomerRequirementsComponent implements OnInit {
         }
         if (this.inputCustomerRequirement.startDate instanceof Date) {
           this.inputCustomerRequirement.startDate.setHours(5);
-        } else {
-          console.log("startDate is not a valid Date object");
         }
-      } else {
-        console.log("startDate is not defined");
       }
 
       if (this.inputCustomerRequirement.endDate !== null && this.inputCustomerRequirement.endDate !== undefined) {
@@ -174,18 +201,13 @@ export class CustomerRequirementsComponent implements OnInit {
         }
         if (this.inputCustomerRequirement.endDate instanceof Date) {
           this.inputCustomerRequirement.endDate.setHours(5);
-        } else {
-          console.log("endDate is not a valid Date object");
         }
-      } else {
-        console.log("endDate is not defined");
       }
 
       this.inputCustomerRequirement.customerVisits.forEach(element => {
         element.fromDateOfVisit = element.dateSelect![0];
         element.toDateOfVisit = element.dateSelect![1];
       });
-
 
       if (this.inputCustomerRequirement.creator === undefined) {
         this.inputCustomerRequirement.creator = this.roleService.getUserName();
@@ -226,9 +248,11 @@ export class CustomerRequirementsComponent implements OnInit {
       (this.inputCustomerRequirement.company === null || this.inputCustomerRequirement.company === undefined) ? "assigned_company" : "",
       (this.inputCustomerRequirement.customerVisits.filter(element => element.companyName === null || element.companyName === undefined || element.companyName === "").length !== 0) ? "assigned_customer" : "",
       (this.inputCustomerRequirement.customerVisits.filter(element => element.address === null || element.address === undefined || element.address === "").length !== 0) ? "assigned_address" : "",
-      (this.inputCustomerRequirement.customerVisits.filter(element => element.dateSelect!.length !== 2).length !== 0) ? "assigned_dateOfVisit" : "",
+      (this.inputCustomerRequirement.customerVisits.filter(element => (element.dateSelect !== undefined && element.dateSelect!.length !== 2)).length !== 0) ? "assigned_dateOfVisit" : "",
       (this.inputCustomerRequirement.customerVisits.filter(element => element.presentationOfNewProducts === false && element.existingProducts === false && element.recipeOptimization === false && element.sampleProduction === false && element.training === false).length !== 0) ? "assigned_reason" : "",
-      (this.inputCustomerRequirement.customerVisits.filter(element => element.productionAmount === null || element.productionAmount === undefined || element.productionAmount === "").length !== 0) ? "assigned_productionAmount" : ""
+      (this.inputCustomerRequirement.customerVisits.filter(element => element.productionAmount === null || element.productionAmount === undefined || element.productionAmount === "").length !== 0) ? "assigned_productionAmount" : "",
+      (this.inputCustomerRequirement.startDate !== undefined && this.inputCustomerRequirement.endDate !== undefined && this.inputCustomerRequirement.requestedTechnologist !== undefined)?
+      (this.isDateRangeValid(this.inputCustomerRequirement.startDate!, this.inputCustomerRequirement.endDate!,this.technologists.find(tech => tech.technologist.id === this.inputCustomerRequirement.requestedTechnologist!.id)!.appointments) === false)?"assigned_date":"":""
     ].filter(element => element !== "");
 
     if (requiredFields.length !== 0) {
@@ -240,6 +264,16 @@ export class CustomerRequirementsComponent implements OnInit {
     }
 
     return requiredFields.length === 0;
+  }
+
+  isOverlapping(newFrom: Date, newTo: Date, existingFrom: Date, existingTo: Date): boolean {
+
+
+    return newFrom < existingTo && newTo > existingFrom;
+  }
+
+  isDateRangeValid(newFrom: Date, newTo: Date, existingRanges: Date[][]): boolean {
+    return !existingRanges.some(range => this.isOverlapping(newFrom, newTo, new Date(range[0].toString()), new Date(range[1].toString())));
   }
 
   openDialog(customerVisit: CustomerVisit) {
@@ -296,42 +330,11 @@ export class CustomerRequirementsComponent implements OnInit {
         });
     }
   }
-  /*
-  listOfWorkshops: DataItem[] = [];
 
-  checkIfTechnologistIsAvailable(): boolean {
-    var type = (this.roleService.checkPermission([1, 2, 3, 5, 7]) ? 7 : 6);
-    type = (!this.roleService.checkPermission([1, 2, 4, 5, 6, 7]) ? 3 : type);
-    type = (!this.roleService.checkPermission([1, 2, 3, 5, 6, 7]) ? 4 : type);
-    type = (!this.roleService.checkPermission([1, 2, 5, 6, 7]) ? 8 : type);
-    var fullname: string[] = [this.roleService.getUserName()!, this.roleService.getEmail()!];
-
-    this.http.getWorkshopByUser(type, fullname!).subscribe({
-      next: data => {
-        data.forEach(element => {
-          this.listOfWorkshops = [...this.listOfWorkshops, {
-            id: element.id!,
-            dateOfCreation: element.dateOfCreation,
-            fachberater: element.technologist,
-            timespan: {
-              start: element.fromDate,
-              end: element.toDate
-            }
-          }];
-        });
-      },
-      error: err => {
-        console.log(err);
-      }
-    });
-    if (this.listOfWorkshops.map(s => s.fachberater === "Dariusz Müller")) {
-      return true;
-    }
-    return false
-  }*/
 
   getTechnologist() {
-    this.http.getActiveTechnologist().subscribe({
+
+    this.http.getActiveWithDates().subscribe({
       next: data => {
         this.technologists = data;
       },
@@ -369,7 +372,7 @@ export class CustomerRequirementsComponent implements OnInit {
 
   //region Function when something changes in the selects
   changeTechnolgist($event: any) {
-    this.inputCustomerRequirement.requestedTechnologist = this.technologists.find(elemnt => elemnt.id === $event);
+    this.inputCustomerRequirement.requestedTechnologist = this.technologists.find(elemnt => elemnt.technologist.id === $event)!.technologist;
   }
 
   changeCompany($event: any) {
@@ -421,16 +424,4 @@ export class CustomerRequirementsComponent implements OnInit {
 interface Toechterhaeandler {
   value: string;
   viewValue: string;
-}
-
-interface DataItem {
-  id?: string;
-  dateOfCreation?: string;
-  fachberater?: string;
-  timespan?: TimeSpan;
-}
-
-interface TimeSpan {
-  start?: string;
-  end?: string;
 }

@@ -1,8 +1,10 @@
 package boundary;
 
 import entity.Company;
+import entity.CustomerRequirement;
 import entity.Representative;
 import entity.Technologist;
+import entity.dto.TechDateDTO;
 import io.quarkus.security.Authenticated;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.transaction.Transactional;
@@ -10,6 +12,9 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Response;
+
+import java.util.Date;
+import java.util.List;
 
 @Path("users")
 public class TechnologistResource {
@@ -51,10 +56,24 @@ public class TechnologistResource {
     @GET
     @Path("technologist/allActive")
     @Authenticated
-    public Response getActiveTechnologists(){
-        return Response.ok(Technologist.find("active",true).list()).build();
+    public Response getActiveTechnologists() {
+        return Response.ok(Technologist.find("active", true).list()).build();
     }
 
+
+    @GET
+    @Path("technologist/activeWithDates")
+    @Authenticated
+    public Response getActiveWithResponse(){
+        List<TechDateDTO> techs = Technologist.find("active", true).list().stream().map(tech -> new TechDateDTO((Technologist) tech)).toList();
+
+        for(TechDateDTO tdd: techs){
+            List<CustomerRequirement> crs = CustomerRequirement.find("requestedTechnologist.id = ?1 and endDate > ?2", tdd.technologist.id, new Date()).list();
+            tdd.appointments = crs.stream().map(element -> new Date[]{element.startDate, element.endDate}).toList();
+        }
+
+        return Response.ok(techs).build();
+    }
     /**
      * Post new Vertreter
      * @param representative

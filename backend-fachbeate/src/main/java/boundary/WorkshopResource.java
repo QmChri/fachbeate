@@ -71,20 +71,20 @@ public class WorkshopResource {
         }else if(user == 4) {
             mapList = WorkshopRequirement.find(
                     "select work from WorkshopRequirement work join work.requestedTechnologist tech " +
-                            "where tech.email = ?1 or creator = ?2 and showUser = true",fullname.get(1) ,fullname.get(0)
+                            "where (tech.email = ?1 or creator = ?2) and showUser = true",fullname.get(1) ,fullname.get(0)
             ).list();
         }else if(user == 6) {
             mapList = WorkshopRequirement.find(
-                    "company.username = ?1 or creator = ?1 and showUser = true",fullname.get(0)
+                    "(company.username = ?1 or creator = ?1) and showUser = true",fullname.get(0)
             ).list();
         }else if(user == 3){
             mapList = WorkshopRequirement.find(
-                    "representative.email = ?1 or creator = ?2 and showUser = true",fullname.get(1) ,fullname.get(0)
+                    "(representative.email = ?1 or creator = ?2) and showUser = true",fullname.get(1) ,fullname.get(0)
             ).list();
         }else if(user == 8){
             mapList = WorkshopRequirement.find(
                     "select work from WorkshopRequirement work join work.requestedTechnologist tech " +
-                            "where tech.email = ?1 or work.representative.email = ?1 or creator = ?2 and work.showUser = true",fullname.get(1) ,fullname.get(0)
+                            "where (tech.email = ?1 or work.representative.email = ?1 or creator = ?2) and work.showUser = true",fullname.get(1) ,fullname.get(0)
             ).list();
         }
         return Response.ok(
