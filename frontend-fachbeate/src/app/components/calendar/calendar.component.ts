@@ -340,8 +340,7 @@ export class CalendarComponent implements OnInit {
     dialogRef.afterClosed().subscribe(
       data => {
         if (this.roleService.checkPermission(this.requiredRoles)) {
-          console.log("Test 2");
-          
+
           this.loadDataPerUser()
         }
       });
