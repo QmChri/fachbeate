@@ -87,7 +87,7 @@
                                 (valueChange)="changeTechnolgist($event)" required>
                                 <mat-option>--</mat-option>
                                 @for (t of technologists; track technologists) {
-                                <mat-option [value]="t.id">{{t.firstName}} {{t.lastName}}</mat-option>
+                                    <mat-option [value]="t.technologist.id">{{t.technologist.firstName}} {{t.technologist.lastName}}</mat-option>
                                 }
                             </mat-select>
                             @if (tohaControl.hasError('required')) {
@@ -98,7 +98,7 @@
                 </div>
                 <mat-form-field>
                     <mat-label>{{"CUSTOMER_REQUIREMENTS.from_to"|translate}}</mat-label>
-                    <mat-date-range-input [rangePicker]="picker">
+                    <mat-date-range-input [dateFilter]="disableTechDate"  [rangePicker]="picker">
                         <input required matStartDate placeholder="Start date"
                             [(ngModel)]="inputCustomerRequirement.startDate">
                         <input required matEndDate placeholder="End date"

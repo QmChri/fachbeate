@@ -13,6 +13,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from '../../../services/notification.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
+import { TechDateDTO } from '../../../models/tech-date-dto';
 
 @Component({
   selector: 'app-abschluss-bericht',
@@ -29,7 +30,7 @@ export class AbschlussBerichtComponent implements OnInit {
   reasonSelect: number[] = [];
 
   existingArticles: Article[] = []
-  technologists: Technologist[] = [];
+  technologists: TechDateDTO[] = [];
   representative: Representative[] = [];
   fileList: NzUploadFile[] = [];
   todoList = [
@@ -196,7 +197,7 @@ export class AbschlussBerichtComponent implements OnInit {
   }
 
   getTechnologist() {
-    this.http.getActiveTechnologist().subscribe({
+    this.http.getActiveWithDates().subscribe({
       next: data => {
         this.technologists = data;
       },
@@ -245,7 +246,7 @@ export class AbschlussBerichtComponent implements OnInit {
   }
 
   changeTechnolgist($event: any) {
-    this.inputFinalReport.technologist = this.technologists.find(elemnt => elemnt.id === $event);
+    this.inputFinalReport.technologist = this.technologists.find(elemnt => elemnt.technologist.id === $event)!.technologist;
   }
 
   changeRepresentative($event: any) {

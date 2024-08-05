@@ -43,6 +43,7 @@ export class VisitorRegistrationComponent implements OnInit {
   constructor(public translate: TranslateService, private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute,
     private notificationService: NotificationService, public roleService: RoleService) { }
 
+
   ngOnInit(): void {
     this.getRepresentative();
     
@@ -87,6 +88,7 @@ export class VisitorRegistrationComponent implements OnInit {
       }
     });
 
+    
     this.listOfCurrentPageData = [
       {
         id: 1,
@@ -157,6 +159,7 @@ export class VisitorRegistrationComponent implements OnInit {
     ]
 
   }
+  
 
   release(department: string) {
     if (department === 'gl') {

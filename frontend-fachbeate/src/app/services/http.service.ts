@@ -12,6 +12,7 @@ import { Company } from '../models/company';
 import { Article } from '../models/article';
 import {environment} from "../../environments/environment";
 import { MainListDTO } from '../models/main-list-dto';
+import { TechDateDTO } from '../models/tech-date-dto';
 
 const API_URL = environment.backendApi
 
@@ -80,8 +81,14 @@ export class HttpService {
     return this.http.get<Technologist[]>(API_URL+ "users/technologist");
   }
 
+  /*
   getActiveTechnologist(): Observable<Technologist[]>{
     return this.http.get<Technologist[]>(API_URL + "users/technologist/allActive");
+  }
+    */
+
+  getActiveWithDates(): Observable<TechDateDTO[]>{
+    return this.http.get<TechDateDTO[]>(API_URL + "users/technologist/activeWithDates");
   }
 
   postTechnologist(technologist: Technologist) {

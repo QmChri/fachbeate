@@ -12,6 +12,7 @@ import { RoleService } from '../../../services/role.service';
 import { Company } from '../../../models/company';
 import { Representative } from '../../../models/representative';
 import { TranslateService } from '@ngx-translate/core';
+import { TechDateDTO } from '../../../models/tech-date-dto';
 
 @Component({
   selector: 'app-seminar-registration',
@@ -24,7 +25,7 @@ export class SeminarRegistrationComponent implements OnInit {
   representative: Representative[] = [];
   control = new FormControl(null, Validators.required);
   addItem: string = "";
-  technologists: Technologist[] = [];
+  technologists: TechDateDTO[] = [];
   reasonSelect: number = 0;
   languages: string[] = ['DE', 'EN', 'RU'];
   tabs = ['Hotelbuchung']
@@ -79,6 +80,38 @@ export class SeminarRegistrationComponent implements OnInit {
     this.getTechnologists();
   }
 
+
+  disableTechDate = (current: Date): boolean => {
+
+    console.log(this.inputWorkshop.requestedTechnologist);
+    
+
+    if (this.inputWorkshop.requestedTechnologist === undefined) {
+      return true; // Keine Technologenanforderung, also alle Daten deaktivieren
+    }
+  
+    const reqTechDate = this.technologists.filter(
+      element => this.inputWorkshop.requestedTechnologist!.some(tech =>tech.id === element.technologist.id)
+    );
+
+    console.log(reqTechDate);
+    
+  
+    if (!reqTechDate) {
+      return true; // Kein passender Technologe gefunden, daher alle Daten deaktivieren
+    }
+    // Überprüfen, ob das aktuelle Datum in einem der Zeiträume liegt
+    var isDateValid = reqTechDate.some(req => req.appointments.some(
+      element => this.isDateBetween(new Date(current.setHours(7)), new Date(element[0].toString()), new Date(element[1].toString()))
+    ));
+  
+    return !isDateValid; // Datum deaktivieren, wenn es nicht gültig ist
+  }
+
+  isDateBetween(date: Date, startDate: Date, endDate: Date): boolean {
+    return date > new Date(startDate.setHours(5)) && date < new Date(endDate.setHours(9));
+  }
+  
   checkRequired(): boolean {
     var requiredFields: string[] = [
       (this.inputWorkshop.company === null || this.inputWorkshop.company === undefined) ? "assigned_company" : "",
@@ -190,7 +223,7 @@ export class SeminarRegistrationComponent implements OnInit {
   }
 
   getTechnologists() {
-    this.http.getActiveTechnologist().subscribe({
+    this.http.getActiveWithDates().subscribe({
       next: data => {
         this.technologists = data;
       },
@@ -202,7 +235,7 @@ export class SeminarRegistrationComponent implements OnInit {
 
   changeTechnolgist(event: number[]) {
     this.inputWorkshop.requestedTechnologist = event.map(id =>
-      this.technologists.find(tech => tech.id === id)!
+      this.technologists.find(tech => tech.technologist.id === id)!.technologist
     );
   }
 

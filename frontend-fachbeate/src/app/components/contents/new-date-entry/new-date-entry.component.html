@@ -12,7 +12,7 @@
                 (valueChange)="changeTechnolgist($event)" required>
                 <mat-option>--</mat-option>
                 @for (t of technologists; track technologists) {
-                <mat-option [value]="t.id">{{t.firstName}} {{t.lastName}}</mat-option>
+                <mat-option [value]="t.technologist.id">{{t.technologist.firstName}} {{t.technologist.lastName}}</mat-option>
                 }
             </mat-select>
             <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>

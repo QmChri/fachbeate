@@ -72,20 +72,20 @@ public class CustomerRequirementResource {
         if (user==7) {
             customerRequirements = CustomerRequirement.listAll();
         }else if(user == 4) {
-            customerRequirements = CustomerRequirement.find("requestedTechnologist.email = ?1 or creator = ?2 and showUser = true",
+            customerRequirements = CustomerRequirement.find("(requestedTechnologist.email = ?1 or creator = ?2) and showUser = true",
                     fullname.get(1), fullname.get(0)).list();
         } else if(user == 6) {
             customerRequirements = CustomerRequirement.find(
-                    "company.username = ?1 or creator = ?1 and showUser = true",
+                    "(company.username = ?1 or creator = ?1) and showUser = true",
                     fullname.get(0)
             ).list();
         } else if(user == 3){
             customerRequirements = CustomerRequirement.find(
-                    "representative.email = ?1 or creator = ?2 and showUser = true",fullname.get(1), fullname.get(0)
+                    "(representative.email = ?1 or creator = ?2) and showUser = true",fullname.get(1), fullname.get(0)
             ).list();
         }else if(user == 8){
             customerRequirements = CustomerRequirement.find(
-                    "representative.email = ?1 or requestedTechnologist.email = ?1 or creator = ?2 and showUser = true", fullname.get(1), fullname.get(0)
+                    "(representative.email = ?1 or requestedTechnologist.email = ?1 or creator = ?2) and showUser = true", fullname.get(1), fullname.get(0)
             ).list();
         }
 

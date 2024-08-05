@@ -33,6 +33,7 @@ export class CalendarComponent implements OnInit {
     displayEventEnd: false
   };
 
+
   roleServiceUserName = this.roleService.getUserName();
   nameOfCalendarEvent: string = "";
   i: number = 0;
@@ -90,7 +91,10 @@ export class CalendarComponent implements OnInit {
           end: value.end,
           backgroundColor: value.backgroundColor,
           borderColor: value.borderColor,
+          className: 'diagonal-stripes'
         }));
+
+        
       },
       error: err => {
         console.log(err);
@@ -120,6 +124,7 @@ export class CalendarComponent implements OnInit {
             end: value.end,
             backgroundColor: value.backgroundColor,
             borderColor: value.borderColor,
+            className: 'diagonal-stripes'
           }));
 
         })
@@ -153,6 +158,7 @@ export class CalendarComponent implements OnInit {
             end: value.end,
             backgroundColor: value.backgroundColor,
             borderColor: value.borderColor,
+            className: 'diagonal-stripes'
           }));
 
         })
@@ -187,6 +193,7 @@ export class CalendarComponent implements OnInit {
           end: value.end,
           backgroundColor: value.backgroundColor,
           borderColor: value.borderColor,
+          className: 'diagonal-stripes'
         }));
       },
       error: err => {
