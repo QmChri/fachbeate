@@ -78,9 +78,6 @@ export class VisitorRegistrationComponent implements OnInit {
 
               ].filter(p => p != "");
 
-              console.log(this.buttonSelect);
-              
-
             }
           },
           error: err => {
@@ -224,9 +221,6 @@ export class VisitorRegistrationComponent implements OnInit {
   }
 
   inputDateChange(id: number, date: string) {
-    console.log(id);
-    console.log(date);
-    
     
     let tmpId = this.setOfCheckedId.get(id)![0];
     this.setOfCheckedId.set(id, [(tmpId) ? tmpId : undefined!, date]);
