@@ -1,7 +1,23 @@
 <div class="mainView">
-    <h1 class="paddingSearch">{{"DASHBOARD.entry_for" | translate}}:
-        {{inputDate.requestedTechnologist?.firstName}}
-        {{inputDate.requestedTechnologist?.lastName}}</h1>
+    <div class="paddingSearch">
+        <div>
+            <h1 class="paddingSearch">{{"DASHBOARD.entry_for" | translate}}:
+                {{ getFirstLetter(inputDate.requestedTechnologist?.firstName!)+"." }}
+                {{inputDate.requestedTechnologist?.lastName}}</h1>
+        </div>
+        <div *ngIf="inputDate.id !== undefined && inputDate.id !== null">
+            <button matTooltip="{{ 'STANDARD.remove' | translate }}" class="btn btn-danger btn-sm" nz-popconfirm
+                nzPopconfirmShowArrow="false" [nzIcon]="iconTpl" [nzCancelText]="'DASHBOARD.cancel' | translate"
+                [nzOkText]="'STANDARD.ok' | translate" [nzPopconfirmTitle]="'STANDARD.are_you_sure' | translate"
+                (nzOnConfirm)="deleteEntry(inputDate)">
+                <ng-template #iconTpl>
+                    <span nz-icon nzType="question-circle-o" style="color: red;"></span>
+                </ng-template>
+                <i class="fa fa-trash"></i>
+            </button>
+
+        </div>
+    </div>
     <hr>
 
     <div class="center-items">
@@ -53,7 +69,4 @@
         </div>
         <div> <button (click)="save()" class="btn btn-success">{{"STANDARD.save" | translate}}</button></div>
     </div>
-
-
-
 </div>

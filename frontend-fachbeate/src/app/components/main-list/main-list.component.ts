@@ -7,7 +7,6 @@ import { RoleService } from '../../services/role.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Company } from '../../models/company';
 import * as XLSX from 'xlsx';
-import { timestamp } from 'rxjs';
 
 
 @Component({
@@ -20,6 +19,7 @@ export class MainListComponent implements OnInit {
   visible = false;
   technologistList: Technologist[] = [];
   listOfDisplayData: DataItem[] = [];
+  fileName = 'TableData.xlsx';
 
   // All columns are defined here
   listOfColumn: ColumnDefinition[] = [
@@ -84,7 +84,7 @@ export class MainListComponent implements OnInit {
       filterFn: (list: string[], item: DataItem) => list.some(name => item.customer!.indexOf(name) !== -1)
     },
     {
-      name: 'final_report',
+      name: 'berichte',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.abschlussbericht!.valueOf().toString().localeCompare(b.abschlussbericht!.valueOf().toString()),
       listOfFilter: [],
@@ -162,7 +162,7 @@ export class MainListComponent implements OnInit {
         return uniqueFilters;
       }, [] as { text: string, value: string }[]);
 
-    this.listOfColumn.find(element => element.name === 'final_report')!.listOfFilter =
+    this.listOfColumn.find(element => element.name === 'berichte')!.listOfFilter =
       this.listOfDisplayData.reduce((uniqueFilters, element) => {
         const filterValue = element.abschlussbericht || "<Leer>";
         if (!uniqueFilters.some(filter => filter.value === filterValue)) {
@@ -274,7 +274,6 @@ export class MainListComponent implements OnInit {
             type: element.type,
             visible: element.visible
           }];
-
         });
         this.getNzFilters();
       },
@@ -376,8 +375,6 @@ export class MainListComponent implements OnInit {
       data.visible = false
     }
   }
-
-  fileName = 'TableData.xlsx';
 
   exportToExcel(): void {
     const typeDescriptions: { [key: number]: string } = {

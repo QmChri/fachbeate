@@ -1,7 +1,10 @@
 <div class="header">
-    <div>
+    <div class="header">
         <h1 class="paddingSearch" style="margin-bottom: 0;">{{"VISITOR_REGRISTRATION.visitor_registration" | translate}}
         </h1>
+        <h2 style="margin: 0%; padding-top: 0.1rem;"
+            *ngIf=" inputVisitRegistration.id !== null && inputVisitRegistration.id !== undefined">
+            : {{inputVisitRegistration.id}}</h2>
     </div>
     <div>
         <button
@@ -37,7 +40,7 @@
                 translate}}</div>
             <div class="card-body">
                 <div class="displayBySide">
-                    <mat-form-field class="smallInputSide">
+                    <mat-form-field style="margin-right: 0.5rem;" class="smallInputSide">
                         <mat-label>{{"VISITOR_REGRISTRATION.name" | translate}}</mat-label>
                         <textarea rows="1" matInput [(ngModel)]="inputVisitRegistration.name"></textarea>
                     </mat-form-field>
@@ -55,7 +58,10 @@
                     </mat-form-field>
                     <mat-form-field class="TIME">
                         <mat-label>{{"VISITOR_REGRISTRATION.time" | translate}}</mat-label>
-                        <input type="time" matInput [(ngModel)]="inputVisitRegistration.fromTime">
+                        <input required type="time" matInput [(ngModel)]="inputVisitRegistration.fromTime">
+                        @if (control.hasError('required')) {
+                        <mat-error></mat-error>
+                        }
                     </mat-form-field>
                 </div>
                 <div class="displayBySide">
@@ -67,7 +73,9 @@
                     </mat-form-field>
                     <mat-form-field class="TIME">
                         <mat-label>{{"VISITOR_REGRISTRATION.time" | translate}}</mat-label>
-                        <input type="time" matInput [(ngModel)]="inputVisitRegistration.toTime">
+                        <input required type="time" matInput [(ngModel)]="inputVisitRegistration.toTime">
+                        @if (control.hasError('required')) {
+                        }
                     </mat-form-field>
                 </div>
             </div>
@@ -219,7 +227,8 @@
                     <div class="card-header text-white bg-danger paddingSearch">{{'VISITOR_REGRISTRATION.meeting_room' |
                         translate}} </div>
                     <div class="card-body">
-                        @for (meetingroom of inputVisitRegistration.meetingRoomReservations; track meetingroom; let index =
+                        @for (meetingroom of inputVisitRegistration.meetingRoomReservations; track meetingroom; let
+                        index =
                         $index)
                         {<p>{{index+1}}. {{'VISITOR_REGRISTRATION.meeting_room' | translate}}</p>
                         <mat-form-field>
@@ -229,8 +238,7 @@
                         <div class="displayBySide">
                             <mat-form-field class="smallInput">
                                 <mat-label>{{'VISITOR_REGRISTRATION.date' | translate}}</mat-label>
-                                <input matInput [matDatepicker]="picker5"
-                                    [(ngModel)]="meetingroom.meetingRoomDate">
+                                <input matInput [matDatepicker]="picker5" [(ngModel)]="meetingroom.meetingRoomDate">
                                 <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
                                 <mat-datepicker #picker5></mat-datepicker>
                             </mat-form-field>
@@ -242,7 +250,8 @@
                         }
                         <div class="header">
                             <div>
-                                <button (click)="deleteLast(2)" class="btn btn-danger"><i class="fa fa-minus"></i></button>
+                                <button (click)="deleteLast(2)" class="btn btn-danger"><i
+                                        class="fa fa-minus"></i></button>
                             </div>
                             <div>
                                 <button (click)="addTab(2)" class="btn btn-success"> <i class="fa fa-plus"></i></button>
@@ -346,7 +355,8 @@
                     </div>
                     <div class="card-body">
                         <div class="displayBySide">
-                            <nz-table nzSize="small" class="col" nzShowPagination="false" [nzData]="buttonSelect" nzBordered>
+                            <nz-table nzSize="small" class="col" nzShowPagination="false" [nzData]="buttonSelect"
+                                nzBordered>
                                 <thead>
                                     <tr>
                                         <th></th>
@@ -367,7 +377,8 @@
                                     </tr>
                                 </tbody>
                             </nz-table>
-                            <nz-table nzSize="small" class="col" nzShowPagination="false" [nzData]="buttonSelect" nzBordered>
+                            <nz-table nzSize="small" class="col" nzShowPagination="false" [nzData]="buttonSelect"
+                                nzBordered>
                                 <thead>
                                     <tr>
                                         <th></th>

@@ -41,21 +41,21 @@ export class CustomerRequirementsComponent implements OnInit {
     if (!this.inputCustomerRequirement.requestedTechnologist) {
       return true; // Keine Technologenanforderung, also alle Daten deaktivieren
     }
-  
+
     const reqTechDate = this.technologists.find(
       element => this.inputCustomerRequirement.requestedTechnologist!.id === element.technologist.id
     );
-  
+
     if (!reqTechDate) {
       return true; // Kein passender Technologe gefunden, daher alle Daten deaktivieren
     }
     console.log(new Date(current.setHours(7)))
-  
+
     // Überprüfen, ob das aktuelle Datum in einem der Zeiträume liegt
     const isDateValid = reqTechDate.appointments.some(
       element => this.isDateBetween(new Date(current.setHours(7)), new Date(element[0].toString()), new Date(element[1].toString()))
     );
-  
+
     return !isDateValid; // Datum deaktivieren, wenn es nicht gültig ist
   }
 
@@ -65,7 +65,7 @@ export class CustomerRequirementsComponent implements OnInit {
 
   disabledDate = (current: Date): boolean => {
     console.log();
-    
+
     return (current && this.inputCustomerRequirement.startDate !== undefined && this.inputCustomerRequirement.endDate !== undefined) && (current < this.inputCustomerRequirement.startDate! || current > this.inputCustomerRequirement.endDate!);
   };
 
@@ -98,8 +98,6 @@ export class CustomerRequirementsComponent implements OnInit {
 
                 element.editId = index;
                 this.i = index;
-
-                console.log(this.inputCustomerRequirement)
               });
               this.i++;
             }
@@ -187,8 +185,6 @@ export class CustomerRequirementsComponent implements OnInit {
   }
 
   postCustomerRequirement() {
-    console.log(this.inputCustomerRequirement.customerVisits);
-
     if (this.checkRequired()) {
       this.getNotification(1);
       this.inputCustomerRequirement.showUser = true;
@@ -200,11 +196,7 @@ export class CustomerRequirementsComponent implements OnInit {
         }
         if (this.inputCustomerRequirement.startDate instanceof Date) {
           this.inputCustomerRequirement.startDate.setHours(5);
-        } else {
-          console.log("startDate is not a valid Date object");
         }
-      } else {
-          console.log("startDate is not defined");
       }
 
       if (this.inputCustomerRequirement.endDate !== null && this.inputCustomerRequirement.endDate !== undefined) {
@@ -213,18 +205,13 @@ export class CustomerRequirementsComponent implements OnInit {
         }
         if (this.inputCustomerRequirement.endDate instanceof Date) {
           this.inputCustomerRequirement.endDate.setHours(5);
-        } else {
-          console.log("endDate is not a valid Date object");
         }
-      } else {
-        console.log("endDate is not defined");
       }
 
       this.inputCustomerRequirement.customerVisits.forEach(element => {
         element.fromDateOfVisit = element.dateSelect![0];
         element.toDateOfVisit = element.dateSelect![1];
       });
-
 
       if (this.inputCustomerRequirement.creator === undefined) {
         this.inputCustomerRequirement.creator = this.roleService.getUserName();
@@ -245,7 +232,7 @@ export class CustomerRequirementsComponent implements OnInit {
               element.fromDateOfVisit!,
               element.toDateOfVisit!,
             ].filter(element => element !== null && element !== undefined);
-            
+
             element.editId = index;
           });
         },
@@ -260,7 +247,7 @@ export class CustomerRequirementsComponent implements OnInit {
     var requiredFields: string[] = [
       (this.inputCustomerRequirement.requestedTechnologist === undefined) ? "assigned_technologist" : "",
       (this.inputCustomerRequirement.representative === undefined) ? "assigned_repre" : "",
-      (this.inputCustomerRequirement.startDate === undefined) ? "assigned_from" : 
+      (this.inputCustomerRequirement.startDate === undefined) ? "assigned_from" : "",
       (this.inputCustomerRequirement.endDate === undefined) ? "assigned_to" : "",
       (this.inputCustomerRequirement.company === null || this.inputCustomerRequirement.company === undefined) ? "assigned_company" : "",
       (this.inputCustomerRequirement.customerVisits.filter(element => element.companyName === null || element.companyName === undefined || element.companyName === "").length !== 0) ? "assigned_customer" : "",
@@ -285,10 +272,10 @@ export class CustomerRequirementsComponent implements OnInit {
 
   isOverlapping(newFrom: Date, newTo: Date, existingFrom: Date, existingTo: Date): boolean {
 
-    
+
     return newFrom < existingTo && newTo > existingFrom;
   }
-  
+
   isDateRangeValid(newFrom: Date, newTo: Date, existingRanges: Date[][]): boolean {
     console.log(newTo);
     console.log(newFrom);
@@ -334,7 +321,6 @@ export class CustomerRequirementsComponent implements OnInit {
       //opening Abschlussbericht Popup
       const dialogRef = this.dialog.open(AbschlussBerichtComponent, {
         width: '90%',
-        height: '90%',
         maxWidth: '90vw',
         maxHeight: '90vh',
         data: finalReport
@@ -353,9 +339,9 @@ export class CustomerRequirementsComponent implements OnInit {
     }
   }
 
-  
+
   getTechnologist() {
-    
+
     this.http.getActiveWithDates().subscribe({
       next: data => {
         this.technologists = data;

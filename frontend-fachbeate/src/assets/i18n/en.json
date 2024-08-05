@@ -38,7 +38,24 @@
         "assigned_representative": "Representative* & Advisor* & From - To*",
         "assigned_repre_cons": "Dealer/Daughters* & Representative* & Advisor* & From - To*",
         "are_you_sure": "Are you sure?",
-        "ok": "OK"
+        "ok": "OK",
+        "almi": "Almi",
+        "advisor_type": "Advisor A.",
+        "seminar": "Seminar",
+        "visit": "Visit",
+        "follow_up": "Rework",
+        "filter_1": "Filter - Advisor",
+        "filter_2": "Filter - Booking",
+        "holiday": "Holiday",
+        "ausgleich": "Time compensation",
+        "reservation": "Preliminary customer reservation",
+        "fair": "Fair",
+        "homeF": "Home Office",
+        "houseO": "House Oftering",
+        "filter1": "Workshop R.",
+        "filter2": "Advisor R.",
+        "filter3": "Booking R.",
+        "calendar_change": "Calendar change"
     },
     "DASHBOARD": {
         "entry_for": "Entry for",
@@ -66,7 +83,8 @@
         "advisor_type": "Advisor A.",
         "seminar": "Seminar",
         "visit": "Visit",
-        "canceled": "Canceled"
+        "canceled": "Canceled",
+        "berichte": "Reports"
     },
     "CUSTOMER_REQUIREMENTS": {
         "advisor_request": "Advisor Request",
@@ -110,6 +128,7 @@
         "customer_feedback": "Customer feedback",
         "further_actions": "Further actions",
         "to_be_done_by": "To be done by",
+        "to_be_done_by_FB": "To be done by advisor",
         "requirements_summary": "Requirements/summary",
         "additional_products": "Additional products",
         "completed": "Completed",
@@ -123,7 +142,6 @@
         "article": "Article",
         "article_number": "Article number",
         "article_length": "Article number - 7 Digits"
-
     },
     "VISITOR_REGRISTRATION": {
         "visitor_registration": "Visitor Registration",

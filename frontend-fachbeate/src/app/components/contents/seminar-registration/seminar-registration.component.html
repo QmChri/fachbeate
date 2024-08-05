@@ -1,7 +1,10 @@
 <div class="header">
-    <div>
+    <div class="header">
         <h1 class="paddingSearch" style="margin-bottom: 0;">{{'SEMINAR_REGRISTRATION.seminar_registration' | translate}}
         </h1>
+        <h2 style="margin: 0%; padding-top: 0.1rem;"
+            *ngIf=" inputWorkshop.id !== null && inputWorkshop.id !== undefined">
+            : {{inputWorkshop.id}}</h2>
     </div>
     <div>
         <button [disabled]="inputWorkshop.releaseManagement !== null && inputWorkshop.releaseManagement !== undefined"
@@ -83,13 +86,16 @@
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>{{'SEMINAR_REGRISTRATION.arrival_type' | translate}}</mat-label>
-                        
-                        <mat-select placeholder="{{'STANDARD.please_select'|translate}} " [(ngModel)]="inputWorkshop.travelType">
+
+                        <mat-select placeholder="{{'STANDARD.please_select'|translate}} "
+                            [(ngModel)]="inputWorkshop.travelType">
                             <mat-option [value]="'car'">{{"SEMINAR_REGRISTRATION.travel_car" | translate}}</mat-option>
-                            <mat-option [value]="'train'">{{"SEMINAR_REGRISTRATION.travel_train" | translate}}</mat-option>
-                            <mat-option [value]="'flight'">{{"SEMINAR_REGRISTRATION.travel_flight" | translate}}</mat-option>
+                            <mat-option [value]="'train'">{{"SEMINAR_REGRISTRATION.travel_train" |
+                                translate}}</mat-option>
+                            <mat-option [value]="'flight'">{{"SEMINAR_REGRISTRATION.travel_flight" |
+                                translate}}</mat-option>
                             <mat-option [value]="'bus'">{{"SEMINAR_REGRISTRATION.travel_bus" | translate}}</mat-option>
-                    </mat-select>
+                        </mat-select>
 
                     </mat-form-field>
                 </div>
@@ -151,6 +157,7 @@
                                         @for (re of languages; track languages) {
                                         <mat-option [value]="re">{{re}}</mat-option>
                                         }
+                                        <hr>
                                         <div class="paddings">
                                             <textarea style="height: 2rem" type="text" [(ngModel)]="addItem"
                                                 name="addItem"></textarea>
@@ -247,7 +254,7 @@
                                     <textarea rows="1" matInput [(ngModel)]="inputWorkshop.tripLocation"></textarea>
                                 </mat-form-field>
                                 <mat-form-field class="smallInput">
-                                    <mat-label>{{'SEMINAR_REGRISTRATION.additional_requirements' |
+                                    <mat-label>{{'VISITOR_REGRISTRATION.additional_requirements' |
                                         translate}}</mat-label>
                                     <input matInput [(ngModel)]="inputWorkshop.otherTripRequests">
                                 </mat-form-field>
@@ -280,11 +287,10 @@
                             {<p>{{index+1}}. {{'BOOKING_REQUEST.flight' | translate}}
                             </p>
                             <div class="center-items">
-                                
+
                                 <mat-form-field class="smallInput">
                                     <mat-label>{{'VISITOR_REGRISTRATION.date' | translate}}</mat-label>
-                                    <input matInput [matDatepicker]="picker5"
-                                        [(ngModel)]="flight.flightDate">
+                                    <input matInput [matDatepicker]="picker5" [(ngModel)]="flight.flightDate">
                                     <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
                                     <mat-datepicker #picker5></mat-datepicker>
                                 </mat-form-field>
@@ -302,10 +308,12 @@
                             }
                             <div class="header">
                                 <div>
-                                    <button (click)="deleteLast(2)" class="btn btn-danger"><i class="fa fa-minus"></i></button>
+                                    <button (click)="deleteLast(2)" class="btn btn-danger"><i
+                                            class="fa fa-minus"></i></button>
                                 </div>
                                 <div>
-                                    <button (click)="addTab(2)" class="btn btn-success"> <i class="fa fa-plus"></i></button>
+                                    <button (click)="addTab(2)" class="btn btn-success"> <i
+                                            class="fa fa-plus"></i></button>
                                 </div>
                             </div>
                         </div>

@@ -1,1 +1,51 @@
-<full-calendar [options]="calendarOptions" ></full-calendar>
+<div class="header">
+    <div>
+        <nz-filter-trigger class="paddingSearch" [(nzVisible)]="visible" [nzActive]="searchValue.length > 0"
+            [nzDropdownMenu]="menu">
+            <button nz-button nzType="primary">{{"STANDARD.filter_1"| translate}}</button>
+        </nz-filter-trigger>
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+            <div class="ant-table-filter-dropdown">
+                <div class="search-box">
+                    <nz-select class="nzselect" [(ngModel)]="searchValue"
+                        nzPlaceHolder="{{'MAIN_LIST.search' | translate}}" nzShowSearch>
+                        <nz-option *ngFor="let option of listOfAdvisor" [nzLabel]="option"
+                            [nzValue]="option"></nz-option>
+                    </nz-select>
+                    <div class="search-box2">
+                        <button nz-button nzSize="small" nzType="primary" (click)="search()"
+                            class="search-button">{{"MAIN_LIST.search" |
+                            translate}}</button>
+                        <button nz-button nzSize="small" (click)="resetAdvisorFilter()">{{"MAIN_LIST.reset" |
+                            translate}}</button>
+                    </div>
+                </div>
+            </div>
+        </nz-dropdown-menu>
+    </div>
+    <div>
+        <nz-filter-trigger class="paddingSearch" [(nzVisible)]="visible2" [nzActive]="searchValue.length > 0"
+            [nzDropdownMenu]="bookings">
+            <button nz-button nzType="primary">{{"STANDARD.filter_2"| translate}}</button>
+        </nz-filter-trigger>
+        <nz-dropdown-menu #bookings="nzDropdownMenu">
+            <div class="ant-table-filter-dropdown">
+                <div class="search-box">
+                    <nz-select class="nzselect" [(ngModel)]="searchValue"
+                        nzPlaceHolder="{{'MAIN_LIST.search' | translate}}" nzShowSearch>
+                        <nz-option *ngFor="let option of listOfBooking" nzLabel="{{'STANDARD.'+ option.label |
+                            translate}}" [nzValue]="option.value"></nz-option>
+                    </nz-select>
+                    <div class="search-box2">
+                        <button nz-button nzSize="small" nzType="primary" (click)="search()"
+                            class="search-button">{{"MAIN_LIST.search" |
+                            translate}}</button>
+                        <button nz-button nzSize="small" (click)="resetBookingFilter()">{{"MAIN_LIST.reset" |
+                            translate}}</button>
+                    </div>
+                </div>
+            </div>
+        </nz-dropdown-menu>
+    </div>
+</div>
+<full-calendar [options]="calendarOptions"></full-calendar>

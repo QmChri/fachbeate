@@ -30,15 +30,15 @@
                 [nzFilters]="listOfColumn[2].listOfFilter" [nzFilterFn]="listOfColumn[2].filterFn!">
                 {{'ABSCHLUSS_BERICHT_LIST.'+listOfColumn[2].name| translate}}
             </th>
-            <th [nzSortFn]="listOfColumn[3].sortFn" [(nzSortOrder)]="listOfColumn[3].sortOrder">
-                {{'ABSCHLUSSBERICHT.'+listOfColumn[3].name| translate}}
+            <th [nzSortFn]="listOfColumn[5].sortFn" [(nzSortOrder)]="listOfColumn[5].sortOrder">
+                {{'ABSCHLUSS_BERICHT_LIST.'+listOfColumn[5].name| translate}}
             </th>
             <th [nzSortFn]="listOfColumn[4].sortFn" [(nzSortOrder)]="listOfColumn[4].sortOrder"
                 [nzFilters]="listOfColumn[4].listOfFilter" [nzFilterFn]="listOfColumn[4].filterFn!">
                 {{'ABSCHLUSS_BERICHT_LIST.'+listOfColumn[4].name| translate}}
             </th>
-            <th [nzSortFn]="listOfColumn[5].sortFn" [(nzSortOrder)]="listOfColumn[5].sortOrder">
-                {{'ABSCHLUSS_BERICHT_LIST.'+listOfColumn[5].name| translate}}
+            <th [nzSortFn]="listOfColumn[3].sortFn" [(nzSortOrder)]="listOfColumn[3].sortOrder">
+                {{'ABSCHLUSSBERICHT.'+listOfColumn[3].name | translate}}
             </th>
             <th [nzSortFn]="listOfColumn[6].sortFn" [(nzSortOrder)]="listOfColumn[6].sortOrder"
                 [nzFilters]="listOfColumn[6].listOfFilter" [nzFilterFn]="listOfColumn[6].filterFn!">
@@ -56,10 +56,10 @@
             <td (dblclick)="openDialog(data)">{{ (data.dateOfVisit ? (data.dateOfVisit | date:'dd.MM.yy') : '\<Leer\>')
                     }}</td>
             <td (dblclick)="openDialog(data)">{{ data.representative }}</td>
-            <td (dblclick)="openDialog(data)">{{ (data.toBeCompletedBy ? (data.toBeCompletedBy | date:'dd.MM.yy') : '\<Leer\>') }}</td>
-            <td (dblclick)="openDialog(data)">{{ data.technologist }}</td>
             <td (dblclick)="openDialog(data)">{{ (data.customerContactDate ? (data.customerContactDate |
                 date:'dd.MM.yy') : '\<Leer\>') }}</td>
+            <td (dblclick)="openDialog(data)">{{ data.technologist }}</td>
+            <td (dblclick)="openDialog(data)">{{ (data.reworkByTechnologistDoneUntil ? (data.reworkByTechnologistDoneUntil | date:'dd.MM.yy') : '\<Leer\>') }}</td>
             <td (dblclick)="openDialog(data)">
                 <span *ngIf="data.abschlussberichtFinished === 'Ja'" class="text-success centerTD">&#10004;</span>
                 <span *ngIf="data.abschlussberichtFinished === 'Nein'" class="text-danger centerTD">&#10008;</span>

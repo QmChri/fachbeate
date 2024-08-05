@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { Department } from '../../../models/department';
 import { VisitorRegistration } from '../../../models/visitor-registration';
 import { MatDialog } from '@angular/material/dialog';
@@ -18,6 +18,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrl: './visitor-registration.component.scss'
 })
 export class VisitorRegistrationComponent implements OnInit {
+  control = new FormControl(null, Validators.required);
   buttonSelect: String[] = []
   geDip: String[] = []
   representative: Representative[] = [];

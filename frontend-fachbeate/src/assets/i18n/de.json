@@ -59,7 +59,19 @@
         "advisor_type": "Fachberater A.",
         "seminar": "Seminar",
         "visit": "Besuch",
-        "follow_up": "Nacharbeit"
+        "follow_up": "Nacharbeit",
+        "filter_1": "Filter - Fachberater",
+        "filter_2": "Filter - Buchung",
+        "holiday": "Urlaub",
+        "ausgleich": "Zeitausgleich",
+        "reservation": "Vorläufige Kundenreservierung",
+        "fair": "Messe",
+        "homeF": "Home Office",
+        "houseO": "Haus Oftering",
+        "filter1": "Seminar A.",
+        "filter2": "Fachberater A.",
+        "filter3": "Buchungs A.",
+        "calendar_change": "Kalender Wechsel"
     },
     "DASHBOARD": {
         "advisor_schedule_overview": "Terminübersicht Fachberater",
@@ -88,7 +100,8 @@
         "advisor_type": "Fachberater A.",
         "seminar": "Seminar",
         "visit": "Besuch",
-        "canceled": "Storniert"
+        "canceled": "Storniert",
+        "berichte": "Berichte"
     },
     "CUSTOMER_REQUIREMENTS": {
         "advisor_request": "Fachberater Anforderung",
@@ -132,10 +145,11 @@
         "customer_feedback": "Rückmeldung Kunde",
         "further_actions": "Weitere Maßnahmen",
         "to_be_done_by": "Zu erledigen bis",
+        "to_be_done_by_FB": "Zu erledigen bis FB",
         "requirements_summary": "Abschließender Bericht – Vertreter",
         "additional_products": "Weitere Produkte",
         "completed": "Abgeschlossen",
-        "representative_summary": "Zusammenfassung Abschlussbericht*",
+        "representative_summary": "Zusammenfassung Abschlussbericht",
         "advisor_follow_up": "Nacharbeit erforderlich",
         "representative_follow_up": "Nacharbeit Vertreter",
         "report_by_reason": "Bericht per Grund",

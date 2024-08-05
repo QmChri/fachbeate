@@ -50,6 +50,21 @@ export class NewDateEntryComponent implements OnInit {
     this.getTechnologists();
   }
 
+  getFirstLetter(name: string): string {
+    return name ? name.charAt(0) : '';
+  }
+
+  deleteEntry(entry: TechnologistAppointment) {
+    this.http.deleteAppointment(entry).subscribe({
+      next: data => {
+        this.closeDialog();
+      },
+      error: err => {
+        console.log(err)
+      }
+    });
+  }
+
   addToList(addItem: string) {
     this.reasons.push(addItem);
   }
@@ -70,18 +85,17 @@ export class NewDateEntryComponent implements OnInit {
   }
 
   save() {
-
     var requiredFields: string[] = [
-      (this.inputDate.requestedTechnologist === null || this.inputDate.requestedTechnologist === undefined)?"assigned_technologist":"",
-      (this.inputDate.reason === null || this.inputDate.reason === undefined)?"assigned_reason":"",
-      (this.inputDate.startDate === null || this.inputDate.startDate === undefined)?"assigned_from":"",
-      (this.inputDate.endDate === null || this.inputDate.endDate === undefined)?"assigned_to":"",
-      ].filter(element => element !== "");
+      (this.inputDate.requestedTechnologist === null || this.inputDate.requestedTechnologist === undefined) ? "assigned_technologist" : "",
+      (this.inputDate.reason === null || this.inputDate.reason === undefined) ? "assigned_reason" : "",
+      (this.inputDate.startDate === null || this.inputDate.startDate === undefined) ? "assigned_from" : "",
+      (this.inputDate.endDate === null || this.inputDate.endDate === undefined) ? "assigned_to" : "",
+    ].filter(element => element !== "");
 
     if (requiredFields.length !== 0) {
-      this.translate.get(['STANDARD.please_fill_required_fields', ...requiredFields.map(element => "STANDARD."+element)]).subscribe(translations => {
+      this.translate.get(['STANDARD.please_fill_required_fields', ...requiredFields.map(element => "STANDARD." + element)]).subscribe(translations => {
         const message = translations['STANDARD.please_fill_required_fields'];
-        const anotherMessage = requiredFields.map(element => translations["STANDARD."+element]).toString();
+        const anotherMessage = requiredFields.map(element => translations["STANDARD." + element]).toString();
         this.notificationService.createBasicNotification(4, message, anotherMessage, 'topRight');
       });
     }

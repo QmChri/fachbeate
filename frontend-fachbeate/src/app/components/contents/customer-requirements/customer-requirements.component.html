@@ -1,6 +1,9 @@
 <div class="header">
-    <div>
+    <div class="header">
         <h1 style="margin: 0%;">{{"CUSTOMER_REQUIREMENTS.advisor_request" | translate}}</h1>
+        <h2 style="margin: 0%; padding-top: 0.1rem;"
+            *ngIf=" inputCustomerRequirement.id !== null && inputCustomerRequirement.id !== undefined">
+            : {{inputCustomerRequirement.id}}</h2>
     </div>
     <div>
         <button
@@ -14,8 +17,8 @@
         </button>
         <button
             [disabled]="inputCustomerRequirement.releaseSupervisor !== null && inputCustomerRequirement.releaseSupervisor !== undefined"
-            (nzOnConfirm)="release('al')" *ngIf="roleService.checkPermission([1,2,7])" style="margin-right: 2rem;"
-            nz-button nzType="primary" nz-popconfirm nzPopconfirmShowArrow="false" [nzIcon]="iconTpl"
+            (nzOnConfirm)="release('al')" *ngIf="roleService.checkPermission([1,2,7])" nz-button nzType="primary"
+            nz-popconfirm nzPopconfirmShowArrow="false" [nzIcon]="iconTpl"
             [nzCancelText]="'DASHBOARD.cancel' | translate" [nzOkText]="'STANDARD.ok' | translate"
             [nzPopconfirmTitle]="'STANDARD.are_you_sure' | translate">
             <ng-template #iconTpl></ng-template>
@@ -220,21 +223,21 @@
                         (click)="startEdit(data.editId)">{{data.contactPerson}}</label>
                     <input [hidden]="editId !== data.editId" type="text" nz-input [(ngModel)]="data.contactPerson" />
                 </td>
-                <td>
-                    <label class="input-label" [hidden]="editId === data.editId"
-                        (click)="startEdit(data.editId)">{{
+                <td style="text-align: center;">
+                    <label class="input-label" [hidden]="editId === data.editId" (click)="startEdit(data.editId)">
+                        {{
                             (data.dateSelect !== null && data.dateSelect !== undefined &&data.dateSelect!.length === 2)?
-                            data.dateSelect![0].toString().substring(0,10) + " - " + data.dateSelect![1].toString().substring(0,10):
-                            ""
-                        }}</label>
-                    <nz-range-picker [hidden]="editId !== data.editId" [nzFormat]="dateFormat" [(ngModel)]="data.dateSelect" nzSize="small"></nz-range-picker>
+                                data.dateSelect[0]
+                                 + " - " +
+                                data.dateSelect[1]
+                            : ""
+                        }}
+                    </label>
+                    <nz-range-picker [hidden]="editId !== data.editId" [nzFormat]="dateFormat"
+                        [(ngModel)]="data.dateSelect" nzSize="small"></nz-range-picker>
                 </td>
-                <!--
-                <td>
-                  
-                    <input [placeholder]="'CUSTOMER_REQUIREMENTS.mandatory_field' | translate"
-                         type="date" nz-input [(ngModel)]="data.dateOfVisit" />
-                </td>-->
+
+
                 <td>
                     <mat-select multiple placeholder="{{'STANDARD.please_select'|translate}} "
                         [ngModel]="data.selection" (selectionChange)="selChange($event, data.editId)">
