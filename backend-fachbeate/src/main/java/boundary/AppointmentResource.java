@@ -57,11 +57,10 @@ public class AppointmentResource {
      * @return
      */
     @DELETE
-    @Path("/appointment/delete")
+    @Path("/delete")
     @Authenticated
     public Response deleteAppointment(@QueryParam("id") Long id){
         TechnologistAppointment.deleteById(id);
-
         return Response.ok(true).build();
     }
 
