@@ -50,12 +50,12 @@ export class AbschlussBerichtListComponent {
       filterFn: (list: string[], item: DataItem) => list.some(name => item.representative.indexOf(name) !== -1)
     },
     {
-      name: 'to_be_done_by',
+      name: 'to_be_done_by_FB',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => {
-        if (a.toBeCompletedBy === null) return 1;
-        if (b.toBeCompletedBy === null) return -1;
-        return a.toBeCompletedBy.getTime() - b.toBeCompletedBy.getTime();
+        if (a.reworkByTechnologistDoneUntil === null) return 1;
+        if (b.reworkByTechnologistDoneUntil === null) return -1;
+        return a.reworkByTechnologistDoneUntil.getTime() - b.reworkByTechnologistDoneUntil.getTime();
       },
       listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => true
@@ -90,15 +90,15 @@ export class AbschlussBerichtListComponent {
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => {
         // Annahme: Wir vergleichen die Artikelnummern der ersten Elemente in a.article und b.article
-        if(a.article[0]===null || a.article[0] === undefined){
+        if (a.article[0] === null || a.article[0] === undefined) {
           return -1;
         }
-        
-        if(b.article[0]===null || b.article[0] === undefined){
+
+        if (b.article[0] === null || b.article[0] === undefined) {
           return 1;
         }
 
-        return a.article[0].articleNr!.localeCompare(b.article[0].articleNr!);
+        return a.article[0].articleNr! - b.article[0].articleNr!;
       },
       listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => true
@@ -182,7 +182,7 @@ export class AbschlussBerichtListComponent {
     var type = (this.roleService.checkPermission([1, 2, 3, 5, 7]) ? 7 : 6);
     type = (!this.roleService.checkPermission([1, 2, 4, 5, 6, 7]) ? 3 : type);
     type = (!this.roleService.checkPermission([1, 2, 3, 5, 6, 7]) ? 4 : type);
-    type = (!this.roleService.checkPermission([1,2,5,6,7]) ? 8 : type);
+    type = (!this.roleService.checkPermission([1, 2, 5, 6, 7]) ? 8 : type);
     //endregion
 
     //region Get the requirements for an specific user
@@ -204,7 +204,7 @@ export class AbschlussBerichtListComponent {
             company: (element.company!) ? element.company : "<Leer>",
             dateOfVisit: (element.dateOfVisit!) ? element.dateOfVisit : null!,
             technologist: element.technologist!.firstName + " " + element.technologist!.lastName,
-            toBeCompletedBy: element.doneUntil!,
+            reworkByTechnologistDoneUntil: element.reworkByTechnologistDoneUntil!,
             representative: element.representative!.firstName + " " + element.representative!.lastName,
             customerContactDate: element.customerContactDate!,
             abschlussberichtFinished: (element.requestCompleted) ? "Ja" : "Nein",
@@ -233,10 +233,12 @@ export class AbschlussBerichtListComponent {
   openDialog(dataItem: DataItem) {
     //region Opening the Final Report Popup
     const dialogRef = this.dialog.open(AbschlussBerichtComponent, {
-      height: '42.5rem',
-      width: '80rem',
+      width: '90%',
+      maxWidth: '90vw',
+      maxHeight: '90vh',
       data: this.finalReports.find(element => element.id === dataItem.id)
     });
+    
     // endregion
 
     dialogRef.afterClosed().subscribe(
@@ -251,7 +253,7 @@ export class AbschlussBerichtListComponent {
                 company: (finalRep.company!) ? finalRep.company : "<Leer>",
                 dateOfVisit: (finalRep.dateOfVisit!) ? finalRep.dateOfVisit : undefined!,
                 technologist: finalRep.technologist!.firstName + " " + finalRep.technologist!.lastName,
-                toBeCompletedBy: finalRep.doneUntil!,
+                reworkByTechnologistDoneUntil: finalRep.reworkByTechnologistDoneUntil!,
                 representative: finalRep.representative!.firstName + " " + finalRep.representative!.lastName,
                 customerContactDate: finalRep.customerContactDate!,
                 abschlussberichtFinished: (finalRep.requestCompleted) ? "Ja" : "Nein",
@@ -289,7 +291,7 @@ export class AbschlussBerichtListComponent {
       item.company.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
       item.dateOfVisit.toString().includes(this.searchValue.toLocaleLowerCase()) ||
       item.technologist.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
-      item.toBeCompletedBy.toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.reworkByTechnologistDoneUntil.toString().includes(this.searchValue.toLocaleLowerCase()) ||
       item.representative.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
       item.customerContactDate.toString().includes(this.searchValue.toLocaleLowerCase()) ||
       item.abschlussberichtFinished.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase())
@@ -301,60 +303,16 @@ export class AbschlussBerichtListComponent {
     if (article.length === 0) {
       return "<Leer>"
     }
-    if(this.showArticles.includes(id)){
+    if (this.showArticles.includes(id)) {
       return article.map(element => element.articleNr);
     }
-    var returnValue: string = article.map(element => element.articleNr).toString().substring(0, 14);    
-    return returnValue + ((returnValue.length == 14)?"...":"")
+    var returnValue: string = article.map(element => element.articleNr).toString().substring(0, 14);
+    return returnValue + ((returnValue.length == 14) ? "..." : "")
   }
 
-  disableShow(id: number){
+  disableShow(id: number) {
     this.showArticles = this.showArticles.filter(element => element !== id);
   }
-
-  /*
-  tmpinitData() {
-    this.listOfDisplayData = [
-      {
-        company: 'Alpha Corporation',
-        dateOfVisit: new Date('2023-06-18'),
-        technologist: 'A',
-        toBeCompletedBy: new Date('2023-06-20'),
-        representative: 'A',
-        customerContactDate: new Date('2023-06-10'),
-        abschlussberichtFinished: 'Ja',
-        article: [
-          { name: 'Article 1', articleNr: 'A001' },
-          { name: 'Article 2', articleNr: 'A002' }
-        ]
-      },
-      {
-        company: 'Beta Industries',
-        dateOfVisit: new Date('2023-06-19'),
-        technologist: 'B',
-        toBeCompletedBy: new Date('2023-06-25'),
-        representative: 'B',
-        customerContactDate: new Date('2023-06-12'),
-        abschlussberichtFinished: 'Nein',
-        article: [
-          { name: 'Article 3', articleNr: 'B001' }
-        ]
-      },
-      {
-        company: 'Camma Technologies',
-        dateOfVisit: new Date('2023-06-20'),
-        technologist: 'C',
-        toBeCompletedBy: new Date('2023-06-28'),
-        representative: 'C',
-        customerContactDate: new Date('2023-06-14'),
-        abschlussberichtFinished: 'Nein',
-        article: [
-          { name: 'Article 4', articleNr: 'G001' },
-          { name: 'Article 5', articleNr: 'G002' }
-        ]
-      }
-    ];
-  }*/
 }
 
 interface DataItem {
@@ -362,7 +320,7 @@ interface DataItem {
   company: string,
   dateOfVisit: Date,
   technologist: string,
-  toBeCompletedBy: Date,
+  reworkByTechnologistDoneUntil: Date,
   representative: string,
   customerContactDate: Date,
   abschlussberichtFinished: string,

@@ -17,7 +17,10 @@ public class CustomerVisit extends PanacheEntity {
     public String customerNr;
     public String address;
     public String contactPerson;
-    public Date dateOfVisit;
+
+    public Date fromDateOfVisit;
+    public Date toDateOfVisit;
+
     public String productionAmount;
 
     public boolean presentationOfNewProducts;
@@ -38,7 +41,8 @@ public class CustomerVisit extends PanacheEntity {
         this.customerNr = newCustomerVisit.customerNr;
         this.address = newCustomerVisit.address;
         this.contactPerson = newCustomerVisit.contactPerson;
-        this.dateOfVisit = newCustomerVisit.dateOfVisit;
+        this.fromDateOfVisit = newCustomerVisit.fromDateOfVisit;
+        this.toDateOfVisit = newCustomerVisit.toDateOfVisit;
         this.presentationOfNewProducts = newCustomerVisit.presentationOfNewProducts;
         this.existingProducts = newCustomerVisit.existingProducts;
         this.recipeOptimization = newCustomerVisit.recipeOptimization;
@@ -53,12 +57,12 @@ public class CustomerVisit extends PanacheEntity {
     public CustomerVisit persistOrUpdate(){
         if(this.id == null || this.id == 0) {
             this.id = null;
-            this.persist();
 
             if(this.finalReport != null){
                 this.finalReport = this.finalReport.persistOrUpdate();
             }
 
+            this.persist();
             return this;
         }else{
             CustomerVisit customerVisit = CustomerVisit.findById(this.id);

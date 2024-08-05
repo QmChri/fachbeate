@@ -57,7 +57,7 @@ export class HttpService {
   }
 
 
-  postVisitorRegistration(visitorRegistration: VisitorRegistration): Observable<VisitorRegistration>{
+  postVisitorRegistration(visitorRegistration: VisitorRegistration): Observable<VisitorRegistration>{    
     return this.http.post<VisitorRegistration>(API_URL + "visitorRegistration", visitorRegistration);
   }
 
@@ -114,6 +114,10 @@ export class HttpService {
 
   getActiveCompany(): Observable<Company[]>{
     return this.http.get<Company[]>(API_URL + "users/company/allActive");
+  }
+
+  deleteAppointment(entry: TechnologistAppointment){
+    return this.http.delete(API_URL+ "appointment/delete", {params: {id: entry.id!}});
   }
 
   postOtherDate(date: TechnologistAppointment): Observable<TechnologistAppointment>{

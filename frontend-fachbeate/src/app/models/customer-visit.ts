@@ -6,7 +6,8 @@ export class CustomerVisit {
     customerNr?: string;
     address?: string;
     contactPerson?: string;
-    dateOfVisit?: Date;
+    fromDateOfVisit?: Date;
+    toDateOfVisit?: Date;
     productionAmount?: string;
     presentationOfNewProducts: boolean;
     existingProducts: boolean;
@@ -18,6 +19,8 @@ export class CustomerVisit {
 
     editId: number;
     selection?: number[];
+
+    dateSelect?: Date[];
 
     constructor(id: number,
         companyName: string,
@@ -38,7 +41,8 @@ export class CustomerVisit {
             this.customerNr = customerNr,
             this.address = address,
             this.contactPerson = contactPerson,
-            this.dateOfVisit = dateOfVisit,
+            this.toDateOfVisit = dateOfVisit,
+            this.fromDateOfVisit = dateOfVisit
             this.presentationOfNewProducts = presentationOfNewProducts,
             this.existingProducts = existingProducts,
             this.recipeOptimization = recipeOptimization,

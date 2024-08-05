@@ -11,7 +11,6 @@ import java.util.*;
 @Entity
 public class ReasonReport extends PanacheEntity {
     public int reason;
-    public String carriedOutActivity;
 
     @ManyToMany
     public List<Article> presentedArticle;
@@ -20,7 +19,6 @@ public class ReasonReport extends PanacheEntity {
     @Transactional(Transactional.TxType.REQUIRED)
     public void updateEntity(ReasonReport newEntity) {
         this.reason = newEntity.reason;
-        this.carriedOutActivity = newEntity.carriedOutActivity;
 
         this.presentedArticle = new ArrayList<>();
         for(Article a : newEntity.presentedArticle){

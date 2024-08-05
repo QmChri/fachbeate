@@ -30,6 +30,7 @@ export class CustomerRequirementsComponent implements OnInit {
   representative: Representative[] = [];
   companies: Company[] = [];
   freigegeben: boolean = true;
+  dateFormat = 'dd.MM.yy';
 
   constructor(public translate: TranslateService, private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute, private notificationService: NotificationService, public roleService: RoleService) { }
 
@@ -47,6 +48,11 @@ export class CustomerRequirementsComponent implements OnInit {
               this.inputCustomerRequirement = data;
 
               this.inputCustomerRequirement.customerVisits.forEach((element, index) => {
+                element.dateSelect = [
+                  element.fromDateOfVisit!,
+                  element.toDateOfVisit!
+                ]
+
                 element.selection = [
                   (element.presentationOfNewProducts) ? 1 : 0,
                   (element.existingProducts) ? 2 : 0,
@@ -113,7 +119,8 @@ export class CustomerRequirementsComponent implements OnInit {
         companyName: '',
         address: '',
         contactPerson: '',
-        dateOfVisit: undefined,
+        fromDateOfVisit: undefined,
+        toDateOfVisit: undefined,
         presentationOfNewProducts: false,
         existingProducts: false,
         recipeOptimization: false,
@@ -121,7 +128,6 @@ export class CustomerRequirementsComponent implements OnInit {
         training: false,
       }
     ];
-
     // Sets the added visit to edit
     this.editId = this.i;
 
@@ -144,17 +150,41 @@ export class CustomerRequirementsComponent implements OnInit {
   }
 
   postCustomerRequirement() {
-
-
-
     if (this.checkRequired()) {
       this.getNotification(1);
       this.inputCustomerRequirement.showUser = true;
       this.inputCustomerRequirement.dateOfCreation = new Date();
 
-      (this.inputCustomerRequirement.startDate!==null && this.inputCustomerRequirement.startDate !== undefined)?this.inputCustomerRequirement.startDate!.setHours(5):console.log("not");
-      (this.inputCustomerRequirement.endDate!==null && this.inputCustomerRequirement.endDate !== undefined)?this.inputCustomerRequirement.endDate!.setHours(5):console.log("not");
-      
+      if (this.inputCustomerRequirement.startDate !== null && this.inputCustomerRequirement.startDate !== undefined) {
+        if (typeof this.inputCustomerRequirement.startDate === 'string' || typeof this.inputCustomerRequirement.startDate === 'number') {
+          this.inputCustomerRequirement.startDate = new Date(this.inputCustomerRequirement.startDate);
+        }
+        if (this.inputCustomerRequirement.startDate instanceof Date) {
+          this.inputCustomerRequirement.startDate.setHours(5);
+        } else {
+          console.log("startDate is not a valid Date object");
+        }
+      } else {
+        console.log("startDate is not defined");
+      }
+
+      if (this.inputCustomerRequirement.endDate !== null && this.inputCustomerRequirement.endDate !== undefined) {
+        if (typeof this.inputCustomerRequirement.endDate === 'string' || typeof this.inputCustomerRequirement.endDate === 'number') {
+          this.inputCustomerRequirement.endDate = new Date(this.inputCustomerRequirement.endDate);
+        }
+        if (this.inputCustomerRequirement.endDate instanceof Date) {
+          this.inputCustomerRequirement.endDate.setHours(5);
+        } else {
+          console.log("endDate is not a valid Date object");
+        }
+      } else {
+        console.log("endDate is not defined");
+      }
+
+      this.inputCustomerRequirement.customerVisits.forEach(element => {
+        element.fromDateOfVisit = element.dateSelect![0];
+        element.toDateOfVisit = element.dateSelect![1];
+      });
 
 
       if (this.inputCustomerRequirement.creator === undefined) {
@@ -163,7 +193,7 @@ export class CustomerRequirementsComponent implements OnInit {
       this.inputCustomerRequirement.lastEditor = this.roleService.getUserName(); this.http.postCustomerRequirement(this.inputCustomerRequirement).subscribe({
         next: data => {
           this.inputCustomerRequirement = data;
-          data.customerVisits.forEach((element, index) => {
+          this.inputCustomerRequirement.customerVisits.forEach((element, index) => {
             element.selection = [
               (element.presentationOfNewProducts) ? 1 : 0,
               (element.existingProducts) ? 2 : 0,
@@ -171,6 +201,12 @@ export class CustomerRequirementsComponent implements OnInit {
               (element.sampleProduction) ? 4 : 0,
               (element.training) ? 5 : 0
             ];
+
+            element.dateSelect = [
+              element.fromDateOfVisit!,
+              element.toDateOfVisit!,
+            ].filter(element => element !== null && element !== undefined);
+
             element.editId = index;
           });
         },
@@ -183,22 +219,22 @@ export class CustomerRequirementsComponent implements OnInit {
 
   checkRequired(): boolean {
     var requiredFields: string[] = [
-      (this.inputCustomerRequirement.requestedTechnologist === undefined)?"assigned_technologist":"",
-      (this.inputCustomerRequirement.representative === undefined)?"assigned_repre":"",
-      (this.inputCustomerRequirement.startDate === undefined)?"assigned_from":"",
-      (this.inputCustomerRequirement.endDate === undefined)?"assigned_to":"",
-      (this.inputCustomerRequirement.company === null || this.inputCustomerRequirement.company === undefined)?"assigned_company":"",
-      (this.inputCustomerRequirement.customerVisits.filter(element => element.companyName === null || element.companyName === undefined || element.companyName === "").length !== 0)?"assigned_customer":"",
-      (this.inputCustomerRequirement.customerVisits.filter(element => element.address === null || element.address === undefined || element.address === "").length !== 0)?"assigned_address":"",
-      (this.inputCustomerRequirement.customerVisits.filter(element => element.dateOfVisit === null || element.dateOfVisit === undefined).length !== 0)?"assigned_dateOfVisit":"",
-      (this.inputCustomerRequirement.customerVisits.filter(element => element.presentationOfNewProducts===false  && element.existingProducts===false && element.recipeOptimization===false && element.sampleProduction===false && element.training===false).length !== 0)?"assigned_reason":"",
-      (this.inputCustomerRequirement.customerVisits.filter(element => element.productionAmount === null || element.productionAmount === undefined || element.productionAmount === "").length !== 0)?"assigned_productionAmount":""
+      (this.inputCustomerRequirement.requestedTechnologist === undefined) ? "assigned_technologist" : "",
+      (this.inputCustomerRequirement.representative === undefined) ? "assigned_repre" : "",
+      (this.inputCustomerRequirement.startDate === undefined) ? "assigned_from" : "",
+      (this.inputCustomerRequirement.endDate === undefined) ? "assigned_to" : "",
+      (this.inputCustomerRequirement.company === null || this.inputCustomerRequirement.company === undefined) ? "assigned_company" : "",
+      (this.inputCustomerRequirement.customerVisits.filter(element => element.companyName === null || element.companyName === undefined || element.companyName === "").length !== 0) ? "assigned_customer" : "",
+      (this.inputCustomerRequirement.customerVisits.filter(element => element.address === null || element.address === undefined || element.address === "").length !== 0) ? "assigned_address" : "",
+      (this.inputCustomerRequirement.customerVisits.filter(element => element.dateSelect!.length !== 2).length !== 0) ? "assigned_dateOfVisit" : "",
+      (this.inputCustomerRequirement.customerVisits.filter(element => element.presentationOfNewProducts === false && element.existingProducts === false && element.recipeOptimization === false && element.sampleProduction === false && element.training === false).length !== 0) ? "assigned_reason" : "",
+      (this.inputCustomerRequirement.customerVisits.filter(element => element.productionAmount === null || element.productionAmount === undefined || element.productionAmount === "").length !== 0) ? "assigned_productionAmount" : ""
     ].filter(element => element !== "");
-    
-    if(requiredFields.length !== 0){
-      this.translate.get(['STANDARD.please_fill_required_fields', ...requiredFields.map(element => "STANDARD."+element)]).subscribe(translations => {
+
+    if (requiredFields.length !== 0) {
+      this.translate.get(['STANDARD.please_fill_required_fields', ...requiredFields.map(element => "STANDARD." + element)]).subscribe(translations => {
         const message = translations['STANDARD.please_fill_required_fields'];
-        const anotherMessage = requiredFields.map(element => translations["STANDARD."+element]).toString();
+        const anotherMessage = requiredFields.map(element => translations["STANDARD." + element]).toString();
         this.notificationService.createBasicNotification(4, message, anotherMessage, 'topRight');
       });
     }
@@ -210,7 +246,7 @@ export class CustomerRequirementsComponent implements OnInit {
     var finalReport: FinalReport = {}
 
     if (this.checkRequired()) {
-      if(customerVisit.finalReport === null || customerVisit.finalReport === undefined ){
+      if (customerVisit.finalReport === null || customerVisit.finalReport === undefined) {
 
         //region prepare for FinalReport popup
         var rRepo: ReasonReport[] = [
@@ -220,13 +256,13 @@ export class CustomerRequirementsComponent implements OnInit {
           (customerVisit.sampleProduction) ? { reason: 4, presentedArticle: [] } : { reason: 0, presentedArticle: [] },
           (customerVisit.training) ? { reason: 5, presentedArticle: [] } : { reason: 0, presentedArticle: [] }
         ].filter(element => element.reason !== 0);
-        
+
         finalReport = {
           technologist: this.inputCustomerRequirement.requestedTechnologist,
           company: customerVisit.companyName,
           companyNr: customerVisit.customerNr,
           representative: this.inputCustomerRequirement.representative,
-          dateOfVisit: customerVisit.dateOfVisit,
+          dateOfVisit: customerVisit.fromDateOfVisit,
           reasonReports: rRepo
         }
 
@@ -236,14 +272,15 @@ export class CustomerRequirementsComponent implements OnInit {
         finalReport.sampleProduction = customerVisit.sampleProduction;
         finalReport.training = customerVisit.training;
         //endregion
-      }else{
+      } else {
         finalReport = customerVisit.finalReport;
       }
 
       //opening Abschlussbericht Popup
       const dialogRef = this.dialog.open(AbschlussBerichtComponent, {
-        height: '42.5rem',
-        width: '80rem',
+        width: '90%',
+        maxWidth: '90vw',
+        maxHeight: '90vh',
         data: finalReport
       });
 
@@ -259,6 +296,39 @@ export class CustomerRequirementsComponent implements OnInit {
         });
     }
   }
+  /*
+  listOfWorkshops: DataItem[] = [];
+
+  checkIfTechnologistIsAvailable(): boolean {
+    var type = (this.roleService.checkPermission([1, 2, 3, 5, 7]) ? 7 : 6);
+    type = (!this.roleService.checkPermission([1, 2, 4, 5, 6, 7]) ? 3 : type);
+    type = (!this.roleService.checkPermission([1, 2, 3, 5, 6, 7]) ? 4 : type);
+    type = (!this.roleService.checkPermission([1, 2, 5, 6, 7]) ? 8 : type);
+    var fullname: string[] = [this.roleService.getUserName()!, this.roleService.getEmail()!];
+
+    this.http.getWorkshopByUser(type, fullname!).subscribe({
+      next: data => {
+        data.forEach(element => {
+          this.listOfWorkshops = [...this.listOfWorkshops, {
+            id: element.id!,
+            dateOfCreation: element.dateOfCreation,
+            fachberater: element.technologist,
+            timespan: {
+              start: element.fromDate,
+              end: element.toDate
+            }
+          }];
+        });
+      },
+      error: err => {
+        console.log(err);
+      }
+    });
+    if (this.listOfWorkshops.map(s => s.fachberater === "Dariusz Müller")) {
+      return true;
+    }
+    return false
+  }*/
 
   getTechnologist() {
     this.http.getActiveTechnologist().subscribe({
@@ -287,7 +357,7 @@ export class CustomerRequirementsComponent implements OnInit {
       next: data => {
         this.companies = data;
 
-        if(this.roleService.checkPermission([6])){
+        if (this.roleService.checkPermission([6])) {
           this.inputCustomerRequirement.company = this.companies.find(element => element.username === this.roleService.getUserName())!;
         }
       },
@@ -351,4 +421,16 @@ export class CustomerRequirementsComponent implements OnInit {
 interface Toechterhaeandler {
   value: string;
   viewValue: string;
+}
+
+interface DataItem {
+  id?: string;
+  dateOfCreation?: string;
+  fachberater?: string;
+  timespan?: TimeSpan;
+}
+
+interface TimeSpan {
+  start?: string;
+  end?: string;
 }

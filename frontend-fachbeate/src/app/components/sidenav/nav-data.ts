@@ -21,7 +21,7 @@ export const navbarData: INavbarData[] = [
         role: [1,2,3,4,6,7]
     },
     {
-        routeLink: 'visitorRegistration',
+        routeLink: 'visitor-registration',
         icon: 'fal fa-users',
         label: 'req-visitors',
         role: [1,2,3,5,6,7]

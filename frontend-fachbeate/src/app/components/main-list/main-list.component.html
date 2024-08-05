@@ -2,7 +2,7 @@
   <div>
     <h1 style="margin: auto;">{{'NAV.MAIN-LIST' | translate}}</h1>
   </div>
-<!-- TODO
+  <!-- TODO
   <div>
     <button nz-button (click)="exportToExcel()">Exportieren zu Excel</button>
   </div>
@@ -18,7 +18,7 @@
 </div>
 <hr>
 
-<nz-table #nzTable nzBordered [nzPageSize]="20" nzShowSizeChanger [nzSize]="'small'" [nzTableLayout]="'auto'"
+<nz-table #nzTable nzBordered [nzPageSize]="30" nzShowSizeChanger [nzSize]="'small'" [nzTableLayout]="'auto'"
   [nzData]="listOfDisplayData">
   <thead>
     <tr>
@@ -43,7 +43,8 @@
         [nzFilters]="listOfColumn[5].listOfFilter" [nzFilterFn]="listOfColumn[5].filterFn!">
         {{'MAIN_LIST.'+listOfColumn[5].name|
         translate}}</th>
-      <th> {{'MAIN_LIST.'+listOfColumn[6].name| translate}}</th>
+      <th [nzSortFn]="listOfColumn[6].sortFn" [(nzSortOrder)]="listOfColumn[6].sortOrder">
+        {{'MAIN_LIST.'+listOfColumn[6].name| translate}}</th>
       <th [nzSortFn]="listOfColumn[7].sortFn" [(nzSortOrder)]="listOfColumn[7].sortOrder"
         [nzFilters]="listOfColumn[7].listOfFilter" [nzFilterFn]="listOfColumn[7].filterFn!">
         {{'MAIN_LIST.'+listOfColumn[7].name|
@@ -55,11 +56,12 @@
         [nzFilters]="listOfColumn[9].listOfFilter" [nzFilterFn]="listOfColumn[9].filterFn!">
         {{'MAIN_LIST.'+listOfColumn[9].name|
         translate}}</th>
-      <th *ngIf="roleService.checkPermission([1,2,7])"></th>
+      <th nzWidth="1%" *ngIf="roleService.checkPermission([1,2,7])">{{'MAIN_LIST.'+listOfColumn[10].name|
+        translate}}</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let data of nzTable.data">
+    <tr *ngFor="let data of nzTable.data" [ngClass]="data.visible !== true ? 'table-danger': ''">
       <td (dblclick)="openCRC(data,data.id!, data.type!)">{{data.id}}</td>
       <td (dblclick)="openCRC(data,data.id!, data.type!)">{{ (data.dateOfCreation !== '\<Leer\>')?(data.dateOfCreation |
           date:'dd.MM.yy'):'\<Leer\>' }}</td>
@@ -75,8 +77,12 @@
       <td (dblclick)="openCRC(data,data.id!, data.type!)">{{ data.vertreter }}</td>
       <td (dblclick)="openCRC(data,data.id!, data.type!)">{{ data.fachberater }}</td>
       <td (dblclick)="openCRC(data, data.id!, data.type!)">
-        {{ data.timespan!.start === undefined ||data.timespan!.start === '\<Leer\>' ?  '\<Leer\>':(data.timespan!.start | date:'dd.MM.yy') }} - 
-        {{ data.timespan!.end === undefined || data.timespan!.end === '\<Leer\>' ? '\<Leer\>':(data.timespan!.end | date:'dd.MM.yy') }}
+        {{ data.timespan!.start === undefined ||data.timespan!.start === '\<Leer\>' ? '\<Leer\>':(data.timespan!.start
+            |
+            date:'dd.MM.yy') }} -
+            {{ data.timespan!.end === undefined || data.timespan!.end === '\<Leer\>' ? '\<Leer\>':(data.timespan!.end
+                |
+                date:'dd.MM.yy') }}
       </td>
       <td (dblclick)="openCRC(data,data.id!, data.type!)">{{ data.customer }}</td>
       <td (dblclick)="openCRC(data,data.id!, data.type!)">{{data.abschlussbericht }}</td>
@@ -84,13 +90,13 @@
         <span>{{ ((data.type === 1) ? 'MAIN_LIST.advisor_type' : (data.type === 2) ? 'MAIN_LIST.seminar':
           'MAIN_LIST.visit') | translate }}</span>
       </td>
-      <td *ngIf="roleService.checkPermission([1,2,7])" style="padding-bottom: 0px;padding-top: 0px;">
+      <td class="centerDisableButton" *ngIf="roleService.checkPermission([1,2,7])">
         <button nz-button nzType="primary" (click)="changeEditable(data)">
           <div *ngIf="data.visible; else notVisible">
             <i class="fas fa-eye"></i>
           </div>
           <ng-template #notVisible>
-            <i class="fas fa-eye-slash"></i>
+            <i class="fas fa-window-close"></i>
           </ng-template>
         </button>
       </td>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { Department } from '../../../models/department';
 import { VisitorRegistration } from '../../../models/visitor-registration';
 import { MatDialog } from '@angular/material/dialog';
@@ -18,6 +18,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrl: './visitor-registration.component.scss'
 })
 export class VisitorRegistrationComponent implements OnInit {
+  control = new FormControl(null, Validators.required);
   buttonSelect: String[] = []
   geDip: String[] = []
   representative: Representative[] = [];
@@ -34,7 +35,8 @@ export class VisitorRegistrationComponent implements OnInit {
   inputVisitRegistration: VisitorRegistration = {
     plannedDepartmentVisits: [],
     guests: [],
-    hotelBookings: []
+    hotelBookings: [],
+    meetingRoomReservations: []
   };
 
   //Is the simular to Serminarangmelung
@@ -82,7 +84,7 @@ export class VisitorRegistrationComponent implements OnInit {
           }
         });
       }else{
-        this.addTab()
+        this.addTab(1)
       }
     });
 
@@ -187,13 +189,22 @@ export class VisitorRegistrationComponent implements OnInit {
 
   }
 
-  addTab() {
-    this.inputVisitRegistration.hotelBookings = [...this.inputVisitRegistration.hotelBookings, {}]
+  addTab(type: number) {
+    if(type === 1){
+      this.inputVisitRegistration.hotelBookings = [...this.inputVisitRegistration.hotelBookings, {}]
+    }else if(type === 2){
+      this.inputVisitRegistration.meetingRoomReservations = [...this.inputVisitRegistration.meetingRoomReservations, {}]
+    }
   }
 
-  deleteLast() {
-    if (this.inputVisitRegistration.hotelBookings.length != 1)
-      this.inputVisitRegistration.hotelBookings.pop();
+  deleteLast(type: number) {
+    if(type === 1){
+      if (this.inputVisitRegistration.hotelBookings.length > 1)
+        this.inputVisitRegistration.hotelBookings.pop();
+    }else if(type === 2){
+      if (this.inputVisitRegistration.meetingRoomReservations.length > 1)
+        this.inputVisitRegistration.meetingRoomReservations.pop();
+    }
   }
 
   onItemChecked(id: number, checked: boolean): void {
@@ -223,7 +234,7 @@ export class VisitorRegistrationComponent implements OnInit {
     this.inputVisitRegistration.diploma = this.buttonSelect.includes("7");
 
     if(this.inputVisitRegistration.hotelBooking){
-      this.addTab();
+      this.addTab(1);
     }
 
   }
@@ -339,6 +350,8 @@ export class VisitorRegistrationComponent implements OnInit {
       (this.inputVisitRegistration.inputReason === null || this.inputVisitRegistration.inputReason === undefined || this.inputVisitRegistration.inputReason === "")?"1/DASHBOARD.reason":"",
       (this.inputVisitRegistration.fromDate === null || this.inputVisitRegistration.fromDate === undefined)?"1/DASHBOARD.from":"",
       (this.inputVisitRegistration.toDate === null || this.inputVisitRegistration.toDate === undefined)?"1/DASHBOARD.to":"",
+      (this.inputVisitRegistration.fromTime === null || this.inputVisitRegistration.fromTime === undefined || this.inputVisitRegistration.fromTime === "")?"1/VISITOR_REGRISTRATION.time":"",
+      (this.inputVisitRegistration.toTime === null || this.inputVisitRegistration.toTime === undefined || this.inputVisitRegistration.toTime === "")?"1/VISITOR_REGRISTRATION.time":"",
       (this.inputVisitRegistration.customerOrCompany === null || this.inputVisitRegistration.customerOrCompany === undefined || this.inputVisitRegistration.customerOrCompany === "")?"2/VISITOR_REGRISTRATION.customer_company":"",
       (this.inputVisitRegistration.guests === null || this.inputVisitRegistration.guests === undefined || this.inputVisitRegistration.guests.length === 0)?"2/VISITOR_REGRISTRATION.participant_list":"",
       (this.inputVisitRegistration.arrivalFromCountry === null || this.inputVisitRegistration.arrivalFromCountry === undefined || this.inputVisitRegistration.arrivalFromCountry === "")?"2/VISITOR_REGRISTRATION.arrival_from_country":"",
@@ -349,7 +362,7 @@ export class VisitorRegistrationComponent implements OnInit {
     ];
 
 
-    checks[0] = (requriements.filter(firsts => firsts.split("/")[0] === "1").length === 4)
+    checks[0] = (requriements.filter(firsts => firsts.split("/")[0] === "1").length === 6)
     checks[1] = (requriements.filter(firsts => firsts.split("/")[0] === "2").length === 4)
     checks[2] = (requriements.filter(firsts => firsts.split("/")[0] === "3").length === 3)
     

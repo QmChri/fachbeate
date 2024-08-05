@@ -4,14 +4,6 @@
     flex-wrap: wrap;
 }
 
-.paddingSearch {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    margin: auto;
-}
-
 .header {
     display: flex;
     flex-direction: row;
@@ -53,14 +45,23 @@
     font-size: 14px;
     line-height: 1.5715;
     color: rgba(0, 0, 0, 0.25);
-    /* Typically light gray text color for disabled elements */
     background-color: #f5f5f5;
-    /* Light gray background for disabled nz-input */
     border: 1px solid #d9d9d9;
-    /* Light gray border */
     border-radius: 2px;
     cursor: not-allowed;
-    /* Cursor indicating that the element is not interactive */
     width: 100%;
     box-sizing: border-box;
 }
+
+.buttonsStyle{
+    padding-bottom: 0px;
+    padding-left: 0px;
+    padding-top: 0px;
+    padding-right: 0px;
+    border-right-width: 0px;
+    border-bottom-width: 0px;
+}
+
+/* Stellen Sie sicher, dass Sie :host ::ng-deep verwenden, um tief in die Komponentenstruktur einzudringen */
+:host ::ng-deep .cdk-overlay-pane .mat-mdc-select-panel-above {
+    width: 300px;bottom: 155px;left: 1038.11px;}

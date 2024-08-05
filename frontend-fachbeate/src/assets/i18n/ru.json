@@ -47,11 +47,28 @@
         "assigned_address": "Страна",
         "assigned_dateOfVisit": "Дата посещения",
         "assigned_reason": "Цель",
-        "assigned_amount":"Количество человек",
+        "assigned_amount": "Количество человек",
         "assigned_productionAmount": "Produktionen Tonnen/Tag",
         "assigned_repre_cons": "Дилеры/Дочерние компании* и Представитель* и Консультант* и С - По*",
         "are_you_sure": "Вы уверены?",
-        "ok": "хорошо"
+        "ok": "хорошо",
+        "almi": "Almi",
+        "advisor_type": "Тип консультанта A.",
+        "seminar": "Семинар",
+        "visit": "Визит",
+        "follow_up": "Последующая работа",
+        "filter_1": "Фильтр - Консультант",
+        "filter_2": "Фильтр - Бронирование",
+        "holiday": "Праздники",
+        "ausgleich": "Выравнивание времени",
+        "reservation": "Предварительное бронирование клиентов",
+        "fair": "Торговая ярмарка",
+        "homeF": "Домашний офис",
+        "houseO": "Дом Офтеринг",
+        "filter1": "Семинар Требование",
+        "filter2": "Специалист-консультант Требование",
+        "filter3": "Бронирование Требование",
+        "calendar_change": "Изменение календаря"
     },
     "DASHBOARD": {
         "entry_for": "Запись о/об",
@@ -78,7 +95,8 @@
         "type": "Тип",
         "advisor_type": "Тип консультанта",
         "seminar": "Семинар",
-        "visit": "Посещение"
+        "visit": "Посещение",
+        "berichte": "отчет"
     },
     "CUSTOMER_REQUIREMENTS": {
         "advisor_request": "Запрос технолога-консультанта",
@@ -122,6 +140,7 @@
         "customer_feedback": "Обратная связь от клиента по итогам посещения",
         "further_actions": "Дальнейшие действия",
         "to_be_done_by": "Срок выполнения до",
+        "to_be_done_by_FB": "Срок выполнения до Технолог-консультант",
         "requirements_summary": "Требования/сводка",
         "additional_products": "Другие продукты",
         "completed": "Завершено",
@@ -135,11 +154,11 @@
         "article": "Продукт",
         "article_number": "Артикул",
         "follow_up": "Последующая работа технолога-консультанта",
-        "information":"Информация",
-        "recipe_optimization":"Рецептуры",
-        "product_development":"Запрос продукта/образца",
-        "todo" : "Сроки исполнения",
-        "follow_Visit" : "Запрос клиентом повторного посещения "
+        "information": "Информация",
+        "recipe_optimization": "Рецептуры",
+        "product_development": "Запрос продукта/образца",
+        "todo": "Сроки исполнения",
+        "follow_Visit": "Запрос клиентом повторного посещения "
     },
     "VISITOR_REGRISTRATION": {
         "visitor_registration": "Заявка на посещение",

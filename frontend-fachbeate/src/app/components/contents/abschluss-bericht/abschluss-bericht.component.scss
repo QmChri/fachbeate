@@ -42,10 +42,6 @@
         justify-content: space-between;
         flex-wrap: nowrap;
 
-        .smallInput {
-            max-width: 12rem;
-        }
-
         .smallInputSide .nacharbeitSmall {
             max-width: 12rem;
         }
@@ -54,10 +50,6 @@
             max-width: 10rem;
         }
     }
-}
-
-.mainView {
-    margin: 1.5rem;
 }
 
 .smallInputSide {
@@ -81,4 +73,13 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
+}
+
+
+.mainView {
+    background-color: #f4f4f4;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
 }

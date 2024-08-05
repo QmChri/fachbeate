@@ -7,7 +7,6 @@ import { RoleService } from '../../services/role.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Company } from '../../models/company';
 import * as XLSX from 'xlsx';
-import { timestamp } from 'rxjs';
 
 
 @Component({
@@ -20,8 +19,9 @@ export class MainListComponent implements OnInit {
   visible = false;
   technologistList: Technologist[] = [];
   listOfDisplayData: DataItem[] = [];
+  fileName = 'TableData.xlsx';
 
-  // All columns are defined here 
+  // All columns are defined here
   listOfColumn: ColumnDefinition[] = [
     {
       name: 'id',
@@ -68,7 +68,11 @@ export class MainListComponent implements OnInit {
     {
       name: 'requested_period',
       sortOrder: null,
-      sortFn: (a: DataItem, b: DataItem) => a.timespan!.valueOf().toString().localeCompare(b.timespan!.valueOf().toString()),
+      sortFn: (a: DataItem, b: DataItem) => {
+        const aStart = a.timespan?.start?.valueOf()?.toString() ?? '';
+        const bStart = b.timespan?.start?.valueOf()?.toString() ?? '';
+        return aStart.localeCompare(bStart);
+      },
       listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => true
     },
@@ -80,7 +84,7 @@ export class MainListComponent implements OnInit {
       filterFn: (list: string[], item: DataItem) => list.some(name => item.customer!.indexOf(name) !== -1)
     },
     {
-      name: 'final_report',
+      name: 'berichte',
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.abschlussbericht!.valueOf().toString().localeCompare(b.abschlussbericht!.valueOf().toString()),
       listOfFilter: [],
@@ -93,6 +97,13 @@ export class MainListComponent implements OnInit {
       listOfFilter: [],
       filterFn: (list: string[], item: DataItem) => list.some(name => item.type!.valueOf().toString().indexOf(name.valueOf().toString()) !== -1)
     },
+    {
+      name: 'canceled',
+      sortOrder: null,
+      sortFn: (a, b) => 0,
+      listOfFilter: [],
+      filterFn: (list, item) => true,
+    }
   ];
 
   constructor(public translate: TranslateService, private router: Router, private http: HttpService, private notificationService: NotificationService, public roleService: RoleService) { }
@@ -102,7 +113,7 @@ export class MainListComponent implements OnInit {
     this.getNzFilters();
   }
 
-  // All filters are defined here 
+  // All filters are defined here
   getNzFilters() {
     const uniqueFilter = new Set<string>();
 
@@ -151,7 +162,7 @@ export class MainListComponent implements OnInit {
         return uniqueFilters;
       }, [] as { text: string, value: string }[]);
 
-    this.listOfColumn.find(element => element.name === 'final_report')!.listOfFilter =
+    this.listOfColumn.find(element => element.name === 'berichte')!.listOfFilter =
       this.listOfDisplayData.reduce((uniqueFilters, element) => {
         const filterValue = element.abschlussbericht || "<Leer>";
         if (!uniqueFilters.some(filter => filter.value === filterValue)) {
@@ -213,9 +224,6 @@ export class MainListComponent implements OnInit {
     this.loadTechnologists();
     this.http.getCustomerRequirementsByUser(type!, fullname!).subscribe({
       next: data => {
-
-        console.log(data);
-        
         data.forEach(element => {
 
           this.listOfDisplayData = [...this.listOfDisplayData, {
@@ -266,7 +274,6 @@ export class MainListComponent implements OnInit {
             type: element.type,
             visible: element.visible
           }];
-
         });
         this.getNzFilters();
       },
@@ -315,7 +322,7 @@ export class MainListComponent implements OnInit {
   openCRC(data: any, id: string, type: number) {
     if (data.visible) {
       if (type === 0) {
-        this.router.navigate(['/visitorRegistration', id.split("_")[1]]);
+        this.router.navigate(['/visitor-registration', id.split("_")[1]]);
       } else if (type === 1) {
         this.router.navigate(['/customer-requirements', id.split("_")[1]]);
       } else if (type === 2) {
@@ -338,7 +345,7 @@ export class MainListComponent implements OnInit {
   }
 
   search(): void {
-    this.visible = false; console.log(this.searchValue);
+    this.visible = false;
 
     this.listOfDisplayData = this.listOfDisplayData.filter((item: DataItem) =>
     (
@@ -368,8 +375,6 @@ export class MainListComponent implements OnInit {
       data.visible = false
     }
   }
-
-  fileName = 'TableData.xlsx';
 
   exportToExcel(): void {
     const typeDescriptions: { [key: number]: string } = {
@@ -401,7 +406,7 @@ export class MainListComponent implements OnInit {
     ws['!autofilter'] = {
       ref: XLSX.utils.encode_range({ s: { r: 0, c: 0 }, e: { r: range.e.r, c: range.e.c } })
     };
-    
+
     const colWidth: number[] = [];
     for (let C = range.s.c; C <= range.e.c; ++C) {
       let maxWidth = 10; // Mindestbreite

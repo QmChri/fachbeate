@@ -34,7 +34,8 @@ export class SeminarRegistrationComponent implements OnInit {
     techSelection: [],
     requestedTechnologist: [],
     guests: [],
-    hotelBookings: []
+    hotelBookings: [],
+    flights: []
   };
 
   constructor(public translate: TranslateService, private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute,
@@ -72,7 +73,7 @@ export class SeminarRegistrationComponent implements OnInit {
           }
         });
       } else {
-        this.addTab();
+        this.addTab(1);
       }
     });
     this.getTechnologists();
@@ -99,13 +100,22 @@ export class SeminarRegistrationComponent implements OnInit {
     return requiredFields.length === 0;
   }
 
-  addTab() {
-    this.inputWorkshop.hotelBookings = [...this.inputWorkshop.hotelBookings!, {}]
+  addTab(type: number) {
+    if (type === 1) {
+      this.inputWorkshop.hotelBookings = [...this.inputWorkshop.hotelBookings!, {}]
+    } else if (type === 2) {
+      this.inputWorkshop.flights = [...this.inputWorkshop.flights, {}]
+    }
   }
 
-  deleteLast() {
-    if (this.inputWorkshop.hotelBookings!.length > 1)
-      this.inputWorkshop.hotelBookings!.pop();
+  deleteLast(type: number) {
+    if (type === 1) {
+      if (this.inputWorkshop.hotelBookings!.length > 1)
+        this.inputWorkshop.hotelBookings!.pop();
+    } else if (type === 2) {
+      if (this.inputWorkshop.flights!.length > 1)
+        this.inputWorkshop.flights!.pop();
+    }
   }
 
   openDialog(guests: Guest[]) {
@@ -281,5 +291,13 @@ export class SeminarRegistrationComponent implements OnInit {
 
   convertToDate(date: any): Date | undefined {
     return (date !== null && date !== undefined) ? new Date(date.toString()) : undefined;
+  }
+  listOfItem = ['jack', 'lucy'];
+  index = 0;
+  addItem2(input: HTMLInputElement): void {
+    const value = input.value;
+    if (this.listOfItem.indexOf(value) === -1) {
+      this.listOfItem = [...this.listOfItem, input.value || `New item ${this.index++}`];
+    }
   }
 }

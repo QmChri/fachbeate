@@ -51,8 +51,9 @@ public class MainListDTO {
         this.customerOrCompany= element.creator;
         this.statusGL= (element.releaseSupervisor!=null) ? "GL Freigegeben " : "GL Nicht-Freigegeben";
         this.statusAL= (element.releaseManagement!=null) ? "AL Freigegeben " : "AL Nicht-Freigegeben";
-        this.technologist= element.requestedTechnologist.stream()
-                .map(tech -> tech.firstName + " " + tech.lastName).toList().toString().replace("[","").replace("]","");
+        this.technologist= (element.requestedTechnologist != null&&!element.requestedTechnologist.isEmpty())?element.requestedTechnologist.stream()
+                .map(tech -> tech.firstName + " " + tech.lastName).toList().toString().replace("[","").replace("]",""):
+                "<Leer>";
         this.representative= element.representative.firstName + " " + element.representative.lastName;
         this.fromDate= element.startDate.toString();
         this.toDate= element.endDate.toString();
@@ -60,7 +61,8 @@ public class MainListDTO {
         this.finalReport= "<Leer>";
         this.type= 2;
         this.visible= element.showUser;
-        this.calendarColor=element.requestedTechnologist.get(0).color;
+        this.calendarColor=(element.requestedTechnologist != null&&!element.requestedTechnologist.isEmpty())?element.requestedTechnologist.get(0).color:"#808080";
+
 
         return this;
     }
