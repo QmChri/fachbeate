@@ -55,7 +55,7 @@ public class MainListDTO {
         this.toDate= element.mainStartDate.toString();
         this.customer= "<Leer>";
         this.finalReport= "<Leer>";
-        this.type= 4;
+        this.type= 3;
         this.visible= element.showUser;
         this.calendarColor= "#808080";
 

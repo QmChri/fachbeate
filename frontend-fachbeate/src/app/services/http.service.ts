@@ -166,11 +166,12 @@ export class HttpService {
 
 
   postBookingRequest(booking: Booking): Observable<Booking>{
+    console.log(booking);
     return this.http.post<Booking>(API_URL+ "booking", booking);
   }  
 
-  getAllBookings():Observable<Booking[]>{
-    return this.http.get<Booking[]>(API_URL + "booking");
+  getAllBookings(type: number, fullname: string[]){
+    return this.http.get<MainListDTO[]>(API_URL + "booking/user", {params: {type: type, fullname: fullname}});
   }
 
   getBookingById(id:number){

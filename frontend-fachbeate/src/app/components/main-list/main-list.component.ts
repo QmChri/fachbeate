@@ -252,6 +252,40 @@ export class MainListComponent implements OnInit {
       }
     });
 
+    this.http.getAllBookings(type!, fullname!).subscribe({
+      next: data => {
+
+
+        console.log(data);
+        
+        data.forEach(element => {
+
+          this.listOfDisplayData = [...this.listOfDisplayData, {
+            id: element.id,
+            name: element.name,
+            dateOfCreation: element.dateOfCreation,
+            customerOrCompany: element.customerOrCompany,
+            statusGL: element.statusGL,
+            statusAL: element.statusAL,
+            vertreter: element.representative,
+            fachberater: element.technologist,
+            timespan: {
+              start: element.fromDate,
+              end: element.toDate
+            },
+            customer: element.customer,
+            abschlussbericht: element.finalReport,
+            type: element.type,
+            visible: element.visible
+          }];
+        });
+        this.getNzFilters();
+      },
+      error: err => {
+        console.log(err);
+      }
+    });
+
     this.http.getWorkshopByUser(type, fullname!).subscribe({
       next: data => {
         data.forEach(element => {
@@ -327,6 +361,8 @@ export class MainListComponent implements OnInit {
         this.router.navigate(['/customer-requirements', id.split("_")[1]]);
       } else if (type === 2) {
         this.router.navigate(['/seminar-registration', id.split("_")[1]]);
+      }else if (type === 3) {
+        this.router.navigate(['/booking-request', id.split("_")[1]]);
       }
     }
   }

@@ -57,20 +57,6 @@ export class BookingRequestComponent implements OnInit {
             console.log(err);
           }
         });
-      } else {
-        this.addTab();
-      }
-    });
-    this.getBookings();
-  }
-
-  getBookings() {
-    this.http.getAllBookings().subscribe({
-      next: data => {
-        this.bookings = data;
-      },
-      error: err => {
-        console.log(err);
       }
     });
   }
@@ -159,10 +145,8 @@ export class BookingRequestComponent implements OnInit {
         this.booking.creator = this.roleService.getUserName();
       }
 
-      (this.booking.mainStartDate !== null || this.booking.mainStartDate !== undefined) ? this.booking.mainStartDate!.setHours(5) : "";
-      (this.booking.mainEndDate !== null || this.booking.mainEndDate !== undefined) ? this.booking.mainEndDate!.setHours(5) : "";
-
-
+      (this.booking.mainStartDate !== null && this.booking.mainStartDate !== undefined) ? this.booking.mainStartDate!.setHours(5) : "";
+      (this.booking.mainEndDate !== null && this.booking.mainEndDate !== undefined) ? this.booking.mainEndDate!.setHours(5) : "";
       this.booking.lastEditor = this.booking.lastEditor;
 
       this.http.postBookingRequest(this.booking).subscribe({
@@ -193,14 +177,16 @@ export class BookingRequestComponent implements OnInit {
     this.booking.trainTicketBooking = this.buttonSelect.includes(3);
     this.booking.hotelBooking = this.buttonSelect.includes(4);
     this.booking.carRental = this.buttonSelect.includes(5);
-  }
 
-  changeCostCoverage($event: any) {
-    //TODO
-    return true;
+    if (this.booking.flightBookings === null || this.booking.flightBookingMultiLeg === true || this.booking.flightBookings.length === 0) {
+      this.addTab();
+    }
   }
 
   addTab() {
+    if (this.booking.flightBookings === null || this.booking.flightBookings === undefined) {
+      this.booking.flightBookings = []
+    }
     this.booking.flightBookings = [...this.booking.flightBookings, {}]
   }
 

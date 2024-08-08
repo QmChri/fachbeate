@@ -30,6 +30,7 @@ const routes: Routes = [
   { path: 'ab', component: AbschlussBerichtComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 7] } },
   //TODO Berechtigungen für Buchungsanforderungen
   { path: 'booking-request', component: BookingRequestComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 3, 4, 5, 6, 7] } },
+  { path: 'booking-request/:id', component: BookingRequestComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 3, 4, 5, 6, 7] } },
   { path: 'mainList', component: MainListComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 3, 4, 5, 6, 7] } },
   { path: '**', redirectTo: 'mainList', pathMatch: 'full' },
 ];

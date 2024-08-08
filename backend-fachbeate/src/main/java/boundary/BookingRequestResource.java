@@ -24,7 +24,7 @@ public class BookingRequestResource {
      */
     @POST
     @Authenticated
-    @Transactional(Transactional.TxType.REQUIRED)
+    @Transactional
     public Response postBookingRequest(BookingRequest bookingRequest){
         BookingRequest responsebookingRequest = bookingRequest.persistOrUpdate();
         if(responsebookingRequest == null){

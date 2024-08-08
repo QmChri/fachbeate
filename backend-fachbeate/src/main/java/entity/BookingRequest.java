@@ -118,8 +118,7 @@ public class BookingRequest extends PanacheEntity {
         }
 
         this.id = null;
-
-        for(AdvancedFlightBooking fb: this.flights){
+        for (AdvancedFlightBooking fb : this.flights) {
             fb.persistOrUpdate();
         }
 
