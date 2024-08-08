@@ -271,7 +271,7 @@ export class SeminarRegistrationComponent implements OnInit {
     if (this.checkRequired()) {
       this.getNotification(1);
       this.inputWorkshop.showUser = true;
-      this.inputWorkshop.reason = "Seminaranmeldung"
+      //this.inputWorkshop.reason = "Seminaranmeldung"
       this.inputWorkshop.dateOfCreation = new Date();
       if (this.inputWorkshop.creator === null || this.inputWorkshop.creator === undefined) {
         this.inputWorkshop.creator = this.roleService.getUserName();
@@ -336,13 +336,5 @@ export class SeminarRegistrationComponent implements OnInit {
 
   convertToDate(date: any): Date | undefined {
     return (date !== null && date !== undefined) ? new Date(date.toString()) : undefined;
-  }
-  listOfItem = ['jack', 'lucy'];
-  index = 0;
-  addItem2(input: HTMLInputElement): void {
-    const value = input.value;
-    if (this.listOfItem.indexOf(value) === -1) {
-      this.listOfItem = [...this.listOfItem, input.value || `New item ${this.index++}`];
-    }
   }
 }

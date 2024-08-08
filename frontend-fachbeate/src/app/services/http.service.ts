@@ -13,6 +13,7 @@ import { Article } from '../models/article';
 import {environment} from "../../environments/environment";
 import { MainListDTO } from '../models/main-list-dto';
 import { TechDateDTO } from '../models/tech-date-dto';
+import { Booking } from '../models/booking';
 
 const API_URL = environment.backendApi
 
@@ -20,7 +21,6 @@ const API_URL = environment.backendApi
   providedIn: 'root'
 })
 export class HttpService {
-
   constructor(private http: HttpClient) { }
 
   postCustomerRequirement(customerRequirement: CustomerRequirement): Observable<CustomerRequirement>{
@@ -164,4 +164,16 @@ export class HttpService {
     return this.http.get<Boolean>(API_URL + "appointment/visibility", {params: {type: type, id: id}})
   }
 
+
+  postBookingRequest(booking: Booking): Observable<Booking>{
+    return this.http.post<Booking>(API_URL+ "booking", booking);
+  }  
+
+  getAllBookings():Observable<Booking[]>{
+    return this.http.get<Booking[]>(API_URL + "booking");
+  }
+
+  getBookingById(id:number){
+    return this.http.get<Booking>(API_URL + "booking/id", {params: {id: id}});
+  }
 }
