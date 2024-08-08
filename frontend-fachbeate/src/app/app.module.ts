@@ -65,6 +65,7 @@ import { NzColorPickerModule } from 'ng-zorro-antd/color-picker';
 import { BookingRequestComponent } from './components/contents/booking-request/booking-request.component';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { CheckDialogComponent } from './components/contents/check-dialog/check-dialog.component';
 
 
 @NgModule({
@@ -86,7 +87,8 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
     CreateRepresentativeComponent,
     CreateDealerComponent,
     BookingRequestComponent,
-    CalendarComponent
+    CalendarComponent,
+    CheckDialogComponent
   ],
   imports: [
     MatTooltipModule,
@@ -116,7 +118,10 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
     MatTabsModule,
     MatButtonModule,
     MatDialogModule,
-    MatTableModule,
+    MatDialogActions,
+    MatDialogClose,
+    MatDialogContent,
+    MatDialogTitle, MatTableModule,
     MatPaginatorModule,
     MatSortModule,
     NzTableModule,

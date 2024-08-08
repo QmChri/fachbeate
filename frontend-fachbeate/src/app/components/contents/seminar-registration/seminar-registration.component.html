@@ -26,7 +26,7 @@
     </div>
     <button class="btn btn-success"
         *ngIf="(inputWorkshop.creator === undefined && roleService.checkPermission([6])) || roleService.checkPermission([1,2,3,4,5,7])"
-        (click)="postWorkshopRequest()">{{'CUSTOMER_REQUIREMENTS.send_form' |
+        (click)="checkPopup()">{{'CUSTOMER_REQUIREMENTS.send_form' |
         translate}}</button>
 </div>
 <hr>
@@ -143,7 +143,8 @@
                         <mat-select multiple placeholder="{{'STANDARD.please_select' | translate}}"
                             [ngModel]="inputWorkshop.techSelection" (valueChange)="changeTechnolgist($event)">
                             @for (t of technologists; track technologists) {
-                            <mat-option [value]="t.technologist.id">{{t.technologist.firstName}} {{t.technologist.lastName}}</mat-option>
+                            <mat-option [value]="t.technologist.id">{{t.technologist.firstName}}
+                                {{t.technologist.lastName}}</mat-option>
                             }
                         </mat-select>
                     </mat-form-field>
@@ -331,7 +332,7 @@
                             </mat-form-field>
                             <mat-form-field class="smallInput">
                                 <mat-label>{{'CUSTOMER_REQUIREMENTS.from_to' | translate}}</mat-label>
-                                <mat-date-range-input  [rangePicker]="picker">
+                                <mat-date-range-input [rangePicker]="picker">
                                     <input matStartDate placeholder="Start date"
                                         [(ngModel)]="inputWorkshop.mealDateFrom">
                                     <input matEndDate placeholder="End date" [(ngModel)]="inputWorkshop.mealDateTo">
@@ -421,17 +422,3 @@
         </div>
     </div>
 </div>
-
-<hr>
-<p>
-    Allgemeine Informationen:
-    <br>
-    <small>
-        • Änderungen der Teilnehmer-Anzahl müssen unverzüglich bekanntgeben werden <br>
-        • Rezepturen/ Produkte für Schulungsmappen sind 5 Werktage im Voraus, ab 20 Stk. 10 Werktage im Voraus zu
-        übermitteln <br>
-        • Die Teilnehmer-Liste ist vollständig ausgefüllt 10 Werktage vor Seminarbeginn zu übermitteln <br>
-        • Das vollständig ausgefüllte Seminarprogramm ist spätestens 2 Wochen vor Seminarbeginn zu übermitteln!</small>
-    <br>
-    Alle Informationen und Änderungen sind an <a href="mailto:office&#64;almi.at">office&#64;almi.at</a> zu senden.
-</p>

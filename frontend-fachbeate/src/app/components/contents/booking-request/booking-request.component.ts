@@ -6,6 +6,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl, Validators } from '@angular/forms';
 import { Booking } from '../../../models/booking';
+import { CheckDialogComponent } from '../check-dialog/check-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-booking-request',
@@ -13,6 +15,12 @@ import { Booking } from '../../../models/booking';
   styleUrl: './booking-request.component.scss'
 })
 export class BookingRequestComponent implements OnInit {
+  addItem: string = "";
+  costCoverages: string[] = [
+    'almiGmbH',
+    'almiSubsidiary'
+  ];
+
   bookingControl = new FormControl<BookingRequestComponent | null>(null, Validators.required);
   buttonSelect: String[] = []
   freigegeben: boolean = true;
@@ -20,7 +28,7 @@ export class BookingRequestComponent implements OnInit {
     flightBookings: []
   };
 
-  constructor(private translate: TranslateService, private http: HttpService, private route: ActivatedRoute,
+  constructor(private dialog: MatDialog, private translate: TranslateService, private http: HttpService, private route: ActivatedRoute,
     private notificationService: NotificationService, public roleService: RoleService) {
   }
 
@@ -76,14 +84,31 @@ export class BookingRequestComponent implements OnInit {
         this.freigegeben = false;
         break;
       }
-      case 4: { // Pflichtfelder ausfüllen
+      /*case 4: { // Pflichtfelder ausfüllen
+        
         this.translate.get(['STANDARD.please_fill_required_fields', 'STANDARD.assigned_representative']).subscribe(translations => {
           const message = translations['STANDARD.please_fill_required_fields'];
           const anotherMessage = translations['STANDARD.assigned_representative'];
           this.notificationService.createBasicNotification(4, message, anotherMessage, 'topRight');
         }); break;
-      }
+      } */
     }
+  }
+
+  checkPopup() {
+    //if (this.checkRequired()) {
+      const dialogRef = this.dialog.open(CheckDialogComponent, {
+        width: '50%',
+        data: 3
+      });
+
+      dialogRef.afterClosed().subscribe(
+        data => {
+          if (data === true) {
+            this.postBooking();
+          }
+        });
+   // }
   }
 
   postBooking() {
@@ -111,5 +136,10 @@ export class BookingRequestComponent implements OnInit {
   deleteLast() {
     if (this.booking.flightBookings.length != 1)
       this.booking.flightBookings.pop();
+  }
+
+
+  addToList(addItem: string) {
+    this.costCoverages.push(addItem);
   }
 }

@@ -11,7 +11,7 @@
         "new-re": "Neuer Vertreter",
         "new-de": "Neuer Händler",
         "lan-sel": "Sprach Auswahl",
-        "bookingRequest": "Buchungsanforderung für Geschäftsreise",
+        "bookingRequest": "Buchungsanforderung",
         "dashboard": "Dashboard"
     },
     "STANDARD": {
@@ -204,7 +204,13 @@
         "quality_raw_material_management": "Qualitäts - Rohstoffmanagement",
         "calculation": "Kalkulation",
         "legal_financial_affairs": "Rechts - Finanzwesen",
-        "innov8_lab": "Innov8 / Labor"
+        "innov8_lab": "Innov8 / Labor",
+        "footer1": "Zusätzliche Informationen zum geplanten Besuch:",
+        "footer2_item1": "WARNUNG – Diese Informationen dienen als allgemeine Mitteilung für das Empfangsbüro!",
+        "footer2_item2": "Die Abteilungen müssen eigenständig im Voraus informiert werden, und Termine sollten im Voraus vereinbart werden.",
+        "footer2_item3": "Die Teilnehmerliste muss vollständig ausgefüllt und spätestens 10 Arbeitstage vor Beginn des Seminars eingereicht werden.",
+        "footer2_item4": "Das vollständig ausgefüllte Seminarprogramm muss spätestens 2 Wochen vor Beginn des Seminars eingereicht werden!",
+        "footer3_item1": "Änderungen wie die Anzahl der Besucher, Hotelbuchungen, Anreisedatum usw. müssen umgehend dem Empfangsbüro unter office@almi.at gemeldet werden!"
     },
     "SEMINAR_REGRISTRATION": {
         "seminar_registration": "Seminaranmeldung",
@@ -229,7 +235,13 @@
         "travel_car": "PKW",
         "travel_flight": "Flug",
         "travel_train": "Zug",
-        "travel_bus": "Bus"
+        "travel_bus": "Bus",
+        "footer1": "Allgemeine Informationen:",
+        "footer2_item1": "Änderungen der Teilnehmer-Anzahl müssen unverzüglich bekanntgeben werden",
+        "footer2_item2": "Rezepturen/ Produkte für Schulungsmappen sind 5 Werktage im Voraus, ab 20 Stk. 10 Werktage im Voraus zu übermitteln",
+        "footer2_item3": "Die Teilnehmer-Liste ist vollständig ausgefüllt 10 Werktage vor Seminarbeginn zu übermitteln",
+        "footer2_item4": "Das vollständig ausgefüllte Seminarprogramm ist spätestens 2 Wochen vor Seminarbeginn zu übermitteln!",
+        "footer3_item1": "Alle Informationen und Änderungen sind an office@almi.at zu senden."
     },
     "ABSCHLUSS_BERICHT_LIST": {
         "final_reports_overview": "Übersicht Abschlussberichte",
@@ -265,7 +277,6 @@
         "delete_securely": "Sicher löschen",
         "user_name": "Benutzername",
         "email": "Email"
-
     },
     "BOOKING_REQUEST": {
         "bookingRequest": "Buchungsanforderung",
@@ -290,11 +301,26 @@
         "morning": "Morgens",
         "noon": "Mittags",
         "evening": "Abends",
-        "luggageQuantity": "Gepäck (Anzahl)",
+        "luggageQuantity": "Gepäck",
         "weightKg": "Gewicht (kg)",
         "locationAndDesiredArea": "Ort und gewünschte Lage",
         "pickupAndReturnLocation": "Ort Abholung und Rückgabe",
         "carRental": "Leihwagen Buchung",
-        "user_name": "Benutzername"
+        "user_name": "Benutzername",
+        "footer1": "Richtlinien für Reisen:",
+        "footer2_item1": "Reisen, deren Kosten von der Firma Almi übernommen werden, sind ausschließlich über das Front Office und mittels des vollständig ausgefüllten Formulars zu buchen!",
+        "footer2_item2": "Jede Reise muss vom Vorgesetzten bzw. der Geschäftsleitung freigegeben werden. Ausgenommen ist die Technologische Unterstützung, wenn diese bereits freigegeben wurde.",
+        "footer2_item3": "Flüge werden immer mit Umbuchungs- und/oder Stornierungsoptionen gebucht. Diese Information wird bei der Buchungsbestätigung übermittelt.",
+        "footer2_item4": "Bei einem Flugversäumnis bzw. bei Änderungen der Reiseroute ist umgehend das Front Office und der Vorgesetzte zu kontaktieren. Außerhalb der Bürozeiten ist sofort unser Reisebüro BTU oder die Fluggesellschaft direkt zu kontaktieren, um vor Ort die Umbuchung vorzunehmen! BTU (24h Hotline) +43 (0) 1 51651-999. Wird der Flug einfach nicht wahrgenommen (no show), verfällt der Flug und die gesamten Kosten sind zu tragen!",
+        "footer2_item5": "Hotelbuchungen erfolgen immer mit Stornooptionen, die Stornobedingungen werden bei der Buchungsbestätigung mitgeschickt. Bei Stornierung/Änderung ist sofort das Front Office oder außerhalb der Geschäftszeiten das Hotel direkt zu informieren.",
+        "footer2_item6": "Reiseinformationen sind selbständig einzuholen und dafür Sorge zu tragen, dass diese bis zur Abreise vorhanden und gültig sind, wie z.B. ein Visum, ein gültiger Reisepass sowie andere notwendige Dokumente oder etwaige notwendige Impfungen/Gesundheitsatteste für die Einreise.",
+        "footer2_item7": "Für Visumsanträge (CN, RU, …) bitte bei office@almi.at melden.",
+        "footer2_item8": "Übergepäck und Sitzplatzbuchungen sind vorab beim Front Office anzumelden und werden von diesem gebucht. Buchung und Bezahlung vor Ort am Flughafen sind nur mit vorheriger Freigabe seitens der Geschäftsleitung gestattet.",
+        "footer2_item9": "In jedem Fall sind bei Änderungen der Reiseroute sowohl das Front Office als auch der Vorgesetzte unverzüglich zu informieren. Außerhalb der Bürozeiten sind Änderungen selbständig und zeitgerecht vorzunehmen.",
+        "footer2_item10": "Kosten, die durch Nicht-Einhaltung der Reiserichtlinien entstehen, werden von der Firma nicht übernommen!",
+        "footer3_item1": "Sekretariat: (MO – DO 07:00 – 15:30; FR 07:00 – 13:30)",
+        "footer3_item2": "Fr. Arijanda Iska",
+        "footer3_item3": "E-mail: office@almi.at; Tel. +43 7221 733 99-294;",
+        "footer3_item4": "Vertretung: Fr. Emma Gartner, +43 7221 733 99-295"
     }
 }
