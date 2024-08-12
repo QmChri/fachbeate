@@ -160,7 +160,6 @@ export class VisitorRegistrationComponent implements OnInit {
 
   }
 
-
   release(department: string) {
     if (department === 'gl') {
       this.getNotification(2);

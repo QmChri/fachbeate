@@ -1,4 +1,5 @@
 export interface AdvancedFlightBooking {
+    id?: number;
     flightDate?: Date;
     flightFrom?: string;
     alternativeFlightFrom?: string;

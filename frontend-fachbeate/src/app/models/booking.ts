@@ -1,6 +1,7 @@
 import { AdvancedFlightBooking } from "./advanced-flight-booking";
 
 export interface Booking {
+  id?: number;
   dateOfCreation?: Date;
   showUser?: boolean;
   
@@ -20,7 +21,7 @@ export interface Booking {
   assumptionOfCosts?: string;
   
   flightBookingMultiLeg?: boolean;
-  flightBookings: AdvancedFlightBooking[];
+  flights: AdvancedFlightBooking[];
   
   flightBookingRoundTrip?: boolean;
   flightFrom?: string;

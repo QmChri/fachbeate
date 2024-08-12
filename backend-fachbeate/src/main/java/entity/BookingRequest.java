@@ -1,6 +1,7 @@
 package entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.transaction.Transactional;
@@ -31,6 +32,7 @@ public class BookingRequest extends PanacheEntity {
 
 
     public boolean flightBookingMultiLeg;
+
     @OneToMany
     public List<AdvancedFlightBooking> flights;
 
@@ -60,7 +62,6 @@ public class BookingRequest extends PanacheEntity {
 
     public BookingRequest() {    }
 
-    @Transactional(Transactional.TxType.REQUIRED)
     public void updateEntity(BookingRequest newEntity){
         this.showUser = newEntity.showUser;
 
@@ -80,10 +81,12 @@ public class BookingRequest extends PanacheEntity {
         this.assumptionOfCosts = newEntity.assumptionOfCosts;
 
         this.flightBookingMultiLeg = newEntity.flightBookingMultiLeg;
+
         this.flights = new ArrayList<>();
-        for(AdvancedFlightBooking flight: newEntity.flights){
-            this.flights.add(flight.persistOrUpdate());
+        for(AdvancedFlightBooking fl: newEntity.flights){
+            this.flights.add(fl.persistOrUpdate());
         }
+
         this.flightBookingRoundTrip = newEntity.flightBookingRoundTrip;
         this.flightFrom = newEntity.flightFrom;
         this.alternativeFlightFrom = newEntity.alternativeFlightFrom;
@@ -109,20 +112,23 @@ public class BookingRequest extends PanacheEntity {
         this.otherCarNotes = newEntity.otherCarNotes;
     }
 
-    @Transactional(Transactional.TxType.REQUIRED)
+    @Transactional
     public BookingRequest persistOrUpdate(){
-        if(this.id != null && this.id != 0){
-            BookingRequest persisted = BookingRequest.findById(this.id);
-            persisted.updateEntity(this);
-            return persisted;
-        }
+        if(this.id == null || this.id == 0) {
+            this.id = null;
 
-        this.id = null;
-        for (AdvancedFlightBooking fb : this.flights) {
-            fb.persistOrUpdate();
-        }
+           // if (this.flights != null) {
+                for (AdvancedFlightBooking fl : this.flights) {
+                    fl.persistOrUpdate();
+                }
+            //}
 
-        this.persist();
-        return this;
+            this.persist();
+            return this;
+        }else{
+            BookingRequest br = BookingRequest.findById(this.id);
+            br.updateEntity(this);
+            return br;
+        }
     }
 }

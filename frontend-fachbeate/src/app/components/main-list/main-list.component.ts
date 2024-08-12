@@ -253,11 +253,7 @@ export class MainListComponent implements OnInit {
     });
 
     this.http.getAllBookings(type!, fullname!).subscribe({
-      next: data => {
-
-
-        console.log(data);
-        
+      next: data => {        
         data.forEach(element => {
 
           this.listOfDisplayData = [...this.listOfDisplayData, {

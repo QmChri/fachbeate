@@ -7,7 +7,6 @@ import java.util.Date;
 
 @Entity
 public class AdvancedFlightBooking extends PanacheEntity {
-
     public Date flightDate;
     public String flightFrom;
     public String alternativeFlightFrom;

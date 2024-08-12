@@ -1,7 +1,9 @@
 <div class="header">
-    <div>
+    <div class="header">
         <h1 class="paddingSearch" style="margin-bottom: 0;">{{"BOOKING_REQUEST.bookingRequest" | translate}}
         </h1>
+        <h2 style="margin: 0%; padding-top: 0.1rem;" *ngIf="booking.id !== null && booking.id !== undefined">
+            : {{booking.id}}</h2>
     </div>
     <div>
         <button [disabled]="booking.releaseManagement !== null && booking.releaseManagement !== undefined"
@@ -41,15 +43,15 @@
                     </mat-form-field>
                     <mat-form-field class="equal-width">
                         <mat-label>{{"BOOKING_REQUEST.reasonForTrip" | translate}}</mat-label>
-                        <input  [(ngModel)]="booking.reasonForTrip" matInput>
+                        <input [(ngModel)]="booking.reasonForTrip" matInput>
                     </mat-form-field>
                 </div>
                 <div class="displayBySide">
                     <mat-form-field class="equal-width">
                         <mat-label>{{'CUSTOMER_REQUIREMENTS.from_to' | translate}}</mat-label>
                         <mat-date-range-input [rangePicker]="picker">
-                            <input  [(ngModel)]="booking.mainStartDate" required matStartDate placeholder="Start date">
-                            <input  [(ngModel)]="booking.mainEndDate" required matEndDate placeholder="End date">
+                            <input [(ngModel)]="booking.mainStartDate" required matStartDate placeholder="Start date">
+                            <input [(ngModel)]="booking.mainEndDate" required matEndDate placeholder="End date">
                         </mat-date-range-input>
                         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-date-range-picker #picker></mat-date-range-picker>
@@ -60,8 +62,7 @@
                     </mat-form-field>
                     <mat-form-field class="equal-width">
                         <mat-label>{{"BOOKING_REQUEST.costCoverage" | translate}}</mat-label>
-                        <mat-select name="costCoverage"
-                             [(ngModel)]="booking.assumptionOfCosts">
+                        <mat-select name="costCoverage" [(ngModel)]="booking.assumptionOfCosts">
                             @for (cC of costCoverages; track costCoverages) {
                             @if (cC == "almiGmbH" || cC == "almiSubsidiary") {
                             <mat-option [value]="cC">{{"BOOKING_REQUEST."+ cC|translate}}</mat-option>
@@ -90,13 +91,15 @@
         <div class="card">
             <div class="card-header text-white bg-danger">{{'VISITOR_REGRISTRATION.additional_requirements' |
                 translate}}</div>
-            <mat-button-toggle-group [(ngModel)]="buttonSelect" (change)="changeSelections($event, 0)" vertical multiple>
-                <mat-button-toggle [value]="1">{{'BOOKING_REQUEST.flightBookingMultiLeg' | translate}}</mat-button-toggle>
-                <mat-button-toggle [value]="2">{{'BOOKING_REQUEST.flightBookingRoundTrip' |
+            <mat-button-toggle-group [(ngModel)]="buttonSelect" (valueChange)="changeSelections()" vertical
+                multiple>
+                <mat-button-toggle value="1">{{'BOOKING_REQUEST.flightBookingMultiLeg' |
                     translate}}</mat-button-toggle>
-                <mat-button-toggle [value]="3">{{'BOOKING_REQUEST.trainTicketBooking' | translate}}</mat-button-toggle>
-                <mat-button-toggle [value]="4">{{'CUSTOMER_REQUIREMENTS.hotel_booking' | translate}}</mat-button-toggle>
-                <mat-button-toggle [value]="5">{{'BOOKING_REQUEST.carRental' | translate}}</mat-button-toggle>
+                <mat-button-toggle value="2">{{'BOOKING_REQUEST.flightBookingRoundTrip' |
+                    translate}}</mat-button-toggle>
+                <mat-button-toggle value="3">{{'BOOKING_REQUEST.trainTicketBooking' | translate}}</mat-button-toggle>
+                <mat-button-toggle value="4">{{'CUSTOMER_REQUIREMENTS.hotel_booking' | translate}}</mat-button-toggle>
+                <mat-button-toggle value="5">{{'BOOKING_REQUEST.carRental' | translate}}</mat-button-toggle>
             </mat-button-toggle-group>
         </div>
     </div>
@@ -104,7 +107,7 @@
 <div class="row">
     <div class="col-7 paddingBottom">
         <div class="row">
-            <div class="col-md-6 paddingBottom" *ngIf="buttonSelect.includes(2)">
+            <div class="col-md-6 paddingBottom" *ngIf="buttonSelect.includes('2')">
                 <div class="card">
                     <div class="card-header bg-danger text-white">{{'BOOKING_REQUEST.flightBookingRoundTrip' |
                         translate}}</div>
@@ -112,25 +115,25 @@
                         <div class="center-items">
                             <mat-form-field>
                                 <mat-label>{{'BOOKING_REQUEST.fromAirport' | translate}}</mat-label>
-                                <input  [(ngModel)]="booking.flightFrom" matInput>
+                                <input [(ngModel)]="booking.flightFrom" matInput>
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-label>{{'BOOKING_REQUEST.alternativeAirport' | translate}}</mat-label>
-                                <input  [(ngModel)]="booking.alternativeFlightFrom" matInput>
+                                <input [(ngModel)]="booking.alternativeFlightFrom" matInput>
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-label>{{'BOOKING_REQUEST.toAirport' | translate}}</mat-label>
-                                <input  [(ngModel)]="booking.flightTo" matInput>
+                                <input [(ngModel)]="booking.flightTo" matInput>
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-label>{{'BOOKING_REQUEST.alternativeAirport' | translate}}</mat-label>
-                                <input  [(ngModel)]="booking.alternativeFlightTo" matInput>
+                                <input [(ngModel)]="booking.alternativeFlightTo" matInput>
                             </mat-form-field>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 paddingBottom" *ngIf="buttonSelect.includes(3)">
+            <div class="col-md-6 paddingBottom" *ngIf="buttonSelect.includes('3')">
                 <div class="card">
                     <div class="card-header bg-danger text-white">{{'BOOKING_REQUEST.trainTicketBooking' | translate}}
                     </div>
@@ -138,25 +141,25 @@
                         <div class="center-items">
                             <mat-form-field>
                                 <mat-label>{{'BOOKING_REQUEST.fromTrainStation' | translate}}</mat-label>
-                                <input  [(ngModel)]="booking.trainFrom" matInput>
+                                <input [(ngModel)]="booking.trainFrom" matInput>
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-label>{{'BOOKING_REQUEST.alternativeTrainStation' | translate}}</mat-label>
-                                <input  [(ngModel)]="booking.alternativeTrainFrom" matInput>
+                                <input [(ngModel)]="booking.alternativeTrainFrom" matInput>
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-label>{{'BOOKING_REQUEST.toTrainStation' | translate}}</mat-label>
-                                <input  [(ngModel)]="booking.trainTo" matInput>
+                                <input [(ngModel)]="booking.trainTo" matInput>
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-label>{{'BOOKING_REQUEST.alternativeTrainStation' | translate}}</mat-label>
-                                <input  [(ngModel)]="booking.alternativeTrainTo" matInput>
+                                <input [(ngModel)]="booking.alternativeTrainTo" matInput>
                             </mat-form-field>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 paddingBottom" *ngIf="buttonSelect.includes(4)">
+            <div class="col-md-6 paddingBottom" *ngIf="buttonSelect.includes('4')">
                 <div class="card">
                     <div class="card-header bg-danger text-white">{{'CUSTOMER_REQUIREMENTS.hotel_booking' | translate}}
                     </div>
@@ -164,46 +167,46 @@
                         <div class="center-items">
                             <mat-form-field>
                                 <mat-label>{{'BOOKING_REQUEST.locationAndDesiredArea' | translate}}</mat-label>
-                                <input  [(ngModel)]="booking.hotelLocation" matInput>
+                                <input [(ngModel)]="booking.hotelLocation" matInput>
                             </mat-form-field>
                             <mat-form-field class="smallInputSpecial">
                                 <mat-label>{{'CUSTOMER_REQUIREMENTS.from_to' | translate}}</mat-label>
                                 <mat-date-range-input [rangePicker]="picker4">
-                                    <input  [(ngModel)]="booking.hotelFrom" matStartDate placeholder="Start date">
-                                    <input  [(ngModel)]="booking.hotelTo" matEndDate placeholder="End date">
+                                    <input [(ngModel)]="booking.hotelFrom" matStartDate placeholder="Start date">
+                                    <input [(ngModel)]="booking.hotelTo" matEndDate placeholder="End date">
                                 </mat-date-range-input>
                                 <mat-datepicker-toggle matIconSuffix [for]="picker4"></mat-datepicker-toggle>
                                 <mat-date-range-picker #picker4></mat-date-range-picker>
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-label>{{'SEMINAR_REGRISTRATION.other_notes_excursion' | translate}}</mat-label>
-                                <input  [(ngModel)]="booking.otherHotelNotes" type="text" matInput>
+                                <input [(ngModel)]="booking.otherHotelNotes" type="text" matInput>
                             </mat-form-field>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 paddingBottom" *ngIf="buttonSelect.includes(5)">
+            <div class="col-md-6 paddingBottom" *ngIf="buttonSelect.includes('5')">
                 <div class="card">
                     <div class="card-header bg-danger text-white">{{'BOOKING_REQUEST.carRental' | translate}}</div>
                     <div class="card-body">
                         <div class="center-items">
                             <mat-form-field>
                                 <mat-label>{{'BOOKING_REQUEST.pickupAndReturnLocation' | translate}}</mat-label>
-                                <input  [(ngModel)]="booking.carLocation" matInput>
+                                <input [(ngModel)]="booking.carLocation" matInput>
                             </mat-form-field>
                             <mat-form-field class="smallInputSpecial">
                                 <mat-label>{{'CUSTOMER_REQUIREMENTS.from_to' | translate}}</mat-label>
                                 <mat-date-range-input [rangePicker]="picker5">
-                                    <input  [(ngModel)]="booking.carFrom" matStartDate placeholder="Start date">
-                                    <input  [(ngModel)]="booking.carTo" matEndDate placeholder="End date">
+                                    <input [(ngModel)]="booking.carFrom" matStartDate placeholder="Start date">
+                                    <input [(ngModel)]="booking.carTo" matEndDate placeholder="End date">
                                 </mat-date-range-input>
                                 <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
                                 <mat-date-range-picker #picker5></mat-date-range-picker>
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-label>{{'VISITOR_REGRISTRATION.other_travel_requirements' | translate}}</mat-label>
-                                <input  [(ngModel)]="booking.otherCarNotes" matInput>
+                                <input [(ngModel)]="booking.otherCarNotes" matInput>
                             </mat-form-field>
                         </div>
                     </div>
@@ -212,11 +215,11 @@
         </div>
     </div>
     <div class="col-5 paddingBottom">
-        <div class="card paddingBottom" *ngIf="buttonSelect.includes(1)">
+        <div class="card paddingBottom" *ngIf="buttonSelect.includes('1')">
             <div class="card-header text-white bg-danger paddingSearch">{{'BOOKING_REQUEST.flightBookingMultiLeg' |
                 translate}} </div>
             <div class="card-body">
-                @for (flightBooking of booking.flightBookings; track flightBooking; let index = $index)
+                @for (flightBooking of booking.flights; track flightBooking; let index = $index)
                 {
                 <div class="displayBySide">
                     <div>
@@ -224,7 +227,7 @@
                     </div>
                     <mat-form-field>
                         <mat-label>{{ "DASHBOARD.from" | translate }}</mat-label>
-                        <input  [(ngModel)]="flightBooking.flightDate" matInput [matDatepicker]="picker3">
+                        <input [(ngModel)]="flightBooking.flightDate" matInput [matDatepicker]="picker3">
                         <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
                         <mat-datepicker #picker3></mat-datepicker>
                     </mat-form-field>
@@ -232,27 +235,27 @@
                 <div class="displayBySide">
                     <mat-form-field class="equal-width">
                         <mat-label>{{ 'BOOKING_REQUEST.fromAirport' | translate }}</mat-label>
-                        <input  [(ngModel)]="flightBooking.flightFrom" matInput>
+                        <input [(ngModel)]="flightBooking.flightFrom" matInput>
                     </mat-form-field>
                     <mat-form-field class="equal-width">
                         <mat-label>{{ 'BOOKING_REQUEST.alternativeAirport' | translate }}</mat-label>
-                        <input  [(ngModel)]="flightBooking.alternativeFlightFrom" matInput>
+                        <input [(ngModel)]="flightBooking.alternativeFlightFrom" matInput>
                     </mat-form-field>
                 </div>
                 <div class="displayBySide">
                     <mat-form-field class="equal-width">
                         <mat-label>{{ 'BOOKING_REQUEST.toAirport' | translate }}</mat-label>
-                        <input  [(ngModel)]="flightBooking.flightTo" matInput>
+                        <input [(ngModel)]="flightBooking.flightTo" matInput>
                     </mat-form-field>
                     <mat-form-field class="equal-width">
                         <mat-label>{{ 'BOOKING_REQUEST.alternativeAirport' | translate }}</mat-label>
-                        <input  [(ngModel)]="flightBooking.alternativeFlightTo" matInput>
+                        <input [(ngModel)]="flightBooking.alternativeFlightTo" matInput>
                     </mat-form-field>
                 </div>
                 <div class="displayBySide">
                     <mat-form-field class="equal-width">
                         <mat-label>{{ "BOOKING_REQUEST.preferredTime" | translate }}</mat-label>
-                        <mat-select  [(ngModel)]="flightBooking.preferredTime">
+                        <mat-select [(ngModel)]="flightBooking.preferredTime">
                             <mat-option [value]="'morning'">{{ "BOOKING_REQUEST.morning" | translate }}</mat-option>
                             <mat-option [value]="'noon'">{{ "BOOKING_REQUEST.noon" | translate }}</mat-option>
                             <mat-option [value]="'evening'">{{ "BOOKING_REQUEST.evening" | translate }}</mat-option>
@@ -262,16 +265,16 @@
                 <div class="displayBySide">
                     <mat-form-field class="equal-width">
                         <mat-label>{{ 'BOOKING_REQUEST.luggageQuantity' | translate }}</mat-label>
-                        <input  [(ngModel)]="flightBooking.luggageCount" min="0" type="number" matInput>
+                        <input [(ngModel)]="flightBooking.luggageCount" min="0" type="number" matInput>
                     </mat-form-field>
                     <mat-form-field class="equal-width">
                         <mat-label>{{ 'BOOKING_REQUEST.weightKg' | translate }}</mat-label>
-                        <input  [(ngModel)]="flightBooking.luggageWeight" min="0" type="number" matInput>
+                        <input [(ngModel)]="flightBooking.luggageWeight" min="0" type="number" matInput>
                     </mat-form-field>
                 </div>
                 <mat-form-field class="equal-width">
                     <mat-label>{{ 'SEMINAR_REGRISTRATION.other_notes_excursion' | translate }}</mat-label>
-                    <input  [(ngModel)]="flightBooking.otherNotes" type="text" matInput>
+                    <input [(ngModel)]="flightBooking.otherNotes" type="text" matInput>
                 </mat-form-field>
                 }
                 <div class="header">

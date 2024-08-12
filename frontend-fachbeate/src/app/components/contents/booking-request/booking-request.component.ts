@@ -20,12 +20,11 @@ export class BookingRequestComponent implements OnInit {
     'almiGmbH',
     'almiSubsidiary'
   ];
-  buttonSelect: number[] = []
+  buttonSelect: String[] = []
   bookingControl = new FormControl<BookingRequestComponent | null>(null, Validators.required);
   freigegeben: boolean = true;
-  bookings: Booking[] = [];
   booking: Booking = {
-    flightBookings: []
+    flights: []
   };
 
 
@@ -45,12 +44,12 @@ export class BookingRequestComponent implements OnInit {
               this.booking.mainEndDate = this.convertToDate(this.booking.mainEndDate);
 
               this.buttonSelect = [
-                (data.hotelBooking) ? 4 : -1,
-                (data.flightBookingMultiLeg) ? 1 : -1,
-                (data.flightBookingRoundTrip) ? 2 : -1,
-                (data.trainTicketBooking) ? 3 : -1,
-                (data.carRental) ? 5 : -1
-              ].filter(p => p != -1);
+                (data.hotelBooking) ? "4" : "",
+                (data.flightBookingMultiLeg) ? "1" : "",
+                (data.flightBookingRoundTrip) ? "2" : "",
+                (data.trainTicketBooking) ? "3" : "",
+                (data.carRental) ? "5" : ""
+              ].filter(p => p != "");
             }
           },
           error: err => {
@@ -62,10 +61,10 @@ export class BookingRequestComponent implements OnInit {
   }
 
   checkRequired(): boolean {
-    if (!this.booking.flightBookings) {
+    /*if (!this.booking.flights) {
       this.getNotification(4)
       return false;
-    }
+    }*/
     return true;
   }
 
@@ -137,29 +136,31 @@ export class BookingRequestComponent implements OnInit {
 
   postBooking() {
     if (this.checkRequired()) {
-      this.getNotification(1);
-      this.booking.showUser = true;
-
-      this.booking.dateOfCreation = new Date();
-      if (this.booking.creator === null || this.booking.creator === undefined) {
+      if (this.booking.id === null || this.booking.id === undefined || this.booking.id === 0) {
+        this.booking.dateOfCreation = new Date();
         this.booking.creator = this.roleService.getUserName();
       }
+      this.booking.lastEditor = this.roleService.getUserName();
+
+      this.getNotification(1);
+      this.booking.showUser = true;
 
       (this.booking.mainStartDate !== null && this.booking.mainStartDate !== undefined) ? this.booking.mainStartDate!.setHours(5) : "";
       (this.booking.mainEndDate !== null && this.booking.mainEndDate !== undefined) ? this.booking.mainEndDate!.setHours(5) : "";
       this.booking.lastEditor = this.booking.lastEditor;
+      console.log(this.booking);
 
       this.http.postBookingRequest(this.booking).subscribe({
         next: data => {
           this.booking = data;
 
           this.buttonSelect = [
-            (data.hotelBooking) ? 4 : -1,
-            (data.flightBookingMultiLeg) ? 1 : -1,
-            (data.flightBookingRoundTrip) ? 2 : -1,
-            (data.trainTicketBooking) ? 3 : -1,
-            (data.carRental) ? 5 : -1
-          ].filter(p => p != -1);
+            (data.hotelBooking) ? "4" : "",
+            (data.flightBookingMultiLeg) ? "1" : "",
+            (data.flightBookingRoundTrip) ? "2" : "",
+            (data.trainTicketBooking) ? "3" : "",
+            (data.carRental) ? "5" : ""
+          ].filter(p => p != "");
         },
         error: err => {
           console.log(err);
@@ -168,31 +169,41 @@ export class BookingRequestComponent implements OnInit {
     }
   }
 
-  changeSelections(event: any, section: number) {
-    this.buttonSelect = (section === 0) ? this.buttonSelect.filter(number => Number(number) >= 6 && Number(number) <= 7) : this.buttonSelect.filter(number => Number(number) >= 1 && Number(number) <= 5);
-    this.buttonSelect = [...this.buttonSelect, ...event.value]
+  //Function for changing the booking selection
+  changeSelections() {
+    this.booking.flightBookingMultiLeg = this.buttonSelect.includes("1");
+    this.booking.flightBookingRoundTrip = this.buttonSelect.includes("2");
+    this.booking.trainTicketBooking = this.buttonSelect.includes("3");
+    this.booking.hotelBooking = this.buttonSelect.includes("4");
+    this.booking.carRental = this.buttonSelect.includes("5");
 
-    this.booking.flightBookingMultiLeg = this.buttonSelect.includes(1);
-    this.booking.flightBookingRoundTrip = this.buttonSelect.includes(2);
-    this.booking.trainTicketBooking = this.buttonSelect.includes(3);
-    this.booking.hotelBooking = this.buttonSelect.includes(4);
-    this.booking.carRental = this.buttonSelect.includes(5);
 
-    if (this.booking.flightBookings === null || this.booking.flightBookingMultiLeg === true || this.booking.flightBookings.length === 0) {
+    if (this.booking.flightBookingMultiLeg && this.booking.flights.length === 0) {
       this.addTab();
     }
+/*
+    if (this.booking.flightBookingMultiLeg) {
+      if(this.booking.flights === null || this.booking.flights === undefined){
+        this.booking.flights = []
+      }
+
+      if(this.booking.flights.length === 0){
+        this.addTab();
+      }
+    }*/
   }
 
   addTab() {
-    if (this.booking.flightBookings === null || this.booking.flightBookings === undefined) {
-      this.booking.flightBookings = []
-    }
-    this.booking.flightBookings = [...this.booking.flightBookings, {}]
+    /*
+    if (this.booking.flights === null || this.booking.flights === undefined) {
+      this.booking.flights = []
+    }*/
+    this.booking.flights = [...this.booking.flights, {}]
   }
 
   deleteLast() {
-    if (this.booking.flightBookings.length != 1)
-      this.booking.flightBookings.pop();
+    if (this.booking.flights.length > 1)
+      this.booking.flights.pop();
   }
 
   addToList(addItem: string) {
