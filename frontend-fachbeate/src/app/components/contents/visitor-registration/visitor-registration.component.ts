@@ -161,12 +161,12 @@ export class VisitorRegistrationComponent implements OnInit {
   }
 
   release(department: string) {
-    if (department === 'gl') {
+    if (department === 'gl' && this.checkRequired()) {
       this.getNotification(2);
       this.inputVisitRegistration.releaseManagement = new Date();
       this.inputVisitRegistration.releaserManagement = this.roleService.getUserName();
       this.postVisitorRegistration();
-    } else {
+    } else if (department === 'al' && this.checkRequired()) {
       this.getNotification(3);
       this.inputVisitRegistration.releaseSupervisor = new Date();
       this.inputVisitRegistration.releaserSupervisor = this.roleService.getUserName()
@@ -363,7 +363,6 @@ export class VisitorRegistrationComponent implements OnInit {
 
   checkRequired(): boolean {
     var checks: boolean[] = [false, false, false]
-
     var requriements: string[] = [
       (this.inputVisitRegistration.name === null || this.inputVisitRegistration.name === undefined || this.inputVisitRegistration.name === "") ? "1/VISITOR_REGRISTRATION.name" : "",
       (this.inputVisitRegistration.inputReason === null || this.inputVisitRegistration.inputReason === undefined || this.inputVisitRegistration.inputReason === "") ? "1/DASHBOARD.reason" : "",
@@ -380,18 +379,13 @@ export class VisitorRegistrationComponent implements OnInit {
       (this.inputVisitRegistration.stayToDate === null || this.inputVisitRegistration.stayToDate === undefined) ? "3/DASHBOARD.to" : "",
     ];
 
-
     checks[0] = (requriements.filter(firsts => firsts.split("/")[0] === "1").length === 6)
     checks[1] = (requriements.filter(firsts => firsts.split("/")[0] === "2").length === 4)
     checks[2] = (requriements.filter(firsts => firsts.split("/")[0] === "3").length === 3)
 
-
-
-
     requriements = requriements.filter(element => {
       return (!checks[0] && element.split("/")[0] === "1") || (!checks[1] && element.split("/")[0] === "2") || (!checks[2] && element.split("/")[0] === "3") || (checks[0] && checks[1] && checks[2])
     }).map(element => element.split("/")[1]);
-
 
     if (requriements.length !== 0) {
       this.translate.get(['STANDARD.please_fill_required_fields', ...requriements.map(element => element)]).subscribe(translations => {
@@ -400,7 +394,6 @@ export class VisitorRegistrationComponent implements OnInit {
         this.notificationService.createBasicNotification(4, message, anotherMessage, 'topRight');
       });
     }
-
     return requriements.length === 0;
   }
 

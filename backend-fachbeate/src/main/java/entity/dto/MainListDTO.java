@@ -51,8 +51,8 @@ public class MainListDTO {
         this.statusAL= (element.releaseManagement!=null) ? "AL Freigegeben " : "AL Nicht-Freigegeben";
         this.technologist= "<Leer>";
         this.representative= "<Leer>";
-        this.fromDate= (element.mainStartDate != null) ? element.mainStartDate.toString() : "";
-        this.toDate= (element.mainEndDate != null) ? element.mainEndDate.toString() : "";
+        this.fromDate= (element.mainStartDate != null) ? element.mainStartDate.toString() : "<Leer>";
+        this.toDate= (element.mainEndDate != null) ? element.mainEndDate.toString() : "<Leer>";
         this.customer= "<Leer>";
         this.finalReport= "<Leer>";
         this.type= 3;

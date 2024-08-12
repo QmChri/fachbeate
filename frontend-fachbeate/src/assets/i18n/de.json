@@ -71,7 +71,8 @@
         "filter1": "Seminar A.",
         "filter2": "Fachberater A.",
         "filter3": "Buchungs A.",
-        "calendar_change": "Kalender Wechsel"
+        "calendar_change": "Kalender Wechsel",
+        "email1" : "Emails wurden versendet"
     },
     "DASHBOARD": {
         "advisor_schedule_overview": "Terminübersicht Fachberater",

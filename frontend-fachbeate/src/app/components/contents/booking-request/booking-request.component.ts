@@ -61,10 +61,7 @@ export class BookingRequestComponent implements OnInit {
   }
 
   checkRequired(): boolean {
-    /*if (!this.booking.flights) {
-      this.getNotification(4)
-      return false;
-    }*/
+    //TODO
     return true;
   }
 
@@ -169,7 +166,6 @@ export class BookingRequestComponent implements OnInit {
     }
   }
 
-  //Function for changing the booking selection
   changeSelections() {
     this.booking.flightBookingMultiLeg = this.buttonSelect.includes("1");
     this.booking.flightBookingRoundTrip = this.buttonSelect.includes("2");
@@ -181,23 +177,9 @@ export class BookingRequestComponent implements OnInit {
     if (this.booking.flightBookingMultiLeg && this.booking.flights.length === 0) {
       this.addTab();
     }
-/*
-    if (this.booking.flightBookingMultiLeg) {
-      if(this.booking.flights === null || this.booking.flights === undefined){
-        this.booking.flights = []
-      }
-
-      if(this.booking.flights.length === 0){
-        this.addTab();
-      }
-    }*/
   }
 
   addTab() {
-    /*
-    if (this.booking.flights === null || this.booking.flights === undefined) {
-      this.booking.flights = []
-    }*/
     this.booking.flights = [...this.booking.flights, {}]
   }
 
