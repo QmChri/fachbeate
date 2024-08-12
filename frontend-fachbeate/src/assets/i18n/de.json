@@ -11,7 +11,7 @@
         "new-re": "Neuer Vertreter",
         "new-de": "Neuer Händler",
         "lan-sel": "Sprach Auswahl",
-        "bookingRequest": "Buchungsanforderung",
+        "bookingRequest": "Reiseanforderung",
         "dashboard": "Dashboard"
     },
     "STANDARD": {
@@ -279,8 +279,8 @@
         "email": "Email"
     },
     "BOOKING_REQUEST": {
-        "bookingRequest": "Buchungsanforderung",
-        "businessTripBookingRequest": "Buchungsanforderung für Geschäftsreise",
+        "bookingRequest": "Reiseanforderung",
+        "businessTripBookingRequest": "Reiseanforderung für Geschäftsreise",
         "booking": "Buchung",
         "employeeNameAndCompany": "Name Mitarbeiter + Firma",
         "reasonForTrip": "Grund Reise",

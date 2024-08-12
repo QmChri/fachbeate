@@ -253,9 +253,8 @@ export class AbschlussBerichtComponent implements OnInit {
     this.inputFinalReport.representative = this.representative.find(elemnt => elemnt.id === $event);
   }
 
-  /*
   beforeUpload = (file: NzUploadFile): boolean => {
-    const icCorrectFileType = file.type === 'application/pdf' || file.type === 'image/png' || file.type === 'image/jpg'|| file.type === 'image/jpeg' || file.type === 'image/heif'; 
+    const icCorrectFileType = file.type === 'application/pdf' || file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/jpeg' || file.type === 'image/heif';
     if (!icCorrectFileType) {
       this.msg.error('Nur PDF/PNG/JPG/HEIF sind erlaubt!');
       return false;
@@ -273,5 +272,5 @@ export class AbschlussBerichtComponent implements OnInit {
   handleChange(info: { file: NzUploadFile, fileList: NzUploadFile[] }): void {
     const fileList = info.fileList.slice(-10);
     this.fileList = fileList;
-  }*/
+  }
 }

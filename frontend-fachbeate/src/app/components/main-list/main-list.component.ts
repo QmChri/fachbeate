@@ -183,6 +183,9 @@ export class MainListComponent implements OnInit {
         case '0':
           typeText = 'Besuch';
           break;
+        case '3':
+          typeText = 'Reiseanforderung';
+          break;
         default:
           typeText = element.type!.toString();
       }
@@ -253,7 +256,7 @@ export class MainListComponent implements OnInit {
     });
 
     this.http.getAllBookings(type!, fullname!).subscribe({
-      next: data => {        
+      next: data => {
         data.forEach(element => {
 
           this.listOfDisplayData = [...this.listOfDisplayData, {
@@ -357,7 +360,7 @@ export class MainListComponent implements OnInit {
         this.router.navigate(['/customer-requirements', id.split("_")[1]]);
       } else if (type === 2) {
         this.router.navigate(['/seminar-registration', id.split("_")[1]]);
-      }else if (type === 3) {
+      } else if (type === 3) {
         this.router.navigate(['/booking-request', id.split("_")[1]]);
       }
     }
