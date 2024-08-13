@@ -1,0 +1,58 @@
+<div *ngIf="data === 1">
+  <span mat-dialog-title style=" text-decoration: underline;">{{"VISITOR_REGRISTRATION.footer1" | translate}}</span>
+</div>
+<div *ngIf="data === 2">
+  <span mat-dialog-title style=" text-decoration: underline;">{{"SEMINAR_REGRISTRATION.footer1" | translate}}</span>
+</div>
+<div *ngIf="data === 3">
+  <span mat-dialog-title style=" text-decoration: underline;">{{"BOOKING_REQUEST.footer1" | translate}}</span>
+</div>
+
+<mat-dialog-content class="mat-typography" style="color: black;">
+  <div *ngIf="data === 1">
+    <small>
+      <li>{{'VISITOR_REGRISTRATION.footer2_item1' | translate}}
+      <li>{{'VISITOR_REGRISTRATION.footer2_item2' | translate}}
+      <li>{{'VISITOR_REGRISTRATION.footer2_item3' | translate}}
+      <li>{{'VISITOR_REGRISTRATION.footer2_item4' | translate}}
+        <br>
+        <br>
+        <strong> {{'VISITOR_REGRISTRATION.footer3_item1' | translate}}<br></strong>
+    </small>
+  </div>
+  <div *ngIf="data === 2">
+    <small>
+      <li>{{'SEMINAR_REGRISTRATION.footer2_item1' | translate}}
+      <li>{{'SEMINAR_REGRISTRATION.footer2_item2' | translate}}
+      <li>{{'SEMINAR_REGRISTRATION.footer2_item3' | translate}}
+      <li>{{'SEMINAR_REGRISTRATION.footer2_item4' | translate}}
+        <br>
+        <br>
+        <strong> {{'SEMINAR_REGRISTRATION.footer3_item1' | translate}}<br></strong>
+    </small>
+  </div>
+  <div *ngIf="data === 3">
+    <small>
+      <li>{{'BOOKING_REQUEST.footer2_item1' | translate}}
+      <li>{{'BOOKING_REQUEST.footer2_item2' | translate}}
+      <li>{{'BOOKING_REQUEST.footer2_item3' | translate}}
+      <li>{{'BOOKING_REQUEST.footer2_item4' | translate}}
+      <li>{{'BOOKING_REQUEST.footer2_item5' | translate}}
+      <li>{{'BOOKING_REQUEST.footer2_item6' | translate}}
+      <li>{{'BOOKING_REQUEST.footer2_item7' | translate}}
+      <li>{{'BOOKING_REQUEST.footer2_item8' | translate}}
+      <li>{{'BOOKING_REQUEST.footer2_item9' | translate}}
+      <li>{{'BOOKING_REQUEST.footer2_item10' | translate}}
+        <br>
+        <br>
+        <strong>{{'BOOKING_REQUEST.footer3_item1' | translate}}</strong><br>
+        {{'BOOKING_REQUEST.footer3_item2' | translate}}<br>
+        {{'BOOKING_REQUEST.footer3_item3' | translate}}<br>
+        {{'BOOKING_REQUEST.footer3_item4' | translate}}<br>
+    </small>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Zurück</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Einverstanden</button>
+</mat-dialog-actions>

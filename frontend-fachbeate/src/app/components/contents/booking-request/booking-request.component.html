@@ -1,7 +1,9 @@
 <div class="header">
-    <div>
+    <div class="header">
         <h1 class="paddingSearch" style="margin-bottom: 0;">{{"BOOKING_REQUEST.bookingRequest" | translate}}
         </h1>
+        <h2 style="margin: 0%; padding-top: 0.1rem;" *ngIf="booking.id !== null && booking.id !== undefined">
+            : {{booking.id}}</h2>
     </div>
     <div>
         <button [disabled]="booking.releaseManagement !== null && booking.releaseManagement !== undefined"
@@ -23,64 +25,76 @@
     </div>
     <button class="btn btn-success"
         *ngIf="(booking.creator === undefined && roleService.checkPermission([3,4,6])) || roleService.checkPermission([1,2,5,7])"
-        (click)="postBooking()">{{'CUSTOMER_REQUIREMENTS.send_form' |
+        (click)="checkPopup()">{{'CUSTOMER_REQUIREMENTS.send_form' |
         translate}}</button>
 </div>
 <hr>
 
 <div class="row">
     <div class="col-md-6 paddingBottom">
-        <div class="card">
+        <div class="card" style="min-height: 18.2rem;">
             <div class="card-header  text-white bg-danger">{{"BOOKING_REQUEST.businessTripBookingRequest" | translate}}
             </div>
-            <div class="card-body" style="min-height: 15.3rem;">
-                <div class="center-items">
-                    <div class="displayBySide">
-                        <mat-form-field class="smallInputSide">
-                            <mat-label>{{"BOOKING_REQUEST.employeeNameAndCompany" | translate}}</mat-label>
-                            <input matInput>
-                        </mat-form-field>
-                        <mat-form-field class="smallInputSide">
-                            <mat-label>{{"BOOKING_REQUEST.reasonForTrip" | translate}}</mat-label>
-                            <input matInput>
-                        </mat-form-field>
-                    </div>
-                    <div class="displayBySide">
-                        <mat-form-field class="flightBookingInput">
-                            <mat-label>{{'CUSTOMER_REQUIREMENTS.from_to' | translate}}</mat-label>
-                            <mat-date-range-input [rangePicker]="picker">
-                                <input required matStartDate placeholder="Start date">
-                                <input required matEndDate placeholder="End date">
-                            </mat-date-range-input>
-                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                            <mat-date-range-picker #picker></mat-date-range-picker>
-                            @if (bookingControl.hasError('required')) {
-                            <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
-                            }
-                        </mat-form-field>
-                        <mat-form-field class="flightBookingInput">
-                            <mat-label>{{"BOOKING_REQUEST.costCoverage"|translate}}</mat-label>
-                            <mat-select>
-                                <mat-option>--</mat-option>
-                                <mat-option [value]="true">{{"BOOKING_REQUEST.almiGmbH"|translate}}</mat-option>
-                                <mat-option [value]="true">{{"BOOKING_REQUEST.almiSubsidiary"|translate}}</mat-option>
-                            </mat-select>
-                            @if (bookingControl.hasError('required')) {
-                            <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
-                            }
-                        </mat-form-field>
-                    </div>
+            <div class="card-body">
+                <div class="displayBySide">
+                    <mat-form-field class="equal-width">
+                        <mat-label>{{"BOOKING_REQUEST.employeeNameAndCompany" | translate}}</mat-label>
+                        <input [(ngModel)]="booking.employeeNameAndCompany" matInput>
+                    </mat-form-field>
+                    <mat-form-field class="equal-width">
+                        <mat-label>{{"BOOKING_REQUEST.reasonForTrip" | translate}}</mat-label>
+                        <input [(ngModel)]="booking.reasonForTrip" matInput>
+                    </mat-form-field>
                 </div>
+                <div class="displayBySide">
+                    <mat-form-field class="equal-width">
+                        <mat-label>{{'CUSTOMER_REQUIREMENTS.from_to' | translate}}</mat-label>
+                        <mat-date-range-input [rangePicker]="picker">
+                            <input [(ngModel)]="booking.mainStartDate" required matStartDate placeholder="Start date">
+                            <input [(ngModel)]="booking.mainEndDate" required matEndDate placeholder="End date">
+                        </mat-date-range-input>
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-date-range-picker #picker></mat-date-range-picker>
+                        <!-- Fehleranzeige, wenn ein erforderliches Feld nicht ausgefüllt ist -->
+                        <mat-error *ngIf="bookingControl.hasError('required')">
+                            {{"STANDARD.please_select" | translate}}
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="equal-width">
+                        <mat-label>{{"BOOKING_REQUEST.costCoverage" | translate}}</mat-label>
+                        <mat-select name="costCoverage" [(ngModel)]="booking.assumptionOfCosts">
+                            @for (cC of costCoverages; track costCoverages) {
+                            @if (cC == "almiGmbH" || cC == "almiSubsidiary") {
+                            <mat-option [value]="cC">{{"BOOKING_REQUEST."+ cC|translate}}</mat-option>
+                            }
+                            @else {
+                            <mat-option [value]="cC">{{cC}}</mat-option>
+                            }
+                            }
+                            <div class="paddings">
+                                <input style="width: 8rem;" type="text" [(ngModel)]="addItem" name="addItem">
+                                <button type="button" *ngIf="addItem" mat-button (click)="addToList(addItem)"><i
+                                        class="fa fa-plus" aria-hidden="true"> </i>
+                                </button>
+                            </div>
+                        </mat-select>
+                        @if (bookingControl.hasError('required')) {
+                        <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+
             </div>
         </div>
     </div>
     <div class="col-md-6 paddingBottom">
-        <div class="card" style="min-height: 15.4rem;">
+        <div class="card">
             <div class="card-header text-white bg-danger">{{'VISITOR_REGRISTRATION.additional_requirements' |
                 translate}}</div>
-            <mat-button-toggle-group [(ngModel)]="buttonSelect"  vertical
+            <mat-button-toggle-group [(ngModel)]="buttonSelect" (valueChange)="changeSelections()" vertical
                 multiple>
-                <mat-button-toggle value="1">{{'BOOKING_REQUEST.flightBookingMultiLeg' | translate}}</mat-button-toggle>
+                <mat-button-toggle value="1">{{'BOOKING_REQUEST.flightBookingMultiLeg' |
+                    translate}}</mat-button-toggle>
                 <mat-button-toggle value="2">{{'BOOKING_REQUEST.flightBookingRoundTrip' |
                     translate}}</mat-button-toggle>
                 <mat-button-toggle value="3">{{'BOOKING_REQUEST.trainTicketBooking' | translate}}</mat-button-toggle>
@@ -101,19 +115,19 @@
                         <div class="center-items">
                             <mat-form-field>
                                 <mat-label>{{'BOOKING_REQUEST.fromAirport' | translate}}</mat-label>
-                                <input matInput>
+                                <input [(ngModel)]="booking.flightFrom" matInput>
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-label>{{'BOOKING_REQUEST.alternativeAirport' | translate}}</mat-label>
-                                <input matInput>
+                                <input [(ngModel)]="booking.alternativeFlightFrom" matInput>
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-label>{{'BOOKING_REQUEST.toAirport' | translate}}</mat-label>
-                                <input matInput>
+                                <input [(ngModel)]="booking.flightTo" matInput>
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-label>{{'BOOKING_REQUEST.alternativeAirport' | translate}}</mat-label>
-                                <input matInput>
+                                <input [(ngModel)]="booking.alternativeFlightTo" matInput>
                             </mat-form-field>
                         </div>
                     </div>
@@ -127,19 +141,19 @@
                         <div class="center-items">
                             <mat-form-field>
                                 <mat-label>{{'BOOKING_REQUEST.fromTrainStation' | translate}}</mat-label>
-                                <input matInput>
+                                <input [(ngModel)]="booking.trainFrom" matInput>
                             </mat-form-field>
                             <mat-form-field>
-                                <mat-label>{{'BOOKING_REQUEST.alternativeAirport' | translate}}</mat-label>
-                                <input matInput>
+                                <mat-label>{{'BOOKING_REQUEST.alternativeTrainStation' | translate}}</mat-label>
+                                <input [(ngModel)]="booking.alternativeTrainFrom" matInput>
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-label>{{'BOOKING_REQUEST.toTrainStation' | translate}}</mat-label>
-                                <input matInput>
+                                <input [(ngModel)]="booking.trainTo" matInput>
                             </mat-form-field>
                             <mat-form-field>
-                                <mat-label>{{'BOOKING_REQUEST.alternativeAirport' | translate}}</mat-label>
-                                <input matInput>
+                                <mat-label>{{'BOOKING_REQUEST.alternativeTrainStation' | translate}}</mat-label>
+                                <input [(ngModel)]="booking.alternativeTrainTo" matInput>
                             </mat-form-field>
                         </div>
                     </div>
@@ -153,20 +167,20 @@
                         <div class="center-items">
                             <mat-form-field>
                                 <mat-label>{{'BOOKING_REQUEST.locationAndDesiredArea' | translate}}</mat-label>
-                                <input matInput>
+                                <input [(ngModel)]="booking.hotelLocation" matInput>
                             </mat-form-field>
                             <mat-form-field class="smallInputSpecial">
                                 <mat-label>{{'CUSTOMER_REQUIREMENTS.from_to' | translate}}</mat-label>
                                 <mat-date-range-input [rangePicker]="picker4">
-                                    <input matStartDate placeholder="Start date">
-                                    <input matEndDate placeholder="End date">
+                                    <input [(ngModel)]="booking.hotelFrom" matStartDate placeholder="Start date">
+                                    <input [(ngModel)]="booking.hotelTo" matEndDate placeholder="End date">
                                 </mat-date-range-input>
                                 <mat-datepicker-toggle matIconSuffix [for]="picker4"></mat-datepicker-toggle>
                                 <mat-date-range-picker #picker4></mat-date-range-picker>
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-label>{{'SEMINAR_REGRISTRATION.other_notes_excursion' | translate}}</mat-label>
-                                <input type="text" matInput>
+                                <input [(ngModel)]="booking.otherHotelNotes" type="text" matInput>
                             </mat-form-field>
                         </div>
                     </div>
@@ -179,20 +193,20 @@
                         <div class="center-items">
                             <mat-form-field>
                                 <mat-label>{{'BOOKING_REQUEST.pickupAndReturnLocation' | translate}}</mat-label>
-                                <input matInput>
+                                <input [(ngModel)]="booking.carLocation" matInput>
                             </mat-form-field>
                             <mat-form-field class="smallInputSpecial">
                                 <mat-label>{{'CUSTOMER_REQUIREMENTS.from_to' | translate}}</mat-label>
                                 <mat-date-range-input [rangePicker]="picker5">
-                                    <input matStartDate placeholder="Start date">
-                                    <input matEndDate placeholder="End date">
+                                    <input [(ngModel)]="booking.carFrom" matStartDate placeholder="Start date">
+                                    <input [(ngModel)]="booking.carTo" matEndDate placeholder="End date">
                                 </mat-date-range-input>
                                 <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
                                 <mat-date-range-picker #picker5></mat-date-range-picker>
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-label>{{'VISITOR_REGRISTRATION.other_travel_requirements' | translate}}</mat-label>
-                                <input matInput>
+                                <input [(ngModel)]="booking.otherCarNotes" matInput>
                             </mat-form-field>
                         </div>
                     </div>
@@ -205,69 +219,62 @@
             <div class="card-header text-white bg-danger paddingSearch">{{'BOOKING_REQUEST.flightBookingMultiLeg' |
                 translate}} </div>
             <div class="card-body">
-                @for (flightBooking of booking.flightBookings; track flightBooking; let index = $index)
+                @for (flightBooking of booking.flights; track flightBooking; let index = $index)
                 {
                 <div class="displayBySide">
-                    <div class="flightBookingInput">
-                        <h2>{{index+1}}. {{'BOOKING_REQUEST.flight' | translate}}</h2>
+                    <div>
+                        <h2>{{ index + 1 }}. {{ 'BOOKING_REQUEST.flight' | translate }}</h2>
                     </div>
-                    <mat-form-field class="flightBookingInput">
-                        <mat-label>{{"DASHBOARD.from" | translate}}</mat-label>
-                        <input matInput [matDatepicker]="picker3">
+                    <mat-form-field>
+                        <mat-label>{{ "DASHBOARD.from" | translate }}</mat-label>
+                        <input [(ngModel)]="flightBooking.flightDate" matInput [matDatepicker]="picker3">
                         <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
                         <mat-datepicker #picker3></mat-datepicker>
                     </mat-form-field>
                 </div>
-                <div class="center-items">
-                    <div class="displayBySide">
-                        <mat-form-field class="flightBookingInput">
-                            <mat-label>{{'BOOKING_REQUEST.fromAirport' | translate}}</mat-label>
-                            <input matInput>
-                        </mat-form-field>
-                        <mat-form-field class="flightBookingInput">
-                            <mat-label>{{'BOOKING_REQUEST.alternativeAirport' | translate}}</mat-label>
-                            <input matInput>
-                        </mat-form-field>
-                    </div>
-                    <div class="displayBySide">
-                        <mat-form-field class="flightBookingInput">
-                            <mat-label>{{'BOOKING_REQUEST.toAirport' | translate}}</mat-label>
-                            <input matInput>
-                        </mat-form-field>
-                        <mat-form-field class="flightBookingInput">
-                            <mat-label>{{'BOOKING_REQUEST.alternativeAirport' | translate}}</mat-label>
-                            <input matInput>
-                        </mat-form-field>
-                    </div>
+                <div class="displayBySide">
+                    <mat-form-field class="equal-width">
+                        <mat-label>{{ 'BOOKING_REQUEST.fromAirport' | translate }}</mat-label>
+                        <input [(ngModel)]="flightBooking.flightFrom" matInput>
+                    </mat-form-field>
+                    <mat-form-field class="equal-width">
+                        <mat-label>{{ 'BOOKING_REQUEST.alternativeAirport' | translate }}</mat-label>
+                        <input [(ngModel)]="flightBooking.alternativeFlightFrom" matInput>
+                    </mat-form-field>
                 </div>
-                <div class="center-items">
-                    <div class="displayBySide">
-                        <mat-form-field class="flightBookingInput">
-                            <mat-label>{{"BOOKING_REQUEST.preferredTime"|translate}}</mat-label>
-                            <mat-select>
-                                <mat-option [value]="1">{{"BOOKING_REQUEST.morning"|translate}}</mat-option>
-                                <mat-option [value]="2">{{"BOOKING_REQUEST.noon"|translate}}</mat-option>
-                                <mat-option [value]="3">{{"BOOKING_REQUEST.evening"|translate}}</mat-option>
-                            </mat-select>
-                            @if (bookingControl.hasError('required')) {
-                            <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
-                            }
-                        </mat-form-field>
-                        <div class="displayBySide flightBookingInput">
-                            <mat-form-field class="TIME">
-                                <mat-label>{{'BOOKING_REQUEST.luggageQuantity' | translate}}</mat-label>
-                                <input min="0" type="number" matInput>
-                            </mat-form-field>
-                            <mat-form-field class="TIME">
-                                <mat-label>{{'BOOKING_REQUEST.weightKg' | translate}}</mat-label>
-                                <input min="0" type="number" matInput>
-                            </mat-form-field>
-                        </div>
-                    </div>
+                <div class="displayBySide">
+                    <mat-form-field class="equal-width">
+                        <mat-label>{{ 'BOOKING_REQUEST.toAirport' | translate }}</mat-label>
+                        <input [(ngModel)]="flightBooking.flightTo" matInput>
+                    </mat-form-field>
+                    <mat-form-field class="equal-width">
+                        <mat-label>{{ 'BOOKING_REQUEST.alternativeAirport' | translate }}</mat-label>
+                        <input [(ngModel)]="flightBooking.alternativeFlightTo" matInput>
+                    </mat-form-field>
                 </div>
-                <mat-form-field>
-                    <mat-label>{{'SEMINAR_REGRISTRATION.other_notes_excursion' | translate}}</mat-label>
-                    <input type="text" matInput>
+                <div class="displayBySide">
+                    <mat-form-field class="equal-width">
+                        <mat-label>{{ "BOOKING_REQUEST.preferredTime" | translate }}</mat-label>
+                        <mat-select [(ngModel)]="flightBooking.preferredTime">
+                            <mat-option [value]="'morning'">{{ "BOOKING_REQUEST.morning" | translate }}</mat-option>
+                            <mat-option [value]="'noon'">{{ "BOOKING_REQUEST.noon" | translate }}</mat-option>
+                            <mat-option [value]="'evening'">{{ "BOOKING_REQUEST.evening" | translate }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="displayBySide">
+                    <mat-form-field class="equal-width">
+                        <mat-label>{{ 'BOOKING_REQUEST.luggageQuantity' | translate }}</mat-label>
+                        <input [(ngModel)]="flightBooking.luggageCount" min="0" type="number" matInput>
+                    </mat-form-field>
+                    <mat-form-field class="equal-width">
+                        <mat-label>{{ 'BOOKING_REQUEST.weightKg' | translate }}</mat-label>
+                        <input [(ngModel)]="flightBooking.luggageWeight" min="0" type="number" matInput>
+                    </mat-form-field>
+                </div>
+                <mat-form-field class="equal-width">
+                    <mat-label>{{ 'SEMINAR_REGRISTRATION.other_notes_excursion' | translate }}</mat-label>
+                    <input [(ngModel)]="flightBooking.otherNotes" type="text" matInput>
                 </mat-form-field>
                 }
                 <div class="header">
@@ -282,45 +289,3 @@
         </div>
     </div>
 </div>
-
-
-
-<!--
-<hr>
-<p>
-    Richtlinien für Reisen:
-    <br>
-    <small>
-        • Reisen für deren Kosten die Fa. Almi aufkommt, sind ausschließlich über das Front Office und mittels des
-        vollständig
-        ausgefüllten Formulars zu buchen!
-        • Jede Reise ist vom Vorgesetzten bzw. der GL freizugeben. Ausgenommen Technologisch Unterstützung, wenn dieser
-        bereits freigegeben wurde.
-        • Flüge werden immer mit Umbuchung und/oder Stornierungsoption gebucht. Diese Information wird bei der
-        Buchungsbestätigung übermittelt.
-        • Vor einem Flug Versäumnis bzw. bei Änderungen der Reiseroute ist umgehend das Front Office und der Vorgesetzte
-        zu kontaktieren. Außerhalb der Bürozeiten ist sofort unser Reisebüro BTU oder die Fluggesellschaft direkt zu
-        kontaktieren, um vor Ort die Umbuchung vorzunehmen!
-        BTU (24h Hotline) +43 (0) 1 51651-999
-        Wird der Flug einfach nicht wahrgenommen (no Show) verfällt der Flug und die gesamten Kosten sind zu tragen!
-        • Hotel Buchungen erfolgen immer mit Stornooptionen, die Stornobedingungen werden bei der Buchungsbestätigung
-        mitgeschickt.
-        Bei Stornierung/Änderung ist sofort das Front Office oder außerhalb der Geschäftszeiten das Hotel direkt zu
-        informieren.
-        • Reiseinformationen sind selbständig einzuholen und dafür Sorge zu tragen, dass diese bis zur Abreise
-        vorhanden/
-        gültig sind. Wie z.B. ein Visum, gültiger Reisepass, sowie andere notwendige Dokumente oder etwaige notwendige
-        Impfungen/ Gesundheitsatteste für die Einreise.
-        • Für Visums Anträge (CN, RU, …) bitte bei <a href="mailto:office&#64;almi.at">office&#64;almi.at</a> melden.
-        • Übergepäck und Sitzplatzbuchungen sind vorab beim Front Office anzumelden und werden von diesem gebucht.
-        Buchung und Bezahlung vor Ort am Flughafen ist nur mit vorheriger Freigabe seitens GL gestattet.
-        • In jedem Fall sind bei Änderungen der Reiseroute sowohl das Front Office, wie auch der Vorgesetzte
-        unverzüglich zu
-        informieren. Außerhalb der Bürozeiten sind Änderungen selbstständig und zeitgerecht vorzunehmen.
-        Kosten die durch nicht Einhaltung der Reiserichtlinien entstehen werden Firmenseitig nicht übernommen!
-        Front Office: (MO – DO 07:00 – 15:30; FR 07:00 – 13:30)
-        Fr. Arijanda Iska
-        E-mail: <a href="mailto:office&#64;almi.at">office&#64;almi.at</a>; Tel. +43 7221 733 99-294;
-        Vertretung: Fr. Emma Gartner, +43 7221 733 99-295
-    </small>
-</p> -->

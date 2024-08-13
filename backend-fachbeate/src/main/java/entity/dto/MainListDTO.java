@@ -23,7 +23,6 @@ public class MainListDTO {
     public String calendarColor;
 
     public MainListDTO mapCustomerToMainListDTO(CustomerRequirement element){
-
         this.id=  "F_" + element.id;
         this.name= element.company.name;
         this.dateOfCreation = (element.dateOfCreation != null) ? element.dateOfCreation.toString() : "";
@@ -39,6 +38,26 @@ public class MainListDTO {
         this.type= 1;
         this.visible= element.showUser;
         this.calendarColor=element.requestedTechnologist.color;
+
+        return this;
+    }
+
+    public MainListDTO mapBookingToMainListDTO(BookingRequest element){
+        this.id=  "R_" + element.id;
+        this.name= element.employeeNameAndCompany;
+        this.dateOfCreation = (element.dateOfCreation != null) ? element.dateOfCreation.toString() : "";
+        this.customerOrCompany= element.creator;
+        this.statusGL= (element.releaseSupervisor!=null) ? "GL Freigegeben " : "GL Nicht-Freigegeben";
+        this.statusAL= (element.releaseManagement!=null) ? "AL Freigegeben " : "AL Nicht-Freigegeben";
+        this.technologist= "<Leer>";
+        this.representative= "<Leer>";
+        this.fromDate= (element.mainStartDate != null) ? element.mainStartDate.toString() : "<Leer>";
+        this.toDate= (element.mainEndDate != null) ? element.mainEndDate.toString() : "<Leer>";
+        this.customer= "<Leer>";
+        this.finalReport= "<Leer>";
+        this.type= 3;
+        this.visible= element.showUser;
+        this.calendarColor= "#808080";
 
         return this;
     }

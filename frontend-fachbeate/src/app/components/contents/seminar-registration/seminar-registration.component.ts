@@ -13,6 +13,7 @@ import { Company } from '../../../models/company';
 import { Representative } from '../../../models/representative';
 import { TranslateService } from '@ngx-translate/core';
 import { TechDateDTO } from '../../../models/tech-date-dto';
+import { CheckDialogComponent } from '../check-dialog/check-dialog.component';
 
 @Component({
   selector: 'app-seminar-registration',
@@ -89,9 +90,9 @@ export class SeminarRegistrationComponent implements OnInit {
     }
 
     const reqTechDate = this.technologists.filter(
-      element => this.inputWorkshop.requestedTechnologist!.some(tech =>tech.id === element.technologist.id)
+      element => this.inputWorkshop.requestedTechnologist!.some(tech => tech.id === element.technologist.id)
     );
-  
+
     if (!reqTechDate) {
       return true; // Kein passender Technologe gefunden, daher alle Daten deaktivieren
     }
@@ -99,14 +100,14 @@ export class SeminarRegistrationComponent implements OnInit {
     var isDateValid = reqTechDate.some(req => req.appointments.some(
       element => this.isDateBetween(new Date(current.setHours(7)), new Date(element[0].toString()), new Date(element[1].toString()))
     ));
-  
+
     return !isDateValid; // Datum deaktivieren, wenn es nicht gültig ist
   }
 
   isDateBetween(date: Date, startDate: Date, endDate: Date): boolean {
     return date > new Date(startDate.setHours(5)) && date < new Date(endDate.setHours(9));
   }
-  
+
   checkRequired(): boolean {
     var requiredFields: string[] = [
       (this.inputWorkshop.company === null || this.inputWorkshop.company === undefined) ? "assigned_company" : "",
@@ -250,11 +251,27 @@ export class SeminarRegistrationComponent implements OnInit {
     this.inputWorkshop.diploma = this.buttonSelect.includes(7);
   }
 
+  checkPopup() {
+    if (this.checkRequired()) {
+      const dialogRef = this.dialog.open(CheckDialogComponent, {
+        width: '50%',
+        data: 2
+      });
+
+      dialogRef.afterClosed().subscribe(
+        data => {
+          if (data === true) {
+            this.postWorkshopRequest();
+          }
+        });
+    }
+  }
+
   postWorkshopRequest() {
     if (this.checkRequired()) {
       this.getNotification(1);
       this.inputWorkshop.showUser = true;
-      this.inputWorkshop.reason = "Seminaranmeldung"
+      //this.inputWorkshop.reason = "Seminaranmeldung"
       this.inputWorkshop.dateOfCreation = new Date();
       if (this.inputWorkshop.creator === null || this.inputWorkshop.creator === undefined) {
         this.inputWorkshop.creator = this.roleService.getUserName();
@@ -319,13 +336,5 @@ export class SeminarRegistrationComponent implements OnInit {
 
   convertToDate(date: any): Date | undefined {
     return (date !== null && date !== undefined) ? new Date(date.toString()) : undefined;
-  }
-  listOfItem = ['jack', 'lucy'];
-  index = 0;
-  addItem2(input: HTMLInputElement): void {
-    const value = input.value;
-    if (this.listOfItem.indexOf(value) === -1) {
-      this.listOfItem = [...this.listOfItem, input.value || `New item ${this.index++}`];
-    }
   }
 }

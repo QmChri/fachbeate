@@ -200,6 +200,11 @@ public class AppointmentResource {
             vr.showUser = !vr.showUser;
             return Response.ok().build();
         }
+        else if(type == 3){
+            BookingRequest vr = BookingRequest.findById(id);
+            vr.showUser = !vr.showUser;
+            return Response.ok().build();
+        }
 
         return Response.notModified().build();
     }

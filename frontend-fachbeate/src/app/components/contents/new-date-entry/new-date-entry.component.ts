@@ -18,12 +18,13 @@ export class NewDateEntryComponent implements OnInit {
   dateFormat = 'dd.MM.yy'
   addItem: string = "";
   reasonSelect: number = 0;
-  reasons: string[] = ['Urlaub',
-    'Zeitausgleich',
-    'Vorläufige Kundenreservierung',
-    'Messe',
-    'HomeOffice',
-    'Haus Oftering'];
+  reasons: string[] = [
+    'holiday',
+    'ausgleich',
+    'reservation',
+    'fair',
+    'homeF',
+    'houseO'];
 
   inputDate: TechnologistAppointment = {};
   technologists: TechDateDTO[] = [];
