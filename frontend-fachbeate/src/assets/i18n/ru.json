@@ -159,7 +159,15 @@
         "recipe_optimization": "Рецептуры",
         "product_development": "Запрос продукта/образца",
         "todo": "Сроки исполнения",
-        "follow_Visit": "Запрос клиентом повторного посещения "
+        "header_upload": "Хранение файлов",
+        "follow_Visit": "Запрос клиентом повторного посещения ",
+        "files_allowed": "Недопустимый тип файла!",
+        "files_allowed_2": "Допустимые: PDF/PNG/JPG/HEIF",
+        "files_count": "Достигнуто максимальное количество файлов!",
+        "files_count_2": "Допустимо: 5 файлов",
+        "files_size": "Файл слишком большой!",
+        "files_size_2": "Максимальный размер файла: 2MB",
+        "files_uploaded": "Файлы загружены"
     },
     "VISITOR_REGRISTRATION": {
         "visitor_registration": "Заявка на посещение",

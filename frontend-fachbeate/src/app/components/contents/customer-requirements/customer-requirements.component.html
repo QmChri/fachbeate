@@ -237,8 +237,6 @@
                     <nz-range-picker [hidden]="editId !== data.editId" [nzFormat]="dateFormat"
                         [(ngModel)]="data.dateSelect" nzSize="small"></nz-range-picker>
                 </td>
-
-
                 <td>
                     <mat-select multiple placeholder="{{'STANDARD.please_select'|translate}} "
                         [ngModel]="data.selection" (selectionChange)="selChange($event, data.editId)">

@@ -31,16 +31,16 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 1rem; 
+    gap: 1rem;
 }
 
 .equal-width {
     flex: 1;
-    min-width: 5rem; 
+    min-width: 5rem;
 }
 
 .mat-form-field {
-    width: 100%; 
+    width: 100%;
 }
 
 
@@ -51,7 +51,7 @@
         justify-content: space-between;
         flex-wrap: nowrap;
 
-        .flightBookingInput{
+        .flightBookingInput {
             min-width: 15rem;
             max-width: 15rem;
         }
@@ -68,13 +68,23 @@
     padding-bottom: 1rem;
 }
 
-.TIME {
-    max-width: 7rem;
-}
-
 .paddings {
     display: flex;
     justify-content: space-around;
     padding-left: 8px;
     padding-right: 8px;
+}
+
+.custom-upload {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+:host ::ng-deep .ant-upload-list-picture-card-container {
+    display: inline-block;
+    width: 95px;
+    height: 95px;
+    margin: 0 8px 8px 0;
+    vertical-align: top;
 }

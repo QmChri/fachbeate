@@ -6,7 +6,6 @@ import { HttpService } from '../../../services/http.service';
 import { Article } from '../../../models/article';
 import { NzNotificationPlacement, NzNotificationService } from 'ng-zorro-antd/notification';
 import { RoleService } from '../../../services/role.service';
-import { Technologist } from '../../../models/technologist';
 import { Representative } from '../../../models/representative';
 import { FormControl, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
@@ -253,23 +252,67 @@ export class AbschlussBerichtComponent implements OnInit {
     this.inputFinalReport.representative = this.representative.find(elemnt => elemnt.id === $event);
   }
 
+  getNotification(type: number) {
+    switch (type) {
+      case 0: { //Files hochgeladen
+        this.translate.get('ABSCHLUSSBERICHT.files_uploaded').subscribe((translatedMessage: string) => {
+          this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
+        });
+        break;
+      }
+      case 1: { //Files nicht erlaubt
+        this.translate.get(['ABSCHLUSSBERICHT.files_allowed', 'ABSCHLUSSBERICHT.files_allowed_2'])
+          .subscribe((translations: { [key: string]: string }) => {
+            const message1 = translations['ABSCHLUSSBERICHT.files_allowed'];
+            const message2 = translations['ABSCHLUSSBERICHT.files_allowed_2'];
+            this.notificationService.createBasicNotification(4, message1, message2, 'topRight');
+          });
+        break;
+      }
+      case 2: { // maximal 5 Files
+        this.translate.get(['ABSCHLUSSBERICHT.files_count', 'ABSCHLUSSBERICHT.files_count_2'])
+          .subscribe((translations: { [key: string]: string }) => {
+            const message1 = translations['ABSCHLUSSBERICHT.files_count'];
+            const message2 = translations['ABSCHLUSSBERICHT.files_count_2'];
+            this.notificationService.createBasicNotification(4, message1, message2, 'topRight');
+          });
+        break;
+      }
+      case 3: { //maximal 2 MB per file
+        this.translate.get(['ABSCHLUSSBERICHT.files_size', 'ABSCHLUSSBERICHT.files_size_2'])
+          .subscribe((translations: { [key: string]: string }) => {
+            const message1 = translations['ABSCHLUSSBERICHT.files_size'];
+            const message2 = translations['ABSCHLUSSBERICHT.files_size_2'];
+            this.notificationService.createBasicNotification(4, message1, message2, 'topRight');
+          });
+        break;
+      }
+    }
+  }
+
   beforeUpload = (file: NzUploadFile): boolean => {
     const icCorrectFileType = file.type === 'application/pdf' || file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/jpeg' || file.type === 'image/heif';
+    const isLt2M = file.size! / 1024 / 1024 < 1;
+
     if (!icCorrectFileType) {
-      this.msg.error('Nur PDF/PNG/JPG/HEIF sind erlaubt!');
+      this.getNotification(1);
       return false;
     }
-    if (this.fileList.length >= 10) {
-      this.msg.error('Nur 10 Files erlaubt!');
+    if (this.fileList.length >= 5) {
+      this.getNotification(2);
+      return false;
+    }
+    if (!isLt2M) {
+      this.getNotification(3);
       return false;
     }
     // Datei zur Liste hinzufügen
     this.fileList = [...this.fileList, file];
+    this.getNotification(0);
     return true;
   };
 
-
-  handleChange(info: { file: NzUploadFile, fileList: NzUploadFile[] }): void {
+  handleChange(info: { fileList: NzUploadFile[] }): void {
     const fileList = info.fileList.slice(-10);
     this.fileList = fileList;
   }

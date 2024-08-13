@@ -72,7 +72,7 @@
         "filter2": "Fachberater A.",
         "filter3": "Buchungs A.",
         "calendar_change": "Kalender Wechsel",
-        "email1" : "Emails wurden versendet"
+        "email1": "Emails wurden versendet"
     },
     "DASHBOARD": {
         "advisor_schedule_overview": "Terminübersicht Fachberater",
@@ -165,7 +165,15 @@
         "recipe_optimization": "Rezeptur Optimierung",
         "product_development": "Produkt/Muster Anforderung",
         "todo": "Zu erledigen",
-        "follow_Visit": "Folgebesuch erwünscht"
+        "follow_Visit": "Folgebesuch erwünscht",
+        "header_upload": "Datei Ablage",
+        "files_allowed": "Unerlaubter File Type!",
+        "files_allowed_2": "Erlaubt: PDF/PNG/JPG/HEIF",
+        "files_count": "Maximale Anzahl an Files erreicht!",
+        "files_count_2": "Erlaubt: 5 Files",
+        "files_size": "Datei zu groß!",
+        "files_size_2": "Maximale Dategröße: 2MB",
+        "files_uploaded": "Dateien wurden hochgeladen"
     },
     "VISITOR_REGRISTRATION": {
         "visitor_registration": "Besucheranmeldung",
