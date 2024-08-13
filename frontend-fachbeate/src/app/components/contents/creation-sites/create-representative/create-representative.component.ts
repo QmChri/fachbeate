@@ -3,6 +3,7 @@ import { HttpService } from '../../../../services/http.service';
 import { Representative } from '../../../../models/representative';
 import { NotificationService } from '../../../../services/notification.service';
 import { TranslateService } from '@ngx-translate/core';
+import { log } from '../../../../app.module';
 
 @Component({
   selector: 'app-create-representative',
@@ -32,7 +33,7 @@ export class CreateRepresentativeComponent implements OnInit {
         this.representativeList = data
       },
       error: err => {
-        console.log(err);
+        log("create-representative: ", err)
       }
     })
   }
@@ -71,8 +72,7 @@ export class CreateRepresentativeComponent implements OnInit {
             this.loadRepresentatives();
           },
           error: err => {
-            console.log(err);
-
+            log("create-representative: ", err)
           }
         });
     }

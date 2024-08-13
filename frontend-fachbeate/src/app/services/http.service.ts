@@ -14,6 +14,7 @@ import { environment } from "../../environments/environment";
 import { MainListDTO } from '../models/main-list-dto';
 import { TechDateDTO } from '../models/tech-date-dto';
 import { Booking } from '../models/booking';
+import { Support } from '../models/support';
 
 const API_URL = environment.backendApi
 
@@ -177,5 +178,9 @@ export class HttpService {
 
   getBookingById(id: number) {
     return this.http.get<Booking>(API_URL + "booking/id", { params: { id: id } });
+  }
+
+  postSupport(support: Support): Observable<Support> {
+    return this.http.post<Support>(API_URL + "support", support);
   }
 }

@@ -13,6 +13,7 @@ import { NotificationService } from '../../../services/notification.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { TechDateDTO } from '../../../models/tech-date-dto';
+import { log } from '../../../app.module';
 
 @Component({
   selector: 'app-abschluss-bericht',
@@ -120,7 +121,9 @@ export class AbschlussBerichtComponent implements OnInit {
   getAllArticles() {
     this.http.getAllArticles().subscribe({
       next: data => this.existingArticles = data,
-      error: err => console.log(err)
+      error: err => {
+        log("abschluss-bericht: ", err)
+      }
     })
   }
 
@@ -201,7 +204,7 @@ export class AbschlussBerichtComponent implements OnInit {
         this.technologists = data;
       },
       error: err => {
-        console.log(err);
+        log("abschluss-bericht: ", err)
       }
     });
   }
@@ -212,7 +215,7 @@ export class AbschlussBerichtComponent implements OnInit {
         this.representative = data;
       },
       error: err => {
-        console.log(err);
+        log("abschluss-bericht: ", err)
       }
     });
   }

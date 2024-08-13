@@ -12,6 +12,7 @@ import { CreateDealerComponent } from './components/contents/creation-sites/crea
 import { CreateRepresentativeComponent } from './components/contents/creation-sites/create-representative/create-representative.component';
 import { authGuard } from './services/auth.service';
 import { BookingRequestComponent } from './components/contents/booking-request/booking-request.component';
+import { BugReportComponent } from './components/contents/bug-report/bug-report.component';
 
 const routes: Routes = [
   // path: (e.g. "http://.../dashboard",) the authGuard checks the roles that are specified in the data
@@ -32,6 +33,7 @@ const routes: Routes = [
   { path: 'booking-request', component: BookingRequestComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 3, 4, 5, 7] } },
   { path: 'booking-request/:id', component: BookingRequestComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 3, 4, 5, 7] } },
   { path: 'mainList', component: MainListComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 3, 4, 5, 6, 7] } },
+  { path: 'bug-report', component: BugReportComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 3, 4, 5, 6, 7] } },
   { path: '**', redirectTo: 'mainList', pathMatch: 'full' },
 ];
 

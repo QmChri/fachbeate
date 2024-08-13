@@ -3,6 +3,7 @@ import { Technologist } from '../../../../models/technologist';
 import { HttpService } from '../../../../services/http.service';
 import { NotificationService } from '../../../../services/notification.service';
 import { TranslateService } from '@ngx-translate/core';
+import { log } from '../../../../app.module';
 
 @Component({
   selector: 'app-create-technologist',
@@ -30,9 +31,9 @@ export class CreateTechnologistComponent implements OnInit {
   getRandomColor() {
     this.inputTechnologist.color = '#';
     for (var i = 0; i < 6; i++) {
-        this.inputTechnologist.color += this.letters[Math.floor(Math.random() * 16)];
+      this.inputTechnologist.color += this.letters[Math.floor(Math.random() * 16)];
     }
-}
+  }
 
   loadTechnologists() {
     this.http.getAllTechnologist().subscribe({
@@ -40,7 +41,7 @@ export class CreateTechnologistComponent implements OnInit {
         this.technologistList = data
       },
       error: err => {
-        console.log(err);
+        log("create-technologist: ", err)
       }
     })
   }
@@ -72,8 +73,7 @@ export class CreateTechnologistComponent implements OnInit {
           this.loadTechnologists();
         },
         error: err => {
-          console.log(err);
-
+          log("create-technologist: ", err)
         }
       });
     }

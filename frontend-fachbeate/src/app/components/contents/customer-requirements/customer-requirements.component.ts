@@ -5,7 +5,6 @@ import { FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { AbschlussBerichtComponent } from '../abschluss-bericht/abschluss-bericht.component';
 import { HttpService } from '../../../services/http.service';
-import { Technologist } from '../../../models/technologist';
 import { FinalReport } from '../../../models/final-report';
 import { CustomerVisit } from '../../../models/customer-visit';
 import { ActivatedRoute } from '@angular/router';
@@ -15,8 +14,8 @@ import { Company } from '../../../models/company';
 import { NotificationService } from '../../../services/notification.service';
 import { RoleService } from '../../../services/role.service';
 import { TranslateService } from '@ngx-translate/core';
-import { formatRange } from '@fullcalendar/core';
 import { TechDateDTO } from '../../../models/tech-date-dto';
+import { log } from '../../../app.module';
 
 @Component({
   selector: 'app-customer-requirements',
@@ -99,7 +98,7 @@ export class CustomerRequirementsComponent implements OnInit {
             }
           },
           error: err => {
-            console.log(err);
+            log("customer-requirements: ", err)
           }
         });
         //endregion
@@ -212,7 +211,8 @@ export class CustomerRequirementsComponent implements OnInit {
       if (this.inputCustomerRequirement.creator === undefined) {
         this.inputCustomerRequirement.creator = this.roleService.getUserName();
       }
-      this.inputCustomerRequirement.lastEditor = this.roleService.getUserName(); this.http.postCustomerRequirement(this.inputCustomerRequirement).subscribe({
+      this.inputCustomerRequirement.lastEditor = this.roleService.getUserName();
+      this.http.postCustomerRequirement(this.inputCustomerRequirement).subscribe({
         next: data => {
           this.inputCustomerRequirement = data;
           this.inputCustomerRequirement.customerVisits.forEach((element, index) => {
@@ -233,7 +233,7 @@ export class CustomerRequirementsComponent implements OnInit {
           });
         },
         error: err => {
-          console.log(err);
+          log("customer-requirements: ", err)
         }
       });
     }
@@ -251,8 +251,8 @@ export class CustomerRequirementsComponent implements OnInit {
       (this.inputCustomerRequirement.customerVisits.filter(element => (element.dateSelect !== undefined && element.dateSelect!.length !== 2)).length !== 0) ? "assigned_dateOfVisit" : "",
       (this.inputCustomerRequirement.customerVisits.filter(element => element.presentationOfNewProducts === false && element.existingProducts === false && element.recipeOptimization === false && element.sampleProduction === false && element.training === false).length !== 0) ? "assigned_reason" : "",
       (this.inputCustomerRequirement.customerVisits.filter(element => element.productionAmount === null || element.productionAmount === undefined || element.productionAmount === "").length !== 0) ? "assigned_productionAmount" : "",
-      (this.inputCustomerRequirement.startDate !== undefined && this.inputCustomerRequirement.endDate !== undefined && this.inputCustomerRequirement.requestedTechnologist !== undefined)?
-      (this.isDateRangeValid(this.inputCustomerRequirement.startDate!, this.inputCustomerRequirement.endDate!,this.technologists.find(tech => tech.technologist.id === this.inputCustomerRequirement.requestedTechnologist!.id)!.appointments) === false)?"assigned_date":"":""
+      (this.inputCustomerRequirement.startDate !== undefined && this.inputCustomerRequirement.endDate !== undefined && this.inputCustomerRequirement.requestedTechnologist !== undefined) ?
+        (this.isDateRangeValid(this.inputCustomerRequirement.startDate!, this.inputCustomerRequirement.endDate!, this.technologists.find(tech => tech.technologist.id === this.inputCustomerRequirement.requestedTechnologist!.id)!.appointments) === false) ? "assigned_date" : "" : ""
     ].filter(element => element !== "");
 
     if (requiredFields.length !== 0) {
@@ -267,8 +267,6 @@ export class CustomerRequirementsComponent implements OnInit {
   }
 
   isOverlapping(newFrom: Date, newTo: Date, existingFrom: Date, existingTo: Date): boolean {
-
-
     return newFrom < existingTo && newTo > existingFrom;
   }
 
@@ -333,13 +331,12 @@ export class CustomerRequirementsComponent implements OnInit {
 
 
   getTechnologist() {
-
     this.http.getActiveWithDates().subscribe({
       next: data => {
         this.technologists = data;
       },
       error: err => {
-        console.log(err);
+        log("customer-requirements: ", err)
       }
     });
   }
@@ -350,7 +347,7 @@ export class CustomerRequirementsComponent implements OnInit {
         this.representative = data;
       },
       error: err => {
-        console.log(err);
+        log("customer-requirements: ", err)
       }
     });
   }
@@ -365,7 +362,7 @@ export class CustomerRequirementsComponent implements OnInit {
         }
       },
       error: err => {
-        console.log(err);
+        log("customer-requirements: ", err)
       }
     });
   }

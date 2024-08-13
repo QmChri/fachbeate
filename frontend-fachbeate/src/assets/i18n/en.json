@@ -11,7 +11,8 @@
         "new-re": "New Representative",
         "new-de": "New Dealer",
         "lan-sel": "Language Selection",
-        "bookingRequest": "Booking Request"
+        "bookingRequest": "Booking Request",
+        "support": "Support"
     },
     "STANDARD": {
         "please_select": "Please select",
@@ -302,5 +303,12 @@
         "footer3_item2": "Ms. Arijanda Iska",
         "footer3_item3": "E-mail: office@almi.at; Tel. +43 7221 733 99-294;",
         "footer3_item4": "Alternate: Ms. Emma Gartner, +43 7221 733 99-295"
+    },
+    "SUPPORT": {
+        "header": "Report an Issue/Bug",
+        "subHeader": "Brief Description",
+        "of": "Affected Interface",
+        "message": "e.g.: An error occurred while saving a consultant request.",
+        "send": "Send"
     }
 }

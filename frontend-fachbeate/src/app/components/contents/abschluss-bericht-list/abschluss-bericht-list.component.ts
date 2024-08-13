@@ -10,6 +10,8 @@ import { FinalReport } from '../../../models/final-report';
 import { MatDialog } from '@angular/material/dialog';
 import { AbschlussBerichtComponent } from '../abschluss-bericht/abschluss-bericht.component';
 import { Company } from '../../../models/company';
+import { LoggerService } from '../../../services/logger.service';
+import { log } from '../../../app.module';
 
 @Component({
   selector: 'abschluss-bericht-list',
@@ -112,9 +114,10 @@ export class AbschlussBerichtListComponent {
     }
   ];
 
-  constructor(private router: Router, public translate: TranslateService,
+  constructor(public translate: TranslateService,
     private http: HttpService, private notificationService: NotificationService,
-    private roleService: RoleService, private dialog: MatDialog) { }
+    private roleService: RoleService, private dialog: MatDialog, private LOG: LoggerService) {
+  }
 
   ngOnInit(): void {
     //this.tmpinitData();
@@ -214,7 +217,7 @@ export class AbschlussBerichtListComponent {
         this.getNzFilters()
       },
       error: err => {
-        console.log(err);
+        log("abschluss-bericht-list: ", err)
       }
     })
     //endregion
@@ -225,7 +228,7 @@ export class AbschlussBerichtListComponent {
     this.http.getAllTechnologist().subscribe({
       next: data => { this.technologistList = data },
       error: err => {
-        console.log(err);
+        log("abschluss-bericht-list: ", err)
       }
     })
   }
@@ -238,7 +241,7 @@ export class AbschlussBerichtListComponent {
       maxHeight: '90vh',
       data: this.finalReports.find(element => element.id === dataItem.id)
     });
-    
+
     // endregion
 
     dialogRef.afterClosed().subscribe(

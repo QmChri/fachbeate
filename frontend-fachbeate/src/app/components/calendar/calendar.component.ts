@@ -12,6 +12,7 @@ import { Company } from '../../models/company';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from '../../services/notification.service';
 import multiMonthPlugin from '@fullcalendar/multimonth'
+import { log } from '../../app.module';
 
 @Component({
   selector: 'calendar',
@@ -188,10 +189,10 @@ export class CalendarComponent implements OnInit {
           className: 'diagonal-stripes'
         }));
 
-        
+
       },
       error: err => {
-        console.log(err);
+        log("calendar: ", err)
       }
     });
 
@@ -226,7 +227,7 @@ export class CalendarComponent implements OnInit {
 
       },
       error: err => {
-        console.log(err);
+        log("calendar: ", err)
       }
     });
 
@@ -261,7 +262,7 @@ export class CalendarComponent implements OnInit {
 
       },
       error: err => {
-        console.log(err);
+        log("calendar: ", err)
       }
     })
 
@@ -294,7 +295,7 @@ export class CalendarComponent implements OnInit {
         }));
       },
       error: err => {
-        console.log(err);
+        log("calendar: ", err)
       }
     })
 
@@ -321,7 +322,7 @@ export class CalendarComponent implements OnInit {
           this.openDialog(data);
         },
         error: err => {
-          console.log(err);
+          log("calendar: ", err)
         }
       });
     }

@@ -9,6 +9,7 @@ import { Booking } from '../../../models/booking';
 import { CheckDialogComponent } from '../check-dialog/check-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
+import { log } from '../../../app.module';
 
 @Component({
   selector: 'app-booking-request',
@@ -55,12 +56,13 @@ export class BookingRequestComponent implements OnInit {
             }
           },
           error: err => {
-            console.log(err);
+            log("booking-request: ", err)
           }
         });
       }
     });
   }
+
 
   checkRequired(): boolean {
     //TODO
@@ -195,7 +197,7 @@ export class BookingRequestComponent implements OnInit {
           ].filter(p => p != "");
         },
         error: err => {
-          console.log(err);
+          log("booking-request: ", err)
         }
       })
     }

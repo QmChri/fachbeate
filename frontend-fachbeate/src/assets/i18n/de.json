@@ -12,7 +12,8 @@
         "new-de": "Neuer Händler",
         "lan-sel": "Sprach Auswahl",
         "bookingRequest": "Reiseanforderung",
-        "dashboard": "Dashboard"
+        "dashboard": "Dashboard",
+        "support": "Support"
     },
     "STANDARD": {
         "please_select": "Bitte auswählen",
@@ -331,5 +332,12 @@
         "footer3_item2": "Fr. Arijanda Iska",
         "footer3_item3": "E-mail: office@almi.at; Tel. +43 7221 733 99-294;",
         "footer3_item4": "Vertretung: Fr. Emma Gartner, +43 7221 733 99-295"
+    },
+    "SUPPORT": {
+        "header": "Fehler/Bug melden",
+        "subHeader": "Kurze Beschreibung",
+        "of": "Betroffene Oberfläche",
+        "message": "z.B.: Ein Fehler ist aufgetreten beim Speichern einer Fachberater Anfordrung.",
+        "send": "Senden"
     }
 }
