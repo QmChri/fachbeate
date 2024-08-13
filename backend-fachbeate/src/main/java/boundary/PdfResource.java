@@ -17,10 +17,32 @@ public class PdfResource {
     PdfService pdfService;
 
     @GET
-    @Path("{text}")
+    @Path("customer/{id}")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
-    public Response getPdf(@PathParam("text") String text) throws DocumentException {
-        byte[] pdfContent = pdfService.createPdf(text);
+    public Response getPdf(@PathParam("id") Long id) throws DocumentException {
+        byte[] pdfContent = pdfService.createCustomerPdf(id);
+
+        return Response.ok(pdfContent)
+                .header("Content-Disposition", "attachment; filename=\"example.pdf\"")
+                .build();
+    }
+
+    @GET
+    @Path("visit/{id}")
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public Response getVisitPdf(@PathParam("id") Long id) throws DocumentException {
+        byte[] pdfContent = pdfService.createVisitPdf(id);
+
+        return Response.ok(pdfContent)
+                .header("Content-Disposition", "attachment; filename=\"example.pdf\"")
+                .build();
+    }
+
+    @GET
+    @Path("workshop/{id}")
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public Response getWorkshopPdf(@PathParam("id") Long id) throws DocumentException {
+        byte[] pdfContent = pdfService.createWorkshop(id);
 
         return Response.ok(pdfContent)
                 .header("Content-Disposition", "attachment; filename=\"example.pdf\"")
