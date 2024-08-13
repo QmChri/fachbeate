@@ -4,7 +4,7 @@ export const environment = {
   //backendApi: "http://angular02.almi.at:8080/",
 
   keycloak: {
-    issuer: 'http://keycloak01.almi.at:8080/',
+    issuer: 'https://requesttool.almi.at/',
     realm: 'fachbeate',
     clientId: 'fachbeate-frontend-dev'
   }
