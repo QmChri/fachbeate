@@ -1,90 +1,62 @@
 package entity.dto;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.eclipse.microprofile.config.Config;
+import org.eclipse.microprofile.config.ConfigProvider;
+
+import java.io.IOException;
 import java.sql.*;
 
 public class DataExportDTO {
-public static int cnt;
-    public static void main(String[] args) throws SQLException {
-        // Verbindung zur Datenbank herstellen
-        String url ="jdbc:postgresql://localhost:5432/postgres";
-        String user = "postgres";
-        String password = "app";
+    static Config config = ConfigProvider.getConfig();
 
-        try (Connection connection = DriverManager.getConnection(url, user, password)) {
+    public static String getColumnData() throws SQLException, IOException {
+        // JSON-Objekt erstellen
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode rootNode = mapper.createObjectNode();
+
+        try (Connection connection = DriverManager.getConnection(
+                config.getValue("quarkus.datasource.jdbc.url",String.class),
+                config.getValue("quarkus.datasource.username",String.class),
+                config.getValue("quarkus.datasource.password",String.class))) {
             DatabaseMetaData metaData = connection.getMetaData();
 
-            // Entity-Header
-            StringBuilder entity = new StringBuilder();
-            entity.append("@Entity\n");
-            entity.append("public class UnifiedEntity {\n");
-
-            // Tabellen abrufen
-            ResultSet tables = metaData.getTables(null, null, "%", new String[] {"TABLE"});
+            // Tabellen abrufen und nur die Tabellen vom Schema public nehmen
+            ResultSet tables = metaData.getTables(null, "public", "%", new String[]{"TABLE"});
 
             while (tables.next()) {
                 String tableName = tables.getString("TABLE_NAME");
-                addColumnsToEntity(metaData, tableName, entity);
-            }
+                ObjectNode tableNode = mapper.createObjectNode();
 
-            // Entity-Footer
-            entity.append("}\n");
-            System.out.println(cnt);
-            System.out.println(entity.toString());
-        }
-    }
+                // Daten für jede Tabelle abrufen
+                ResultSet dataResultSet = connection.createStatement().executeQuery("SELECT * FROM " + tableName);
 
-    private static void addColumnsToEntity(DatabaseMetaData metaData, String tableName, StringBuilder entity) throws SQLException {
-        // Spalten der Tabelle abrufen
-        ResultSet columns = metaData.getColumns(null, null, tableName, "%");
+                while (dataResultSet.next()) {
+                    ObjectNode rowNode = mapper.createObjectNode();
 
-        while (columns.next()) {
-            String columnName = columns.getString("COLUMN_NAME");
-            String columnType = columns.getString("TYPE_NAME");
+                    // Spalteninformationen abrufen
+                    ResultSet columns = metaData.getColumns(null, null, tableName, "%");
+                    while (columns.next()) {
+                        String columnName = columns.getString("COLUMN_NAME");
+                        Object columnValue = dataResultSet.getObject(columnName);
 
-            // Erzeuge ein Feld in der Entity mit dem Format: <tableName>_<columnName>
-            String fieldName = toCamelCase(tableName + "_" + columnName, false);
-            entity.append("    private ").append(mapSQLTypeToJavaType(columnType))
-                    .append(" ").append(fieldName).append(";\n");
-        }
-    }
+                        // Wenn der Wert nicht null ist, füge ihn hinzu
+                        if (columnValue != null) {
+                            rowNode.put(columnName, columnValue.toString());
+                        }
+                    }
 
-    private static String mapSQLTypeToJavaType(String sqlType) {
-        switch (sqlType) {
-            case "varchar":
-            case "text":
-                return "String";
-            case "int4":
-            case "int8":
-            case "serial":
-            case "bigserial":
-                return "Long";
-            case "float4":
-            case "float8":
-                return "Double";
-            case "bool":
-                return "Boolean";
-            default:
-                return "Object";
-        }
-    }
-
-    private static String toCamelCase(String text, boolean capitalizeFirst) {
-        StringBuilder result = new StringBuilder();
-        boolean nextUpperCase = capitalizeFirst;
-
-        for (char c : text.toCharArray()) {
-            if (c == '_') {
-                nextUpperCase = true;
-            } else {
-                if (nextUpperCase) {
-                    result.append(Character.toUpperCase(c));
-                    nextUpperCase = false;
-                } else {
-                    result.append(Character.toLowerCase(c));
+                    // Die Zeile in das Tabellenobjekt einfügen
+                    tableNode.set(String.valueOf(dataResultSet.getRow()), rowNode);
                 }
+
+                // Tabelleninformationen hinzufügen
+                rootNode.set(tableName, tableNode);
             }
         }
-        cnt++;
-        return result.toString();
+
+        // JSON in String konvertieren und zurückgeben
+        return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(rootNode);
     }
 }
