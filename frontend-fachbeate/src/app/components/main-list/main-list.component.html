@@ -88,7 +88,7 @@
       <td (dblclick)="openCRC(data,data.id!, data.type!)">{{data.abschlussbericht }}</td>
       <td (dblclick)="openCRC(data,data.id!, data.type!)">
         <span>{{ ((data.type === 1) ? 'MAIN_LIST.advisor_type' : (data.type === 2) ? 'MAIN_LIST.seminar':
-          'MAIN_LIST.visit') | translate }}</span>
+          (data.type === 3)?'MAIN_LIST.visit':'BOOKING_REQUEST.booking') | translate }}</span>
       </td>
       <td class="centerDisableButton" *ngIf="roleService.checkPermission([1,2,7])">
         <button nz-button nzType="primary" (click)="changeEditable(data)">

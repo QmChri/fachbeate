@@ -11,6 +11,7 @@ import { NotificationService } from '../../../services/notification.service';
 import { RoleService } from '../../../services/role.service';
 import { Representative } from '../../../models/representative';
 import { TranslateService } from '@ngx-translate/core';
+import { CheckDialogComponent } from '../check-dialog/check-dialog.component';
 
 @Component({
   selector: 'app-visitor-registration',
@@ -47,7 +48,7 @@ export class VisitorRegistrationComponent implements OnInit {
 
   ngOnInit(): void {
     this.getRepresentative();
-    
+
     this.route.paramMap.subscribe(params => {
       if (params.get('id') != null) {
         this.http.getVisitorRegistrationById(parseInt(params.get('id')!)).subscribe({
@@ -57,9 +58,9 @@ export class VisitorRegistrationComponent implements OnInit {
 
               this.inputVisitRegistration.plannedDepartmentVisits.forEach(element => {
                 var tmpVisit = this.listOfCurrentPageData.find(pageData => pageData.name === element.department);
-                this.setOfCheckedId.set(tmpVisit!.id, [element.id!, (element.dateOfVisit !== null && element.dateOfVisit !== undefined)?element.dateOfVisit!.toString().substring(0, 10):""])
+                this.setOfCheckedId.set(tmpVisit!.id, [element.id!, (element.dateOfVisit !== null && element.dateOfVisit !== undefined) ? element.dateOfVisit!.toString().substring(0, 10) : ""])
               })
-              
+
               // When the data is being loaded, sometimes the dates are converted from TypeScript into strings.
               // To ensure all necessary dates are in the correct format, I convert them.
 
@@ -69,12 +70,12 @@ export class VisitorRegistrationComponent implements OnInit {
               this.inputVisitRegistration.stayToDate = this.convertToDate(this.inputVisitRegistration.stayToDate);
 
               this.buttonSelect = [
-                (data.factoryTour)? "1" : "",
-                (data.meetingroom)? "2" : "",
-                (data.airportTransferTrain)? "3" : "",
-                (data.meal)? "4" : "",
-                (data.hotelBooking)? "5" : "",
-                (data.isPlannedDepartmentVisits)? "6" : "",
+                (data.factoryTour) ? "1" : "",
+                (data.meetingroom) ? "2" : "",
+                (data.airportTransferTrain) ? "3" : "",
+                (data.meal) ? "4" : "",
+                (data.hotelBooking) ? "5" : "",
+                (data.isPlannedDepartmentVisits) ? "6" : "",
 
               ].filter(p => p != "");
 
@@ -87,7 +88,7 @@ export class VisitorRegistrationComponent implements OnInit {
       }
     });
 
-    
+
     this.listOfCurrentPageData = [
       {
         id: 1,
@@ -158,15 +159,14 @@ export class VisitorRegistrationComponent implements OnInit {
     ]
 
   }
-  
 
   release(department: string) {
-    if (department === 'gl') {
+    if (department === 'gl' && this.checkRequired()) {
       this.getNotification(2);
       this.inputVisitRegistration.releaseManagement = new Date();
       this.inputVisitRegistration.releaserManagement = this.roleService.getUserName();
       this.postVisitorRegistration();
-    } else {
+    } else if (department === 'al' && this.checkRequired()) {
       this.getNotification(3);
       this.inputVisitRegistration.releaseSupervisor = new Date();
       this.inputVisitRegistration.releaserSupervisor = this.roleService.getUserName()
@@ -191,18 +191,18 @@ export class VisitorRegistrationComponent implements OnInit {
   }
 
   addTab(type: number) {
-    if(type === 1){
+    if (type === 1) {
       this.inputVisitRegistration.hotelBookings = [...this.inputVisitRegistration.hotelBookings, {}]
-    }else if(type === 2){
+    } else if (type === 2) {
       this.inputVisitRegistration.meetingRoomReservations = [...this.inputVisitRegistration.meetingRoomReservations, {}]
     }
   }
 
   deleteLast(type: number) {
-    if(type === 1){
+    if (type === 1) {
       if (this.inputVisitRegistration.hotelBookings.length > 1)
         this.inputVisitRegistration.hotelBookings.pop();
-    }else if(type === 2){
+    } else if (type === 2) {
       if (this.inputVisitRegistration.meetingRoomReservations.length > 1)
         this.inputVisitRegistration.meetingRoomReservations.pop();
     }
@@ -221,7 +221,7 @@ export class VisitorRegistrationComponent implements OnInit {
   }
 
   inputDateChange(id: number, date: string) {
-    
+
     let tmpId = this.setOfCheckedId.get(id)![0];
     this.setOfCheckedId.set(id, [(tmpId) ? tmpId : undefined!, date]);
   }
@@ -234,60 +234,74 @@ export class VisitorRegistrationComponent implements OnInit {
     this.inputVisitRegistration.hotelBooking = this.buttonSelect.includes("5");
     this.inputVisitRegistration.isPlannedDepartmentVisits = this.buttonSelect.includes("6");
 
-    if(this.inputVisitRegistration.hotelBooking && this.inputVisitRegistration.hotelBookings.length === 0){
+    if (this.inputVisitRegistration.hotelBooking && this.inputVisitRegistration.hotelBookings.length === 0) {
       this.addTab(1);
     }
 
-    if(this.inputVisitRegistration.meetingroom && this.inputVisitRegistration.meetingRoomReservations.length === 0){
+    if (this.inputVisitRegistration.meetingroom && this.inputVisitRegistration.meetingRoomReservations.length === 0) {
       this.addTab(2);
     }
 
   }
 
-  postVisitorRegistration() {
-    if(this.checkRequired()){
-      
-      if(this.inputVisitRegistration.id === null || this.inputVisitRegistration.id === undefined || this.inputVisitRegistration.id === 0){
-        this.inputVisitRegistration.dateOfCreation = new Date();
-        this.inputVisitRegistration.creator = this.roleService.getUserName();
-      }
-
-      this.inputVisitRegistration.lastEditor = this.roleService.getUserName();
-
-      this.getNotification(1);
-      this.inputVisitRegistration.showUser = true;
-      this.inputVisitRegistration.reason = "VisitorRegistration"
-      this.inputVisitRegistration.plannedDepartmentVisits = [];
-
-      this.inputVisitRegistration.fromDate = (this.inputVisitRegistration.fromDate !== null && this.inputVisitRegistration.fromDate!== undefined)?new Date(this.inputVisitRegistration.fromDate.setHours(5)):this.inputVisitRegistration.fromDate;
-      this.inputVisitRegistration.toDate = (this.inputVisitRegistration.toDate!== null && this.inputVisitRegistration.toDate!== undefined)?new Date(this.inputVisitRegistration.toDate.setHours(5)):this.inputVisitRegistration.toDate;
-
-      (this.inputVisitRegistration.stayFromDate!== null && this.inputVisitRegistration.stayFromDate!== undefined)?this.inputVisitRegistration.stayFromDate.setHours(5):"";
-      (this.inputVisitRegistration.stayToDate!== null && this.inputVisitRegistration.stayToDate!== undefined)?this.inputVisitRegistration.stayToDate!.setHours(5):"";
-
-      this.setOfCheckedId.forEach((value, key) => {
-        this.inputVisitRegistration.plannedDepartmentVisits = [...this.inputVisitRegistration.plannedDepartmentVisits!,
-        {
-          id: value[0],
-          department: this.getDepartment(key),
-          dateOfVisit: new Date(value[1]!)
-        }
-        ]
+  checkPopup() {
+    if (this.checkRequired()) {
+      const dialogRef = this.dialog.open(CheckDialogComponent, {
+        width: '50%',
+        data: 1
       });
 
-      this.http.postVisitorRegistration(this.inputVisitRegistration).subscribe({
-        next: data => {
-          this.inputVisitRegistration = data;
-          this.inputVisitRegistration.plannedDepartmentVisits.forEach(element => {
-            var tmpVisit = this.listOfCurrentPageData.find(pageData => pageData.name === element.department);
-            this.setOfCheckedId.set(tmpVisit!.id, [element.id!, element.dateOfVisit!.toString().substring(0, 10)])
-          })          
-        },
-        error: err => {
-          console.log(err);
-        }
-      })
+      dialogRef.afterClosed().subscribe(
+        data => {
+          if (data === true) {
+            this.postVisitorRegistration();
+          }
+        });
     }
+  }
+
+  postVisitorRegistration() {
+
+    if (this.inputVisitRegistration.id === null || this.inputVisitRegistration.id === undefined || this.inputVisitRegistration.id === 0) {
+      this.inputVisitRegistration.dateOfCreation = new Date();
+      this.inputVisitRegistration.creator = this.roleService.getUserName();
+    }
+
+    this.inputVisitRegistration.lastEditor = this.roleService.getUserName();
+
+    this.getNotification(1);
+    this.inputVisitRegistration.showUser = true;
+    this.inputVisitRegistration.reason = "VisitorRegistration"
+    this.inputVisitRegistration.plannedDepartmentVisits = [];
+
+    this.inputVisitRegistration.fromDate = (this.inputVisitRegistration.fromDate !== null && this.inputVisitRegistration.fromDate !== undefined) ? new Date(this.inputVisitRegistration.fromDate.setHours(5)) : this.inputVisitRegistration.fromDate;
+    this.inputVisitRegistration.toDate = (this.inputVisitRegistration.toDate !== null && this.inputVisitRegistration.toDate !== undefined) ? new Date(this.inputVisitRegistration.toDate.setHours(5)) : this.inputVisitRegistration.toDate;
+
+    (this.inputVisitRegistration.stayFromDate !== null && this.inputVisitRegistration.stayFromDate !== undefined) ? this.inputVisitRegistration.stayFromDate.setHours(5) : "";
+    (this.inputVisitRegistration.stayToDate !== null && this.inputVisitRegistration.stayToDate !== undefined) ? this.inputVisitRegistration.stayToDate!.setHours(5) : "";
+
+    this.setOfCheckedId.forEach((value, key) => {
+      this.inputVisitRegistration.plannedDepartmentVisits = [...this.inputVisitRegistration.plannedDepartmentVisits!,
+      {
+        id: value[0],
+        department: this.getDepartment(key),
+        dateOfVisit: new Date(value[1]!)
+      }
+      ]
+    });
+
+    this.http.postVisitorRegistration(this.inputVisitRegistration).subscribe({
+      next: data => {
+        this.inputVisitRegistration = data;
+        this.inputVisitRegistration.plannedDepartmentVisits.forEach(element => {
+          var tmpVisit = this.listOfCurrentPageData.find(pageData => pageData.name === element.department);
+          this.setOfCheckedId.set(tmpVisit!.id, [element.id!, element.dateOfVisit!.toString().substring(0, 10)])
+        })
+      },
+      error: err => {
+        console.log(err);
+      }
+    })
   }
 
   getDepartment(id: number): string {
@@ -347,46 +361,39 @@ export class VisitorRegistrationComponent implements OnInit {
     }
   }
 
-  checkRequired():boolean{
+  checkRequired(): boolean {
     var checks: boolean[] = [false, false, false]
-
-    var requriements:string[] = [
-      (this.inputVisitRegistration.name === null || this.inputVisitRegistration.name === undefined || this.inputVisitRegistration.name === "")?"1/VISITOR_REGRISTRATION.name":"",
-      (this.inputVisitRegistration.inputReason === null || this.inputVisitRegistration.inputReason === undefined || this.inputVisitRegistration.inputReason === "")?"1/DASHBOARD.reason":"",
-      (this.inputVisitRegistration.fromDate === null || this.inputVisitRegistration.fromDate === undefined)?"1/DASHBOARD.from":"",
-      (this.inputVisitRegistration.toDate === null || this.inputVisitRegistration.toDate === undefined)?"1/DASHBOARD.to":"",
-      (this.inputVisitRegistration.fromTime === null || this.inputVisitRegistration.fromTime === undefined || this.inputVisitRegistration.fromTime === "")?"1/VISITOR_REGRISTRATION.time":"",
-      (this.inputVisitRegistration.toTime === null || this.inputVisitRegistration.toTime === undefined || this.inputVisitRegistration.toTime === "")?"1/VISITOR_REGRISTRATION.time":"",
-      (this.inputVisitRegistration.customerOrCompany === null || this.inputVisitRegistration.customerOrCompany === undefined || this.inputVisitRegistration.customerOrCompany === "")?"2/VISITOR_REGRISTRATION.customer_company":"",
-      (this.inputVisitRegistration.guests === null || this.inputVisitRegistration.guests === undefined || this.inputVisitRegistration.guests.length === 0)?"2/VISITOR_REGRISTRATION.participant_list":"",
-      (this.inputVisitRegistration.arrivalFromCountry === null || this.inputVisitRegistration.arrivalFromCountry === undefined || this.inputVisitRegistration.arrivalFromCountry === "")?"2/VISITOR_REGRISTRATION.arrival_from_country":"",
-      (this.inputVisitRegistration.reasonForVisit === null || this.inputVisitRegistration.reasonForVisit === undefined || this.inputVisitRegistration.reasonForVisit === "")?"2/ABSCHLUSSBERICHT.visit_reason_general":"",
-      (this.inputVisitRegistration.representative === null || this.inputVisitRegistration.representative === undefined)?"3/MAIN_LIST.representative":"",
-      (this.inputVisitRegistration.stayFromDate === null || this.inputVisitRegistration.stayFromDate === undefined)?"3/DASHBOARD.from":"",
-      (this.inputVisitRegistration.stayToDate === null || this.inputVisitRegistration.stayToDate === undefined)?"3/DASHBOARD.to":"",
+    var requriements: string[] = [
+      (this.inputVisitRegistration.name === null || this.inputVisitRegistration.name === undefined || this.inputVisitRegistration.name === "") ? "1/VISITOR_REGRISTRATION.name" : "",
+      (this.inputVisitRegistration.inputReason === null || this.inputVisitRegistration.inputReason === undefined || this.inputVisitRegistration.inputReason === "") ? "1/DASHBOARD.reason" : "",
+      (this.inputVisitRegistration.fromDate === null || this.inputVisitRegistration.fromDate === undefined) ? "1/DASHBOARD.from" : "",
+      (this.inputVisitRegistration.toDate === null || this.inputVisitRegistration.toDate === undefined) ? "1/DASHBOARD.to" : "",
+      (this.inputVisitRegistration.fromTime === null || this.inputVisitRegistration.fromTime === undefined || this.inputVisitRegistration.fromTime === "") ? "1/VISITOR_REGRISTRATION.time" : "",
+      (this.inputVisitRegistration.toTime === null || this.inputVisitRegistration.toTime === undefined || this.inputVisitRegistration.toTime === "") ? "1/VISITOR_REGRISTRATION.time" : "",
+      (this.inputVisitRegistration.customerOrCompany === null || this.inputVisitRegistration.customerOrCompany === undefined || this.inputVisitRegistration.customerOrCompany === "") ? "2/VISITOR_REGRISTRATION.customer_company" : "",
+      (this.inputVisitRegistration.guests === null || this.inputVisitRegistration.guests === undefined || this.inputVisitRegistration.guests.length === 0) ? "2/VISITOR_REGRISTRATION.participant_list" : "",
+      (this.inputVisitRegistration.arrivalFromCountry === null || this.inputVisitRegistration.arrivalFromCountry === undefined || this.inputVisitRegistration.arrivalFromCountry === "") ? "2/VISITOR_REGRISTRATION.arrival_from_country" : "",
+      (this.inputVisitRegistration.reasonForVisit === null || this.inputVisitRegistration.reasonForVisit === undefined || this.inputVisitRegistration.reasonForVisit === "") ? "2/ABSCHLUSSBERICHT.visit_reason_general" : "",
+      (this.inputVisitRegistration.representative === null || this.inputVisitRegistration.representative === undefined) ? "3/MAIN_LIST.representative" : "",
+      (this.inputVisitRegistration.stayFromDate === null || this.inputVisitRegistration.stayFromDate === undefined) ? "3/DASHBOARD.from" : "",
+      (this.inputVisitRegistration.stayToDate === null || this.inputVisitRegistration.stayToDate === undefined) ? "3/DASHBOARD.to" : "",
     ];
-
 
     checks[0] = (requriements.filter(firsts => firsts.split("/")[0] === "1").length === 6)
     checks[1] = (requriements.filter(firsts => firsts.split("/")[0] === "2").length === 4)
     checks[2] = (requriements.filter(firsts => firsts.split("/")[0] === "3").length === 3)
-    
-    
-    
 
     requriements = requriements.filter(element => {
       return (!checks[0] && element.split("/")[0] === "1") || (!checks[1] && element.split("/")[0] === "2") || (!checks[2] && element.split("/")[0] === "3") || (checks[0] && checks[1] && checks[2])
     }).map(element => element.split("/")[1]);
-    
 
-    if(requriements.length !== 0){
+    if (requriements.length !== 0) {
       this.translate.get(['STANDARD.please_fill_required_fields', ...requriements.map(element => element)]).subscribe(translations => {
         const message = translations['STANDARD.please_fill_required_fields'];
         const anotherMessage = requriements.map(element => translations[element]).toString();
         this.notificationService.createBasicNotification(4, message, anotherMessage, 'topRight');
       });
     }
-
     return requriements.length === 0;
   }
 

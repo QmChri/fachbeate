@@ -17,7 +17,8 @@
                                     (valueChange)="changeTechnolgist($event)" required>
                                     <mat-option>--</mat-option>
                                     @for (t of technologists; track technologists) {
-                                    <mat-option [value]="t.technologist.id">{{t.technologist.firstName}} {{t.technologist.lastName}}</mat-option>
+                                    <mat-option [value]="t.technologist.id">{{t.technologist.firstName}}
+                                        {{t.technologist.lastName}}</mat-option>
                                     }
                                 </mat-select>
                                 @if (control.hasError('required')) {
@@ -89,7 +90,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-5 paddingBottom" >
+        <div class="col-md-5 paddingBottom">
             <div class="card">
                 <div class="card-header text-white bg-danger">{{"ABSCHLUSSBERICHT.customer_communication" |
                     translate}}</div>
@@ -161,11 +162,12 @@
                         </div>
                         <mat-form-field class="smallInput" *ngIf="roleService.checkPermission([1,3,6])">
                             <mat-label>{{"ABSCHLUSSBERICHT.representative_summary" | translate}}</mat-label>
-                            <textarea required [disabled]="roleService.checkPermission([6])" rows="1" matInput type="text"
-                                [(ngModel)]="inputFinalReport.summaryFinalReport" name="summaryFinalReport"></textarea>
-                                @if (control.hasError('required')) {
-                                <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
-                                }
+                            <textarea required [disabled]="roleService.checkPermission([6])" rows="1" matInput
+                                type="text" [(ngModel)]="inputFinalReport.summaryFinalReport"
+                                name="summaryFinalReport"></textarea>
+                            @if (control.hasError('required')) {
+                            <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
+                            }
                         </mat-form-field>
                     </div>
                 </div>
@@ -423,22 +425,22 @@
             </div>
         </ng-container>
     </div>
-    <!---<div class="row">
-            <div class="col-md-12 paddingBottom">
-                <div class="card">
-                    <div class="card-header text-white bg-danger">{{"Datei Ablage" | translate}}</div>
-                    <div class="card-body">
-                        <nz-upload [nzFileList]="fileList" [nzBeforeUpload]="beforeUpload" [nzLimit]="10"
-                            [nzMultiple]="true" [nzShowUploadList]="true" [nzShowButton]="fileList.length < 10"
-                            [nzListType]="'picture-card'" (nzChange)="handleChange($event)" class="custom-upload">
-                            <button nz-button>
-                                <i nz-icon nzType="upload"></i> Upload
-                            </button>
-                        </nz-upload>
-                    </div>
+    <div class="row">
+        <div class="col-md-12 paddingBottom">
+            <div class="card">
+                <div class="card-header text-white bg-danger">{{"Datei Ablage" | translate}}</div>
+                <div class="card-body">
+                    <nz-upload [nzFileList]="fileList" [nzBeforeUpload]="beforeUpload" [nzLimit]="10"
+                        [nzMultiple]="true" [nzShowUploadList]="true" [nzShowButton]="fileList.length < 10"
+                        [nzListType]="'picture-card'" (nzChange)="handleChange($event)" class="custom-upload">
+                        <button nz-button>
+                            <i nz-icon nzType="upload"></i> Upload
+                        </button>
+                    </nz-upload>
                 </div>
             </div>
-        </div>-->
+        </div>
+    </div>
     <div class="header">
         <div> <button (click)="closeDialog(false)" class="btn btn-secondary">{{"DASHBOARD.cancel" |
                 translate}}</button></div>

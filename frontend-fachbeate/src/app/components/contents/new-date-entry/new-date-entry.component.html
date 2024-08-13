@@ -6,10 +6,10 @@
                 {{inputDate.requestedTechnologist?.lastName}}</h1>
         </div>
         <div *ngIf="inputDate.id !== undefined && inputDate.id !== null">
-            <button *ngIf="roleService.checkPermission([1,2,7])" matTooltip="{{ 'STANDARD.remove' | translate }}" class="btn btn-danger btn-sm" nz-popconfirm
-                nzPopconfirmShowArrow="false" [nzIcon]="iconTpl" [nzCancelText]="'DASHBOARD.cancel' | translate"
-                [nzOkText]="'STANDARD.ok' | translate" [nzPopconfirmTitle]="'STANDARD.are_you_sure' | translate"
-                (nzOnConfirm)="deleteEntry(inputDate)">
+            <button *ngIf="roleService.checkPermission([1,2,7])" matTooltip="{{ 'STANDARD.remove' | translate }}"
+                class="btn btn-danger btn-sm" nz-popconfirm nzPopconfirmShowArrow="false" [nzIcon]="iconTpl"
+                [nzCancelText]="'DASHBOARD.cancel' | translate" [nzOkText]="'STANDARD.ok' | translate"
+                [nzPopconfirmTitle]="'STANDARD.are_you_sure' | translate" (nzOnConfirm)="deleteEntry(inputDate)">
                 <ng-template #iconTpl>
                     <span nz-icon nzType="question-circle-o" style="color: red;"></span>
                 </ng-template>
@@ -28,7 +28,8 @@
                 (valueChange)="changeTechnolgist($event)" required>
                 <mat-option>--</mat-option>
                 @for (t of technologists; track technologists) {
-                <mat-option [value]="t.technologist.id">{{t.technologist.firstName}} {{t.technologist.lastName}}</mat-option>
+                <mat-option [value]="t.technologist.id">{{t.technologist.firstName}}
+                    {{t.technologist.lastName}}</mat-option>
                 }
             </mat-select>
             <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
@@ -37,10 +38,16 @@
             <mat-label>{{"DASHBOARD.reason" | translate}}</mat-label>
             <mat-select required [(ngModel)]="inputDate.reason" name="resons">
                 @for (re of reasons; track reasons) {
+                @if (re == "holiday" || re == "ausgleich"|| re == "reservation"|| re == "fair"|| re == "homeF"|| re ==
+                "houseO") {
+                <mat-option [value]="re">{{"STANDARD."+re | translate}}</mat-option>
+                }
+                @else {
                 <mat-option [value]="re">{{re}}</mat-option>
                 }
+                }
                 <div class="paddings">
-                    <textarea style="height: 2rem" type="text" [(ngModel)]="addItem" name="addItem"></textarea>
+                    <input style="height: 2rem" type="text" [(ngModel)]="addItem" name="addItem">
                     <button style="height: 2rem;" type="button" *ngIf="addItem" mat-raised-button
                         (click)="addToList(addItem)"><i class="fa fa-plus" aria-hidden="true"></i>
                     </button>

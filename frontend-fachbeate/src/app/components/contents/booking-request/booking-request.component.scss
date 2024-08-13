@@ -29,9 +29,20 @@
 
 .displayBySide {
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
+    align-items: center;
+    gap: 1rem; 
 }
+
+.equal-width {
+    flex: 1;
+    min-width: 5rem; 
+}
+
+.mat-form-field {
+    width: 100%; 
+}
+
 
 @media (max-width: 1600px) {
     .displayBySide {
@@ -53,20 +64,17 @@
     }
 }
 
-.smallInputSide {
-    min-width: 21.5rem;
-    max-width: 21.5rem;
-}
-
-.flightBookingInput{
-    min-width: 19rem;
-    max-width: 19rem;
-}
-
 .paddingBottom {
     padding-bottom: 1rem;
 }
 
 .TIME {
     max-width: 7rem;
+}
+
+.paddings {
+    display: flex;
+    justify-content: space-around;
+    padding-left: 8px;
+    padding-right: 8px;
 }
