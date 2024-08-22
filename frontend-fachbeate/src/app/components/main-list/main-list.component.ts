@@ -7,7 +7,7 @@ import { RoleService } from '../../services/role.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Company } from '../../models/company';
 import * as XLSX from 'xlsx';
-import { log } from '../../app.module';
+import { log } from '../../services/logger.service';
 
 
 @Component({
@@ -50,7 +50,10 @@ export class MainListComponent implements OnInit {
       sortOrder: null,
       sortFn: (a: DataItem, b: DataItem) => a.statusGL!.toString().localeCompare(b.statusGL!.toString()),
       listOfFilter: [],
-      filterFn: (list: string[], item: DataItem) => list.some(name => item.statusGL!.indexOf(name) !== -1)
+      filterFn: (filter: string, item: DataItem) => {
+        console.log(filter)
+        return (item.statusAL!.includes(filter) || item.statusGL!.includes(filter))
+      }
     },
     {
       name: 'representative',
@@ -130,8 +133,11 @@ export class MainListComponent implements OnInit {
     this.listOfColumn.find(element => element.name === 'status')!.listOfFilter =
       this.listOfDisplayData.reduce((uniqueFilters, element) => {
         const filterValue = element.statusGL || "<Leer>";
+        const filterValue2 = element.statusAL || "<Leer>";
         if (!uniqueFilters.some(filter => filter.value === filterValue)) {
           uniqueFilters.push({ text: filterValue, value: filterValue });
+        } else if (!uniqueFilters.some(filter => filter.value === filterValue2)) {
+          uniqueFilters.push({ text: filterValue2, value: filterValue2 });
         }
         return uniqueFilters;
       }, [] as { text: string, value: string }[]);
@@ -512,6 +518,6 @@ interface ColumnDefinition {
   sortOrder: any;
   sortFn: (a: DataItem, b: DataItem) => number;
   listOfFilter: { text: string, value: string }[];
-  filterFn?: (list: string[], item: DataItem) => boolean;
+  filterFn?: (list: any, item: DataItem) => boolean;
 }
 

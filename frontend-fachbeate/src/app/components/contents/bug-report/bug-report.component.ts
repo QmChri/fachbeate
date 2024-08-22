@@ -4,8 +4,7 @@ import { HttpService } from '../../../services/http.service';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from '../../../services/notification.service';
 import { RoleService } from '../../../services/role.service';
-import { LoggerService } from '../../../services/logger.service';
-import { log } from '../../../app.module';
+import { LoggerService, log } from '../../../services/logger.service';
 
 @Component({
   selector: 'bug-report',

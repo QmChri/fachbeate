@@ -252,7 +252,7 @@
                 <td>
                     <label class="input-label" [hidden]="editId === data.editId"
                         (click)="startEdit(data.editId)">{{data.productionAmount}}</label>
-                    <input nz-input [hidden]="editId !== data.editId" type="text" [(ngModel)]="data.productionAmount" />
+                    <input [placeholder]="'CUSTOMER_REQUIREMENTS.mandatory_field' | translate" nz-input [hidden]="editId !== data.editId" type="text" [(ngModel)]="data.productionAmount" />
                 </td>
                 <td class="buttonsStyle">
                     <div class="flugHotel">

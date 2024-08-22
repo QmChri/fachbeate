@@ -144,7 +144,7 @@
         "article": "Article",
         "article_number": "Article number",
         "header_upload": "File storage",
-        "article_length": "Article number - 7 Digits",
+        "article_length": "7 digits (from 0-9)",
         "files_allowed": "Unauthorized File Type!",
         "files_allowed_2": "Allowed: PDF/PNG/JPG/HEIF",
         "files_count": "Maximum number of files reached!",
@@ -191,7 +191,14 @@
         "quality_raw_material_management": "Quality - raw material management",
         "calculation": "Calculation",
         "legal_financial_affairs": "Legal - financial affairs",
-        "innov8_lab": "Innov8 / Lab"
+        "innov8_lab": "Innov8 / Lab",
+        "select1": "PE/Application Engineering",
+        "select2": "Internal Appointments",
+        "select3": "Miscellaneous",
+        "select4": "Company Presentation",
+        "select5": "Technological Review",
+        "select6": "Follow-up Meetings",
+        "select7": "Audit (QM/QS)"
     },
     "SEMINAR_REGRISTRATION": {
         "seminar_registration": "Seminar Registration",

@@ -49,4 +49,15 @@ public class PdfResource {
                 .build();
     }
 
+    @GET
+    @Path("final/{id}")
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public Response getFinalPdf(@PathParam("id") Long id) throws DocumentException {
+        byte[] pdfContent = pdfService.createFinalReportPdf(id);
+
+        return Response.ok(pdfContent)
+                .header("Content-Disposition", "attachment; filename=\"example.pdf\"")
+                .build();
+        }
+
 }

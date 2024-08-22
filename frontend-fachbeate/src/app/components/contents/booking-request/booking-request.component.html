@@ -71,10 +71,12 @@
                             <mat-option [value]="cC">{{cC}}</mat-option>
                             }
                             }
+                            <hr>
                             <div class="paddings">
-                                <input style="width: 8rem;" type="text" [(ngModel)]="addItem" name="addItem">
-                                <button type="button" *ngIf="addItem" mat-button (click)="addToList(addItem)"><i
-                                        class="fa fa-plus" aria-hidden="true"> </i>
+                                <textarea style="height: 2rem" type="text" [(ngModel)]="addItem"
+                                    name="addItem"></textarea>
+                                <button style="height: 2rem;" type="button" *ngIf="addItem" mat-raised-button
+                                    (click)="addToList(addItem)"><i class="fa fa-plus" aria-hidden="true"></i>
                                 </button>
                             </div>
                         </mat-select>
@@ -83,20 +85,6 @@
                         }
                     </mat-form-field>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4 paddingBottom">
-        <div class="card" style="min-height: 18rem;">
-            <div class="card-header text-white bg-danger">{{"ABSCHLUSSBERICHT.header_upload" | translate}}</div>
-            <div class="card-body">
-                <nz-upload [nzFileList]="fileList" [nzBeforeUpload]="beforeUpload" [nzLimit]="5" [nzMultiple]="true"
-                    [nzShowUploadList]="true" [nzShowButton]="fileList.length < 5" [nzListType]="'picture-card'"
-                    (nzChange)="handleChange($event)" class="custom-upload">
-                    <button nz-button>
-                        <i nz-icon nzType="upload"></i> Upload
-                    </button>
-                </nz-upload>
             </div>
         </div>
     </div>
@@ -113,6 +101,20 @@
                 <mat-button-toggle value="4">{{'CUSTOMER_REQUIREMENTS.hotel_booking' | translate}}</mat-button-toggle>
                 <mat-button-toggle value="5">{{'BOOKING_REQUEST.carRental' | translate}}</mat-button-toggle>
             </mat-button-toggle-group>
+        </div>
+    </div>
+    <div class="col-md-4 paddingBottom">
+        <div class="card" style="min-height: 18rem;">
+            <div class="card-header text-white bg-danger">{{"ABSCHLUSSBERICHT.header_upload" | translate}}</div>
+            <div class="card-body">
+                <nz-upload [nzFileList]="fileList" [nzBeforeUpload]="beforeUpload" [nzLimit]="5"
+                    [nzMultiple]="true" [nzShowUploadList]="true" [nzShowButton]="fileList.length < 5"
+                    [nzListType]="'picture-card'" (nzChange)="handleChange($event)" class="custom-upload">
+                    <button nz-button>
+                        <i nz-icon nzType="upload"></i> Upload
+                    </button>
+                </nz-upload>
+            </div>
         </div>
     </div>
 </div>

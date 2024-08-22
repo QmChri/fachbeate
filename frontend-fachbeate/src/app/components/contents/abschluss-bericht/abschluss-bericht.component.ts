@@ -13,7 +13,7 @@ import { NotificationService } from '../../../services/notification.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { TechDateDTO } from '../../../models/tech-date-dto';
-import { log } from '../../../app.module';
+import { log } from '../../../services/logger.service';
 
 @Component({
   selector: 'app-abschluss-bericht',
