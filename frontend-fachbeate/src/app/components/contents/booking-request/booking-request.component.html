@@ -31,7 +31,7 @@
 <hr>
 
 <div class="row">
-    <div class="col-md-6 paddingBottom">
+    <div class="col-md-4 paddingBottom">
         <div class="card" style="min-height: 18.2rem;">
             <div class="card-header  text-white bg-danger">{{"BOOKING_REQUEST.businessTripBookingRequest" | translate}}
             </div>
@@ -83,16 +83,28 @@
                         }
                     </mat-form-field>
                 </div>
-
             </div>
         </div>
     </div>
-    <div class="col-md-6 paddingBottom">
+    <div class="col-md-4 paddingBottom">
+        <div class="card" style="min-height: 18rem;">
+            <div class="card-header text-white bg-danger">{{"ABSCHLUSSBERICHT.header_upload" | translate}}</div>
+            <div class="card-body">
+                <nz-upload [nzFileList]="fileList" [nzBeforeUpload]="beforeUpload" [nzLimit]="5" [nzMultiple]="true"
+                    [nzShowUploadList]="true" [nzShowButton]="fileList.length < 5" [nzListType]="'picture-card'"
+                    (nzChange)="handleChange($event)" class="custom-upload">
+                    <button nz-button>
+                        <i nz-icon nzType="upload"></i> Upload
+                    </button>
+                </nz-upload>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 paddingBottom">
         <div class="card">
             <div class="card-header text-white bg-danger">{{'VISITOR_REGRISTRATION.additional_requirements' |
                 translate}}</div>
-            <mat-button-toggle-group [(ngModel)]="buttonSelect" (valueChange)="changeSelections()" vertical
-                multiple>
+            <mat-button-toggle-group [(ngModel)]="buttonSelect" (valueChange)="changeSelections()" vertical multiple>
                 <mat-button-toggle value="1">{{'BOOKING_REQUEST.flightBookingMultiLeg' |
                     translate}}</mat-button-toggle>
                 <mat-button-toggle value="2">{{'BOOKING_REQUEST.flightBookingRoundTrip' |

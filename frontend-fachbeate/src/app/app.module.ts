@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { APP_INITIALIZER, Inject, NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { BodyComponent } from './components/body/body.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
@@ -66,6 +66,9 @@ import { BookingRequestComponent } from './components/contents/booking-request/b
 import { NzProgressModule } from 'ng-zorro-antd/progress';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { CheckDialogComponent } from './components/contents/check-dialog/check-dialog.component';
+import { BugReportComponent } from './components/contents/bug-report/bug-report.component';
+import { MatDivider, MatDividerModule } from '@angular/material/divider';
+import { LoggerService } from './services/logger.service';
 
 
 @NgModule({
@@ -88,11 +91,13 @@ import { CheckDialogComponent } from './components/contents/check-dialog/check-d
     CreateDealerComponent,
     BookingRequestComponent,
     CalendarComponent,
-    CheckDialogComponent
+    CheckDialogComponent,
+    BugReportComponent
   ],
   imports: [
     MatTooltipModule,
     NzAlertModule,
+    MatDivider,
     MatMenuModule,
     NzNotificationModule,
     MatDatepickerModule,
@@ -163,6 +168,14 @@ import { CheckDialogComponent } from './components/contents/check-dialog/check-d
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+
+export function log(component: string, message: string){
+  const LOG = Inject(LoggerService);
+
+  LOG.performance(component, message, window.performance.now());
+  console.log(message)
+}
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);

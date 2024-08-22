@@ -36,22 +36,20 @@
         <div class="card">
             <div class="card-header text-white bg-danger">{{'SEMINAR_REGRISTRATION.seminar' | translate}}</div>
             <div class="card-body">
-                <div class="center-items ">
-                    <mat-form-field>
-                        <mat-label>{{"CUSTOMER_REQUIREMENTS.dealers_daughters"|translate}}</mat-label>
-                        <mat-select [disabled]="roleService.checkPermission([6])"
-                            [ngModel]="(inputWorkshop.company === undefined)?undefined:inputWorkshop.company.id"
-                            required (valueChange)="changeCompany($event)">
-                            <mat-option>--</mat-option>
-                            @for (c of companies; track companies) {
-                            <mat-option [value]="c.id">{{c.name}}</mat-option>
-                            }
-                        </mat-select>
-                        @if (control.hasError('required')) {
-                        <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
+                <mat-form-field>
+                    <mat-label>{{"CUSTOMER_REQUIREMENTS.dealers_daughters"|translate}}</mat-label>
+                    <mat-select [disabled]="roleService.checkPermission([6])"
+                        [ngModel]="(inputWorkshop.company === undefined)?undefined:inputWorkshop.company.id" required
+                        (valueChange)="changeCompany($event)">
+                        <mat-option>--</mat-option>
+                        @for (c of companies; track companies) {
+                        <mat-option [value]="c.id">{{c.name}}</mat-option>
                         }
-                    </mat-form-field>
-                </div>
+                    </mat-select>
+                    @if (control.hasError('required')) {
+                    <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
+                    }
+                </mat-form-field>
                 <mat-form-field>
                     <mat-label>{{'SEMINAR_REGRISTRATION.company_customer' | translate}}</mat-label>
                     <input matInput required [(ngModel)]="inputWorkshop.customer">
@@ -79,25 +77,22 @@
         <div class="card">
             <div class="card-header  text-white bg-danger">{{'SEMINAR_REGRISTRATION.participants' | translate}}</div>
             <div class="card-body">
-                <div class="center-items">
-                    <mat-form-field>
-                        <mat-label>{{'VISITOR_REGRISTRATION.arrival_from_country' | translate}}</mat-label>
-                        <input matInput [(ngModel)]="inputWorkshop.travelFrom">
-                    </mat-form-field>
-                    <mat-form-field>
-                        <mat-label>{{'SEMINAR_REGRISTRATION.arrival_type' | translate}}</mat-label>
-                        <mat-select placeholder="{{'STANDARD.please_select'|translate}} "
-                            [(ngModel)]="inputWorkshop.travelType">
-                            <mat-option [value]="'car'">{{"SEMINAR_REGRISTRATION.travel_car" | translate}}</mat-option>
-                            <mat-option [value]="'train'">{{"SEMINAR_REGRISTRATION.travel_train" |
-                                translate}}</mat-option>
-                            <mat-option [value]="'flight'">{{"SEMINAR_REGRISTRATION.travel_flight" |
-                                translate}}</mat-option>
-                            <mat-option [value]="'bus'">{{"SEMINAR_REGRISTRATION.travel_bus" | translate}}</mat-option>
-                        </mat-select>
-
-                    </mat-form-field>
-                </div>
+                <mat-form-field>
+                    <mat-label>{{'VISITOR_REGRISTRATION.arrival_from_country' | translate}}</mat-label>
+                    <input matInput [(ngModel)]="inputWorkshop.travelFrom">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>{{'SEMINAR_REGRISTRATION.arrival_type' | translate}}</mat-label>
+                    <mat-select placeholder="{{'STANDARD.please_select'|translate}} "
+                        [(ngModel)]="inputWorkshop.travelType">
+                        <mat-option [value]="'car'">{{"SEMINAR_REGRISTRATION.travel_car" | translate}}</mat-option>
+                        <mat-option [value]="'train'">{{"SEMINAR_REGRISTRATION.travel_train" |
+                            translate}}</mat-option>
+                        <mat-option [value]="'flight'">{{"SEMINAR_REGRISTRATION.travel_flight" |
+                            translate}}</mat-option>
+                        <mat-option [value]="'bus'">{{"SEMINAR_REGRISTRATION.travel_bus" | translate}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
                 <div class="paddingSearch">
                     <mat-form-field style="margin-right: 0.5rem;">
                         <mat-label>{{'VISITOR_REGRISTRATION.number' | translate}}</mat-label>
@@ -121,69 +116,66 @@
             <div class="card-header  text-white bg-danger">{{'SEMINAR_REGRISTRATION.responsibilities' | translate}}
             </div>
             <div class="card-body">
-                <div class="center-items">
-                    <mat-form-field>
-                        <mat-label>{{"MAIN_LIST.representative"|translate}}</mat-label>
-                        <mat-select
-                            [ngModel]="(inputWorkshop.representative === undefined)?undefined:inputWorkshop.representative.id"
-                            (valueChange)="changeRepresentative($event)" required>
-                            <mat-option>--</mat-option>
-                            @for (r of representative; track representative) {
-                            <mat-option [value]="r.id">{{r.firstName}} {{r.lastName}}</mat-option>
-                            }
-                        </mat-select>
-                        @if (control.hasError('required')) {
-                        <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
+                <mat-form-field>
+                    <mat-label>{{"MAIN_LIST.representative"|translate}}</mat-label>
+                    <mat-select
+                        [ngModel]="(inputWorkshop.representative === undefined)?undefined:inputWorkshop.representative.id"
+                        (valueChange)="changeRepresentative($event)" required>
+                        <mat-option>--</mat-option>
+                        @for (r of representative; track representative) {
+                        <mat-option [value]="r.id">{{r.firstName}} {{r.lastName}}</mat-option>
                         }
-                    </mat-form-field>
+                    </mat-select>
+                    @if (control.hasError('required')) {
+                    <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
+                    }
+                </mat-form-field>
 
-                    <mat-form-field>
-                        <mat-label>{{'SEMINAR_REGRISTRATION.responsible_advisors' | translate}}</mat-label>
-                        <mat-select multiple placeholder="{{'STANDARD.please_select' | translate}}"
-                            [ngModel]="inputWorkshop.techSelection" (valueChange)="changeTechnolgist($event)">
-                            @for (t of technologists; track technologists) {
-                            <mat-option [value]="t.technologist.id">{{t.technologist.firstName}}
-                                {{t.technologist.lastName}}</mat-option>
-                            }
-                        </mat-select>
-                    </mat-form-field>
-                    <div class="displayBySide">
-                        <div class="center-items">
-                            <div class="displayBySide">
-                                <mat-form-field class="smallInputSide">
-                                    <mat-label>{{'SEMINAR_REGRISTRATION.language' | translate}}</mat-label>
-                                    <mat-select [placeholder]="'STANDARD.please_select' | translate"
-                                        [(ngModel)]="inputWorkshop.language" name="resons">
-                                        @for (re of languages; track languages) {
-                                        <mat-option [value]="re">{{re}}</mat-option>
-                                        }
-                                        <hr>
-                                        <div class="paddings">
-                                            <textarea style="height: 2rem" type="text" [(ngModel)]="addItem"
-                                                name="addItem"></textarea>
-                                            <button style="height: 2rem;" type="button" *ngIf="addItem"
-                                                mat-raised-button (click)="addToList(addItem)"><i class="fa fa-plus"
-                                                    aria-hidden="true"></i>
-                                            </button>
-                                        </div>
-                                    </mat-select>
-                                </mat-form-field>
-                            </div>
+                <mat-form-field>
+                    <mat-label>{{'SEMINAR_REGRISTRATION.responsible_advisors' | translate}}</mat-label>
+                    <mat-select multiple placeholder="{{'STANDARD.please_select' | translate}}"
+                        [ngModel]="inputWorkshop.techSelection" (valueChange)="changeTechnolgist($event)">
+                        @for (t of technologists; track technologists) {
+                        <mat-option [value]="t.technologist.id">{{t.technologist.firstName}}
+                            {{t.technologist.lastName}}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+                <div class="displayBySide">
+                    <div class="center-items">
+                        <div class="displayBySide">
+                            <mat-form-field class="smallInputSide">
+                                <mat-label>{{'SEMINAR_REGRISTRATION.language' | translate}}</mat-label>
+                                <mat-select [placeholder]="'STANDARD.please_select' | translate"
+                                    [(ngModel)]="inputWorkshop.language" name="resons">
+                                    @for (re of languages; track languages) {
+                                    <mat-option [value]="re">{{re}}</mat-option>
+                                    }
+                                    <hr>
+                                    <div class="paddings">
+                                        <textarea style="height: 2rem" type="text" [(ngModel)]="addItem"
+                                            name="addItem"></textarea>
+                                        <button style="height: 2rem;" type="button" *ngIf="addItem" mat-raised-button
+                                            (click)="addToList(addItem)"><i class="fa fa-plus" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </mat-select>
+                            </mat-form-field>
                         </div>
-                        <div class="center-items">
-                            <mat-label>{{'SEMINAR_REGRISTRATION.interpreter' | translate}}</mat-label>
-                            <div style="display: flex;">
-                                <label class="languageBox">
-                                    <mat-checkbox color="warn" [ngModel]="inputWorkshop.shouldBeTranslated"
-                                        (change)="inputWorkshop.shouldBeTranslated=inputWorkshop.shouldBeTranslated?false:true;"></mat-checkbox>{{'SEMINAR_REGRISTRATION.yes'
-                                    | translate}}
-                                </label>
-                                <label class="languageBox">
-                                    <mat-checkbox color="warn" [ngModel]="!inputWorkshop.shouldBeTranslated"
-                                        (change)="inputWorkshop.shouldBeTranslated=inputWorkshop.shouldBeTranslated?false:true"></mat-checkbox>{{'SEMINAR_REGRISTRATION.no'
-                                    | translate}}
-                                </label>
-                            </div>
+                    </div>
+                    <div class="center-items">
+                        <mat-label>{{'SEMINAR_REGRISTRATION.interpreter' | translate}}</mat-label>
+                        <div style="display: flex;">
+                            <label class="languageBox">
+                                <mat-checkbox color="warn" [ngModel]="inputWorkshop.shouldBeTranslated"
+                                    (change)="inputWorkshop.shouldBeTranslated=inputWorkshop.shouldBeTranslated?false:true;"></mat-checkbox>{{'SEMINAR_REGRISTRATION.yes'
+                                | translate}}
+                            </label>
+                            <label class="languageBox">
+                                <mat-checkbox color="warn" [ngModel]="!inputWorkshop.shouldBeTranslated"
+                                    (change)="inputWorkshop.shouldBeTranslated=inputWorkshop.shouldBeTranslated?false:true"></mat-checkbox>{{'SEMINAR_REGRISTRATION.no'
+                                | translate}}
+                            </label>
                         </div>
                     </div>
                 </div>
