@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Calendar, CalendarOptions } from '@fullcalendar/core';
+import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { HttpService } from '../../services/http.service';
 import { Router } from '@angular/router';
@@ -12,7 +12,7 @@ import { Company } from '../../models/company';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from '../../services/notification.service';
 import multiMonthPlugin from '@fullcalendar/multimonth'
-import { log } from '../../app.module';
+import { log } from '../../services/logger.service';
 
 @Component({
   selector: 'calendar',
@@ -37,22 +37,24 @@ export class CalendarComponent implements OnInit {
     { label: 'filter2', value: 'F_' },
     { label: 'filter3', value: 'B_' }];
   filterArray: string[] = [];
+  roleServiceUserName = this.roleService.getUserName();
+  nameOfCalendarEvent: string = "";
+  i: number = 0;
 
   //Setting the calendar settings
   calendarOptions: CalendarOptions = {
-    initialView: 'dayGridMonth',
+    initialView: 'multiMonthYear',
     plugins: [multiMonthPlugin, dayGridPlugin, interactionPlugin],
-    multiMonthMaxColumns: 5,
+    multiMonthMaxColumns: 1,
     eventClick: (arg) => this.handleEventClick(arg),
     selectable: true,
     select: (arg) => this.handleSelect(arg),
     events: [],
     firstDay: 1,
+    datesSet: this.onDatesSet.bind(this),
     displayEventTime: false,
     displayEventEnd: false,
     eventContent: (arg) => {
-      // Erstellen Sie benutzerdefinierten HTML-Inhalt mit Inline-Stilen
-
       const { event } = arg;
       if (this.calendarEvnts.find(element => element.id === arg.event._def.publicId)!.visible === false) {
         return {
@@ -73,12 +75,10 @@ export class CalendarComponent implements OnInit {
       return event.title
     }
   };
-
-
-  roleServiceUserName = this.roleService.getUserName();
-  nameOfCalendarEvent: string = "";
-  i: number = 0;
-
+  onDatesSet(dateInfo: any) {
+    console.log('Neue Daten geladen:', dateInfo.startStr, dateInfo.endStr);
+    // Hier kannst du zusätzliche Logik hinzufügen, um weitere Events zu laden
+  }
   constructor(public translate: TranslateService, private notificationService: NotificationService,
     private http: HttpService, private router: Router, private dialog: MatDialog,
     public roleService: RoleService
@@ -130,10 +130,10 @@ export class CalendarComponent implements OnInit {
       );
     });
 
-    this.calendarOptions.events = tmpEvents.filter(element => {
-      return element.title!.includes(this.searchValue);
-    }
-    ).map(value => ({
+    console.log(tmpEvents)
+
+    this.calendarOptions.events = []
+    this.calendarOptions.events = tmpEvents.map(value => ({
       id: value.id,
       title: value.title,
       start: value.start,
@@ -276,7 +276,7 @@ export class CalendarComponent implements OnInit {
         data.forEach(value => {
           this.calendarEvnts = [...this.calendarEvnts, {
             id: "o" + value.id,
-            title: value.requestedTechnologist!.firstName + " " + value.requestedTechnologist!.lastName + " - " + value.reason,
+            title: value.requestedTechnologist!.firstName + " " + value.requestedTechnologist!.lastName + " - " + this.translateTitle(value.reason!),
             start: value.startDate,
             end: value.endDate,
             backgroundColor: value.requestedTechnologist!.color,
@@ -299,6 +299,16 @@ export class CalendarComponent implements OnInit {
       }
     })
 
+  }
+
+  translateTitle(text: string): string {
+    let message = ""
+    if (text !== null && text !== undefined) {
+      this.translate.get(["STANDARD." + text]).subscribe(translations => {
+        message = translations['STANDARD.' + text];
+      });
+    }
+    return message;
   }
 
   handleSelect(clickInfo: any) {

@@ -37,7 +37,8 @@
 <div class="row">
     <div class="col-md-3">
         <div class="card">
-            <div class="card-header text-white bg-danger">{{'VISITOR_REGRISTRATION.almi_group_employee_registration' |
+            <div style="font-size: small;" class="card-header text-white bg-danger">
+                {{'VISITOR_REGRISTRATION.almi_group_employee_registration' |
                 translate}}</div>
             <div class="card-body">
                 <div class="displayBySide">
@@ -45,9 +46,14 @@
                         <mat-label>{{"VISITOR_REGRISTRATION.name" | translate}}</mat-label>
                         <textarea rows="1" matInput [(ngModel)]="inputVisitRegistration.name"></textarea>
                     </mat-form-field>
-                    <mat-form-field class="smallInputSide">
-                        <mat-label>{{"DASHBOARD.reason" | translate}}</mat-label>
-                        <textarea rows="1" matInput [(ngModel)]="inputVisitRegistration.inputReason"></textarea>
+                    <mat-form-field>
+                        <mat-select placeholder="{{'DASHBOARD.reason'|translate}} "
+                            [(ngModel)]="inputVisitRegistration.inputReason">
+                            <mat-option [value]="'0'">--</mat-option>
+                            <mat-option [value]="'1'">{{"VISITOR_REGRISTRATION.select1" | translate}}</mat-option>
+                            <mat-option [value]="'2'">{{"VISITOR_REGRISTRATION.select2" | translate}}</mat-option>
+                            <mat-option [value]="'3'">{{"VISITOR_REGRISTRATION.select3" | translate}}</mat-option>
+                        </mat-select>
                     </mat-form-field>
                 </div>
                 <div class="displayBySide">
@@ -106,8 +112,18 @@
                 </mat-form-field>
                 <div class="displayBySide">
                     <mat-form-field>
-                        <mat-label>{{'ABSCHLUSSBERICHT.visit_reason_general' | translate}}</mat-label>
-                        <textarea rows="1" matInput [(ngModel)]="inputVisitRegistration.reasonForVisit"></textarea>
+                        <mat-select placeholder="{{'ABSCHLUSSBERICHT.visit_reason_general' | translate}}"
+                            [(ngModel)]="inputVisitRegistration.reasonForVisit">
+                            <mat-option [value]="'0'">--</mat-option>
+                            <mat-option style="height: 4rem;" [value]="'1'">{{"VISITOR_REGRISTRATION.select4" |
+                                translate}}</mat-option>
+                            <mat-option style="height: 4rem;" [value]="'2'">{{"VISITOR_REGRISTRATION.select5" |
+                                translate}}</mat-option>
+                            <mat-option style="height: 4rem;" [value]="'3'">{{"VISITOR_REGRISTRATION.select6" |
+                                translate}}</mat-option>
+                            <mat-option [value]="'3'">{{"VISITOR_REGRISTRATION.select7" | translate}}</mat-option>
+                            <mat-option [value]="'3'">{{"VISITOR_REGRISTRATION.select3" | translate}}</mat-option>
+                        </mat-select>
                     </mat-form-field>
                     <label class="languageBox">{{'STANDARD.language_en' | translate}}
                         <mat-checkbox color="warn" [(ngModel)]="inputVisitRegistration.languageEN"></mat-checkbox>

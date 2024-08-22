@@ -12,7 +12,7 @@ import { RoleService } from '../../../services/role.service';
 import { Representative } from '../../../models/representative';
 import { TranslateService } from '@ngx-translate/core';
 import { CheckDialogComponent } from '../check-dialog/check-dialog.component';
-import { log } from '../../../app.module';
+import { log } from '../../../services/logger.service';
 
 @Component({
   selector: 'app-visitor-registration',

@@ -8,7 +8,7 @@ import { NotificationService } from '../../../services/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { TechDateDTO } from '../../../models/tech-date-dto';
 import { RoleService } from '../../../services/role.service';
-import { log } from '../../../app.module';
+import { log } from '../../../services/logger.service';
 
 @Component({
   selector: 'app-new-date-entry',

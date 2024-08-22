@@ -7,7 +7,7 @@ import { RoleService } from '../../services/role.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Company } from '../../models/company';
 import * as XLSX from 'xlsx';
-import { log } from '../../app.module';
+import { log } from '../../services/logger.service';
 
 
 @Component({

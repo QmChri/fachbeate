@@ -10,8 +10,7 @@ import { FinalReport } from '../../../models/final-report';
 import { MatDialog } from '@angular/material/dialog';
 import { AbschlussBerichtComponent } from '../abschluss-bericht/abschluss-bericht.component';
 import { Company } from '../../../models/company';
-import { LoggerService } from '../../../services/logger.service';
-import { log } from '../../../app.module';
+import { LoggerService, log } from '../../../services/logger.service';
 
 @Component({
   selector: 'abschluss-bericht-list',

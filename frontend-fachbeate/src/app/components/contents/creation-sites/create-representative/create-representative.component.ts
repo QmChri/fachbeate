@@ -3,7 +3,7 @@ import { HttpService } from '../../../../services/http.service';
 import { Representative } from '../../../../models/representative';
 import { NotificationService } from '../../../../services/notification.service';
 import { TranslateService } from '@ngx-translate/core';
-import { log } from '../../../../app.module';
+import { log } from '../../../../services/logger.service';
 
 @Component({
   selector: 'app-create-representative',

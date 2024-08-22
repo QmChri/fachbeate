@@ -13,7 +13,7 @@ import { Representative } from '../../../models/representative';
 import { TranslateService } from '@ngx-translate/core';
 import { TechDateDTO } from '../../../models/tech-date-dto';
 import { CheckDialogComponent } from '../check-dialog/check-dialog.component';
-import { log } from '../../../app.module';
+import { log } from '../../../services/logger.service';
 
 @Component({
   selector: 'app-seminar-registration',
