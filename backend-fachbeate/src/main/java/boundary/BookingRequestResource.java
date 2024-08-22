@@ -1,8 +1,6 @@
 package boundary;
 
 import entity.BookingRequest;
-import entity.CustomerRequirement;
-import entity.VisitorRegistration;
 import entity.dto.MainListDTO;
 import io.quarkus.security.Authenticated;
 import jakarta.transaction.Transactional;

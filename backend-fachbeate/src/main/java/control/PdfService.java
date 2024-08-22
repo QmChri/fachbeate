@@ -2,6 +2,7 @@ package control;
 
 import com.lowagie.text.*;
 import com.lowagie.text.Font;
+import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 import entity.*;
@@ -10,6 +11,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import java.awt.*;
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -96,7 +98,6 @@ public class PdfService {
 
         return byteArrayOutputStream.toByteArray();
     }
-
 
     public byte[] createVisitPdf(Long visitId)throws DocumentException{
 
@@ -240,7 +241,6 @@ public class PdfService {
         return byteArrayOutputStream.toByteArray();
     }
 
-
     public byte[] createWorkshop(Long workshopId)throws DocumentException{
 
         WorkshopRequirement workshopRequirement = WorkshopRequirement.findById(workshopId);
@@ -283,7 +283,6 @@ public class PdfService {
             table.addCell(g.function);
         }
         document.add(table);
-
 
         addSection(document, "Zuständigkeiten",  new String[][]{
                 {"Vertreter", (workshopRequirement.representative != null)?(workshopRequirement.representative.firstName + " " + workshopRequirement.representative.lastName):""},
@@ -371,26 +370,117 @@ public class PdfService {
         return byteArrayOutputStream.toByteArray();
     }
 
-    
+    public byte[] createFinalReportPdf(Long finaReportId) throws DocumentException {
+
+        FinalReport finalReport = FinalReport.findById(finaReportId);
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+        Document document = new Document();
+        PdfWriter.getInstance(document, byteArrayOutputStream);
+        document.open();
+
+        document.add(new Paragraph("Abschlussbericht: A_"+ finalReport.id, FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, Font.BOLD)));
+
+
+        String[] reasons = new String[] {
+                (finalReport.presentationOfNewProducts)? "Vorstellung neuer Produkte" : null,
+                (finalReport.existingProducts) ? "Problemlösung" : null,
+                (finalReport.recipeOptimization) ? "Rezeptur Optimierung" : null,
+                (finalReport.sampleProduction) ? "Muster Produktion" : null,
+                (finalReport.training) ? "Schulung" : null
+        };
+        reasons = Arrays.stream(reasons).filter(Objects::nonNull).toList().toArray(new String[0]);
+
+        addSection(document, "Allgemeine Daten Kundenbesuche",  new String[][]{
+                {"Fachberater", finalReport.technologist.firstName + " " + finalReport.technologist.lastName},
+                {"Unternehmen", finalReport.company},
+                {"Kundennummer", finalReport.companyNr},
+                {"Vertreter", finalReport.representative.firstName + " " + finalReport.representative.lastName},
+                {"Datum Besuch", formatDate(finalReport.dateOfVisit)},
+                {"Grund des Besuchs", Arrays.toString(reasons).replace("[", "").replace("]", "")},
+        });
+
+        addSection(document, "Abschließender Bericht – Vertreter",  new String[][]{
+                {"Weitere Produkte", finalReport.interestingProducts},
+                {"Abgeschlossen", finalReport.requestCompleted?"Ja":"Nein"},
+                {"Zusammenfassung Abschlussbericht", finalReport.summaryFinalReport}
+          });
+
+        reasons = new String[] {
+                (finalReport.reworkInformation)? "Vorstellung neuer Produkte" : null,
+                (finalReport.reworkRecipe_optimization) ? "Problemlösung" : null,
+                (finalReport.reworkProduct_development) ? "Rezeptur Optimierung" : null
+        };
+        reasons = Arrays.stream(reasons).filter(Objects::nonNull).toList().toArray(new String[0]);
+
+        addSection(document, "Nacharbeiten durch Fachberater", Arrays.stream(
+                new String[][]{
+                        {"Nacharbeit erforderlich", finalReport.reworkByTechnologist?"Ja":"Nein"},
+                        {"Folgebesuch erwünscht", finalReport.reworkFollowVisits?"Ja":"Nein"},
+                        (finalReport.reworkByTechnologist)?
+                                new String[]{"Zu erledigen", Arrays.toString(reasons).replace("[", "").replace("]", "")}
+                                :null,
+                        (finalReport.reworkByTechnologist)?
+                                new String[]{"Zu erledigen bis FB", formatDate(finalReport.reworkByTechnologistDoneUntil)}
+                                :null
+                }).filter(Objects::nonNull).toArray(String[][]::new));
+
+        String [] reasonTitles = new String[] {"Vorstellung neuer Produkte", "Problemlösung", "Rezeptur Optimierung", "Muster Produktion"};
+
+
+        document.add(new Paragraph("Berichte per Grund ", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 16)));
+        document.add(new Paragraph("     "));
+        for (ReasonReport r : finalReport.reasonReports){
+            document.add(new Paragraph(reasonTitles[r.reason-1], FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12)));
+            document.add(new Paragraph("     "));
+            PdfPTable table = new PdfPTable(3);
+            table.setWidthPercentage(100);
+            table.addCell(new Phrase("Artikel Nr.", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12)));
+            table.addCell(new Phrase("Artikel", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12)));
+            table.addCell(new Phrase("Zusammenfassung", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12)));
+
+
+            for (Article a : r.presentedArticle) {
+                table.addCell(String.valueOf(a.articleNr));
+                table.addCell(a.name);
+                table.addCell(a.summary);
+            }
+
+            document.add(table);
+        }
+
+
+        document.close();
+
+        return byteArrayOutputStream.toByteArray();
+    }
 
 
     private String formatDate(Date date){
+        if(date == null){
+            return "";
+        }
         return new SimpleDateFormat("dd.MM.yy").format(date);
     }
 
     private void addSection(Document document, String title, String[][] content) throws DocumentException {
-        document.add(new Paragraph(title, FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14)));
+        document.add(new Paragraph(title, FontFactory.getFont(FontFactory.HELVETICA_BOLD, 16)));
         document.add(new Paragraph("     "));
         PdfPTable table = new PdfPTable(2);
         table.setWidthPercentage(100);
 
         for (String[] row : content) {
-            table.addCell(new Phrase(row[0], FontFactory.getFont(FontFactory.HELVETICA, 12)));
-            table.addCell(new Phrase(row[1], FontFactory.getFont(FontFactory.HELVETICA, 12)));
+            table.addCell(new Phrase(row[0], FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12)));
+            PdfPCell rightCell = new PdfPCell(new Phrase(row[1], FontFactory.getFont(FontFactory.HELVETICA, 12)));
+            rightCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            table.addCell(rightCell);
         }
 
         document.add(table);
         document.add(new Paragraph("\n"));
     }
+
+
 
 }
