@@ -14,7 +14,7 @@ public class MailService {
     public void sendTestMail(){
         mailer.send(
                 Mail.withText(
-                        "hier@mail.com",
+                        "qm.praktikant1@almi.at",
                         "Testemail für Fachberaterprogramm",
                         "Das hier ist eine Testemail um zu Prüfen ob es Funktioniert \n dies hier sollte in der nächsten zeile stehen"
                 )
