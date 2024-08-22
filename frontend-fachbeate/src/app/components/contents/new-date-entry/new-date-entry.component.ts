@@ -8,6 +8,7 @@ import { NotificationService } from '../../../services/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { TechDateDTO } from '../../../models/tech-date-dto';
 import { RoleService } from '../../../services/role.service';
+import { log } from '../../../app.module';
 
 @Component({
   selector: 'app-new-date-entry',
@@ -62,7 +63,7 @@ export class NewDateEntryComponent implements OnInit {
         this.closeDialog();
       },
       error: err => {
-        console.log(err)
+        log("new-date-entry: ", err)
       }
     });
   }
@@ -77,7 +78,7 @@ export class NewDateEntryComponent implements OnInit {
         this.technologists = data;
       },
       error: err => {
-        console.log(err);
+        log("new-date-entry: ", err)
       }
     });
   }
@@ -114,7 +115,7 @@ export class NewDateEntryComponent implements OnInit {
           this.closeDialog();
         },
         error: err => {
-          console.log(err)
+          log("new-date-entry: ", err)
         }
       });
     }

@@ -11,7 +11,8 @@
         "new-re": "New Representative",
         "new-de": "New Dealer",
         "lan-sel": "Language Selection",
-        "bookingRequest": "Booking Request"
+        "bookingRequest": "Booking Request",
+        "support": "Support"
     },
     "STANDARD": {
         "please_select": "Please select",
@@ -142,7 +143,15 @@
         "summary": "Summary",
         "article": "Article",
         "article_number": "Article number",
-        "article_length": "Article number - 7 Digits"
+        "header_upload": "File storage",
+        "article_length": "Article number - 7 Digits",
+        "files_allowed": "Unauthorized File Type!",
+        "files_allowed_2": "Allowed: PDF/PNG/JPG/HEIF",
+        "files_count": "Maximum number of files reached!",
+        "files_count_2": "Allowed: 5 files",
+        "files_size": "File too large!",
+        "files_size_2": "Maximum file size: 2MB",
+        "files_uploaded": "Files have been uploaded"
     },
     "VISITOR_REGRISTRATION": {
         "visitor_registration": "Visitor Registration",
@@ -294,5 +303,12 @@
         "footer3_item2": "Ms. Arijanda Iska",
         "footer3_item3": "E-mail: office@almi.at; Tel. +43 7221 733 99-294;",
         "footer3_item4": "Alternate: Ms. Emma Gartner, +43 7221 733 99-295"
+    },
+    "SUPPORT": {
+        "header": "Report an Issue/Bug",
+        "subHeader": "Brief Description",
+        "of": "Affected Interface",
+        "message": "e.g.: An error occurred while saving a consultant request.",
+        "send": "Send"
     }
 }

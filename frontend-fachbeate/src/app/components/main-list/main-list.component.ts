@@ -7,6 +7,7 @@ import { RoleService } from '../../services/role.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Company } from '../../models/company';
 import * as XLSX from 'xlsx';
+import { log } from '../../app.module';
 
 
 @Component({
@@ -251,7 +252,7 @@ export class MainListComponent implements OnInit {
         this.getNzFilters();
       },
       error: err => {
-        console.log(err);
+        log("main-list: ", err)
       }
     });
 
@@ -281,7 +282,7 @@ export class MainListComponent implements OnInit {
         this.getNzFilters();
       },
       error: err => {
-        console.log(err);
+        log("main-list: ", err)
       }
     });
 
@@ -311,7 +312,7 @@ export class MainListComponent implements OnInit {
         this.getNzFilters();
       },
       error: err => {
-        console.log(err);
+        log("main-list: ", err)
       }
     });
 
@@ -346,7 +347,7 @@ export class MainListComponent implements OnInit {
     this.http.getAllTechnologist().subscribe({
       next: data => { this.technologistList = data },
       error: err => {
-        console.log(err);
+        log("main-list: ", err)
       }
     })
   }

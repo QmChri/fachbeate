@@ -3,6 +3,7 @@ import { HttpService } from '../../../../services/http.service';
 import { Company } from '../../../../models/company';
 import { NotificationService } from '../../../../services/notification.service';
 import { TranslateService } from '@ngx-translate/core';
+import { log } from '../../../../app.module';
 
 @Component({
   selector: 'app-create-dealer',
@@ -26,7 +27,7 @@ export class CreateDealerComponent implements OnInit {
         this.companyList = data
       },
       error: err => {
-        console.log(err);
+        log("create-representative: ", err)
       }
     })
 
@@ -56,7 +57,7 @@ export class CreateDealerComponent implements OnInit {
           this.loadCompany();
         },
         error: err => {
-          console.log(err);
+          log("create-representative: ", err)
         }
       });
     }

@@ -8,6 +8,8 @@ import { FormControl, Validators } from '@angular/forms';
 import { Booking } from '../../../models/booking';
 import { CheckDialogComponent } from '../check-dialog/check-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
+import { log } from '../../../app.module';
 
 @Component({
   selector: 'app-booking-request',
@@ -16,6 +18,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class BookingRequestComponent implements OnInit {
   addItem: string = "";
+  fileList: NzUploadFile[] = [];
   costCoverages: string[] = [
     'almiGmbH',
     'almiSubsidiary'
@@ -53,12 +56,13 @@ export class BookingRequestComponent implements OnInit {
             }
           },
           error: err => {
-            console.log(err);
+            log("booking-request: ", err)
           }
         });
       }
     });
   }
+
 
   checkRequired(): boolean {
     //TODO
@@ -102,6 +106,39 @@ export class BookingRequestComponent implements OnInit {
           this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
         });
         this.freigegeben = false;
+        break;
+      }
+      case 4: { //Files hochgeladen
+        this.translate.get('ABSCHLUSSBERICHT.files_uploaded').subscribe((translatedMessage: string) => {
+          this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
+        });
+        break;
+      }
+      case 5: { //Files nicht erlaubt
+        this.translate.get(['ABSCHLUSSBERICHT.files_allowed', 'ABSCHLUSSBERICHT.files_allowed_2'])
+          .subscribe((translations: { [key: string]: string }) => {
+            const message1 = translations['ABSCHLUSSBERICHT.files_allowed'];
+            const message2 = translations['ABSCHLUSSBERICHT.files_allowed_2'];
+            this.notificationService.createBasicNotification(4, message1, message2, 'topRight');
+          });
+        break;
+      }
+      case 6: { // maximal 5 Files
+        this.translate.get(['ABSCHLUSSBERICHT.files_count', 'ABSCHLUSSBERICHT.files_count_2'])
+          .subscribe((translations: { [key: string]: string }) => {
+            const message1 = translations['ABSCHLUSSBERICHT.files_count'];
+            const message2 = translations['ABSCHLUSSBERICHT.files_count_2'];
+            this.notificationService.createBasicNotification(4, message1, message2, 'topRight');
+          });
+        break;
+      }
+      case 7: { //maximal 2 MB per file
+        this.translate.get(['ABSCHLUSSBERICHT.files_size', 'ABSCHLUSSBERICHT.files_size_2'])
+          .subscribe((translations: { [key: string]: string }) => {
+            const message1 = translations['ABSCHLUSSBERICHT.files_size'];
+            const message2 = translations['ABSCHLUSSBERICHT.files_size_2'];
+            this.notificationService.createBasicNotification(4, message1, message2, 'topRight');
+          });
         break;
       }
       /*case 4: { // Pflichtfelder ausfüllen
@@ -160,7 +197,7 @@ export class BookingRequestComponent implements OnInit {
           ].filter(p => p != "");
         },
         error: err => {
-          console.log(err);
+          log("booking-request: ", err)
         }
       })
     }
@@ -194,5 +231,32 @@ export class BookingRequestComponent implements OnInit {
 
   convertToDate(date: any): Date | undefined {
     return (date !== null && date !== undefined) ? new Date(date.toString()) : undefined;
+  }
+
+  beforeUpload = (file: NzUploadFile): boolean => {
+    const icCorrectFileType = file.type === 'application/pdf' || file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/jpeg' || file.type === 'image/heif';
+    const isLt2M = file.size! / 1024 / 1024 < 1;
+
+    if (!icCorrectFileType) {
+      this.getNotification(5);
+      return false;
+    }
+    if (this.fileList.length >= 5) {
+      this.getNotification(6);
+      return false;
+    }
+    if (!isLt2M) {
+      this.getNotification(7);
+      return false;
+    }
+    // Datei zur Liste hinzufügen
+    this.fileList = [...this.fileList, file];
+    this.getNotification(4);
+    return true;
+  };
+
+  handleChange(info: { fileList: NzUploadFile[] }): void {
+    const fileList = info.fileList.slice(-10);
+    this.fileList = fileList;
   }
 }

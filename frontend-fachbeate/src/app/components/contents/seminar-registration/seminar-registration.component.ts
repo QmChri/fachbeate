@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { WorkshopRequirement } from '../../../models/workshop-requirement';
 import { HttpService } from '../../../services/http.service';
-import { Technologist } from '../../../models/technologist';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -14,6 +13,7 @@ import { Representative } from '../../../models/representative';
 import { TranslateService } from '@ngx-translate/core';
 import { TechDateDTO } from '../../../models/tech-date-dto';
 import { CheckDialogComponent } from '../check-dialog/check-dialog.component';
+import { log } from '../../../app.module';
 
 @Component({
   selector: 'app-seminar-registration',
@@ -71,7 +71,7 @@ export class SeminarRegistrationComponent implements OnInit {
             }
           },
           error: err => {
-            console.log(err);
+            log("seminar-regristration: ", err)
           }
         });
       } else {
@@ -198,7 +198,7 @@ export class SeminarRegistrationComponent implements OnInit {
         }
       },
       error: err => {
-        console.log(err);
+        log("seminar-regristration: ", err)
       }
     });
   }
@@ -213,7 +213,7 @@ export class SeminarRegistrationComponent implements OnInit {
         this.representative = data;
       },
       error: err => {
-        console.log(err);
+        log("seminar-regristration: ", err)
       }
     });
   }
@@ -224,7 +224,7 @@ export class SeminarRegistrationComponent implements OnInit {
         this.technologists = data;
       },
       error: err => {
-        console.log(err);
+        log("seminar-regristration: ", err)
       }
     });
   }
@@ -300,7 +300,7 @@ export class SeminarRegistrationComponent implements OnInit {
           ].filter(p => p != -1);
         },
         error: err => {
-          console.log(err);
+          log("seminar-regristration: ", err)
         }
       })
     }

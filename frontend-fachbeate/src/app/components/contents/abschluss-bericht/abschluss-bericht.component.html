@@ -255,6 +255,20 @@
                 </mat-button-toggle-group>
             </div>
         </div>
+        <div class="col-md-4 paddingBottom">
+            <div class="card" style="min-height: 19rem;">
+                <div class="card-header text-white bg-danger">{{"ABSCHLUSSBERICHT.header_upload" | translate}}</div>
+                <div class="card-body">
+                    <nz-upload [nzFileList]="fileList" [nzBeforeUpload]="beforeUpload" [nzLimit]="5" [nzMultiple]="true"
+                        [nzShowUploadList]="true" [nzShowButton]="fileList.length < 5" [nzListType]="'picture-card'"
+                        (nzChange)="handleChange($event)" class="custom-upload">
+                        <button nz-button>
+                            <i nz-icon nzType="upload"></i> Upload
+                        </button>
+                    </nz-upload>
+                </div>
+            </div>
+        </div>
         <ng-container *ngFor="let reasonReport of inputFinalReport.reasonReports">
             <div class="col-md-4 paddingBottom" *ngIf="reasonReport.reason === 1">
                 <div class="card" hideToggle>
@@ -424,22 +438,6 @@
                 </div>
             </div>
         </ng-container>
-    </div>
-    <div class="row">
-        <div class="col-md-12 paddingBottom">
-            <div class="card">
-                <div class="card-header text-white bg-danger">{{"Datei Ablage" | translate}}</div>
-                <div class="card-body">
-                    <nz-upload [nzFileList]="fileList" [nzBeforeUpload]="beforeUpload" [nzLimit]="10"
-                        [nzMultiple]="true" [nzShowUploadList]="true" [nzShowButton]="fileList.length < 10"
-                        [nzListType]="'picture-card'" (nzChange)="handleChange($event)" class="custom-upload">
-                        <button nz-button>
-                            <i nz-icon nzType="upload"></i> Upload
-                        </button>
-                    </nz-upload>
-                </div>
-            </div>
-        </div>
     </div>
     <div class="header">
         <div> <button (click)="closeDialog(false)" class="btn btn-secondary">{{"DASHBOARD.cancel" |

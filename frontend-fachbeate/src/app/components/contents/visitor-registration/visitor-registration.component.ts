@@ -12,6 +12,7 @@ import { RoleService } from '../../../services/role.service';
 import { Representative } from '../../../models/representative';
 import { TranslateService } from '@ngx-translate/core';
 import { CheckDialogComponent } from '../check-dialog/check-dialog.component';
+import { log } from '../../../app.module';
 
 @Component({
   selector: 'app-visitor-registration',
@@ -82,7 +83,7 @@ export class VisitorRegistrationComponent implements OnInit {
             }
           },
           error: err => {
-            console.log(err);
+            log("Booking Request", err)
           }
         });
       }
@@ -299,7 +300,7 @@ export class VisitorRegistrationComponent implements OnInit {
         })
       },
       error: err => {
-        console.log(err);
+        log("visitor-regristration: ", err)
       }
     })
   }
@@ -318,7 +319,7 @@ export class VisitorRegistrationComponent implements OnInit {
         this.representative = data;
       },
       error: err => {
-        console.log(err);
+        log("visitor-regristration: ", err)
       }
     });
   }

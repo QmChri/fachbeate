@@ -1,0 +1,26 @@
+<br>
+<h1>{{'SUPPORT.header' | translate}}</h1>
+<mat-divider></mat-divider>
+<br><br>
+<form class="example-form container">
+    <h2>{{'SUPPORT.subHeader' | translate}}</h2>
+    <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>{{'SUPPORT.message' | translate}}</mat-label>
+        <textarea [(ngModel)]="support.userText" name="body" style="min-height: 200px" matInput
+            placeholder="Error Code"></textarea>
+    </mat-form-field>
+    <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>{{'SUPPORT.of' | translate}}</mat-label>
+        <mat-select name="of" [(ngModel)]="support.of">
+            @for (state of ofs; track state) {
+            <mat-option [value]="state">{{'NAV.'+state | translate}}</mat-option>
+            }
+        </mat-select>
+    </mat-form-field>
+    <div style="margin: auto; text-align: center">
+        <button (click)="postSupport()" mat-raised-button class="mat-elevation-z8"
+            style="padding-left: 50px; padding-right: 50px" color="primary">
+            {{'SUPPORT.send' | translate}}
+        </button>
+    </div>
+</form>
