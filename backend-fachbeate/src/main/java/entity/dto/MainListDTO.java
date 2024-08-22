@@ -27,8 +27,8 @@ public class MainListDTO {
         this.name= element.company.name;
         this.dateOfCreation = (element.dateOfCreation != null) ? element.dateOfCreation.toString() : "";
         this.customerOrCompany= element.creator;
-        this.statusGL= (element.releaseSupervisor!=null) ? "GL Freigegeben " : "GL Nicht-Freigegeben";
-        this.statusAL= (element.releaseManagement!=null) ? "AL Freigegeben " : "AL Nicht-Freigegeben";
+        this.statusGL= (element.releaseSupervisor!=null) ? "GL Freigegeben" : "GL Nicht-Freigegeben";
+        this.statusAL= (element.releaseManagement!=null) ? "AL Freigegeben" : "AL Nicht-Freigegeben";
         this.technologist= element.requestedTechnologist.firstName + " " + element.requestedTechnologist.lastName;
         this.representative= element.representative.firstName + " " + element.representative.lastName;
         this.fromDate= element.startDate.toString();

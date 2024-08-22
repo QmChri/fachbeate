@@ -77,14 +77,6 @@
 
 .custom-upload {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-}
-
-:host ::ng-deep .ant-upload-list-picture-card-container {
-    display: inline-block;
-    width: 95px;
-    height: 95px;
-    margin: 0 8px 8px 0;
-    vertical-align: top;
+    flex-direction: row;
+    justify-content: center;
 }

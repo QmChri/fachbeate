@@ -107,9 +107,9 @@
         <div class="card" style="min-height: 18rem;">
             <div class="card-header text-white bg-danger">{{"ABSCHLUSSBERICHT.header_upload" | translate}}</div>
             <div class="card-body">
-                <nz-upload [nzFileList]="fileList" [nzBeforeUpload]="beforeUpload" [nzLimit]="5" [nzMultiple]="true"
-                    [nzShowUploadList]="true" [nzShowButton]="fileList.length < 5" [nzListType]="'picture-card'"
-                    (nzChange)="handleChange($event)" class="custom-upload">
+                <nz-upload [nzFileList]="fileList" [nzBeforeUpload]="beforeUpload" [nzLimit]="5"
+                    [nzMultiple]="true" [nzShowUploadList]="true" [nzShowButton]="fileList.length < 5"
+                    [nzListType]="'picture-card'" (nzChange)="handleChange($event)" class="custom-upload">
                     <button nz-button>
                         <i nz-icon nzType="upload"></i> Upload
                     </button>
