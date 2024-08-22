@@ -276,7 +276,6 @@
                         translate}}
                     </div>
                     <div class="card-body">
-
                         @for (article of reasonReport.presentedArticle; track $index) {
                         <div class="displayBySide">
                             <mat-form-field class="artundnr">
@@ -322,10 +321,16 @@
                         @for (article of reasonReport.presentedArticle; track $index) {
                         <div class="displayBySide">
                             <mat-form-field class="artundnr">
-                                <mat-label>{{"ABSCHLUSSBERICHT.article_number" | translate}}</mat-label>
+                                <mat-label>{{ "ABSCHLUSSBERICHT.article_number" | translate }}</mat-label>
                                 <input [disabled]="roleService.checkPermission([6])" matInput type="text"
                                     [(ngModel)]="article.articleNr" name="articleNumber{{reasonReport.reason}}"
-                                    (ngModelChange)="insertOther(article, reasonReport.reason)">
+                                    (ngModelChange)="insertOther(article, reasonReport.reason)" pattern="[0-9]*"
+                                    maxlength="7" minlength="7" required>
+                                @if (control.hasError('required')) {
+                                <mat-error>
+                                    {{ "ABSCHLUSSBERICHT.article_length" | translate }}
+                                </mat-error>
+                                }
                             </mat-form-field>
                             <mat-form-field class="artundnr">
                                 <mat-label>{{"ABSCHLUSSBERICHT.article" | translate}}</mat-label>

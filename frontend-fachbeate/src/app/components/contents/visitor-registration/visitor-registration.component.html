@@ -1,5 +1,5 @@
-
-<p id="demo"></p><div class="header">
+<p id="demo"></p>
+<div class="header">
     <div class="header">
         <h1 class="paddingSearch" style="margin-bottom: 0;">{{"VISITOR_REGRISTRATION.visitor_registration" | translate}}
         </h1>
@@ -37,7 +37,8 @@
 <div class="row">
     <div class="col-md-3">
         <div class="card">
-            <div class="card-header text-white bg-danger">{{'VISITOR_REGRISTRATION.almi_group_employee_registration' |
+            <div style="font-size: small;" class="card-header text-white bg-danger">
+                {{'VISITOR_REGRISTRATION.almi_group_employee_registration' |
                 translate}}</div>
             <div class="card-body">
                 <div class="displayBySide">
@@ -45,9 +46,14 @@
                         <mat-label>{{"VISITOR_REGRISTRATION.name" | translate}}</mat-label>
                         <textarea rows="1" matInput [(ngModel)]="inputVisitRegistration.name"></textarea>
                     </mat-form-field>
-                    <mat-form-field class="smallInputSide">
-                        <mat-label>{{"DASHBOARD.reason" | translate}}</mat-label>
-                        <textarea rows="1" matInput [(ngModel)]="inputVisitRegistration.inputReason"></textarea>
+                    <mat-form-field>
+                        <mat-select placeholder="{{'DASHBOARD.reason'|translate}} "
+                            [(ngModel)]="inputVisitRegistration.inputReason">
+                            <mat-option [value]="'0'">--</mat-option>
+                            <mat-option [value]="'1'">{{"VISITOR_REGRISTRATION.select1" | translate}}</mat-option>
+                            <mat-option [value]="'2'">{{"VISITOR_REGRISTRATION.select2" | translate}}</mat-option>
+                            <mat-option [value]="'3'">{{"VISITOR_REGRISTRATION.select3" | translate}}</mat-option>
+                        </mat-select>
                     </mat-form-field>
                 </div>
                 <div class="displayBySide">
@@ -106,8 +112,18 @@
                 </mat-form-field>
                 <div class="displayBySide">
                     <mat-form-field>
-                        <mat-label>{{'ABSCHLUSSBERICHT.visit_reason_general' | translate}}</mat-label>
-                        <textarea rows="1" matInput [(ngModel)]="inputVisitRegistration.reasonForVisit"></textarea>
+                        <mat-select placeholder="{{'ABSCHLUSSBERICHT.visit_reason_general' | translate}}"
+                            [(ngModel)]="inputVisitRegistration.reasonForVisit">
+                            <mat-option [value]="'0'">--</mat-option>
+                            <mat-option style="height: 4rem;" [value]="'1'">{{"VISITOR_REGRISTRATION.select4" |
+                                translate}}</mat-option>
+                            <mat-option style="height: 4rem;" [value]="'2'">{{"VISITOR_REGRISTRATION.select5" |
+                                translate}}</mat-option>
+                            <mat-option style="height: 4rem;" [value]="'3'">{{"VISITOR_REGRISTRATION.select6" |
+                                translate}}</mat-option>
+                            <mat-option [value]="'3'">{{"VISITOR_REGRISTRATION.select7" | translate}}</mat-option>
+                            <mat-option [value]="'3'">{{"VISITOR_REGRISTRATION.select3" | translate}}</mat-option>
+                        </mat-select>
                     </mat-form-field>
                     <label class="languageBox">{{'STANDARD.language_en' | translate}}
                         <mat-checkbox color="warn" [(ngModel)]="inputVisitRegistration.languageEN"></mat-checkbox>
@@ -266,31 +282,36 @@
                     <div class="card-header bg-danger text-white">{{'VISITOR_REGRISTRATION.airport_transfer_train' |
                         translate}}
                     </div>
-                    <div class="card-body minheigtCard">
+                    <div class="card-body">
+                        @for (flight of inputVisitRegistration.flights; track flight; let index = $index)
+                        {<p>{{index+1}}. {{'SEMINAR_REGRISTRATION.travel_train' | translate}}
+                        </p>
+                        <div class="center-items">
+                            <mat-form-field>
+                                <mat-label>{{'VISITOR_REGRISTRATION.date' | translate}}</mat-label>
+                                <input matInput [matDatepicker]="picker5" [(ngModel)]="flight.flightDate">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
+                                <mat-datepicker #picker5></mat-datepicker>
+                            </mat-form-field>
+                        </div>
                         <div class="displayBySide">
-                            <div class="center-items">
-                                <mat-form-field class="smallInput">
-                                    <mat-label>{{'VISITOR_REGRISTRATION.date' | translate}}</mat-label>
-                                    <input matInput [matDatepicker]="picker5"
-                                        [(ngModel)]="inputVisitRegistration.transferFromDate">
-                                    <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
-                                    <mat-datepicker #picker5></mat-datepicker>
-                                </mat-form-field>
-                                <mat-form-field class="smallInput">
-                                    <mat-label>{{'VISITOR_REGRISTRATION.other_travel_requirements' |
-                                        translate}}</mat-label>
-                                    <input matInput [(ngModel)]="inputVisitRegistration.otherTravelRequirements">
-                                </mat-form-field>
+                            <mat-form-field class="smallInputSpecial">
+                                <mat-label>{{'STANDARD.assigned_from' | translate}}</mat-label>
+                                <input matInput [(ngModel)]="flight.flightFrom">
+                            </mat-form-field>
+                            <mat-form-field class="smallInputSpecial">
+                                <mat-label>{{'VISITOR_REGRISTRATION.to' | translate}}</mat-label>
+                                <input matInput [(ngModel)]="flight.flightTo">
+                            </mat-form-field>
+                        </div>
+                        }
+                        <div class="header">
+                            <div>
+                                <button (click)="deleteLast(3)" class="btn btn-danger"><i
+                                        class="fa fa-minus"></i></button>
                             </div>
-                            <div class="center-items">
-                                <mat-form-field class="smallInput">
-                                    <mat-label>{{'DASHBOARD.from' | translate}}</mat-label>
-                                    <input matInput [(ngModel)]="inputVisitRegistration.transferFrom">
-                                </mat-form-field>
-                                <mat-form-field class="smallInput">
-                                    <mat-label>{{'VISITOR_REGRISTRATION.to' | translate}}</mat-label>
-                                    <input matInput [(ngModel)]="inputVisitRegistration.transferTo">
-                                </mat-form-field>
+                            <div>
+                                <button (click)="addTab(3)" class="btn btn-success"> <i class="fa fa-plus"></i></button>
                             </div>
                         </div>
                     </div>

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -43,4 +43,10 @@ export class LoggerService {
     return this.performanceHistory;
   }
 
+}
+
+export function log(component: string, message: string){
+  const LOG = Inject(LoggerService);
+  LOG.performance(component, message, window.performance.now());
+  console.log(message)
 }

@@ -9,7 +9,7 @@ import { Booking } from '../../../models/booking';
 import { CheckDialogComponent } from '../check-dialog/check-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
-import { log } from '../../../app.module';
+import { log } from '../../../services/logger.service';
 
 @Component({
   selector: 'app-booking-request',

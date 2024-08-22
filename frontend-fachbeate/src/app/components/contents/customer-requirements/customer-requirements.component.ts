@@ -15,7 +15,7 @@ import { NotificationService } from '../../../services/notification.service';
 import { RoleService } from '../../../services/role.service';
 import { TranslateService } from '@ngx-translate/core';
 import { TechDateDTO } from '../../../models/tech-date-dto';
-import { log } from '../../../app.module';
+import { log } from '../../../services/logger.service';
 
 @Component({
   selector: 'app-customer-requirements',

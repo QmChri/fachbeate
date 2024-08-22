@@ -1,3 +1,4 @@
+import { FlightBooking } from "./flight-booking";
 import { Guest } from "./guest";
 import { Hotelbooking } from "./hotelbooking";
 import { MeetingRoomReservation } from "./meeting-room-reservation";
@@ -6,7 +7,7 @@ import { Representative } from "./representative";
 
 export interface VisitorRegistration {
     id?: number;
-    
+
     showUser?: boolean;
     dateOfCreation?: Date;
 
@@ -52,11 +53,7 @@ export interface VisitorRegistration {
     halalMeals?: number;
     otherMealsDescription?: string;
     otherMealsNumber?: number;
-    transferFromDate?: Date;
-    transferToDate?: Date;
-    otherTravelRequirements?: string;
-    transferFrom?: string;
-    transferTo?: string;
+
     plannedDepartmentVisits: PlannedDepartmentVisit[];
 
     factoryTour?: boolean;
@@ -66,6 +63,6 @@ export interface VisitorRegistration {
     hotelBooking?: boolean;
     isPlannedDepartmentVisits?: boolean;
 
-
+    flights: FlightBooking[];
     guests?: Guest[];
 }
