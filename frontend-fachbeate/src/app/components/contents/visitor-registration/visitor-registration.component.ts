@@ -38,7 +38,8 @@ export class VisitorRegistrationComponent implements OnInit {
     plannedDepartmentVisits: [],
     guests: [],
     hotelBookings: [],
-    meetingRoomReservations: []
+    meetingRoomReservations: [],
+    flights: []
   };
 
   //Is the simular to Serminarangmelung
@@ -196,6 +197,8 @@ export class VisitorRegistrationComponent implements OnInit {
       this.inputVisitRegistration.hotelBookings = [...this.inputVisitRegistration.hotelBookings, {}]
     } else if (type === 2) {
       this.inputVisitRegistration.meetingRoomReservations = [...this.inputVisitRegistration.meetingRoomReservations, {}]
+    } else if (type === 3) {
+      this.inputVisitRegistration.flights = [...this.inputVisitRegistration.flights, {}]
     }
   }
 
@@ -206,6 +209,10 @@ export class VisitorRegistrationComponent implements OnInit {
     } else if (type === 2) {
       if (this.inputVisitRegistration.meetingRoomReservations.length > 1)
         this.inputVisitRegistration.meetingRoomReservations.pop();
+    }
+    else if (type === 3) {
+      if (this.inputVisitRegistration.flights!.length > 1)
+        this.inputVisitRegistration.flights!.pop();
     }
   }
 
@@ -242,7 +249,9 @@ export class VisitorRegistrationComponent implements OnInit {
     if (this.inputVisitRegistration.meetingroom && this.inputVisitRegistration.meetingRoomReservations.length === 0) {
       this.addTab(2);
     }
-
+    if (this.inputVisitRegistration.flights && this.inputVisitRegistration.flights.length === 0) {
+      this.addTab(3);
+    }
   }
 
   checkPopup() {

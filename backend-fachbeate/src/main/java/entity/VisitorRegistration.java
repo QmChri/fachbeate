@@ -58,11 +58,9 @@ public class VisitorRegistration extends PanacheEntity {
     public String otherMealsDescription;
     public int otherMealsNumber;
 
-    public Date transferFromDate;
-    public Date transferToDate;
-    public String otherTravelRequirements;
-    public String transferFrom;
-    public String transferTo;
+
+    @OneToMany
+    public List<FlightBooking> flights;
 
     @OneToMany
     public List<HotelBooking> hotelBookings;
@@ -129,11 +127,10 @@ public class VisitorRegistration extends PanacheEntity {
         this.otherMealsDescription = newVisitorRegistration.otherMealsDescription;
         this.otherMealsNumber = newVisitorRegistration.otherMealsNumber;
 
-        this.transferFromDate = newVisitorRegistration.transferFromDate;
-        this.transferToDate = newVisitorRegistration.transferToDate;
-        this.otherTravelRequirements = newVisitorRegistration.otherTravelRequirements;
-        this.transferFrom = newVisitorRegistration.transferFrom;
-        this.transferTo = newVisitorRegistration.transferTo;
+        this.flights = new ArrayList<>();
+        for(FlightBooking flight: newVisitorRegistration.flights){
+            this.flights.add(flight.persistOrUpdate());
+        }
 
         this.factoryTour = newVisitorRegistration.factoryTour;
         this.meetingroom = newVisitorRegistration.meetingroom;
@@ -190,6 +187,10 @@ public class VisitorRegistration extends PanacheEntity {
 
             for(MeetingRoomReservation mrr: this.meetingRoomReservations){
                 mrr.persistOrUpdate();
+            }
+
+            for(FlightBooking fb: this.flights){
+                fb.persistOrUpdate();
             }
 
             if(this.representative != null) {

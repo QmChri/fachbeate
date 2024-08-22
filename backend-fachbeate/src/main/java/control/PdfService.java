@@ -200,12 +200,21 @@ public class PdfService {
         }
 
         if(visitorRegistration.airportTransferTrain){
-            addSection(document, "Fulghafen Transfer-Zug",  new String[][]{
-                    {"Datum", formatDate(visitorRegistration.transferFromDate)},
-                    {"Von", visitorRegistration.transferFrom},
-                    {"Nach", visitorRegistration.transferTo},
-                    {"Sonstige Reiseanforderungen", visitorRegistration.otherTravelRequirements},
-            });
+            document.add(new Paragraph("Flughafen Transfer - Zug", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14)));
+            document.add(new Paragraph("     "));
+            PdfPTable flight = new PdfPTable(4);
+            flight.setWidthPercentage(100);
+            flight.addCell("Datum");
+            flight.addCell("Von");
+            flight.addCell("Nach");
+
+            for (FlightBooking f : visitorRegistration.flights) {
+                flight.addCell(formatDate(f.flightDate));
+                flight.addCell(f.flightFrom);
+                flight.addCell(f.flightTo);
+            }
+
+            document.add(flight);
         }
 
         if(visitorRegistration.meal){
