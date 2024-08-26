@@ -472,6 +472,9 @@ public class PdfService {
         Document document = new Document();
         PdfWriter.getInstance(document, byteArrayOutputStream);
         document.open();
+
+        addSection(document, "Übersicht Anforderungen und Anmeldungen", (String[][]) FinalReport.listAll().toArray());
+
         document.close();
         return byteArrayOutputStream.toByteArray();
     }
@@ -536,7 +539,4 @@ public class PdfService {
         document.add(table);
         document.add(new Paragraph("\n"));
     }
-
-
-
 }
