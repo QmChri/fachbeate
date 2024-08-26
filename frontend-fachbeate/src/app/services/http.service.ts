@@ -156,6 +156,10 @@ export class HttpService {
     return this.http.post<FinalReport>(API_URL + "appointment/finalReport", finalReport);
   }
 
+  postFinalReportMultiPart(formData: FormData): Observable<FinalReport>{
+    return this.http.post<FinalReport>(API_URL + "appointment/finalReportMulti", formData);
+  }
+
 
   getAllArticles(): Observable<Article[]> {
     return this.http.get<Article[]>(API_URL + "appointment/article");

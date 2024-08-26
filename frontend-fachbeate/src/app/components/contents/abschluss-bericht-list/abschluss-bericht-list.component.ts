@@ -248,11 +248,37 @@ export class AbschlussBerichtListComponent {
     // endregion
 
     dialogRef.afterClosed().subscribe(
-      data => {
+      (data: {finalReport: FinalReport, save: boolean, files: File[]}) => {
         //region When the popup is closed, this data is transferred
+        console.log(data)
         if (data.save) {
+
+          let finalReport: FinalReport = data.finalReport;
+
+          let formData = new FormData();
+
+          if(data.files !== null && data.files !== undefined){
+            data.files!.forEach(element => {
+              formData.append("files", element!)
+            })
+          }
+
+          formData.append('finalReport', JSON.stringify(finalReport));
+
+          this.http.postFinalReportMultiPart(formData).subscribe({
+            next: (response) => {
+              console.log(response);
+            },
+            error: (error) => {
+              console.log(error);
+            }
+          });
+
+        /*
           this.http.postFinalReport(data.finalReport).subscribe({
             next: finalRep => {
+
+
 
               var newEntity: DataItem = {
                 id: finalRep.id!,
@@ -273,6 +299,8 @@ export class AbschlussBerichtListComponent {
               this.listOfDisplayData = this.listOfDisplayData.map(entity => entity.id === finalRep.id ? newEntity : entity)
             }
           });
+
+          */
         }
         // endregion
       });

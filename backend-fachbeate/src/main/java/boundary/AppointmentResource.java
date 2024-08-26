@@ -1,17 +1,26 @@
 package boundary;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import entity.*;
-import entity.dto.MainListDTO;
 import io.quarkus.security.Authenticated;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.core.Response;
-import org.hibernate.jdbc.Work;
+import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.jboss.logging.Logger;
+import org.jboss.resteasy.plugins.providers.multipart.InputPart;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Path("appointment")
 public class AppointmentResource {
@@ -166,6 +175,62 @@ public class AppointmentResource {
     @Transactional
     public Response postFinalReport(FinalReport finalReport){
         return Response.ok(finalReport.persistOrUpdate()).build();
+    }
+
+
+    @POST
+    @Path("/finalReportMulti")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Authenticated
+    @Transactional
+    public Response finalWithFiles(@RequestBody MultipartFormDataInput input) throws IOException {
+        Map<String, List<InputPart>> inputStreams = input.getFormDataMap();
+
+        FinalReport finalReport = new ObjectMapper().readValue(inputStreams.get("finalReport").get(0).getBodyAsString(), FinalReport.class);
+        finalReport.persistOrUpdate();
+
+        if (finalReport.id == null) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Failed to retrieve FinalReport ID").build();
+        }
+
+        if (input.getFormDataMap().get("files") != null && !input.getFormDataMap().get("files").isEmpty()) {
+            File directory = new File("uploads/" + finalReport.id);
+            if (!directory.exists()) {
+                directory.mkdirs(); // Create the directory if it doesn't exist
+            }
+
+            for (InputPart part : input.getFormDataMap().get("files")) {
+                String fileName = getFileName(part); // Implement this method to get file name
+                InputStream inputStream = part.getBody(InputStream.class, null);
+                File file = new File(directory, fileName);
+
+                try (FileOutputStream outputStream = new FileOutputStream(file)) {
+                    byte[] buffer = new byte[1024];
+                    int bytesRead;
+                    while ((bytesRead = inputStream.read(buffer)) != -1) {
+                        outputStream.write(buffer, 0, bytesRead);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+                }
+            }
+        }
+
+        return Response.ok(finalReport).build();
+    }
+
+    private String getFileName(InputPart part) {
+        // Extract file name from part headers
+        MultivaluedMap<String, String> headers = part.getHeaders();
+        String contentDisposition = headers.getFirst("Content-Disposition");
+        String[] contentDispositionParts = contentDisposition.split(";");
+        for (String partStr : contentDispositionParts) {
+            if (partStr.trim().startsWith("filename")) {
+                return partStr.substring(partStr.indexOf('=') + 1).trim().replace("\"", "");
+            }
+        }
+        return "unknown";
     }
 
     /**

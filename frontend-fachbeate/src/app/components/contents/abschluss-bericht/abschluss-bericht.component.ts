@@ -33,6 +33,7 @@ export class AbschlussBerichtComponent implements OnInit {
   technologists: TechDateDTO[] = [];
   representative: Representative[] = [];
   fileList: NzUploadFile[] = [];
+
   todoList = [
     { id: 1, name: 'ABSCHLUSSBERICHT.information' },
     { id: 2, name: 'ABSCHLUSSBERICHT.recipe_optimization' },
@@ -185,7 +186,11 @@ export class AbschlussBerichtComponent implements OnInit {
       }
       //endregion
 
-      this.dialogRef.close({ finalReport: this.inputFinalReport, save: save });
+
+
+
+
+      this.dialogRef.close({ finalReport: this.inputFinalReport, save: save, files: (this.fileList !== null && this.fileList !== undefined && this.fileList.length !== 0)? this.fileList.map(element => element.originFileObj!):null});
     }
   }
 
@@ -304,7 +309,7 @@ export class AbschlussBerichtComponent implements OnInit {
     }
   }
 
-  
+
   getPdf() {
     if (this.inputFinalReport.id === null || this.inputFinalReport.id === undefined) {
       this.getNotification(5)
