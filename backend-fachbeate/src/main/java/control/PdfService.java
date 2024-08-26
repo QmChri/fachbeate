@@ -6,6 +6,7 @@ import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 import entity.*;
+import entity.dto.MainListDTO;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.awt.*;
@@ -33,7 +34,6 @@ public class PdfService {
 
     }
 
-
     public byte[] createCustomerPdf(Long customerId)throws DocumentException{
 
         CustomerRequirement customerRequirement = CustomerRequirement.findById(customerId);
@@ -55,7 +55,7 @@ public class PdfService {
 
         addSection(document, "Angeforderter Fachberater", new String[][]{
                 {"Fachberater", customerRequirement.requestedTechnologist.firstName + " " + customerRequirement.requestedTechnologist.lastName},
-                {"Von - Bis", customerRequirement.startDate + " - " + customerRequirement.endDate}
+                {"Von - Bis", formatDate(customerRequirement.startDate) + " - " + formatDate(customerRequirement.endDate)}
         });
 
         addSection(document, "Reiseplanung", new String[][]{
@@ -111,7 +111,7 @@ public class PdfService {
         document.open();
 
         // Titel
-        document.add(new Paragraph("Besucheranforderung: B_"+visitorRegistration.id, FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, Font.BOLD)));
+        document.add(new Paragraph("Besucheranmeldung: B_"+visitorRegistration.id, FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, Font.BOLD)));
 
         addSection(document, "Anmeldung Almi Group Mitarbeiter",  new String[][]{
                 {"Name", visitorRegistration.name},
@@ -146,14 +146,15 @@ public class PdfService {
         }
         document.add(table);
 
-
-        addSection(document, "Aufenthalt in Oftering",  new String[][]{
-                {"Vertreter", visitorRegistration.representative.firstName + " " + visitorRegistration.representative.lastName},
-                {"Von", formatDate(visitorRegistration.stayFromDate)},
-                {"Von Zeit", visitorRegistration.stayFromTime},
-                {"Bis", formatDate(visitorRegistration.stayToDate)},
-                {"Bis Zeit", visitorRegistration.stayToTime},
-        });
+        if (visitorRegistration.representative != null){
+            addSection(document, "Aufenthalt in Oftering",  new String[][]{
+                    {"Vertreter", visitorRegistration.representative.firstName + " " + visitorRegistration.representative.lastName},
+                    {"Von", formatDate(visitorRegistration.stayFromDate)},
+                    {"Von Zeit", visitorRegistration.stayFromTime},
+                    {"Bis", formatDate(visitorRegistration.stayToDate)},
+                    {"Bis Zeit", visitorRegistration.stayToTime},
+            });
+        }
 
         if(visitorRegistration.hotelBooking){
             document.add(new Paragraph("Hotelbuchung", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14)));
@@ -463,6 +464,52 @@ public class PdfService {
         document.close();
 
         return byteArrayOutputStream.toByteArray();
+    }
+
+    public byte[] createFinalReportListPdf() throws DocumentException{
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+        Document document = new Document();
+        PdfWriter.getInstance(document, byteArrayOutputStream);
+        document.open();
+        document.close();
+        return byteArrayOutputStream.toByteArray();
+    }
+
+    public byte[] createMainListPdf() throws DocumentException{
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        MainListDTO[] mainListDTOs = MainListDTO.getEntrysForPdf(20);
+
+        Document document = new Document();
+        PdfWriter.getInstance(document, byteArrayOutputStream);
+        document.open();
+
+        document.add(new Paragraph("Übersicht Anforderungen", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, Font.BOLD)));
+        document.add(new Paragraph("     "));
+
+        PdfPTable table = new PdfPTable(7);
+        table.setWidthPercentage(100);
+        table.addCell("Id");
+        table.addCell("Kundennummer");
+        table.addCell("Land");
+        table.addCell("Kontaktperson");
+        table.addCell("Datum des Besuchs");
+        table.addCell("Grund des Besuchs");
+        table.addCell("Produktion Tonnen/Tag");
+/*
+        for (MainListDTO mainListDTO : customerRequirement.customerVisits) {
+            table.addCell(visit.companyName);
+            table.addCell(visit.customerNr);
+            table.addCell(visit.address);
+            table.addCell(visit.contactPerson);
+            table.addCell(formatDate(visit.fromDateOfVisit) +  " - " + formatDate(visit.toDateOfVisit));
+            table.addCell("TODO");
+            table.addCell(visit.productionAmount);
+        }
+*/
+        document.add(table);
+        document.close();
+     return byteArrayOutputStream.toByteArray();
     }
 
 

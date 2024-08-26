@@ -73,6 +73,10 @@ export class CalendarComponent implements OnInit {
           `}
       }
       return event.title
+    },
+    headerToolbar: {
+      start: 'multiMonthYear,dayGridMonth',
+      end: 'today,prevYear,prev,next,nextYear'
     }
   };
   onDatesSet(dateInfo: any) {
@@ -129,8 +133,6 @@ export class CalendarComponent implements OnInit {
       }
       );
     });
-
-    console.log(tmpEvents)
 
     this.calendarOptions.events = []
     this.calendarOptions.events = tmpEvents.map(value => ({

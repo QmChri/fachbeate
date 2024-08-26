@@ -1,6 +1,10 @@
 <div class="mainView">
     <div class="header">
         <h1 class="paddingSearch">{{"MAIN_LIST.final_report" | translate}}</h1>
+        <button style="margin-right: 2px;"
+            *ngIf="inputFinalReport.id !== null && inputFinalReport.id !== undefined"
+            class="btn btn-secondary" (click)="getPdf()">PDF
+        </button>
     </div>
     <hr>
     <div class="row">

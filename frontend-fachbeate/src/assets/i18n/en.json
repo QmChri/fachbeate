@@ -57,7 +57,9 @@
         "filter1": "Workshop R.",
         "filter2": "Advisor R.",
         "filter3": "Booking R.",
-        "calendar_change": "Calendar change"
+        "calendar_change": "Calendar change",
+        "pdf1": "PDF was created!",
+        "pdf2": "PDF could not be created!"
     },
     "DASHBOARD": {
         "entry_for": "Entry for",

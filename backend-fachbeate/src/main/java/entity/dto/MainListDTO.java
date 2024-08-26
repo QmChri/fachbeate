@@ -1,8 +1,11 @@
 package entity.dto;
 
+import boundary.CustomerRequirementResource;
 import entity.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class MainListDTO {
 
@@ -21,6 +24,14 @@ public class MainListDTO {
     public int type;
     public boolean visible;
     public String calendarColor;
+
+    public static MainListDTO[] getEntrysForPdf(int countOfEntrys) {
+        List<MainListDTO> entries = new ArrayList<>();
+        List<CustomerRequirement> customerRequirements;
+        customerRequirements = CustomerRequirement.listAll();
+        return null;
+        //entries.add(customerRequirements.stream().map());
+    }
 
     public MainListDTO mapCustomerToMainListDTO(CustomerRequirement element){
         this.id=  "F_" + element.id;

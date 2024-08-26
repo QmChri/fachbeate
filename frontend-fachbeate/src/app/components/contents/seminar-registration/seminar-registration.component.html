@@ -24,10 +24,15 @@
             {{"CUSTOMER_REQUIREMENTS.approval_al" | translate}}
         </button>
     </div>
-    <button class="btn btn-success"
-        *ngIf="(inputWorkshop.creator === undefined && roleService.checkPermission([6])) || roleService.checkPermission([1,2,3,4,5,7])"
-        (click)="checkPopup()">{{'CUSTOMER_REQUIREMENTS.send_form' |
-        translate}}</button>
+    <div>
+        <button style="margin-right: 2px;" *ngIf="inputWorkshop.id !== null && inputWorkshop.id !== undefined"
+            class="btn btn-secondary" (click)="getPdf()">PDF
+        </button>
+        <button class="btn btn-success"
+            *ngIf="(inputWorkshop.creator === undefined && roleService.checkPermission([6])) || roleService.checkPermission([1,2,3,4,5,7])"
+            (click)="checkPopup()">{{'CUSTOMER_REQUIREMENTS.send_form' |
+            translate}}</button>
+    </div>
 </div>
 <hr>
 

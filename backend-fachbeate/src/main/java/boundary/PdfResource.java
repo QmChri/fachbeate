@@ -58,6 +58,27 @@ public class PdfResource {
         return Response.ok(pdfContent)
                 .header("Content-Disposition", "attachment; filename=\"example.pdf\"")
                 .build();
-        }
+    }
 
+    @GET
+    @Path("finalList")
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public Response getFinalReportListPdf() throws DocumentException {
+        byte[] pdfContent = pdfService.createFinalReportListPdf();
+
+        return Response.ok(pdfContent)
+                .header("Content-Disposition", "attachment; filename=\"example.pdf\"")
+                .build();
+    }
+
+    @GET
+    @Path("mainList")
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public Response getMainListPdf() throws DocumentException {
+        byte[] pdfContent = pdfService.createMainListPdf();
+
+        return Response.ok(pdfContent)
+                .header("Content-Disposition", "attachment; filename=\"example.pdf\"")
+                .build();
+    }
 }

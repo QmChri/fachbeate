@@ -2,7 +2,7 @@
     <div class="header">
         <h1 style="margin: 0%;">{{"CUSTOMER_REQUIREMENTS.advisor_request" | translate}}</h1>
         <h2 style="margin: 0%; padding-top: 0.1rem;"
-            *ngIf=" inputCustomerRequirement.id !== null && inputCustomerRequirement.id !== undefined">
+            *ngIf="inputCustomerRequirement.id !== null && inputCustomerRequirement.id !== undefined">
             : {{inputCustomerRequirement.id}}</h2>
     </div>
     <div>
@@ -26,6 +26,10 @@
         </button>
     </div>
     <div>
+        <button style="margin-right: 2px;"
+        *ngIf="inputCustomerRequirement.id !== null && inputCustomerRequirement.id !== undefined"
+        class="btn btn-secondary" (click)="getPdf()">PDF
+        </button>
         <button
             *ngIf="(inputCustomerRequirement.creator === undefined && roleService.checkPermission([6])) || roleService.checkPermission([1,2,3,4,5,7])"
             class="btn btn-success" (click)="postCustomerRequirement()">{{"CUSTOMER_REQUIREMENTS.send_form" |
@@ -252,7 +256,8 @@
                 <td>
                     <label class="input-label" [hidden]="editId === data.editId"
                         (click)="startEdit(data.editId)">{{data.productionAmount}}</label>
-                    <input [placeholder]="'CUSTOMER_REQUIREMENTS.mandatory_field' | translate" nz-input [hidden]="editId !== data.editId" type="text" [(ngModel)]="data.productionAmount" />
+                    <input [placeholder]="'CUSTOMER_REQUIREMENTS.mandatory_field' | translate" nz-input
+                        [hidden]="editId !== data.editId" type="text" [(ngModel)]="data.productionAmount" />
                 </td>
                 <td class="buttonsStyle">
                     <div class="flugHotel">

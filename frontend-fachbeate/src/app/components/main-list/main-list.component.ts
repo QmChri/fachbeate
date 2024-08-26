@@ -20,6 +20,11 @@ export class MainListComponent implements OnInit {
   visible = false;
   technologistList: Technologist[] = [];
   listOfDisplayData: DataItem[] = [];
+  currentDate: Date = new Date();
+  day = String(this.currentDate.getDate()).padStart(2, '0');
+  month = String(this.currentDate.getMonth() + 1).padStart(2, '0'); // Monate sind 0-indexiert
+  year = String(this.currentDate.getFullYear()).slice(-2); // Die letzten zwei Ziffern des Jahres
+  formattedDate = `${this.day}_${this.month}_${this.year}`;
   fileName = 'TableData.xlsx';
 
   // All columns are defined here
@@ -489,6 +494,28 @@ export class MainListComponent implements OnInit {
   formatTimespan(timespan?: TimeSpan): string {
     if (!timespan || !timespan.start || !timespan.end) return '<Leer>';
     return `${this.formatDate(timespan.start)} - ${this.formatDate(timespan.end)}`;
+  }
+
+  getPdf() {
+    this.downloadFile();
+    this.translate.get('STANDARD.pdf1').subscribe((translatedMessage: string) => {
+      this.notificationService.createBasicNotification(0, translatedMessage, "Übersicht_Anforderungen_"+this.formattedDate+".pdf", 'topRight');
+    });
+  }
+
+  downloadFile() {
+    this.http.getMainListPdf().subscribe(
+      (response: Blob) => {
+        this.saveFile(response, "Übersicht_Anforderungen_"+this.formattedDate+".pdf")
+      });
+  }
+  private saveFile(data: Blob, filename: string): void {
+    const blob = new Blob([data], { type: 'application/octet-stream' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click();
+    window.URL.revokeObjectURL(url);
+    a.remove();
   }
 }
 

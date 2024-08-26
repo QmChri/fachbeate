@@ -249,7 +249,7 @@ export class AbschlussBerichtComponent implements OnInit {
 
   changeTechnolgist($event: any) {
     this.inputFinalReport.technologist = this.technologists.find(elemnt => elemnt.technologist.id === $event)!.technologist
-    ;
+      ;
   }
 
   changeRepresentative($event: any) {
@@ -291,7 +291,42 @@ export class AbschlussBerichtComponent implements OnInit {
           });
         break;
       }
+      case 4: { // Pdf wurde erstellt
+        this.translate.get('STANDARD.pdf1').subscribe((translatedMessage: string) => {
+          this.notificationService.createBasicNotification(0, translatedMessage, "Abschlussbericht_" + this.inputFinalReport.id + ".pdf", 'topRight');
+        }); break;
+      }
+      case 5: { // Pdf konnte nicht erstellt werden
+        this.translate.get('STANDARD.pdf2').subscribe((translatedMessage: string) => {
+          this.notificationService.createBasicNotification(4, translatedMessage, "Abschlussbericht_" + this.inputFinalReport.id + ".pdf", 'topRight');
+        }); break;
+      }
     }
+  }
+
+  
+  getPdf() {
+    if (this.inputFinalReport.id === null || this.inputFinalReport.id === undefined) {
+      this.getNotification(5)
+    }
+    else {
+      this.downloadFile();
+      this.getNotification(4)
+    }
+  }
+  downloadFile() {
+    this.http.getFinalPdf(this.inputFinalReport.id!).subscribe(
+      (response: Blob) => {
+        this.saveFile(response, "Abschlussbericht_" + this.inputFinalReport.id + ".pdf")
+      });
+  }
+  private saveFile(data: Blob, filename: string): void {
+    const blob = new Blob([data], { type: 'application/octet-stream' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click();
+    window.URL.revokeObjectURL(url);
+    a.remove();
   }
 
   beforeUpload = (file: NzUploadFile): boolean => {

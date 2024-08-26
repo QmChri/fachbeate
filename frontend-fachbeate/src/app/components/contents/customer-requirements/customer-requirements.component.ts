@@ -16,6 +16,7 @@ import { RoleService } from '../../../services/role.service';
 import { TranslateService } from '@ngx-translate/core';
 import { TechDateDTO } from '../../../models/tech-date-dto';
 import { log } from '../../../services/logger.service';
+import { HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-customer-requirements',
@@ -329,7 +330,6 @@ export class CustomerRequirementsComponent implements OnInit {
     }
   }
 
-
   getTechnologist() {
     this.http.getActiveWithDates().subscribe({
       next: data => {
@@ -409,12 +409,46 @@ export class CustomerRequirementsComponent implements OnInit {
           this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
         }); break;
       }
-      case 6: { // Final Report aber PFlichfelder fehlen
+      case 6: { // Final Report aber Pflichfelder fehlen
         this.translate.get('STANDARD.please_fill_required_fields').subscribe((translatedMessage: string) => {
           this.notificationService.createBasicNotification(4, translatedMessage, '', 'topRight');
         }); break;
       }
+      case 7: { // Pdf wurde erstellt
+        this.translate.get('STANDARD.pdf1').subscribe((translatedMessage: string) => {
+          this.notificationService.createBasicNotification(0, translatedMessage, "Fachberater_Anforderung_" + this.inputCustomerRequirement.id + ".pdf", 'topRight');
+        }); break;
+      }
+      case 8: { // Pdf konnte nicht erstellt werden
+        this.translate.get('STANDARD.pdf2').subscribe((translatedMessage: string) => {
+          this.notificationService.createBasicNotification(4, translatedMessage, "Fachberater_Anforderung_" + this.inputCustomerRequirement.id + ".pdf", 'topRight');
+        }); break;
+      }
     }
+  }
+
+  getPdf() {
+    if (this.inputCustomerRequirement.id === null || this.inputCustomerRequirement.id === undefined) {
+      this.getNotification(8)
+    }
+    else {
+      this.downloadFile();
+      this.getNotification(7)
+    }
+  }
+  downloadFile() {
+    this.http.getPdf(this.inputCustomerRequirement.id!).subscribe(
+      (response: Blob) => {
+        this.saveFile(response, "Fachberater_Anforderung_" + this.inputCustomerRequirement.id + ".pdf")
+      });
+  }
+  private saveFile(data: Blob, filename: string): void {
+    const blob = new Blob([data], { type: 'application/octet-stream' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click();
+    window.URL.revokeObjectURL(url);
+    a.remove();
   }
 }
 
