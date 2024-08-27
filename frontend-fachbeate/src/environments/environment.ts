@@ -1,9 +1,9 @@
 export const environment = {
   production: true,
-  backendApi: window.__env.backendApi || "https://requesttool.almi.at/api/",
+  backendApi: "https://requesttool.almi.at/api/",
   keycloak: {
-    issuer: window.__env.keycloakIssuer || 'https://requesttool.almi.at/',
-    realm: window.__env.keycloakRealm || 'fachbeate',
-    clientId: window.__env.keycloakClientId || 'fachbeate-frontend'
+    issuer: 'https://requesttool.almi.at/',
+    realm: 'fachbeate',
+    clientId: 'fachbeate-frontend'
   }
 };
