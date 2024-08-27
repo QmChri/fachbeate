@@ -368,7 +368,41 @@ export class VisitorRegistrationComponent implements OnInit {
           this.notificationService.createBasicNotification(4, message, anotherMessage, 'topRight');
         }); break;
       }
+      case 5: { // Pdf wurde erstellt
+        this.translate.get('STANDARD.pdf1').subscribe((translatedMessage: string) => {
+          this.notificationService.createBasicNotification(0, translatedMessage, "Besuchernameldung_" + this.inputVisitRegistration.id + ".pdf", 'topRight');
+        }); break;
+      }
+      case 6: { // Pdf konnte nicht erstellt werden
+        this.translate.get('STANDARD.pdf2').subscribe((translatedMessage: string) => {
+          this.notificationService.createBasicNotification(4, translatedMessage, "Besuchernameldung_" + this.inputVisitRegistration.id + ".pdf", 'topRight');
+        }); break;
+      }
     }
+  }
+
+  getPdf() {
+    if (this.inputVisitRegistration.id === null || this.inputVisitRegistration.id === undefined) {
+      this.getNotification(6)
+    }
+    else {
+      this.downloadFile();
+      this.getNotification(5)
+    }
+  }
+  downloadFile() {
+    this.http.getVisitPdf(this.inputVisitRegistration.id!).subscribe(
+      (response: Blob) => {
+        this.saveFile(response, "Besuchernameldung_" + this.inputVisitRegistration.id + ".pdf")
+      });
+  }
+  private saveFile(data: Blob, filename: string): void {
+    const blob = new Blob([data], { type: 'application/octet-stream' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click();
+    window.URL.revokeObjectURL(url);
+    a.remove();
   }
 
   checkRequired(): boolean {

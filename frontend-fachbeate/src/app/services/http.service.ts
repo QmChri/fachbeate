@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CustomerRequirement } from '../models/customer-requirement';
 import { Observable } from 'rxjs';
@@ -156,6 +156,10 @@ export class HttpService {
     return this.http.post<FinalReport>(API_URL + "appointment/finalReport", finalReport);
   }
 
+  postFinalReportMultiPart(formData: FormData): Observable<FinalReport>{
+    return this.http.post<FinalReport>(API_URL + "appointment/finalReportMulti", formData);
+  }
+
 
   getAllArticles(): Observable<Article[]> {
     return this.http.get<Article[]>(API_URL + "appointment/article");
@@ -167,8 +171,6 @@ export class HttpService {
 
 
   postBookingRequest(booking: Booking): Observable<Booking> {
-    console.log(booking.flights);
-    
     return this.http.post<Booking>(API_URL + "booking", booking);
   }
 
@@ -182,5 +184,29 @@ export class HttpService {
 
   postSupport(support: Support): Observable<Support> {
     return this.http.post<Support>(API_URL + "support", support);
+  }
+
+  headers: HttpHeaders = new HttpHeaders().set('Accept', 'application/octet-stream');
+
+  getMainListPdf() {
+    return this.http.get(API_URL + "/pdf/mainList/", { headers: this.headers, responseType: 'blob' });
+  }
+  getPdf(id: number) {
+    return this.http.get(API_URL + "/pdf/customer/" + id, { headers: this.headers, responseType: 'blob' });
+  }
+  getVisitPdf(id: number) {
+    return this.http.get(API_URL + "/pdf/visit/" + id, { headers: this.headers, responseType: 'blob' });
+  }
+  getWorkshopPdf(id: number) {
+    return this.http.get(API_URL + "/pdf/workshop/" + id, { headers: this.headers, responseType: 'blob' });
+  }
+  getFinalPdf(id: number) {
+    return this.http.get(API_URL + "/pdf/final/" + id, { headers: this.headers, responseType: 'blob' });
+  }
+  getFinalReportListPdf() {
+    return this.http.get(API_URL + "/pdf/finalList/", { headers: this.headers, responseType: 'blob' });
+  }
+  getBookingPdf(id: number) {
+    return this.http.get(API_URL + "/pdf/booking/" + id, { headers: this.headers, responseType: 'blob' });
   }
 }

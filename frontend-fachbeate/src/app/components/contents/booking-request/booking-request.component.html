@@ -23,10 +23,14 @@
             {{"CUSTOMER_REQUIREMENTS.approval_al" | translate}}
         </button>
     </div>
-    <button class="btn btn-success"
-        *ngIf="(booking.creator === undefined && roleService.checkPermission([3,4,6])) || roleService.checkPermission([1,2,5,7])"
-        (click)="checkPopup()">{{'CUSTOMER_REQUIREMENTS.send_form' |
-        translate}}</button>
+    <div>
+        <button style="margin-right: 2px;" *ngIf="booking.id !== null && booking.id !== undefined"
+            class="btn btn-secondary" (click)="getPdf()">PDF
+        </button> <button class="btn btn-success"
+            *ngIf="(booking.creator === undefined && roleService.checkPermission([3,4,6])) || roleService.checkPermission([1,2,5,7])"
+            (click)="checkPopup()">{{'CUSTOMER_REQUIREMENTS.send_form' |
+            translate}}</button>
+    </div>
 </div>
 <hr>
 
@@ -107,11 +111,11 @@
         <div class="card" style="min-height: 18rem;">
             <div class="card-header text-white bg-danger">{{"ABSCHLUSSBERICHT.header_upload" | translate}}</div>
             <div class="card-body">
-                <nz-upload [nzFileList]="fileList" [nzBeforeUpload]="beforeUpload" [nzLimit]="5"
-                    [nzMultiple]="true" [nzShowUploadList]="true" [nzShowButton]="fileList.length < 5"
-                    [nzListType]="'picture-card'" (nzChange)="handleChange($event)" class="custom-upload">
-                    <button nz-button>
-                        <i nz-icon nzType="upload"></i> Upload
+                <nz-upload [nzFileList]="fileList" [nzBeforeUpload]="beforeUpload" [nzLimit]="5" [nzMultiple]="true"
+                    [nzShowUploadList]="true" [nzShowButton]="fileList.length < 5" [nzListType]="'picture-card'"
+                    (nzChange)="handleChange($event)" class="custom-upload">
+                    <button nz-button >
+                        <i nz-icon nzType="upload"></i>{{"STANDARD.upload" | translate}}
                     </button>
                 </nz-upload>
             </div>

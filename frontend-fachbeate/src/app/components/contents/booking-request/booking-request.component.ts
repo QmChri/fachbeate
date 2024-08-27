@@ -141,6 +141,17 @@ export class BookingRequestComponent implements OnInit {
           });
         break;
       }
+      
+      case 8: { // Pdf wurde erstellt
+        this.translate.get('STANDARD.pdf1').subscribe((translatedMessage: string) => {
+          this.notificationService.createBasicNotification(0, translatedMessage, "Reiseanforderung_" + this.booking.id + ".pdf", 'topRight');
+        }); break;
+      }
+      case 9: { // Pdf konnte nicht erstellt werden
+        this.translate.get('STANDARD.pdf2').subscribe((translatedMessage: string) => {
+          this.notificationService.createBasicNotification(4, translatedMessage, "Reiseanforderung_" + this.booking.id + ".pdf", 'topRight');
+        }); break;
+      }
       /*case 4: { // Pflichtfelder ausfüllen
         
         this.translate.get(['STANDARD.please_fill_required_fields', 'STANDARD.assigned_representative']).subscribe(translations => {
@@ -152,6 +163,29 @@ export class BookingRequestComponent implements OnInit {
     }
   }
 
+  getPdf() {
+    if (this.booking.id === null || this.booking.id === undefined) {
+      this.getNotification(9)
+    }
+    else {
+      this.downloadFile();
+      this.getNotification(8)
+    }
+  }
+  downloadFile() {
+    this.http.getBookingPdf(this.booking.id!).subscribe(
+      (response: Blob) => {
+        this.saveFile(response, "Fachberater_Anforderung_" + this.booking.id + ".pdf")
+      });
+  }
+  private saveFile(data: Blob, filename: string): void {
+    const blob = new Blob([data], { type: 'application/octet-stream' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click();
+    window.URL.revokeObjectURL(url);
+    a.remove();
+  }
   checkPopup() {
     //if (this.checkRequired()) {
     const dialogRef = this.dialog.open(CheckDialogComponent, {
@@ -182,7 +216,6 @@ export class BookingRequestComponent implements OnInit {
       (this.booking.mainStartDate !== null && this.booking.mainStartDate !== undefined) ? this.booking.mainStartDate!.setHours(5) : "";
       (this.booking.mainEndDate !== null && this.booking.mainEndDate !== undefined) ? this.booking.mainEndDate!.setHours(5) : "";
       this.booking.lastEditor = this.booking.lastEditor;
-      console.log(this.booking);
 
       this.http.postBookingRequest(this.booking).subscribe({
         next: data => {

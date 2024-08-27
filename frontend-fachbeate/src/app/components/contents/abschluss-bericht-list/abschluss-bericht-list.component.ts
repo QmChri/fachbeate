@@ -20,6 +20,11 @@ import { LoggerService, log } from '../../../services/logger.service';
 export class AbschlussBerichtListComponent {
   searchValue = '';
   visible = false;
+  currentDate: Date = new Date();
+  day = String(this.currentDate.getDate()).padStart(2, '0');
+  month = String(this.currentDate.getMonth() + 1).padStart(2, '0'); // Monate sind 0-indexiert
+  year = String(this.currentDate.getFullYear()).slice(-2); // Die letzten zwei Ziffern des Jahres
+  formattedDate = `${this.day}_${this.month}_${this.year}`;
   showArticles: number[] = [];
   finalReports: FinalReport[] = []
   technologistList: Technologist[] = [];
@@ -220,7 +225,6 @@ export class AbschlussBerichtListComponent {
       }
     })
     //endregion
-
   }
 
   loadTechnologists() {
@@ -244,11 +248,37 @@ export class AbschlussBerichtListComponent {
     // endregion
 
     dialogRef.afterClosed().subscribe(
-      data => {
+      (data: {finalReport: FinalReport, save: boolean, files: File[]}) => {
         //region When the popup is closed, this data is transferred
+
         if (data.save) {
+
+          let finalReport: FinalReport = data.finalReport;
+
+          let formData = new FormData();
+
+          if(data.files !== null && data.files !== undefined){
+            data.files!.forEach(element => {
+              formData.append("files", element!)
+            })
+          }
+
+          formData.append('finalReport', JSON.stringify(finalReport));
+
+          this.http.postFinalReportMultiPart(formData).subscribe({
+            next: (response) => {
+              console.log(response);
+            },
+            error: (error) => {
+              console.log(error);
+            }
+          });
+
+        /*
           this.http.postFinalReport(data.finalReport).subscribe({
             next: finalRep => {
+
+
 
               var newEntity: DataItem = {
                 id: finalRep.id!,
@@ -269,6 +299,8 @@ export class AbschlussBerichtListComponent {
               this.listOfDisplayData = this.listOfDisplayData.map(entity => entity.id === finalRep.id ? newEntity : entity)
             }
           });
+
+          */
         }
         // endregion
       });
@@ -315,6 +347,29 @@ export class AbschlussBerichtListComponent {
   disableShow(id: number) {
     this.showArticles = this.showArticles.filter(element => element !== id);
   }
+
+  getPdf() {
+    this.downloadFile();
+    this.translate.get('STANDARD.pdf1').subscribe((translatedMessage: string) => {
+      this.notificationService.createBasicNotification(0, translatedMessage, "Übersicht_Abschlussberichte_"+this.formattedDate+".pdf", 'topRight');
+    });
+  }
+
+  downloadFile() {
+    this.http.getFinalReportListPdf().subscribe(
+      (response: Blob) => {
+        this.saveFile(response, "Übersicht_Abschlussberichte_"+this.formattedDate+".pdf")
+      });
+  }
+  private saveFile(data: Blob, filename: string): void {
+    const blob = new Blob([data], { type: 'application/octet-stream' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click();
+    window.URL.revokeObjectURL(url);
+    a.remove();
+  }
+
 }
 
 interface DataItem {

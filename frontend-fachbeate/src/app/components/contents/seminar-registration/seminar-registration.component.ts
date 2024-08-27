@@ -330,8 +330,41 @@ export class SeminarRegistrationComponent implements OnInit {
         this.freigegeben = false;
         break;
       }
-
+      case 4: { // Pdf wurde erstellt
+        this.translate.get('STANDARD.pdf1').subscribe((translatedMessage: string) => {
+          this.notificationService.createBasicNotification(0, translatedMessage, "Seminaranmeldung_" + this.inputWorkshop.id + ".pdf", 'topRight');
+        }); break;
+      }
+      case 5: { // Pdf konnte nicht erstellt werden
+        this.translate.get('STANDARD.pdf2').subscribe((translatedMessage: string) => {
+          this.notificationService.createBasicNotification(4, translatedMessage, "Seminaranmeldung_" + this.inputWorkshop.id + ".pdf", 'topRight');
+        }); break;
+      }
     }
+  }
+
+  getPdf() {
+    if (this.inputWorkshop.id === null || this.inputWorkshop.id === undefined) {
+      this.getNotification(5)
+    }
+    else {
+      this.downloadFile();
+      this.getNotification(4)
+    }
+  }
+  downloadFile() {
+    this.http.getWorkshopPdf(this.inputWorkshop.id!).subscribe(
+      (response: Blob) => {
+        this.saveFile(response, "Seminaranmeldung_" + this.inputWorkshop.id + ".pdf")
+      });
+  }
+  private saveFile(data: Blob, filename: string): void {
+    const blob = new Blob([data], { type: 'application/octet-stream' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click();
+    window.URL.revokeObjectURL(url);
+    a.remove();
   }
 
   convertToDate(date: any): Date | undefined {

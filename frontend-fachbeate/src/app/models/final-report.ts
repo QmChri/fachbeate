@@ -23,12 +23,12 @@ export interface FinalReport {
     reworkByTechnologist?: boolean;
     reworkByTechnologistDoneUntil?: Date;
     reworkFollowVisits?: boolean;
-    
+
     reworkInformation?: boolean;
     reworkRecipe_optimization?: boolean;
     reworkProduct_development?: boolean;
 
-    
+
     reworkByRepresentative?: string;
     reworkByRepresentativeDoneUntil?: Date;
 

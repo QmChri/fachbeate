@@ -2,7 +2,9 @@ package entity.dto;
 
 import entity.*;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class MainListDTO {
 
@@ -21,6 +23,35 @@ public class MainListDTO {
     public int type;
     public boolean visible;
     public String calendarColor;
+
+    public static List<MainListDTO> getEntrysForPdf(int countOfEntrys) {
+        List<MainListDTO> entries = new ArrayList<>();
+        List<CustomerRequirement> customerRequirements = CustomerRequirement.listAll();
+        for (int i = 0; i < CustomerRequirement.count(); i++) {
+            MainListDTO entry = new MainListDTO();
+            entry.mapCustomerToMainListDTO(customerRequirements.get(i));
+            entries.add(entry);
+        }
+        List<BookingRequest> bookingRequests = BookingRequest.listAll();
+        for (int i = 0; i < BookingRequest.count(); i++) {
+            MainListDTO entry = new MainListDTO();
+            entry.mapBookingToMainListDTO(bookingRequests.get(i));
+            entries.add(entry);
+        }
+        List<WorkshopRequirement> workshopRequirements = WorkshopRequirement.listAll();
+        for (int i = 0; i < WorkshopRequirement.count(); i++) {
+            MainListDTO entry = new MainListDTO();
+            entry.mapWorkshopToMainListDTO(workshopRequirements.get(i));
+            entries.add(entry);
+        }
+        List<VisitorRegistration> visitorRegistrations = VisitorRegistration.listAll();
+        for (int i = 0; i < VisitorRegistration.count(); i++) {
+            MainListDTO entry = new MainListDTO();
+            entry.mapVisitToMainListDTO(visitorRegistrations.get(i));
+            entries.add(entry);
+        }
+        return entries.stream().limit(countOfEntrys).collect(Collectors.toList());
+    }
 
     public MainListDTO mapCustomerToMainListDTO(CustomerRequirement element){
         this.id=  "F_" + element.id;

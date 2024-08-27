@@ -1,15 +1,18 @@
 package entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class FinalReport extends PanacheEntity {
     public String state;
 
@@ -48,6 +51,7 @@ public class FinalReport extends PanacheEntity {
     public boolean reworkInformation;
     public boolean reworkRecipe_optimization;
     public boolean reworkProduct_development;
+
 
     public FinalReport() {
     }
