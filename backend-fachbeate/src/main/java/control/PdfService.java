@@ -122,12 +122,16 @@ public class PdfService {
                 {"Bis Uhrzeit", visitorRegistration.toTime}
         });
 
+        if(visitorRegistration.customerOrCompany != null &&
+                visitorRegistration.arrivalFromCountry != null &&
+                visitorRegistration.reasonForVisit != null){
         addSection(document, "Anmeldung Kundenbesuch",  new String[][]{
                 {"Kunde/Unternehmen", visitorRegistration.customerOrCompany},
                 {"Anreise aus Land", visitorRegistration.arrivalFromCountry},
                 {"Grund des Besuchs", visitorRegistration.reasonForVisit},
                 {"English", visitorRegistration.languageEN?"Ja":"Nein"},
         });
+        }
 
         document.add(new Paragraph("Teilnehmer", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14)));
         document.add(new Paragraph("     "));

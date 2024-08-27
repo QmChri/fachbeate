@@ -23,12 +23,12 @@ export interface FinalReport {
     reworkByTechnologist?: boolean;
     reworkByTechnologistDoneUntil?: Date;
     reworkFollowVisits?: boolean;
-
+    
     reworkInformation?: boolean;
     reworkRecipe_optimization?: boolean;
     reworkProduct_development?: boolean;
 
-
+    
     reworkByRepresentative?: string;
     reworkByRepresentativeDoneUntil?: Date;
 
@@ -49,5 +49,7 @@ export interface FinalReport {
     recipeOptimization?: boolean;
     sampleProduction?: boolean;
     training?: boolean;
+    
+    files?: {fileName: string, fileContent: string}[];
 
 }
