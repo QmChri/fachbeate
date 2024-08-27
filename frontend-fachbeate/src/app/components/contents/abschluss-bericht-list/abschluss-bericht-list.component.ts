@@ -198,7 +198,6 @@ export class AbschlussBerichtListComponent {
     this.http.getFinalReportsByUser(type, fullname!).subscribe({
       next: data => {
         this.finalReports = data;
-    
 
         data.forEach(element => {
           var allArticles: Article[] = []
@@ -251,6 +250,7 @@ export class AbschlussBerichtListComponent {
     dialogRef.afterClosed().subscribe(
       (data: {finalReport: FinalReport, save: boolean, files: File[]}) => {
         //region When the popup is closed, this data is transferred
+
         if (data.save) {
 
           let finalReport: FinalReport = data.finalReport;

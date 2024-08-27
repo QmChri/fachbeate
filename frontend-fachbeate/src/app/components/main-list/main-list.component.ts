@@ -56,7 +56,6 @@ export class MainListComponent implements OnInit {
       sortFn: (a: DataItem, b: DataItem) => a.statusGL!.toString().localeCompare(b.statusGL!.toString()),
       listOfFilter: [],
       filterFn: (filter: string, item: DataItem) => {
-        console.log(filter)
         return (item.statusAL!.includes(filter) || item.statusGL!.includes(filter))
       }
     },

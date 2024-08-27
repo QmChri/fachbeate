@@ -38,7 +38,6 @@ export class BugReportComponent {
   postSupport() {
     this.support.time = new Date();
     this.support.applicant = this.roleService.getUserName();
-    console.log(this.support);
 
     if (this.checkRequired()) {
       this.getNotification(1);

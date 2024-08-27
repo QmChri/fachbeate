@@ -59,7 +59,8 @@
         "filter3": "Booking R.",
         "calendar_change": "Calendar change",
         "pdf1": "PDF was created!",
-        "pdf2": "PDF could not be created!"
+        "pdf2": "PDF could not be created!",
+        "upload": "Upload"
     },
     "DASHBOARD": {
         "entry_for": "Entry for",
