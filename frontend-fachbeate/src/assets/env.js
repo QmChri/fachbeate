@@ -1,9 +1,9 @@
 (function (window) {
-    window.__env = window.__env || {};
+    window['env'] = window['env'] || {};
   
     // Environment variables
-    window.__env.backendApi = "${BACKEND_API}";
-    window.__env.keycloakIssuer = "${KEYCLOAK_ISSUER}";
-    window.__env.keycloakRealm = "${KEYCLOAK_REALM}";
-    window.__env.keycloakClientId = "${KEYCLOAK_CLIENT_ID}";
+    window['env']['backendApi'] = "${BACKEND_API}";
+    window['env']['keycloak']['Issuer'] = "${KEYCLOAK_ISSUER}";
+    window['env']['keycloa']['kRealm'] = "${KEYCLOAK_REALM}";
+    window['env']['keycloakCl']['ientId'] = "${KEYCLOAK_CLIENT_ID}";
   })(this);
