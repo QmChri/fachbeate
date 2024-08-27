@@ -10,3 +10,10 @@ RUN npm run build --prod
 FROM nginx:alpine
 COPY --from=node /app/dist/frontend-fachbeate/browser /usr/share/nginx/html
 COPY nginx-custom.conf /etc/nginx/conf.d/default.conf
+
+# Copy entrypoint script
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# Set the entrypoint to the script that replaces env variables
+ENTRYPOINT ["/entrypoint.sh"]
