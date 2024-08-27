@@ -216,7 +216,6 @@ export class BookingRequestComponent implements OnInit {
       (this.booking.mainStartDate !== null && this.booking.mainStartDate !== undefined) ? this.booking.mainStartDate!.setHours(5) : "";
       (this.booking.mainEndDate !== null && this.booking.mainEndDate !== undefined) ? this.booking.mainEndDate!.setHours(5) : "";
       this.booking.lastEditor = this.booking.lastEditor;
-      console.log(this.booking);
 
       this.http.postBookingRequest(this.booking).subscribe({
         next: data => {

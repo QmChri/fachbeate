@@ -250,7 +250,7 @@ export class AbschlussBerichtListComponent {
     dialogRef.afterClosed().subscribe(
       (data: {finalReport: FinalReport, save: boolean, files: File[]}) => {
         //region When the popup is closed, this data is transferred
-        console.log(data)
+
         if (data.save) {
 
           let finalReport: FinalReport = data.finalReport;

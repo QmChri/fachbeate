@@ -51,7 +51,7 @@ export class CalendarComponent implements OnInit {
     select: (arg) => this.handleSelect(arg),
     events: [],
     firstDay: 1,
-    datesSet: this.onDatesSet.bind(this),
+    //datesSet: this.onDatesSet.bind(this),
     displayEventTime: false,
     displayEventEnd: false,
     eventContent: (arg) => {
@@ -79,10 +79,7 @@ export class CalendarComponent implements OnInit {
       end: 'today,prevYear,prev,next,nextYear'
     }
   };
-  onDatesSet(dateInfo: any) {
-    console.log('Neue Daten geladen:', dateInfo.startStr, dateInfo.endStr);
-    // Hier kannst du zusätzliche Logik hinzufügen, um weitere Events zu laden
-  }
+
   constructor(public translate: TranslateService, private notificationService: NotificationService,
     private http: HttpService, private router: Router, private dialog: MatDialog,
     public roleService: RoleService

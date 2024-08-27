@@ -75,7 +75,8 @@
         "calendar_change": "Kalender Wechsel",
         "email1": "Emails wurden versendet",
         "pdf1": "PDF wurde erstellt!",
-        "pdf2": "PDF konnte nicht erstellt werden!"
+        "pdf2": "PDF konnte nicht erstellt werden!",
+        "upload": "Hochladen"
     },
     "DASHBOARD": {
         "advisor_schedule_overview": "Terminübersicht Fachberater",

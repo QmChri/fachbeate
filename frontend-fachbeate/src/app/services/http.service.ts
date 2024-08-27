@@ -171,8 +171,6 @@ export class HttpService {
 
 
   postBookingRequest(booking: Booking): Observable<Booking> {
-    console.log(booking.flights);
-
     return this.http.post<Booking>(API_URL + "booking", booking);
   }
 
