@@ -2,6 +2,7 @@ package boundary;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import entity.*;
+import entity.dto.MainListDTO;
 import io.quarkus.security.Authenticated;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -14,10 +15,7 @@ import org.jboss.logging.Logger;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +25,8 @@ public class AppointmentResource {
 
     @Inject
     Logger log;
+
+    String FileSaveDir = "/opt/almi/daten/fachbeate/uploads/";
 
     /***
      * This method persists a calendar entry
@@ -129,19 +129,20 @@ public class AppointmentResource {
     @Path("/finalReportByUser")
     @Authenticated
     public Response getFinalReportsByUser(@QueryParam("type") int user, @QueryParam("fullname") List<String> fullname){
+        List<FinalReport> finalReports = new ArrayList<>();
+
         if (user==7) {
-            return getFinalReports();
+            finalReports = FinalReport.listAll();
         }else if(user == 4) {
-            return Response.ok(FinalReport.find(
+            finalReports = FinalReport.find(
                     "technologist.email = ?1 or creator = ?2", fullname.get(1), fullname.get(0)
-                    ).list()).build();
+                    ).list();
         }else if(user == 6) {
             List<CustomerRequirement> customerRequirements = CustomerRequirement.find(
                     "company.username = ?1 or creator = ?1",
                     fullname.get(0)
             ).list();
 
-            List<FinalReport> finalReports = new ArrayList<>();
             for (CustomerRequirement cr : customerRequirements) {
                 for (CustomerVisit visit : cr.customerVisits) {
                     if(visit.finalReport != null) {
@@ -150,19 +151,36 @@ public class AppointmentResource {
                 }
             }
 
-            return Response.ok(finalReports).build();
         }else if(user == 3){
-            return Response.ok(FinalReport.find(
+            finalReports = FinalReport.find(
                     "representative.email = ?1 or creator = ?2", fullname.get(1), fullname.get(0)
-                    ).list()).build();
+                    ).list();
         }else if(user == 8){
-            return Response.ok(FinalReport.find(
+           finalReports = FinalReport.find(
                     "representative.email = ?1 or technologist.email = ?1 or creator = ?2"
                     ,fullname.get(1), fullname.get(0)
-            ).list()).build();
+            ).list();
         }
-        return Response.ok().build();
+
+        return Response.ok(finalReports.stream().map(FinalReport::addFile).toList()).build();
     }
+
+    @GET
+    @Path("/finalReport/file/{finalReportId}/{fileName}")
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public Response getFile(@PathParam("finalReportId") String finalReportId, @PathParam("fileName") String filename) throws FileNotFoundException {
+        File file = new File(FileSaveDir+finalReportId, filename);
+
+        if (!file.exists()) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        InputStream fileStream = new FileInputStream(file);
+        return Response.ok(fileStream)
+                .header("Content-Disposition", "attachment; filename=\"" + filename + "\"")
+                .build();
+    }
+
 
     /**
      * Post a new FinalReport
@@ -194,30 +212,56 @@ public class AppointmentResource {
         }
 
         if (input.getFormDataMap().get("files") != null && !input.getFormDataMap().get("files").isEmpty()) {
-            File directory = new File("uploads/" + finalReport.id);
-            if (!directory.exists()) {
-                directory.mkdirs(); // Create the directory if it doesn't exist
+            File directory = new File(FileSaveDir + finalReport.id);
+            if (directory.exists()) {
+                deleteDirectoryRecursively(directory);
             }
+            if(directory.mkdirs()) {
+                for (InputPart part : input.getFormDataMap().get("files")) {
+                    String fileName = getFileName(part); // Implement this method to get file name
 
-            for (InputPart part : input.getFormDataMap().get("files")) {
-                String fileName = getFileName(part); // Implement this method to get file name
-                InputStream inputStream = part.getBody(InputStream.class, null);
-                File file = new File(directory, fileName);
-
-                try (FileOutputStream outputStream = new FileOutputStream(file)) {
-                    byte[] buffer = new byte[1024];
-                    int bytesRead;
-                    while ((bytesRead = inputStream.read(buffer)) != -1) {
-                        outputStream.write(buffer, 0, bytesRead);
+                    if (fileName == "unknown") {
+                        continue;
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+
+                    InputStream inputStream = part.getBody(InputStream.class, null);
+                    File file = new File(directory, fileName);
+
+                    try (FileOutputStream outputStream = new FileOutputStream(file)) {
+                        byte[] buffer = new byte[1024];
+                        int bytesRead;
+                        while ((bytesRead = inputStream.read(buffer)) != -1) {
+                            outputStream.write(buffer, 0, bytesRead);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+                    }
                 }
             }
         }
 
         return Response.ok(finalReport).build();
+    }
+
+    public void deleteDirectoryRecursively(File directory) throws IOException {
+        if (directory.exists()) {
+            // Check if it's a directory
+            if (directory.isDirectory()) {
+                // List all files and directories in the current directory
+                File[] files = directory.listFiles();
+                if (files != null) {
+                    for (File file : files) {
+                        // Recursively delete files and subdirectories
+                        deleteDirectoryRecursively(file);
+                    }
+                }
+            }
+            // Delete the directory or file
+            if (!directory.delete()) {
+                this.log.info("Failed to delete: " + directory.getAbsolutePath());
+            }
+        }
     }
 
     private String getFileName(InputPart part) {

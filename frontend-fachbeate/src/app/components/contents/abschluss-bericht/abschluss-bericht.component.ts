@@ -14,6 +14,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { TechDateDTO } from '../../../models/tech-date-dto';
 import { log } from '../../../services/logger.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-abschluss-bericht',
@@ -61,6 +62,18 @@ export class AbschlussBerichtComponent implements OnInit {
       (this.inputFinalReport.sampleProduction) ? 4 : 0,
       (this.inputFinalReport.training) ? 5 : 0
     ]
+    if(this.inputFinalReport.files !== null && this.inputFinalReport.files!== undefined&&this.inputFinalReport.files.length !== 0){
+      this.fileList = this.inputFinalReport.files!.map((file, index) => ({
+          uid: index.toString(),
+          name: file.fileName,
+          status: "done",
+          originFileObj: this.base64ToFile(file.fileContent, file.fileName),
+          url: environment.backendApi + "appointment/finalReport/file/"+this.inputFinalReport.id+"/"+file.fileName
+      }));
+
+      console.log(this.fileList)
+    }
+    
 
     if (finalReport.reasonReports !== undefined) {
       this.inputFinalReport.reasonReports = this.inputFinalReport.reasonReports!.filter(element => (element.reason !== 0 && element.reason !== 5));
@@ -78,6 +91,18 @@ export class AbschlussBerichtComponent implements OnInit {
     // endregion
 
 
+  }
+
+  base64ToFile(base64: string, filename: string): File {
+    const byteCharacters = atob(base64);
+    const byteNumbers = new Array(byteCharacters.length);
+
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+
+    const byteArray = new Uint8Array(byteNumbers);
+    return new File([byteArray], filename);
   }
 
   ngOnInit(): void {
@@ -187,7 +212,7 @@ export class AbschlussBerichtComponent implements OnInit {
       //endregion
 
 
-
+      console.log(this.fileList)
 
 
       this.dialogRef.close({ finalReport: this.inputFinalReport, save: save, files: (this.fileList !== null && this.fileList !== undefined && this.fileList.length !== 0)? this.fileList.map(element => element.originFileObj!):null});
@@ -357,7 +382,8 @@ export class AbschlussBerichtComponent implements OnInit {
   };
 
   handleChange(info: { fileList: NzUploadFile[] }): void {
-    const fileList = info.fileList.slice(-10);
-    this.fileList = fileList;
+
+    this.fileList = info.fileList;
+    console.log(this.fileList)
   }
 }
