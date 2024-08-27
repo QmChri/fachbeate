@@ -34,7 +34,7 @@ const routes: Routes = [
   { path: 'booking-request/:id', component: BookingRequestComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 3, 4, 5, 7] } },
   { path: 'mainList', component: MainListComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 3, 4, 5, 6, 7] } },
   { path: 'bug-report', component: BugReportComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 3, 4, 5, 6, 7] } },
-  { path: '**', redirectTo: 'mainList', pathMatch: 'full' },
+  { path: '**', redirectTo: 'create-representative', pathMatch: 'full' },
 ];
 
 @NgModule({

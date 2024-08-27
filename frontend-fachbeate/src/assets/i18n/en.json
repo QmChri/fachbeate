@@ -10,6 +10,7 @@
         "new-tech": "New Advisor",
         "new-re": "New Representative",
         "new-de": "New Dealer",
+        "new-group": "New Group",
         "lan-sel": "Language Selection",
         "bookingRequest": "Booking Request",
         "support": "Support"
@@ -267,7 +268,10 @@
         "enter_here": "Enter here",
         "delete_securely": "Delete securely",
         "user_name": "Username",
-        "email": "Email"
+        "email": "Email",
+        "available": "Available",
+        "not-available": "Not Available",
+        "select_representative": "Please select representative"
     },
     "BOOKING_REQUEST": {
         "bookingRequest": "Booking Request",

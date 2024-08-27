@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { HttpService } from '../../../../services/http.service';
 import { Representative } from '../../../../models/representative';
 import { NotificationService } from '../../../../services/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { log } from '../../../../services/logger.service';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { NzCustomColumn } from 'ng-zorro-antd/table';
 
 @Component({
   selector: 'app-create-representative',
@@ -18,16 +20,33 @@ export class CreateRepresentativeComponent implements OnInit {
     email: "",
     active: true,
   }
+  customColumn: CustomColumn[] = [
+    {
+      name: 'Name',
+      value: 'name',
+      default: true,
+      required: true,
+      position: 'left',
+      width: 200,
+      fixWidth: true
+    }
+  ];
+
+  dadLeft: CustomColumn[] = [];
+  dadRight: CustomColumn[] = [];
+
   representativeList: Representative[] = [];
 
-  constructor(public translate: TranslateService, private http: HttpService, private notificationService: NotificationService) { }
+  constructor(public translate: TranslateService, private http: HttpService, private notificationService: NotificationService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
+    this.inputRepresentative = {};
     this.loadRepresentatives();
+    this.dadLeft = this.customColumn.filter(item => item.default && !item.required);
+    this.dadRight = this.customColumn.filter(item => !item.default && !item.required);
   }
 
   loadRepresentatives() {
-
     this.http.getAllRepresentative().subscribe({
       next: data => {
         this.representativeList = data
@@ -86,6 +105,8 @@ export class CreateRepresentativeComponent implements OnInit {
       email: "",
       active: true,
     }
+    this.dadLeft = []
+    this.dadRight = []
   }
 
   editRow(id: number, type: number) {
@@ -95,5 +116,59 @@ export class CreateRepresentativeComponent implements OnInit {
     this.inputRepresentative.lastName = representative.lastName;
     this.inputRepresentative.email = representative.email;
     this.inputRepresentative.active = representative.active;
+    this.dadLeft = [];
+    this.representativeList.filter(rep => rep.id !== representative.id).forEach(rep => {
+      this.dadLeft.push({
+        name: `${rep.firstName} ${rep.lastName}`,
+        value: `${rep.firstName!.toLowerCase()}.${rep.lastName!.toLowerCase()}`,
+        default: false,
+        required: false,
+        position: 'right',
+        width: 150,
+        fixWidth: false
+      });
+    });
   }
+
+  drop(event: CdkDragDrop<CustomColumn[]>): void {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
+    }
+    this.dadLeft = this.dadLeft.map(item => {
+      item.default = true;
+      return item;
+    });
+    this.dadRight = this.dadRight.map(item => {
+      item.default = false;
+      return item;
+    });
+    this.cdr.markForCheck(); 
+  }
+
+  deleteCustom(value: CustomColumn, index: number): void {
+    value.default = false;
+    this.dadRight = [...this.dadRight, value];
+    this.dadLeft.splice(index, 1);
+    this.cdr.markForCheck();
+  }
+
+  addCustom(value: CustomColumn, index: number): void {
+    value.default = true;
+    this.dadLeft = [...this.dadLeft, value];
+    this.dadRight.splice(index, 1);
+    this.cdr.markForCheck();
+  }
+
+  handleOk(): void {
+    this.customColumn = [...this.dadLeft, ...this.dadRight];
+    this.cdr.markForCheck();
+  }
+}
+
+interface CustomColumn extends NzCustomColumn {
+  name: string;
+  required?: boolean;
+  position?: 'left' | 'right';
 }

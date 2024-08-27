@@ -10,6 +10,7 @@
         "new-tech": "Neuer Fachberater",
         "new-re": "Neuer Vertreter",
         "new-de": "Neuer Händler",
+        "new-group": "Neuer Gruppe",
         "lan-sel": "Sprach Auswahl",
         "bookingRequest": "Reiseanforderung",
         "dashboard": "Dashboard",
@@ -296,7 +297,10 @@
         "enter_here": "Hier eingeben",
         "delete_securely": "Sicher löschen",
         "user_name": "Benutzername",
-        "email": "Email"
+        "email": "Email",
+        "available": "Verfügbar",
+        "not-available": "Nicht Verfügbar",
+        "select_representative": "Bitte Vertreter auswählen"
     },
     "BOOKING_REQUEST": {
         "bookingRequest": "Reiseanforderung",
