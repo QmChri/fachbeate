@@ -2,8 +2,8 @@
     window['env'] = window['env'] || {};
   
     // Environment variables
-    window['env']['backendApi'] = "${BACKEND_API}";
-    window['env']['keycloak']['Issuer'] = "${KEYCLOAK_ISSUER}";
-    window['env']['keycloa']['kRealm'] = "${KEYCLOAK_REALM}";
-    window['env']['keycloakCl']['ientId'] = "${KEYCLOAK_CLIENT_ID}";
+    window['env']['backendApi'] = "https://requesttool.almi.at/api/";
+    window['env']['keycloakIssuer'] = 'https://requesttool.almi.at/';
+    window['env']['keycloakRealm'] = 'fachbeate';
+    window['env']['keycloakClientId'] = 'fachbeate-frontend';
   })(this);
