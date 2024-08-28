@@ -5,6 +5,14 @@
     justify-content: space-between;
 }
 
+.center-items-trip {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .card-body {
     display: flex;
     flex-direction: column;
