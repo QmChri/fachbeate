@@ -279,6 +279,7 @@ export class CustomerRequirementsComponent implements OnInit {
     var finalReport: FinalReport = {}
 
     if (this.checkRequired()) {
+
       if (customerVisit.finalReport === null || customerVisit.finalReport === undefined) {
 
         //region prepare for FinalReport popup
@@ -319,11 +320,35 @@ export class CustomerRequirementsComponent implements OnInit {
 
       // When the popup is closed, the final report is saved
       dialogRef.afterClosed().subscribe(
-        data => {
+
+
+        (data: {finalReport: FinalReport, save: boolean, files: File[]}) => {
           if (data.save) {
-            customerVisit.finalReport = data.finalReport;
-            this.freigegeben = false;
             this.postCustomerRequirement();
+            let finalReport: FinalReport = data.finalReport;
+
+            let formData = new FormData();
+
+            if(data.files !== null && data.files !== undefined){
+              data.files!.forEach(element => {
+                formData.append("files", element!)
+              })
+            }
+
+            formData.append('finalReport', JSON.stringify(finalReport));
+
+            this.http.postFinalReportMultiPart(formData).subscribe({
+              next: (finalRep: FinalReport) => {
+
+                customerVisit.finalReport = finalRep;
+                this.postCustomerRequirement();
+              },
+              error: (error) => {
+                console.log(error);
+              }
+            });
+              
+            this.freigegeben = false;
             this.getNotification(5);
           }
         });

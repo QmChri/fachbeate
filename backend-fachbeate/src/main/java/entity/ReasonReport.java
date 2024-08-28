@@ -27,13 +27,14 @@ public class ReasonReport extends PanacheEntity {
 
     }
 
+    @Transactional
     public ReasonReport persistOrUpdate(){
         if(this.id == null || this.id == 0) {
             this.id = null;
+            this.persist();
             for(Article a : this.presentedArticle){
                 a = a.persistOrUpdate();
             }
-            this.persist();
             return this;
         }else{
             ReasonReport reasonReport = ReasonReport.findById(this.id);

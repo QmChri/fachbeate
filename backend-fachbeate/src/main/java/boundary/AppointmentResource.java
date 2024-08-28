@@ -26,7 +26,7 @@ public class AppointmentResource {
     @Inject
     Logger log;
 
-    String FileSaveDir = "/opt/almi/daten/fachbeate/uploads/";
+    String FileSaveDir = "uploads\\";
 
     /***
      * This method persists a calendar entry
