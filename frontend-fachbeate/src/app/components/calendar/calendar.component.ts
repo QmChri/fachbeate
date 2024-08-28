@@ -51,6 +51,7 @@ export class CalendarComponent implements OnInit {
     select: (arg) => this.handleSelect(arg),
     events: [],
     firstDay: 1,
+    height: 'auto',
     //datesSet: this.onDatesSet.bind(this),
     displayEventTime: false,
     displayEventEnd: false,

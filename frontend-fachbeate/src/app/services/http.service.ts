@@ -156,7 +156,7 @@ export class HttpService {
     return this.http.post<FinalReport>(API_URL + "appointment/finalReport", finalReport);
   }
 
-  postFinalReportMultiPart(formData: FormData): Observable<FinalReport>{
+  postFinalReportMultiPart(formData: FormData): Observable<FinalReport> {
     return this.http.post<FinalReport>(API_URL + "appointment/finalReportMulti", formData);
   }
 
@@ -208,5 +208,9 @@ export class HttpService {
   }
   getBookingPdf(id: number) {
     return this.http.get(API_URL + "/pdf/booking/" + id, { headers: this.headers, responseType: 'blob' });
+  }
+
+  postGroup(representative: Representative): Observable<Representative> {
+    return this.http.post<Representative>(API_URL + "users/representative", representative);
   }
 }

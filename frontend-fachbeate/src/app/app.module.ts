@@ -1,11 +1,11 @@
-import { APP_INITIALIZER, Inject, NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { BodyComponent } from './components/body/body.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule, provideHttpClient } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SublevelMenuComponent } from './components/sidenav/sublevel-menu.component';
@@ -68,7 +68,12 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { CheckDialogComponent } from './components/contents/check-dialog/check-dialog.component';
 import { BugReportComponent } from './components/contents/bug-report/bug-report.component';
 import { MatDivider } from '@angular/material/divider';
-
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { SubGroupsComponent } from './components/contents/creation-sites/sub-groups/sub-groups.component';
+import { NzTreeModule } from 'ng-zorro-antd/tree';
+import { NzTreeViewModule } from 'ng-zorro-antd/tree-view';
+import { NzTreeSelectModule } from 'ng-zorro-antd/tree-select';
 
 @NgModule({
   declarations: [
@@ -91,9 +96,15 @@ import { MatDivider } from '@angular/material/divider';
     BookingRequestComponent,
     CalendarComponent,
     CheckDialogComponent,
-    BugReportComponent
+    BugReportComponent,
+    SubGroupsComponent
   ],
   imports: [
+    NzModalModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    ScrollingModule,
+    DragDropModule,
     MatTooltipModule,
     NzAlertModule,
     MatDivider,
@@ -142,6 +153,9 @@ import { MatDivider } from '@angular/material/divider';
     FullCalendarModule,
     MatIconModule,
     KeycloakAngularModule,
+    NzTreeModule,
+    NzTreeViewModule,
+    NzTreeSelectModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -167,7 +181,7 @@ import { MatDivider } from '@angular/material/divider';
   bootstrap: [AppComponent]
 })
 export class AppModule {
- }
+}
 
 
 export function HttpLoaderFactory(http: HttpClient) {

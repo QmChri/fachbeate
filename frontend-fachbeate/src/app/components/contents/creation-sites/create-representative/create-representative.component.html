@@ -1,11 +1,11 @@
 <div class="header">
     <div>
-        <h1 class="paddingSearch" style="margin-bottom: 0;">{{'NAV.new-re' | translate}}</h1>
+        <h1 style="margin-bottom: 0;">{{'NAV.new-re' | translate}}</h1>
     </div>
 </div>
 <hr>
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="card">
             <div class="card-header text-white bg-danger">{{'CREATION_SITES.general_data' | translate}}</div>
             <div class="card-body">
@@ -17,8 +17,7 @@
                     </mat-form-field>
                     <mat-form-field class="smallInput">
                         <mat-label>{{'CREATION_SITES.last_name' | translate}}</mat-label>
-                        <input required matInput type="text" [(ngModel)]="inputRepresentative.lastName"
-                            name="lastName">
+                        <input required matInput type="text" [(ngModel)]="inputRepresentative.lastName" name="lastName">
                     </mat-form-field>
                     <div class="displayBySide">
                         <mat-form-field class="smallInput">
@@ -41,7 +40,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-9">
+    <div class="col-md-8">
         <nz-table class="col" #editRowTable [nzPageSize]="9" nzBordered [nzData]="representativeList">
             <thead>
                 <tr>

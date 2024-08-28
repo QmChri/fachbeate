@@ -34,7 +34,9 @@ export class AbschlussBerichtComponent implements OnInit {
   technologists: TechDateDTO[] = [];
   representative: Representative[] = [];
   fileList: NzUploadFile[] = [];
-
+  article = {
+    articleNr: ''
+  };
   todoList = [
     { id: 1, name: 'ABSCHLUSSBERICHT.information' },
     { id: 2, name: 'ABSCHLUSSBERICHT.recipe_optimization' },
@@ -62,18 +64,18 @@ export class AbschlussBerichtComponent implements OnInit {
       (this.inputFinalReport.sampleProduction) ? 4 : 0,
       (this.inputFinalReport.training) ? 5 : 0
     ]
-    if(this.inputFinalReport.files !== null && this.inputFinalReport.files!== undefined&&this.inputFinalReport.files.length !== 0){
+    if (this.inputFinalReport.files !== null && this.inputFinalReport.files !== undefined && this.inputFinalReport.files.length !== 0) {
       this.fileList = this.inputFinalReport.files!.map((file, index) => ({
-          uid: index.toString(),
-          name: file.fileName,
-          status: "done",
-          originFileObj: this.base64ToFile(file.fileContent, file.fileName),
-          url: environment.backendApi + "appointment/finalReport/file/"+this.inputFinalReport.id+"/"+file.fileName
+        uid: index.toString(),
+        name: file.fileName,
+        status: "done",
+        originFileObj: this.base64ToFile(file.fileContent, file.fileName),
+        url: environment.backendApi + "appointment/finalReport/file/" + this.inputFinalReport.id + "/" + file.fileName
       }));
 
       console.log(this.fileList)
     }
-    
+
 
     if (finalReport.reasonReports !== undefined) {
       this.inputFinalReport.reasonReports = this.inputFinalReport.reasonReports!.filter(element => (element.reason !== 0 && element.reason !== 5));
@@ -215,7 +217,7 @@ export class AbschlussBerichtComponent implements OnInit {
       console.log(this.fileList)
 
 
-      this.dialogRef.close({ finalReport: this.inputFinalReport, save: save, files: (this.fileList !== null && this.fileList !== undefined && this.fileList.length !== 0)? this.fileList.map(element => element.originFileObj!):null});
+      this.dialogRef.close({ finalReport: this.inputFinalReport, save: save, files: (this.fileList !== null && this.fileList !== undefined && this.fileList.length !== 0) ? this.fileList.map(element => element.originFileObj!) : null });
     }
   }
 

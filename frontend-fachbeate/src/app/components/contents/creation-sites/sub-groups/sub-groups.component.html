@@ -1,0 +1,67 @@
+<div class="header">
+    <div>
+        <h1 style="margin-bottom: 0;">{{'NAV.new-group' | translate}}</h1>
+    </div>
+</div>
+<hr>
+<div class="row">
+    <div class="col-md-4">
+        <nz-table class="col" #editRowTable [nzPageSize]="9" nzBordered [nzData]="representativeList">
+            <thead>
+                <tr>
+                    <th>{{'CREATION_SITES.id' | translate}}</th>
+                    <th>{{'CREATION_SITES.first_name' | translate}}</th>
+                    <th>{{'CREATION_SITES.last_name' | translate}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr matTooltip="{{'CREATION_SITES.click_to_edit' | translate}}"
+                    (click)="setRepresentative(repentative.id!)" *ngFor="let repentative of editRowTable.data">
+                    <td>{{repentative.id}}</td>
+                    <td>{{repentative.firstName}}</td>
+                    <td>{{repentative.lastName}}</td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header text-white bg-danger">
+                {{(selectedWorker.id !== 0 && selectedWorker.id !== null && selectedWorker.id
+                !==undefined)
+                ? ('CREATION_SITES.new_group_four' | translate) + ': ' + selectedWorker.firstName + ' ' +
+                selectedWorker.lastName
+                : ('CREATION_SITES.select_representative' | translate)
+                }}
+            </div>
+            <div class="card-body">
+                <div nz-col class="example-container">
+                    <p>{{'CREATION_SITES.available' | translate}}</p>
+                    <div cdkDropList #todoList="cdkDropList" [cdkDropListData]="dadLeft"
+                        [cdkDropListConnectedTo]="[doneList]" class="example-list" (cdkDropListDropped)="drop($event)">
+                        <ng-container *ngFor="let item of dadLeft; let i = index">
+                            <div class="example-box" cdkDrag>
+                                {{ item.name }}
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="arrow-container">
+                    <span>&larr; {{'CREATION_SITES.create_group' | translate}} &rarr;</span>
+                </div>
+                <div nz-col class="example-container">
+                    <p>{{'CREATION_SITES.new_group' | translate}}</p>
+                    <div cdkDropList #doneList="cdkDropList" [cdkDropListData]="dadRight"
+                        [cdkDropListConnectedTo]="[todoList]" class="example-list" (cdkDropListDropped)="drop($event)">
+                        <ng-container *ngFor="let item of dadRight; let i = index">
+                            <div class="example-box" cdkDrag>
+                                {{ item.name }}
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+                <button (click)="postGroup()">Post</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -13,6 +13,8 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Comparator;
 import java.util.Date;
@@ -20,6 +22,8 @@ import java.util.List;
 
 @Path("users")
 public class TechnologistResource {
+
+    private static final Logger log = LoggerFactory.getLogger(TechnologistResource.class);
 
     /**
      * Get all Fachberater
@@ -160,6 +164,4 @@ public class TechnologistResource {
     public Response getActiveCompany(){
         return Response.ok(Company.find("active = ?1 ORDER BY name",true).list()).build();
     }
-
-
 }
