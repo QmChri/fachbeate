@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
     // @ts-ignore
-  backendApi: window['env']['backendBaseUrl'] || "https://requesttool.almi.at/api/",
+  backendApi: window['env']['backendApi'] || "https://requesttool.almi.at/api/",
   keycloak: {
       // @ts-ignore
     issuer: window['env']['keycloakIssuer'] || 'https://requesttool.almi.at/',
