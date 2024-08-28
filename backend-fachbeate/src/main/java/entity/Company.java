@@ -32,4 +32,5 @@ public class Company extends PanacheEntity {
 
     public Company() {
     }
+
 }

@@ -5,6 +5,7 @@ import entity.CustomerRequirement;
 import entity.Representative;
 import entity.Technologist;
 import entity.dto.TechDateDTO;
+import io.quarkus.panache.common.Sort;
 import io.quarkus.security.Authenticated;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.transaction.Transactional;
@@ -13,6 +14,7 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Response;
 
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -57,7 +59,10 @@ public class TechnologistResource {
     @Path("technologist/allActive")
     @Authenticated
     public Response getActiveTechnologists() {
-        return Response.ok(Technologist.find("active", true).list()).build();
+        return Response.ok(
+                Technologist.find("active", true)
+                        .list()
+        ).build();
     }
 
 
@@ -142,7 +147,7 @@ public class TechnologistResource {
     @Authenticated
     @Path("company")
     public Response getAllCompany(){
-        return Response.ok(Company.listAll()).build();
+        return Response.ok(Company.listAll(Sort.by("name"))).build();
     }
 
     /**
@@ -153,7 +158,7 @@ public class TechnologistResource {
     @Authenticated
     @Path("company/allActive")
     public Response getActiveCompany(){
-        return Response.ok(Company.find("active",true).list()).build();
+        return Response.ok(Company.find("active = ?1 ORDER BY name",true).list()).build();
     }
 
 
