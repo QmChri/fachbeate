@@ -42,7 +42,7 @@ export const navbarData: INavbarData[] = [
         routeLink: 'abschluss-bericht-list',
         icon: 'fal fa-clipboard-list',
         label: 'final-reports',
-        role: [1, 2, 3, 4, 6, 7]
+        role: [1, 2, 3, 4, 7]
     },
     {
         routeLink: "",
@@ -61,11 +61,11 @@ export const navbarData: INavbarData[] = [
             {
                 routeLink: 'create-dealer',
                 label: 'new-de',
-            },
+            }/*,
             {
                 routeLink: 'create-new-group',
                 label: 'new-group',
-            }
+            }*/
         ]
     },
     {
