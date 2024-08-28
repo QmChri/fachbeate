@@ -1,8 +1,7 @@
 <div class="mainView">
     <div class="header">
         <h1 class="paddingSearch">{{"MAIN_LIST.final_report" | translate}}</h1>
-        <button style="margin-right: 2px;"
-            *ngIf="inputFinalReport.id !== null && inputFinalReport.id !== undefined"
+        <button style="margin-right: 2px;" *ngIf="inputFinalReport.id !== null && inputFinalReport.id !== undefined"
             class="btn btn-secondary" (click)="getPdf()">PDF
         </button>
     </div>
@@ -248,9 +247,9 @@
                 </div>
                 <mat-button-toggle-group [disabled]="roleService.checkPermission([6])" [ngModel]="multiSelect"
                     (change)="changeSelections($event)" vertical multiple>
-                    <mat-button-toggle [value]="1">{{"CUSTOMER_REQUIREMENTS.presentation_of_new_products" |
+                    <mat-button-toggle [value]="1">{{"ABSCHLUSSBERICHT.introduction" |
                         translate}}</mat-button-toggle>
-                    <mat-button-toggle [value]="2">{{"CUSTOMER_REQUIREMENTS.existing_products" |
+                    <mat-button-toggle [value]="2">{{"ABSCHLUSSBERICHT.problem_solving" |
                         translate}}</mat-button-toggle>
                     <mat-button-toggle [value]="3">{{"CUSTOMER_REQUIREMENTS.recipe_optimization" |
                         translate}}</mat-button-toggle>
@@ -284,9 +283,16 @@
                         <div class="displayBySide">
                             <mat-form-field class="artundnr">
                                 <mat-label>{{"ABSCHLUSSBERICHT.article_number" | translate}}</mat-label>
-                                <input [disabled]="roleService.checkPermission([6])" matInput type="text"
+                                <input [disabled]="roleService.checkPermission([6])" matInput
                                     [(ngModel)]="article.articleNr" name="articleNumber{{reasonReport.reason}}"
-                                    (ngModelChange)="insertOther(article, reasonReport.reason)">
+                                    (ngModelChange)="insertOther(article, reasonReport.reason)" type="number"
+                                    maxlength="7" min="0" max="9999999" 
+                                    oninput="this.value = this.value.slice(0, this.maxLength)" required>
+                                @if (control.hasError('required')) {
+                                <mat-error>
+                                    {{ "ABSCHLUSSBERICHT.article_length" | translate }}
+                                </mat-error>
+                                }
                             </mat-form-field>
                             <mat-form-field class="artundnr">
                                 <mat-label>{{"ABSCHLUSSBERICHT.article" | translate}}</mat-label>
@@ -326,10 +332,11 @@
                         <div class="displayBySide">
                             <mat-form-field class="artundnr">
                                 <mat-label>{{ "ABSCHLUSSBERICHT.article_number" | translate }}</mat-label>
-                                <input [disabled]="roleService.checkPermission([6])" matInput type="text"
+                                <input [disabled]="roleService.checkPermission([6])" matInput
                                     [(ngModel)]="article.articleNr" name="articleNumber{{reasonReport.reason}}"
-                                    (ngModelChange)="insertOther(article, reasonReport.reason)" pattern="[0-9]*"
-                                    maxlength="7" minlength="7" required>
+                                    (ngModelChange)="insertOther(article, reasonReport.reason)" type="number"
+                                    maxlength="7" min="0" max="9999999"
+                                    oninput="this.value = this.value.slice(0, this.maxLength)" required>
                                 @if (control.hasError('required')) {
                                 <mat-error>
                                     {{ "ABSCHLUSSBERICHT.article_length" | translate }}
@@ -367,15 +374,23 @@
             <div class="col-md-4 paddingBottom" *ngIf="reasonReport.reason === 3">
                 <div class="card" hideToggle>
                     <div class="card-header bg-danger text-white">{{"CUSTOMER_REQUIREMENTS.recipe_optimization"
-                        |translate}}</div>
+                        |translate}}
+                    </div>
                     <div class="card-body">
                         @for (article of reasonReport.presentedArticle; track $index) {
                         <div class="displayBySide">
                             <mat-form-field class="artundnr">
                                 <mat-label>{{"ABSCHLUSSBERICHT.article_number" | translate}}</mat-label>
-                                <input [disabled]="roleService.checkPermission([6])" matInput type="text"
+                                <input [disabled]="roleService.checkPermission([6])" matInput
                                     [(ngModel)]="article.articleNr" name="articleNumber{{reasonReport.reason}}"
-                                    (ngModelChange)="insertOther(article, reasonReport.reason)">
+                                    (ngModelChange)="insertOther(article, reasonReport.reason)" type="number"
+                                    maxlength="7" min="0" max="9999999" 
+                                    oninput="this.value = this.value.slice(0, this.maxLength)" required>
+                                @if (control.hasError('required')) {
+                                <mat-error>
+                                    {{ "ABSCHLUSSBERICHT.article_length" | translate }}
+                                </mat-error>
+                                }
                             </mat-form-field>
                             <mat-form-field class="artundnr">
                                 <mat-label>{{"ABSCHLUSSBERICHT.article" | translate}}</mat-label>
@@ -408,15 +423,24 @@
             <div class="col-md-4 paddingBottom" *ngIf="reasonReport.reason === 4">
                 <div class="card" hideToggle>
                     <div class="card-header bg-danger text-white">{{"CUSTOMER_REQUIREMENTS.sample_production" |
-                        translate}}</div>
+                        translate}}
+                    </div>
                     <div class="card-body">
                         @for (article of reasonReport.presentedArticle; track $index) {
                         <div class="displayBySide">
                             <mat-form-field class="artundnr">
                                 <mat-label>{{"ABSCHLUSSBERICHT.article_number" | translate}}</mat-label>
-                                <input [disabled]="roleService.checkPermission([6])" matInput type="text"
-                                    [(ngModel)]="article.articleNr" name="articleNumber{{reasonReport.reason}}"
-                                    (ngModelChange)="insertOther(article, reasonReport.reason)">
+                                <input [disabled]="roleService.checkPermission([6])" matInput
+                                    name="articleNumber{{reasonReport.reason}}"
+                                    (ngModelChange)="insertOther(article, reasonReport.reason)"
+                                    [(ngModel)]="article.articleNr" type="number" maxlength="7" min="0" max="9999999"
+                                     oninput="this.value = this.value.slice(0, this.maxLength)"
+                                    required>
+                                @if (control.hasError('required')) {
+                                <mat-error>
+                                    {{ "ABSCHLUSSBERICHT.article_length" | translate }}
+                                </mat-error>
+                                }
                             </mat-form-field>
                             <mat-form-field class="artundnr">
                                 <mat-label>{{"ABSCHLUSSBERICHT.article" | translate}}</mat-label>

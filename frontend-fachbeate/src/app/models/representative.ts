@@ -7,6 +7,6 @@ export interface Representative {
     lastName?: string;
     email?: string;
     active?: boolean;
-    listOfRepresentative?: Representative[];
-    listOfTechnologist?: Technologist[];
+    groupMembersRepresentatives?: Representative[];
+    groupMembersTechnologist?: Technologist[];
 }

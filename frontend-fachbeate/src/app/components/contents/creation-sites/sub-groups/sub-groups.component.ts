@@ -77,7 +77,7 @@ export class SubGroupsComponent implements OnInit {
       }
       case 2: { //Gruppe konnte nicht erstellt werden
         this.translate.get('CREATION_SITES.created_error').subscribe((translatedMessage: string) => {
-          this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
+          this.notificationService.createBasicNotification(1, translatedMessage, '', 'topRight');
         });
         break;
       }
@@ -104,19 +104,21 @@ export class SubGroupsComponent implements OnInit {
   setRepresentative(workerId: number) {
     this.dadRight = [];
     this.dadLeft = [];
+
     this.selectedWorker = this.representativeList.find(s => s.id === workerId)!;
     let tmp: { id: string, firstName: string, lastName: string }[] = [
-      ...this.selectedWorker.listOfRepresentative!.map(element => ({
+      ...(this.selectedWorker.groupMembersRepresentatives?.map(element => ({
         id: "R_" + element.id!,
         firstName: element.firstName!,
         lastName: element.lastName!
-      })),
-      ...this.selectedWorker.listOfTechnologist!.map(element => ({
+      })) ?? []),
+      ...(this.selectedWorker.groupMembersTechnologist?.map(element => ({
         id: "T_" + element.id!,
         firstName: element.firstName!,
         lastName: element.lastName!
-      })),
+      })) ?? []),
     ];
+
     tmp.filter(rep => (rep.id.split("_")[1] !== this.selectedWorker.id?.toString() || rep.id.split("_")[0] !== "R")).forEach(rep => {
       this.dadRight.push({
         name: `${rep.firstName} ${rep.lastName}`,
@@ -135,10 +137,10 @@ export class SubGroupsComponent implements OnInit {
   }
 
   postGroup() {
-    this.selectedWorker.listOfRepresentative = this.representativeList
+    this.selectedWorker.groupMembersRepresentatives = this.representativeList
       .filter(rep => this.dadRight.some(element => element.id.split("_")[0] === "R" && element.id.split("_")[1] === rep.id!.toString()));
 
-    this.selectedWorker.listOfTechnologist = this.technologistList
+    this.selectedWorker.groupMembersTechnologist = this.technologistList
       .filter(rep => this.dadRight.some(element => element.id.split("_")[0] === "T" && element.id.split("_")[1] === rep.id!.toString()));
 
     console.log(this.selectedWorker)

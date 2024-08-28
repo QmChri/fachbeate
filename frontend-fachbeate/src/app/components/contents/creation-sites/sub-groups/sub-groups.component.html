@@ -29,13 +29,14 @@
             <div class="card-header text-white bg-danger">
                 {{(selectedWorker.id !== 0 && selectedWorker.id !== null && selectedWorker.id
                 !==undefined)
-                ? ('CREATION_SITES.available' | translate) + ': ' + selectedWorker.firstName + ' ' +
+                ? ('CREATION_SITES.new_group_four' | translate) + ': ' + selectedWorker.firstName + ' ' +
                 selectedWorker.lastName
                 : ('CREATION_SITES.select_representative' | translate)
                 }}
             </div>
             <div class="card-body">
                 <div nz-col class="example-container">
+                    <p>{{'CREATION_SITES.available' | translate}}</p>
                     <div cdkDropList #todoList="cdkDropList" [cdkDropListData]="dadLeft"
                         [cdkDropListConnectedTo]="[doneList]" class="example-list" (cdkDropListDropped)="drop($event)">
                         <ng-container *ngFor="let item of dadLeft; let i = index">
@@ -49,6 +50,7 @@
                     <span>&larr; {{'CREATION_SITES.create_group' | translate}} &rarr;</span>
                 </div>
                 <div nz-col class="example-container">
+                    <p>{{'CREATION_SITES.new_group' | translate}}</p>
                     <div cdkDropList #doneList="cdkDropList" [cdkDropListData]="dadRight"
                         [cdkDropListConnectedTo]="[todoList]" class="example-list" (cdkDropListDropped)="drop($event)">
                         <ng-container *ngFor="let item of dadRight; let i = index">
