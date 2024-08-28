@@ -1,3 +1,5 @@
+import { Technologist } from "./technologist";
+
 export interface Representative {
 
     id?: number;
@@ -5,5 +7,6 @@ export interface Representative {
     lastName?: string;
     email?: string;
     active?: boolean;
-
+    listOfRepresentative?: Representative[];
+    listOfTechnologist?: Technologist[];
 }

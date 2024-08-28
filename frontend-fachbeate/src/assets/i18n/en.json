@@ -271,7 +271,13 @@
         "email": "Email",
         "available": "Available",
         "not-available": "Not Available",
-        "select_representative": "Please select representative"
+        "select_representative": "Please select a representative",
+        "add_representative": "Assign representative/advisor",
+        "create_group": "Create Group",
+        "new_group": "New Group",
+        "group_name": "Enter group name",
+        "created_group": "Group has been created!",
+        "created_error": "Error creating group!"
     },
     "BOOKING_REQUEST": {
         "bookingRequest": "Booking Request",

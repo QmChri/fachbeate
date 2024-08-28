@@ -61,6 +61,10 @@ export const navbarData: INavbarData[] = [
             {
                 routeLink: 'create-dealer',
                 label: 'new-de',
+            },
+            {
+                routeLink: 'create-new-group',
+                label: 'new-group',
             }
         ]
     },

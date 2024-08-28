@@ -298,9 +298,15 @@
         "delete_securely": "Sicher löschen",
         "user_name": "Benutzername",
         "email": "Email",
-        "available": "Verfügbar",
+        "available": "Neue Gruppe für",
         "not-available": "Nicht Verfügbar",
-        "select_representative": "Bitte Vertreter auswählen"
+        "select_representative": "Bitte Vertreter auswählen",
+        "add_representative": "Fachberater/Vertreter zuweisen",
+        "create_group": "Entfernen/Hinzufügen",
+        "new_group": "Bestehende Gruppe",
+        "group_name": "Gruppenname eingeben",
+        "created_group": "Gruppe wurde erstellt!",
+        "created_error": "Fehler beim Erstellen der Gruppe!"
     },
     "BOOKING_REQUEST": {
         "bookingRequest": "Reiseanforderung",

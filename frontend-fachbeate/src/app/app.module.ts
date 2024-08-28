@@ -70,6 +70,10 @@ import { BugReportComponent } from './components/contents/bug-report/bug-report.
 import { MatDivider } from '@angular/material/divider';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import { SubGroupsComponent } from './components/contents/creation-sites/sub-groups/sub-groups.component';
+import { NzTreeModule } from 'ng-zorro-antd/tree';
+import { NzTreeViewModule } from 'ng-zorro-antd/tree-view';
+import { NzTreeSelectModule } from 'ng-zorro-antd/tree-select';
 
 @NgModule({
   declarations: [
@@ -92,7 +96,8 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
     BookingRequestComponent,
     CalendarComponent,
     CheckDialogComponent,
-    BugReportComponent
+    BugReportComponent,
+    SubGroupsComponent
   ],
   imports: [
     NzModalModule,
@@ -148,6 +153,9 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
     FullCalendarModule,
     MatIconModule,
     KeycloakAngularModule,
+    NzTreeModule,
+    NzTreeViewModule,
+    NzTreeSelectModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

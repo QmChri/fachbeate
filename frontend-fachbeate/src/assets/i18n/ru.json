@@ -295,8 +295,14 @@
         "user_name": "имя пользователя",
         "email": "Электронная почта",
         "available": "Доступно",
-        "not-available": "Нет в наличии",
-        "select_representative": "Пожалуйста, выберите представителя"
+        "not-available": "Недоступно",
+        "select_representative": "Пожалуйста, выберите представителя",
+        "add_representative": "Назначить представителя/консультанта",
+        "create_group": "Создать группу",
+        "new_group": "Новая группа",
+        "group_name": "Введите название группы",
+        "created_group": "Группа была создана!",
+        "created_error": "Ошибка при создании группы!"
     },
     "BOOKING_REQUEST": {
         "bookingRequest": "Запрос на бронирование",

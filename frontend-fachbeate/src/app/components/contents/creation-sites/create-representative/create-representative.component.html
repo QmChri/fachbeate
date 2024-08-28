@@ -5,7 +5,7 @@
 </div>
 <hr>
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="card">
             <div class="card-header text-white bg-danger">{{'CREATION_SITES.general_data' | translate}}</div>
             <div class="card-body">
@@ -40,8 +40,8 @@
             </div>
         </div>
     </div>
-    <div class="col-md-9">
-        <nz-table class="col" #editRowTable [nzPageSize]="4" nzBordered [nzData]="representativeList">
+    <div class="col-md-8">
+        <nz-table class="col" #editRowTable [nzPageSize]="9" nzBordered [nzData]="representativeList">
             <thead>
                 <tr>
                     <th>{{'CREATION_SITES.id' | translate}}</th>
@@ -63,52 +63,5 @@
                 </tr>
             </tbody>
         </nz-table>
-    </div>
-</div>
-
-<br>
-
-<div class="row">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-header text-white bg-danger">
-                <!-- Ternäre Bedingung innerhalb eines Interpolationsausdrucks -->
-                {{
-                (inputRepresentative.id !== 0 && inputRepresentative.id !== null && inputRepresentative.id !==
-                undefined)
-                ? ('NAV.new-group' | translate) + ': ' + inputRepresentative.firstName + ' ' +
-                inputRepresentative.lastName
-                : ('CREATION_SITES.select_representative' | translate)
-                }}
-            </div>
-            <div class="card-body2">
-                <div nz-col class="example-container">
-                    <p>{{'CREATION_SITES.available' | translate}}</p>
-                    <div cdkDropList #todoList="cdkDropList" [cdkDropListData]="dadLeft"
-                        [cdkDropListConnectedTo]="[doneList]" class="example-list" (cdkDropListDropped)="drop($event)">
-                        <ng-container *ngFor="let item of dadLeft; let i = index">
-                            <div class="example-box" cdkDrag>
-                                {{ item.name }}
-                                <span nz-icon nzType="minus-circle" nzTheme="outline" (click)="deleteCustom(item, i)">
-                                </span>
-                            </div>
-                        </ng-container>
-                    </div>
-                </div>
-                <div nz-col class="example-container">
-                    <p>{{'CREATION_SITES.not-available' | translate}}</p>
-                    <div cdkDropList #doneList="cdkDropList" [cdkDropListData]="dadRight"
-                        [cdkDropListConnectedTo]="[todoList]" class="example-list" (cdkDropListDropped)="drop($event)">
-                        <ng-container *ngFor="let item of dadRight; let i = index">
-                            <div class="example-box" cdkDrag>
-                                {{ item.name }}
-                                <span nz-icon nzType="plus-circle" nzTheme="outline" (click)="addCustom(item, i)">
-                                </span>
-                            </div>
-                        </ng-container>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
