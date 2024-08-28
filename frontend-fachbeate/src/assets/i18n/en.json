@@ -10,6 +10,7 @@
         "new-tech": "New Advisor",
         "new-re": "New Representative",
         "new-de": "New Dealer",
+        "new-group": "New Group",
         "lan-sel": "Language Selection",
         "bookingRequest": "Booking Request",
         "support": "Support"
@@ -267,7 +268,17 @@
         "enter_here": "Enter here",
         "delete_securely": "Delete securely",
         "user_name": "Username",
-        "email": "Email"
+        "email": "Email",
+        "new_group_four": "New group for",
+        "available": "Available",
+        "not-available": "Not Available",
+        "select_representative": "Please select a representative",
+        "add_representative": "Assign consultant/representative",
+        "create_group": "Remove/Add",
+        "new_group": "Group",
+        "group_name": "Enter group name",
+        "created_group": "Group has been created!",
+        "created_error": "Error creating group!"
     },
     "BOOKING_REQUEST": {
         "bookingRequest": "Booking Request",
