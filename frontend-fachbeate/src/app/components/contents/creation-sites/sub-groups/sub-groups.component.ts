@@ -35,7 +35,6 @@ export class SubGroupsComponent implements OnInit {
   }
   calculatePageSize(): void {
     const tableHeight = window.innerHeight - 254; //Puffer für Header/Footer
-    console.log(tableHeight)
     const rowHeight = 54; // Höhe einer Tabellenzeile
     this.pageSize = Math.floor(tableHeight / rowHeight);
   }
@@ -153,7 +152,6 @@ export class SubGroupsComponent implements OnInit {
     this.selectedWorker.groupMembersTechnologist = this.technologistList
       .filter(rep => this.dadRight.some(element => element.id.split("_")[0] === "T" && element.id.split("_")[1] === rep.id!.toString()));
 
-    console.log(this.selectedWorker)
     this.http.postGroup(this.selectedWorker).subscribe({
       next: data => {
         this.selectedWorker = data;

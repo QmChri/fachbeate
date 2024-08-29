@@ -72,8 +72,6 @@ export class AbschlussBerichtComponent implements OnInit {
         originFileObj: this.base64ToFile(file.fileContent, file.fileName),
         url: environment.backendApi + "appointment/finalReport/file/" + this.inputFinalReport.id + "/" + file.fileName
       }));
-
-      console.log(this.fileList)
     }
 
 
@@ -212,11 +210,6 @@ export class AbschlussBerichtComponent implements OnInit {
         this.inputFinalReport.technologistEntered = true;
       }
       //endregion
-
-
-      console.log(this.fileList)
-
-
       this.dialogRef.close({ finalReport: this.inputFinalReport, save: save, files: (this.fileList !== null && this.fileList !== undefined && this.fileList.length !== 0) ? this.fileList.map(element => element.originFileObj!) : null });
     }
   }
@@ -384,8 +377,6 @@ export class AbschlussBerichtComponent implements OnInit {
   };
 
   handleChange(info: { fileList: NzUploadFile[] }): void {
-
     this.fileList = info.fileList;
-    console.log(this.fileList)
   }
 }

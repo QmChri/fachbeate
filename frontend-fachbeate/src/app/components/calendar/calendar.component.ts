@@ -20,12 +20,16 @@ import { log } from '../../services/logger.service';
   styleUrl: './calendar.component.scss'
 })
 export class CalendarComponent implements OnInit {
-  requiredRoles = [1, 2, 4, 5, 7];
-  calendarEvnts: CalendarEvent[] = [];
   searchValue = '';
   visible = false;
   visible2 = false;
+  roleServiceUserName = this.roleService.getUserName();
+  nameOfCalendarEvent: string = "";
+  i: number = 0;
+  requiredRoles = [1, 2, 4, 5, 7];
+  calendarEvnts: CalendarEvent[] = [];
   listOfAdvisor: string[] = [];
+  filterArray: string[] = [];
   listOfBooking: Array<{ label: string; value: string }> = [
     { label: 'holiday', value: 'Urlaub' },
     { label: 'ausgleich', value: 'Zeitausgleich' },
@@ -36,10 +40,6 @@ export class CalendarComponent implements OnInit {
     { label: 'filter1', value: 'S_' },
     { label: 'filter2', value: 'F_' },
     { label: 'filter3', value: 'B_' }];
-  filterArray: string[] = [];
-  roleServiceUserName = this.roleService.getUserName();
-  nameOfCalendarEvent: string = "";
-  i: number = 0;
 
   //Setting the calendar settings
   calendarOptions: CalendarOptions = {
@@ -52,7 +52,7 @@ export class CalendarComponent implements OnInit {
     events: [],
     firstDay: 1,
     height: 'auto',
-    //datesSet: this.onDatesSet.bind(this),
+    aspectRatio: 3,
     displayEventTime: false,
     displayEventEnd: false,
     eventContent: (arg) => {
@@ -73,12 +73,12 @@ export class CalendarComponent implements OnInit {
           </div>
           `}
       }
-      return event.title
-    },
+      return event.title;
+    }/*,
     headerToolbar: {
       start: 'multiMonthYear,dayGridMonth',
       end: 'today,prevYear,prev,next,nextYear'
-    }
+    }*/
   };
 
   constructor(public translate: TranslateService, private notificationService: NotificationService,
@@ -116,7 +116,6 @@ export class CalendarComponent implements OnInit {
     });
     this.filterArray = this.filterArray.filter(element => !this.listOfAdvisor.includes(element));
     this.search();
-
   }
 
   search(): void {
@@ -302,12 +301,20 @@ export class CalendarComponent implements OnInit {
   }
 
   translateTitle(text: string): string {
-    let message = ""
+    let message = "";
     if (text !== null && text !== undefined) {
-      this.translate.get(["STANDARD." + text]).subscribe(translations => {
-        message = translations['STANDARD.' + text];
-      });
+      const foundBooking = this.listOfBooking.find(item => item.label === text);
+      if (foundBooking) {
+        this.translate.get(["STANDARD." + text]).subscribe(translations => {
+          message = translations['STANDARD.' + text];
+        });
+      } else {
+        this.translate.get([text]).subscribe(translations => {
+          message = translations[text];
+        });
+      }
     }
+
     return message;
   }
 
@@ -351,7 +358,6 @@ export class CalendarComponent implements OnInit {
     dialogRef.afterClosed().subscribe(
       data => {
         if (this.roleService.checkPermission(this.requiredRoles)) {
-
           this.loadDataPerUser()
         }
       });

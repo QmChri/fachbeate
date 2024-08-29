@@ -36,7 +36,7 @@ const routes: Routes = [
   { path: 'mainList', component: MainListComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 3, 4, 5, 6, 7] } },
   { path: 'bug-report', component: BugReportComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 3, 4, 5, 6, 7] } },
   { path: 'create-new-group', component: SubGroupsComponent, canActivate: [authGuard], data: { requiredRoles: [1, 7] } },
-  { path: '**', redirectTo: 'create-dealer', pathMatch: 'full' },
+  { path: '**', redirectTo: 'mainList', pathMatch: 'full' },
 ];
 
 @NgModule({

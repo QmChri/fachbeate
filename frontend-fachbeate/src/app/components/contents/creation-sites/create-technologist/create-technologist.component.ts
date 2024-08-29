@@ -38,7 +38,6 @@ export class CreateTechnologistComponent implements OnInit {
   }
   calculatePageSize(): void {
     const tableHeight = window.innerHeight - 254; //Puffer für Header/Footer
-    console.log(tableHeight)
     const rowHeight = 54; // Höhe einer Tabellenzeile
     this.pageSize = Math.floor(tableHeight / rowHeight);
   }
