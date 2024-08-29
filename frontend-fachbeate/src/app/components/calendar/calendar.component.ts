@@ -157,7 +157,7 @@ export class CalendarComponent implements OnInit {
   loadEvents(companies: Company[]) {
     var type = (this.roleService.checkPermission([1, 2, 3, 5, 7]) ? 7 : 6);
     type = (!this.roleService.checkPermission([1, 2, 3, 5, 6, 7]) ? 4 : type);
-    type = (this.roleService.checkPermission([3]) && this.roleService.checkPermission([4]) ? 8 : type);
+    type = ((!this.roleService.checkPermission([1,2,5,6,7]) && type !== 4) ? 8 : type);
 
     var fullname: string[] = [this.roleService.getUserName()!, this.roleService.getEmail()!];
 
