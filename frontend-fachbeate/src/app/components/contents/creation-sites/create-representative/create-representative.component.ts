@@ -35,6 +35,8 @@ export class CreateRepresentativeComponent implements OnInit {
   dadRight: CustomColumn[] = [];
   representativeList: Representative[] = [];
   public pageSize: number = 9;
+  searchValue = '';
+  visible = false;
 
   constructor(public translate: TranslateService, private http: HttpService, private notificationService: NotificationService, private cdr: ChangeDetectorRef) { }
 
@@ -49,7 +51,7 @@ export class CreateRepresentativeComponent implements OnInit {
   onResize(event: any) {
     this.calculatePageSize();
   }
-  
+
   calculatePageSize(): void {
     const tableHeight = window.innerHeight - 254; //Puffer für Header/Footer
     console.log(tableHeight)
@@ -175,6 +177,25 @@ export class CreateRepresentativeComponent implements OnInit {
   handleOk(): void {
     this.customColumn = [...this.dadLeft, ...this.dadRight];
     this.cdr.markForCheck();
+  }
+
+  resetSearch(): void {
+    this.searchValue = "";
+    this.translate.get('STANDARD.filter_sorting_removed').subscribe((translatedMessage: string) => {
+      this.notificationService.createBasicNotification(2, translatedMessage, '', 'topRight');
+    });
+    this.loadRepresentatives();
+  }
+
+  search(): void {
+    this.visible = false;
+    this.representativeList = this.representativeList.filter((item: Representative) =>
+    (
+      item.firstName!.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.lastName!.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.email!.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.id!.valueOf().toString().includes(this.searchValue.toLocaleLowerCase())
+    ));
   }
 }
 

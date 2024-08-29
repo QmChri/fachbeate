@@ -22,6 +22,8 @@ export class CreateTechnologistComponent implements OnInit {
   technologistList: Technologist[] = [];
   letters = '0123456789ABCDEF';
   public pageSize: number = 9;
+  searchValue = '';
+  visible = false;
 
   constructor(public translate: TranslateService, private http: HttpService, private notificationService: NotificationService) { }
 
@@ -29,7 +31,7 @@ export class CreateTechnologistComponent implements OnInit {
     this.loadTechnologists();
     this.calculatePageSize();
   }
-  
+
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.calculatePageSize();
@@ -111,5 +113,24 @@ export class CreateTechnologistComponent implements OnInit {
     this.inputTechnologist.email = technologist.email;
     this.inputTechnologist.active = technologist.active;
     this.inputTechnologist.color = technologist.color;
+  }
+
+  resetSearch(): void {
+    this.searchValue = "";
+    this.translate.get('STANDARD.filter_sorting_removed').subscribe((translatedMessage: string) => {
+      this.notificationService.createBasicNotification(2, translatedMessage, '', 'topRight');
+    });
+    this.loadTechnologists();
+  }
+  search(): void {
+    this.visible = false;
+    this.technologistList = this.technologistList.filter((item: Technologist) =>
+    (
+      item.firstName!.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.lastName!.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.email!.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.color!.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.id!.valueOf().toString().includes(this.searchValue.toLocaleLowerCase())
+    ));
   }
 }

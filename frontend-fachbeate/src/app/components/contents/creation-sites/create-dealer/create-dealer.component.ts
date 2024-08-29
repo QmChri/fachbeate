@@ -11,6 +11,8 @@ import { log } from '../../../../services/logger.service';
   styleUrl: './create-dealer.component.scss'
 })
 export class CreateDealerComponent implements OnInit {
+  searchValue = '';
+  visible = false;
   inputCompany: Company = { active: true };
   companyList: Company[] = [];
   public pageSize: number = 9;
@@ -93,5 +95,19 @@ export class CreateDealerComponent implements OnInit {
     this.inputCompany.id = company.id;
   }
 
-
+  resetSearch(): void {
+    this.searchValue = "";
+    this.translate.get('STANDARD.filter_sorting_removed').subscribe((translatedMessage: string) => {
+      this.notificationService.createBasicNotification(2, translatedMessage, '', 'topRight');
+    });
+    this.loadCompany();
+  }
+  search(): void {
+    this.visible = false;
+    this.companyList = this.companyList.filter((item: Company) =>
+    (
+      item.name!.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.id!.valueOf().toString().includes(this.searchValue.toLocaleLowerCase())
+    ));
+  }
 }
