@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Technologist } from '../../../../models/technologist';
 import { HttpService } from '../../../../services/http.service';
 import { NotificationService } from '../../../../services/notification.service';
@@ -21,11 +21,24 @@ export class CreateTechnologistComponent implements OnInit {
   }
   technologistList: Technologist[] = [];
   letters = '0123456789ABCDEF';
+  public pageSize: number = 9;
 
   constructor(public translate: TranslateService, private http: HttpService, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.loadTechnologists();
+    this.calculatePageSize();
+  }
+  
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.calculatePageSize();
+  }
+  calculatePageSize(): void {
+    const tableHeight = window.innerHeight - 254; //Puffer für Header/Footer
+    console.log(tableHeight)
+    const rowHeight = 54; // Höhe einer Tabellenzeile
+    this.pageSize = Math.floor(tableHeight / rowHeight);
   }
 
   getRandomColor() {

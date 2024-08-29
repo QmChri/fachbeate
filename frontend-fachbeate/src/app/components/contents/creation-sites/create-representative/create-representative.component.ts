@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/core';
 import { HttpService } from '../../../../services/http.service';
 import { Representative } from '../../../../models/representative';
 import { NotificationService } from '../../../../services/notification.service';
@@ -31,19 +31,30 @@ export class CreateRepresentativeComponent implements OnInit {
       fixWidth: true
     }
   ];
-
   dadLeft: CustomColumn[] = [];
   dadRight: CustomColumn[] = [];
-
   representativeList: Representative[] = [];
+  public pageSize: number = 9;
 
   constructor(public translate: TranslateService, private http: HttpService, private notificationService: NotificationService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    this.inputRepresentative = {};
     this.loadRepresentatives();
     this.dadLeft = this.customColumn.filter(item => item.default && !item.required);
     this.dadRight = this.customColumn.filter(item => !item.default && !item.required);
+    this.calculatePageSize();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.calculatePageSize();
+  }
+  
+  calculatePageSize(): void {
+    const tableHeight = window.innerHeight - 254; //Puffer für Header/Footer
+    console.log(tableHeight)
+    const rowHeight = 54; // Höhe einer Tabellenzeile
+    this.pageSize = Math.floor(tableHeight / rowHeight);
   }
 
   loadRepresentatives() {
@@ -144,7 +155,7 @@ export class CreateRepresentativeComponent implements OnInit {
       item.default = false;
       return item;
     });
-    this.cdr.markForCheck(); 
+    this.cdr.markForCheck();
   }
 
   deleteCustom(value: CustomColumn, index: number): void {

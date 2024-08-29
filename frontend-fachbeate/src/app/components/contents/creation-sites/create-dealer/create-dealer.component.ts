@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { HttpService } from '../../../../services/http.service';
 import { Company } from '../../../../models/company';
 import { NotificationService } from '../../../../services/notification.service';
@@ -13,12 +13,24 @@ import { log } from '../../../../services/logger.service';
 export class CreateDealerComponent implements OnInit {
   inputCompany: Company = { active: true };
   companyList: Company[] = [];
+  public pageSize: number = 9;
 
   constructor(public translate: TranslateService, private http: HttpService, private notificationService: NotificationService) {
   }
 
   ngOnInit(): void {
     this.loadCompany();
+    this.calculatePageSize();
+  }
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.calculatePageSize();
+  }
+  calculatePageSize(): void {
+    const tableHeight = window.innerHeight - 254; //Puffer für Header/Footer
+    console.log(tableHeight)
+    const rowHeight = 54; // Höhe einer Tabellenzeile
+    this.pageSize = Math.floor(tableHeight / rowHeight);
   }
 
   loadCompany() {
@@ -80,5 +92,6 @@ export class CreateDealerComponent implements OnInit {
     this.inputCompany.username = company.username;
     this.inputCompany.id = company.id;
   }
+
 
 }
