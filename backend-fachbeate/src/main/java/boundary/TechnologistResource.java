@@ -151,7 +151,9 @@ public class TechnologistResource {
     @Authenticated
     @Path("company")
     public Response getAllCompany(){
-        return Response.ok(Company.listAll(Sort.by("name"))).build();
+        List<Company> companies = Company.listAll();
+        companies.sort(Comparator.comparing(company -> company.name.toUpperCase()));
+        return Response.ok(companies).build();
     }
 
     /**
@@ -162,6 +164,8 @@ public class TechnologistResource {
     @Authenticated
     @Path("company/allActive")
     public Response getActiveCompany(){
-        return Response.ok(Company.find("active = ?1 ORDER BY name",true).list()).build();
+        List<Company> companies = Company.find("active", true).list();
+        companies.sort(Comparator.comparing(company -> company.name.toUpperCase()));
+        return Response.ok(companies).build();
     }
 }

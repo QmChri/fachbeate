@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/core';
 import { HttpService } from '../../../../services/http.service';
 import { Representative } from '../../../../models/representative';
 import { NotificationService } from '../../../../services/notification.service';
@@ -31,19 +31,31 @@ export class CreateRepresentativeComponent implements OnInit {
       fixWidth: true
     }
   ];
-
   dadLeft: CustomColumn[] = [];
   dadRight: CustomColumn[] = [];
-
   representativeList: Representative[] = [];
+  public pageSize: number = 9;
+  searchValue = '';
+  visible = false;
 
   constructor(public translate: TranslateService, private http: HttpService, private notificationService: NotificationService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    this.inputRepresentative = {};
     this.loadRepresentatives();
     this.dadLeft = this.customColumn.filter(item => item.default && !item.required);
     this.dadRight = this.customColumn.filter(item => !item.default && !item.required);
+    this.calculatePageSize();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.calculatePageSize();
+  }
+
+  calculatePageSize(): void {
+    const tableHeight = window.innerHeight - 254; //Puffer für Header/Footer
+    const rowHeight = 54; // Höhe einer Tabellenzeile
+    this.pageSize = Math.floor(tableHeight / rowHeight);
   }
 
   loadRepresentatives() {
@@ -144,7 +156,7 @@ export class CreateRepresentativeComponent implements OnInit {
       item.default = false;
       return item;
     });
-    this.cdr.markForCheck(); 
+    this.cdr.markForCheck();
   }
 
   deleteCustom(value: CustomColumn, index: number): void {
@@ -164,6 +176,25 @@ export class CreateRepresentativeComponent implements OnInit {
   handleOk(): void {
     this.customColumn = [...this.dadLeft, ...this.dadRight];
     this.cdr.markForCheck();
+  }
+
+  resetSearch(): void {
+    this.searchValue = "";
+    this.translate.get('STANDARD.filter_sorting_removed').subscribe((translatedMessage: string) => {
+      this.notificationService.createBasicNotification(2, translatedMessage, '', 'topRight');
+    });
+    this.loadRepresentatives();
+  }
+
+  search(): void {
+    this.visible = false;
+    this.representativeList = this.representativeList.filter((item: Representative) =>
+    (
+      item.firstName!.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.lastName!.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.email!.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.id!.valueOf().toString().includes(this.searchValue.toLocaleLowerCase())
+    ));
   }
 }
 

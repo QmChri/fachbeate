@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { HttpService } from '../../../../services/http.service';
 import { Company } from '../../../../models/company';
 import { NotificationService } from '../../../../services/notification.service';
@@ -11,14 +11,27 @@ import { log } from '../../../../services/logger.service';
   styleUrl: './create-dealer.component.scss'
 })
 export class CreateDealerComponent implements OnInit {
+  searchValue = '';
+  visible = false;
   inputCompany: Company = { active: true };
   companyList: Company[] = [];
+  public pageSize: number = 9;
 
   constructor(public translate: TranslateService, private http: HttpService, private notificationService: NotificationService) {
   }
 
   ngOnInit(): void {
     this.loadCompany();
+    this.calculatePageSize();
+  }
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.calculatePageSize();
+  }
+  calculatePageSize(): void {
+    const tableHeight = window.innerHeight - 254; //Puffer für Header/Footer
+    const rowHeight = 54; // Höhe einer Tabellenzeile
+    this.pageSize = Math.floor(tableHeight / rowHeight);
   }
 
   loadCompany() {
@@ -81,4 +94,19 @@ export class CreateDealerComponent implements OnInit {
     this.inputCompany.id = company.id;
   }
 
+  resetSearch(): void {
+    this.searchValue = "";
+    this.translate.get('STANDARD.filter_sorting_removed').subscribe((translatedMessage: string) => {
+      this.notificationService.createBasicNotification(2, translatedMessage, '', 'topRight');
+    });
+    this.loadCompany();
+  }
+  search(): void {
+    this.visible = false;
+    this.companyList = this.companyList.filter((item: Company) =>
+    (
+      item.name!.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
+      item.id!.valueOf().toString().includes(this.searchValue.toLocaleLowerCase())
+    ));
+  }
 }
