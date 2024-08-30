@@ -5,6 +5,7 @@ import entity.CustomerRequirement;
 import entity.Representative;
 import entity.Technologist;
 import entity.dto.TechDateDTO;
+import io.quarkus.panache.common.Sort;
 import io.quarkus.security.Authenticated;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.transaction.Transactional;
@@ -15,6 +16,7 @@ import jakarta.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -146,7 +148,9 @@ public class TechnologistResource {
     @Authenticated
     @Path("company")
     public Response getAllCompany(){
-        return Response.ok(Company.listAll()).build();
+        List<Company> companies = Company.listAll();
+        companies.sort(Comparator.comparing(company -> company.name.toUpperCase()));
+        return Response.ok(companies).build();
     }
 
     /**
@@ -157,6 +161,8 @@ public class TechnologistResource {
     @Authenticated
     @Path("company/allActive")
     public Response getActiveCompany(){
-        return Response.ok(Company.find("active",true).list()).build();
+        List<Company> companies = Company.find("active", true).list();
+        companies.sort(Comparator.comparing(company -> company.name.toUpperCase()));
+        return Response.ok(companies).build();
     }
 }
