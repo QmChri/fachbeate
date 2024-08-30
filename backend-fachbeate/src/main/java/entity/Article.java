@@ -1,6 +1,7 @@
 package entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import jakarta.persistence.Entity;
 import jakarta.transaction.Transactional;
 
@@ -29,14 +30,9 @@ public class Article extends PanacheEntity {
             return persisted;
         }
 
-        Article nrArticle = Article.find("articleNr", this.articleNr).firstResult();
-        if(nrArticle == null){
-            this.id = null;
-            this.persist();
-            return this;
-        }
-        nrArticle.update(this);
-        return nrArticle;
+        this.id = null;
+        this.persist();
+        return this;
     }
 
 }

@@ -63,7 +63,10 @@ public class TechnologistResource {
     @Path("technologist/allActive")
     @Authenticated
     public Response getActiveTechnologists() {
-        return Response.ok(Technologist.find("active", true).list()).build();
+        return Response.ok(
+                Technologist.find("active", true)
+                        .list()
+        ).build();
     }
 
 

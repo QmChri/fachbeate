@@ -62,7 +62,7 @@ export class CalendarComponent implements OnInit {
           html: `
           <div style="
             background: repeating-linear-gradient(
-              45deg, 
+              45deg,
               rgba(0, 0, 0, 0.3), /* Leicht durchsichtiges Schwarz */
               rgba(0, 0, 0, 0.3) 10px, /* Breite der Striche */
               rgba(0, 0, 0, 0) 10px, /* Transparenz nach den Strichen */
@@ -156,7 +156,7 @@ export class CalendarComponent implements OnInit {
   loadEvents(companies: Company[]) {
     var type = (this.roleService.checkPermission([1, 2, 3, 5, 7]) ? 7 : 6);
     type = (!this.roleService.checkPermission([1, 2, 3, 5, 6, 7]) ? 4 : type);
-    type = (!this.roleService.checkPermission([1, 2, 5, 6, 7]) ? 8 : type);
+    type = ((!this.roleService.checkPermission([1,2,5,6,7]) && type !== 4) ? 8 : type);
 
     var fullname: string[] = [this.roleService.getUserName()!, this.roleService.getEmail()!];
 

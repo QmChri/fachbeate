@@ -266,19 +266,7 @@ export class AbschlussBerichtListComponent {
           formData.append('finalReport', JSON.stringify(finalReport));
 
           this.http.postFinalReportMultiPart(formData).subscribe({
-            next: (response) => {
-              console.log(response);
-            },
-            error: (error) => {
-              console.log(error);
-            }
-          });
-
-        /*
-          this.http.postFinalReport(data.finalReport).subscribe({
-            next: finalRep => {
-
-
+            next: (finalRep: FinalReport) => {
 
               var newEntity: DataItem = {
                 id: finalRep.id!,
@@ -297,10 +285,12 @@ export class AbschlussBerichtListComponent {
               });
 
               this.listOfDisplayData = this.listOfDisplayData.map(entity => entity.id === finalRep.id ? newEntity : entity)
+            },
+            error: (error) => {
+              console.log(error);
             }
           });
 
-          */
         }
         // endregion
       });
