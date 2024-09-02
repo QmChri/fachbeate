@@ -253,7 +253,7 @@ export class AbschlussBerichtComponent implements OnInit {
       ((this.inputFinalReport.summaryFinalReport === null || this.inputFinalReport.summaryFinalReport === undefined || this.inputFinalReport.summaryFinalReport === "") && !this.roleService.checkPermission([4])) ? "ABSCHLUSSBERICHT.representative_summary" : "",
       (this.inputFinalReport.dateOfVisit === null || this.inputFinalReport.dateOfVisit === undefined) ? "ABSCHLUSSBERICHT.visit_date_general" : "",
       (this.multiSelect === null || this.multiSelect === undefined || this.multiSelect.length === 0) ? "ABSCHLUSSBERICHT.visit_reason_general" : "",
-      ((this.inputFinalReport.reworkByTechnologist === null || this.inputFinalReport.reworkByTechnologist === undefined)&&!this.roleService.checkPermission([3])) ? "ABSCHLUSSBERICHT.advisor_follow_up" : "",
+      ((this.inputFinalReport.reworkByTechnologist === null || this.inputFinalReport.reworkByTechnologist === undefined) && !this.roleService.checkPermission([3])) ? "ABSCHLUSSBERICHT.advisor_follow_up" : "",
       (this.inputFinalReport.reworkByTechnologist === true && (this.inputFinalReport.reworkByTechnologistDoneUntil === null || this.inputFinalReport.reworkByTechnologistDoneUntil === undefined)) ? "ABSCHLUSSBERICHT.to_be_done_by" : "",
       (this.inputFinalReport.reworkByTechnologist === true && (this.inputFinalReport.reworkToDo === null || this.inputFinalReport.reworkToDo === undefined || this.inputFinalReport.reworkToDo.length === 0)) ? "ABSCHLUSSBERICHT.todo" : "",
       (this.inputFinalReport.reworkFollowVisits === null || this.inputFinalReport.reworkFollowVisits === undefined) ? "ABSCHLUSSBERICHT.follow_Visit" : "",
@@ -329,7 +329,6 @@ export class AbschlussBerichtComponent implements OnInit {
     }
   }
 
-
   getPdf() {
     if (this.inputFinalReport.id === null || this.inputFinalReport.id === undefined) {
       this.getNotification(5)
@@ -339,12 +338,14 @@ export class AbschlussBerichtComponent implements OnInit {
       this.getNotification(4)
     }
   }
+
   downloadFile() {
     this.http.getFinalPdf(this.inputFinalReport.id!).subscribe(
       (response: Blob) => {
         this.saveFile(response, "Abschlussbericht_" + this.inputFinalReport.id + ".pdf")
       });
   }
+  
   private saveFile(data: Blob, filename: string): void {
     const blob = new Blob([data], { type: 'application/octet-stream' });
     const url = window.URL.createObjectURL(blob);

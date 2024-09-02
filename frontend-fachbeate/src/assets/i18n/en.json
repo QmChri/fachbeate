@@ -72,6 +72,7 @@
         "cancel": "Cancel"
     },
     "MAIN_LIST": {
+        "header": "Request Tool",
         "search": "Search",
         "reset_filter_sorting": "Reset filter/sorting",
         "reset": "Reset",

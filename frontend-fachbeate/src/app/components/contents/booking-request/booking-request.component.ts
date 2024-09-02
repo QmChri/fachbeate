@@ -26,7 +26,7 @@ export class BookingRequestComponent implements OnInit {
   buttonSelect: String[] = []
   bookingControl = new FormControl<BookingRequestComponent | null>(null, Validators.required);
   freigegeben: boolean = true;
-  booking: Booking = {
+  inputBooking: Booking = {
     flights: []
   };
 
@@ -41,10 +41,10 @@ export class BookingRequestComponent implements OnInit {
         this.http.getBookingById(parseInt(params.get('id')!)).subscribe({
           next: data => {
             if (data != null) {
-              this.booking = data;
+              this.inputBooking = data;
 
-              this.booking.mainStartDate = this.convertToDate(this.booking.mainStartDate);
-              this.booking.mainEndDate = this.convertToDate(this.booking.mainEndDate);
+              this.inputBooking.mainStartDate = this.convertToDate(this.inputBooking.mainStartDate);
+              this.inputBooking.mainEndDate = this.convertToDate(this.inputBooking.mainEndDate);
 
               this.buttonSelect = [
                 (data.hotelBooking) ? "4" : "",
@@ -63,7 +63,6 @@ export class BookingRequestComponent implements OnInit {
     });
   }
 
-
   checkRequired(): boolean {
     //TODO
     return true;
@@ -72,14 +71,14 @@ export class BookingRequestComponent implements OnInit {
   release(department: string) {
     if (department === 'gl' && this.checkRequired()) {
       this.getNotification(2);
-      this.booking.releaseManagement = new Date();
-      this.booking.releaserManagement = this.roleService.getUserName()
+      this.inputBooking.releaseManagement = new Date();
+      this.inputBooking.releaserManagement = this.roleService.getUserName()
       this.postBooking();
     }
     else if (department === 'al' && this.checkRequired()) {
       this.getNotification(3);
-      this.booking.releaseSupervisor = new Date();
-      this.booking.releaserSupervisor = this.roleService.getUserName()
+      this.inputBooking.releaseSupervisor = new Date();
+      this.inputBooking.releaserSupervisor = this.roleService.getUserName()
       this.postBooking();
     }
   }
@@ -141,15 +140,14 @@ export class BookingRequestComponent implements OnInit {
           });
         break;
       }
-      
       case 8: { // Pdf wurde erstellt
         this.translate.get('STANDARD.pdf1').subscribe((translatedMessage: string) => {
-          this.notificationService.createBasicNotification(0, translatedMessage, "Reiseanforderung_" + this.booking.id + ".pdf", 'topRight');
+          this.notificationService.createBasicNotification(0, translatedMessage, "Reiseanforderung_" + this.inputBooking.id + ".pdf", 'topRight');
         }); break;
       }
       case 9: { // Pdf konnte nicht erstellt werden
         this.translate.get('STANDARD.pdf2').subscribe((translatedMessage: string) => {
-          this.notificationService.createBasicNotification(4, translatedMessage, "Reiseanforderung_" + this.booking.id + ".pdf", 'topRight');
+          this.notificationService.createBasicNotification(4, translatedMessage, "Reiseanforderung_" + this.inputBooking.id + ".pdf", 'topRight');
         }); break;
       }
       /*case 4: { // Pflichtfelder ausfüllen
@@ -164,7 +162,7 @@ export class BookingRequestComponent implements OnInit {
   }
 
   getPdf() {
-    if (this.booking.id === null || this.booking.id === undefined) {
+    if (this.inputBooking.id === null || this.inputBooking.id === undefined) {
       this.getNotification(9)
     }
     else {
@@ -172,20 +170,7 @@ export class BookingRequestComponent implements OnInit {
       this.getNotification(8)
     }
   }
-  downloadFile() {
-    this.http.getBookingPdf(this.booking.id!).subscribe(
-      (response: Blob) => {
-        this.saveFile(response, "Fachberater_Anforderung_" + this.booking.id + ".pdf")
-      });
-  }
-  private saveFile(data: Blob, filename: string): void {
-    const blob = new Blob([data], { type: 'application/octet-stream' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a'); a.href = url; a.download = filename;
-    document.body.appendChild(a); a.click();
-    window.URL.revokeObjectURL(url);
-    a.remove();
-  }
+
   checkPopup() {
     //if (this.checkRequired()) {
     const dialogRef = this.dialog.open(CheckDialogComponent, {
@@ -204,22 +189,22 @@ export class BookingRequestComponent implements OnInit {
 
   postBooking() {
     if (this.checkRequired()) {
-      if (this.booking.id === null || this.booking.id === undefined || this.booking.id === 0) {
-        this.booking.dateOfCreation = new Date();
-        this.booking.creator = this.roleService.getUserName();
+      if (this.inputBooking.id === null || this.inputBooking.id === undefined || this.inputBooking.id === 0) {
+        this.inputBooking.dateOfCreation = new Date();
+        this.inputBooking.creator = this.roleService.getUserName();
       }
-      this.booking.lastEditor = this.roleService.getUserName();
+      this.inputBooking.lastEditor = this.roleService.getUserName();
 
       this.getNotification(1);
-      this.booking.showUser = true;
+      this.inputBooking.showUser = true;
 
-      (this.booking.mainStartDate !== null && this.booking.mainStartDate !== undefined) ? this.booking.mainStartDate!.setHours(5) : "";
-      (this.booking.mainEndDate !== null && this.booking.mainEndDate !== undefined) ? this.booking.mainEndDate!.setHours(5) : "";
-      this.booking.lastEditor = this.booking.lastEditor;
+      (this.inputBooking.mainStartDate !== null && this.inputBooking.mainStartDate !== undefined) ? this.inputBooking.mainStartDate!.setHours(5) : "";
+      (this.inputBooking.mainEndDate !== null && this.inputBooking.mainEndDate !== undefined) ? this.inputBooking.mainEndDate!.setHours(5) : "";
+      this.inputBooking.lastEditor = this.inputBooking.lastEditor;
 
-      this.http.postBookingRequest(this.booking).subscribe({
+      this.http.postBookingRequest(this.inputBooking).subscribe({
         next: data => {
-          this.booking = data;
+          this.inputBooking = data;
 
           this.buttonSelect = [
             (data.hotelBooking) ? "4" : "",
@@ -237,25 +222,25 @@ export class BookingRequestComponent implements OnInit {
   }
 
   changeSelections() {
-    this.booking.flightBookingMultiLeg = this.buttonSelect.includes("1");
-    this.booking.flightBookingRoundTrip = this.buttonSelect.includes("2");
-    this.booking.trainTicketBooking = this.buttonSelect.includes("3");
-    this.booking.hotelBooking = this.buttonSelect.includes("4");
-    this.booking.carRental = this.buttonSelect.includes("5");
+    this.inputBooking.flightBookingMultiLeg = this.buttonSelect.includes("1");
+    this.inputBooking.flightBookingRoundTrip = this.buttonSelect.includes("2");
+    this.inputBooking.trainTicketBooking = this.buttonSelect.includes("3");
+    this.inputBooking.hotelBooking = this.buttonSelect.includes("4");
+    this.inputBooking.carRental = this.buttonSelect.includes("5");
 
 
-    if (this.booking.flightBookingMultiLeg && this.booking.flights.length === 0) {
+    if (this.inputBooking.flightBookingMultiLeg && this.inputBooking.flights.length === 0) {
       this.addTab();
     }
   }
 
   addTab() {
-    this.booking.flights = [...this.booking.flights, {}]
+    this.inputBooking.flights = [...this.inputBooking.flights, {}]
   }
 
   deleteLast() {
-    if (this.booking.flights.length > 1)
-      this.booking.flights.pop();
+    if (this.inputBooking.flights.length > 1)
+      this.inputBooking.flights.pop();
   }
 
   addToList(addItem: string) {
@@ -266,30 +251,45 @@ export class BookingRequestComponent implements OnInit {
     return (date !== null && date !== undefined) ? new Date(date.toString()) : undefined;
   }
 
+  downloadFile() {
+    this.http.getFinalPdf(this.inputBooking.id!).subscribe(
+      (response: Blob) => {
+        this.saveFile(response, "Abschlussbericht_" + this.inputBooking.id + ".pdf")
+      });
+  }
+
+  private saveFile(data: Blob, filename: string): void {
+    const blob = new Blob([data], { type: 'application/octet-stream' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click();
+    window.URL.revokeObjectURL(url);
+    a.remove();
+  }
+
   beforeUpload = (file: NzUploadFile): boolean => {
     const icCorrectFileType = file.type === 'application/pdf' || file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/jpeg' || file.type === 'image/heif';
     const isLt2M = file.size! / 1024 / 1024 < 1;
 
     if (!icCorrectFileType) {
-      this.getNotification(5);
+      this.getNotification(1);
       return false;
     }
     if (this.fileList.length >= 5) {
-      this.getNotification(6);
+      this.getNotification(2);
       return false;
     }
     if (!isLt2M) {
-      this.getNotification(7);
+      this.getNotification(3);
       return false;
     }
     // Datei zur Liste hinzufügen
     this.fileList = [...this.fileList, file];
-    this.getNotification(4);
+    this.getNotification(0);
     return true;
   };
 
   handleChange(info: { fileList: NzUploadFile[] }): void {
-    const fileList = info.fileList.slice(-10);
-    this.fileList = fileList;
+    this.fileList = info.fileList;
   }
 }

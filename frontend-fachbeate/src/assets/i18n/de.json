@@ -89,6 +89,7 @@
         "cancel": "Abbrechen"
     },
     "MAIN_LIST": {
+        "header": "Request Tool",
         "search": "Suche",
         "reset_filter_sorting": "Filter/Sortierung aufheben",
         "reset": "Zurücksetzen",
