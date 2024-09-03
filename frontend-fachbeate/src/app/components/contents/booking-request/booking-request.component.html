@@ -54,7 +54,8 @@
                     <mat-form-field class="equal-width">
                         <mat-label>{{'CUSTOMER_REQUIREMENTS.from_to' | translate}}</mat-label>
                         <mat-date-range-input [rangePicker]="picker">
-                            <input [(ngModel)]="inputBooking.mainStartDate" required matStartDate placeholder="Start date">
+                            <input [(ngModel)]="inputBooking.mainStartDate" required matStartDate
+                                placeholder="Start date">
                             <input [(ngModel)]="inputBooking.mainEndDate" required matEndDate placeholder="End date">
                         </mat-date-range-input>
                         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
@@ -107,6 +108,7 @@
             </mat-button-toggle-group>
         </div>
     </div>
+    <!-- TODO
     <div class="col-md-4 paddingBottom">
         <div class="card" style="min-height: 18rem;">
             <div class="card-header text-white bg-danger">{{"ABSCHLUSSBERICHT.header_upload" | translate}}</div>
@@ -121,6 +123,7 @@
             </div>
         </div>
     </div>
+-->
 </div>
 <div class="row">
     <div class="col-7 paddingBottom">
