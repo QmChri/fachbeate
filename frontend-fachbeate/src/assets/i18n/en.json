@@ -16,7 +16,6 @@
         "support": "Support"
     },
     "STANDARD": {
-        "nav-header": "Request Tool",
         "please_select": "Please select",
         "remove": "Remove",
         "save": "Save",
@@ -35,6 +34,7 @@
         "language_changed": "Language changed!",
         "filter_sorting_removed": "Filter/Sorting removed!",
         "language_en": "EN",
+        "nav-header": "Request Tool",
         "dealer_name": "Dealer designation*",
         "first_and_last_name": "First name* & Last name*",
         "assigned_consultant": "Assigned advisor* & Reason*",

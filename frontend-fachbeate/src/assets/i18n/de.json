@@ -17,11 +17,11 @@
         "support": "Support"
     },
     "STANDARD": {
-        "nav-header": "Request Tool",
         "please_select": "Bitte auswählen",
         "remove": "Entfernen",
         "save": "Speichern",
         "logout": "Ausloggen",
+        "nav-header": "Request Tool",
         "please_fill_required_fields": "Bitte Pflichtfelder ausfüllen!",
         "new_dealer_created": "Neuer Händler angelegt!",
         "new_representative_created": "Neuer Vertreter angelegt!",

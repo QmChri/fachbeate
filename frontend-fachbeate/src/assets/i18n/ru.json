@@ -17,13 +17,13 @@
         "dashboard": "Панель управления"
     },
     "STANDARD": {
-        "nav-header": "Инструмент запроса",
         "please_select": "Пожалуйста, выберите",
         "remove": "Удалить",
         "save": "Сохранитьichern",
         "logout": "Выход",
         "please_fill_required_fields": "Просьба заполнить обязательные поля!",
         "new_dealer_created": "Добавлен новый дилер!",
+        "nav-header": "Инструмент запроса",
         "new_representative_created": "Добавлен новый представитель (менеджер)",
         "new_advisor_created": "Добавлен новый технолог-консультант",
         "approval_from_gl_granted": "Добавлен новый технолог-консультант",
