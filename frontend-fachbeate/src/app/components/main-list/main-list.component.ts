@@ -226,8 +226,6 @@ export class MainListComponent implements OnInit {
   }
 
   loadData(companies: Company[]) {
-    console.log(this.roleService.checkPermission([7])+ " "+this.roleService.checkPermission([7]))
-
     var type = (this.roleService.checkPermission([1, 2, 3, 5, 7]) ? 7 : 6);
     type = (!this.roleService.checkPermission([1, 2, 4, 5, 6, 7]) ? 3 : type);
     type = (!this.roleService.checkPermission([1, 2, 3, 5, 6, 7]) ? 4 : type);

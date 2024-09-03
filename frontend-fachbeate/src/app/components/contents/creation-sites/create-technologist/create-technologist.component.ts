@@ -31,7 +31,6 @@ export class CreateTechnologistComponent implements OnInit {
     this.loadTechnologists();
     this.calculatePageSize();
   }
-
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.calculatePageSize();
