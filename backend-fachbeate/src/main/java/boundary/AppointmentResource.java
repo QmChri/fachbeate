@@ -108,6 +108,7 @@ public class AppointmentResource {
         return Response.ok().build();
     }
 
+    
     /***
      * Returns all final reports
      * @return
