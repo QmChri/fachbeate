@@ -23,8 +23,11 @@
 }
 
 .header {
+  position: fixed;
   display: flex;
-  justify-content: center;
+  flex-direction: row;
+  left: 50%;
+  z-index: 1000;
 }
 
 .nzselect {
