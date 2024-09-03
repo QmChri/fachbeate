@@ -16,7 +16,7 @@
         "support": "Support"
     },
     "STANDARD": {
-        "header": "Request Tool",
+        "nav-header": "Request Tool",
         "please_select": "Please select",
         "remove": "Remove",
         "save": "Save",
