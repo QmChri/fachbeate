@@ -17,6 +17,7 @@
         "support": "Support"
     },
     "STANDARD": {
+        "header": "Request Tool",
         "please_select": "Bitte auswählen",
         "remove": "Entfernen",
         "save": "Speichern",
@@ -89,8 +90,6 @@
         "cancel": "Abbrechen"
     },
     "MAIN_LIST": {
-        "testItem": "testITEN",
-        "header": "Request Tool",
         "search": "Suche",
         "reset_filter_sorting": "Filter/Sortierung aufheben",
         "reset": "Zurücksetzen",

@@ -16,6 +16,7 @@
         "support": "Support"
     },
     "STANDARD": {
+        "header": "Request Tool",
         "please_select": "Please select",
         "remove": "Remove",
         "save": "Save",
@@ -72,7 +73,6 @@
         "cancel": "Cancel"
     },
     "MAIN_LIST": {
-        "header": "Request Tool",
         "search": "Search",
         "reset_filter_sorting": "Reset filter/sorting",
         "reset": "Reset",

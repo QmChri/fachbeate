@@ -17,6 +17,7 @@
         "dashboard": "Панель управления"
     },
     "STANDARD": {
+        "header": "Инструмент запроса",
         "please_select": "Пожалуйста, выберите",
         "remove": "Удалить",
         "save": "Сохранитьichern",
@@ -86,7 +87,6 @@
         "cancel": "Отмена"
     },
     "MAIN_LIST": {
-        "header": "Инструмент запроса",
         "search": "Поиск",
         "reset_filter_sorting": "Сбросить фильтр/сортировку",
         "reset": "Назад",
