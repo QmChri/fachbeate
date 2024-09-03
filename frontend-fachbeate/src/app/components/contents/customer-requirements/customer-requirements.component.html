@@ -47,7 +47,7 @@
                     <div class="center-items ">
                         <mat-form-field>
                             <mat-label>{{"CUSTOMER_REQUIREMENTS.dealers_daughters"|translate}}</mat-label>
-                            <mat-select required [disabled]="roleService.checkPermission([6])"
+                            <mat-select required [disabled]="roleService.checkPermission([6]) && (inputCustomerRequirement.company !== null && inputCustomerRequirement.company !== undefined)"
                                 [ngModel]="(inputCustomerRequirement.company === undefined)?undefined:inputCustomerRequirement.company.id"
                                 (valueChange)="changeCompany($event)">
                                 <mat-option>--</mat-option>

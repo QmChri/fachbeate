@@ -386,6 +386,5 @@ export class AbschlussBerichtComponent implements OnInit {
   handleChange(info: { fileList: NzUploadFile[] }): void {
 
     this.fileList = info.fileList;
-    console.log(this.fileList)
   }
 }
