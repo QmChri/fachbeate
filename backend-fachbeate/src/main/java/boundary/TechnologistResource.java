@@ -33,7 +33,10 @@ public class TechnologistResource {
     @Path("technologist")
     @Authenticated
     public Response getAllTechnologists(){
-        return Response.ok(Technologist.listAll()).build();
+
+        List<Technologist> technologists = Technologist.listAll();
+        technologists.sort(Comparator.comparing(technologist -> technologist.firstName.toUpperCase()));
+        return Response.ok(technologists).build();
     }
 
 
@@ -63,10 +66,12 @@ public class TechnologistResource {
     @Path("technologist/allActive")
     @Authenticated
     public Response getActiveTechnologists() {
-        return Response.ok(
-                Technologist.find("active", true)
-                        .list()
-        ).build();
+
+
+        List<Technologist> technologists = Technologist.find("active", true).list();
+        technologists.sort(Comparator.comparing(technologist -> technologist.firstName.toUpperCase()));
+        return Response.ok(technologists).build();
+
     }
 
 
@@ -110,7 +115,9 @@ public class TechnologistResource {
     @Path("representative")
     @Authenticated
     public Response getAllRepresentative(){
-        return Response.ok(Representative.listAll()).build();
+        List<Representative> representatives = Representative.listAll();
+        representatives.sort(Comparator.comparing(representative -> representative.firstName.toUpperCase()));
+        return Response.ok(representatives).build();
     }
 
     /**
@@ -121,7 +128,9 @@ public class TechnologistResource {
     @Authenticated
     @Path("representative/allActive")
     public Response getActiveRepresentative(){
-        return Response.ok(Representative.find("active",true).list()).build();
+        List<Representative> representatives = Representative.find("active", true).list();
+        representatives.sort(Comparator.comparing(representative -> representative.firstName.toUpperCase()));
+        return Response.ok(representatives).build();
     }
 
     /**

@@ -2,7 +2,6 @@ package boundary;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import entity.*;
-import entity.dto.MainListDTO;
 import io.quarkus.security.Authenticated;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -108,7 +107,7 @@ public class AppointmentResource {
         return Response.ok().build();
     }
 
-    
+
     /***
      * Returns all final reports
      * @return
