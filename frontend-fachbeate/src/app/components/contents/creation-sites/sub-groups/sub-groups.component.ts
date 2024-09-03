@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, HostListener } from '@angular/core';
 import { Representative } from '../../../../models/representative';
 import { TranslateService } from '@ngx-translate/core';
 import { HttpService } from '../../../../services/http.service';
@@ -16,18 +16,27 @@ import { Technologist } from '../../../../models/technologist';
 })
 export class SubGroupsComponent implements OnInit {
   selectedWorker: Representative = {};
-
   representativeList: Representative[] = [];
   technologistList: Technologist[] = [];
-
   dadRight: CustomColumn[] = [];
   dadLeft: CustomColumn[] = [];
+  public pageSize: number = 9;
 
   constructor(public translate: TranslateService, private http: HttpService,
     private notificationService: NotificationService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.loadAll();
+    this.calculatePageSize();
+  }
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.calculatePageSize();
+  }
+  calculatePageSize(): void {
+    const tableHeight = window.innerHeight - 254; //Puffer für Header/Footer
+    const rowHeight = 54; // Höhe einer Tabellenzeile
+    this.pageSize = Math.floor(tableHeight / rowHeight);
   }
 
   loadAll() {
@@ -143,7 +152,6 @@ export class SubGroupsComponent implements OnInit {
     this.selectedWorker.groupMembersTechnologist = this.technologistList
       .filter(rep => this.dadRight.some(element => element.id.split("_")[0] === "T" && element.id.split("_")[1] === rep.id!.toString()));
 
-    console.log(this.selectedWorker)
     this.http.postGroup(this.selectedWorker).subscribe({
       next: data => {
         this.selectedWorker = data;

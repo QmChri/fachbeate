@@ -2,6 +2,15 @@
     <div>
         <h1 style="margin-bottom: 0;">{{'NAV.new-tech' | translate}}</h1>
     </div>
+    <div>
+        <nz-filter-trigger class="paddingSearch" [(nzVisible)]="visible" [nzActive]="searchValue.length > 0"
+            [nzDropdownMenu]="menu">
+            <i class="fa fa-search"></i>
+        </nz-filter-trigger>
+        <button class="btn btn-secondary" style="margin-left: 20px;"
+            (click)="resetSearch()">{{"MAIN_LIST.reset_filter_sorting"|
+            translate}}</button>
+    </div>
 </div>
 <hr>
 
@@ -26,7 +35,8 @@
                     <label class="languageBox">{{'CREATION_SITES.calendar_color' | translate}}
                         <div class="displayBySide">
                             <nz-color-picker id="color" [(ngModel)]="inputTechnologist.color"></nz-color-picker>
-                            <button style="margin-left: 0.5rem;" nz-button nzType="primary" [nzSize]="'small'" (click)="getRandomColor()">
+                            <button style="margin-left: 0.5rem;" nz-button nzType="primary" [nzSize]="'small'"
+                                (click)="getRandomColor()">
                                 <i class="fas fa-sync"></i>
                             </button>
                         </div>
@@ -34,11 +44,10 @@
                     <label class="languageBox">{{'CREATION_SITES.active' | translate}}
                         <mat-checkbox color="warn" [(ngModel)]="inputTechnologist.active"></mat-checkbox>
                     </label>
-
                 </div>
                 <div class="displayBySide">
                     <button class="btn btn-danger" matTooltip="{{'DASHBOARD.cancel' | translate}}"
-                        [hidden]="inputTechnologist.id===0" (click)="cancelEdit()"><i class="fa fa-times"></i></button>
+                        (click)="cancelEdit()"><i class="fa fa-times"></i></button>
                     <button class="btn btn-success" matTooltip="{{'STANDARD.save' | translate}}"
                         (click)="postTechnologist()"><i class="fa fa-save"></i></button>
                 </div>
@@ -75,3 +84,14 @@
         </nz-table>
     </div>
 </div>
+<nz-dropdown-menu #menu="nzDropdownMenu">
+    <div class="ant-table-filter-dropdown">
+        <div class="search-box">
+            <input type="text" nz-input [placeholder]="'MAIN_LIST.search' | translate" [(ngModel)]="searchValue" />
+            <button nz-button nzSize="small" nzType="primary" (click)="search()"
+                class="search-button">{{"MAIN_LIST.search" |
+                translate}}</button>
+            <button nz-button nzSize="small" (click)="resetSearch()">{{"MAIN_LIST.reset" | translate}}</button>
+        </div>
+    </div>
+</nz-dropdown-menu>

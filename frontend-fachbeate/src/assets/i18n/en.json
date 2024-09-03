@@ -1,8 +1,8 @@
 {
     "NAV": {
-        "date-view": "Advisor Schedule Overview",
+        "date-view": "Schedule Overview",
         "MAIN-LIST": "Overview Requirements and Registrations",
-        "req-tech": "Advisor Request",
+        "req-tech": "Technical Support Request",
         "req-visitors": "Visitor Registration",
         "req-workshop": "Seminar Registration",
         "final-reports": "Overview Final Reports",

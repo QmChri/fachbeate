@@ -31,13 +31,13 @@ export const navbarData: INavbarData[] = [
         icon: 'fal fa-book',
         label: 'req-workshop',
         role: [1, 2, 3, 5, 6, 7]
-    },/*
+    },
     {
         routeLink: 'booking-request',
         icon: 'fal fa-plane',
         label: 'bookingRequest',
-        role: [1, 2, 3, 4, 7]
-    },*/
+        role: [1, 7]
+    },
     {
         routeLink: 'abschluss-bericht-list',
         icon: 'fal fa-clipboard-list',
