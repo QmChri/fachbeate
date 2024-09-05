@@ -192,10 +192,10 @@ export class MainListComponent implements OnInit {
           typeText = 'Seminar';
           break;
         case '0':
-          typeText = 'Besuch';
+          typeText = 'Buchung';
           break;
         case '3':
-          typeText = 'Reiseanforderung';
+          typeText = 'Reise A.';
           break;
         default:
           typeText = element.type!.toString();
@@ -426,7 +426,7 @@ export class MainListComponent implements OnInit {
     const typeDescriptions: { [key: number]: string } = {
       1: 'Fachberater A.',
       2: 'Seminar',
-      3: 'Besuch'
+      3: 'Buchung'
     };
 
     const exportData = this.listOfDisplayData.map(item => ({

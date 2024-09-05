@@ -464,6 +464,11 @@
                             <input type="number" min="0" matInput [(ngModel)]="hotelbooking.doubleRooms">
                         </mat-form-field>
                     </div>
+                    <div class="displayBySidePayment">
+                        <label>{{'VISITOR_REGRISTRATION.payment' | translate}}
+                        </label>
+                        <mat-checkbox color="warn" [(ngModel)]="hotelbooking.selfPay"></mat-checkbox>
+                    </div>
                     }
                     <div class="header">
                         <div>

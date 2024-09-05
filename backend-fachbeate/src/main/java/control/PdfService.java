@@ -162,18 +162,20 @@ public class PdfService {
         if (visitorRegistration.hotelBooking) {
             document.add(new Paragraph("Hotelbuchung", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14)));
             document.add(new Paragraph("     "));
-            PdfPTable hotelbooking = new PdfPTable(4);
+            PdfPTable hotelbooking = new PdfPTable(5);
             hotelbooking.setWidthPercentage(100);
             hotelbooking.addCell("Ort/Lage");
             hotelbooking.addCell("Von - Bis");
             hotelbooking.addCell("EZ");
             hotelbooking.addCell("DZ");
+            hotelbooking.addCell("Zahlung");
 
             for (HotelBooking h : visitorRegistration.hotelBookings) {
                 hotelbooking.addCell(h.hotelLocation);
                 hotelbooking.addCell(formatDate(h.hotelStayFromDate) + " - " + formatDate(h.hotelStayToDate));
                 hotelbooking.addCell(String.valueOf(h.singleRooms));
                 hotelbooking.addCell(String.valueOf(h.doubleRooms));
+                hotelbooking.addCell(String.valueOf(h.selfPay));
             }
 
             document.add(hotelbooking);
@@ -286,18 +288,20 @@ public class PdfService {
         if (workshopRequirement.hotelBooking) {
             document.add(new Paragraph("Hotelbuchung", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14)));
             document.add(new Paragraph("     "));
-            PdfPTable hotelbooking = new PdfPTable(4);
+            PdfPTable hotelbooking = new PdfPTable(5);
             hotelbooking.setWidthPercentage(100);
             hotelbooking.addCell("Ort/Lage");
             hotelbooking.addCell("Von - Bis");
             hotelbooking.addCell("EZ");
             hotelbooking.addCell("DZ");
+            hotelbooking.addCell("Zahlung");
 
             for (HotelBooking h : workshopRequirement.hotelBookings) {
                 hotelbooking.addCell(h.hotelLocation);
                 hotelbooking.addCell(formatDate(h.hotelStayFromDate) + " - " + formatDate(h.hotelStayToDate));
                 hotelbooking.addCell(String.valueOf(h.singleRooms));
                 hotelbooking.addCell(String.valueOf(h.doubleRooms));
+                hotelbooking.addCell(String.valueOf(h.selfPay));
             }
 
             document.add(hotelbooking);

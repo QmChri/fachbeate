@@ -178,6 +178,7 @@
         "files_uploaded": "Файлы загружены"
     },
     "VISITOR_REGRISTRATION": {
+        "payment": "Самостоятельная оплата",
         "visitor_registration": "Заявка на посещение",
         "almi_group_employee_registration": "Заявка для сотрудника Almi Group",
         "name": "Фамилия",

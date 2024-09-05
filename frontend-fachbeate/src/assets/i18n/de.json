@@ -106,7 +106,7 @@
         "type": "Typ",
         "advisor_type": "Fachberater A.",
         "seminar": "Seminar",
-        "visit": "Besuch",
+        "visit": "Reise A.",
         "canceled": "Storniert",
         "berichte": "Berichte"
     },
@@ -182,6 +182,7 @@
         "files_uploaded": "Dateien wurden hochgeladen"
     },
     "VISITOR_REGRISTRATION": {
+        "payment": "Selbstbezahlung",
         "visitor_registration": "Besucheranmeldung",
         "almi_group_employee_registration": "Anmeldung Almi Group Mitarbeiter",
         "name": "Name",
