@@ -105,7 +105,31 @@ public class PdfService {
             table.addCell(visit.address);
             table.addCell(visit.contactPerson);
             table.addCell(formatDate(visit.fromDateOfVisit) + " - " + formatDate(visit.toDateOfVisit));
-            table.addCell("TODO");
+            StringBuilder typeText = new StringBuilder(); // StringBuilder für bessere Performance bei String-Konkatenation
+
+            if (visit.presentationOfNewProducts) {
+                typeText.append("Vorstellung neue Produkte, ");
+            }
+            if (visit.existingProducts) {
+                typeText.append("Problemlösung, ");
+            }
+            if (visit.recipeOptimization) {
+                typeText.append("Rezeptur Optimierung, ");
+            }
+            if (visit.sampleProduction) {
+                typeText.append("Muster Produktion, ");
+            }
+            if (visit.training) {
+                typeText.append("Schulung, ");
+            }
+            if (!typeText.isEmpty()) {
+                typeText.setLength(typeText.length() - 2); // Entfernt das letzte ", "
+            } else {
+                typeText.append("Unbekannter Grund");
+            }
+
+            table.addCell(typeText.toString());
+
             table.addCell(visit.productionAmount);
         }
 
@@ -135,7 +159,23 @@ public class PdfService {
         if(visitorRegistration.customerOrCompany != null &&
                 visitorRegistration.arrivalFromCountry != null &&
                 visitorRegistration.reasonForVisit != null){
-        addSection(document, "Anmeldung Kundenbesuch", new String[][]{{"Kunde/Unternehmen", visitorRegistration.customerOrCompany}, {"Anreise aus Land", visitorRegistration.arrivalFromCountry}, {"Grund des Besuchs", visitorRegistration.reasonForVisit}, {"English", visitorRegistration.languageEN ? "Ja" : "Nein"},});
+
+            String reasonForVisitText = switch (visitorRegistration.reasonForVisit) {
+                case "0" -> "--";
+                case "1" -> "Vorstellung Unternehmen";
+                case "2" -> "Technologische Nacharbeitung";
+                case "3" -> "Folgetermin Meetings";
+                case "4" -> "Audit (QM/ QS)";
+                case "5" -> "Sonstiges";
+                default -> "Unbekannter Grund";
+            };
+
+            addSection(document, "Anmeldung Kundenbesuch", new String[][]{
+                    {"Kunde/Unternehmen", visitorRegistration.customerOrCompany},
+                    {"Anreise aus Land", visitorRegistration.arrivalFromCountry},
+                    {"Grund des Besuchs", reasonForVisitText},
+                    {"English", visitorRegistration.languageEN ? "Ja" : "Nein"},
+            });
         }
 
         document.add(new Paragraph("Teilnehmer", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14)));
