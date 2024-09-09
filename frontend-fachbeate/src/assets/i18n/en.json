@@ -159,6 +159,7 @@
         "files_uploaded": "Files have been uploaded"
     },
     "VISITOR_REGRISTRATION": {
+        "payment": "Self-payment",
         "visitor_registration": "Visitor Registration",
         "almi_group_employee_registration": "Almi Group Employee Registration",
         "name": "Name",

@@ -126,8 +126,8 @@
                                 translate}}</mat-option>
                             <mat-option style="height: 4rem;" [value]="'3'">{{"VISITOR_REGRISTRATION.select6" |
                                 translate}}</mat-option>
-                            <mat-option [value]="'3'">{{"VISITOR_REGRISTRATION.select7" | translate}}</mat-option>
-                            <mat-option [value]="'3'">{{"VISITOR_REGRISTRATION.select3" | translate}}</mat-option>
+                            <mat-option [value]="'4'">{{"VISITOR_REGRISTRATION.select7" | translate}}</mat-option>
+                            <mat-option [value]="'5'">{{"VISITOR_REGRISTRATION.select3" | translate}}</mat-option>
                         </mat-select>
                     </mat-form-field>
                     <label class="languageBox">{{'STANDARD.language_en' | translate}}
@@ -463,6 +463,11 @@
                             <mat-label>{{'VISITOR_REGRISTRATION.double_room' | translate}}</mat-label>
                             <input type="number" min="0" matInput [(ngModel)]="hotelbooking.doubleRooms">
                         </mat-form-field>
+                    </div>
+                    <div class="displayBySidePayment">
+                        <label>{{'VISITOR_REGRISTRATION.payment' | translate}}
+                        </label>
+                        <mat-checkbox color="warn" [(ngModel)]="hotelbooking.selfPay"></mat-checkbox>
                     </div>
                     }
                     <div class="header">

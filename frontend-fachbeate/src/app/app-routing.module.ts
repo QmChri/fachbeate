@@ -20,7 +20,7 @@ const routes: Routes = [
   //{ path: 'dashboard', component: DashboardComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 4, 5, 7] } },
   { path: 'calendar', component: CalendarComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 4, 5, 7] } },
   { path: 'customer-requirements', component: CustomerRequirementsComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 3, 4, 6, 7] } },
-  { path: 'customer-requirements/:id', component: CustomerRequirementsComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 3, 4, 6, 7] } },
+  { path: 'customer-requirements/:id', component: CustomerRequirementsComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 3, 4, 5, 6, 7] } },
   { path: 'seminar-registration', component: SeminarRegistrationComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 3, 5, 6, 7] } },
   { path: 'seminar-registration/:id', component: SeminarRegistrationComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 3, 5, 6, 7] } },
   { path: 'create-technologist', component: CreateTechnologistComponent, canActivate: [authGuard], data: { requiredRoles: [1, 7] } },

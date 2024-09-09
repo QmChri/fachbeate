@@ -50,6 +50,13 @@
     justify-content: space-between;
 }
 
+.displayBySidePayment {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: baseline;
+}
+
 @media (max-width: 1600px) {
     .displayBySide {
         display: flex;

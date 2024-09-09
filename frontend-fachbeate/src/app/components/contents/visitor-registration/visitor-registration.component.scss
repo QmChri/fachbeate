@@ -47,6 +47,13 @@
     justify-content: space-between;
 }
 
+.displayBySidePayment {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: baseline;
+}
+
 @media (max-width: 1600px) {
     .displayBySide {
         display: flex;
@@ -63,7 +70,8 @@
             max-width: 7rem;
             padding-right: 0.5rem;
         }
-        .smallInputSpecial{
+
+        .smallInputSpecial {
             max-width: 11rem;
             padding-right: 0.5rem;
         }
@@ -86,12 +94,13 @@
 .paddingBottom {
     padding-bottom: 1rem;
 }
+
 /*
 .minheigtCard {
     min-height: 14.2rem;
     max-height: 14.3rem;
 }*/
 
-.TIME{
+.TIME {
     max-width: 5.5rem;
 }
