@@ -1,5 +1,6 @@
 package boundary;
 
+import entity.Representative;
 import entity.VisitorRegistration;
 import entity.dto.MainListDTO;
 import io.quarkus.security.Authenticated;
@@ -12,6 +13,7 @@ import jakarta.ws.rs.core.Response;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Path("visitorRegistration")
 public class VisitorRegistrationResource {
@@ -71,10 +73,13 @@ public class VisitorRegistrationResource {
                     "creator = ?1 and showUser = true", fullname.get(0)
             ).list();
         }else if(user == 3 || user == 8){
+            Representative representative = Representative.find("email", fullname.get(1)).firstResult();
+
             mapList = VisitorRegistration.listAll();
+
             mapList = mapList.stream().filter(element -> {
                 if(element.representative != null){
-                    return element.representative.email.equals(fullname.get(1));
+                    return element.representative.email.equals(fullname.get(1)) || representative.groupMembersRepresentatives.stream().anyMatch(rep -> Objects.equals(rep.email, element.representative.email));
                 }
                 if(element.creator != null) {
                     return element.creator.equals(fullname.get(0));

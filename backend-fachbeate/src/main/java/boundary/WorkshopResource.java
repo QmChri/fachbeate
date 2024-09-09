@@ -1,5 +1,6 @@
 package boundary;
 
+import entity.Representative;
 import entity.VisitorRegistration;
 import entity.WorkshopRequirement;
 import entity.dto.MainListDTO;
@@ -78,8 +79,13 @@ public class WorkshopResource {
                     "(company.username = ?1 or creator = ?1) and showUser = true",fullname.get(0)
             ).list();
         }else if(user == 3){
-            mapList = WorkshopRequirement.find(
-                    "(representative.email = ?1 or creator = ?2) and showUser = true",fullname.get(1) ,fullname.get(0)
+            Representative representative = Representative.find("email", fullname.get(1)).firstResult();
+
+            mapList = WorkshopRequirement.find("SELECT w FROM WorkshopRequirement w JOIN w.requestedTechnologist tech WHERE (w.representative.email = ?1 or w.creator = ?2 or w.representative.email in ?3 or tech.email in ?4) and w.showUser = true",
+                    fullname.get(1),
+                    fullname.get(0),
+                    representative.groupMembersRepresentatives.stream().map(rep->rep.email).toList(),
+                    representative.groupMembersTechnologists.stream().map(rep->rep.email).toList()
             ).list();
         }else if(user == 8){
             mapList = WorkshopRequirement.find(

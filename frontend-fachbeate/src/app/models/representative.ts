@@ -8,5 +8,5 @@ export interface Representative {
     email?: string;
     active?: boolean;
     groupMembersRepresentatives?: Representative[];
-    groupMembersTechnologist?: Technologist[];
+    groupMembersTechnologists?: Technologist[];
 }

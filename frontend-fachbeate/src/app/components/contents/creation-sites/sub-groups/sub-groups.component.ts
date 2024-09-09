@@ -121,7 +121,7 @@ export class SubGroupsComponent implements OnInit {
         firstName: element.firstName!,
         lastName: element.lastName!
       })) ?? []),
-      ...(this.selectedWorker.groupMembersTechnologist?.map(element => ({
+      ...(this.selectedWorker.groupMembersTechnologists?.map(element => ({
         id: "T_" + element.id!,
         firstName: element.firstName!,
         lastName: element.lastName!
@@ -149,8 +149,11 @@ export class SubGroupsComponent implements OnInit {
     this.selectedWorker.groupMembersRepresentatives = this.representativeList
       .filter(rep => this.dadRight.some(element => element.id.split("_")[0] === "R" && element.id.split("_")[1] === rep.id!.toString()));
 
-    this.selectedWorker.groupMembersTechnologist = this.technologistList
+    this.selectedWorker.groupMembersTechnologists = this.technologistList
       .filter(rep => this.dadRight.some(element => element.id.split("_")[0] === "T" && element.id.split("_")[1] === rep.id!.toString()));
+
+
+    console.log(this.selectedWorker);
 
     this.http.postGroup(this.selectedWorker).subscribe({
       next: data => {

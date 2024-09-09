@@ -1,8 +1,6 @@
 package boundary;
 
-import entity.CustomerRequirement;
-import entity.CustomerVisit;
-import entity.VisitorRegistration;
+import entity.*;
 import entity.dto.MainListDTO;
 import io.quarkus.security.Authenticated;
 import jakarta.transaction.Transactional;
@@ -69,10 +67,13 @@ public class CustomerRequirementResource {
     public Response getCustomerRequirementPerUser(@QueryParam("type") int user, @QueryParam("fullname") List<String> fullname){
         List<CustomerRequirement> customerRequirements = new ArrayList<>();
 
+
         if (user==7) {
             customerRequirements = CustomerRequirement.listAll();
         }else if(user == 4) {
-            customerRequirements = CustomerRequirement.find("(requestedTechnologist.email = ?1 or creator = ?2) and showUser = true",
+            customerRequirements = CustomerRequirement.find(
+                    "(requestedTechnologist.email = ?1 " +
+                            "or creator = ?2 or requestedTechnologist.email) and showUser = true",
                     fullname.get(1), fullname.get(0)).list();
         } else if(user == 6) {
             customerRequirements = CustomerRequirement.find(
@@ -80,8 +81,13 @@ public class CustomerRequirementResource {
                     fullname.get(0)
             ).list();
         } else if(user == 3){
+            Representative representative = Representative.find("email", fullname.get(1)).firstResult();
             customerRequirements = CustomerRequirement.find(
-                    "(representative.email = ?1 or creator = ?2) and showUser = true",fullname.get(1), fullname.get(0)
+                    "(representative.email = ?1 or creator = ?2 or requestedTechnologist.email in ?3 or representative.email in ?4) and showUser = true",
+                    fullname.get(1),
+                    fullname.get(0),
+                    representative.groupMembersTechnologists.stream().map(tech->tech.email).toList(),
+                    representative.groupMembersRepresentatives.stream().map(rep->rep.email).toList()
             ).list();
         }else if(user == 8){
             customerRequirements = CustomerRequirement.find(
