@@ -78,8 +78,8 @@ public class MainListDTO {
         this.name= element.employeeNameAndCompany;
         this.dateOfCreation = (element.dateOfCreation != null) ? element.dateOfCreation.toString() : "";
         this.customerOrCompany= element.creator;
-        this.statusGL= (element.releaseSupervisor!=null) ? "GL Freigegeben " : "GL Nicht-Freigegeben";
-        this.statusAL= (element.releaseManagement!=null) ? "AL Freigegeben " : "AL Nicht-Freigegeben";
+        this.statusGL= (element.releaseSupervisor!=null) ? "GL Freigegeben" : "GL Nicht-Freigegeben";
+        this.statusAL= (element.releaseManagement!=null) ? "AL Freigegeben" : "AL Nicht-Freigegeben";
         this.technologist= "<Leer>";
         this.representative= "<Leer>";
         this.fromDate= (element.mainStartDate != null) ? element.mainStartDate.toString() : "<Leer>";
@@ -99,8 +99,8 @@ public class MainListDTO {
         this.name= element.company.name;
         this.dateOfCreation = (element.dateOfCreation != null) ? element.dateOfCreation.toString() : "";
         this.customerOrCompany= element.creator;
-        this.statusGL= (element.releaseSupervisor!=null) ? "GL Freigegeben " : "GL Nicht-Freigegeben";
-        this.statusAL= (element.releaseManagement!=null) ? "AL Freigegeben " : "AL Nicht-Freigegeben";
+        this.statusGL= (element.releaseSupervisor!=null) ? "GL Freigegeben" : "GL Nicht-Freigegeben";
+        this.statusAL= (element.releaseManagement!=null) ? "AL Freigegeben" : "AL Nicht-Freigegeben";
         this.technologist= (element.requestedTechnologist != null&&!element.requestedTechnologist.isEmpty())?element.requestedTechnologist.stream()
                 .map(tech -> tech.firstName + " " + tech.lastName).toList().toString().replace("[","").replace("]",""):
                 "<Leer>";
@@ -123,8 +123,8 @@ public class MainListDTO {
         this.name= element.name;
         this.dateOfCreation = (element.dateOfCreation != null)?element.dateOfCreation.toString():"<Leer>";
         this.customerOrCompany= element.creator;
-        this.statusGL= (element.releaseSupervisor!=null) ? "GL Freigegeben " : "GL Nicht-Freigegeben";
-        this.statusAL= (element.releaseManagement!=null) ? "AL Freigegeben " : "AL Nicht-Freigegeben";
+        this.statusGL= (element.releaseSupervisor!=null) ? "GL Freigegeben" : "GL Nicht-Freigegeben";
+        this.statusAL= (element.releaseManagement!=null) ? "AL Freigegeben" : "AL Nicht-Freigegeben";
         this.technologist= "<Leer>";
         this.representative= (element.representative != null)?element.representative.firstName + " " + element.representative.lastName:"<Leer>";
         this.fromDate= (element.fromDate!=null)?element.fromDate.toString():(element.stayFromDate!=null)?element.stayFromDate.toString():"<Leer>";
