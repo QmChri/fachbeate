@@ -204,7 +204,11 @@
         "select4": "Company Presentation",
         "select5": "Technological Review",
         "select6": "Follow-up Meetings",
-        "select7": "Audit (QM/QS)"
+        "select7": "Audit (QM/QS)",
+        "footer1": "Additional information regarding the planned visit:",
+        "footer2_item1": "Note – The information about department visits is for the front office only.",
+        "footer2_item2": "Appointments with the departments must be arranged independently in advance.",
+        "footer3_item1": "Changes such as the number of visitors, hotel bookings, arrival date, etc. must be reported to the front office immediately at office@almi.at!"
     },
     "SEMINAR_REGRISTRATION": {
         "seminar_registration": "Seminar Registration",
@@ -231,11 +235,12 @@
         "travel_train": "Train",
         "travel_bus": "Bus",
         "footer1": "General Information:",
-        "footer2_item1": "Changes in the number of participants must be communicated immediately.",
-        "footer2_item2": "Recipes/products for training folders must be submitted 5 working days in advance, or 10 working days in advance for quantities of 20 or more.",
-        "footer2_item3": "The participant list must be fully completed and submitted 10 working days before the start of the seminar.",
-        "footer2_item4": "The fully completed seminar program must be submitted no later than 2 weeks before the seminar begins!",
-        "footer3_item1": "All information and changes should be sent to office@almi.at."
+        "footer2_item1": "Changes in the number of participants must be reported immediately.",
+        "footer2_item5": "Attention! Please observe the provided cancellation deadlines for hotel bookings!",
+        "footer2_item2": "Formulas/products for training materials must be submitted 5 business days in advance, for 20+ copies, 10 business days in advance.",
+        "footer2_item3": "The participant list must be fully completed and submitted 10 business days before the start of the seminar.",
+        "footer2_item4": "The fully completed seminar program must be submitted at least 2 weeks before the start of the seminar!",
+        "footer3_item1": "The desired seminar schedule must be submitted immediately to office@almi.at."
     },
     "ABSCHLUSS_BERICHT_LIST": {
         "final_reports_overview": "Final Reports Overview",

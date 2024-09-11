@@ -26,6 +26,7 @@ export class MainListComponent implements OnInit {
   year = String(this.currentDate.getFullYear()).slice(-2); // Die letzten zwei Ziffern des Jahres
   formattedDate = `${this.day}_${this.month}_${this.year}`;
   fileName = 'TableData.xlsx';
+  loading = false;
 
   // All columns are defined here
   listOfColumn: ColumnDefinition[] = [
@@ -118,7 +119,7 @@ export class MainListComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadDataPerUser()
-    this.getNzFilters();
+    this.getNzFilters()
   }
 
   // All filters are defined here
@@ -215,12 +216,14 @@ export class MainListComponent implements OnInit {
 
   //All data for a user is received here
   loadDataPerUser() {
+    this.loading = true;
     this.listOfDisplayData = []
 
     this.http.getAllCompany().subscribe({
       next: data => {
         var companies = data;
-        this.loadData(companies)
+        this.loadData(companies);
+        this.loading = false;
       }
     })
   }
@@ -229,7 +232,7 @@ export class MainListComponent implements OnInit {
     var type = (this.roleService.checkPermission([1, 2, 3, 5, 7]) ? 7 : 6);
     type = (!this.roleService.checkPermission([1, 2, 4, 5, 6, 7]) ? 3 : type);
     type = (!this.roleService.checkPermission([1, 2, 3, 5, 6, 7]) ? 4 : type);
-    type = ((!this.roleService.checkPermission([1,2,5,6,7]) && type !== 3 && type !== 4) ? 8 : type);
+    type = ((!this.roleService.checkPermission([1, 2, 5, 6, 7]) && type !== 3 && type !== 4) ? 8 : type);
     var fullname: string[] = [this.roleService.getUserName()!, this.roleService.getEmail()!];
 
     if (type === 6 && fullname === undefined) {
@@ -383,7 +386,7 @@ export class MainListComponent implements OnInit {
       this.notificationService.createBasicNotification(2, translatedMessage, '', 'topRight');
     });
     this.getNzFilters();
-    this.loadDataPerUser();
+    this.loadDataPerUser()
     //this.tmpinitData();
     this.listOfColumn.forEach(item => {
       item.sortOrder = null;
@@ -498,14 +501,14 @@ export class MainListComponent implements OnInit {
   getPdf() {
     this.downloadFile();
     this.translate.get('STANDARD.pdf1').subscribe((translatedMessage: string) => {
-      this.notificationService.createBasicNotification(0, translatedMessage, "Übersicht_Anforderungen_"+this.formattedDate+".pdf", 'topRight');
+      this.notificationService.createBasicNotification(0, translatedMessage, "Übersicht_Anforderungen_" + this.formattedDate + ".pdf", 'topRight');
     });
   }
 
   downloadFile() {
     this.http.getMainListPdf().subscribe(
       (response: Blob) => {
-        this.saveFile(response, "Übersicht_Anforderungen_"+this.formattedDate+".pdf")
+        this.saveFile(response, "Übersicht_Anforderungen_" + this.formattedDate + ".pdf")
       });
   }
   private saveFile(data: Blob, filename: string): void {
