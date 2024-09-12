@@ -6,7 +6,7 @@ import { CalendarComponent } from './components/calendar/calendar.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule, provideHttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule, provideHttpClient } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SublevelMenuComponent } from './components/sidenav/sublevel-menu.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -74,6 +74,7 @@ import { SubGroupsComponent } from './components/contents/creation-sites/sub-gro
 import { NzTreeModule } from 'ng-zorro-antd/tree';
 import { NzTreeViewModule } from 'ng-zorro-antd/tree-view';
 import { NzTreeSelectModule } from 'ng-zorro-antd/tree-select';
+import { UtcDateInterceptorComponent } from './components/utc-date-interceptor/utc-date-interceptor.component';
 
 @NgModule({
   declarations: [
@@ -175,6 +176,11 @@ import { NzTreeSelectModule } from 'ng-zorro-antd/tree-select';
       provide: APP_INITIALIZER,
       useFactory: initializer,
       deps: [KeycloakService],
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: UtcDateInterceptorComponent,
       multi: true
     }
   ],
