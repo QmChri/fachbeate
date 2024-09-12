@@ -548,7 +548,7 @@ public class PdfService {
             table.addCell(createCell(dto.customer != null ? dto.customer : "", Element.ALIGN_CENTER));
             table.addCell(createCell(dto.finalReport != null ? dto.finalReport : "", Element.ALIGN_CENTER));
             String typeText = switch (dto.type) {
-                case 0 -> "Buchung";
+                case 0 -> "Besuch";
                 case 1 -> "Fachberater A.";
                 case 2 -> "Seminar";
                 default -> "Unbekannt";

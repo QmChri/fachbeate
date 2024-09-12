@@ -64,7 +64,7 @@
         "visit": "Besuch",
         "follow_up": "Nacharbeit",
         "filter_1": "Filter - Fachberater",
-        "filter_2": "Filter - Buchung",
+        "filter_2": "Filter - Besuch",
         "holiday": "Urlaub",
         "ausgleich": "Zeitausgleich",
         "reservation": "Vorläufige Kundenreservierung",
@@ -313,7 +313,7 @@
     "BOOKING_REQUEST": {
         "bookingRequest": "Reiseanforderung",
         "businessTripBookingRequest": "Reiseanforderung für Geschäftsreise",
-        "booking": "Buchung",
+        "booking": "Besuch",
         "employeeNameAndCompany": "Name Mitarbeiter + Firma",
         "reasonForTrip": "Grund Reise",
         "costCoverage": "Kostenübernahme",

@@ -186,15 +186,16 @@ export class MainListComponent implements OnInit {
     this.listOfColumn.find(element => element.name === 'type')!.listOfFilter = this.listOfDisplayData.map(element => {
       let typeText;
       switch (element.type!.toString()) {
+        case '0':
+          typeText = 'Besuch';
+          break;
         case '1':
           typeText = 'Fachberater A.';
           break;
         case '2':
           typeText = 'Seminar';
           break;
-        case '0':
-          typeText = 'Buchung';
-          break;
+
         case '3':
           typeText = 'Reise A.';
           break;
@@ -429,7 +430,7 @@ export class MainListComponent implements OnInit {
     const typeDescriptions: { [key: number]: string } = {
       1: 'Fachberater A.',
       2: 'Seminar',
-      3: 'Buchung'
+      3: 'Besuch'
     };
 
     const exportData = this.listOfDisplayData.map(item => ({
