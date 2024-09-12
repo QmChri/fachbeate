@@ -73,7 +73,7 @@ public class CustomerRequirementResource {
         }else if(user == 4) {
             customerRequirements = CustomerRequirement.find(
                     "(requestedTechnologist.email = ?1 " +
-                            "or creator = ?2 or requestedTechnologist.email) and showUser = true",
+                            "or creator = ?2) and showUser = true",
                     fullname.get(1), fullname.get(0)).list();
         } else if(user == 6) {
             customerRequirements = CustomerRequirement.find(
