@@ -33,7 +33,9 @@ export class AbschlussBerichtComponent implements OnInit {
   existingArticles: Article[] = []
   technologists: TechDateDTO[] = [];
   representative: Representative[] = [];
+
   fileList: NzUploadFile[] = [];
+
   article = {
     articleNr: ''
   };
@@ -64,6 +66,7 @@ export class AbschlussBerichtComponent implements OnInit {
       (this.inputFinalReport.sampleProduction) ? 4 : 0,
       (this.inputFinalReport.training) ? 5 : 0
     ]
+    
     if (this.inputFinalReport.files !== null && this.inputFinalReport.files !== undefined && this.inputFinalReport.files.length !== 0) {
       this.fileList = this.inputFinalReport.files!.map((file, index) => ({
         uid: index.toString(),
@@ -178,7 +181,7 @@ export class AbschlussBerichtComponent implements OnInit {
 
   closeDialog(save: boolean) {
 
-    if (this.checkRequired() || save === false) {
+    if (this.checkRequired()) {
       //region Filter out all empty Articles
       this.inputFinalReport.reasonReports = this.inputFinalReport.reasonReports!.filter(reasonReport => reasonReport !== null && reasonReport !== undefined);
 

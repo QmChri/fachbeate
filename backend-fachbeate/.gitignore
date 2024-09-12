@@ -41,3 +41,9 @@ nb-configuration.xml
 
 # Plugin directory
 /.quarkus/cli/plugins/
+/uploads/booking/3/example (1).pdf
+/uploads/booking/3/example (2).pdf
+/uploads/booking/3/example (3).pdf
+/uploads/final/1/example (1).pdf
+/uploads/final/1/example (2).pdf
+/uploads/final/1/example (3).pdf

@@ -174,6 +174,11 @@ export class HttpService {
     return this.http.post<Booking>(API_URL + "booking", booking);
   }
 
+  postBookingMultiPart(formData: FormData): Observable<Booking> {
+    return this.http.post<Booking>(API_URL + "booking/bookingMulti", formData);
+  }
+
+
   getAllBookings(type: number, fullname: string[]) {
     return this.http.get<MainListDTO[]>(API_URL + "booking/user", { params: { type: type, fullname: fullname } });
   }
@@ -182,9 +187,12 @@ export class HttpService {
     return this.http.get<Booking>(API_URL + "booking/id", { params: { id: id } });
   }
 
+
+
   postSupport(support: Support): Observable<Support> {
     return this.http.post<Support>(API_URL + "support", support);
   }
+
 
   headers: HttpHeaders = new HttpHeaders().set('Accept', 'application/octet-stream');
 
@@ -209,6 +217,8 @@ export class HttpService {
   getBookingPdf(id: number) {
     return this.http.get(API_URL + "/pdf/booking/" + id, { headers: this.headers, responseType: 'blob' });
   }
+
+
 
   postGroup(representative: Representative): Observable<Representative> {
     return this.http.post<Representative>(API_URL + "users/representative", representative);

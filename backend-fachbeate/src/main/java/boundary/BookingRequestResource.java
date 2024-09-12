@@ -1,22 +1,33 @@
 package boundary;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import control.FileService;
 import entity.BookingRequest;
 import entity.dto.MainListDTO;
 import io.quarkus.security.Authenticated;
+import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import org.jboss.logging.Logger;
+import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
+import org.jboss.resteasy.plugins.providers.multipart.InputPart;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Path("/booking")
 public class BookingRequestResource {
-    private static final Logger LOGGER = Logger.getLogger(BookingRequestResource.class);
+
+    @Inject
+    FileService fileService;
+
+    String FileSaveDir = "uploads\\booking\\";
+
+
     /**
      * Post a new Booking Request
      * @param bookingRequest: Entity to persist
@@ -56,7 +67,15 @@ public class BookingRequestResource {
     @Path("/id")
     @Authenticated
     public Response getBookingRequestPerId(@QueryParam("id") Long id){
-        return Response.ok(BookingRequest.findById(id)).build();
+
+
+        BookingRequest bookingRequest = BookingRequest.findById(id);
+
+        bookingRequest.files = fileService.getFileList(FileSaveDir + bookingRequest.id);
+
+        return Response.ok(
+            bookingRequest
+        ).build();
     }
 
     /**
@@ -94,5 +113,43 @@ public class BookingRequestResource {
 
         return Response.ok(bookingRequests.stream().map(req -> new MainListDTO().mapBookingToMainListDTO(req)).toList()).build();
     }
+
+    @POST
+    @Path("/bookingMulti")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Authenticated
+    @Transactional
+    public Response finalWithFiles(@RequestBody MultipartFormDataInput input) throws IOException {
+        Map<String, List<InputPart>> inputStreams = input.getFormDataMap();
+
+        BookingRequest bookingRequest = new ObjectMapper().readValue(inputStreams.get("booking").get(0).getBodyAsString(), BookingRequest.class);
+        bookingRequest.persistOrUpdate();
+
+        if (bookingRequest.id == null) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Failed to retrieve Booking ID").build();
+        }
+
+        if(!fileService.saveFilesToDir(input, bookingRequest.id, FileSaveDir)){
+            return Response.status(500).build();
+        }
+        return Response.ok(bookingRequest).build();
+    }
+
+    @GET
+    @Path("/file/{bookingId}/{fileName}")
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public Response getFile(@PathParam("bookingId") String bookingId, @PathParam("fileName") String filename) throws FileNotFoundException {
+        File file = new File(FileSaveDir+bookingId, filename);
+
+        if (!file.exists()) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        InputStream fileStream = new FileInputStream(file);
+        return Response.ok(fileStream)
+                .header("Content-Disposition", "attachment; filename=\"" + filename + "\"")
+                .build();
+    }
+
 }
 
