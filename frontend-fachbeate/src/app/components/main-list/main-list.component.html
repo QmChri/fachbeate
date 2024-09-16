@@ -82,7 +82,7 @@
         {{ data.timespan!.start === undefined ||data.timespan!.start === '\<Leer\>' ? '\<Leer\>':(data.timespan!.start
             |
             date:'dd.MM.yy') }} -
-            {{ data.timespan!.end === undefined || data.timespan!.end === '\<Leer\>' ? '\<Leer\>':(data.timespan!.end
+            {{ data.timespan!.end === undefined || data.timespan!.end === '\<Leer\>' ? '\<Leer\>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;':(data.timespan!.end
                 |
                 date:'dd.MM.yy') }}
       </td>

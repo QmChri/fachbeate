@@ -46,4 +46,7 @@ export interface Booking {
   carFrom?: Date;
   carTo?: Date;
   otherCarNotes?: string;
+
+  files?: {fileName: string, fileContent: string}[];
+
 }

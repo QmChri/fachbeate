@@ -54,6 +54,7 @@ public class FinalReport extends PanacheEntity {
     public boolean reworkInformation;
     public boolean reworkRecipe_optimization;
     public boolean reworkProduct_development;
+
     @Transient
     public List<FileDtos> files;
 
@@ -127,34 +128,5 @@ public class FinalReport extends PanacheEntity {
         }
     }
 
-    public FinalReport addFile() {
-
-        this.files = new ArrayList<>();
-
-        File uploadDir = new File("uploads/" + this.id);
-
-        if(uploadDir.exists() && uploadDir.isDirectory()) {
-            try {
-                Files.list(uploadDir.toPath())
-                        .filter(Files::isRegularFile) // Only process regular files
-                        .forEach(filePath -> {
-                            try {
-                                byte[] fileBytes = Files.readAllBytes(filePath);
-                                String content = Base64.getEncoder().encodeToString(fileBytes);
-
-                                String fileName = filePath.getFileName().toString();
-                                files.add(new FileDtos(fileName, content));
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        });
-
-
-            } catch (IOException e) {
-                return this;
-            }
-        }
-        return this;
-    }
 
 }

@@ -201,8 +201,8 @@ export class AbschlussBerichtListComponent {
 
         data.forEach(element => {
           var allArticles: Article[] = []
-
-          element.reasonReports!.forEach(reason => {
+          
+          element.reasonReports?.forEach(reason => {
             allArticles = [...allArticles, ...reason.presentedArticle]
           })
 
@@ -210,9 +210,9 @@ export class AbschlussBerichtListComponent {
             id: element.id!,
             company: (element.company!) ? element.company : "<Leer>",
             dateOfVisit: (element.dateOfVisit!) ? element.dateOfVisit : null!,
-            technologist: element.technologist!.firstName + " " + element.technologist!.lastName,
+            technologist: element.technologist?.firstName + " " + element.technologist?.lastName,
             reworkByTechnologistDoneUntil: element.reworkByTechnologistDoneUntil!,
-            representative: element.representative!.firstName + " " + element.representative!.lastName,
+            representative: element.representative?.firstName + " " + element.representative?.lastName,
             customerContactDate: element.customerContactDate!,
             abschlussberichtFinished: (element.requestCompleted) ? "Ja" : "Nein",
             article: allArticles

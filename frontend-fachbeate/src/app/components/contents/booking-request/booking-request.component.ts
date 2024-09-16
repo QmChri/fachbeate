@@ -10,6 +10,7 @@ import { CheckDialogComponent } from '../check-dialog/check-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { log } from '../../../services/logger.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-booking-request',
@@ -18,7 +19,9 @@ import { log } from '../../../services/logger.service';
 })
 export class BookingRequestComponent implements OnInit {
   addItem: string = "";
+
   fileList: NzUploadFile[] = [];
+
   costCoverages: string[] = [
     'almiGmbH',
     'almiSubsidiary'
@@ -36,15 +39,29 @@ export class BookingRequestComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     this.route.paramMap.subscribe(params => {
+
       if (params.get('id') != null) {
+
         this.http.getBookingById(parseInt(params.get('id')!)).subscribe({
+
           next: data => {
             if (data != null) {
               this.inputBooking = data;
 
               this.inputBooking.mainStartDate = this.convertToDate(this.inputBooking.mainStartDate);
               this.inputBooking.mainEndDate = this.convertToDate(this.inputBooking.mainEndDate);
+
+              if (this.inputBooking.files !== null && this.inputBooking.files !== undefined && this.inputBooking.files.length !== 0) {
+                this.fileList = this.inputBooking.files!.map((file, index) => ({
+                  uid: index.toString(),
+                  name: file.fileName,
+                  status: "done",
+                  originFileObj: this.base64ToFile(file.fileContent, file.fileName),
+                  url: environment.backendApi + "booking/file/" + this.inputBooking.id + "/" + file.fileName
+                }));
+              }
 
               this.buttonSelect = [
                 (data.hotelBooking) ? "4" : "",
@@ -61,6 +78,18 @@ export class BookingRequestComponent implements OnInit {
         });
       }
     });
+  }
+
+  base64ToFile(base64: string, filename: string): File {
+    const byteCharacters = atob(base64);
+    const byteNumbers = new Array(byteCharacters.length);
+
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+
+    const byteArray = new Uint8Array(byteNumbers);
+    return new File([byteArray], filename);
   }
 
   checkRequired(): boolean {
@@ -202,7 +231,22 @@ export class BookingRequestComponent implements OnInit {
       (this.inputBooking.mainEndDate !== null && this.inputBooking.mainEndDate !== undefined) ? this.inputBooking.mainEndDate!.setHours(5) : "";
       this.inputBooking.lastEditor = this.inputBooking.lastEditor;
 
-      this.http.postBookingRequest(this.inputBooking).subscribe({
+      
+
+      //Create Form to Send Files and Booking Request Data
+
+      let formData = new FormData();
+  
+      if(this.fileList !== null  && this.fileList !== undefined && this.fileList.length !== 0){
+        this.fileList.map(element => element.originFileObj!).forEach(element => {
+          // Adding all Files to the Form
+          formData.append("files", element!)
+        })
+      }
+
+      formData.append('booking', JSON.stringify(this.inputBooking));
+
+      this.http.postBookingMultiPart(formData).subscribe({
         next: data => {
           this.inputBooking = data;
 

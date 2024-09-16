@@ -1,12 +1,18 @@
 package entity;
 
+import entity.dto.FileDtos;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Transient;
 import jakarta.transaction.Transactional;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
@@ -59,6 +65,9 @@ public class BookingRequest extends PanacheEntity {
     public Date carFrom;
     public Date carTo;
     public String otherCarNotes;
+
+    @Transient
+    public List<FileDtos> files;
 
     public BookingRequest() {    }
 

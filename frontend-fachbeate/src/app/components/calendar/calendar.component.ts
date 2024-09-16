@@ -51,8 +51,8 @@ export class CalendarComponent implements OnInit {
     select: (arg) => this.handleSelect(arg),
     events: [],
     firstDay: 1,
+    initialDate: new Date(),
     height: 'auto',
-    aspectRatio: 3,
     displayEventTime: false,
     displayEventEnd: false,
     eventContent: (arg) => {
