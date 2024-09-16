@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpService } from '../../services/http.service';
 import { Technologist } from '../../models/technologist';
@@ -27,6 +27,8 @@ export class MainListComponent implements OnInit {
   formattedDate = `${this.day}_${this.month}_${this.year}`;
   fileName = 'TableData.xlsx';
   loading = false;
+  public pageSize: number = 20;
+  currentPage = 1;
 
   // All columns are defined here
   listOfColumn: ColumnDefinition[] = [
@@ -120,6 +122,21 @@ export class MainListComponent implements OnInit {
   ngOnInit(): void {
     this.loadDataPerUser()
     this.getNzFilters()
+    this.calculatePageSize();
+    this.onPageIndexChange(this.currentPage);
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.calculatePageSize();
+  }
+  calculatePageSize(): void {
+    const tableHeight = window.innerHeight - 80; //Puffer für Header/Footer
+    const rowHeight = 60; // Höhe einer Tabellenzeile
+    this.pageSize = Math.floor(tableHeight / rowHeight);
+  }
+  onPageIndexChange(pageIndex: number): void {
+    this.currentPage = pageIndex; // Aktulle Seite der MainList
   }
 
   // All filters are defined here

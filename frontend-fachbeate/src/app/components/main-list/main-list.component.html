@@ -20,8 +20,8 @@
 </div>
 <hr>
 
-<nz-table #nzTable nzBordered [nzPageSize]="30" nzShowSizeChanger [nzSize]="'small'" [nzTableLayout]="'auto'"
-  [nzData]="listOfDisplayData">
+<nz-table #nzTable nzBordered [nzPageSize]="pageSize" nzShowSizeChanger [nzSize]="'small'" [nzTableLayout]="'auto'"
+  [nzData]="listOfDisplayData" [(nzPageIndex)]="currentPage" (nzPageIndexChange)="onPageIndexChange($event)">
   <thead>
     <tr>
       <th>
