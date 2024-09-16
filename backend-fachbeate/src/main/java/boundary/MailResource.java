@@ -13,8 +13,7 @@ public class MailResource {
 
     @GET
     public String getMail(){
-        this.mailController.sendTestMail();
-
+        //this.mailController.sendMail();
         return "Mail sent";
     }
 

@@ -1,9 +1,12 @@
 package control;
 
+import entity.MailUser;
 import io.quarkus.mailer.Mail;
 import io.quarkus.mailer.Mailer;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+
+import java.util.List;
 
 @ApplicationScoped
 public class MailService {
@@ -11,14 +14,17 @@ public class MailService {
     @Inject
     Mailer mailer;
 
-    public void sendTestMail(){
-        mailer.send(
-                Mail.withText(
-                        "qm.praktikant1@almi.at",
-                        "Testemail für Fachberaterprogramm",
-                        "Das hier ist eine Testemail um zu Prüfen ob es Funktioniert \n dies hier sollte in der nächsten zeile stehen"
-                )
-        );
+    public void sendMail(List<String> to, String subject, String body) {
+        for (String email : to) {
+            mailer.send(
+                    Mail.withText(
+                            email,
+                            subject,
+                            "Geschätze Damen und Herren! Dieses E-Mail dient als Informatio und wird automatisch generiert, bitte nicht beantworten!"+
+                                    body
+                    )
+            );
+        }
     }
 
 }
