@@ -1,6 +1,6 @@
 package entity.enums;
 
-public enum Department {
+public enum Function {
     GL,
     AL,
     FrontOffice,

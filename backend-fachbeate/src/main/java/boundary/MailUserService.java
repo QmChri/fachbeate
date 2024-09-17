@@ -1,7 +1,7 @@
 package boundary;
 
 import entity.MailUser;
-import entity.enums.Department;
+import entity.enums.Function;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -24,7 +24,7 @@ public class MailUserService implements PanacheRepository<MailUser> {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/GL")
     public List<String> getAllEmailsFromGLDepartment() {
-        return MailUser.find("department", Department.GL)
+        return MailUser.find("department", Function.GL)
                 .stream()
                 .map(user -> ((MailUser) user).email)
                 .collect(Collectors.toList());
@@ -33,7 +33,7 @@ public class MailUserService implements PanacheRepository<MailUser> {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/AL")
     public List<String> getAllEmailsFromALDepartment() {
-        return MailUser.find("department", Department.AL)
+        return MailUser.find("department", Function.AL)
                 .stream()
                 .map(user -> ((MailUser) user).email)
                 .collect(Collectors.toList());
@@ -42,7 +42,7 @@ public class MailUserService implements PanacheRepository<MailUser> {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/AL")
     public List<String> getAllEmailsFromFODepartment() {
-        return MailUser.find("department", Department.FrontOffice)
+        return MailUser.find("department", Function.FrontOffice)
                 .stream()
                 .map(user -> ((MailUser) user).email)
                 .collect(Collectors.toList());

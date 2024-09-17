@@ -1,9 +1,6 @@
 package boundary;
 
-import entity.Company;
-import entity.CustomerRequirement;
-import entity.Representative;
-import entity.Technologist;
+import entity.*;
 import entity.dto.TechDateDTO;
 import io.quarkus.panache.common.Sort;
 import io.quarkus.security.Authenticated;
@@ -176,5 +173,33 @@ public class TechnologistResource {
         List<Company> companies = Company.find("active", true).list();
         companies.sort(Comparator.comparing(company -> company.name.toUpperCase()));
         return Response.ok(companies).build();
+    }
+
+    @GET
+    @Path("mailUser")
+    @Authenticated
+    public Response getAllMailUser(){
+        List<MailUser> mailUsers = MailUser.listAll();
+        mailUsers.sort(Comparator.comparing(mailUser -> mailUser.firstName.toUpperCase()));
+        return Response.ok(mailUsers).build();
+    }
+
+
+    /**
+     * Post new MailUser
+     * @param mailUser
+     */
+    @POST
+    @Path("postMailUser")
+    @Authenticated
+    @Transactional
+    public void postMailUser(MailUser mailUser){
+        if(mailUser.id == null || mailUser.id == 0){
+            mailUser.id = null;
+            mailUser.persist();
+            return;
+        }
+        MailUser updatedMailUser = MailUser.findById(mailUser.id);
+        updatedMailUser.updateEntity(mailUser);
     }
 }

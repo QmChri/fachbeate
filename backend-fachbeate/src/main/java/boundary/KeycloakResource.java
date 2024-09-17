@@ -5,12 +5,11 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
-import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import org.keycloak.representations.account.UserRepresentation;
 
 import java.util.List;
 
-@RegisterRestClient(configKey = "keycloak")
+//@RegisterRestClient(configKey = "keycloak")
 @Path("/admin/realms/fachbeate/users")
 public interface KeycloakResource {
 

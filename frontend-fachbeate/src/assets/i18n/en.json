@@ -11,6 +11,7 @@
         "new-re": "New Representative",
         "new-de": "New Dealer",
         "new-group": "New Group",
+        "new-user": "New additional user",
         "lan-sel": "Language Selection",
         "bookingRequest": "Booking Request",
         "support": "Support"
@@ -299,7 +300,11 @@
         "new_group": "Group",
         "group_name": "Enter group name",
         "created_group": "Group has been created!",
-        "created_error": "Error creating group!"
+        "created_error": "Error creating group!",
+        "function": "Function",
+        "GL": "Management",
+        "AL": "Department Management",
+        "FrontOffice": "Reception"
     },
     "BOOKING_REQUEST": {
         "bookingRequest": "Booking Request",

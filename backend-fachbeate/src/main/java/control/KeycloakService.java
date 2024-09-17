@@ -4,14 +4,13 @@ import boundary.KeycloakResource;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
-import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.keycloak.representations.account.UserRepresentation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-@ApplicationScoped
+//@ApplicationScoped
 public class KeycloakService {
 
     private static final Logger log = LoggerFactory.getLogger(KeycloakService.class);
@@ -25,7 +24,7 @@ public class KeycloakService {
     String clientSecret;
 
     @Inject
-    @RestClient
+    //@RestClient
     KeycloakResource keycloakAdminClient;
 
     public List<UserRepresentation> getAllUsers() {

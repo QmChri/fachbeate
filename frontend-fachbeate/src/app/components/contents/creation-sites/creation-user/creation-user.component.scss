@@ -1,0 +1,76 @@
+.card-body {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    min-height: 12.5rem;
+}
+
+.languageBox {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.displayBySide {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    align-items: stretch;
+}
+
+@media (max-width: 1600px) {
+    .displayBySide {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        flex-wrap: nowrap;
+        align-items: stretch;
+
+        .smallInput {
+            max-width: 12rem;
+        }
+
+        .smallInputMittagAnz {
+            max-width: 8rem;
+        }
+
+        .smallInputSide {
+            max-width: 12rem;
+        }
+    }
+}
+
+.search-box {
+    padding: 8px;
+}
+
+.search-box input {
+    width: 188px;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.search-box button {
+    width: 90px;
+}
+
+.search-button {
+    margin-right: 8px;
+}
+
+.center-active {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}

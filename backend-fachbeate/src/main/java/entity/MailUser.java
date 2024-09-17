@@ -1,6 +1,6 @@
 package entity;
 
-import entity.enums.Department;
+import entity.enums.Function;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Entity;
 
@@ -11,7 +11,8 @@ public class MailUser extends PanacheEntity {
     public String lastName;
     public String userName;
     public String email;
-    public Department department;
+    public Function function;
+    public boolean active;
 
     public MailUser() {
     }
@@ -21,7 +22,8 @@ public class MailUser extends PanacheEntity {
         this.lastName = mailUser.lastName;
         this.userName = mailUser.userName;
         this.email = mailUser.email;
-        this.department = mailUser.department;
+        this.function = mailUser.function;
+        this.active = mailUser.active;
     }
 
     public MailUser persistOrUpdate(){
@@ -30,7 +32,6 @@ public class MailUser extends PanacheEntity {
             persisted.updateEntity(this);
             return persisted;
         }
-
         this.persist();
         return this;
     }

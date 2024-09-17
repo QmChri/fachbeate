@@ -75,6 +75,7 @@ import { NzTreeModule } from 'ng-zorro-antd/tree';
 import { NzTreeViewModule } from 'ng-zorro-antd/tree-view';
 import { NzTreeSelectModule } from 'ng-zorro-antd/tree-select';
 import { UtcDateInterceptorComponent } from './components/utc-date-interceptor/utc-date-interceptor.component';
+import { CreatMailUserComponent } from './components/contents/creation-sites/creation-user/creation-user.component';
 
 @NgModule({
   declarations: [
@@ -98,7 +99,8 @@ import { UtcDateInterceptorComponent } from './components/utc-date-interceptor/u
     CalendarComponent,
     CheckDialogComponent,
     BugReportComponent,
-    SubGroupsComponent
+    SubGroupsComponent,
+    CreatMailUserComponent,
   ],
   imports: [
     NzModalModule,

@@ -11,6 +11,7 @@
         "new-re": "Neuer Vertreter",
         "new-de": "Neuer Händler",
         "new-group": "Neuer Gruppe",
+        "new-user": "Neuer zusätzlicher Benutzer",
         "lan-sel": "Sprach Auswahl",
         "bookingRequest": "Reiseanforderung",
         "dashboard": "Dashboard",
@@ -308,7 +309,11 @@
         "new_group": "Gruppe",
         "group_name": "Gruppenname eingeben",
         "created_group": "Gruppe wurde erstellt!",
-        "created_error": "Fehler beim Erstellen der Gruppe!"
+        "created_error": "Fehler beim Erstellen der Gruppe!",
+        "function": "Funktion",
+        "GL": "Geschäftsleitung",
+        "AL": "Abteilungsleitung",
+        "FrontOffice": "FrontOffice"
     },
     "BOOKING_REQUEST": {
         "bookingRequest": "Reiseanforderung",

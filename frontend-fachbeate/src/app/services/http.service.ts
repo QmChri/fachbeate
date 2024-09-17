@@ -15,6 +15,7 @@ import { MainListDTO } from '../models/main-list-dto';
 import { TechDateDTO } from '../models/tech-date-dto';
 import { Booking } from '../models/booking';
 import { Support } from '../models/support';
+import { MailUser } from '../models/other-user';
 
 const API_URL = environment.backendApi
 
@@ -218,9 +219,15 @@ export class HttpService {
     return this.http.get(API_URL + "/pdf/booking/" + id, { headers: this.headers, responseType: 'blob' });
   }
 
-
-
   postGroup(representative: Representative): Observable<Representative> {
     return this.http.post<Representative>(API_URL + "users/representative", representative);
+  }
+
+
+  postMailUser(inputMailUser: MailUser) {
+    return this.http.post<MailUser>(API_URL + "/users/postMailUser", inputMailUser);  
+  }
+  getAllMailUser() {
+    return this.http.get<MailUser[]>(API_URL + "/users/mailUser");
   }
 }
