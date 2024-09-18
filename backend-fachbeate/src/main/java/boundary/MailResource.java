@@ -5,7 +5,7 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 
-@Path("Mail")
+@Path("mail")
 public class MailResource {
 
     @Inject

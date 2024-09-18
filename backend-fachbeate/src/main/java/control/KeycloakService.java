@@ -1,19 +1,15 @@
 package control;
 
 import boundary.KeycloakResource;
-import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.keycloak.representations.account.UserRepresentation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 //@ApplicationScoped
 public class KeycloakService {
 
-    private static final Logger log = LoggerFactory.getLogger(KeycloakService.class);
     @ConfigProperty(name = "keycloak.auth-server-url")
     String keycloakServerUrl;
 
@@ -30,5 +26,9 @@ public class KeycloakService {
     public List<UserRepresentation> getAllUsers() {
         return keycloakAdminClient.getUsers();
     }
-}
 
+    private String getAccessToken() {
+        // Implementiere die Token-Abruf-Logik hier
+        return "";
+    }
+}

@@ -13,6 +13,7 @@ public class MailUser extends PanacheEntity {
     public String email;
     public Function function;
     public boolean active;
+    public String username;
 
     public MailUser() {
     }
@@ -24,6 +25,7 @@ public class MailUser extends PanacheEntity {
         this.email = mailUser.email;
         this.function = mailUser.function;
         this.active = mailUser.active;
+        this.username = mailUser.username;
     }
 
     public MailUser persistOrUpdate(){
