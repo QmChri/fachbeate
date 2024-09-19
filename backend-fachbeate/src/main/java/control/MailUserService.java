@@ -1,4 +1,4 @@
-package boundary;
+package control;
 
 import entity.MailUser;
 import entity.enums.Function;

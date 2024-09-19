@@ -1,8 +1,8 @@
 package boundary;
 
 import control.MailService;
+import control.MailUserService;
 import entity.Representative;
-import entity.VisitorRegistration;
 import entity.WorkshopRequirement;
 import entity.dto.MainListDTO;
 import io.quarkus.security.Authenticated;

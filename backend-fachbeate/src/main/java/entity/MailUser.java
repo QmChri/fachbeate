@@ -18,6 +18,14 @@ public class MailUser extends PanacheEntity {
     public MailUser() {
     }
 
+    public MailUser(String firstName, String lastName, String userName, String email, boolean active) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.userName = userName;
+        this.email = email;
+        this.active = active;
+    }
+
     public void updateEntity(MailUser mailUser) {
         this.firstName = mailUser.firstName;
         this.lastName = mailUser.lastName;
