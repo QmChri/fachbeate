@@ -168,11 +168,25 @@ export class VisitorRegistrationComponent implements OnInit {
       this.inputVisitRegistration.releaseManagement = new Date();
       this.inputVisitRegistration.releaserManagement = this.roleService.getUserName();
       this.postVisitorRegistration();
+
+      this.http.sendMail(
+        ["abteilungsleitung"],
+        "B_" + this.inputVisitRegistration.id,
+        "Freigabe GL",
+        "Im Request Tool wurde eine Besucher Anfrage (Nr." + this.inputVisitRegistration.id + ") eingegeben und seitens GL freigegeben - bitte um kontrolle und Freigabe durch AL."
+      ).subscribe();
     } else if (department === 'al' && this.checkRequired()) {
       this.getNotification(3);
       this.inputVisitRegistration.releaseSupervisor = new Date();
       this.inputVisitRegistration.releaserSupervisor = this.roleService.getUserName()
       this.postVisitorRegistration();
+
+      this.http.sendMail(
+        ["fachberater", "vertreter", "creator","front-office"],
+        "B_" + this.inputVisitRegistration.id,
+        "Freigabe AL",
+        "Ihre Besucher Anfrage (Nr." + this.inputVisitRegistration.id + ") wurde erfolgreich freigegeben. Bitte prüfen Sie noch einmal ihre Anforderung, es ist möglich das Daten aus organisatorischen Gründen geändert wurden"
+      ).subscribe();
     }
   }
 
@@ -275,6 +289,12 @@ export class VisitorRegistrationComponent implements OnInit {
     if (this.inputVisitRegistration.id === null || this.inputVisitRegistration.id === undefined || this.inputVisitRegistration.id === 0) {
       this.inputVisitRegistration.dateOfCreation = new Date();
       this.inputVisitRegistration.creator = this.roleService.getUserName();
+      this.http.sendMail(
+        ["geschaeftsleitung"],
+        "B_" + this.inputVisitRegistration.id,
+        "Eingabe Besucheranfrage",
+        "Im Request Tool wurde ein neue Besucher Anfrage (Nr."+ this.inputVisitRegistration.id+") eingegeben - bitte um Freigabe durch GL."
+      ).subscribe();
     }
 
     this.inputVisitRegistration.lastEditor = this.roleService.getUserName();

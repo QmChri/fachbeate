@@ -37,19 +37,6 @@ public class WorkshopResource {
         if(responseWorkshopRequirement == null){
             return Response.serverError().build();
         }
-        if(!workshopRequirement.releaserManagement.isEmpty()){
-            mailController.sendMail(mailUserService.getAllEmailsFromALDepartment(),"Freigabe GL","Im Request Tool wurde eine neue Fachberater Anforderung (Nr. xxx) eingegeben - bitte um Freigabe durch GL.");
-        }
-        if(!workshopRequirement.releaserManagement.isEmpty() && !responseWorkshopRequirement.releaserSupervisor.isEmpty()){
-            List<String> toMails = new ArrayList<>();
-            toMails.add(workshopRequirement.creator);
-            toMails.add(workshopRequirement.representative.email);
-            toMails.add(String.valueOf(workshopRequirement.requestedTechnologist.stream().map(s -> s.email).toList()));
-            toMails.add(String.valueOf(mailUserService.getAllEmailsFromFODepartment()));
-
-            mailController.sendMail(toMails,"Freigabe GL+AL","Im Request Tool wurde eine neue Fachberater Anforderung (Nr. xxx) eingegeben - bitte um Freigabe durch GL.");
-        }
-        mailController.sendMail(mailUserService.getAllEmailsFromGLDepartment(),"Eingabe FB Anforderung","Im Request Tool wurde eine neue Fachberater Anforderung (Nr. xxx) eingegeben - bitte um Freigabe durch GL.");
         return Response.ok(responseWorkshopRequirement).build();
     }
 

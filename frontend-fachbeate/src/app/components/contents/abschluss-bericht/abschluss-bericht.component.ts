@@ -66,7 +66,7 @@ export class AbschlussBerichtComponent implements OnInit {
       (this.inputFinalReport.sampleProduction) ? 4 : 0,
       (this.inputFinalReport.training) ? 5 : 0
     ]
-    
+
     if (this.inputFinalReport.files !== null && this.inputFinalReport.files !== undefined && this.inputFinalReport.files.length !== 0) {
       this.fileList = this.inputFinalReport.files!.map((file, index) => ({
         uid: index.toString(),
@@ -195,9 +195,7 @@ export class AbschlussBerichtComponent implements OnInit {
 
       //region Set the creator and last Editor
       this.inputFinalReport.lastEditor = this.roleService.getUserName();
-      if (this.inputFinalReport.creator === undefined) {
-        this.inputFinalReport.creator = this.roleService.getUserName();
-      }
+
       //endregion
 
       //region set boolean for reasonselection
@@ -208,11 +206,41 @@ export class AbschlussBerichtComponent implements OnInit {
 
       //region edit ckeck from Technologist and Representative
       if (this.roleService.checkPermission([3])) {
+        if(this.inputFinalReport.requestCompleted === true){
+          this.http.sendMail(
+            ["geschaeftsleitung"],
+            "A_" + this.inputFinalReport.id,
+            "Eingabe Information durch Vertreter",
+            "Der Abschlussbericht (Nr." + this.inputFinalReport.id + ") wurde durch den Vertreter abgeschlossen"
+          ).subscribe();
+        }
+        if (this.inputFinalReport.representativeEntered === false || this.inputFinalReport.representativeEntered === null || this.finalReport.creator === undefined) {
+          this.http.sendMail(
+            ["geschaeftsleitung"],
+            "A_" + this.inputFinalReport.id,
+            "Abschluss vom Abschlussbereicht durch Vertreter",
+            "Der Abschlussbericht (Nr." + this.inputFinalReport.id + ") wurde durch den Vertreter bearbeitet."
+          ).subscribe();
+        }
         this.inputFinalReport.representativeEntered = true;
-      } else if (this.roleService.checkPermission([4])) {
+      } 
+      else if (this.roleService.checkPermission([4])) {
+        if (this.inputFinalReport.technologistEntered === false || this.inputFinalReport.technologistEntered === null || this.finalReport.technologistEntered === undefined) {
+          this.http.sendMail(
+            ["abteilungsleitung", "vertreter", "geschaeftsleitung"],
+            "A_" + this.inputFinalReport.id,
+            "Eingabe Abschlussbericht durch FB",
+            "Im Request Tool wurde durch den Fachberater ein Abschlussbericht (Nr." + this.inputFinalReport.id + ") erstellt. Bitte um entsprechende Nachbearbeitung des Kundenbesuchs"
+          ).subscribe();
+        }
         this.inputFinalReport.technologistEntered = true;
       }
       //endregion
+
+      if (this.inputFinalReport.creator === undefined) {
+        this.inputFinalReport.creator = this.roleService.getUserName();
+      }
+
       this.dialogRef.close({ finalReport: this.inputFinalReport, save: save, files: (this.fileList !== null && this.fileList !== undefined && this.fileList.length !== 0) ? this.fileList.map(element => element.originFileObj!) : null });
     }
   }
@@ -348,7 +376,7 @@ export class AbschlussBerichtComponent implements OnInit {
         this.saveFile(response, "Abschlussbericht_" + this.inputFinalReport.id + ".pdf")
       });
   }
-  
+
   private saveFile(data: Blob, filename: string): void {
     const blob = new Blob([data], { type: 'application/octet-stream' });
     const url = window.URL.createObjectURL(blob);

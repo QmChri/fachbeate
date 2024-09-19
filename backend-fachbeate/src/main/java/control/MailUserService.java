@@ -11,7 +11,7 @@ import jakarta.ws.rs.core.MediaType;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Path("emails")
+@Path("mail")
 public class MailUserService implements PanacheRepository<MailUser> {
 
     @GET
@@ -22,27 +22,27 @@ public class MailUserService implements PanacheRepository<MailUser> {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/GL")
+    @Path("/gl")
     public List<String> getAllEmailsFromGLDepartment() {
-        return MailUser.find("department", Function.GL)
+        return MailUser.find("department", Function.GESCHAEFTSLEITUNG)
                 .stream()
                 .map(user -> ((MailUser) user).email)
                 .collect(Collectors.toList());
     }
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/AL")
+    @Path("/al")
     public List<String> getAllEmailsFromALDepartment() {
-        return MailUser.find("department", Function.AL)
+        return MailUser.find("department", Function.ABTEILUNGSLEITUNG)
                 .stream()
                 .map(user -> ((MailUser) user).email)
                 .collect(Collectors.toList());
     }
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/AL")
+    @Path("/frontOffice")
     public List<String> getAllEmailsFromFODepartment() {
-        return MailUser.find("department", Function.FrontOffice)
+        return MailUser.find("department", Function.FRONTOFFICE)
                 .stream()
                 .map(user -> ((MailUser) user).email)
                 .collect(Collectors.toList());

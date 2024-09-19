@@ -2,47 +2,34 @@ package entity;
 
 import entity.enums.Function;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import jakarta.inject.Inject;
 import jakarta.persistence.Entity;
 
-@Entity
+import java.util.logging.Logger;
+
 public class MailUser extends PanacheEntity {
 
+
+    public String id;
     public String firstName;
     public String lastName;
     public String userName;
     public String email;
     public Function function;
     public boolean active;
-    public String username;
+
 
     public MailUser() {
     }
 
-    public MailUser(String firstName, String lastName, String userName, String email, boolean active) {
+    public MailUser(String id,String firstName, String lastName, String userName, String email,Function function, boolean active) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.userName = userName;
         this.email = email;
         this.active = active;
+        this.function = function;
     }
 
-    public void updateEntity(MailUser mailUser) {
-        this.firstName = mailUser.firstName;
-        this.lastName = mailUser.lastName;
-        this.userName = mailUser.userName;
-        this.email = mailUser.email;
-        this.function = mailUser.function;
-        this.active = mailUser.active;
-        this.username = mailUser.username;
-    }
-
-    public MailUser persistOrUpdate(){
-        if(this.id != null && this.id != 0) {
-            MailUser persisted = MailUser.findById(this.id);
-            persisted.updateEntity(this);
-            return persisted;
-        }
-        this.persist();
-        return this;
-    }
 }

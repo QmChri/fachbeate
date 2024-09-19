@@ -103,12 +103,26 @@ export class BookingRequestComponent implements OnInit {
       this.inputBooking.releaseManagement = new Date();
       this.inputBooking.releaserManagement = this.roleService.getUserName()
       this.postBooking();
+
+      this.http.sendMail(
+        ["abteilungsleitung"],
+        "R_" + this.inputBooking.id,
+        "Freigabe GL",
+        "Im Request Tool wurde eine Reisebuchung Anforderung (Nr."+this.inputBooking.id+") eingegeben und seitens GL freigegeben - bitte um kontrolle und Freigabe durch AL."
+      ).subscribe();
     }
     else if (department === 'al' && this.checkRequired()) {
       this.getNotification(3);
       this.inputBooking.releaseSupervisor = new Date();
       this.inputBooking.releaserSupervisor = this.roleService.getUserName()
       this.postBooking();
+      
+      this.http.sendMail(
+        ["fachberater","front-office","creator"],
+        "R_" + this.inputBooking.id,
+        "Freigabe AL",
+        "Ihre Reisebuchung Anforderung (Nr."+this.inputBooking.id+") wurde erfolgreich freigegeben. Bitte prüfen Sie noch einmal ihre Anforderung, es ist möglich das Daten aus organisatorischen Gründen geändert wurden"
+      ).subscribe();
     }
   }
 
@@ -221,6 +235,13 @@ export class BookingRequestComponent implements OnInit {
       if (this.inputBooking.id === null || this.inputBooking.id === undefined || this.inputBooking.id === 0) {
         this.inputBooking.dateOfCreation = new Date();
         this.inputBooking.creator = this.roleService.getUserName();
+        
+      this.http.sendMail(
+        ["geschaeftsleitung"],
+        "R_" + this.inputBooking.id,
+        "Eingabe Reisebuchung Anforderung",
+        "Im Request Tool wurde ein neue Reisebuchung Anforderung (Nr."+this.inputBooking.id+") eingegeben - bitte um Freigabe durch GL."
+      ).subscribe();
       }
       this.inputBooking.lastEditor = this.roleService.getUserName();
 
@@ -230,8 +251,6 @@ export class BookingRequestComponent implements OnInit {
       (this.inputBooking.mainStartDate !== null && this.inputBooking.mainStartDate !== undefined) ? this.inputBooking.mainStartDate!.setHours(5) : "";
       (this.inputBooking.mainEndDate !== null && this.inputBooking.mainEndDate !== undefined) ? this.inputBooking.mainEndDate!.setHours(5) : "";
       this.inputBooking.lastEditor = this.inputBooking.lastEditor;
-
-      
 
       //Create Form to Send Files and Booking Request Data
 

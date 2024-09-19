@@ -174,6 +174,13 @@ export class SeminarRegistrationComponent implements OnInit {
       this.inputWorkshop.releaseManagement = new Date();
       this.inputWorkshop.releaserManagement = this.roleService.getUserName()
       this.postWorkshopRequest();
+
+      this.http.sendMail(
+        ["abteilungsleitung"],
+        "S_" + this.inputWorkshop.id,
+        "Freigabe GL",
+        "Im Request Tool wurde eine Besucher Anfrage (Nr." + this.inputWorkshop.id + ") eingegeben und seitens GL freigegeben - bitte um kontrolle und Freigabe durch AL."
+      ).subscribe();
     }
     else if (department === 'al' && this.checkRequired()) {
       this.getNotification(3);
@@ -181,6 +188,12 @@ export class SeminarRegistrationComponent implements OnInit {
       this.inputWorkshop.releaserSupervisor = this.roleService.getUserName()
       this.postWorkshopRequest();
 
+      this.http.sendMail(
+        ["fachberater", "vertreter", "creator","front-office"],
+        "S_" + this.inputWorkshop.id,
+        "Freigabe GL",
+        "Im Request Tool wurde eine Besucher Anfrage (Nr." + this.inputWorkshop.id + ") eingegeben und seitens GL freigegeben - bitte um kontrolle und Freigabe durch AL."
+      ).subscribe();
     }
   }
 
@@ -275,6 +288,12 @@ export class SeminarRegistrationComponent implements OnInit {
       this.inputWorkshop.dateOfCreation = new Date();
       if (this.inputWorkshop.creator === null || this.inputWorkshop.creator === undefined) {
         this.inputWorkshop.creator = this.roleService.getUserName();
+        this.http.sendMail(
+          ["geschaeftsleitung"],
+          "B_" + this.inputWorkshop.id,
+          "Eingabe Besucheranfrage",
+          "Im Request Tool wurde eine neue Seminar Anfrage (Nr."+this.inputWorkshop.id+") eingegeben - bitte um Freigabe durch GL."
+        ).subscribe();
       }
 
       (this.inputWorkshop.startDate !== null || this.inputWorkshop.startDate !== undefined) ? this.inputWorkshop.startDate!.setHours(5) : "";

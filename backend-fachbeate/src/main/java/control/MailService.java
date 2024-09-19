@@ -14,17 +14,33 @@ public class MailService {
     @Inject
     Mailer mailer;
 
-    public void sendMail(List<String> to, String subject, String body) {
-        for (String email : to) {
-            mailer.send(
-                    Mail.withText(
-                            email,
-                            subject,
-                            "Geschätze Damen und Herren! Dieses E-Mail dient als Informatio und wird automatisch generiert, bitte nicht beantworten!"+
-                                    body
-                    )
-            );
-        }
+
+    public void sendMailToMailUser(MailUser mailUser, String subject, String text) {
+        // Später können wir noch mit dem mailUser den Benutzernamen oder ähnliches einfügen
+
+        mailer.send(
+                Mail.withText(
+                        mailUser.email,
+                        subject,
+                        "Geschätze Damen und Herren! Dieses E-Mail dient als Information " +
+                                "und wird automatisch generiert, bitte nicht beantworten!"+
+                                text
+                )
+        );
     }
 
+
+    public void sendMailToStringMail(String email, String subject, String text) {
+        // Später können wir noch mit dem mailUser den Benutzernamen oder ähnliches einfügen
+
+        mailer.send(
+                Mail.withText(
+                        email,
+                        subject,
+                        "Geschätze Damen und Herren! Dieses E-Mail dient als Information " +
+                                "und wird automatisch generiert, bitte nicht beantworten!"+
+                                text
+                )
+        );
+    }
 }

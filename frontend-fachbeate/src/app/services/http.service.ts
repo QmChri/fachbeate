@@ -223,11 +223,15 @@ export class HttpService {
     return this.http.post<Representative>(API_URL + "users/representative", representative);
   }
 
-
+/* werden nur für OF creationUser gebraucht
   postMailUser(inputMailUser: MailUser) {
     return this.http.post<MailUser>(API_URL + "/users/postMailUser", inputMailUser);  
   }
   getAllMailUser() {
     return this.http.get<MailUser[]>(API_URL + "/users/mailUser");
+  }
+*/
+  sendMail(groups: string[], id: string, text: string, subject: string) {
+    return this.http.post(API_URL + "/mail/sendMail",{ params: { groups: groups, id: id,  text: text, subject: subject } });  
   }
 }

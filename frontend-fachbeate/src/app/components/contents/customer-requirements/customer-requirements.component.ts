@@ -116,14 +116,30 @@ export class CustomerRequirementsComponent implements OnInit {
       this.inputCustomerRequirement.releaseManagement = new Date();
       this.inputCustomerRequirement.releaserManagement = this.roleService.getUserName()
       this.postCustomerRequirement();
+
+      this.http.sendMail(
+        ["abteilungsleitung"],
+        "F_" + this.inputCustomerRequirement.id,
+        "Freigabe GL",
+        "Im Request Tool wurde eine Fachberater Anforderung (Nr." + this.inputCustomerRequirement.id + ") eingegeben und seitens GL freigegeben - bitte um kontrolle und Freigabe durch AL."
+      ).subscribe();
     }
     else if (department === 'al' && this.checkRequired()) {
       this.getNotification(3);
+
       this.inputCustomerRequirement.releaseSupervisor = new Date();
       this.inputCustomerRequirement.releaserSupervisor = this.roleService.getUserName()
       this.postCustomerRequirement();
+
+      this.http.sendMail(
+        ["fachberater", "vertreter", "creator"],
+        "F_" + this.inputCustomerRequirement.id,
+        "Freigabe GL+AL",
+        "Ihre Fachberater Anforderung (Nr." + this.inputCustomerRequirement.id + ") wurde erfolgreich freigegeben. Bitte prüfen Sie noch einmal ihre Anforderung, es ist möglich das Daten aus organisatorischen Gründen geändert wurden"
+      ).subscribe();
     }
   }
+
   //endregion
 
   inputCustomerRequirement: CustomerRequirement = {
@@ -210,6 +226,12 @@ export class CustomerRequirementsComponent implements OnInit {
 
       if (this.inputCustomerRequirement.creator === undefined) {
         this.inputCustomerRequirement.creator = this.roleService.getUserName();
+        this.http.sendMail(
+          ["geschaeftsleitung"],
+          "F_" + this.inputCustomerRequirement.id,
+          "Eingabe FB Anforderung",
+          "Im Request Tool wurde eine Fachberater Anforderung (Nr." + this.inputCustomerRequirement.id + ") eingegeben - bitte um Freigabe durch GL."
+        ).subscribe();
       }
       this.inputCustomerRequirement.lastEditor = this.roleService.getUserName();
       this.http.postCustomerRequirement(this.inputCustomerRequirement).subscribe({
@@ -321,14 +343,14 @@ export class CustomerRequirementsComponent implements OnInit {
       dialogRef.afterClosed().subscribe(
 
 
-        (data: {finalReport: FinalReport, save: boolean, files: File[]}) => {
+        (data: { finalReport: FinalReport, save: boolean, files: File[] }) => {
           if (data.save) {
             this.postCustomerRequirement();
             let finalReport: FinalReport = data.finalReport;
 
             let formData = new FormData();
 
-            if(data.files !== null && data.files !== undefined){
+            if (data.files !== null && data.files !== undefined) {
               data.files!.forEach(element => {
                 formData.append("files", element!)
               })
@@ -346,7 +368,7 @@ export class CustomerRequirementsComponent implements OnInit {
                 console.log(error);
               }
             });
-              
+
             this.freigegeben = false;
             this.getNotification(5);
           }
@@ -480,3 +502,7 @@ interface Toechterhaeandler {
   value: string;
   viewValue: string;
 }
+function error(error: any): void {
+  throw new Error('Function not implemented.');
+}
+

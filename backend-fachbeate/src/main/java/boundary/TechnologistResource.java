@@ -174,7 +174,7 @@ public class TechnologistResource {
         companies.sort(Comparator.comparing(company -> company.name.toUpperCase()));
         return Response.ok(companies).build();
     }
-
+/* Werden im Frontend von der nicht benutzten OF gebraucht
     @GET
     @Path("mailUser")
     @Authenticated
@@ -185,10 +185,6 @@ public class TechnologistResource {
     }
 
 
-    /**
-     * Post new MailUser
-     * @param mailUser
-     */
     @POST
     @Path("postMailUser")
     @Authenticated
@@ -201,5 +197,5 @@ public class TechnologistResource {
         }
         MailUser updatedMailUser = MailUser.findById(mailUser.id);
         updatedMailUser.updateEntity(mailUser);
-    }
+    }*/
 }

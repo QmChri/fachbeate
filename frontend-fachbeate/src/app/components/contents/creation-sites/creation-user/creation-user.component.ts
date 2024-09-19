@@ -47,7 +47,7 @@ export class CreatMailUserComponent implements OnInit {
     this.pageSize = Math.floor(tableHeight / rowHeight);
   }
 
-  loadMailUser() {
+  loadMailUser() {/*
     this.http.getAllMailUser().subscribe({
       next: data => {
         this.mailUserList = data
@@ -55,7 +55,7 @@ export class CreatMailUserComponent implements OnInit {
       error: err => {
         log("create-other-users: ", err)
       }
-    })
+    })*/
   }
 
   postMailUser() {
@@ -71,7 +71,7 @@ export class CreatMailUserComponent implements OnInit {
         this.notificationService.createBasicNotification(0, translatedMessage, this.inputMailUsers.firstName + ' ' +
           this.inputMailUsers.lastName, 'topRight');
       });
-      this.http.postMailUser(this.inputMailUsers).subscribe({
+      /*this.http.postMailUser(this.inputMailUsers).subscribe({
         next: data => {
           this.inputMailUsers = {
             id: 0,
@@ -86,7 +86,7 @@ export class CreatMailUserComponent implements OnInit {
         error: err => {
           log("create-technologist: ", err)
         }
-      });
+      });*/
     }
   }
 
