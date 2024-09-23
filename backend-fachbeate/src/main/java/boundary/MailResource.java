@@ -6,8 +6,10 @@ import entity.*;
 import io.quarkus.mailer.Mail;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.Response;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,31 +26,32 @@ public class MailResource {
     KeycloakService keycloakService;
 
 
-    @GET
+    @POST
     @Path("/sendMail")
-    public void sendMail(@QueryParam("groups")List<String> groups, @QueryParam("id") String id, @QueryParam("text") String text, @QueryParam("subject") String subject) {
-
+    public Response sendMail(MailRequest mailRequest) {
         Map<String, List<MailUser>> userGroups = keycloakService.getGroupsWithUsers();
-        Map<String, List<MailUser>> emails = getSingleEmails(id);
+        Map<String, List<MailUser>> emails = getSingleEmails(mailRequest.id);
 
-        for(String group : groups) {
+        for(String group : mailRequest.groups) {
             if(group.equalsIgnoreCase("geschaeftsleitung")){
-                userGroups.get("geschaeftsleitung").forEach(mailUser -> mailService.sendMailToMailUser(mailUser, subject, text));
+                userGroups.get("geschaeftsleitung").forEach(mailUser -> mailService.sendMailToMailUser(mailUser, mailRequest.subject, mailRequest.text));
             }else if(group.equalsIgnoreCase("abteilungsleitung")){
-                userGroups.get("abteilungsleitung").forEach(mailUser -> mailService.sendMailToMailUser(mailUser, subject, text));
+                userGroups.get("abteilungsleitung").forEach(mailUser -> mailService.sendMailToMailUser(mailUser, mailRequest.subject, mailRequest.text));
             }else if(group.equalsIgnoreCase("front-office")){
-                userGroups.get("front-office").forEach(mailUser -> mailService.sendMailToMailUser(mailUser, subject, text));
+                userGroups.get("front-office").forEach(mailUser -> mailService.sendMailToMailUser(mailUser, mailRequest.subject, mailRequest.text));
             }else if(group.equalsIgnoreCase("fachberater")){
-                emails.get("fachberater").forEach(mailUser -> mailService.sendMailToMailUser(mailUser, subject, text));
+                emails.get("fachberater").forEach(mailUser -> mailService.sendMailToMailUser(mailUser, mailRequest.subject, mailRequest.text));
             }else if(group.equalsIgnoreCase("vertreter")){
-                emails.get("vertreter").forEach(mailUser -> mailService.sendMailToMailUser(mailUser, subject, text));
+                emails.get("vertreter").forEach(mailUser -> mailService.sendMailToMailUser(mailUser, mailRequest.subject, mailRequest.text));
             }else if(group.equalsIgnoreCase("creator")){
-                emails.get("creator").forEach(mailUser -> mailService.sendMailToMailUser(mailUser, subject, text));
+                emails.get("creator").forEach(mailUser -> mailService.sendMailToMailUser(mailUser, mailRequest.subject, mailRequest.text));
             }
         }
+
+        return Response.ok().build();
     }
 
-    private Map<String, List<MailUser>> getSingleEmails(String id){
+    Map<String, List<MailUser>> getSingleEmails(String id){
 
          String type = id.split("_")[0];
 

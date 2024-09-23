@@ -232,6 +232,15 @@ export class HttpService {
   }
 */
   sendMail(groups: string[], id: string, text: string, subject: string) {
-    return this.http.post(API_URL + "/mail/sendMail",{ params: { groups: groups, id: id,  text: text, subject: subject } });  
+
+    var mailRequest: {
+      groups: string[];
+      id: string;
+      text: string;
+      subject: string;
+    } = {groups: groups, id: id, text: text, subject: subject}
+
+    console.log(id)
+    return this.http.post(API_URL + "mail/sendMail",mailRequest);  
   }
 }

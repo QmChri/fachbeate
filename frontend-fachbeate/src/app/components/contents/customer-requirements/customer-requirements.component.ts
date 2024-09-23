@@ -35,7 +35,6 @@ export class CustomerRequirementsComponent implements OnInit {
 
   constructor(public translate: TranslateService, private dialog: MatDialog, private http: HttpService, private route: ActivatedRoute, private notificationService: NotificationService, public roleService: RoleService) { }
 
-
   disableTechDate = (current: Date): boolean => {
     if (!this.inputCustomerRequirement.requestedTechnologist) {
       return true; // Keine Technologenanforderung, also alle Daten deaktivieren
@@ -50,14 +49,14 @@ export class CustomerRequirementsComponent implements OnInit {
     }
     // Überprüfen, ob das aktuelle Datum in einem der Zeiträume liegt
     const isDateValid = reqTechDate.appointments.some(
-      element => this.isDateBetween(new Date(current.setHours(7)), new Date(element[0].toString()), new Date(element[1].toString()))
+      element => this.isDateBetween(new Date(current?.setHours(7)), new Date(element[0].toString()), new Date(element[1].toString()))
     );
 
     return !isDateValid; // Datum deaktivieren, wenn es nicht gültig ist
   }
 
   isDateBetween(date: Date, startDate: Date, endDate: Date): boolean {
-    return date > new Date(startDate.setHours(5)) && date < new Date(endDate.setHours(8));
+    return date > new Date(startDate?.setHours(5)) && date < new Date(endDate?.setHours(8));
   }
 
   disabledDate = (current: Date): boolean => {
@@ -123,6 +122,7 @@ export class CustomerRequirementsComponent implements OnInit {
         "Freigabe GL",
         "Im Request Tool wurde eine Fachberater Anforderung (Nr." + this.inputCustomerRequirement.id + ") eingegeben und seitens GL freigegeben - bitte um kontrolle und Freigabe durch AL."
       ).subscribe();
+      this.getNotification(9)
     }
     else if (department === 'al' && this.checkRequired()) {
       this.getNotification(3);
@@ -137,6 +137,7 @@ export class CustomerRequirementsComponent implements OnInit {
         "Freigabe GL+AL",
         "Ihre Fachberater Anforderung (Nr." + this.inputCustomerRequirement.id + ") wurde erfolgreich freigegeben. Bitte prüfen Sie noch einmal ihre Anforderung, es ist möglich das Daten aus organisatorischen Gründen geändert wurden"
       ).subscribe();
+      this.getNotification(10)
     }
   }
 
@@ -196,6 +197,7 @@ export class CustomerRequirementsComponent implements OnInit {
   }
 
   postCustomerRequirement() {
+    var sendmail: boolean = false;
     if (this.checkRequired()) {
       this.getNotification(1);
       this.inputCustomerRequirement.showUser = true;
@@ -206,7 +208,7 @@ export class CustomerRequirementsComponent implements OnInit {
           this.inputCustomerRequirement.startDate = new Date(this.inputCustomerRequirement.startDate);
         }
         if (this.inputCustomerRequirement.startDate instanceof Date) {
-          this.inputCustomerRequirement.startDate.setHours(5);
+          this.inputCustomerRequirement.startDate?.setHours(5);
         }
       }
 
@@ -215,7 +217,7 @@ export class CustomerRequirementsComponent implements OnInit {
           this.inputCustomerRequirement.endDate = new Date(this.inputCustomerRequirement.endDate);
         }
         if (this.inputCustomerRequirement.endDate instanceof Date) {
-          this.inputCustomerRequirement.endDate.setHours(5);
+          this.inputCustomerRequirement.endDate?.setHours(5);
         }
       }
 
@@ -226,17 +228,23 @@ export class CustomerRequirementsComponent implements OnInit {
 
       if (this.inputCustomerRequirement.creator === undefined) {
         this.inputCustomerRequirement.creator = this.roleService.getUserName();
-        this.http.sendMail(
-          ["geschaeftsleitung"],
-          "F_" + this.inputCustomerRequirement.id,
-          "Eingabe FB Anforderung",
-          "Im Request Tool wurde eine Fachberater Anforderung (Nr." + this.inputCustomerRequirement.id + ") eingegeben - bitte um Freigabe durch GL."
-        ).subscribe();
+        sendmail = true;
       }
       this.inputCustomerRequirement.lastEditor = this.roleService.getUserName();
       this.http.postCustomerRequirement(this.inputCustomerRequirement).subscribe({
         next: data => {
           this.inputCustomerRequirement = data;
+
+          if(sendmail){
+            this.http.sendMail(
+              ["geschaeftsleitung"],
+              "F_" + this.inputCustomerRequirement.id,
+              "Eingabe FB Anforderung",
+              "Im Request Tool wurde eine Fachberater Anforderung (Nr." + this.inputCustomerRequirement.id + ") eingegeben - bitte um Freigabe durch GL."
+            ).subscribe();
+            this.getNotification(11)
+          }
+
           this.inputCustomerRequirement.customerVisits.forEach((element, index) => {
             element.selection = [
               (element.presentationOfNewProducts) ? 1 : 0,
@@ -343,7 +351,7 @@ export class CustomerRequirementsComponent implements OnInit {
       dialogRef.afterClosed().subscribe(
 
 
-        (data: { finalReport: FinalReport, save: boolean, files: File[] }) => {
+        (data: { finalReport: FinalReport, save: boolean, sendmail: boolean, files: File[] }) => {
           if (data.save) {
             this.postCustomerRequirement();
             let finalReport: FinalReport = data.finalReport;
@@ -362,6 +370,17 @@ export class CustomerRequirementsComponent implements OnInit {
               next: (finalRep: FinalReport) => {
 
                 customerVisit.finalReport = finalRep;
+
+                if(data.sendmail){
+                  this.http.sendMail(
+                    ["abteilungsleitung", "vertreter", "geschaeftsleitung"],
+                    "A_" + finalReport.id,
+                    "Eingabe Abschlussbericht durch FB",
+                    "Im Request Tool wurde durch den Fachberater ein Abschlussbericht (Nr." + finalReport.id + ") erstellt. Bitte um entsprechende Nachbearbeitung des Kundenbesuchs"
+                  ).subscribe();
+                  this.getNotification(8)
+                }
+
                 this.postCustomerRequirement();
               },
               error: (error) => {
@@ -469,6 +488,33 @@ export class CustomerRequirementsComponent implements OnInit {
         this.translate.get('STANDARD.pdf2').subscribe((translatedMessage: string) => {
           this.notificationService.createBasicNotification(4, translatedMessage, "Fachberater_Anforderung_" + this.inputCustomerRequirement.id + ".pdf", 'topRight');
         }); break;
+      }
+      case 9: { // Freigabe GL
+        this.translate.get(['MAIL.sended', 'MAIL.gl'])
+          .subscribe((translations: { [key: string]: string }) => {
+            const message1 = translations['MAIL.sended'];
+            const message2 = translations['MAIL.gl'];
+            this.notificationService.createBasicNotification(0, message1, message2, 'topRight');
+          });
+        break;
+      }
+      case 10: { // Freigabe AL
+        this.translate.get(['MAIL.sended', 'MAIL.al'])
+          .subscribe((translations: { [key: string]: string }) => {
+            const message1 = translations['MAIL.sended'];
+            const message2 = translations['MAIL.al'];
+            this.notificationService.createBasicNotification(0, message1, message2, 'topRight');
+          });
+        break;
+      }
+      case 11: { // Eingabe Fachberater Anforderung
+        this.translate.get(['MAIL.sended', 'MAIL.A_5'])
+          .subscribe((translations: { [key: string]: string }) => {
+            const message1 = translations['MAIL.sended'];
+            const message2 = translations['MAIL.A_5'];
+            this.notificationService.createBasicNotification(0, message1, message2, 'topRight');
+          });
+        break;
       }
     }
   }

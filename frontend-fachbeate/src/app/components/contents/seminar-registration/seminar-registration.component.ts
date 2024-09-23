@@ -98,14 +98,14 @@ export class SeminarRegistrationComponent implements OnInit {
     }
     // Überprüfen, ob das aktuelle Datum in einem der Zeiträume liegt
     var isDateValid = reqTechDate.some(req => req.appointments.some(
-      element => this.isDateBetween(new Date(current.setHours(7)), new Date(element[0].toString()), new Date(element[1].toString()))
+      element => this.isDateBetween(new Date(current?.setHours(7)), new Date(element[0].toString()), new Date(element[1].toString()))
     ));
 
     return !isDateValid; // Datum deaktivieren, wenn es nicht gültig ist
   }
 
   isDateBetween(date: Date, startDate: Date, endDate: Date): boolean {
-    return date > new Date(startDate.setHours(5)) && date < new Date(endDate.setHours(9));
+    return date > new Date(startDate?.setHours(5)) && date < new Date(endDate?.setHours(9));
   }
 
   checkRequired(): boolean {
@@ -179,8 +179,9 @@ export class SeminarRegistrationComponent implements OnInit {
         ["abteilungsleitung"],
         "S_" + this.inputWorkshop.id,
         "Freigabe GL",
-        "Im Request Tool wurde eine Besucher Anfrage (Nr." + this.inputWorkshop.id + ") eingegeben und seitens GL freigegeben - bitte um kontrolle und Freigabe durch AL."
+        "Im Request Tool wurde eine Seminar Anfrage (Nr." + this.inputWorkshop.id + ") eingegeben und seitens GL freigegeben - bitte um kontrolle und Freigabe durch AL."
       ).subscribe();
+      this.getNotification(9);
     }
     else if (department === 'al' && this.checkRequired()) {
       this.getNotification(3);
@@ -189,11 +190,12 @@ export class SeminarRegistrationComponent implements OnInit {
       this.postWorkshopRequest();
 
       this.http.sendMail(
-        ["fachberater", "vertreter", "creator","front-office"],
+        ["fachberater", "vertreter", "creator", "front-office"],
         "S_" + this.inputWorkshop.id,
-        "Freigabe GL",
-        "Im Request Tool wurde eine Besucher Anfrage (Nr." + this.inputWorkshop.id + ") eingegeben und seitens GL freigegeben - bitte um kontrolle und Freigabe durch AL."
+        "Freigabe AL",
+        "Ihre Seminar Anfrage (Nr." + this.inputWorkshop.id + ") wurde erfolgreich freigegeben. Bitte prüfen Sie noch einmal ihre Anforderung, es ist möglich das Daten aus organisatorischen Gründen geändert wurden"
       ).subscribe();
+      this.getNotification(10);
     }
   }
 
@@ -281,23 +283,24 @@ export class SeminarRegistrationComponent implements OnInit {
   }
 
   postWorkshopRequest() {
+    var sendmail: boolean = false;
     if (this.checkRequired()) {
       this.getNotification(1);
       this.inputWorkshop.showUser = true;
       //this.inputWorkshop.reason = "Seminaranmeldung"
       this.inputWorkshop.dateOfCreation = new Date();
       if (this.inputWorkshop.creator === null || this.inputWorkshop.creator === undefined) {
+        sendmail = true;
         this.inputWorkshop.creator = this.roleService.getUserName();
-        this.http.sendMail(
-          ["geschaeftsleitung"],
-          "B_" + this.inputWorkshop.id,
-          "Eingabe Besucheranfrage",
-          "Im Request Tool wurde eine neue Seminar Anfrage (Nr."+this.inputWorkshop.id+") eingegeben - bitte um Freigabe durch GL."
-        ).subscribe();
       }
 
-      (this.inputWorkshop.startDate !== null || this.inputWorkshop.startDate !== undefined) ? this.inputWorkshop.startDate!.setHours(5) : "";
-      (this.inputWorkshop.endDate !== null || this.inputWorkshop.endDate !== undefined) ? this.inputWorkshop.endDate!.setHours(5) : "";
+
+      console.log(typeof this.inputWorkshop.startDate);
+
+      (this.inputWorkshop.startDate !== null || this.inputWorkshop.startDate !== undefined) ? new Date(this.inputWorkshop.startDate!.toString()).setHours(5) : "";
+      (this.inputWorkshop.endDate !== null || this.inputWorkshop.endDate !== undefined) ? new Date(this.inputWorkshop.endDate!.toString())?.setHours(5) : "";
+
+
 
 
       this.inputWorkshop.lastEditor = this.inputWorkshop.lastEditor;
@@ -305,7 +308,15 @@ export class SeminarRegistrationComponent implements OnInit {
       this.http.postWorkshop(this.inputWorkshop).subscribe({
         next: data => {
           this.inputWorkshop = data;
-
+          if(sendmail){
+            this.http.sendMail(
+              ["geschaeftsleitung"],
+              "B_" + this.inputWorkshop.id,
+              "Eingabe Seminaranfrage",
+              "Im Request Tool wurde eine neue Seminar Anfrage (Nr." + this.inputWorkshop.id + ") eingegeben - bitte um Freigabe durch GL."
+            ).subscribe();
+            this.getNotification(11);
+          }
           this.inputWorkshop.techSelection = data.requestedTechnologist!.map(element => element.id!);
 
           this.buttonSelect = [
@@ -358,6 +369,33 @@ export class SeminarRegistrationComponent implements OnInit {
         this.translate.get('STANDARD.pdf2').subscribe((translatedMessage: string) => {
           this.notificationService.createBasicNotification(4, translatedMessage, "Seminaranmeldung_" + this.inputWorkshop.id + ".pdf", 'topRight');
         }); break;
+      }
+      case 9: { // Freigabe GL
+        this.translate.get(['MAIL.sended', 'MAIL.gl'])
+          .subscribe((translations: { [key: string]: string }) => {
+            const message1 = translations['MAIL.sended'];
+            const message2 = translations['MAIL.gl'];
+            this.notificationService.createBasicNotification(0, message1, message2, 'topRight');
+          });
+        break;
+      }
+      case 10: { // Freigabe AL
+        this.translate.get(['MAIL.sended', 'MAIL.al'])
+          .subscribe((translations: { [key: string]: string }) => {
+            const message1 = translations['MAIL.sended'];
+            const message2 = translations['MAIL.al'];
+            this.notificationService.createBasicNotification(0, message1, message2, 'topRight');
+          });
+        break;
+      }
+      case 11: { // Eingabe Seminaranfrage
+        this.translate.get(['MAIL.sended', 'MAIL.A_6'])
+          .subscribe((translations: { [key: string]: string }) => {
+            const message1 = translations['MAIL.sended'];
+            const message2 = translations['MAIL.A_6'];
+            this.notificationService.createBasicNotification(0, message1, message2, 'topRight');
+          });
+        break;
       }
     }
   }

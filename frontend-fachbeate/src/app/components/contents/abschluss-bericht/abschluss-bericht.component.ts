@@ -180,6 +180,7 @@ export class AbschlussBerichtComponent implements OnInit {
   }
 
   closeDialog(save: boolean) {
+    var sendmail: boolean = false;
 
     if (this.checkRequired()) {
       //region Filter out all empty Articles
@@ -206,13 +207,14 @@ export class AbschlussBerichtComponent implements OnInit {
 
       //region edit ckeck from Technologist and Representative
       if (this.roleService.checkPermission([3])) {
-        if(this.inputFinalReport.requestCompleted === true){
+        if (this.inputFinalReport.requestCompleted === true) {
           this.http.sendMail(
             ["geschaeftsleitung"],
             "A_" + this.inputFinalReport.id,
             "Eingabe Information durch Vertreter",
             "Der Abschlussbericht (Nr." + this.inputFinalReport.id + ") wurde durch den Vertreter abgeschlossen"
           ).subscribe();
+          this.getNotification(6)
         }
         if (this.inputFinalReport.representativeEntered === false || this.inputFinalReport.representativeEntered === null || this.finalReport.creator === undefined) {
           this.http.sendMail(
@@ -221,17 +223,13 @@ export class AbschlussBerichtComponent implements OnInit {
             "Abschluss vom Abschlussbereicht durch Vertreter",
             "Der Abschlussbericht (Nr." + this.inputFinalReport.id + ") wurde durch den Vertreter bearbeitet."
           ).subscribe();
+          this.getNotification(7)
         }
         this.inputFinalReport.representativeEntered = true;
-      } 
+      }
       else if (this.roleService.checkPermission([4])) {
         if (this.inputFinalReport.technologistEntered === false || this.inputFinalReport.technologistEntered === null || this.finalReport.technologistEntered === undefined) {
-          this.http.sendMail(
-            ["abteilungsleitung", "vertreter", "geschaeftsleitung"],
-            "A_" + this.inputFinalReport.id,
-            "Eingabe Abschlussbericht durch FB",
-            "Im Request Tool wurde durch den Fachberater ein Abschlussbericht (Nr." + this.inputFinalReport.id + ") erstellt. Bitte um entsprechende Nachbearbeitung des Kundenbesuchs"
-          ).subscribe();
+          sendmail = true;
         }
         this.inputFinalReport.technologistEntered = true;
       }
@@ -241,7 +239,7 @@ export class AbschlussBerichtComponent implements OnInit {
         this.inputFinalReport.creator = this.roleService.getUserName();
       }
 
-      this.dialogRef.close({ finalReport: this.inputFinalReport, save: save, files: (this.fileList !== null && this.fileList !== undefined && this.fileList.length !== 0) ? this.fileList.map(element => element.originFileObj!) : null });
+      this.dialogRef.close({ finalReport: this.inputFinalReport, save: save, sendmail: sendmail,files: (this.fileList !== null && this.fileList !== undefined && this.fileList.length !== 0) ? this.fileList.map(element => element.originFileObj!) : null });
     }
   }
 
@@ -356,6 +354,33 @@ export class AbschlussBerichtComponent implements OnInit {
         this.translate.get('STANDARD.pdf2').subscribe((translatedMessage: string) => {
           this.notificationService.createBasicNotification(4, translatedMessage, "Abschlussbericht_" + this.inputFinalReport.id + ".pdf", 'topRight');
         }); break;
+      }
+      case 6: { // Mail 1
+        this.translate.get(['MAIL.sended', 'MAIL.A_1'])
+          .subscribe((translations: { [key: string]: string }) => {
+            const message1 = translations['MAIL.sended'];
+            const message2 = translations['MAIL.A_1'];
+            this.notificationService.createBasicNotification(0, message1, message2, 'topRight');
+          });
+        break;
+      }
+      case 7: { // Mail 2
+        this.translate.get(['MAIL.sended', 'MAIL.A_2'])
+          .subscribe((translations: { [key: string]: string }) => {
+            const message1 = translations['MAIL.sended'];
+            const message2 = translations['MAIL.A_2'];
+            this.notificationService.createBasicNotification(0, message1, message2, 'topRight');
+          });
+        break;
+      }
+      case 8: { // Mail 3
+        this.translate.get(['MAIL.sended', 'MAIL.A_3'])
+        .subscribe((translations: { [key: string]: string }) => {
+          const message1 = translations['MAIL.sended'];
+          const message2 = translations['MAIL.A_3'];
+          this.notificationService.createBasicNotification(0, message1, message2, 'topRight');
+        });
+      break;
       }
     }
   }

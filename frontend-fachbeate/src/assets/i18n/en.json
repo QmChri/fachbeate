@@ -357,5 +357,17 @@
         "of": "Affected Interface",
         "message": "e.g.: An error occurred while saving a consultant request.",
         "send": "Send"
+    },
+    "MAIL": {
+        "sended": "Mail has been sent!",
+        "gl": "Approval GL",
+        "al": "Approval AL",
+        "A_1": "Input final report by FB",
+        "A_2": "Input information by representative",
+        "A_3": "Completion of final report by representative",
+        "A_4": "Input travel booking request",
+        "A_5": "Input consultant request",
+        "A_6": "Input seminar request",
+        "A_7": "Input visitor request"
     }
 }

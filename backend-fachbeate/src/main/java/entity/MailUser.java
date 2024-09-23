@@ -32,4 +32,7 @@ public class MailUser extends PanacheEntity {
         this.function = function;
     }
 
+    public MailUser(String mail) {
+        this.email = mail;
+    }
 }

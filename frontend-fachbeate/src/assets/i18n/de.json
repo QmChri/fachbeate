@@ -366,5 +366,17 @@
         "of": "Betroffene Oberfläche",
         "message": "z.B.: Ein Fehler ist aufgetreten beim Speichern einer Fachberater Anfordrung.",
         "send": "Senden"
+    },
+    "MAIL": {
+        "sended": "Mail wurde versendet!",
+        "gl": "Freigabe GL",
+        "al": "Freigabe AL",
+        "A_1": "Eingabe Abschlussbericht durch FB",
+        "A_2": "Eingabe Information durch Vertreter",
+        "A_3": "Abschluss vom Abschlussbereicht durch Vertreter",
+        "A_4": "Eingabe Reisebuchung Anforderung",
+        "A_5": "Eingabe Fachberater Anforderung",
+        "A_6": "Eingabe Seminaranfrage",
+        "A_7": "Eingabe Besucheranfrage"
     }
 }
