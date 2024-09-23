@@ -66,7 +66,7 @@ export class AbschlussBerichtComponent implements OnInit {
       (this.inputFinalReport.sampleProduction) ? 4 : 0,
       (this.inputFinalReport.training) ? 5 : 0
     ]
-    
+
     if (this.inputFinalReport.files !== null && this.inputFinalReport.files !== undefined && this.inputFinalReport.files.length !== 0) {
       this.fileList = this.inputFinalReport.files!.map((file, index) => ({
         uid: index.toString(),
@@ -180,6 +180,7 @@ export class AbschlussBerichtComponent implements OnInit {
   }
 
   closeDialog(save: boolean) {
+    var sendmail: boolean = false;
 
     if (this.checkRequired()) {
       //region Filter out all empty Articles
@@ -195,9 +196,7 @@ export class AbschlussBerichtComponent implements OnInit {
 
       //region Set the creator and last Editor
       this.inputFinalReport.lastEditor = this.roleService.getUserName();
-      if (this.inputFinalReport.creator === undefined) {
-        this.inputFinalReport.creator = this.roleService.getUserName();
-      }
+
       //endregion
 
       //region set boolean for reasonselection
@@ -208,12 +207,39 @@ export class AbschlussBerichtComponent implements OnInit {
 
       //region edit ckeck from Technologist and Representative
       if (this.roleService.checkPermission([3])) {
+        if (this.inputFinalReport.requestCompleted === true) {
+          this.http.sendMail(
+            ["geschaeftsleitung"],
+            "A_" + this.inputFinalReport.id,
+            "Eingabe Information durch Vertreter",
+            "Der Abschlussbericht (Nr." + this.inputFinalReport.id + ") wurde durch den Vertreter abgeschlossen"
+          ).subscribe();
+          this.getNotification(6)
+        }
+        if (this.inputFinalReport.representativeEntered === false || this.inputFinalReport.representativeEntered === null || this.finalReport.creator === undefined) {
+          this.http.sendMail(
+            ["geschaeftsleitung"],
+            "A_" + this.inputFinalReport.id,
+            "Abschluss vom Abschlussbereicht durch Vertreter",
+            "Der Abschlussbericht (Nr." + this.inputFinalReport.id + ") wurde durch den Vertreter bearbeitet."
+          ).subscribe();
+          this.getNotification(7)
+        }
         this.inputFinalReport.representativeEntered = true;
-      } else if (this.roleService.checkPermission([4])) {
+      }
+      else if (this.roleService.checkPermission([4])) {
+        if (this.inputFinalReport.technologistEntered === false || this.inputFinalReport.technologistEntered === null || this.finalReport.technologistEntered === undefined) {
+          sendmail = true;
+        }
         this.inputFinalReport.technologistEntered = true;
       }
       //endregion
-      this.dialogRef.close({ finalReport: this.inputFinalReport, save: save, files: (this.fileList !== null && this.fileList !== undefined && this.fileList.length !== 0) ? this.fileList.map(element => element.originFileObj!) : null });
+
+      if (this.inputFinalReport.creator === undefined) {
+        this.inputFinalReport.creator = this.roleService.getUserName();
+      }
+
+      this.dialogRef.close({ finalReport: this.inputFinalReport, save: save, sendmail: sendmail,files: (this.fileList !== null && this.fileList !== undefined && this.fileList.length !== 0) ? this.fileList.map(element => element.originFileObj!) : null });
     }
   }
 
@@ -329,6 +355,33 @@ export class AbschlussBerichtComponent implements OnInit {
           this.notificationService.createBasicNotification(4, translatedMessage, "Abschlussbericht_" + this.inputFinalReport.id + ".pdf", 'topRight');
         }); break;
       }
+      case 6: { // Mail 1
+        this.translate.get(['MAIL.sended', 'MAIL.A_1'])
+          .subscribe((translations: { [key: string]: string }) => {
+            const message1 = translations['MAIL.sended'];
+            const message2 = translations['MAIL.A_1'];
+            this.notificationService.createBasicNotification(0, message1, message2, 'topRight');
+          });
+        break;
+      }
+      case 7: { // Mail 2
+        this.translate.get(['MAIL.sended', 'MAIL.A_2'])
+          .subscribe((translations: { [key: string]: string }) => {
+            const message1 = translations['MAIL.sended'];
+            const message2 = translations['MAIL.A_2'];
+            this.notificationService.createBasicNotification(0, message1, message2, 'topRight');
+          });
+        break;
+      }
+      case 8: { // Mail 3
+        this.translate.get(['MAIL.sended', 'MAIL.A_3'])
+        .subscribe((translations: { [key: string]: string }) => {
+          const message1 = translations['MAIL.sended'];
+          const message2 = translations['MAIL.A_3'];
+          this.notificationService.createBasicNotification(0, message1, message2, 'topRight');
+        });
+      break;
+      }
     }
   }
 
@@ -348,7 +401,7 @@ export class AbschlussBerichtComponent implements OnInit {
         this.saveFile(response, "Abschlussbericht_" + this.inputFinalReport.id + ".pdf")
       });
   }
-  
+
   private saveFile(data: Blob, filename: string): void {
     const blob = new Blob([data], { type: 'application/octet-stream' });
     const url = window.URL.createObjectURL(blob);

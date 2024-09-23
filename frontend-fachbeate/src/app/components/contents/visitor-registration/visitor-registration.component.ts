@@ -168,11 +168,27 @@ export class VisitorRegistrationComponent implements OnInit {
       this.inputVisitRegistration.releaseManagement = new Date();
       this.inputVisitRegistration.releaserManagement = this.roleService.getUserName();
       this.postVisitorRegistration();
+
+      this.http.sendMail(
+        ["abteilungsleitung"],
+        "B_" + this.inputVisitRegistration.id,
+        "Freigabe GL",
+        "Im Request Tool wurde eine Besucher Anfrage (Nr." + this.inputVisitRegistration.id + ") eingegeben und seitens GL freigegeben - bitte um kontrolle und Freigabe durch AL."
+      ).subscribe();
+      this.getNotification(7)
     } else if (department === 'al' && this.checkRequired()) {
       this.getNotification(3);
       this.inputVisitRegistration.releaseSupervisor = new Date();
       this.inputVisitRegistration.releaserSupervisor = this.roleService.getUserName()
       this.postVisitorRegistration();
+
+      this.http.sendMail(
+        ["fachberater", "vertreter", "creator", "front-office"],
+        "B_" + this.inputVisitRegistration.id,
+        "Freigabe AL",
+        "Ihre Besucher Anfrage (Nr." + this.inputVisitRegistration.id + ") wurde erfolgreich freigegeben. Bitte prüfen Sie noch einmal ihre Anforderung, es ist möglich das Daten aus organisatorischen Gründen geändert wurden"
+      ).subscribe();
+      this.getNotification(8)
     }
   }
 
@@ -271,8 +287,9 @@ export class VisitorRegistrationComponent implements OnInit {
   }
 
   postVisitorRegistration() {
-
+    var sendmail: boolean = false;
     if (this.inputVisitRegistration.id === null || this.inputVisitRegistration.id === undefined || this.inputVisitRegistration.id === 0) {
+      sendmail = true;
       this.inputVisitRegistration.dateOfCreation = new Date();
       this.inputVisitRegistration.creator = this.roleService.getUserName();
     }
@@ -284,11 +301,11 @@ export class VisitorRegistrationComponent implements OnInit {
     this.inputVisitRegistration.reason = "VisitorRegistration"
     this.inputVisitRegistration.plannedDepartmentVisits = [];
 
-    this.inputVisitRegistration.fromDate = (this.inputVisitRegistration.fromDate !== null && this.inputVisitRegistration.fromDate !== undefined) ? new Date(this.inputVisitRegistration.fromDate.setHours(5)) : this.inputVisitRegistration.fromDate;
-    this.inputVisitRegistration.toDate = (this.inputVisitRegistration.toDate !== null && this.inputVisitRegistration.toDate !== undefined) ? new Date(this.inputVisitRegistration.toDate.setHours(5)) : this.inputVisitRegistration.toDate;
+    this.inputVisitRegistration.fromDate = (this.inputVisitRegistration.fromDate !== null && this.inputVisitRegistration.fromDate !== undefined) ? new Date(this.inputVisitRegistration.fromDate?.setHours(5)) : this.inputVisitRegistration.fromDate;
+    this.inputVisitRegistration.toDate = (this.inputVisitRegistration.toDate !== null && this.inputVisitRegistration.toDate !== undefined) ? new Date(this.inputVisitRegistration.toDate?.setHours(5)) : this.inputVisitRegistration.toDate;
 
-    (this.inputVisitRegistration.stayFromDate !== null && this.inputVisitRegistration.stayFromDate !== undefined) ? this.inputVisitRegistration.stayFromDate.setHours(5) : "";
-    (this.inputVisitRegistration.stayToDate !== null && this.inputVisitRegistration.stayToDate !== undefined) ? this.inputVisitRegistration.stayToDate!.setHours(5) : "";
+    (this.inputVisitRegistration.stayFromDate !== null && this.inputVisitRegistration.stayFromDate !== undefined) ? new Date(this.inputVisitRegistration.stayFromDate).setHours(5) : "";
+    (this.inputVisitRegistration.stayToDate !== null && this.inputVisitRegistration.stayToDate !== undefined) ? new Date(this.inputVisitRegistration.stayToDate).setHours(5) : "";
 
     this.setOfCheckedId.forEach((value, key) => {
       this.inputVisitRegistration.plannedDepartmentVisits = [...this.inputVisitRegistration.plannedDepartmentVisits!,
@@ -303,6 +320,16 @@ export class VisitorRegistrationComponent implements OnInit {
     this.http.postVisitorRegistration(this.inputVisitRegistration).subscribe({
       next: data => {
         this.inputVisitRegistration = data;
+        if (sendmail) {
+          console.log(data)
+          this.http.sendMail(
+            ["geschaeftsleitung"],
+            "B_" + this.inputVisitRegistration.id,
+            "Eingabe Besucheranfrage",
+            "Im Request Tool wurde ein neue Besucher Anfrage (Nr." + this.inputVisitRegistration.id + ") eingegeben - bitte um Freigabe durch GL."
+          ).subscribe();
+          this.getNotification(9)
+        }
         this.inputVisitRegistration.plannedDepartmentVisits.forEach(element => {
           var tmpVisit = this.listOfCurrentPageData.find(pageData => pageData.name === element.department);
           this.setOfCheckedId.set(tmpVisit!.id, [element.id!, element.dateOfVisit!.toString().substring(0, 10)])
@@ -377,6 +404,33 @@ export class VisitorRegistrationComponent implements OnInit {
         this.translate.get('STANDARD.pdf2').subscribe((translatedMessage: string) => {
           this.notificationService.createBasicNotification(4, translatedMessage, "Besuchernameldung_" + this.inputVisitRegistration.id + ".pdf", 'topRight');
         }); break;
+      }
+      case 7: { // Freigabe GL
+        this.translate.get(['MAIL.sended', 'MAIL.gl'])
+          .subscribe((translations: { [key: string]: string }) => {
+            const message1 = translations['MAIL.sended'];
+            const message2 = translations['MAIL.gl'];
+            this.notificationService.createBasicNotification(0, message1, message2, 'topRight');
+          });
+        break;
+      }
+      case 8: { // Freigabe AL
+        this.translate.get(['MAIL.sended', 'MAIL.al'])
+          .subscribe((translations: { [key: string]: string }) => {
+            const message1 = translations['MAIL.sended'];
+            const message2 = translations['MAIL.al'];
+            this.notificationService.createBasicNotification(0, message1, message2, 'topRight');
+          });
+        break;
+      }
+      case 9: { // Eingabe Besucher Anfrage
+        this.translate.get(['MAIL.sended', 'MAIL.A_7'])
+          .subscribe((translations: { [key: string]: string }) => {
+            const message1 = translations['MAIL.sended'];
+            const message2 = translations['MAIL.A_7'];
+            this.notificationService.createBasicNotification(0, message1, message2, 'topRight');
+          });
+        break;
       }
     }
   }

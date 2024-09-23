@@ -19,9 +19,7 @@ import { environment } from '../../../../environments/environment';
 })
 export class BookingRequestComponent implements OnInit {
   addItem: string = "";
-
   fileList: NzUploadFile[] = [];
-
   costCoverages: string[] = [
     'almiGmbH',
     'almiSubsidiary'
@@ -32,7 +30,6 @@ export class BookingRequestComponent implements OnInit {
   inputBooking: Booking = {
     flights: []
   };
-
 
   constructor(private dialog: MatDialog, private translate: TranslateService, private http: HttpService, private route: ActivatedRoute,
     private notificationService: NotificationService, public roleService: RoleService) {
@@ -103,12 +100,28 @@ export class BookingRequestComponent implements OnInit {
       this.inputBooking.releaseManagement = new Date();
       this.inputBooking.releaserManagement = this.roleService.getUserName()
       this.postBooking();
+
+      this.http.sendMail(
+        ["abteilungsleitung"],
+        "R_" + this.inputBooking.id,
+        "Freigabe GL",
+        "Im Request Tool wurde eine Reisebuchung Anforderung (Nr." + this.inputBooking.id + ") eingegeben und seitens GL freigegeben - bitte um kontrolle und Freigabe durch AL."
+      ).subscribe();
+      this.getNotification(10)
     }
     else if (department === 'al' && this.checkRequired()) {
       this.getNotification(3);
       this.inputBooking.releaseSupervisor = new Date();
       this.inputBooking.releaserSupervisor = this.roleService.getUserName()
       this.postBooking();
+
+      this.http.sendMail(
+        ["fachberater", "front-office", "creator"],
+        "R_" + this.inputBooking.id,
+        "Freigabe AL",
+        "Ihre Reisebuchung Anforderung (Nr." + this.inputBooking.id + ") wurde erfolgreich freigegeben. Bitte prüfen Sie noch einmal ihre Anforderung, es ist möglich das Daten aus organisatorischen Gründen geändert wurden"
+      ).subscribe();
+      this.getNotification(11)
     }
   }
 
@@ -179,6 +192,33 @@ export class BookingRequestComponent implements OnInit {
           this.notificationService.createBasicNotification(4, translatedMessage, "Reiseanforderung_" + this.inputBooking.id + ".pdf", 'topRight');
         }); break;
       }
+      case 10: { // Freigabe GL
+        this.translate.get(['MAIL.sended', 'MAIL.gl'])
+          .subscribe((translations: { [key: string]: string }) => {
+            const message1 = translations['MAIL.sended'];
+            const message2 = translations['MAIL.gl'];
+            this.notificationService.createBasicNotification(0, message1, message2, 'topRight');
+          });
+        break;
+      }
+      case 11: { // Freigabe AL
+        this.translate.get(['MAIL.sended', 'MAIL.al'])
+          .subscribe((translations: { [key: string]: string }) => {
+            const message1 = translations['MAIL.sended'];
+            const message2 = translations['MAIL.al'];
+            this.notificationService.createBasicNotification(0, message1, message2, 'topRight');
+          });
+        break;
+      }
+      case 12: { // Eingabe Reisebuchung Anforderung
+        this.translate.get(['MAIL.sended', 'MAIL.A_4'])
+          .subscribe((translations: { [key: string]: string }) => {
+            const message1 = translations['MAIL.sended'];
+            const message2 = translations['MAIL.A_4'];
+            this.notificationService.createBasicNotification(0, message1, message2, 'topRight');
+          });
+        break;
+      }
       /*case 4: { // Pflichtfelder ausfüllen
         
         this.translate.get(['STANDARD.please_fill_required_fields', 'STANDARD.assigned_representative']).subscribe(translations => {
@@ -217,27 +257,28 @@ export class BookingRequestComponent implements OnInit {
   }
 
   postBooking() {
+    var sendmail: boolean = false;
+
     if (this.checkRequired()) {
       if (this.inputBooking.id === null || this.inputBooking.id === undefined || this.inputBooking.id === 0) {
         this.inputBooking.dateOfCreation = new Date();
         this.inputBooking.creator = this.roleService.getUserName();
+        sendmail = true;
+        this.getNotification(12);
       }
       this.inputBooking.lastEditor = this.roleService.getUserName();
 
       this.getNotification(1);
       this.inputBooking.showUser = true;
 
-      (this.inputBooking.mainStartDate !== null && this.inputBooking.mainStartDate !== undefined) ? this.inputBooking.mainStartDate!.setHours(5) : "";
-      (this.inputBooking.mainEndDate !== null && this.inputBooking.mainEndDate !== undefined) ? this.inputBooking.mainEndDate!.setHours(5) : "";
+      (this.inputBooking.mainStartDate !== null && this.inputBooking.mainStartDate !== undefined) ? new Date(this.inputBooking.mainStartDate!.toString()).setHours(5) : "";
+      (this.inputBooking.mainEndDate !== null && this.inputBooking.mainEndDate !== undefined) ? new Date(this.inputBooking.mainStartDate!.toString()).setHours(5) : "";
       this.inputBooking.lastEditor = this.inputBooking.lastEditor;
-
-      
 
       //Create Form to Send Files and Booking Request Data
 
       let formData = new FormData();
-  
-      if(this.fileList !== null  && this.fileList !== undefined && this.fileList.length !== 0){
+      if (this.fileList !== null && this.fileList !== undefined && this.fileList.length !== 0) {
         this.fileList.map(element => element.originFileObj!).forEach(element => {
           // Adding all Files to the Form
           formData.append("files", element!)
@@ -249,6 +290,15 @@ export class BookingRequestComponent implements OnInit {
       this.http.postBookingMultiPart(formData).subscribe({
         next: data => {
           this.inputBooking = data;
+
+          if(sendmail){
+            this.http.sendMail(
+              ["geschaeftsleitung"],
+              "R_" + this.inputBooking.id,
+              "Eingabe Reisebuchung Anforderung",
+              "Im Request Tool wurde ein neue Reisebuchung Anforderung (Nr." + this.inputBooking.id + ") eingegeben - bitte um Freigabe durch GL."
+            ).subscribe();
+          }
 
           this.buttonSelect = [
             (data.hotelBooking) ? "4" : "",

@@ -11,6 +11,7 @@
         "new-re": "New Representative",
         "new-de": "New Dealer",
         "new-group": "New Group",
+        "new-user": "New additional user",
         "lan-sel": "Language Selection",
         "bookingRequest": "Booking Request",
         "support": "Support"
@@ -299,7 +300,11 @@
         "new_group": "Group",
         "group_name": "Enter group name",
         "created_group": "Group has been created!",
-        "created_error": "Error creating group!"
+        "created_error": "Error creating group!",
+        "function": "Function",
+        "GL": "Management",
+        "AL": "Department Management",
+        "FrontOffice": "Reception"
     },
     "BOOKING_REQUEST": {
         "bookingRequest": "Booking Request",
@@ -352,5 +357,17 @@
         "of": "Affected Interface",
         "message": "e.g.: An error occurred while saving a consultant request.",
         "send": "Send"
+    },
+    "MAIL": {
+        "sended": "Mail has been sent!",
+        "gl": "Approval GL",
+        "al": "Approval AL",
+        "A_1": "Input final report by FB",
+        "A_2": "Input information by representative",
+        "A_3": "Completion of final report by representative",
+        "A_4": "Input travel booking request",
+        "A_5": "Input consultant request",
+        "A_6": "Input seminar request",
+        "A_7": "Input visitor request"
     }
 }

@@ -14,6 +14,7 @@ import { authGuard } from './services/auth.service';
 import { BookingRequestComponent } from './components/contents/booking-request/booking-request.component';
 import { BugReportComponent } from './components/contents/bug-report/bug-report.component';
 import { SubGroupsComponent } from './components/contents/creation-sites/sub-groups/sub-groups.component';
+import { CreatMailUserComponent } from './components/contents/creation-sites/creation-user/creation-user.component';
 
 const routes: Routes = [
   // path: (e.g. "http://.../dashboard",) the authGuard checks the roles that are specified in the data
@@ -24,6 +25,8 @@ const routes: Routes = [
   { path: 'seminar-registration', component: SeminarRegistrationComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 3, 5, 6, 7] } },
   { path: 'seminar-registration/:id', component: SeminarRegistrationComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 3, 5, 6, 7] } },
   { path: 'create-technologist', component: CreateTechnologistComponent, canActivate: [authGuard], data: { requiredRoles: [1, 7] } },
+  { path: 'create-new-group', component: SubGroupsComponent, canActivate: [authGuard], data: { requiredRoles: [1, 7] } },
+  { path: 'create-new-other-user', component: CreatMailUserComponent, canActivate: [authGuard], data: { requiredRoles: [1, 7] } },
   { path: 'visitor-registration', component: VisitorRegistrationComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 3, 5, 6, 7] } },
   { path: 'visitor-registration/:id', component: VisitorRegistrationComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 3, 5, 6, 7] } },
   { path: 'abschluss-bericht-list', component: AbschlussBerichtListComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 3, 4, 7] } },
@@ -35,7 +38,6 @@ const routes: Routes = [
   { path: 'booking-request/:id', component: BookingRequestComponent, canActivate: [authGuard], data: { requiredRoles: [1, 7] } },
   { path: 'mainList', component: MainListComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 3, 4, 5, 6, 7] } },
   { path: 'bug-report', component: BugReportComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 3, 4, 5, 6, 7] } },
-  { path: 'create-new-group', component: SubGroupsComponent, canActivate: [authGuard], data: { requiredRoles: [1, 7] } },
   { path: '**', redirectTo: 'mainList', pathMatch: 'full' },
 ];
 

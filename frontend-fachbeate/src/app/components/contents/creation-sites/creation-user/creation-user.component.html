@@ -1,0 +1,96 @@
+<div class="header">
+    <div>
+        <h1 style="margin-bottom: 0;">{{'NAV.new-user' | translate}}</h1>
+    </div>
+    <div>
+        <nz-filter-trigger class="paddingSearch" [(nzVisible)]="visible" [nzActive]="searchValue.length > 0"
+            [nzDropdownMenu]="menu">
+            <i class="fa fa-search"></i>
+        </nz-filter-trigger>
+        <button class="btn btn-secondary" style="margin-left: 20px;"
+            (click)="resetSearch()">{{"MAIN_LIST.reset_filter_sorting"|
+            translate}}</button>
+    </div>
+</div>
+<hr>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header text-white bg-danger">{{'CREATION_SITES.general_data' | translate}}</div>
+            <div class="card-body">
+                <mat-form-field class="smallInput">
+                    <mat-label>{{'CREATION_SITES.first_name' | translate}}</mat-label>
+                    <input required matInput type="text" [(ngModel)]="inputMailUsers.firstName" name="firstName">
+                </mat-form-field>
+                <mat-form-field class="smallInput">
+                    <mat-label>{{'CREATION_SITES.last_name' | translate}}</mat-label>
+                    <input required matInput type="text" [(ngModel)]="inputMailUsers.lastName" name="lastName">
+                </mat-form-field>
+                <mat-form-field class="smallInput">
+                    <mat-label>{{'CREATION_SITES.email' | translate}}</mat-label>
+                    <input required matInput type="text" [(ngModel)]="inputMailUsers.email">
+                </mat-form-field>
+                <div class="displayBySide">
+                    <mat-form-field>
+                        <mat-label>{{'CREATION_SITES.function' | translate}}</mat-label>
+                        <mat-select [(ngModel)]="inputMailUsers.function">
+                            @for (f of functions; track functions) {
+                            <mat-option [value]="f.viewValue">{{ ('CREATION_SITES.' + f.viewValue) | translate }}
+                            </mat-option>
+                            }
+                        </mat-select>
+                    </mat-form-field>
+                    <label class="languageBox">{{'CREATION_SITES.active' | translate}}
+                        <mat-checkbox color="warn" [(ngModel)]="inputMailUsers.active"></mat-checkbox>
+                    </label>
+                </div>
+                <div class="displayBySide">
+                    <button class="btn btn-danger" matTooltip="{{'DASHBOARD.cancel' | translate}}"
+                        (click)="cancelEdit()"><i class="fa fa-times"></i></button>
+                    <button class="btn btn-success" matTooltip="{{'STANDARD.save' | translate}}"
+                        (click)="postMailUser()"><i class="fa fa-save"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <nz-table #editRowTable [nzPageSize]="pageSize" nzBordered [nzData]="mailUserList">
+            <thead>
+                <tr>
+                    <th>{{'CREATION_SITES.id' | translate}}</th>
+                    <th>{{'CREATION_SITES.first_name' | translate}}</th>
+                    <th>{{'CREATION_SITES.last_name' | translate}}</th>
+                    <th>{{'CREATION_SITES.email' | translate}}</th>
+                    <th>{{'CREATION_SITES.function' | translate}}</th>
+                    <th>{{'CREATION_SITES.active' | translate}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr matTooltip="{{'CREATION_SITES.click_to_edit' | translate}}"
+                    *ngFor="let technologist of editRowTable.data" (click)="editRow(technologist.id!, 0)">
+                    <td>{{technologist.id}}</td>
+                    <td>{{technologist.firstName}}</td>
+                    <td>{{technologist.lastName}}</td>
+                    <td>{{technologist.email}}</td>
+                    <td>{{technologist.function}}</td>
+                    <td class="center-active">
+                        <span *ngIf="technologist.active" class="text-success">&#10004;</span>
+                        <span *ngIf="!technologist.active" class="text-danger">&#10005;</span>
+                    </td>
+                </tr>
+            </tbody>    
+        </nz-table>
+    </div>
+</div>
+<nz-dropdown-menu #menu="nzDropdownMenu">
+    <div class="ant-table-filter-dropdown">
+        <div class="search-box">
+            <input type="text" nz-input [placeholder]="'MAIN_LIST.search' | translate" [(ngModel)]="searchValue" />
+            <button nz-button nzSize="small" nzType="primary" (click)="search()"
+                class="search-button">{{"MAIN_LIST.search" |
+                translate}}</button>
+            <button nz-button nzSize="small" (click)="resetSearch()">{{"MAIN_LIST.reset" | translate}}</button>
+        </div>
+    </div>
+</nz-dropdown-menu>
