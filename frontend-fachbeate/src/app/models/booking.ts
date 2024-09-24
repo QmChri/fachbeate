@@ -32,9 +32,9 @@ export interface Booking {
 
   trainTicketBooking?: boolean;
   trainFrom?: string;
-  trainStartDate?: string;
+  trainStartDate?: Date;
   trainTo?: string;
-  trainEndDate?: string;
+  trainEndDate?: Date;
   trainOtherNotes?: string;
 
   hotelBooking?: boolean;

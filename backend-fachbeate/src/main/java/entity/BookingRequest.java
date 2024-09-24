@@ -50,9 +50,9 @@ public class BookingRequest extends PanacheEntity {
 
     public boolean trainTicketBooking;
     public String trainFrom;
-    public String trainStartDate;
+    public Date trainStartDate;
     public String trainTo;
-    public String trainEndDate;
+    public Date trainEndDate;
     public String trainOtherNotes;
 
     public boolean hotelBooking;

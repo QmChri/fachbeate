@@ -28,6 +28,16 @@ public class PdfResource {
     }
 
     @GET
+    @Path("booking/{id}")
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public Response getBookingPdf(@PathParam("id") Long id) throws DocumentException {
+        byte[] pdfContent = pdfService.createBookingPdf(id);
+        return Response.ok(pdfContent)
+                .header("Content-Disposition", "attachment; filename=\"example.pdf\"")
+                .build();
+    }
+
+    @GET
     @Path("visit/{id}")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Response getVisitPdf(@PathParam("id") Long id) throws DocumentException {

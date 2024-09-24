@@ -349,9 +349,9 @@ export class BookingRequestComponent implements OnInit {
   }
 
   downloadFile() {
-    this.http.getFinalPdf(this.inputBooking.id!).subscribe(
+    this.http.getBookingPdf(this.inputBooking.id!).subscribe(
       (response: Blob) => {
-        this.saveFile(response, "Abschlussbericht_" + this.inputBooking.id + ".pdf")
+        this.saveFile(response, "Reiseanforderung_" + this.inputBooking.id + ".pdf")
       });
   }
 
