@@ -27,7 +27,7 @@
                     </td>
                     <td>
                         <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id!)">
-                            {{ (data.function) ? data.function : ('CREATION_SITES.enter_here' | translate) }}
+                            {{ (data.firstName) ? data.firstName : ('CREATION_SITES.enter_here' | translate) }}
                         </div>
                         <input [hidden]="editId !== data.id" type="text"
                             [placeholder]="'CREATION_SITES.enter_here' | translate" nz-input
@@ -35,7 +35,7 @@
                     </td>
                     <td>
                         <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id!)">
-                            {{ (data.function) ? data.function : ('CREATION_SITES.enter_here' | translate) }}
+                            {{ (data.lastName) ? data.lastName : ('CREATION_SITES.enter_here' | translate) }}
                         </div>
                         <input [hidden]="editId !== data.id" type="text"
                             [placeholder]="'CREATION_SITES.enter_here' | translate" nz-input
