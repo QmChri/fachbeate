@@ -34,7 +34,7 @@ public class BookingRequest extends PanacheEntity {
     public String reasonForTrip;
     public Date mainStartDate;
     public Date mainEndDate;
-    public String assumptionOfCosts;
+    public String otherNotes;
 
 
     public boolean flightBookingMultiLeg;
@@ -50,15 +50,21 @@ public class BookingRequest extends PanacheEntity {
 
     public boolean trainTicketBooking;
     public String trainFrom;
-    public String alternativeTrainFrom;
+    public String trainStartDate;
     public String trainTo;
-    public String alternativeTrainTo;
+    public String trainEndDate;
+    public String trainOtherNotes;
 
     public boolean hotelBooking;
-    public String hotelLocation;
-    public Date hotelFrom;
-    public Date hotelTo;
-    public String otherHotelNotes;
+    @OneToMany
+    public List<HotelBooking> hotelBookings;
+
+    public boolean otherReq;
+    public String preferredTime;
+    public String windowCorridor;
+    public Integer luggageCount;
+    public String luggageWeight;
+    public String otherReqOtherNotes;
 
     public boolean carRental;
     public String carLocation;
@@ -87,7 +93,7 @@ public class BookingRequest extends PanacheEntity {
         this.reasonForTrip = newEntity.reasonForTrip;
         this.mainStartDate = newEntity.mainStartDate;
         this.mainEndDate = newEntity.mainEndDate;
-        this.assumptionOfCosts = newEntity.assumptionOfCosts;
+        this.otherNotes = newEntity.otherNotes;
 
         this.flightBookingMultiLeg = newEntity.flightBookingMultiLeg;
 
@@ -95,6 +101,13 @@ public class BookingRequest extends PanacheEntity {
         for(AdvancedFlightBooking fl: newEntity.flights){
             this.flights.add(fl.persistOrUpdate());
         }
+
+        this.otherReq = newEntity.otherReq;
+        this.preferredTime = newEntity.preferredTime;
+        this.windowCorridor = newEntity.windowCorridor;
+        this.luggageCount = newEntity.luggageCount;
+        this.luggageWeight = newEntity.luggageWeight;
+        this.otherReqOtherNotes = newEntity.otherReqOtherNotes;
 
         this.flightBookingRoundTrip = newEntity.flightBookingRoundTrip;
         this.flightFrom = newEntity.flightFrom;
@@ -104,15 +117,17 @@ public class BookingRequest extends PanacheEntity {
 
         this.trainTicketBooking = newEntity.trainTicketBooking;
         this.trainFrom = newEntity.trainFrom;
-        this.alternativeTrainFrom = newEntity.alternativeTrainFrom;
+        this.trainStartDate = newEntity.trainStartDate;
         this.trainTo = newEntity.trainTo;
-        this.alternativeTrainTo = newEntity.alternativeTrainTo;
+        this.trainEndDate = newEntity.trainEndDate;
+        this.trainOtherNotes = newEntity.trainOtherNotes;
 
         this.hotelBooking = newEntity.hotelBooking;
-        this.hotelLocation = newEntity.hotelLocation;
-        this.hotelFrom = newEntity.hotelFrom;
-        this.hotelTo = newEntity.hotelTo;
-        this.otherHotelNotes = newEntity.otherHotelNotes;
+
+        this.hotelBookings = new ArrayList<>();
+        for(HotelBooking hl: newEntity.hotelBookings){
+            this.hotelBookings.add(hl.persistOrUpdate());
+        }
 
         this.carRental = newEntity.carRental;
         this.carLocation = newEntity.carLocation;
@@ -130,6 +145,9 @@ public class BookingRequest extends PanacheEntity {
                 for (AdvancedFlightBooking fl : this.flights) {
                     fl.persistOrUpdate();
                 }
+            for (HotelBooking hl : this.hotelBookings) {
+                hl.persistOrUpdate();
+            }
             //}
 
             this.persist();

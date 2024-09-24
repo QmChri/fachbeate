@@ -18,17 +18,14 @@ import { environment } from '../../../../environments/environment';
   styleUrl: './booking-request.component.scss'
 })
 export class BookingRequestComponent implements OnInit {
+  control = new FormControl(null, Validators.required);
   addItem: string = "";
   fileList: NzUploadFile[] = [];
-  costCoverages: string[] = [
-    'almiGmbH',
-    'almiSubsidiary'
-  ];
   buttonSelect: String[] = []
-  bookingControl = new FormControl<BookingRequestComponent | null>(null, Validators.required);
   freigegeben: boolean = true;
   inputBooking: Booking = {
-    flights: []
+    flights: [],
+    hotelBookings: []
   };
 
   constructor(private dialog: MatDialog, private translate: TranslateService, private http: HttpService, private route: ActivatedRoute,
@@ -36,20 +33,16 @@ export class BookingRequestComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.route.paramMap.subscribe(params => {
-
       if (params.get('id') != null) {
-
         this.http.getBookingById(parseInt(params.get('id')!)).subscribe({
-
           next: data => {
             if (data != null) {
               this.inputBooking = data;
 
               this.inputBooking.mainStartDate = this.convertToDate(this.inputBooking.mainStartDate);
               this.inputBooking.mainEndDate = this.convertToDate(this.inputBooking.mainEndDate);
-
+/*
               if (this.inputBooking.files !== null && this.inputBooking.files !== undefined && this.inputBooking.files.length !== 0) {
                 this.fileList = this.inputBooking.files!.map((file, index) => ({
                   uid: index.toString(),
@@ -59,13 +52,14 @@ export class BookingRequestComponent implements OnInit {
                   url: environment.backendApi + "booking/file/" + this.inputBooking.id + "/" + file.fileName
                 }));
               }
-
+*/
               this.buttonSelect = [
                 (data.hotelBooking) ? "4" : "",
                 (data.flightBookingMultiLeg) ? "1" : "",
                 (data.flightBookingRoundTrip) ? "2" : "",
                 (data.trainTicketBooking) ? "3" : "",
-                (data.carRental) ? "5" : ""
+                (data.carRental) ? "5" : "",
+                (data.otherReq) ? "6" : ""
               ].filter(p => p != "");
             }
           },
@@ -281,17 +275,18 @@ export class BookingRequestComponent implements OnInit {
       if (this.fileList !== null && this.fileList !== undefined && this.fileList.length !== 0) {
         this.fileList.map(element => element.originFileObj!).forEach(element => {
           // Adding all Files to the Form
-          formData.append("files", element!)
+          //formData.append("files", element!)
         })
       }
 
-      formData.append('booking', JSON.stringify(this.inputBooking));
+      //formData.append('booking', JSON.stringify(this.inputBooking));
 
-      this.http.postBookingMultiPart(formData).subscribe({
+      //this.http.postBookingMultiPart(formData).subscribe({
+      this.http.postBookingRequest(this.inputBooking).subscribe({
         next: data => {
           this.inputBooking = data;
 
-          if(sendmail){
+          if (sendmail) {
             this.http.sendMail(
               ["geschaeftsleitung"],
               "R_" + this.inputBooking.id,
@@ -305,7 +300,8 @@ export class BookingRequestComponent implements OnInit {
             (data.flightBookingMultiLeg) ? "1" : "",
             (data.flightBookingRoundTrip) ? "2" : "",
             (data.trainTicketBooking) ? "3" : "",
-            (data.carRental) ? "5" : ""
+            (data.carRental) ? "5" : "",
+            (data.otherReq) ? "6" : ""
           ].filter(p => p != "");
         },
         error: err => {
@@ -321,24 +317,31 @@ export class BookingRequestComponent implements OnInit {
     this.inputBooking.trainTicketBooking = this.buttonSelect.includes("3");
     this.inputBooking.hotelBooking = this.buttonSelect.includes("4");
     this.inputBooking.carRental = this.buttonSelect.includes("5");
+    this.inputBooking.otherReq = this.buttonSelect.includes("6");
 
 
     if (this.inputBooking.flightBookingMultiLeg && this.inputBooking.flights.length === 0) {
-      this.addTab();
+      this.addTab(1);
+    }
+    if (this.inputBooking.hotelBooking && this.inputBooking.hotelBookings.length === 0) {
+      this.addTab(2);
     }
   }
 
-  addTab() {
-    this.inputBooking.flights = [...this.inputBooking.flights, {}]
+  addTab(type: number) {
+    if (type === 1) {
+      this.inputBooking.flights = [...this.inputBooking.flights, {}]
+    } else if (type === 2) {
+      this.inputBooking.hotelBookings = [...this.inputBooking.hotelBookings, {}]
+    }
   }
 
-  deleteLast() {
-    if (this.inputBooking.flights.length > 1)
+  deleteLast(type: number) {
+    if (this.inputBooking.flights.length > 1 && type === 1) {
       this.inputBooking.flights.pop();
-  }
-
-  addToList(addItem: string) {
-    this.costCoverages.push(addItem);
+    } else if (this.inputBooking.hotelBookings.length > 1 && type === 2) {
+      this.inputBooking.hotelBookings.pop();
+    }
   }
 
   convertToDate(date: any): Date | undefined {

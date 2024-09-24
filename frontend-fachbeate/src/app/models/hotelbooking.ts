@@ -5,5 +5,6 @@ export interface Hotelbooking {
     hotelStayToDate?: Date;
     singleRooms?: number;
     doubleRooms?: number;
-    selfPay?: boolean
+    selfPay?: boolean;
+    otherHotelNotes?: string;
 }
