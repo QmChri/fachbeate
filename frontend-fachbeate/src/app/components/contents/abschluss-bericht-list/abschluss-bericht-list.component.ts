@@ -248,24 +248,15 @@ export class AbschlussBerichtListComponent {
     // endregion
 
     dialogRef.afterClosed().subscribe(
-      (data: {finalReport: FinalReport, save: boolean, files: File[]}) => {
+      (data: {finalReport: FinalReport, save: boolean}) => {
         //region When the popup is closed, this data is transferred
 
         if (data.save) {
 
           let finalReport: FinalReport = data.finalReport;
 
-          let formData = new FormData();
 
-          if(data.files !== null && data.files !== undefined){
-            data.files!.forEach(element => {
-              formData.append("files", element!)
-            })
-          }
-
-          formData.append('finalReport', JSON.stringify(finalReport));
-
-          this.http.postFinalReportMultiPart(formData).subscribe({
+          this.http.postFinalReport(finalReport).subscribe({
             next: (finalRep: FinalReport) => {
 
               var newEntity: DataItem = {

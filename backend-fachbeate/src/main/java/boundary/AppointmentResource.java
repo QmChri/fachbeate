@@ -206,19 +206,28 @@ public class AppointmentResource {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Authenticated
     @Transactional
-    public Response finalWithFiles(@RequestBody MultipartFormDataInput input) throws IOException {
+    public Response finalWithFiles(MultipartFormDataInput input) throws IOException {
         Map<String, List<InputPart>> inputStreams = input.getFormDataMap();
 
-        FinalReport finalReport = new ObjectMapper().readValue(inputStreams.get("finalReport").get(0).getBodyAsString(), FinalReport.class);
+        // Extract the 'finalReport' from the input
+        InputPart finalReportPart = inputStreams.get("finalReport").get(0);
+
+        // Convert the 'finalReport' to a FinalReport object (assuming JSON is sent)
+        String finalReportJson = finalReportPart.getBodyAsString();
+        FinalReport finalReport = new ObjectMapper().readValue(finalReportJson, FinalReport.class);
+
+        // Persist or update the final report
         finalReport.persistOrUpdate();
 
         if (finalReport.id == null) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Failed to retrieve FinalReport ID").build();
         }
 
-
-        if(!fileService.saveFilesToDir(input, finalReport.id, FileSaveDir)){
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        // Handle file uploads (if any)
+        if (inputStreams.containsKey("files")) {
+            if (!fileService.saveFilesToDir(input, finalReport.id, FileSaveDir)) {
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+            }
         }
 
         return Response.ok(finalReport).build();

@@ -231,6 +231,7 @@ export class CustomerRequirementsComponent implements OnInit {
         sendmail = true;
       }
       this.inputCustomerRequirement.lastEditor = this.roleService.getUserName();
+      
       this.http.postCustomerRequirement(this.inputCustomerRequirement).subscribe({
         next: data => {
           this.inputCustomerRequirement = data;
@@ -351,42 +352,12 @@ export class CustomerRequirementsComponent implements OnInit {
       dialogRef.afterClosed().subscribe(
 
 
-        (data: { finalReport: FinalReport, save: boolean, sendmail: boolean, files: File[] }) => {
+        (data: { finalReport: FinalReport, save: boolean }) => {
           if (data.save) {
-            this.postCustomerRequirement();
-            let finalReport: FinalReport = data.finalReport;
+            
+            customerVisit.finalReport = data.finalReport;
 
-            let formData = new FormData();
-
-            if (data.files !== null && data.files !== undefined) {
-              data.files!.forEach(element => {
-                formData.append("files", element!)
-              })
-            }
-
-            formData.append('finalReport', JSON.stringify(finalReport));
-
-            this.http.postFinalReportMultiPart(formData).subscribe({
-              next: (finalRep: FinalReport) => {
-
-                customerVisit.finalReport = finalRep;
-
-                if(data.sendmail){
-                  this.http.sendMail(
-                    ["abteilungsleitung", "vertreter", "geschaeftsleitung"],
-                    "A_" + finalReport.id,
-                    "Eingabe Abschlussbericht durch FB",
-                    "Im Request Tool wurde durch den Fachberater ein Abschlussbericht (Nr." + finalReport.id + ") erstellt. Bitte um entsprechende Nachbearbeitung des Kundenbesuchs"
-                  ).subscribe();
-                  this.getNotification(8)
-                }
-
-                this.postCustomerRequirement();
-              },
-              error: (error) => {
-                console.log(error);
-              }
-            });
+            this.postCustomerRequirement()
 
             this.freigegeben = false;
             this.getNotification(5);

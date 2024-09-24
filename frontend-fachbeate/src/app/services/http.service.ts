@@ -16,6 +16,7 @@ import { TechDateDTO } from '../models/tech-date-dto';
 import { Booking } from '../models/booking';
 import { Support } from '../models/support';
 import { MailUser } from '../models/other-user';
+import { log } from './logger.service';
 
 const API_URL = environment.backendApi
 
@@ -26,6 +27,7 @@ export class HttpService {
   constructor(private http: HttpClient) { }
 
   postCustomerRequirement(customerRequirement: CustomerRequirement): Observable<CustomerRequirement> {
+    console.log(customerRequirement)
     return this.http.post<CustomerRequirement>(API_URL + "customerRequirement", customerRequirement);
   }
 
@@ -158,6 +160,7 @@ export class HttpService {
   }
 
   postFinalReportMultiPart(formData: FormData): Observable<FinalReport> {
+
     return this.http.post<FinalReport>(API_URL + "appointment/finalReportMulti", formData);
   }
 
@@ -198,25 +201,25 @@ export class HttpService {
   headers: HttpHeaders = new HttpHeaders().set('Accept', 'application/octet-stream');
 
   getMainListPdf() {
-    return this.http.get(API_URL + "/pdf/mainList/", { headers: this.headers, responseType: 'blob' });
+    return this.http.get(API_URL + "pdf/mainList/", { headers: this.headers, responseType: 'blob' });
   }
   getPdf(id: number) {
-    return this.http.get(API_URL + "/pdf/customer/" + id, { headers: this.headers, responseType: 'blob' });
+    return this.http.get(API_URL + "pdf/customer/" + id, { headers: this.headers, responseType: 'blob' });
   }
   getVisitPdf(id: number) {
-    return this.http.get(API_URL + "/pdf/visit/" + id, { headers: this.headers, responseType: 'blob' });
+    return this.http.get(API_URL + "pdf/visit/" + id, { headers: this.headers, responseType: 'blob' });
   }
   getWorkshopPdf(id: number) {
-    return this.http.get(API_URL + "/pdf/workshop/" + id, { headers: this.headers, responseType: 'blob' });
+    return this.http.get(API_URL + "pdf/workshop/" + id, { headers: this.headers, responseType: 'blob' });
   }
   getFinalPdf(id: number) {
-    return this.http.get(API_URL + "/pdf/final/" + id, { headers: this.headers, responseType: 'blob' });
+    return this.http.get(API_URL + "pdf/final/" + id, { headers: this.headers, responseType: 'blob' });
   }
   getFinalReportListPdf() {
-    return this.http.get(API_URL + "/pdf/finalList/", { headers: this.headers, responseType: 'blob' });
+    return this.http.get(API_URL + "pdf/finalList/", { headers: this.headers, responseType: 'blob' });
   }
   getBookingPdf(id: number) {
-    return this.http.get(API_URL + "/pdf/booking/" + id, { headers: this.headers, responseType: 'blob' });
+    return this.http.get(API_URL + "pdf/booking/" + id, { headers: this.headers, responseType: 'blob' });
   }
 
   postGroup(representative: Representative): Observable<Representative> {
@@ -225,14 +228,13 @@ export class HttpService {
 
 /* werden nur für OF creationUser gebraucht
   postMailUser(inputMailUser: MailUser) {
-    return this.http.post<MailUser>(API_URL + "/users/postMailUser", inputMailUser);  
+    return this.http.post<MailUser>(API_URL + "/users/postMailUser", inputMailUser);
   }
   getAllMailUser() {
     return this.http.get<MailUser[]>(API_URL + "/users/mailUser");
   }
 */
   sendMail(groups: string[], id: string, text: string, subject: string) {
-
     var mailRequest: {
       groups: string[];
       id: string;
@@ -240,7 +242,6 @@ export class HttpService {
       subject: string;
     } = {groups: groups, id: id, text: text, subject: subject}
 
-    console.log(id)
-    return this.http.post(API_URL + "mail/sendMail",mailRequest);  
+    return this.http.post(API_URL + "mail/sendMail",mailRequest);
   }
 }
