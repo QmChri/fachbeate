@@ -5,10 +5,8 @@ import control.MailService;
 import entity.*;
 import io.quarkus.mailer.Mail;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import java.util.ArrayList;
@@ -25,6 +23,14 @@ public class MailResource {
     @Inject
     KeycloakService keycloakService;
 
+    @GET
+    @Path("/test")
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response mail(){
+        mailService.sendMail("christoph.handel@icloud.com");
+        mailService.sendMail("ablingerraphael@gmail.com");
+        return Response.ok("Mail ist im Anflug").build();
+    }
 
     @POST
     @Path("/sendMail")

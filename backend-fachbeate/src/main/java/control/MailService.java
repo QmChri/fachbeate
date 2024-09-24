@@ -28,4 +28,14 @@ public class MailService {
                 )
         );
     }
+
+    public void sendMail(String mail){
+        mailer.send(
+                Mail.withText(
+                        mail,
+                        "ALMI Test",
+                        "Wenn ankommt, dann funktioniert!"
+                )
+        );
+    }
 }
