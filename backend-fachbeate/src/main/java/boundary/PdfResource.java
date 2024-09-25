@@ -2,13 +2,14 @@ package boundary;
 
 import com.lowagie.text.DocumentException;
 import control.PdfService;
+import entity.Guest;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Path("pdf")
 public class PdfResource {
@@ -24,6 +25,19 @@ public class PdfResource {
 
         return Response.ok(pdfContent)
                 .header("Content-Disposition", "attachment; filename=\"example.pdf\"")
+                .build();
+    }
+
+    @GET
+    @Path("members/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public Response getMembersPdf(@PathParam("id") String id) throws DocumentException {
+        byte[] pdfContent = pdfService.createMembersPdf(id);
+
+        return Response.ok(pdfContent)
+                .header("Content-Disposition", "attachment; filename=\"members_list.pdf\"")
+                .type("application/pdf") // Optional, aber gute Praxis
                 .build();
     }
 

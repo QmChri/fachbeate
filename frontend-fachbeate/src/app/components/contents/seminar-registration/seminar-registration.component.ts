@@ -152,7 +152,10 @@ export class SeminarRegistrationComponent implements OnInit {
     const dialogRef = this.dialog.open(TeilnehmerListeComponent, {
       height: '37.6rem',
       width: '50rem',
-      data: guests
+      data: {
+        guests: guests,
+        id: "S_"+this.inputWorkshop.id
+      }
     });
 
     dialogRef.afterClosed().subscribe(
@@ -308,7 +311,7 @@ export class SeminarRegistrationComponent implements OnInit {
       this.http.postWorkshop(this.inputWorkshop).subscribe({
         next: data => {
           this.inputWorkshop = data;
-          if(sendmail){
+          if (sendmail) {
             this.http.sendMail(
               ["geschaeftsleitung"],
               "B_" + this.inputWorkshop.id,

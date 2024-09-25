@@ -8,9 +8,13 @@ import com.lowagie.text.pdf.PdfWriter;
 import entity.*;
 import entity.dto.MainListDTO;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 
 import java.awt.*;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -478,6 +482,71 @@ public class PdfService {
             document.add(flightBookingMultiLeg);
         }
 
+        document.close();
+
+        return byteArrayOutputStream.toByteArray();
+    }
+
+    public byte[] createMembersPdf(String text) throws DocumentException {
+        List<Guest> guests = null;
+        String type = text.split("_")[0];
+        String id = text.split("_")[1];
+        System.out.println(id);
+        System.out.println(text);
+        if (Objects.equals(type, "S"))
+        {
+            WorkshopRequirement w= WorkshopRequirement.findById(id);
+            System.out.println(w);
+            guests=w.guests.stream().toList();
+        }
+        else  if (Objects.equals(type, "B")){
+            VisitorRegistration f = VisitorRegistration.findById(id);
+            System.out.println(f);
+            guests=f.guests.stream().toList();
+        }
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        Document document = new Document();
+        PdfWriter.getInstance(document, byteArrayOutputStream);
+
+        document.open();
+        Date date = new Date();
+
+        // Titel
+        document.add(new Paragraph("Teilnehmerliste: T_" + formatDate(date), FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, Font.BOLD)));
+        document.add(new Paragraph("     ")); // Leerzeile
+
+        // Tabelle erstellen
+        PdfPTable table = new PdfPTable(4);
+        table.setWidthPercentage(100);
+        table.addCell("Hr./Fr./Div.");
+        table.addCell("Vorname");
+        table.addCell("Nachname");
+        table.addCell("Funktion im Unternehmen");
+
+        for (Guest p : guests) {
+            String gender;
+            switch (p.sex) {
+                case 1:
+                    gender = "Herr";
+                    break;
+                case 2:
+                    gender = "Frau";
+                    break;
+                default:
+                    gender = "Divers";
+                    break;
+            }
+            table.addCell(gender);
+            table.addCell(p.firstName != null ? p.firstName : "");
+            table.addCell(p.lastName != null ? p.lastName : "");
+            table.addCell(p.function != null ? p.function : "");
+        }
+
+        // Tabelle zum Dokument hinzufügen
+        document.add(table);
+
+        // Dokument schließen
         document.close();
 
         return byteArrayOutputStream.toByteArray();

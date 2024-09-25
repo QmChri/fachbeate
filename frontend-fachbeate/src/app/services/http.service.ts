@@ -17,6 +17,7 @@ import { Booking } from '../models/booking';
 import { Support } from '../models/support';
 import { MailUser } from '../models/other-user';
 import { log } from './logger.service';
+import { Guest } from '../models/guest';
 
 const API_URL = environment.backendApi
 
@@ -221,27 +222,31 @@ export class HttpService {
   getBookingPdf(id: number) {
     return this.http.get(API_URL + "pdf/booking/" + id, { headers: this.headers, responseType: 'blob' });
   }
+  getMembersListPdf(id: String) {
+    return this.http.get(API_URL + "pdf/members/" + id, { headers: this.headers, responseType: 'blob' });
+  }
+  
 
   postGroup(representative: Representative): Observable<Representative> {
     return this.http.post<Representative>(API_URL + "users/representative", representative);
   }
 
-/* werden nur für OF creationUser gebraucht
-  postMailUser(inputMailUser: MailUser) {
-    return this.http.post<MailUser>(API_URL + "/users/postMailUser", inputMailUser);
-  }
-  getAllMailUser() {
-    return this.http.get<MailUser[]>(API_URL + "/users/mailUser");
-  }
-*/
+  /* werden nur für OF creationUser gebraucht
+    postMailUser(inputMailUser: MailUser) {
+      return this.http.post<MailUser>(API_URL + "/users/postMailUser", inputMailUser);
+    }
+    getAllMailUser() {
+      return this.http.get<MailUser[]>(API_URL + "/users/mailUser");
+    }
+  */
   sendMail(groups: string[], id: string, text: string, subject: string) {
     var mailRequest: {
       groups: string[];
       id: string;
       text: string;
       subject: string;
-    } = {groups: groups, id: id, text: text, subject: subject}
+    } = { groups: groups, id: id, text: text, subject: subject }
 
-    return this.http.post(API_URL + "mail/sendMail",mailRequest);
+    return this.http.post(API_URL + "mail/sendMail", mailRequest);
   }
 }

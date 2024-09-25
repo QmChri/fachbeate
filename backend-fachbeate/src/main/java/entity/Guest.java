@@ -13,6 +13,12 @@ public class Guest extends PanacheEntity {
 
     public Guest() {
     }
+    public Guest(int sex, String firstName, String lastName, String function) {
+        this.sex = sex;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.function = function;
+    }
 
 
     public void updateEntity(Guest guest) {
