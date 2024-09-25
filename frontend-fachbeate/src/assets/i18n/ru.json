@@ -105,7 +105,11 @@
         "advisor_type": "Тип консультанта",
         "seminar": "Семинар",
         "visit": "Посещение",
-        "berichte": "отчет"
+        "berichte": "отчет",
+        "visible": "Видимый",
+        "!visible": "Не видимый",
+        "canceled": "Отменено"
+
     },
     "CUSTOMER_REQUIREMENTS": {
         "advisor_request": "Запрос технолога-консультанта",
@@ -270,7 +274,7 @@
         "report_completed": "Сообщение завершено"
     },
     "CREATION_SITES": {
-        "id": "ID",
+        "id": "Id",
         "user_management": "Управление пользователями",
         "new_advisor_user_management": "Новый технолог-консультант",
         "new_representative_user_management": "Новый представитель (менеджер)",

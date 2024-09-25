@@ -109,7 +109,9 @@
         "seminar": "Seminar",
         "visit": "Reise A.",
         "canceled": "Storniert",
-        "berichte": "Berichte"
+        "berichte": "Berichte",
+        "visible": "Sichtbar",
+        "!visible": "Nicht Sichtbar"
     },
     "CUSTOMER_REQUIREMENTS": {
         "advisor_request": "Fachberater Anforderung",

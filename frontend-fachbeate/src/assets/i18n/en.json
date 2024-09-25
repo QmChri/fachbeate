@@ -94,7 +94,7 @@
         "company_name": "Company name",
         "creation_date": "Creation date",
         "requested_by": "Requested by",
-        "status": "Status",
+        "status": "State",
         "representative": "Representative",
         "advisor": "Advisor",
         "requested_period": "Requested period",
@@ -106,7 +106,9 @@
         "seminar": "Seminar",
         "visit": "Visit",
         "canceled": "Canceled",
-        "berichte": "Reports"
+        "berichte": "Reports",
+        "visible": "Visible",
+        "!visible": "Not Visible"
     },
     "CUSTOMER_REQUIREMENTS": {
         "advisor_request": "Advisor Request",

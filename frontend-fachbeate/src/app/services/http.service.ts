@@ -76,7 +76,6 @@ export class HttpService {
   }
 
   getVisitorRegistrationByUser(type: number, fullname: string[]) {
-
     return this.http.get<MainListDTO[]>(API_URL + "visitorRegistration/user", { params: { type: type, fullname: fullname } });
   }
 

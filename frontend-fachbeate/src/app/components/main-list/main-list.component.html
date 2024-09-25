@@ -21,7 +21,7 @@
 <hr>
 
 <nz-table #nzTable nzBordered [nzPageSize]="pageSize" nzShowSizeChanger [nzSize]="'small'" [nzTableLayout]="'auto'"
-  [nzData]="listOfDisplayData" [(nzPageIndex)]="currentPage" (nzPageIndexChange)="onPageIndexChange($event)">
+  [nzData]="listOfDisplayData" [(nzPageIndex)]="currentPage" (nzPageIndexChange)="onPageIndexChange($event)" [nzLoading]="loading">
   <thead>
     <tr>
       <th>
@@ -58,7 +58,8 @@
         [nzFilters]="listOfColumn[9].listOfFilter" [nzFilterFn]="listOfColumn[9].filterFn!">
         {{'MAIN_LIST.'+listOfColumn[9].name|
         translate}}</th>
-      <th nzWidth="1%" *ngIf="roleService.checkPermission([1,2,7])">{{'MAIN_LIST.'+listOfColumn[10].name|
+      <th nzWidth="1%" *ngIf="roleService.checkPermission([1,2,7])" 
+      [nzFilters]="listOfColumn[10].listOfFilter" [nzFilterFn]="listOfColumn[10].filterFn!">{{'MAIN_LIST.'+listOfColumn[10].name|
         translate}}</th>
     </tr>
   </thead>
