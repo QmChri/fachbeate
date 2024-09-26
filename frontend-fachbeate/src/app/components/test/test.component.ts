@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpService } from '../../services/http.service';
+import { log } from '../../services/logger.service';
 
 @Component({
   selector: 'app-test',
@@ -17,6 +18,7 @@ export class TestComponent {
   constructor(private http: HttpService){}
 
   sendMail(){
+    console.log(typeof this.groups)
     this.http.sendMail(this.groups, undefined!, this.message, this.subject).subscribe();
   }
 

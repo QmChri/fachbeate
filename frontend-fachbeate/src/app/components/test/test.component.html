@@ -9,7 +9,7 @@
 </mat-form-field>
 <mat-form-field class="equal-width">
     <label class="form-group">Groups</label>
-    <mat-select class="form-group" [(ngModel)]="groups">
+    <mat-select class="form-group" [(ngModel)]="groups" [multiple]="true">
         <mat-option *ngFor="let item of allGroups" [value]="item">{{item}}</mat-option>
     </mat-select>
 </mat-form-field>
@@ -24,4 +24,4 @@
 </mat-form-field>
 
 
-<button class="btn btn-primary" (click)="sendToAdress()">Send-Mail</button>
+<button class="btn btn-primary" (click)="sendToAdress()">Send-Adress</button>
