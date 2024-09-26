@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, input, OnInit } from '@angular/core';
 import { NotificationService } from '../../../services/notification.service';
 import { RoleService } from '../../../services/role.service';
 import { HttpService } from '../../../services/http.service';
@@ -42,17 +42,17 @@ export class BookingRequestComponent implements OnInit {
 
               this.inputBooking.mainStartDate = this.convertToDate(this.inputBooking.mainStartDate);
               this.inputBooking.mainEndDate = this.convertToDate(this.inputBooking.mainEndDate);
-/*
-              if (this.inputBooking.files !== null && this.inputBooking.files !== undefined && this.inputBooking.files.length !== 0) {
-                this.fileList = this.inputBooking.files!.map((file, index) => ({
-                  uid: index.toString(),
-                  name: file.fileName,
-                  status: "done",
-                  originFileObj: this.base64ToFile(file.fileContent, file.fileName),
-                  url: environment.backendApi + "booking/file/" + this.inputBooking.id + "/" + file.fileName
-                }));
-              }
-*/
+              /*
+                            if (this.inputBooking.files !== null && this.inputBooking.files !== undefined && this.inputBooking.files.length !== 0) {
+                              this.fileList = this.inputBooking.files!.map((file, index) => ({
+                                uid: index.toString(),
+                                name: file.fileName,
+                                status: "done",
+                                originFileObj: this.base64ToFile(file.fileContent, file.fileName),
+                                url: environment.backendApi + "booking/file/" + this.inputBooking.id + "/" + file.fileName
+                              }));
+                            }
+              */
               this.buttonSelect = [
                 (data.hotelBooking) ? "4" : "",
                 (data.flightBookingMultiLeg) ? "1" : "",
@@ -84,8 +84,75 @@ export class BookingRequestComponent implements OnInit {
   }
 
   checkRequired(): boolean {
-    //TODO
-    return true;
+    var requirements: string[] = [
+      (this.inputBooking.employeeNameAndCompany === null || this.inputBooking.employeeNameAndCompany === undefined || this.inputBooking.employeeNameAndCompany === "") ? "BOOKING_REQUEST.employeeNameAndCompany" : "",
+      (this.inputBooking.reasonForTrip === null || this.inputBooking.reasonForTrip === undefined || this.inputBooking.reasonForTrip === "") ? "BOOKING_REQUEST.reasonForTrip" : "",
+      (this.inputBooking.mainStartDate === null || this.inputBooking.mainStartDate === undefined) ? "CUSTOMER_REQUIREMENTS.from_to" : "",
+      (this.inputBooking.mainEndDate === null || this.inputBooking.mainEndDate === undefined) ? "CUSTOMER_REQUIREMENTS.from_to" : "",
+    ];
+
+
+    if (this.inputBooking.hotelBooking) {
+      this.inputBooking.hotelBookings.forEach(s => {
+        if (s.hotelLocation === null || s.hotelLocation === undefined || s.hotelLocation === "") {
+          requirements.push("BOOKING_REQUEST.locationAndDesiredArea");
+        } if ((s.hotelStayFromDate === null || s.hotelStayFromDate === undefined) && (s.hotelStayToDate === null || s.hotelStayToDate === undefined)) {
+          requirements.push("CUSTOMER_REQUIREMENTS.from_to");
+        }
+      });
+    }
+    if (this.inputBooking.flightBookingMultiLeg) {
+      this.inputBooking.flights.forEach(s => {
+        if (s.flightDate === null || s.flightDate === undefined) {
+          requirements.push("VISITOR_REGRISTRATION.date");
+        } if (s.flightFrom === null || s.flightFrom === undefined) {
+          requirements.push("BOOKING_REQUEST.fromAirport");
+        } if (s.flightTo === null || s.flightTo === undefined) {
+          requirements.push("BOOKING_REQUEST.toAirport");
+        }
+        if (s.alternativeFlightFrom === null || s.alternativeFlightFrom === undefined) {
+          requirements.push("BOOKING_REQUEST.alternativeAirport");
+        }
+      });
+    }
+    if (this.inputBooking.flightBookingRoundTrip) {
+      requirements.push(
+        (this.inputBooking.flightFrom === null || this.inputBooking.flightFrom === undefined || this.inputBooking.flightFrom === "") ? "BOOKING_REQUEST.fromAirport" : "",
+        (this.inputBooking.flightTo === null || this.inputBooking.flightTo === undefined || this.inputBooking.flightTo === "") ? "BOOKING_REQUEST.toAirport" : ""
+      );
+    }
+    if (this.inputBooking.trainTicketBooking) {
+      requirements.push(
+        (this.inputBooking.trainFrom === null || this.inputBooking.trainFrom === undefined || this.inputBooking.trainFrom === "") ? "BOOKING_REQUEST.fromTrainStation" : "",
+        (this.inputBooking.trainTo === null || this.inputBooking.trainTo === undefined || this.inputBooking.trainTo === "") ? "BOOKING_REQUEST.toTrainStation" : ""
+      )
+    }
+    if (this.inputBooking.carRental) {
+      requirements.push(
+        (this.inputBooking.carLocation === null || this.inputBooking.carLocation === undefined || this.inputBooking.carLocation === "") ? "BOOKING_REQUEST.pickupAndReturnLocation" : "",
+        ((this.inputBooking.carFrom === null || this.inputBooking.carFrom === undefined) && (this.inputBooking.carTo === null || this.inputBooking.carTo === undefined)) ? "CUSTOMER_REQUIREMENTS.from_to" : "");
+    }
+    /*
+     this.buttonSelect = [
+          (data.hotelBooking) ? "4" : "",
+          (data.flightBookingMultiLeg) ? "1" : "",
+          (data.flightBookingRoundTrip) ? "2" : "",
+          (data.trainTicketBooking) ? "3" : "",
+          (data.carRental) ? "5" : "",
+          (data.otherReq) ? "6" : ""
+        ].filter(p => p != "");
+    */
+
+    requirements = requirements.filter(element => element !== "");
+    if (requirements.length !== 0) {
+      this.translate.get(['STANDARD.please_fill_required_fields', ...requirements.map(element => element)]).subscribe(translations => {
+        const message = translations['STANDARD.please_fill_required_fields'];
+        const anotherMessage = requirements.map(element => translations[element]).toString();
+        this.notificationService.createBasicNotification(4, message, anotherMessage, 'topRight');
+      });
+    }
+
+    return requirements.length === 0;
   }
 
   release(department: string) {

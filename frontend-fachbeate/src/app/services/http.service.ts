@@ -15,10 +15,6 @@ import { MainListDTO } from '../models/main-list-dto';
 import { TechDateDTO } from '../models/tech-date-dto';
 import { Booking } from '../models/booking';
 import { Support } from '../models/support';
-import { MailUser } from '../models/other-user';
-import { log } from './logger.service';
-import { Guest } from '../models/guest';
-
 const API_URL = environment.backendApi
 
 @Injectable({
