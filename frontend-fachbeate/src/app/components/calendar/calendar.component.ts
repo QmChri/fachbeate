@@ -361,7 +361,7 @@ export class CalendarComponent implements OnInit {
     timeSpan.endDate = new Date(timeSpan.endDate!)
     
     const dialogRef = this.dialog.open(NewDateEntryComponent, {
-      height: '30.5rem',
+      height: '25.5rem',
       width: '25rem',
       data: {
         timeSpan: timeSpan,

@@ -79,7 +79,8 @@
         "email1": "Emails wurden versendet",
         "pdf1": "PDF wurde erstellt!",
         "pdf2": "PDF konnte nicht erstellt werden!",
-        "upload": "Hochladen"
+        "upload": "Hochladen",
+        "email_invalid": "Ungültige Email"
     },
     "DASHBOARD": {
         "advisor_schedule_overview": "Terminübersicht Fachberater",
@@ -315,7 +316,15 @@
         "function": "Funktion",
         "GL": "Geschäftsleitung",
         "AL": "Abteilungsleitung",
-        "FrontOffice": "FrontOffice"
+        "FrontOffice": "FrontOffice",
+        "already_exists_F": "Fachberater existiert bereits",
+        "already_exists_R": "Vertreter existiert bereits",
+        "already_exists_H": "Händler/Tochter existiert bereits",
+        "already_exist_username": "Benutername existiert bereits",
+        "already_Mail": "Email existiert bereits",
+        "already_exists_updated_F": "Fachberater wurde aktualisiert",
+        "already_exists_updated_R": "Vertreter wurde aktualisiert",
+        "already_exists_updated_H": "Händler/Tochter wurde aktualisiert"
     },
     "BOOKING_REQUEST": {
         "bookingRequest": "Reiseanforderung",

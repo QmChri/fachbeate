@@ -23,12 +23,21 @@
                     <mat-form-field class="smallInput">
                         <mat-label>{{'MAIN_LIST.company_name' | translate}}</mat-label>
                         <input required matInput type="text" [(ngModel)]="inputCompany.name" name="companyName">
+                        @if (control.hasError('required')) {
+                        <mat-error>
+                            {{ "STANDARD.please_select" | translate }}
+                        </mat-error>
+                        }
                     </mat-form-field>
                     <mat-form-field class="smallInput">
                         <mat-label>{{'CREATION_SITES.user_name' | translate}}</mat-label>
                         <input required matInput type="text" [(ngModel)]="inputCompany.username" name="username">
+                        @if (control.hasError('required')) {
+                        <mat-error>
+                            {{ "STANDARD.please_select" | translate }}
+                        </mat-error>
+                        }
                     </mat-form-field>
-
                     <div class="displayBySide">
                         <button style="max-height: 38px;" class="btn btn-danger"
                             matTooltip="{{'DASHBOARD.cancel' | translate}}" (click)="cancelEdit()"><i
