@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Department } from '../../../models/department';
 import { VisitorRegistration } from '../../../models/visitor-registration';
@@ -198,7 +198,7 @@ export class VisitorRegistrationComponent implements OnInit {
       width: '50rem',
       data: {
         guests: guests,
-        id: "B_"+this.inputVisitRegistration.id
+        id: "B_" + this.inputVisitRegistration.id
       }
     });
 
@@ -305,14 +305,14 @@ export class VisitorRegistrationComponent implements OnInit {
 
     this.inputVisitRegistration.fromDate = (this.inputVisitRegistration.fromDate !== null && this.inputVisitRegistration.fromDate !== undefined) ? new Date(this.inputVisitRegistration.fromDate?.setHours(5)) : this.inputVisitRegistration.fromDate;
     this.inputVisitRegistration.toDate = (this.inputVisitRegistration.toDate !== null && this.inputVisitRegistration.toDate !== undefined) ? new Date(this.inputVisitRegistration.toDate?.setHours(5)) : this.inputVisitRegistration.toDate;
-    if(this.inputVisitRegistration.fromDate! >this.inputVisitRegistration.toDate!){
+    if (this.inputVisitRegistration.fromDate! > this.inputVisitRegistration.toDate!) {
       this.getNotification(10)
       return
     }
 
     (this.inputVisitRegistration.stayFromDate !== null && this.inputVisitRegistration.stayFromDate !== undefined) ? new Date(this.inputVisitRegistration.stayFromDate).setHours(5) : "";
     (this.inputVisitRegistration.stayToDate !== null && this.inputVisitRegistration.stayToDate !== undefined) ? new Date(this.inputVisitRegistration.stayToDate).setHours(5) : "";
-    if(this.inputVisitRegistration.stayFromDate! >this.inputVisitRegistration.stayToDate!){
+    if (this.inputVisitRegistration.stayFromDate! > this.inputVisitRegistration.stayToDate!) {
       this.getNotification(10)
       return
     }
@@ -325,6 +325,12 @@ export class VisitorRegistrationComponent implements OnInit {
       }
       ]
     });
+
+    this.inputVisitRegistration.hotelBookings.forEach(s => {
+      s!.hotelStayFromDate = (s.hotelStayFromDate !== null && s.hotelStayFromDate !== undefined) ? new Date(new Date(s.hotelStayFromDate.toString()).setHours(5)) : undefined!;
+      s!.hotelStayToDate = (s.hotelStayToDate !== null && s.hotelStayToDate !== undefined) ? new Date(new Date(s.hotelStayToDate.toString()).setHours(5)) : undefined;
+    }
+    );
 
     this.http.postVisitorRegistration(this.inputVisitRegistration).subscribe({
       next: data => {
@@ -443,9 +449,9 @@ export class VisitorRegistrationComponent implements OnInit {
         break;
       }
       case 10: { //Datum falsch
-        this.translate.get(['STANDARD.not_sended', 'STANDARD.note'])
+        this.translate.get(['STANDARD.not_send', 'STANDARD.note'])
           .subscribe((translations: { [key: string]: string }) => {
-            const message1 = translations['STANDARD.not_sended'];
+            const message1 = translations['STANDARD.not_send'];
             const message2 = translations['STANDARD.note'];
             this.notificationService.createBasicNotification(4, message1, message2, 'topRight');
           });
