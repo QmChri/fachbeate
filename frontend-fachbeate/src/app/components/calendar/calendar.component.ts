@@ -40,6 +40,13 @@ export class CalendarComponent implements OnInit {
     { label: 'filter1', value: 'S_' },
     { label: 'filter2', value: 'F_' },
     { label: 'filter3', value: 'B_' }];
+  reasons: string[] = [
+    'holiday',
+    'ausgleich',
+    'reservation',
+    'fair',
+    'homeF',
+    'houseO'];
 
   //Setting the calendar settings
   calendarOptions: CalendarOptions = {
@@ -156,7 +163,7 @@ export class CalendarComponent implements OnInit {
   loadEvents(companies: Company[]) {
     var type = (this.roleService.checkPermission([1, 2, 3, 5, 7]) ? 7 : 6);
     type = (!this.roleService.checkPermission([1, 2, 3, 5, 6, 7]) ? 4 : type);
-    type = ((!this.roleService.checkPermission([1,2,5,6,7]) && type !== 4) ? 8 : type);
+    type = ((!this.roleService.checkPermission([1, 2, 5, 6, 7]) && type !== 4) ? 8 : type);
 
     var fullname: string[] = [this.roleService.getUserName()!, this.roleService.getEmail()!];
 
@@ -273,6 +280,9 @@ export class CalendarComponent implements OnInit {
           return
         }
         data.forEach(value => {
+          if (!this.reasons.includes(this.translateTitle(value.reason!))) {
+            this.reasons.push(this.translateTitle(value.reason!));
+          }
           this.calendarEvnts = [...this.calendarEvnts, {
             id: "o" + value.id,
             title: value.requestedTechnologist!.firstName + " " + value.requestedTechnologist!.lastName + " - " + this.translateTitle(value.reason!),
@@ -293,6 +303,7 @@ export class CalendarComponent implements OnInit {
           className: 'diagonal-stripes'
         }));
       },
+
       error: err => {
         log("calendar: ", err)
       }
@@ -348,11 +359,14 @@ export class CalendarComponent implements OnInit {
   openDialog(timeSpan: TechnologistAppointment) {
     timeSpan.startDate = new Date(timeSpan.startDate!)
     timeSpan.endDate = new Date(timeSpan.endDate!)
-
+    
     const dialogRef = this.dialog.open(NewDateEntryComponent, {
       height: '30.5rem',
       width: '25rem',
-      data: timeSpan
+      data: {
+        timeSpan: timeSpan,
+        allReasons: this.reasons
+      }
     });
 
     dialogRef.afterClosed().subscribe(
