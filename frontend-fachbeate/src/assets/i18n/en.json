@@ -94,7 +94,7 @@
         "company_name": "Company name",
         "creation_date": "Creation date",
         "requested_by": "Requested by",
-        "status": "Status",
+        "status": "State",
         "representative": "Representative",
         "advisor": "Advisor",
         "requested_period": "Requested period",
@@ -106,7 +106,9 @@
         "seminar": "Seminar",
         "visit": "Visit",
         "canceled": "Canceled",
-        "berichte": "Reports"
+        "berichte": "Reports",
+        "visible": "Visible",
+        "!visible": "Not Visible"
     },
     "CUSTOMER_REQUIREMENTS": {
         "advisor_request": "Advisor Request",
@@ -308,7 +310,7 @@
     },
     "BOOKING_REQUEST": {
         "bookingRequest": "Booking Request",
-        "businessTripBookingRequest": "Business Trip Booking Request",
+        "businessTripBookingRequest": "Business trip booking request",
         "booking": "Booking",
         "employeeNameAndCompany": "Employee Name + Company",
         "reasonForTrip": "Reason for Trip",
@@ -325,11 +327,11 @@
         "alternativeTrainStation": "Alternative Train Station",
         "flightBookingMultiLeg": "Flight Booking Multi-Leg",
         "flight": "Flight",
-        "preferredTime": "Preferred Time",
+        "preferredTime": "Preferred departure time",
         "morning": "Morning",
         "noon": "Noon",
         "evening": "Evening",
-        "luggageQuantity": "Luggage Quantity",
+        "luggageQuantity": "Luggage quantity",
         "weightKg": "Weight (kg)",
         "locationAndDesiredArea": "Location and Desired Area",
         "pickupAndReturnLocation": "Pickup and Return Location",
@@ -349,7 +351,12 @@
         "footer3_item1": "Secretary: (MON – THU 07:00 – 15:30; FRI 07:00 – 13:30)",
         "footer3_item2": "Ms. Arijanda Iska",
         "footer3_item3": "E-mail: office@almi.at; Tel. +43 7221 733 99-294;",
-        "footer3_item4": "Alternate: Ms. Emma Gartner, +43 7221 733 99-295"
+        "footer3_item4": "Alternate: Ms. Emma Gartner, +43 7221 733 99-295",
+        "other_requirements": "Other requirements",
+        "windowCorridor": "Preferred seat",
+        "window": "Window",
+        "corridor": "Aisle",
+        "others": "Other"
     },
     "SUPPORT": {
         "header": "Report an Issue/Bug",

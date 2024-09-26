@@ -1,52 +1,58 @@
 import { AdvancedFlightBooking } from "./advanced-flight-booking";
+import { Hotelbooking } from "./hotelbooking";
 
 export interface Booking {
   id?: number;
   dateOfCreation?: Date;
   showUser?: boolean;
-  
+
   releaserManagement?: string;
   releaseManagement?: Date;
-  
+
   releaserSupervisor?: string;
   releaseSupervisor?: Date;
-  
+
   creator?: string;
   lastEditor?: string;
-  
+
   employeeNameAndCompany?: string;
   reasonForTrip?: string;
   mainStartDate?: Date;
   mainEndDate?: Date;
-  assumptionOfCosts?: string;
-  
+  otherNotes?: string;
+
   flightBookingMultiLeg?: boolean;
   flights: AdvancedFlightBooking[];
-  
+
   flightBookingRoundTrip?: boolean;
   flightFrom?: string;
   alternativeFlightFrom?: string;
   flightTo?: string;
   alternativeFlightTo?: string;
-  
+
   trainTicketBooking?: boolean;
   trainFrom?: string;
-  alternativeTrainFrom?: string;
+  trainStartDate?: Date;
   trainTo?: string;
-  alternativeTrainTo?: string;
-  
+  trainEndDate?: Date;
+  trainOtherNotes?: string;
+
   hotelBooking?: boolean;
-  hotelLocation?: string;
-  hotelFrom?: Date;
-  hotelTo?: Date;
-  otherHotelNotes?: string;
-  
+  hotelBookings: Hotelbooking[]
+
+  otherReq?: boolean;
+  preferredTime?: string;
+  windowCorridor?: string;
+  luggageCount?: number;
+  luggageWeight?: string;
+  otherReqOtherNotes?: string;
+
   carRental?: boolean;
   carLocation?: string;
   carFrom?: Date;
   carTo?: Date;
   otherCarNotes?: string;
 
-  files?: {fileName: string, fileContent: string}[];
+  files?: { fileName: string, fileContent: string }[];
 
 }

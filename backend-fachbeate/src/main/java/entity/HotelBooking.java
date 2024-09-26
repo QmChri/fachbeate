@@ -15,6 +15,7 @@ public class HotelBooking extends PanacheEntity {
     public int singleRooms;
     public int doubleRooms;
     public boolean selfPay;
+    public String otherHotelNotes;
 
     public void update(HotelBooking newEntity){
         this.hotelLocation = newEntity.hotelLocation;
@@ -23,6 +24,7 @@ public class HotelBooking extends PanacheEntity {
         this.singleRooms = newEntity.singleRooms;
         this.doubleRooms = newEntity.doubleRooms;
         this.selfPay = newEntity.selfPay;
+        this.otherHotelNotes = newEntity.otherHotelNotes;
     }
 
     @Transactional

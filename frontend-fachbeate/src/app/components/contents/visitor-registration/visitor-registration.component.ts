@@ -196,7 +196,10 @@ export class VisitorRegistrationComponent implements OnInit {
     const dialogRef = this.dialog.open(TeilnehmerListeComponent, {
       height: '37.6rem',
       width: '50rem',
-      data: guests
+      data: {
+        guests: guests,
+        id: "B_"+this.inputVisitRegistration.id
+      }
     });
 
     dialogRef.afterClosed().subscribe(

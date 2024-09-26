@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Guest } from '../../../models/guest';
 import { NotificationService } from '../../../services/notification.service';
 import { TranslateService } from '@ngx-translate/core';
+import { HttpService } from '../../../services/http.service';
 
 @Component({
   selector: 'app-teilnehmer-liste',
@@ -13,13 +14,22 @@ export class TeilnehmerListeComponent implements OnInit {
   i = 1;
   editId: number | null = null;
   listOfData: Guest[] = [];
+  currentDate: Date = new Date();
+  day = String(this.currentDate.getDate()).padStart(2, '0');
+  month = String(this.currentDate.getMonth() + 1).padStart(2, '0'); // Monate sind 0-indexiert
+  year = String(this.currentDate.getFullYear()).slice(-2); // Die letzten zwei Ziffern des Jahres
+  formattedDate = `${this.day}_${this.month}_${this.year}`;
+  currentGuests: Guest[] = [];
+  currentId: String;
 
-  constructor(public translate: TranslateService,
+  constructor(public translate: TranslateService,private http: HttpService,
     public dialogRef: MatDialogRef<TeilnehmerListeComponent>, private notificationService: NotificationService,
-    @Inject(MAT_DIALOG_DATA) public guests: Guest[]
+    @Inject(MAT_DIALOG_DATA) public data: { guests: Guest[], id: String }
   ) {
-    if (guests !== null && guests !== undefined) {
-      guests.forEach(element => this.addRow(element));
+    this.currentGuests = data.guests;
+    this.currentId = data.id;
+    if (data.guests !== null && data.guests !== undefined) {
+      data.guests.forEach(element => this.addRow(element));
     }
     if (this.listOfData.length === 0) {
       this.addRow({})
@@ -75,5 +85,27 @@ export class TeilnehmerListeComponent implements OnInit {
     } else {
       this.dialogRef.close(undefined);
     }
+  }
+
+  getPdf() {
+    this.downloadFile();
+    this.translate.get('STANDARD.pdf1').subscribe((translatedMessage: string) => {
+      this.notificationService.createBasicNotification(0, translatedMessage, "Teilnehmerliste_"+this.formattedDate+".pdf", 'topRight');
+    });
+  }
+  downloadFile() {
+    this.http.getMembersListPdf(this.currentId).subscribe(
+      (response: Blob) => {
+        this.saveFile(response, "Teilnehmerliste_" + this.formattedDate + ".pdf")
+      });
+  }
+
+  private saveFile(data: Blob, filename: string): void {
+    const blob = new Blob([data], { type: 'application/octet-stream' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click();
+    window.URL.revokeObjectURL(url);
+    a.remove();
   }
 }

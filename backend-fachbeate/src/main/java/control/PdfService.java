@@ -8,9 +8,13 @@ import com.lowagie.text.pdf.PdfWriter;
 import entity.*;
 import entity.dto.MainListDTO;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 
 import java.awt.*;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -377,6 +381,172 @@ public class PdfService {
             addSection(document, "Mittagessen", new String[][]{{"Insg. Personenanzahl", String.valueOf(workshopRequirement.mealAmount)}, {"Von - Bis", formatDate(workshopRequirement.mealDateFrom) + " - " + formatDate(workshopRequirement.mealDateTo)}, {"Uhrzeit", workshopRequirement.mealTime}, {"Vegan", String.valueOf(workshopRequirement.mealWishesVegan)}, {"Halal", String.valueOf(workshopRequirement.mealWishesVegetarian)}, {"Sonstige", workshopRequirement.otherMealWishes}, {"Personenanzahl", String.valueOf(workshopRequirement.otherMealWishesAmount)},});
         }
 
+        document.close();
+
+        return byteArrayOutputStream.toByteArray();
+    }
+
+    public byte[] createBookingPdf(Long bookingId) throws DocumentException {
+
+        BookingRequest bookingRequest = BookingRequest.findById(bookingId);
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+        Document document = new Document();
+        PdfWriter.getInstance(document, byteArrayOutputStream);
+
+        document.open();
+
+        // Titel
+        document.add(new Paragraph("Reiseanforderung: R_" + bookingRequest.id, FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, Font.BOLD)));
+
+        addSection(document, "Reiseanforderung für Geschäftsreise", new String[][]
+                {{"Name Mitarbeiter", bookingRequest.employeeNameAndCompany},
+                        {"Grund Reise", bookingRequest.reasonForTrip},
+                        {"Von", formatDate(bookingRequest.mainStartDate)},
+                        {"Bis", formatDate(bookingRequest.mainEndDate)},
+                        {"Sonstige Anmerkungen", bookingRequest.otherNotes}});
+
+        if (bookingRequest.hotelBooking) {
+            document.add(new Paragraph("Hotelbuchung", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14)));
+            document.add(new Paragraph("     "));
+            PdfPTable hotelbooking = new PdfPTable(3);
+            hotelbooking.setWidthPercentage(100);
+            hotelbooking.addCell("Ort und gewünschte Lage");
+            hotelbooking.addCell("Von - Bis");
+            hotelbooking.addCell("Sonstige Anmerkungen");
+
+            for (HotelBooking h : bookingRequest.hotelBookings) {
+                hotelbooking.addCell(h.hotelLocation);
+                hotelbooking.addCell(formatDate(h.hotelStayFromDate) + " - " + formatDate(h.hotelStayToDate));
+                hotelbooking.addCell(String.valueOf(h.otherHotelNotes));
+            }
+
+            document.add(hotelbooking);
+        }
+
+        if (bookingRequest.carRental) {
+            addSection(document, "Leihwagen Buchung", new String[][]
+                    {{"Ort Abholung und Rückgabe", String.valueOf(bookingRequest.carLocation)},
+                   {"Von - Bis", formatDate(bookingRequest.carFrom) + " - " + formatDate(bookingRequest.carTo)},
+                   {"Sonstige Anmerkungen", bookingRequest.otherCarNotes}});
+        }
+
+        if (bookingRequest.otherReq) {
+            addSection(document, "Sonstige Anforderungen", new String[][]
+                    {{"Gepäck Anzahl", String.valueOf(bookingRequest.luggageCount)},
+                    {"Gewicht(kg)", String.valueOf(bookingRequest.luggageWeight)},
+                    {"Bevorzugter Sitzplatz", String.valueOf(bookingRequest.windowCorridor)},
+                    {"Bevorzugte Arbeitszeit", String.valueOf(bookingRequest.preferredTime)},
+                    {"Sonstiges", String.valueOf(bookingRequest.otherReqOtherNotes)}});
+        }
+
+        if (bookingRequest.trainTicketBooking) {
+            addSection(document, "Buchung Zugticket", new String[][]
+                    {{"Von Bahnhof", String.valueOf(bookingRequest.trainFrom)},
+                    {"Nach Bahnhof", String.valueOf(bookingRequest.trainTo)},
+                    {"Von", formatDate(bookingRequest.trainStartDate)},
+                    {"Bis", formatDate(bookingRequest.trainEndDate)},
+                    {"Sonstige Anmerkungen", bookingRequest.trainOtherNotes}});
+        }
+
+        if (bookingRequest.flightBookingRoundTrip) {
+            addSection(document, "Flug Buchung Hin- / Retour", new String[][]
+                    {{"Von Flughafen", String.valueOf(bookingRequest.flightFrom)},
+                            {"Alternativer Flughafen", String.valueOf(bookingRequest.alternativeFlightFrom)},
+                            {"Nach Flughafen",  String.valueOf(bookingRequest.flightTo)},
+                            {"Alternativer Flughafen",  String.valueOf(bookingRequest.alternativeFlightTo)}
+                    });
+        }
+
+        if (bookingRequest.flightBookingMultiLeg) {
+            document.add(new Paragraph("Flug Buchung Gabelflüge", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14)));
+            document.add(new Paragraph("     "));
+            PdfPTable flightBookingMultiLeg = new PdfPTable(6);
+            flightBookingMultiLeg.setWidthPercentage(100);
+            flightBookingMultiLeg.addCell("Datum");
+            flightBookingMultiLeg.addCell("Von Flughafen");
+            flightBookingMultiLeg.addCell("Alternativer Flughafen");
+            flightBookingMultiLeg.addCell("Nach Flughafen");
+            flightBookingMultiLeg.addCell("Alternativer Flughafen");
+            flightBookingMultiLeg.addCell("Sonstige Anmerkungen");
+
+            for (AdvancedFlightBooking p : bookingRequest.flights) {
+                flightBookingMultiLeg.addCell(formatDate(p.flightDate));
+                flightBookingMultiLeg.addCell(String.valueOf(p.flightFrom));
+                flightBookingMultiLeg.addCell(String.valueOf(p.flightFrom));
+                flightBookingMultiLeg.addCell(String.valueOf(p.flightTo));
+                flightBookingMultiLeg.addCell(String.valueOf(p.alternativeFlightFrom));
+                flightBookingMultiLeg.addCell(String.valueOf(p.otherNotes));
+            }
+            document.add(flightBookingMultiLeg);
+        }
+
+        document.close();
+
+        return byteArrayOutputStream.toByteArray();
+    }
+
+    public byte[] createMembersPdf(String text) throws DocumentException {
+        List<Guest> guests = null;
+        String type = text.split("_")[0];
+        String id = text.split("_")[1];
+        System.out.println(id);
+        System.out.println(text);
+        if (Objects.equals(type, "S"))
+        {
+            WorkshopRequirement w= WorkshopRequirement.findById(id);
+            System.out.println(w);
+            guests=w.guests.stream().toList();
+        }
+        else  if (Objects.equals(type, "B")){
+            VisitorRegistration f = VisitorRegistration.findById(id);
+            System.out.println(f);
+            guests=f.guests.stream().toList();
+        }
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        Document document = new Document();
+        PdfWriter.getInstance(document, byteArrayOutputStream);
+
+        document.open();
+        Date date = new Date();
+
+        // Titel
+        document.add(new Paragraph("Teilnehmerliste: T_" + formatDate(date), FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, Font.BOLD)));
+        document.add(new Paragraph("     ")); // Leerzeile
+
+        // Tabelle erstellen
+        PdfPTable table = new PdfPTable(4);
+        table.setWidthPercentage(100);
+        table.addCell("Hr./Fr./Div.");
+        table.addCell("Vorname");
+        table.addCell("Nachname");
+        table.addCell("Funktion im Unternehmen");
+
+        for (Guest p : guests) {
+            String gender;
+            switch (p.sex) {
+                case 1:
+                    gender = "Herr";
+                    break;
+                case 2:
+                    gender = "Frau";
+                    break;
+                default:
+                    gender = "Divers";
+                    break;
+            }
+            table.addCell(gender);
+            table.addCell(p.firstName != null ? p.firstName : "");
+            table.addCell(p.lastName != null ? p.lastName : "");
+            table.addCell(p.function != null ? p.function : "");
+        }
+
+        // Tabelle zum Dokument hinzufügen
+        document.add(table);
+
+        // Dokument schließen
         document.close();
 
         return byteArrayOutputStream.toByteArray();

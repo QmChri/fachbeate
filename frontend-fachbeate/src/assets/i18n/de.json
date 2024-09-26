@@ -109,7 +109,9 @@
         "seminar": "Seminar",
         "visit": "Reise A.",
         "canceled": "Storniert",
-        "berichte": "Berichte"
+        "berichte": "Berichte",
+        "visible": "Sichtbar",
+        "!visible": "Nicht Sichtbar"
     },
     "CUSTOMER_REQUIREMENTS": {
         "advisor_request": "Fachberater Anforderung",
@@ -317,7 +319,7 @@
     },
     "BOOKING_REQUEST": {
         "bookingRequest": "Reiseanforderung",
-        "businessTripBookingRequest": "Reiseanforderung für Geschäftsreise",
+        "businessTripBookingRequest": "Reiseanforderung für Geschäftsreise ",
         "booking": "Besuch",
         "employeeNameAndCompany": "Name Mitarbeiter + Firma",
         "reasonForTrip": "Grund Reise",
@@ -334,11 +336,11 @@
         "alternativeTrainStation": "Alternativer Bahnhof",
         "flightBookingMultiLeg": "Flug Buchung Gabelflüge",
         "flight": "Flug",
-        "preferredTime": "Bevorzugte Zeit",
+        "preferredTime": "Bevorzugte Abreisezeit",
         "morning": "Morgens",
         "noon": "Mittags",
         "evening": "Abends",
-        "luggageQuantity": "Gepäck",
+        "luggageQuantity": "Gepäck Anzahl",
         "weightKg": "Gewicht (kg)",
         "locationAndDesiredArea": "Ort und gewünschte Lage",
         "pickupAndReturnLocation": "Ort Abholung und Rückgabe",
@@ -358,7 +360,12 @@
         "footer3_item1": "Sekretariat: (MO – DO 07:00 – 15:30; FR 07:00 – 13:30)",
         "footer3_item2": "Fr. Arijanda Iska",
         "footer3_item3": "E-mail: office@almi.at; Tel. +43 7221 733 99-294;",
-        "footer3_item4": "Vertretung: Fr. Emma Gartner, +43 7221 733 99-295"
+        "footer3_item4": "Vertretung: Fr. Emma Gartner, +43 7221 733 99-295",
+        "other_requirements": "Sonstige Anforderungen",
+        "windowCorridor": "Bevorzugter Sitzplatz",
+        "window": "Fenster",
+        "corridor": "Gang",
+        "others": "Sonstiges"
     },
     "SUPPORT": {
         "header": "Fehler/Bug melden",

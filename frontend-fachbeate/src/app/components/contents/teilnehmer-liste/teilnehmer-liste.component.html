@@ -1,8 +1,9 @@
 <div class="mainView">
     <div class="header">
         <h1 style="margin: 0%;">{{'VISITOR_REGRISTRATION.participant_list' | translate}}</h1>
-        <!--<button (click)="addRow({})" class="btn btn-success">{{'DIALOG-MEMBERS.add' | translate}}</button>-->
-        <button (click)="addRow({})" nz-button nzType="primary">{{'CREATION_SITES.add' | translate}}</button>
+        <button style="margin-right: 2px;" class="btn btn-secondary" 
+        *ngIf="listOfData.length !== null || listOfData.length !== undefined" (click)="getPdf()">PDF
+        </button> <button (click)="addRow({})" nz-button nzType="primary">{{'CREATION_SITES.add' | translate}}</button>
     </div>
     <hr>
     <div>
@@ -27,7 +28,7 @@
                     </td>
                     <td>
                         <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id!)">
-                            {{ (data.function) ? data.function : ('CREATION_SITES.enter_here' | translate) }}
+                            {{ (data.firstName) ? data.firstName : ('CREATION_SITES.enter_here' | translate) }}
                         </div>
                         <input [hidden]="editId !== data.id" type="text"
                             [placeholder]="'CREATION_SITES.enter_here' | translate" nz-input
@@ -35,7 +36,7 @@
                     </td>
                     <td>
                         <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id!)">
-                            {{ (data.function) ? data.function : ('CREATION_SITES.enter_here' | translate) }}
+                            {{ (data.lastName) ? data.lastName : ('CREATION_SITES.enter_here' | translate) }}
                         </div>
                         <input [hidden]="editId !== data.id" type="text"
                             [placeholder]="'CREATION_SITES.enter_here' | translate" nz-input

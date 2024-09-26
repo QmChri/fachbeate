@@ -18,17 +18,15 @@ import { environment } from '../../../../environments/environment';
   styleUrl: './booking-request.component.scss'
 })
 export class BookingRequestComponent implements OnInit {
+  control = new FormControl(null, Validators.required);
   addItem: string = "";
   fileList: NzUploadFile[] = [];
-  costCoverages: string[] = [
-    'almiGmbH',
-    'almiSubsidiary'
-  ];
   buttonSelect: String[] = []
   bookingControl = new FormControl<BookingRequestComponent | null>(null, Validators.required);
   freigegeben: boolean = true;
   inputBooking: Booking = {
-    flights: []
+    flights: [],
+    hotelBookings: []
   };
 
   constructor(private dialog: MatDialog, private translate: TranslateService, private http: HttpService, private route: ActivatedRoute,
@@ -36,36 +34,33 @@ export class BookingRequestComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.route.paramMap.subscribe(params => {
-
       if (params.get('id') != null) {
-
         this.http.getBookingById(parseInt(params.get('id')!)).subscribe({
-
           next: data => {
             if (data != null) {
               this.inputBooking = data;
 
               this.inputBooking.mainStartDate = this.convertToDate(this.inputBooking.mainStartDate);
               this.inputBooking.mainEndDate = this.convertToDate(this.inputBooking.mainEndDate);
-
-              if (this.inputBooking.files !== null && this.inputBooking.files !== undefined && this.inputBooking.files.length !== 0) {
-                this.fileList = this.inputBooking.files!.map((file, index) => ({
-                  uid: index.toString(),
-                  name: file.fileName,
-                  status: "done",
-                  originFileObj: this.base64ToFile(file.fileContent, file.fileName),
-                  url: environment.backendApi + "booking/file/" + this.inputBooking.id + "/" + file.fileName
-                }));
-              }
-
+              /*
+                            if (this.inputBooking.files !== null && this.inputBooking.files !== undefined && this.inputBooking.files.length !== 0) {
+                              this.fileList = this.inputBooking.files!.map((file, index) => ({
+                                uid: index.toString(),
+                                name: file.fileName,
+                                status: "done",
+                                originFileObj: this.base64ToFile(file.fileContent, file.fileName),
+                                url: environment.backendApi + "booking/file/" + this.inputBooking.id + "/" + file.fileName
+                              }));
+                            }
+              */
               this.buttonSelect = [
                 (data.hotelBooking) ? "4" : "",
                 (data.flightBookingMultiLeg) ? "1" : "",
                 (data.flightBookingRoundTrip) ? "2" : "",
                 (data.trainTicketBooking) ? "3" : "",
-                (data.carRental) ? "5" : ""
+                (data.carRental) ? "5" : "",
+                (data.otherReq) ? "6" : ""
               ].filter(p => p != "");
             }
           },
@@ -90,8 +85,75 @@ export class BookingRequestComponent implements OnInit {
   }
 
   checkRequired(): boolean {
-    //TODO
-    return true;
+    var requirements: string[] = [
+      (this.inputBooking.employeeNameAndCompany === null || this.inputBooking.employeeNameAndCompany === undefined || this.inputBooking.employeeNameAndCompany === "") ? "BOOKING_REQUEST.employeeNameAndCompany" : "",
+      (this.inputBooking.reasonForTrip === null || this.inputBooking.reasonForTrip === undefined || this.inputBooking.reasonForTrip === "") ? "BOOKING_REQUEST.reasonForTrip" : "",
+      (this.inputBooking.mainStartDate === null || this.inputBooking.mainStartDate === undefined) ? "CUSTOMER_REQUIREMENTS.from_to" : "",
+      (this.inputBooking.mainEndDate === null || this.inputBooking.mainEndDate === undefined) ? "CUSTOMER_REQUIREMENTS.from_to" : "",
+    ];
+
+
+    if (this.inputBooking.hotelBooking) {
+      this.inputBooking.hotelBookings.forEach(s => {
+        if (s.hotelLocation === null || s.hotelLocation === undefined || s.hotelLocation === "") {
+          requirements.push("BOOKING_REQUEST.locationAndDesiredArea");
+        } if ((s.hotelStayFromDate === null || s.hotelStayFromDate === undefined) && (s.hotelStayToDate === null || s.hotelStayToDate === undefined)) {
+          requirements.push("CUSTOMER_REQUIREMENTS.from_to");
+        }
+      });
+    }
+    if (this.inputBooking.flightBookingMultiLeg) {
+      this.inputBooking.flights.forEach(s => {
+        if (s.flightDate === null || s.flightDate === undefined) {
+          requirements.push("VISITOR_REGRISTRATION.date");
+        } if (s.flightFrom === null || s.flightFrom === undefined) {
+          requirements.push("BOOKING_REQUEST.fromAirport");
+        } if (s.flightTo === null || s.flightTo === undefined) {
+          requirements.push("BOOKING_REQUEST.toAirport");
+        }
+        if (s.alternativeFlightFrom === null || s.alternativeFlightFrom === undefined) {
+          requirements.push("BOOKING_REQUEST.alternativeAirport");
+        }
+      });
+    }
+    if (this.inputBooking.flightBookingRoundTrip) {
+      requirements.push(
+        (this.inputBooking.flightFrom === null || this.inputBooking.flightFrom === undefined || this.inputBooking.flightFrom === "") ? "BOOKING_REQUEST.fromAirport" : "",
+        (this.inputBooking.flightTo === null || this.inputBooking.flightTo === undefined || this.inputBooking.flightTo === "") ? "BOOKING_REQUEST.toAirport" : ""
+      );
+    }
+    if (this.inputBooking.trainTicketBooking) {
+      requirements.push(
+        (this.inputBooking.trainFrom === null || this.inputBooking.trainFrom === undefined || this.inputBooking.trainFrom === "") ? "BOOKING_REQUEST.fromTrainStation" : "",
+        (this.inputBooking.trainTo === null || this.inputBooking.trainTo === undefined || this.inputBooking.trainTo === "") ? "BOOKING_REQUEST.toTrainStation" : ""
+      )
+    }
+    if (this.inputBooking.carRental) {
+      requirements.push(
+        (this.inputBooking.carLocation === null || this.inputBooking.carLocation === undefined || this.inputBooking.carLocation === "") ? "BOOKING_REQUEST.pickupAndReturnLocation" : "",
+        ((this.inputBooking.carFrom === null || this.inputBooking.carFrom === undefined) && (this.inputBooking.carTo === null || this.inputBooking.carTo === undefined)) ? "CUSTOMER_REQUIREMENTS.from_to" : "");
+    }
+    /*
+     this.buttonSelect = [
+          (data.hotelBooking) ? "4" : "",
+          (data.flightBookingMultiLeg) ? "1" : "",
+          (data.flightBookingRoundTrip) ? "2" : "",
+          (data.trainTicketBooking) ? "3" : "",
+          (data.carRental) ? "5" : "",
+          (data.otherReq) ? "6" : ""
+        ].filter(p => p != "");
+    */
+
+    requirements = requirements.filter(element => element !== "");
+    if (requirements.length !== 0) {
+      this.translate.get(['STANDARD.please_fill_required_fields', ...requirements.map(element => element)]).subscribe(translations => {
+        const message = translations['STANDARD.please_fill_required_fields'];
+        const anotherMessage = requirements.map(element => translations[element]).toString();
+        this.notificationService.createBasicNotification(4, message, anotherMessage, 'topRight');
+      });
+    }
+
+    return requirements.length === 0;
   }
 
   release(department: string) {
@@ -220,7 +282,7 @@ export class BookingRequestComponent implements OnInit {
         break;
       }
       /*case 4: { // Pflichtfelder ausfüllen
-        
+
         this.translate.get(['STANDARD.please_fill_required_fields', 'STANDARD.assigned_representative']).subscribe(translations => {
           const message = translations['STANDARD.please_fill_required_fields'];
           const anotherMessage = translations['STANDARD.assigned_representative'];
@@ -280,7 +342,7 @@ export class BookingRequestComponent implements OnInit {
       if (this.fileList !== null && this.fileList !== undefined && this.fileList.length !== 0) {
         this.fileList.map(element => element.originFileObj!).forEach(element => {
           // Adding all Files to the Form
-          formData.append("files", element!)
+          //formData.append("files", element!)
         })
       }
 
@@ -305,7 +367,8 @@ export class BookingRequestComponent implements OnInit {
             (data.flightBookingMultiLeg) ? "1" : "",
             (data.flightBookingRoundTrip) ? "2" : "",
             (data.trainTicketBooking) ? "3" : "",
-            (data.carRental) ? "5" : ""
+            (data.carRental) ? "5" : "",
+            (data.otherReq) ? "6" : ""
           ].filter(p => p != "");
         },
         error: err => {
@@ -321,24 +384,31 @@ export class BookingRequestComponent implements OnInit {
     this.inputBooking.trainTicketBooking = this.buttonSelect.includes("3");
     this.inputBooking.hotelBooking = this.buttonSelect.includes("4");
     this.inputBooking.carRental = this.buttonSelect.includes("5");
+    this.inputBooking.otherReq = this.buttonSelect.includes("6");
 
 
     if (this.inputBooking.flightBookingMultiLeg && this.inputBooking.flights.length === 0) {
-      this.addTab();
+      this.addTab(1);
+    }
+    if (this.inputBooking.hotelBooking && this.inputBooking.hotelBookings.length === 0) {
+      this.addTab(2);
     }
   }
 
-  addTab() {
-    this.inputBooking.flights = [...this.inputBooking.flights, {}]
+  addTab(type: number) {
+    if (type === 1) {
+      this.inputBooking.flights = [...this.inputBooking.flights, {}]
+    } else if (type === 2) {
+      this.inputBooking.hotelBookings = [...this.inputBooking.hotelBookings, {}]
+    }
   }
 
-  deleteLast() {
-    if (this.inputBooking.flights.length > 1)
+  deleteLast(type: number) {
+    if (this.inputBooking.flights.length > 1 && type === 1) {
       this.inputBooking.flights.pop();
-  }
-
-  addToList(addItem: string) {
-    this.costCoverages.push(addItem);
+    } else if (this.inputBooking.hotelBookings.length > 1 && type === 2) {
+      this.inputBooking.hotelBookings.pop();
+    }
   }
 
   convertToDate(date: any): Date | undefined {
@@ -346,9 +416,9 @@ export class BookingRequestComponent implements OnInit {
   }
 
   downloadFile() {
-    this.http.getFinalPdf(this.inputBooking.id!).subscribe(
+    this.http.getBookingPdf(this.inputBooking.id!).subscribe(
       (response: Blob) => {
-        this.saveFile(response, "Abschlussbericht_" + this.inputBooking.id + ".pdf")
+        this.saveFile(response, "Reiseanforderung_" + this.inputBooking.id + ".pdf")
       });
   }
 

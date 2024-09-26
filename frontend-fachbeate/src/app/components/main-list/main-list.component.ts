@@ -8,7 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Company } from '../../models/company';
 import * as XLSX from 'xlsx';
 import { log } from '../../services/logger.service';
-
+import { NzTableFilterList } from 'ng-zorro-antd/table';
 
 @Component({
   selector: 'app-main-list',
@@ -111,9 +111,9 @@ export class MainListComponent implements OnInit {
     {
       name: 'canceled',
       sortOrder: null,
-      sortFn: (a, b) => 0,
+      sortFn: (a: DataItem, b: DataItem) => 0,
       listOfFilter: [],
-      filterFn: (list, item) => true,
+      filterFn: (list: boolean[], item: DataItem) => list.some(name => item.visible!.valueOf().toString().indexOf(name.valueOf().toString()) !== -1)
     }
   ];
 
@@ -230,6 +230,13 @@ export class MainListComponent implements OnInit {
         }
         return false;
       });
+
+    this.listOfColumn.find(element => element.name === 'canceled')!.listOfFilter = [
+      { text: this.translate.instant('MAIN_LIST.visible'), value: "true", byDefault: true },
+      { text: this.translate.instant('MAIN_LIST.!visible'), value: "false" }
+    ];
+
+    this.filterMainList(5)
   }
 
   //All data for a user is received here
@@ -372,6 +379,18 @@ export class MainListComponent implements OnInit {
         this.getNzFilters();
       }
     })
+  }
+
+  filterMainList(days: number) {
+    const daysAgo = new Date();
+    daysAgo.setDate(daysAgo.getDate() - days - 1);
+    this.listOfDisplayData = this.listOfDisplayData.filter(item => {
+      if (!item.dateOfCreation) {
+        return false;
+      }
+      const creationDate = new Date(item.dateOfCreation);
+      return creationDate >= daysAgo;
+    });
   }
 
   loadTechnologists() {
@@ -564,7 +583,7 @@ interface ColumnDefinition {
   name: string;
   sortOrder: any;
   sortFn: (a: DataItem, b: DataItem) => number;
-  listOfFilter: { text: string, value: string }[];
+  listOfFilter: NzTableFilterList;
   filterFn?: (list: any, item: DataItem) => boolean;
 }
 

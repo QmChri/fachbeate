@@ -105,7 +105,11 @@
         "advisor_type": "Тип консультанта",
         "seminar": "Семинар",
         "visit": "Посещение",
-        "berichte": "отчет"
+        "berichte": "отчет",
+        "visible": "Видимый",
+        "!visible": "Не видимый",
+        "canceled": "Отменено"
+
     },
     "CUSTOMER_REQUIREMENTS": {
         "advisor_request": "Запрос технолога-консультанта",
@@ -270,7 +274,7 @@
         "report_completed": "Сообщение завершено"
     },
     "CREATION_SITES": {
-        "id": "ID",
+        "id": "Id",
         "user_management": "Управление пользователями",
         "new_advisor_user_management": "Новый технолог-консультант",
         "new_representative_user_management": "Новый представитель (менеджер)",
@@ -313,7 +317,7 @@
     },
     "BOOKING_REQUEST": {
         "bookingRequest": "Запрос на бронирование",
-        "businessTripBookingRequest": "Запрос на бронирование для командировки",
+        "businessTripBookingRequest": "Запрос на бронирование командировки",
         "booking": "Бронирование",
         "employeeNameAndCompany": "Имя сотрудника + Компания",
         "reasonForTrip": "Причина поездки",
@@ -330,7 +334,7 @@
         "alternativeTrainStation": "Альтернативный железнодорожный вокзал",
         "flightBookingMultiLeg": "Бронирование перелетов с пересадками",
         "flight": "Перелет",
-        "preferredTime": "Предпочтительное время",
+        "preferredTime": "Предпочитаемое время отправления",
         "morning": "Утро",
         "noon": "Полдень",
         "evening": "Вечер",
@@ -354,7 +358,12 @@
         "footer3_item1": "Секретариат: (ПН – ЧТ 07:00 – 15:30; ПТ 07:00 – 13:30)",
         "footer3_item2": "Г-жа Арижанда Иска",
         "footer3_item3": "Электронная почта: office@almi.at; Тел. +43 7221 733 99-294;",
-        "footer3_item4": "Заместитель: Г-жа Эмма Гартнер, +43 7221 733 99-295"
+        "footer3_item4": "Заместитель: Г-жа Эмма Гартнер, +43 7221 733 99-295",
+        "other_requirements": "Прочие требования",
+        "windowCorridor": "Предпочитаемое место",
+        "window": "Окно",
+        "corridor": "Проход",
+        "others": "Другое"
     },
     "SUPPORT": {
         "header": "Сообщить об ошибке/глюке",
