@@ -55,11 +55,14 @@ export class CreateDealerComponent implements OnInit {
       });
     }
     else {
-      this.translate.get('STANDARD.new_dealer_created').subscribe((translatedMessage: string) => {
-        this.notificationService.createBasicNotification(0, translatedMessage, this.inputCompany.name!, 'topRight');
-      });
+      
       this.http.postCompany(this.inputCompany).subscribe({
         next: data => {
+          
+          this.translate.get('STANDARD.new_dealer_created').subscribe((translatedMessage: string) => {
+            this.notificationService.createBasicNotification(0, translatedMessage, this.inputCompany.name!, 'topRight');
+          });
+
           this.inputCompany = {
             id: 0,
             name: "",

@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, input, OnInit } from '@angular/core';
 import { Technologist } from '../../../../models/technologist';
 import { HttpService } from '../../../../services/http.service';
 import { NotificationService } from '../../../../services/notification.service';
@@ -68,12 +68,14 @@ export class CreateTechnologistComponent implements OnInit {
       });
     }
     else {
-      this.translate.get('STANDARD.new_advisor_created').subscribe((translatedMessage: string) => {
-        this.notificationService.createBasicNotification(0, translatedMessage, this.inputTechnologist.firstName + ' ' +
-          this.inputTechnologist.lastName, 'topRight');
-      });
       this.http.postTechnologist(this.inputTechnologist).subscribe({
+        
         next: data => {
+          this.translate.get('STANDARD.new_advisor_created').subscribe((translatedMessage: string) => {
+            this.notificationService.createBasicNotification(0, translatedMessage, this.inputTechnologist.firstName + ' ' +
+              this.inputTechnologist.lastName, 'topRight');
+          });
+
           this.inputTechnologist = {
             id: 0,
             firstName: "",

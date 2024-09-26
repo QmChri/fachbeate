@@ -78,10 +78,6 @@ export class CreateRepresentativeComponent implements OnInit {
       });
     }
     else {
-      this.translate.get('STANDARD.new_representative_created').subscribe((translatedMessage: string) => {
-        this.notificationService.createBasicNotification(0, translatedMessage, this.inputRepresentative.firstName + ' ' +
-          this.inputRepresentative.lastName, 'topRight');
-      });
 
       this.http.postRepresentative(
         {
@@ -92,6 +88,12 @@ export class CreateRepresentativeComponent implements OnInit {
           active: this.inputRepresentative.active
         }).subscribe({
           next: data => {
+            
+            this.translate.get('STANDARD.new_representative_created').subscribe((translatedMessage: string) => {
+              this.notificationService.createBasicNotification(0, translatedMessage, this.inputRepresentative.firstName + ' ' +
+                this.inputRepresentative.lastName, 'topRight');
+            });
+            
             this.inputRepresentative = {
               id: 0,
               firstName: "",

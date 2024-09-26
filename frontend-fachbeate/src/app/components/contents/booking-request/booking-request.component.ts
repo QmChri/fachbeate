@@ -1,4 +1,4 @@
-import { Component, input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NotificationService } from '../../../services/notification.service';
 import { RoleService } from '../../../services/role.service';
 import { HttpService } from '../../../services/http.service';
@@ -22,6 +22,7 @@ export class BookingRequestComponent implements OnInit {
   addItem: string = "";
   fileList: NzUploadFile[] = [];
   buttonSelect: String[] = []
+  bookingControl = new FormControl<BookingRequestComponent | null>(null, Validators.required);
   freigegeben: boolean = true;
   inputBooking: Booking = {
     flights: [],
@@ -281,7 +282,7 @@ export class BookingRequestComponent implements OnInit {
         break;
       }
       /*case 4: { // Pflichtfelder ausfüllen
-        
+
         this.translate.get(['STANDARD.please_fill_required_fields', 'STANDARD.assigned_representative']).subscribe(translations => {
           const message = translations['STANDARD.please_fill_required_fields'];
           const anotherMessage = translations['STANDARD.assigned_representative'];
@@ -329,7 +330,6 @@ export class BookingRequestComponent implements OnInit {
       }
       this.inputBooking.lastEditor = this.roleService.getUserName();
 
-      this.getNotification(1);
       this.inputBooking.showUser = true;
 
       (this.inputBooking.mainStartDate !== null && this.inputBooking.mainStartDate !== undefined) ? new Date(this.inputBooking.mainStartDate!.toString()).setHours(5) : "";
@@ -338,7 +338,7 @@ export class BookingRequestComponent implements OnInit {
 
       //Create Form to Send Files and Booking Request Data
 
-      let formData = new FormData();
+      /*let formData = new FormData();
       if (this.fileList !== null && this.fileList !== undefined && this.fileList.length !== 0) {
         this.fileList.map(element => element.originFileObj!).forEach(element => {
           // Adding all Files to the Form
@@ -346,14 +346,14 @@ export class BookingRequestComponent implements OnInit {
         })
       }
 
-      //formData.append('booking', JSON.stringify(this.inputBooking));
+      formData.append('booking', JSON.stringify(this.inputBooking));*/
 
-      //this.http.postBookingMultiPart(formData).subscribe({
       this.http.postBookingRequest(this.inputBooking).subscribe({
         next: data => {
+          this.getNotification(1);
           this.inputBooking = data;
 
-          if (sendmail) {
+          if(sendmail){
             this.http.sendMail(
               ["geschaeftsleitung"],
               "R_" + this.inputBooking.id,

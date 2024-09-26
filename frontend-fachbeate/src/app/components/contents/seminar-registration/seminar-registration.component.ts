@@ -288,7 +288,6 @@ export class SeminarRegistrationComponent implements OnInit {
   postWorkshopRequest() {
     var sendmail: boolean = false;
     if (this.checkRequired()) {
-      this.getNotification(1);
       this.inputWorkshop.showUser = true;
       //this.inputWorkshop.reason = "Seminaranmeldung"
       this.inputWorkshop.dateOfCreation = new Date();
@@ -296,9 +295,6 @@ export class SeminarRegistrationComponent implements OnInit {
         sendmail = true;
         this.inputWorkshop.creator = this.roleService.getUserName();
       }
-
-
-      console.log(typeof this.inputWorkshop.startDate);
 
       (this.inputWorkshop.startDate !== null || this.inputWorkshop.startDate !== undefined) ? new Date(this.inputWorkshop.startDate!.toString()).setHours(5) : "";
       (this.inputWorkshop.endDate !== null || this.inputWorkshop.endDate !== undefined) ? new Date(this.inputWorkshop.endDate!.toString())?.setHours(5) : "";
@@ -310,6 +306,7 @@ export class SeminarRegistrationComponent implements OnInit {
 
       this.http.postWorkshop(this.inputWorkshop).subscribe({
         next: data => {
+          this.getNotification(1);
           this.inputWorkshop = data;
           if (sendmail) {
             this.http.sendMail(

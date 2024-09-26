@@ -299,7 +299,6 @@ export class VisitorRegistrationComponent implements OnInit {
 
     this.inputVisitRegistration.lastEditor = this.roleService.getUserName();
 
-    this.getNotification(1);
     this.inputVisitRegistration.showUser = true;
     this.inputVisitRegistration.reason = "VisitorRegistration"
     this.inputVisitRegistration.plannedDepartmentVisits = [];
@@ -322,9 +321,9 @@ export class VisitorRegistrationComponent implements OnInit {
 
     this.http.postVisitorRegistration(this.inputVisitRegistration).subscribe({
       next: data => {
+        this.getNotification(1);
         this.inputVisitRegistration = data;
         if (sendmail) {
-          console.log(data)
           this.http.sendMail(
             ["geschaeftsleitung"],
             "B_" + this.inputVisitRegistration.id,
