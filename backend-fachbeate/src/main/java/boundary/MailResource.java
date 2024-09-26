@@ -59,7 +59,9 @@ public class MailResource {
     }
 
     Map<String, List<MailUser>> getSingleEmails(String id){
-
+        if(id == null || id.isEmpty()){
+            return new HashMap<>();
+        }
          String type = id.split("_")[0];
 
          List<MailUser> customers = keycloakService.getAllUsers();

@@ -15,6 +15,8 @@ import { MainListDTO } from '../models/main-list-dto';
 import { TechDateDTO } from '../models/tech-date-dto';
 import { Booking } from '../models/booking';
 import { Support } from '../models/support';
+import { MailRequest } from '../models/mail-request';
+import { log } from './logger.service';
 const API_URL = environment.backendApi
 
 @Injectable({
@@ -236,23 +238,14 @@ export class HttpService {
     }
   */
   sendMail(groups: string[], id: string, text: string, subject: string) {
-    var mailRequest: {
-      groups: string[];
-      id: string;
-      text: string;
-      subject: string;
-    } = { groups: groups, id: id, text: text, subject: subject }
+    var mailRequest: MailRequest = { groups: [...groups], id: id, text: text, subject: subject }
+    console.log(mailRequest)
 
     return this.http.post(API_URL + "mail/sendMail", mailRequest);
   }
 
   sendToAdress(adress: string, message: string, subject: string) {
-    var mailRequest: {
-      groups: string[];
-      id: string;
-      text: string;
-      subject: string;
-    } = {groups: [adress], id: undefined!, text: message, subject: subject}
+    var mailRequest: MailRequest = {groups: [adress], id: undefined!, text: message, subject: subject}
 
     return this.http.post(API_URL + "mail/sendToAddress",mailRequest);
   }
