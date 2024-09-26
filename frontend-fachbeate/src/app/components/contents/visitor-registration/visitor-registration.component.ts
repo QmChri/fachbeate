@@ -305,10 +305,17 @@ export class VisitorRegistrationComponent implements OnInit {
 
     this.inputVisitRegistration.fromDate = (this.inputVisitRegistration.fromDate !== null && this.inputVisitRegistration.fromDate !== undefined) ? new Date(this.inputVisitRegistration.fromDate?.setHours(5)) : this.inputVisitRegistration.fromDate;
     this.inputVisitRegistration.toDate = (this.inputVisitRegistration.toDate !== null && this.inputVisitRegistration.toDate !== undefined) ? new Date(this.inputVisitRegistration.toDate?.setHours(5)) : this.inputVisitRegistration.toDate;
+    if(this.inputVisitRegistration.fromDate! >this.inputVisitRegistration.toDate!){
+      this.getNotification(10)
+      return
+    }
 
     (this.inputVisitRegistration.stayFromDate !== null && this.inputVisitRegistration.stayFromDate !== undefined) ? new Date(this.inputVisitRegistration.stayFromDate).setHours(5) : "";
     (this.inputVisitRegistration.stayToDate !== null && this.inputVisitRegistration.stayToDate !== undefined) ? new Date(this.inputVisitRegistration.stayToDate).setHours(5) : "";
-
+    if(this.inputVisitRegistration.stayFromDate! >this.inputVisitRegistration.stayToDate!){
+      this.getNotification(10)
+      return
+    }
     this.setOfCheckedId.forEach((value, key) => {
       this.inputVisitRegistration.plannedDepartmentVisits = [...this.inputVisitRegistration.plannedDepartmentVisits!,
       {
@@ -338,7 +345,8 @@ export class VisitorRegistrationComponent implements OnInit {
         })
       },
       error: err => {
-        log("visitor-regristration: ", err)
+        console.log(err)
+        //log("visitor-regristration: ", err)
       }
     })
   }
@@ -431,6 +439,15 @@ export class VisitorRegistrationComponent implements OnInit {
             const message1 = translations['MAIL.sended'];
             const message2 = translations['MAIL.A_7'];
             this.notificationService.createBasicNotification(0, message1, message2, 'topRight');
+          });
+        break;
+      }
+      case 10: { //Datum falsch
+        this.translate.get(['STANDARD.not_sended', 'STANDARD.note'])
+          .subscribe((translations: { [key: string]: string }) => {
+            const message1 = translations['STANDARD.not_sended'];
+            const message2 = translations['STANDARD.note'];
+            this.notificationService.createBasicNotification(4, message1, message2, 'topRight');
           });
         break;
       }

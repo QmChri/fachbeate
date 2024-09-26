@@ -80,7 +80,9 @@
         "pdf1": "PDF wurde erstellt!",
         "pdf2": "PDF konnte nicht erstellt werden!",
         "upload": "Hochladen",
-        "email_invalid": "Ungültige Email"
+        "email_invalid": "Ungültige Email",
+        "not_send":"Formular konnte nicht gesendet werden",
+        "note": "Eingabefelder überprüfen"
     },
     "DASHBOARD": {
         "advisor_schedule_overview": "Terminübersicht Fachberater",

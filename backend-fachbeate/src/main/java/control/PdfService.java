@@ -345,7 +345,7 @@ public class PdfService {
                 hotelbooking.addCell(formatDate(h.hotelStayFromDate) + " - " + formatDate(h.hotelStayToDate));
                 hotelbooking.addCell(String.valueOf(h.singleRooms));
                 hotelbooking.addCell(String.valueOf(h.doubleRooms));
-                hotelbooking.addCell(String.valueOf(h.selfPay));
+                hotelbooking.addCell(h.selfPay ? "Selbstbezahlung" : "Keine Selbstbezahlung");
             }
 
             document.add(hotelbooking);
@@ -356,13 +356,13 @@ public class PdfService {
         }
 
         if (workshopRequirement.trip) {
-            addSection(document, "Ausflug", new String[][]{{"Ausflug", workshopRequirement.tripLocation}, {"Datum", formatDate(workshopRequirement.tourDate)}, {"Uhrzeit", workshopRequirement.tourTime}, {"Weitere Anforderungen", workshopRequirement.otherTripRequests},});
+            addSection(document, "Ausflug", new String[][]{{"Ausflug", workshopRequirement.tripLocation}, {"Datum", formatDate(workshopRequirement.tripDate)}, {"Uhrzeit", workshopRequirement.tripTime}, {"Weitere Anforderungen", workshopRequirement.otherTripRequests},});
         }
 
         if (workshopRequirement.flightBooking) {
             document.add(new Paragraph("Flughafen Transfer - Zug", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14)));
             document.add(new Paragraph("     "));
-            PdfPTable flight = new PdfPTable(4);
+            PdfPTable flight = new PdfPTable(3);
             flight.setWidthPercentage(100);
             flight.addCell("Datum");
             flight.addCell("Von");
@@ -436,8 +436,16 @@ public class PdfService {
             addSection(document, "Sonstige Anforderungen", new String[][]
                     {{"Gepäck Anzahl", String.valueOf(bookingRequest.luggageCount)},
                     {"Gewicht(kg)", String.valueOf(bookingRequest.luggageWeight)},
-                    {"Bevorzugter Sitzplatz", String.valueOf(bookingRequest.windowCorridor)},
-                    {"Bevorzugte Arbeitszeit", String.valueOf(bookingRequest.preferredTime)},
+                    {"Bevorzugter Sitzplatz",
+                            "corridor".equals(bookingRequest.windowCorridor) ? "Gang" :
+                            "window".equals(bookingRequest.windowCorridor) ? "Fenster" :
+                            String.valueOf(bookingRequest.windowCorridor)}
+                    ,
+                    {"Bevorzugte Arbeitszeit",
+                            "morning".equals(bookingRequest.preferredTime) ? "Morgens" :
+                           "noon".equals(bookingRequest.preferredTime) ? "Mittags" :
+                           "evening".equals(bookingRequest.preferredTime) ? "Abends" :
+                                   String.valueOf(bookingRequest.preferredTime)},
                     {"Sonstiges", String.valueOf(bookingRequest.otherReqOtherNotes)}});
         }
 

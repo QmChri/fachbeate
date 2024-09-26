@@ -78,7 +78,9 @@
         "pdf1": "PDF was created!",
         "pdf2": "PDF could not be created!",
         "upload": "Upload",
-        "email_invalid": "Invalid email"
+        "email_invalid": "Invalid email",
+        "not_send": "Form could not be sent",
+        "note": "Check input fields"
     },
     "DASHBOARD": {
         "entry_for": "Entry for",
