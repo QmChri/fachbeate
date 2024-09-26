@@ -1,0 +1,27 @@
+<mat-form-field class="equal-width">
+    <mat-label>Subject</mat-label>
+    <input [(ngModel)]="subject" matInput>
+</mat-form-field>
+
+<mat-form-field class="equal-width">
+    <mat-label>Text</mat-label>
+    <input [(ngModel)]="message" matInput>
+</mat-form-field>
+<mat-form-field class="equal-width">
+    <label class="form-group">Groups</label>
+    <mat-select class="form-group" [(ngModel)]="groups" [multiple]="true">
+        <mat-option *ngFor="let item of allGroups" [value]="item">{{item}}</mat-option>
+    </mat-select>
+</mat-form-field>
+
+<button class="btn btn-primary" (click)="sendMail()">Send-Mail</button>
+
+------
+
+<mat-form-field class="equal-width">
+    <mat-label>Email adress</mat-label>
+    <input [(ngModel)]="adress" matInput>
+</mat-form-field>
+
+
+<button class="btn btn-primary" (click)="sendToAdress()">Send-Adress</button>

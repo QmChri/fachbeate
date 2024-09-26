@@ -65,7 +65,9 @@ export const navbarData: INavbarData[] = [
             {
                 routeLink: 'create-new-group',
                 label: 'new-group',
-            },/*
+            }
+            
+            /*
             {
                 routeLink: 'create-new-other-user',
                 label: 'new-user',
@@ -77,5 +79,11 @@ export const navbarData: INavbarData[] = [
         icon: 'fas fa-exclamation',
         label: 'support',
         role: [1, 2, 5, 7]
+    },
+    
+    {
+        routeLink: 'test',
+        label: 'test',
+        role: [7]
     }
 ];
