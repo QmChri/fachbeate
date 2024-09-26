@@ -199,7 +199,6 @@ export class CustomerRequirementsComponent implements OnInit {
   postCustomerRequirement() {
     var sendmail: boolean = false;
     if (this.checkRequired()) {
-      this.getNotification(1);
       this.inputCustomerRequirement.showUser = true;
       this.inputCustomerRequirement.dateOfCreation = new Date();
 
@@ -234,6 +233,7 @@ export class CustomerRequirementsComponent implements OnInit {
       
       this.http.postCustomerRequirement(this.inputCustomerRequirement).subscribe({
         next: data => {
+          this.getNotification(1);
           this.inputCustomerRequirement = data;
 
           if(sendmail){

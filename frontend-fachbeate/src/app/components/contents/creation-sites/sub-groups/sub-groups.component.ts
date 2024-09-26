@@ -152,16 +152,18 @@ export class SubGroupsComponent implements OnInit {
     this.selectedWorker.groupMembersTechnologists = this.technologistList
       .filter(rep => this.dadRight.some(element => element.id.split("_")[0] === "T" && element.id.split("_")[1] === rep.id!.toString()));
 
-
-    console.log(this.selectedWorker);
-
+    if(this.selectedWorker.id === null || this.selectedWorker.id === undefined){
+      this.getNotification(2);
+      return;
+    }
+      
     this.http.postGroup(this.selectedWorker).subscribe({
       next: data => {
+        
         this.selectedWorker = data;
         this.getNotification(1);
       },
       error: err => {
-        console.error("create-group: ", err);
         this.getNotification(2);
       }
     });
