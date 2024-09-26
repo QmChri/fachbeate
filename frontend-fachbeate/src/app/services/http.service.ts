@@ -24,6 +24,7 @@ const API_URL = environment.backendApi
   providedIn: 'root'
 })
 export class HttpService {
+  
   constructor(private http: HttpClient) { }
 
   postCustomerRequirement(customerRequirement: CustomerRequirement): Observable<CustomerRequirement> {
@@ -244,4 +245,16 @@ export class HttpService {
 
     return this.http.post(API_URL + "mail/sendMail",mailRequest);
   }
+
+  sendToAdress(adress: string, message: string, subject: string) {
+    var mailRequest: {
+      groups: string[];
+      id: string;
+      text: string;
+      subject: string;
+    } = {groups: [adress], id: undefined!, text: message, subject: subject}
+
+    return this.http.post(API_URL + "mail/sendToAddress",mailRequest);
+  }
+
 }

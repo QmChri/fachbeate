@@ -15,11 +15,13 @@ import { BookingRequestComponent } from './components/contents/booking-request/b
 import { BugReportComponent } from './components/contents/bug-report/bug-report.component';
 import { SubGroupsComponent } from './components/contents/creation-sites/sub-groups/sub-groups.component';
 import { CreatMailUserComponent } from './components/contents/creation-sites/creation-user/creation-user.component';
+import { TestComponent } from './components/test/test.component';
 
 const routes: Routes = [
   // path: (e.g. "http://.../dashboard",) the authGuard checks the roles that are specified in the data
   //{ path: 'dashboard', component: DashboardComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 4, 5, 7] } },
   { path: 'calendar', component: CalendarComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 4, 5, 7] } },
+  { path: 'test', component: TestComponent, canActivate: [authGuard], data: { requiredRoles: [7]}},
   { path: 'customer-requirements', component: CustomerRequirementsComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 3, 4, 6, 7] } },
   { path: 'customer-requirements/:id', component: CustomerRequirementsComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 3, 4, 5, 6, 7] } },
   { path: 'seminar-registration', component: SeminarRegistrationComponent, canActivate: [authGuard], data: { requiredRoles: [1, 2, 3, 5, 6, 7] } },

@@ -3,6 +3,7 @@ package boundary;
 import control.KeycloakService;
 import control.MailService;
 import entity.*;
+import entity.enums.Function;
 import io.quarkus.mailer.Mail;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -45,11 +46,11 @@ public class MailResource {
                 userGroups.get("abteilungsleitung").forEach(mailUser -> mailService.sendMailToMailUser(mailUser, mailRequest.subject, mailRequest.text));
             }else if(group.equalsIgnoreCase("front-office")){
                 userGroups.get("front-office").forEach(mailUser -> mailService.sendMailToMailUser(mailUser, mailRequest.subject, mailRequest.text));
-            }else if(group.equalsIgnoreCase("fachberater")){
+            }else if(group.equalsIgnoreCase("fachberater") && !emails.isEmpty()){
                 emails.get("fachberater").forEach(mailUser -> mailService.sendMailToMailUser(mailUser, mailRequest.subject, mailRequest.text));
-            }else if(group.equalsIgnoreCase("vertreter")){
+            }else if(group.equalsIgnoreCase("vertreter") && !emails.isEmpty()){
                 emails.get("vertreter").forEach(mailUser -> mailService.sendMailToMailUser(mailUser, mailRequest.subject, mailRequest.text));
-            }else if(group.equalsIgnoreCase("creator")){
+            }else if(group.equalsIgnoreCase("creator") && !emails.isEmpty()){
                 emails.get("creator").forEach(mailUser -> mailService.sendMailToMailUser(mailUser, mailRequest.subject, mailRequest.text));
             }
         }
@@ -117,6 +118,22 @@ public class MailResource {
 
          return mails;
 
+    }
+
+
+    @POST
+    @Path("/sendToAddress")
+    public Response sendToAddress(MailRequest mailRequest) {
+
+        MailUser mailUser = new MailUser();
+        mailUser.email = mailRequest.groups.get(0);
+        mailUser.firstName = "Test";
+        mailUser.lastName = "User";
+        mailUser.function = Function.ADMIN;
+
+        mailService.sendMailToMailUser(mailUser, mailRequest.subject, mailRequest.text);
+
+        return Response.ok().build();
     }
 
 }
