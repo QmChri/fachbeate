@@ -238,14 +238,11 @@ export class HttpService {
   */
   sendMail(groups: string[], id: string, text: string, subject: string) {
     var mailRequest: MailRequest = { groups: groups, id: id, text: text, subject: subject }
-    console.log(mailRequest)
-
     return this.http.post(API_URL + "mail/sendMail", mailRequest);
   }
 
   sendToAdress(adress: string, message: string, subject: string) {
     var mailRequest: MailRequest = {groups: [adress], id: undefined!, text: message, subject: subject}
-
     return this.http.post(API_URL + "mail/sendToAddress",mailRequest);
   }
 

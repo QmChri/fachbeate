@@ -111,9 +111,6 @@ export class BookingRequestComponent implements OnInit {
         } if (s.flightTo === null || s.flightTo === undefined) {
           requirements.push("BOOKING_REQUEST.toAirport");
         }
-        if (s.alternativeFlightFrom === null || s.alternativeFlightFrom === undefined) {
-          requirements.push("BOOKING_REQUEST.alternativeAirport");
-        }
       });
     }
     if (this.inputBooking.flightBookingRoundTrip) {
@@ -353,7 +350,7 @@ export class BookingRequestComponent implements OnInit {
           this.getNotification(1);
           this.inputBooking = data;
 
-          if(sendmail){
+          if (sendmail) {
             this.http.sendMail(
               ["geschaeftsleitung"],
               "R_" + this.inputBooking.id,

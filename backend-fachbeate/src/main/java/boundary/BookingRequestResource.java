@@ -89,7 +89,7 @@ public class BookingRequestResource {
     @Authenticated
     public Response getBookingRequestPerUser(@QueryParam("type") int user, @QueryParam("fullname") List<String> fullname){
         List<BookingRequest> bookingRequests = new ArrayList<>();
-        if (user==7) {
+        if (user==7 || user==5) {
             bookingRequests = BookingRequest.listAll();
         }
         /*

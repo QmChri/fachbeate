@@ -43,7 +43,7 @@ public class MailResource {
             if(group.equalsIgnoreCase("geschaeftsleitung")){
                 userGroups.get("geschaeftsleitung").forEach(mailUser -> mailService.sendMailToMailUser(mailUser, mailRequest.subject, mailRequest.text));
             }else if(group.equalsIgnoreCase("abteilungsleitung")){
-                userGroups.get("abteilungsleitung").forEach(mailUser -> mailService.sendMailToMailUser(mailUser, mailRequest.subject, mailRequest.text));
+                userGroups.get("abteilungsleitung").forEach(mailUser -> mailService.sendMailToMailUser(mailUser, mailRequest.subject, "Bitte prüfen Sie noch einmal ihre Anforderung, es ist möglich das Daten aus organisatorischen Gründen geändert wurden"+mailRequest.text));
             }else if(group.equalsIgnoreCase("front-office")){
                 userGroups.get("front-office").forEach(mailUser -> mailService.sendMailToMailUser(mailUser, mailRequest.subject, mailRequest.text));
             }else if(group.equalsIgnoreCase("fachberater") && !emails.isEmpty()){
