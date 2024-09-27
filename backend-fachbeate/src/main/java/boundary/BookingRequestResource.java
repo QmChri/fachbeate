@@ -119,26 +119,6 @@ public class BookingRequestResource {
         return Response.ok(bookingRequests.stream().map(req -> new MainListDTO().mapBookingToMainListDTO(req)).toList()).build();
     }
 
-    @POST
-    @Path("/bookingMulti")
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
-    @Authenticated
-    @Transactional
-    public Response finalWithFiles(@RequestBody MultipartFormDataInput input) throws IOException {
-        Map<String, List<InputPart>> inputStreams = input.getFormDataMap();
-
-        BookingRequest bookingRequest = new ObjectMapper().readValue(inputStreams.get("booking").get(0).getBodyAsString(), BookingRequest.class);
-        bookingRequest.persistOrUpdate();
-
-        if (bookingRequest.id == null) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Failed to retrieve Booking ID").build();
-        }
-
-        if(!fileService.saveFilesToDir(input, bookingRequest.id, FileSaveDir)){
-            return Response.status(500).build();
-        }
-        return Response.ok(bookingRequest).build();
-    }
 
     @GET
     @Path("/file/{bookingId}/{fileName}")

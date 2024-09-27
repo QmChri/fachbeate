@@ -15,6 +15,8 @@ import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { TechDateDTO } from '../../../models/tech-date-dto';
 import { log } from '../../../services/logger.service';
 import { environment } from '../../../../environments/environment';
+import { MultipleFileUploadRequest } from '../../../models/multiple-file-upload-request';
+import { FileUploadRequest } from '../../../models/file-upload-request';
 
 @Component({
   selector: 'app-abschluss-bericht',
@@ -44,6 +46,8 @@ export class AbschlussBerichtComponent implements OnInit {
     { id: 2, name: 'ABSCHLUSSBERICHT.recipe_optimization' },
     { id: 3, name: 'ABSCHLUSSBERICHT.product_development' }
   ];
+
+  fileUpload: MultipleFileUploadRequest = {files: []};
 
   constructor(public roleService: RoleService, private notification: NzNotificationService, private msg: NzMessageService,
     public dialogRef: MatDialogRef<AbschlussBerichtComponent>,
@@ -239,7 +243,7 @@ export class AbschlussBerichtComponent implements OnInit {
         this.inputFinalReport.creator = this.roleService.getUserName();
       }
 
-      this.dialogRef.close({ finalReport: this.inputFinalReport, save: save, sendmail: sendmail,files: (this.fileList !== null && this.fileList !== undefined && this.fileList.length !== 0) ? this.fileList.map(element => element.originFileObj!) : null });
+      this.dialogRef.close({ finalReport: this.inputFinalReport, files: this.fileUpload, save: save, sendmail: sendmail });
     }
   }
 
@@ -435,5 +439,25 @@ export class AbschlussBerichtComponent implements OnInit {
 
   handleChange(info: { fileList: NzUploadFile[] }): void {
     this.fileList = info.fileList;
+    this.fileUpload = this.convertFileListToBase64()
+
   }
+
+  convertFileListToBase64(){
+    var multipleFileUpload: MultipleFileUploadRequest = {files: []};
+
+    this.fileList.forEach((file) => {
+      const fileReader = new FileReader();
+      fileReader.onload = () => {
+        const base64Data = (fileReader.result as string).split(',')[1]; // Entferne den Base64-Header
+        
+        var tmpFile: FileUploadRequest = {fileContent: base64Data, fileName: file.name}
+        multipleFileUpload.files!.push(tmpFile);
+      };
+      fileReader.readAsDataURL(file.originFileObj as File); // Konvertiere Datei zu base64
+    });
+
+    return multipleFileUpload;
+  }
+
 }

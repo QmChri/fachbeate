@@ -1,9 +1,13 @@
 package control;
 
 import entity.dto.FileDtos;
+import entity.dto.FileUploadRequest;
+import entity.dto.MultipleFileUploadRequest;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.Response;
 import org.jboss.logging.Logger;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
@@ -22,34 +26,33 @@ public class FileService {
     @Inject
     Logger LOGGER;
 
-    public boolean saveFilesToDir(MultipartFormDataInput input, Long id, String FileSaveDir) throws IOException {
-        if (input.getFormDataMap().get("files") != null && !input.getFormDataMap().get("files").isEmpty()) {
-            File directory = new File(FileSaveDir + id);
-            if (directory.exists()) {
-                deleteDirectoryRecursively(directory);
-            }
-            if(directory.mkdirs()) {
-                for (InputPart part : input.getFormDataMap().get("files")) {
-                    String fileName = getFileName(part); // Implement this method to get file name
+    String FileSaveDir = "uploads\\";
 
-                    if (fileName.equals("unknown")) {
-                        continue;
-                    }
+    public boolean saveFilesToDir(MultipleFileUploadRequest request, String savePath, String FileSaveDir) throws IOException {
+        if (request.files != null && !request.files.isEmpty()) {
+            try {
+                String fullDirPath = FileSaveDir + savePath.replace("_", "/");;
 
-                    InputStream inputStream = part.getBody(InputStream.class, null);
-                    File file = new File(directory, fileName);
+                File directory = new File(fullDirPath);
+                if (directory.exists()) {
+                    deleteDirectoryRecursively(directory);
+                }
+                if(!directory.exists()) {
+                    directory.mkdirs();
+                }
 
-                    try (FileOutputStream outputStream = new FileOutputStream(file)) {
-                        byte[] buffer = new byte[1024];
-                        int bytesRead;
-                        while ((bytesRead = inputStream.read(buffer)) != -1) {
-                            outputStream.write(buffer, 0, bytesRead);
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        return false;
+                for (FileUploadRequest fileRequest : request.files) {
+                    byte[] fileData = Base64.getDecoder().decode(fileRequest.fileContent);
+
+                    File outputFile = new File(fullDirPath + "/" + fileRequest.fileName);
+                    try (FileOutputStream fos = new FileOutputStream(outputFile)) {
+                        fos.write(fileData);
                     }
                 }
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
 

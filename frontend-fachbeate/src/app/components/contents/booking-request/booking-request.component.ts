@@ -11,6 +11,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { log } from '../../../services/logger.service';
 import { environment } from '../../../../environments/environment';
+import { MultipleFileUploadRequest } from '../../../models/multiple-file-upload-request';
+import { FileUploadRequest } from '../../../models/file-upload-request';
 
 @Component({
   selector: 'app-booking-request',
@@ -20,7 +22,10 @@ import { environment } from '../../../../environments/environment';
 export class BookingRequestComponent implements OnInit {
   control = new FormControl(null, Validators.required);
   addItem: string = "";
+  
   fileList: NzUploadFile[] = [];
+  fileUpload: MultipleFileUploadRequest = {files: []};
+
   buttonSelect: String[] = []
   bookingControl = new FormControl<BookingRequestComponent | null>(null, Validators.required);
   freigegeben: boolean = true;
@@ -43,17 +48,17 @@ export class BookingRequestComponent implements OnInit {
 
               this.inputBooking.mainStartDate = this.convertToDate(this.inputBooking.mainStartDate);
               this.inputBooking.mainEndDate = this.convertToDate(this.inputBooking.mainEndDate);
-              /*
-                            if (this.inputBooking.files !== null && this.inputBooking.files !== undefined && this.inputBooking.files.length !== 0) {
-                              this.fileList = this.inputBooking.files!.map((file, index) => ({
-                                uid: index.toString(),
-                                name: file.fileName,
-                                status: "done",
-                                originFileObj: this.base64ToFile(file.fileContent, file.fileName),
-                                url: environment.backendApi + "booking/file/" + this.inputBooking.id + "/" + file.fileName
-                              }));
-                            }
-              */
+              
+              if (this.inputBooking.files !== null && this.inputBooking.files !== undefined && this.inputBooking.files.length !== 0) {
+                this.fileList = this.inputBooking.files!.map((file, index) => ({
+                  uid: index.toString(),
+                  name: file.fileName,
+                  status: "done",
+                  originFileObj: this.base64ToFile(file.fileContent, file.fileName),
+                  url: environment.backendApi + "booking/file/" + this.inputBooking.id + "/" + file.fileName
+                }));
+              }
+
               this.buttonSelect = [
                 (data.hotelBooking) ? "4" : "",
                 (data.flightBookingMultiLeg) ? "1" : "",
@@ -187,6 +192,203 @@ export class BookingRequestComponent implements OnInit {
     }
   }
 
+ 
+
+  getPdf() {
+    if (this.inputBooking.id === null || this.inputBooking.id === undefined) {
+      this.getNotification(9)
+    }
+    else {
+      this.downloadFile();
+      this.getNotification(8)
+    }
+  }
+
+  checkPopup() {
+    //if (this.checkRequired()) {
+    const dialogRef = this.dialog.open(CheckDialogComponent, {
+      width: '50%',
+      data: 3
+    });
+
+    dialogRef.afterClosed().subscribe(
+      data => {
+        if (data === true) {
+          this.postBooking();
+        }
+      });
+    // }
+  }
+
+  postBooking() {
+    var sendmail: boolean = false;
+
+    if (this.checkRequired()) {
+      if (this.inputBooking.id === null || this.inputBooking.id === undefined || this.inputBooking.id === 0) {
+        this.inputBooking.dateOfCreation = new Date();
+        this.inputBooking.creator = this.roleService.getUserName();
+        sendmail = true;
+        this.getNotification(12);
+      }
+      this.inputBooking.lastEditor = this.roleService.getUserName();
+
+      this.inputBooking.showUser = true;
+
+      (this.inputBooking.mainStartDate !== null && this.inputBooking.mainStartDate !== undefined) ? new Date(this.inputBooking.mainStartDate!.toString()).setHours(5) : "";
+      (this.inputBooking.mainEndDate !== null && this.inputBooking.mainEndDate !== undefined) ? new Date(this.inputBooking.mainStartDate!.toString()).setHours(5) : "";
+      this.inputBooking.lastEditor = this.inputBooking.lastEditor;
+
+      //Create Form to Send Files and Booking Request Data
+
+      console.log(this.convertFileListToBase64())
+
+      // Not sending with formdata because of MediaType Problems
+      /*let formData = new FormData();
+      if (this.fileList !== null && this.fileList !== undefined && this.fileList.length !== 0) {
+        this.fileList.map(element => element.originFileObj!).forEach(element => {
+          // Adding all Files to the Form
+          //formData.append("files", element!)
+        })
+      }
+
+      formData.append('booking', JSON.stringify(this.inputBooking));*/
+
+      this.http.postBookingRequest(this.inputBooking).subscribe({
+        next: data => {
+          this.getNotification(1);
+          this.inputBooking = data;
+
+          if(this.fileList.length !== 0 && data.id !== 0 && data.id !== undefined && data.id !== null){
+            
+            this.http.postFiles(this.fileUpload, "booking_" + data.id!).subscribe();
+          }
+
+
+          if(sendmail){
+            this.http.sendMail(
+              ["geschaeftsleitung"],
+              "R_" + this.inputBooking.id,
+              "Eingabe Reisebuchung Anforderung",
+              "Im Request Tool wurde ein neue Reisebuchung Anforderung (Nr." + this.inputBooking.id + ") eingegeben - bitte um Freigabe durch GL."
+            ).subscribe();
+          }
+
+          this.buttonSelect = [
+            (data.hotelBooking) ? "4" : "",
+            (data.flightBookingMultiLeg) ? "1" : "",
+            (data.flightBookingRoundTrip) ? "2" : "",
+            (data.trainTicketBooking) ? "3" : "",
+            (data.carRental) ? "5" : "",
+            (data.otherReq) ? "6" : ""
+          ].filter(p => p != "");
+        },
+        error: err => {
+          log("booking-request: ", err)
+        }
+      })
+    }
+  }
+
+  changeSelections() {
+    this.inputBooking.flightBookingMultiLeg = this.buttonSelect.includes("1");
+    this.inputBooking.flightBookingRoundTrip = this.buttonSelect.includes("2");
+    this.inputBooking.trainTicketBooking = this.buttonSelect.includes("3");
+    this.inputBooking.hotelBooking = this.buttonSelect.includes("4");
+    this.inputBooking.carRental = this.buttonSelect.includes("5");
+    this.inputBooking.otherReq = this.buttonSelect.includes("6");
+
+
+    if (this.inputBooking.flightBookingMultiLeg && this.inputBooking.flights.length === 0) {
+      this.addTab(1);
+    }
+    if (this.inputBooking.hotelBooking && this.inputBooking.hotelBookings.length === 0) {
+      this.addTab(2);
+    }
+  }
+
+  addTab(type: number) {
+    if (type === 1) {
+      this.inputBooking.flights = [...this.inputBooking.flights, {}]
+    } else if (type === 2) {
+      this.inputBooking.hotelBookings = [...this.inputBooking.hotelBookings, {}]
+    }
+  }
+
+  deleteLast(type: number) {
+    if (this.inputBooking.flights.length > 1 && type === 1) {
+      this.inputBooking.flights.pop();
+    } else if (this.inputBooking.hotelBookings.length > 1 && type === 2) {
+      this.inputBooking.hotelBookings.pop();
+    }
+  }
+
+  convertToDate(date: any): Date | undefined {
+    return (date !== null && date !== undefined) ? new Date(date.toString()) : undefined;
+  }
+
+  downloadFile() {
+    this.http.getBookingPdf(this.inputBooking.id!).subscribe(
+      (response: Blob) => {
+        this.saveFile(response, "Reiseanforderung_" + this.inputBooking.id + ".pdf")
+      });
+  }
+
+  private saveFile(data: Blob, filename: string): void {
+    const blob = new Blob([data], { type: 'application/octet-stream' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click();
+    window.URL.revokeObjectURL(url);
+    a.remove();
+  }
+
+  beforeUpload = (file: NzUploadFile): boolean => {
+    const icCorrectFileType = file.type === 'application/pdf' || file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/jpeg' || file.type === 'image/heif';
+    const isLt2M = file.size! / 1024 / 1024 < 1;
+
+    if (!icCorrectFileType) {
+      this.getNotification(1);
+      return false;
+    }
+    if (this.fileList.length >= 5) {
+      this.getNotification(2);
+      return false;
+    }
+    if (!isLt2M) {
+      this.getNotification(3);
+      return false;
+    }
+    // Datei zur Liste hinzufügen
+    this.fileList = [...this.fileList, file];
+    this.getNotification(0);
+    return true;
+  };
+
+  handleChange(info: { fileList: NzUploadFile[] }): void {
+    this.fileList = info.fileList;
+
+    this.fileUpload = this.convertFileListToBase64()
+
+  }
+
+  convertFileListToBase64(){
+    var multipleFileUpload: MultipleFileUploadRequest = {files: []};
+
+    this.fileList.forEach((file) => {
+      const fileReader = new FileReader();
+      fileReader.onload = () => {
+        const base64Data = (fileReader.result as string).split(',')[1]; // Entferne den Base64-Header
+        
+        var tmpFile: FileUploadRequest = {fileContent: base64Data, fileName: file.name}
+        multipleFileUpload.files!.push(tmpFile);
+      };
+      fileReader.readAsDataURL(file.originFileObj as File); // Konvertiere Datei zu base64
+    });
+
+    return multipleFileUpload;
+  }
+
+
   getNotification(type: number) {
     switch (type) {
       case 1: { //Formular wurde gesendet
@@ -292,168 +494,5 @@ export class BookingRequestComponent implements OnInit {
     }
   }
 
-  getPdf() {
-    if (this.inputBooking.id === null || this.inputBooking.id === undefined) {
-      this.getNotification(9)
-    }
-    else {
-      this.downloadFile();
-      this.getNotification(8)
-    }
-  }
 
-  checkPopup() {
-    //if (this.checkRequired()) {
-    const dialogRef = this.dialog.open(CheckDialogComponent, {
-      width: '50%',
-      data: 3
-    });
-
-    dialogRef.afterClosed().subscribe(
-      data => {
-        if (data === true) {
-          this.postBooking();
-        }
-      });
-    // }
-  }
-
-  postBooking() {
-    var sendmail: boolean = false;
-
-    if (this.checkRequired()) {
-      if (this.inputBooking.id === null || this.inputBooking.id === undefined || this.inputBooking.id === 0) {
-        this.inputBooking.dateOfCreation = new Date();
-        this.inputBooking.creator = this.roleService.getUserName();
-        sendmail = true;
-        this.getNotification(12);
-      }
-      this.inputBooking.lastEditor = this.roleService.getUserName();
-
-      this.inputBooking.showUser = true;
-
-      (this.inputBooking.mainStartDate !== null && this.inputBooking.mainStartDate !== undefined) ? new Date(this.inputBooking.mainStartDate!.toString()).setHours(5) : "";
-      (this.inputBooking.mainEndDate !== null && this.inputBooking.mainEndDate !== undefined) ? new Date(this.inputBooking.mainStartDate!.toString()).setHours(5) : "";
-      this.inputBooking.lastEditor = this.inputBooking.lastEditor;
-
-      //Create Form to Send Files and Booking Request Data
-
-      /*let formData = new FormData();
-      if (this.fileList !== null && this.fileList !== undefined && this.fileList.length !== 0) {
-        this.fileList.map(element => element.originFileObj!).forEach(element => {
-          // Adding all Files to the Form
-          //formData.append("files", element!)
-        })
-      }
-
-      formData.append('booking', JSON.stringify(this.inputBooking));*/
-
-      this.http.postBookingRequest(this.inputBooking).subscribe({
-        next: data => {
-          this.getNotification(1);
-          this.inputBooking = data;
-
-          if(sendmail){
-            this.http.sendMail(
-              ["geschaeftsleitung"],
-              "R_" + this.inputBooking.id,
-              "Eingabe Reisebuchung Anforderung",
-              "Im Request Tool wurde ein neue Reisebuchung Anforderung (Nr." + this.inputBooking.id + ") eingegeben - bitte um Freigabe durch GL."
-            ).subscribe();
-          }
-
-          this.buttonSelect = [
-            (data.hotelBooking) ? "4" : "",
-            (data.flightBookingMultiLeg) ? "1" : "",
-            (data.flightBookingRoundTrip) ? "2" : "",
-            (data.trainTicketBooking) ? "3" : "",
-            (data.carRental) ? "5" : "",
-            (data.otherReq) ? "6" : ""
-          ].filter(p => p != "");
-        },
-        error: err => {
-          log("booking-request: ", err)
-        }
-      })
-    }
-  }
-
-  changeSelections() {
-    this.inputBooking.flightBookingMultiLeg = this.buttonSelect.includes("1");
-    this.inputBooking.flightBookingRoundTrip = this.buttonSelect.includes("2");
-    this.inputBooking.trainTicketBooking = this.buttonSelect.includes("3");
-    this.inputBooking.hotelBooking = this.buttonSelect.includes("4");
-    this.inputBooking.carRental = this.buttonSelect.includes("5");
-    this.inputBooking.otherReq = this.buttonSelect.includes("6");
-
-
-    if (this.inputBooking.flightBookingMultiLeg && this.inputBooking.flights.length === 0) {
-      this.addTab(1);
-    }
-    if (this.inputBooking.hotelBooking && this.inputBooking.hotelBookings.length === 0) {
-      this.addTab(2);
-    }
-  }
-
-  addTab(type: number) {
-    if (type === 1) {
-      this.inputBooking.flights = [...this.inputBooking.flights, {}]
-    } else if (type === 2) {
-      this.inputBooking.hotelBookings = [...this.inputBooking.hotelBookings, {}]
-    }
-  }
-
-  deleteLast(type: number) {
-    if (this.inputBooking.flights.length > 1 && type === 1) {
-      this.inputBooking.flights.pop();
-    } else if (this.inputBooking.hotelBookings.length > 1 && type === 2) {
-      this.inputBooking.hotelBookings.pop();
-    }
-  }
-
-  convertToDate(date: any): Date | undefined {
-    return (date !== null && date !== undefined) ? new Date(date.toString()) : undefined;
-  }
-
-  downloadFile() {
-    this.http.getBookingPdf(this.inputBooking.id!).subscribe(
-      (response: Blob) => {
-        this.saveFile(response, "Reiseanforderung_" + this.inputBooking.id + ".pdf")
-      });
-  }
-
-  private saveFile(data: Blob, filename: string): void {
-    const blob = new Blob([data], { type: 'application/octet-stream' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a'); a.href = url; a.download = filename;
-    document.body.appendChild(a); a.click();
-    window.URL.revokeObjectURL(url);
-    a.remove();
-  }
-
-  beforeUpload = (file: NzUploadFile): boolean => {
-    const icCorrectFileType = file.type === 'application/pdf' || file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/jpeg' || file.type === 'image/heif';
-    const isLt2M = file.size! / 1024 / 1024 < 1;
-
-    if (!icCorrectFileType) {
-      this.getNotification(1);
-      return false;
-    }
-    if (this.fileList.length >= 5) {
-      this.getNotification(2);
-      return false;
-    }
-    if (!isLt2M) {
-      this.getNotification(3);
-      return false;
-    }
-    // Datei zur Liste hinzufügen
-    this.fileList = [...this.fileList, file];
-    this.getNotification(0);
-    return true;
-  };
-
-  handleChange(info: { fileList: NzUploadFile[] }): void {
-    this.fileList = info.fileList;
-  }
 }
