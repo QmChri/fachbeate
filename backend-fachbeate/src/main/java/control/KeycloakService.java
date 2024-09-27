@@ -22,7 +22,7 @@ public class KeycloakService {
     @PostConstruct
     public void initKeycloak() {
         keycloak = KeycloakBuilder.builder()
-                .serverUrl("http://angular02.almi.at:8080")
+                .serverUrl("http://localhost:8081")
                 .realm("master")
                 .clientId("admin-cli")
                 .clientSecret("uRu2GpyX8emJkVFilyuVwoFu7KsWwDUc")

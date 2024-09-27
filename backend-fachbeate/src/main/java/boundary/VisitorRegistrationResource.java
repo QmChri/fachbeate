@@ -11,12 +11,17 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Response;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 @Path("visitorRegistration")
 public class VisitorRegistrationResource {
+
+    final Date FIVE_DAYS_AGO = Date.from(LocalDate.now().minusDays(5).atStartOfDay(ZoneId.systemDefault()).toInstant());
 
     /**
      * Post a new Besucheranmeldung
@@ -88,7 +93,12 @@ public class VisitorRegistrationResource {
             }).toList();
         }
         return Response.ok(
-                mapList.stream().map(visit -> new MainListDTO().mapVisitToMainListDTO(visit)).toList()
+                mapList.stream().filter(element -> getEndDate(element).after(FIVE_DAYS_AGO)).map(visit -> new MainListDTO().mapVisitToMainListDTO(visit)).toList()
         ).build();
+    }
+
+
+    private Date getEndDate(VisitorRegistration visitorRegistration){
+        return  (visitorRegistration.toDate!=null)?visitorRegistration.toDate:(visitorRegistration.stayToDate!=null)?visitorRegistration.stayToDate:Date.from(LocalDate.now().minusDays(4).atStartOfDay(ZoneId.systemDefault()).toInstant());
     }
 }
