@@ -26,8 +26,6 @@ public class FileService {
     @Inject
     Logger LOGGER;
 
-    String FileSaveDir = "uploads\\";
-
     public boolean saveFilesToDir(MultipleFileUploadRequest request, String savePath, String FileSaveDir) throws IOException {
         if (request.files != null && !request.files.isEmpty()) {
             try {
@@ -38,7 +36,9 @@ public class FileService {
                     deleteDirectoryRecursively(directory);
                 }
                 if(!directory.exists()) {
-                    directory.mkdirs();
+                    if(!directory.mkdirs()){
+                        return false;
+                    }
                 }
 
                 for (FileUploadRequest fileRequest : request.files) {
