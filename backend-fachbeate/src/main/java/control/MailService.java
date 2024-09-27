@@ -24,7 +24,8 @@ public class MailService {
                         subject,
                         "Geschätze Damen und Herren! Dieses E-Mail dient als Information " +
                                 "und wird automatisch generiert, bitte nicht beantworten!\n"+
-                                text
+                                text +"\n"+
+                                "https://requesttool.almi.at/"
                 )
         );
     }

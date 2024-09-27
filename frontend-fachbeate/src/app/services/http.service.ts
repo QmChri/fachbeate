@@ -23,7 +23,7 @@ const API_URL = environment.backendApi
   providedIn: 'root'
 })
 export class HttpService {
-  
+
   constructor(private http: HttpClient) { }
 
   postCustomerRequirement(customerRequirement: CustomerRequirement): Observable<CustomerRequirement> {
@@ -222,7 +222,7 @@ export class HttpService {
   getMembersListPdf(id: String) {
     return this.http.get(API_URL + "pdf/members/" + id, { headers: this.headers, responseType: 'blob' });
   }
-  
+
 
   postGroup(representative: Representative): Observable<Representative> {
     return this.http.post<Representative>(API_URL + "users/representative", representative);
@@ -236,14 +236,14 @@ export class HttpService {
       return this.http.get<MailUser[]>(API_URL + "/users/mailUser");
     }
   */
-  sendMail(groups: string[], id: string, text: string, subject: string) {
-    var mailRequest: MailRequest = { groups: groups, id: id, text: text, subject: subject }
+  sendMail(groups: string[], id: string, subject: string, text: string) {
+    var mailRequest: MailRequest = { groups: groups, id: id, subject: subject, text: text }
     return this.http.post(API_URL + "mail/sendMail", mailRequest);
   }
 
   sendToAdress(adress: string, message: string, subject: string) {
-    var mailRequest: MailRequest = {groups: [adress], id: undefined!, text: message, subject: subject}
-    return this.http.post(API_URL + "mail/sendToAddress",mailRequest);
+    var mailRequest: MailRequest = { groups: [adress], id: undefined!, text: message, subject: subject }
+    return this.http.post(API_URL + "mail/sendToAddress", mailRequest);
   }
 
 }

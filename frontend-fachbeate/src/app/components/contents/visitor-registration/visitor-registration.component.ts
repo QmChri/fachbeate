@@ -186,7 +186,7 @@ export class VisitorRegistrationComponent implements OnInit {
         ["fachberater", "vertreter", "creator", "front-office"],
         "B_" + this.inputVisitRegistration.id,
         "Freigabe AL",
-        "Ihre Besucher Anfrage (Nr." + this.inputVisitRegistration.id + ") wurde erfolgreich freigegeben. Bitte prüfen Sie noch einmal ihre Anforderung, es ist möglich das Daten aus organisatorischen Gründen geändert wurden"
+        "Ihre Besucher Anfrage (Nr." + this.inputVisitRegistration.id + ") wurde erfolgreich freigegeben. Bitte prüfen Sie noch einmal ihre Anforderung, es ist möglich das Daten aus organisatorischen Gründen geändert wurden."
       ).subscribe();
       this.getNotification(8)
     }
