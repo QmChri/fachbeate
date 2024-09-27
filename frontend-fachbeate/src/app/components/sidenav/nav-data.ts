@@ -36,7 +36,7 @@ export const navbarData: INavbarData[] = [
         routeLink: 'booking-request',
         icon: 'fal fa-plane',
         label: 'bookingRequest',
-        role: [1, 7]
+        role: [1, 5, 7]
     },
     {
         routeLink: 'abschluss-bericht-list',
@@ -66,7 +66,7 @@ export const navbarData: INavbarData[] = [
                 routeLink: 'create-new-group',
                 label: 'new-group',
             }
-            
+
             /*
             {
                 routeLink: 'create-new-other-user',
@@ -80,7 +80,7 @@ export const navbarData: INavbarData[] = [
         label: 'support',
         role: [1, 2, 5, 7]
     },
-    
+
     {
         routeLink: 'test',
         label: 'test',

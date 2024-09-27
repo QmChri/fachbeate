@@ -22,7 +22,7 @@ import { FileUploadRequest } from '../../../models/file-upload-request';
 export class BookingRequestComponent implements OnInit {
   control = new FormControl(null, Validators.required);
   addItem: string = "";
-  
+
   fileList: NzUploadFile[] = [];
   fileUpload: MultipleFileUploadRequest = {files: []};
 
@@ -48,7 +48,7 @@ export class BookingRequestComponent implements OnInit {
 
               this.inputBooking.mainStartDate = this.convertToDate(this.inputBooking.mainStartDate);
               this.inputBooking.mainEndDate = this.convertToDate(this.inputBooking.mainEndDate);
-              
+
               if (this.inputBooking.files !== null && this.inputBooking.files !== undefined && this.inputBooking.files.length !== 0) {
                 this.fileList = this.inputBooking.files!.map((file, index) => ({
                   uid: index.toString(),
@@ -115,9 +115,6 @@ export class BookingRequestComponent implements OnInit {
           requirements.push("BOOKING_REQUEST.fromAirport");
         } if (s.flightTo === null || s.flightTo === undefined) {
           requirements.push("BOOKING_REQUEST.toAirport");
-        }
-        if (s.alternativeFlightFrom === null || s.alternativeFlightFrom === undefined) {
-          requirements.push("BOOKING_REQUEST.alternativeAirport");
         }
       });
     }
@@ -192,7 +189,7 @@ export class BookingRequestComponent implements OnInit {
     }
   }
 
- 
+
 
   getPdf() {
     if (this.inputBooking.id === null || this.inputBooking.id === undefined) {
@@ -259,12 +256,12 @@ export class BookingRequestComponent implements OnInit {
           this.inputBooking = data;
 
           if(this.fileList.length !== 0 && data.id !== 0 && data.id !== undefined && data.id !== null){
-            
+
             this.http.postFiles(this.fileUpload, "booking_" + data.id!).subscribe();
           }
 
 
-          if(sendmail){
+          if (sendmail) {
             this.http.sendMail(
               ["geschaeftsleitung"],
               "R_" + this.inputBooking.id,
@@ -378,7 +375,7 @@ export class BookingRequestComponent implements OnInit {
       const fileReader = new FileReader();
       fileReader.onload = () => {
         const base64Data = (fileReader.result as string).split(',')[1]; // Entferne den Base64-Header
-        
+
         var tmpFile: FileUploadRequest = {fileContent: base64Data, fileName: file.name}
         multipleFileUpload.files!.push(tmpFile);
       };

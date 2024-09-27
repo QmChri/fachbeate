@@ -295,10 +295,7 @@
                     </mat-form-field>
                     <mat-form-field class="equal-width">
                         <mat-label>{{ 'BOOKING_REQUEST.alternativeAirport' | translate }}</mat-label>
-                        <input required [(ngModel)]="flightBooking.alternativeFlightFrom" matInput>
-                        @if (control.hasError('required')) {
-                        <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
-                        }
+                        <input [(ngModel)]="flightBooking.alternativeFlightFrom" matInput>
                     </mat-form-field>
                 </div>
                 <div class="displayBySide">
