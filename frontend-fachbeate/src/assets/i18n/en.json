@@ -77,7 +77,10 @@
         "calendar_change": "Calendar change",
         "pdf1": "PDF was created!",
         "pdf2": "PDF could not be created!",
-        "upload": "Upload"
+        "upload": "Upload",
+        "email_invalid": "Invalid email",
+        "not_send": "Form could not be sent",
+        "note": "Check input fields"
     },
     "DASHBOARD": {
         "entry_for": "Entry for",
@@ -306,7 +309,14 @@
         "function": "Function",
         "GL": "Management",
         "AL": "Department Management",
-        "FrontOffice": "Reception"
+        "FrontOffice": "Reception",
+        "already_exists_F": "Advisor already exists",
+        "already_exists_R": "Representative already exists",
+        "already_exists_H": "Dealer/Branch already exists",
+        "already_exist_username": "Username already exists",
+        "already_exists_updated_F": "Consultant has been updated",
+        "already_exists_updated_R": "Representative has been updated",
+        "already_exists_updated_H": "Dealer/Subsidiary has been updated"
     },
     "BOOKING_REQUEST": {
         "bookingRequest": "Booking Request",

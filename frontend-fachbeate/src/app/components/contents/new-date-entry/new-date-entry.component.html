@@ -56,17 +56,13 @@
             <mat-error>{{"STANDARD.please_select" | translate}}</mat-error>
         </mat-form-field>
         <mat-form-field>
-            <mat-label>{{"DASHBOARD.from" | translate}}</mat-label>
-            <input required matInput [matDatepicker]="picker1" type="text" [(ngModel)]="inputDate.startDate"
-                name="start">
-            <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
-            <mat-datepicker #picker1></mat-datepicker>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>{{"DASHBOARD.to" | translate}}</mat-label>
-            <input required matInput [matDatepicker]="picker2" type="text" [(ngModel)]="inputDate.endDate" name="end">
-            <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
-            <mat-datepicker #picker2></mat-datepicker>
+            <mat-label>{{'CUSTOMER_REQUIREMENTS.from_to' | translate}}</mat-label>
+            <mat-date-range-input [rangePicker]="picker17">
+                <input [(ngModel)]="inputDate.startDate" matStartDate placeholder="Start date">
+                <input [(ngModel)]="inputDate.endDate" matEndDate placeholder="End date">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matIconSuffix [for]="picker17"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker17></mat-date-range-picker>
         </mat-form-field>
     </div>
     <br>

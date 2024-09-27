@@ -236,9 +236,21 @@ export class MainListComponent implements OnInit {
       { text: this.translate.instant('MAIN_LIST.!visible'), value: "false" }
     ];
 
-    this.filterMainList(5)
+    //this.filterMainList(5)
   }
 
+  filterMainList(days: number) {
+    const daysAgo = new Date();
+    daysAgo.setDate(daysAgo.getDate() - days - 1);
+    this.listOfDisplayData = this.listOfDisplayData.filter(item => {
+      if (!item.dateOfCreation) {
+        return false;
+      }
+      const creationDate = new Date(item.dateOfCreation);
+      return creationDate >= daysAgo;
+    });
+  }
+  
   //All data for a user is received here
   loadDataPerUser() {
     this.loading = true;
@@ -379,18 +391,6 @@ export class MainListComponent implements OnInit {
         this.getNzFilters();
       }
     })
-  }
-
-  filterMainList(days: number) {
-    const daysAgo = new Date();
-    daysAgo.setDate(daysAgo.getDate() - days - 1);
-    this.listOfDisplayData = this.listOfDisplayData.filter(item => {
-      if (!item.dateOfCreation) {
-        return false;
-      }
-      const creationDate = new Date(item.dateOfCreation);
-      return creationDate >= daysAgo;
-    });
   }
 
   loadTechnologists() {

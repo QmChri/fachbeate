@@ -1,14 +1,12 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { AbschlussBerichtComponent } from '../abschluss-bericht/abschluss-bericht.component';
-import { Technologist } from '../../../models/technologist';
-import { HttpService } from '../../../services/http.service';
 import { TechnologistAppointment } from '../../../models/technologist-appointment';
-import { NotificationService } from '../../../services/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { TechDateDTO } from '../../../models/tech-date-dto';
-import { RoleService } from '../../../services/role.service';
 import { log } from '../../../services/logger.service';
+import { HttpService } from '../../../services/http.service';
+import { NotificationService } from '../../../services/notification.service';
+import { RoleService } from '../../../services/role.service';
 
 @Component({
   selector: 'app-new-date-entry',
@@ -30,25 +28,26 @@ export class NewDateEntryComponent implements OnInit {
   inputDate: TechnologistAppointment = {};
   technologists: TechDateDTO[] = [];
 
-  constructor(public translate: TranslateService, public dialogRef: MatDialogRef<AbschlussBerichtComponent>,
-    @Inject(MAT_DIALOG_DATA) public timeSpan: TechnologistAppointment,
-    private http: HttpService, private notificationService: NotificationService, public roleService: RoleService
+  constructor(private http: HttpService, private notificationService: NotificationService, public roleService: RoleService,
+    public translate: TranslateService, // Falls du Übersetzungen verwendest
+    public dialogRef: MatDialogRef<NewDateEntryComponent>, // MatDialogRef für Referenzen
+    @Inject(MAT_DIALOG_DATA) public data: { timeSpan: TechnologistAppointment, allReasons: string[] } // Daten, die du übergibst
   ) {
   }
 
   ngOnInit(): void {
+   
+    this.reasons = this.data.allReasons;
+    this.inputDate.startDate = this.data.timeSpan.startDate;
 
-    this.inputDate.startDate = this.timeSpan.startDate;
-
-    if (this.timeSpan.id !== null && this.timeSpan.id !== undefined && this.timeSpan.id !== 0) {
-      this.inputDate.id = this.timeSpan.id;
-      this.inputDate.endDate = this.timeSpan.endDate;
-      this.inputDate.reason = this.timeSpan.reason;
-      this.inputDate.requestedTechnologist = this.timeSpan.requestedTechnologist;
+    if (this.data.timeSpan.id !== null && this.data.timeSpan.id !== undefined && this.data.timeSpan.id !== 0) {
+      this.inputDate.id = this.data.timeSpan.id;
+      this.inputDate.endDate = this.data.timeSpan.endDate;
+      this.inputDate.reason = this.data.timeSpan.reason;
+      this.inputDate.requestedTechnologist = this.data.timeSpan.requestedTechnologist;
     } else {
-      this.inputDate.endDate = this.adjustEndDate(this.timeSpan.endDate!.toString())
+      this.inputDate.endDate = this.adjustEndDate(this.data.timeSpan.endDate!.toString())
     }
-
 
     this.getTechnologists();
   }

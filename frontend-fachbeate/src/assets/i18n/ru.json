@@ -77,7 +77,10 @@
         "calendar_change": "Изменение календаря",
         "pdf1": "PDF был создан !",
         "pdf2": "Не удалось создать PDF-файл!",
-        "upload": "загрузить"
+        "upload": "загрузить",
+        "email_invalid": "Неверный email",
+        "not_send": "Не удалось отправить форму",
+        "note": "Проверьте поля ввода"
     },
     "DASHBOARD": {
         "entry_for": "Запись о/об",
@@ -109,7 +112,6 @@
         "visible": "Видимый",
         "!visible": "Не видимый",
         "canceled": "Отменено"
-
     },
     "CUSTOMER_REQUIREMENTS": {
         "advisor_request": "Запрос технолога-консультанта",
@@ -313,7 +315,14 @@
         "function": "функция",
         "GL": "руководство компании",
         "AL": "руководство отдела",
-        "FrontOffice": "приемная"
+        "FrontOffice": "приемная",
+        "already_exists_F": "Консультант уже существует",
+        "already_exists_R": "Представитель уже существует",
+        "already_exists_H": "Дилер/Филиал уже существует",
+        "already_exists_updated_F": "Консультант был обновлен",
+        "already_exists_updated_R": "Представитель был обновлен",
+        "already_exist_username": "Имя пользователя уже существует",
+        "already_exists_updated_H": "Дилер/дочерняя компания была обновлена"
     },
     "BOOKING_REQUEST": {
         "bookingRequest": "Запрос на бронирование",

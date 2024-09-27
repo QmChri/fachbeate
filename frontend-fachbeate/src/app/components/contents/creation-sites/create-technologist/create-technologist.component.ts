@@ -4,6 +4,8 @@ import { HttpService } from '../../../../services/http.service';
 import { NotificationService } from '../../../../services/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { log } from '../../../../services/logger.service';
+import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
 
 @Component({
   selector: 'app-create-technologist',
@@ -11,6 +13,9 @@ import { log } from '../../../../services/logger.service';
   styleUrl: './create-technologist.component.scss'
 })
 export class CreateTechnologistComponent implements OnInit {
+  emailFormControl = new FormControl('', [Validators.required, Validators.email]);
+  control = new FormControl(null, Validators.required);
+  matcher = new MyErrorStateMatcher();
   inputTechnologist: Technologist = {
     id: 0,
     firstName: "",
@@ -60,39 +65,103 @@ export class CreateTechnologistComponent implements OnInit {
   }
 
   postTechnologist() {
-    if (!this.inputTechnologist.firstName || this.inputTechnologist.firstName === "" || !this.inputTechnologist.lastName || this.inputTechnologist.lastName === "") {
-      this.translate.get(['STANDARD.please_fill_required_fields', 'STANDARD.first_and_last_name']).subscribe(translations => {
+    if (!this.inputTechnologist.firstName || this.inputTechnologist.firstName === ""
+      || !this.inputTechnologist.lastName || this.inputTechnologist.lastName === ""
+      || !this.emailFormControl.valid || !this.inputTechnologist.email) {
+      this.translate.get([
+        'STANDARD.please_fill_required_fields',
+        'STANDARD.first_and_last_name',
+        'STANDARD.email_invalid'
+      ]).subscribe(translations => {
         const message = translations['STANDARD.please_fill_required_fields'];
         const anotherMessage = translations['STANDARD.first_and_last_name'];
-        this.notificationService.createBasicNotification(4, message, anotherMessage, 'topRight');
+        const thirdMessage = translations['STANDARD.email_invalid'];
+
+        this.notificationService.createBasicNotification(4, message, anotherMessage + ' & ' + thirdMessage, 'topRight');
       });
     }
+
     else {
-      this.http.postTechnologist(this.inputTechnologist).subscribe({
-        
-        next: data => {
-          this.translate.get('STANDARD.new_advisor_created').subscribe((translatedMessage: string) => {
-            this.notificationService.createBasicNotification(0, translatedMessage, this.inputTechnologist.firstName + ' ' +
-              this.inputTechnologist.lastName, 'topRight');
-          });
+      if (this.isDuplicateTechnologist(this.inputTechnologist)) {
+        this.translate.get('CREATION_SITES.already_exists_F').subscribe((translatedMessage: string) => {
+          this.notificationService.createBasicNotification(4, translatedMessage, '', 'topRight');
+        });
+        return
+      }
+      if (this.isDuplicateEmail(this.inputTechnologist)) {
+        this.translate.get('CREATION_SITES.already_Mail').subscribe((translatedMessage: string) => {
+          this.notificationService.createBasicNotification(4, translatedMessage, '', 'topRight');
+        });
+        return
+      }
+      else {
+        this.http.postTechnologist(this.inputTechnologist).subscribe({
+          next: data => {
+            if (this.inputTechnologist.id !== null && this.inputTechnologist.id !== undefined && this.inputTechnologist.id !== 0) {
+              this.translate.get('CREATION_SITES.already_exists_updated_F').subscribe((translatedMessage: string) => {
+                this.notificationService.createBasicNotification(0, translatedMessage, this.inputTechnologist.firstName + ' ' +
+                  this.inputTechnologist.lastName, 'topRight');
+              });
+            }
+            else {
+              this.translate.get('STANDARD.new_advisor_created').subscribe((translatedMessage: string) => {
+                this.notificationService.createBasicNotification(0, translatedMessage, this.inputTechnologist.firstName + ' ' +
+                  this.inputTechnologist.lastName, 'topRight');
+              });
+            }
 
-          this.inputTechnologist = {
-            id: 0,
-            firstName: "",
-            lastName: "",
-            email: "",
-            active: true,
-            color: "#000000"
+            this.inputTechnologist = {
+              id: 0,
+              firstName: "",
+              lastName: "",
+              email: "",
+              active: true,
+              color: "#000000"
+            }
+
+            this.loadTechnologists();
+          },
+          error: err => {
+            log("create-technologist: ", err)
           }
-
-          this.loadTechnologists();
-        },
-        error: err => {
-          log("create-technologist: ", err)
-        }
-      });
+        });
+      }
     }
   }
+
+
+  isDuplicateTechnologist(frep: Technologist): boolean {
+    var found: Technologist | undefined = this.technologistList.find(technologist =>
+      technologist.firstName === frep.firstName && technologist.lastName === frep.lastName
+    );;
+
+    if ((this.inputTechnologist.id !== null && this.inputTechnologist.id !== undefined && this.inputTechnologist.id !== 0)) {
+      if (found !== undefined) {
+        if (found.id !== frep.id) {
+          return true;
+        }
+      }
+
+      return false;
+    }
+    return found !== undefined;
+  }
+
+  isDuplicateEmail(rep: Technologist): boolean {
+    var found: Technologist | undefined = this.technologistList.find(technologist => technologist.email === rep.email);
+
+    if ((this.inputTechnologist.id !== null && this.inputTechnologist.id !== undefined && this.inputTechnologist.id !== 0)) {
+      if (found !== undefined) {
+        if (found.id !== rep.id) {
+          return true;
+        }
+      }
+
+      return false;
+    }
+    return found !== undefined;
+  }
+
 
   cancelEdit() {
     this.inputTechnologist = {
@@ -132,5 +201,12 @@ export class CreateTechnologistComponent implements OnInit {
       item.color!.valueOf().toLocaleLowerCase().toString().includes(this.searchValue.toLocaleLowerCase()) ||
       item.id!.valueOf().toString().includes(this.searchValue.toLocaleLowerCase())
     ));
+  }
+}
+
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
   }
 }

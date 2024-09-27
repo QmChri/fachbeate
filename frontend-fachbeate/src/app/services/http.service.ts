@@ -27,7 +27,6 @@ export class HttpService {
   constructor(private http: HttpClient) { }
 
   postCustomerRequirement(customerRequirement: CustomerRequirement): Observable<CustomerRequirement> {
-    console.log(customerRequirement)
     return this.http.post<CustomerRequirement>(API_URL + "customerRequirement", customerRequirement);
   }
 
