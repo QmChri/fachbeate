@@ -33,7 +33,7 @@ public class AppointmentResource {
     @Inject
     FileService fileService;
 
-    String FileSaveDir = "uploads\\";
+    String FileSaveDir = "/opt/almi/daten/requesttooldaten/";
 
     /***
      * This method persists a calendar entry

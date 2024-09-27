@@ -256,7 +256,6 @@ export class BookingRequestComponent implements OnInit {
           this.inputBooking = data;
 
           if(this.fileList.length !== 0 && data.id !== 0 && data.id !== undefined && data.id !== null){
-
             this.http.postFiles(this.fileUpload, "booking_" + data.id!).subscribe();
           }
 
