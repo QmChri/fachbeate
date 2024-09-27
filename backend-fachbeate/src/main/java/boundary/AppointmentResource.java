@@ -178,6 +178,7 @@ public class AppointmentResource {
     @GET
     @Path("/finalReport/file/{finalReportId}/{fileName}")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    @Authenticated
     public Response getFile(@PathParam("finalReportId") String finalReportId, @PathParam("fileName") String filename) throws FileNotFoundException {
         File file = new File(FileSaveDir+finalReportId, filename);
 

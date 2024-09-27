@@ -3,6 +3,7 @@ package boundary;
 import com.lowagie.text.DocumentException;
 import control.PdfService;
 import entity.Guest;
+import io.quarkus.security.Authenticated;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -20,6 +21,7 @@ public class PdfResource {
     @GET
     @Path("customer/{id}")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    @Authenticated
     public Response getPdf(@PathParam("id") Long id) throws DocumentException {
         byte[] pdfContent = pdfService.createCustomerPdf(id);
 
@@ -32,6 +34,7 @@ public class PdfResource {
     @Path("members/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    @Authenticated
     public Response getMembersPdf(@PathParam("id") String id) throws DocumentException {
         byte[] pdfContent = pdfService.createMembersPdf(id);
 
@@ -44,6 +47,7 @@ public class PdfResource {
     @GET
     @Path("booking/{id}")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    @Authenticated
     public Response getBookingPdf(@PathParam("id") Long id) throws DocumentException {
         byte[] pdfContent = pdfService.createBookingPdf(id);
         return Response.ok(pdfContent)
@@ -54,6 +58,7 @@ public class PdfResource {
     @GET
     @Path("visit/{id}")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    @Authenticated
     public Response getVisitPdf(@PathParam("id") Long id) throws DocumentException {
         byte[] pdfContent = pdfService.createVisitPdf(id);
 
@@ -65,6 +70,7 @@ public class PdfResource {
     @GET
     @Path("workshop/{id}")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    @Authenticated
     public Response getWorkshopPdf(@PathParam("id") Long id) throws DocumentException {
         byte[] pdfContent = pdfService.createWorkshop(id);
 
@@ -76,6 +82,7 @@ public class PdfResource {
     @GET
     @Path("final/{id}")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    @Authenticated
     public Response getFinalPdf(@PathParam("id") Long id) throws DocumentException {
         byte[] pdfContent = pdfService.createFinalReportPdf(id);
 
@@ -87,6 +94,7 @@ public class PdfResource {
     @GET
     @Path("finalList")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    @Authenticated
     public Response getFinalReportListPdf() throws DocumentException {
         byte[] pdfContent = pdfService.createFinalReportListPdf();
 
@@ -98,6 +106,7 @@ public class PdfResource {
     @GET
     @Path("mainList")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    @Authenticated
     public Response getMainListPdf() throws DocumentException {
         byte[] pdfContent = pdfService.createMainListPdf();
 

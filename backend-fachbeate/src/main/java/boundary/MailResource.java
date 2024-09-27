@@ -5,6 +5,7 @@ import control.MailService;
 import entity.*;
 import entity.enums.Function;
 import io.quarkus.mailer.Mail;
+import io.quarkus.security.Authenticated;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -27,6 +28,7 @@ public class MailResource {
     @GET
     @Path("/test")
     @Produces(MediaType.TEXT_PLAIN)
+    @Authenticated
     public Response mail(){
         mailService.sendMail("christoph.handel@icloud.com");
         mailService.sendMail("ablingerraphael@gmail.com");
@@ -35,6 +37,7 @@ public class MailResource {
 
     @POST
     @Path("/sendMail")
+    @Authenticated
     public Response sendMail(MailRequest mailRequest) {
         Map<String, List<MailUser>> userGroups = keycloakService.getGroupsWithUsers();
         Map<String, List<MailUser>> emails = getSingleEmails(mailRequest.id);
@@ -125,6 +128,7 @@ public class MailResource {
 
     @POST
     @Path("/sendToAddress")
+    @Authenticated
     public Response sendToAddress(MailRequest mailRequest) {
 
         MailUser mailUser = new MailUser();

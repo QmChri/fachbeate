@@ -28,7 +28,7 @@ public class BookingRequestResource {
     @Inject
     FileService fileService;
 
-    String FileSaveDir = "uploads\\booking\\";
+    String FileSaveDir = "/opt/almi/daten/requesttooldaten/";
 
     final Date FIVE_DAYS_AGO = Date.from(LocalDate.now().minusDays(5).atStartOfDay(ZoneId.systemDefault()).toInstant());
 
@@ -123,6 +123,7 @@ public class BookingRequestResource {
     @GET
     @Path("/file/{bookingId}/{fileName}")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    @Authenticated
     public Response getFile(@PathParam("bookingId") String bookingId, @PathParam("fileName") String filename) throws FileNotFoundException {
         File file = new File(FileSaveDir+bookingId, filename);
 
