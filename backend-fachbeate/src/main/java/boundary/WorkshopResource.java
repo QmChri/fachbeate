@@ -14,11 +14,17 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Response;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Path("/workshop")
 public class WorkshopResource {
+
+    final Date FIVE_DAYS_AGO = Date.from(LocalDate.now().minusDays(5).atStartOfDay(ZoneId.systemDefault()).toInstant());
+
 
     @Inject
     MailService mailController;
@@ -74,11 +80,11 @@ public class WorkshopResource {
         List<WorkshopRequirement> mapList = new ArrayList<>();
 
         if (user==7) {
-            mapList = WorkshopRequirement.listAll();
+            mapList = WorkshopRequirement.list("endDate >= ?1",FIVE_DAYS_AGO);
         }else if(user == 4) {
             mapList = WorkshopRequirement.find(
                     "select work from WorkshopRequirement work join work.requestedTechnologist tech " +
-                            "where (tech.email = ?1 or creator = ?2) and showUser = true",fullname.get(1) ,fullname.get(0)
+                            "where (tech.email = ?1 or creator = ?2) and showUser = true and endDate >= ?3",fullname.get(1) ,fullname.get(0), FIVE_DAYS_AGO
             ).list();
         }else if(user == 6) {
             mapList = WorkshopRequirement.find(
@@ -87,16 +93,17 @@ public class WorkshopResource {
         }else if(user == 3){
             Representative representative = Representative.find("email", fullname.get(1)).firstResult();
 
-            mapList = WorkshopRequirement.find("SELECT w FROM WorkshopRequirement w JOIN w.requestedTechnologist tech WHERE (w.representative.email = ?1 or w.creator = ?2 or w.representative.email in ?3 or tech.email in ?4) and w.showUser = true",
+            mapList = WorkshopRequirement.find("SELECT w FROM WorkshopRequirement w JOIN w.requestedTechnologist tech WHERE (w.representative.email = ?1 or w.creator = ?2 or w.representative.email in ?3 or tech.email in ?4) and w.showUser = true and endDate >= ?3",
                     fullname.get(1),
                     fullname.get(0),
                     representative.groupMembersRepresentatives.stream().map(rep->rep.email).toList(),
-                    representative.groupMembersTechnologists.stream().map(rep->rep.email).toList()
+                    representative.groupMembersTechnologists.stream().map(rep->rep.email).toList(),
+                    FIVE_DAYS_AGO
             ).list();
         }else if(user == 8){
             mapList = WorkshopRequirement.find(
                     "select work from WorkshopRequirement work join work.requestedTechnologist tech " +
-                            "where (tech.email = ?1 or work.representative.email = ?1 or creator = ?2) and work.showUser = true",fullname.get(1) ,fullname.get(0)
+                            "where (tech.email = ?1 or work.representative.email = ?1 or creator = ?2) and work.showUser = true and endDate >= ?3",fullname.get(1) ,fullname.get(0),FIVE_DAYS_AGO
             ).list();
         }
         return Response.ok(

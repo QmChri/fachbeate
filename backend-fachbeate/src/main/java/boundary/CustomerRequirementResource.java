@@ -10,11 +10,16 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Response;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Path("customerRequirement")
 public class CustomerRequirementResource {
+
+    final Date FIVE_DAYS_AGO = Date.from(LocalDate.now().minusDays(5).atStartOfDay(ZoneId.systemDefault()).toInstant());
 
     /**
      * Post a new Fachberateranforderung
@@ -69,29 +74,31 @@ public class CustomerRequirementResource {
 
 
         if (user==7) {
-            customerRequirements = CustomerRequirement.listAll();
+            customerRequirements = CustomerRequirement.find("endDate >= ?1", FIVE_DAYS_AGO).list();
         }else if(user == 4) {
             customerRequirements = CustomerRequirement.find(
                     "(requestedTechnologist.email = ?1 " +
-                            "or creator = ?2) and showUser = true",
-                    fullname.get(1), fullname.get(0)).list();
+                            "or creator = ?2) and showUser = true and endDate >= ?3",
+                    fullname.get(1), fullname.get(0),FIVE_DAYS_AGO).list();
         } else if(user == 6) {
             customerRequirements = CustomerRequirement.find(
-                    "(company.username = ?1 or creator = ?1) and showUser = true",
-                    fullname.get(0)
+                    "(company.username = ?1 or creator = ?1) and showUser = true and endDate >= ?2",
+                    fullname.get(0),
+                    FIVE_DAYS_AGO
             ).list();
         } else if(user == 3){
             Representative representative = Representative.find("email", fullname.get(1)).firstResult();
             customerRequirements = CustomerRequirement.find(
-                    "(representative.email = ?1 or creator = ?2 or requestedTechnologist.email in ?3 or representative.email in ?4) and showUser = true",
+                    "(representative.email = ?1 or creator = ?2 or requestedTechnologist.email in ?3 or representative.email in ?4) and showUser = true and endDate >= ?5",
                     fullname.get(1),
                     fullname.get(0),
                     representative.groupMembersTechnologists.stream().map(tech->tech.email).toList(),
-                    representative.groupMembersRepresentatives.stream().map(rep->rep.email).toList()
+                    representative.groupMembersRepresentatives.stream().map(rep->rep.email).toList(),
+                    FIVE_DAYS_AGO
             ).list();
         }else if(user == 8){
             customerRequirements = CustomerRequirement.find(
-                    "(representative.email = ?1 or requestedTechnologist.email = ?1 or creator = ?2) and showUser = true", fullname.get(1), fullname.get(0)
+                    "(representative.email = ?1 or requestedTechnologist.email = ?1 or creator = ?2) and showUser = true and endDate >= ?3", fullname.get(1), fullname.get(0), FIVE_DAYS_AGO
             ).list();
         }
 

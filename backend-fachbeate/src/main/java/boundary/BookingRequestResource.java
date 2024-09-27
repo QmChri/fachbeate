@@ -15,7 +15,10 @@ import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
 import java.io.*;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +29,8 @@ public class BookingRequestResource {
     FileService fileService;
 
     String FileSaveDir = "uploads\\booking\\";
+
+    final Date FIVE_DAYS_AGO = Date.from(LocalDate.now().minusDays(5).atStartOfDay(ZoneId.systemDefault()).toInstant());
 
 
     /**
@@ -90,7 +95,7 @@ public class BookingRequestResource {
     public Response getBookingRequestPerUser(@QueryParam("type") int user, @QueryParam("fullname") List<String> fullname){
         List<BookingRequest> bookingRequests = new ArrayList<>();
         if (user==7) {
-            bookingRequests = BookingRequest.listAll();
+            bookingRequests = BookingRequest.list("mainEndDate >= ?1", FIVE_DAYS_AGO);
         }
         /*
         }else if(user == 4) {
