@@ -123,7 +123,6 @@ public class BookingRequestResource {
     @GET
     @Path("/file/{bookingId}/{fileName}")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
-    @Authenticated
     public Response getFile(@PathParam("bookingId") String bookingId, @PathParam("fileName") String filename) throws FileNotFoundException {
         File file = new File(FileSaveDir+bookingId, filename);
 

@@ -238,10 +238,8 @@ export class HttpService {
     return this.http.post(API_URL + "mail/sendToAddress", mailRequest);
   }
 
-  postFiles(files: MultipleFileUploadRequest, id: string){
-    console.log("http");
-
-    return this.http.post(API_URL + "appointment/upload/"+id, files)
+  postFiles(files: MultipleFileUploadRequest, id: string) {
+    return this.http.post(API_URL + "appointment/upload/" + id, files)
   }
 
 }
