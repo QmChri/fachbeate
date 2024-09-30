@@ -154,7 +154,7 @@ export class SeminarRegistrationComponent implements OnInit {
       width: '50rem',
       data: {
         guests: guests,
-        id: "S_"+this.inputWorkshop.id
+        id: "S_" + this.inputWorkshop.id
       }
     });
 
@@ -296,11 +296,7 @@ export class SeminarRegistrationComponent implements OnInit {
         this.inputWorkshop.creator = this.roleService.getUserName();
       }
 
-      (this.inputWorkshop.startDate !== null || this.inputWorkshop.startDate !== undefined) ? new Date(this.inputWorkshop.startDate!.toString()).setHours(5) : "";
-      (this.inputWorkshop.endDate !== null || this.inputWorkshop.endDate !== undefined) ? new Date(this.inputWorkshop.endDate!.toString())?.setHours(5) : "";
-
-
-
+      this.adjustDates();
 
       this.inputWorkshop.lastEditor = this.inputWorkshop.lastEditor;
 
@@ -426,5 +422,23 @@ export class SeminarRegistrationComponent implements OnInit {
 
   convertToDate(date: any): Date | undefined {
     return (date !== null && date !== undefined) ? new Date(date.toString()) : undefined;
+  }
+
+  adjustDates() {
+    this.inputWorkshop.startDate = this.setHours(this.inputWorkshop.startDate);
+    this.inputWorkshop.endDate = this.setHours(this.inputWorkshop.endDate);
+    this.inputWorkshop.flights!.forEach(element => { element.flightDate = this.setHours(element.flightDate); });
+    this.inputWorkshop.hotelBookings!.forEach(element => {
+      element.hotelStayFromDate = this.setHours(element.hotelStayFromDate);
+      element.hotelStayToDate = this.setHours(element.hotelStayToDate);
+    });
+    this.inputWorkshop.tripDate = this.setHours(this.inputWorkshop.tripDate);
+    this.inputWorkshop.tourDate = this.setHours(this.inputWorkshop.tourDate);
+    this.inputWorkshop.mealDateFrom = this.setHours(this.inputWorkshop.mealDateFrom);
+    this.inputWorkshop.mealDateTo = this.setHours(this.inputWorkshop.mealDateTo);
+
+  }
+  setHours(date: any) {
+    return (date !== null && date !== undefined) ? new Date(new Date(new Date(date.toString()).setHours(5))) : undefined;
   }
 }

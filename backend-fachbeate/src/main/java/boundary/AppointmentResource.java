@@ -180,7 +180,7 @@ public class AppointmentResource {
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     @Authenticated
     public Response getFile(@PathParam("finalReportId") String finalReportId, @PathParam("fileName") String filename) throws FileNotFoundException {
-        File file = new File(FileSaveDir+finalReportId, filename);
+        File file = new File(FileSaveDir+"final/"+finalReportId, filename);
 
         if (!file.exists()) {
             return Response.status(Response.Status.NOT_FOUND).build();

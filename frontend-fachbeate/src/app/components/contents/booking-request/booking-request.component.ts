@@ -24,7 +24,7 @@ export class BookingRequestComponent implements OnInit {
   addItem: string = "";
 
   fileList: NzUploadFile[] = [];
-  fileUpload: MultipleFileUploadRequest = {files: []};
+  fileUpload: MultipleFileUploadRequest = { files: [] };
 
   buttonSelect: String[] = []
   bookingControl = new FormControl<BookingRequestComponent | null>(null, Validators.required);
@@ -160,7 +160,6 @@ export class BookingRequestComponent implements OnInit {
 
   release(department: string) {
     if (department === 'gl' && this.checkRequired()) {
-      this.getNotification(2);
       this.inputBooking.releaseManagement = new Date();
       this.inputBooking.releaserManagement = this.roleService.getUserName()
       this.postBooking();
@@ -174,7 +173,6 @@ export class BookingRequestComponent implements OnInit {
       this.getNotification(10)
     }
     else if (department === 'al' && this.checkRequired()) {
-      this.getNotification(3);
       this.inputBooking.releaseSupervisor = new Date();
       this.inputBooking.releaserSupervisor = this.roleService.getUserName()
       this.postBooking();
@@ -231,31 +229,16 @@ export class BookingRequestComponent implements OnInit {
 
       this.inputBooking.showUser = true;
 
-      (this.inputBooking.mainStartDate !== null && this.inputBooking.mainStartDate !== undefined) ? new Date(this.inputBooking.mainStartDate!.toString()).setHours(5) : "";
-      (this.inputBooking.mainEndDate !== null && this.inputBooking.mainEndDate !== undefined) ? new Date(this.inputBooking.mainStartDate!.toString()).setHours(5) : "";
       this.inputBooking.lastEditor = this.inputBooking.lastEditor;
 
-      //Create Form to Send Files and Booking Request Data
-
-      console.log(this.convertFileListToBase64())
-
-      // Not sending with formdata because of MediaType Problems
-      /*let formData = new FormData();
-      if (this.fileList !== null && this.fileList !== undefined && this.fileList.length !== 0) {
-        this.fileList.map(element => element.originFileObj!).forEach(element => {
-          // Adding all Files to the Form
-          //formData.append("files", element!)
-        })
-      }
-
-      formData.append('booking', JSON.stringify(this.inputBooking));*/
+      this.adjustDates()
 
       this.http.postBookingRequest(this.inputBooking).subscribe({
         next: data => {
           this.getNotification(1);
           this.inputBooking = data;
 
-          if(this.fileList.length !== 0 && data.id !== 0 && data.id !== undefined && data.id !== null){
+          if (this.fileList.length !== 0 && data.id !== 0 && data.id !== undefined && data.id !== null) {
             this.http.postFiles(this.fileUpload, "booking_" + data.id!).subscribe();
           }
 
@@ -343,7 +326,7 @@ export class BookingRequestComponent implements OnInit {
     const isLt2M = file.size! / 1024 / 1024 < 1;
 
     if (!icCorrectFileType) {
-      this.getNotification(1);
+      this.getNotification(15);
       return false;
     }
     if (this.fileList.length >= 5) {
@@ -354,28 +337,24 @@ export class BookingRequestComponent implements OnInit {
       this.getNotification(3);
       return false;
     }
-    // Datei zur Liste hinzufügen
-    this.fileList = [...this.fileList, file];
     this.getNotification(0);
     return true;
   };
 
   handleChange(info: { fileList: NzUploadFile[] }): void {
     this.fileList = info.fileList;
-
     this.fileUpload = this.convertFileListToBase64()
-
   }
 
-  convertFileListToBase64(){
-    var multipleFileUpload: MultipleFileUploadRequest = {files: []};
+  convertFileListToBase64() {
+    var multipleFileUpload: MultipleFileUploadRequest = { files: [] };
 
     this.fileList.forEach((file) => {
       const fileReader = new FileReader();
       fileReader.onload = () => {
         const base64Data = (fileReader.result as string).split(',')[1]; // Entferne den Base64-Header
 
-        var tmpFile: FileUploadRequest = {fileContent: base64Data, fileName: file.name}
+        var tmpFile: FileUploadRequest = { fileContent: base64Data, fileName: file.name }
         multipleFileUpload.files!.push(tmpFile);
       };
       fileReader.readAsDataURL(file.originFileObj as File); // Konvertiere Datei zu base64
@@ -387,6 +366,12 @@ export class BookingRequestComponent implements OnInit {
 
   getNotification(type: number) {
     switch (type) {
+      case 0: { //Files hochgeladen
+        this.translate.get('ABSCHLUSSBERICHT.files_uploaded').subscribe((translatedMessage: string) => {
+          this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
+        });
+        break;
+      }
       case 1: { //Formular wurde gesendet
         if (this.freigegeben) {
           this.translate.get('STANDARD.form_sent').subscribe((translatedMessage: string) => {
@@ -395,18 +380,22 @@ export class BookingRequestComponent implements OnInit {
         }
         break;
       }
-      case 2: { // Freigabe GL
-        this.translate.get('STANDARD.approval_from_gl_granted').subscribe((translatedMessage: string) => {
-          this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
-        });
-        this.freigegeben = false;
+      case 2: { // maximal 5 Files
+        this.translate.get(['ABSCHLUSSBERICHT.files_count', 'ABSCHLUSSBERICHT.files_count_2'])
+          .subscribe((translations: { [key: string]: string }) => {
+            const message1 = translations['ABSCHLUSSBERICHT.files_count'];
+            const message2 = translations['ABSCHLUSSBERICHT.files_count_2'];
+            this.notificationService.createBasicNotification(4, message1, message2, 'topRight');
+          });
         break;
       }
-      case 3: { // Freigabe AL
-        this.translate.get('STANDARD.approval_from_al_granted').subscribe((translatedMessage: string) => {
-          this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
-        });
-        this.freigegeben = false;
+      case 3: { //maximal 2 MB per file
+        this.translate.get(['ABSCHLUSSBERICHT.files_size', 'ABSCHLUSSBERICHT.files_size_2'])
+          .subscribe((translations: { [key: string]: string }) => {
+            const message1 = translations['ABSCHLUSSBERICHT.files_size'];
+            const message2 = translations['ABSCHLUSSBERICHT.files_size_2'];
+            this.notificationService.createBasicNotification(4, message1, message2, 'topRight');
+          });
         break;
       }
       case 4: { //Files hochgeladen
@@ -479,6 +468,15 @@ export class BookingRequestComponent implements OnInit {
           });
         break;
       }
+      case 15: { //Files nicht erlaubt
+        this.translate.get(['ABSCHLUSSBERICHT.files_allowed', 'ABSCHLUSSBERICHT.files_allowed_2'])
+          .subscribe((translations: { [key: string]: string }) => {
+            const message1 = translations['ABSCHLUSSBERICHT.files_allowed'];
+            const message2 = translations['ABSCHLUSSBERICHT.files_allowed_2'];
+            this.notificationService.createBasicNotification(4, message1, message2, 'topRight');
+          });
+        break;
+      }
       /*case 4: { // Pflichtfelder ausfüllen
 
         this.translate.get(['STANDARD.please_fill_required_fields', 'STANDARD.assigned_representative']).subscribe(translations => {
@@ -490,5 +488,20 @@ export class BookingRequestComponent implements OnInit {
     }
   }
 
-
+  adjustDates() {
+    this.inputBooking.mainStartDate = this.setHours(this.inputBooking.mainStartDate);
+    this.inputBooking.mainEndDate = this.setHours(this.inputBooking.mainEndDate);
+    this.inputBooking.flights!.forEach(element => { element.flightDate = this.setHours(element.flightDate); });
+    this.inputBooking.trainStartDate = this.setHours(this.inputBooking.trainStartDate);
+    this.inputBooking.trainEndDate = this.setHours(this.inputBooking.trainEndDate);
+    this.inputBooking.hotelBookings!.forEach(element => {
+      element.hotelStayFromDate = this.setHours(element.hotelStayFromDate);
+      element.hotelStayToDate = this.setHours(element.hotelStayToDate);
+    });
+    this.inputBooking.carFrom = this.setHours(this.inputBooking.carFrom);
+    this.inputBooking.carTo = this.setHours(this.inputBooking.carTo);
+  }
+  setHours(date: any) {
+    return (date !== null && date !== undefined) ? new Date(new Date(new Date(date.toString()).setHours(5))) : undefined;
+  }
 }

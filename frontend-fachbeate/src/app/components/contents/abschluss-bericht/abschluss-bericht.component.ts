@@ -47,7 +47,7 @@ export class AbschlussBerichtComponent implements OnInit {
     { id: 3, name: 'ABSCHLUSSBERICHT.product_development' }
   ];
 
-  fileUpload: MultipleFileUploadRequest = {files: []};
+  fileUpload: MultipleFileUploadRequest = { files: [] };
 
   constructor(public roleService: RoleService, private notification: NzNotificationService, private msg: NzMessageService,
     public dialogRef: MatDialogRef<AbschlussBerichtComponent>,
@@ -200,9 +200,8 @@ export class AbschlussBerichtComponent implements OnInit {
 
       //region Set the creator and last Editor
       this.inputFinalReport.lastEditor = this.roleService.getUserName();
-
       //endregion
-
+      this.adjustDates();
       //region set boolean for reasonselection
       this.inputFinalReport.reworkInformation = this.inputFinalReport.reworkToDo!.includes(1);
       this.inputFinalReport.reworkRecipe_optimization = this.inputFinalReport.reworkToDo!.includes(2);
@@ -379,12 +378,12 @@ export class AbschlussBerichtComponent implements OnInit {
       }
       case 8: { // Mail 3
         this.translate.get(['MAIL.sended', 'MAIL.A_3'])
-        .subscribe((translations: { [key: string]: string }) => {
-          const message1 = translations['MAIL.sended'];
-          const message2 = translations['MAIL.A_3'];
-          this.notificationService.createBasicNotification(0, message1, message2, 'topRight');
-        });
-      break;
+          .subscribe((translations: { [key: string]: string }) => {
+            const message1 = translations['MAIL.sended'];
+            const message2 = translations['MAIL.A_3'];
+            this.notificationService.createBasicNotification(0, message1, message2, 'topRight');
+          });
+        break;
       }
     }
   }
@@ -431,8 +430,6 @@ export class AbschlussBerichtComponent implements OnInit {
       this.getNotification(3);
       return false;
     }
-    // Datei zur Liste hinzufügen
-    this.fileList = [...this.fileList, file];
     this.getNotification(0);
     return true;
   };
@@ -443,15 +440,15 @@ export class AbschlussBerichtComponent implements OnInit {
 
   }
 
-  convertFileListToBase64(){
-    var multipleFileUpload: MultipleFileUploadRequest = {files: []};
+  convertFileListToBase64() {
+    var multipleFileUpload: MultipleFileUploadRequest = { files: [] };
 
     this.fileList.forEach((file) => {
       const fileReader = new FileReader();
       fileReader.onload = () => {
         const base64Data = (fileReader.result as string).split(',')[1]; // Entferne den Base64-Header
-        
-        var tmpFile: FileUploadRequest = {fileContent: base64Data, fileName: file.name}
+
+        var tmpFile: FileUploadRequest = { fileContent: base64Data, fileName: file.name }
         multipleFileUpload.files!.push(tmpFile);
       };
       fileReader.readAsDataURL(file.originFileObj as File); // Konvertiere Datei zu base64
@@ -459,5 +456,14 @@ export class AbschlussBerichtComponent implements OnInit {
 
     return multipleFileUpload;
   }
-
+  adjustDates() {
+    this.inputFinalReport.dateOfVisit = this.setHours(this.inputFinalReport.dateOfVisit);
+    this.inputFinalReport.customerContactDate = this.setHours(this.inputFinalReport.customerContactDate);
+    this.inputFinalReport.reworkByRepresentativeDoneUntil = this.setHours(this.inputFinalReport.reworkByRepresentativeDoneUntil);
+    this.inputFinalReport.reworkByTechnologistDoneUntil = this.setHours(this.inputFinalReport.reworkByTechnologistDoneUntil);
+    this.inputFinalReport.doneUntil = this.setHours(this.inputFinalReport.doneUntil);
+  }
+  setHours(date: any) {
+    return (date !== null && date !== undefined) ? new Date(new Date(new Date(date.toString()).setHours(5))) : undefined;
+  }
 }
