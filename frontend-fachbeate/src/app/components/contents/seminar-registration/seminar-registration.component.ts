@@ -154,7 +154,7 @@ export class SeminarRegistrationComponent implements OnInit {
       width: '50rem',
       data: {
         guests: guests,
-        id: "S_"+this.inputWorkshop.id
+        id: "S_" + this.inputWorkshop.id
       }
     });
 
@@ -296,11 +296,17 @@ export class SeminarRegistrationComponent implements OnInit {
         this.inputWorkshop.creator = this.roleService.getUserName();
       }
 
-      (this.inputWorkshop.startDate !== null || this.inputWorkshop.startDate !== undefined) ? new Date(this.inputWorkshop.startDate!.toString()).setHours(5) : "";
-      (this.inputWorkshop.endDate !== null || this.inputWorkshop.endDate !== undefined) ? new Date(this.inputWorkshop.endDate!.toString())?.setHours(5) : "";
-
-
-
+      this.inputWorkshop.startDate = this.adjustDate(this.inputWorkshop.startDate);
+      this.inputWorkshop.endDate = this.adjustDate(this.inputWorkshop.endDate);
+      this.inputWorkshop.flights!.forEach(element => { element.flightDate = this.adjustDate(element.flightDate); });
+      this.inputWorkshop.hotelBookings!.forEach(element => {
+        element.hotelStayFromDate = this.adjustDate(element.hotelStayFromDate);
+        element.hotelStayToDate = this.adjustDate(element.hotelStayToDate);
+      });
+      this.inputWorkshop.tripDate = this.adjustDate(this.inputWorkshop.tripDate);
+      this.inputWorkshop.tourDate = this.adjustDate(this.inputWorkshop.tourDate);
+      this.inputWorkshop.mealDateFrom = this.adjustDate(this.inputWorkshop.mealDateFrom);
+      this.inputWorkshop.mealDateTo = this.adjustDate(this.inputWorkshop.mealDateTo);
 
       this.inputWorkshop.lastEditor = this.inputWorkshop.lastEditor;
 
@@ -426,5 +432,9 @@ export class SeminarRegistrationComponent implements OnInit {
 
   convertToDate(date: any): Date | undefined {
     return (date !== null && date !== undefined) ? new Date(date.toString()) : undefined;
+  }
+
+  adjustDate(date: any) {
+    return (date !== null && date !== undefined) ? new Date(new Date(new Date(date.toString()).setHours(5))) : undefined;
   }
 }

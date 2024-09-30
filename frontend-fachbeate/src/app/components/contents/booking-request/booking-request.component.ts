@@ -24,7 +24,7 @@ export class BookingRequestComponent implements OnInit {
   addItem: string = "";
 
   fileList: NzUploadFile[] = [];
-  fileUpload: MultipleFileUploadRequest = {files: []};
+  fileUpload: MultipleFileUploadRequest = { files: [] };
 
   buttonSelect: String[] = []
   bookingControl = new FormControl<BookingRequestComponent | null>(null, Validators.required);
@@ -235,27 +235,22 @@ export class BookingRequestComponent implements OnInit {
       (this.inputBooking.mainEndDate !== null && this.inputBooking.mainEndDate !== undefined) ? new Date(this.inputBooking.mainStartDate!.toString()).setHours(5) : "";
       this.inputBooking.lastEditor = this.inputBooking.lastEditor;
 
-      //Create Form to Send Files and Booking Request Data
+      this.inputBooking.hotelBookings.forEach(element => {
+        element.hotelStayFromDate = (element.hotelStayFromDate !== null && element.hotelStayFromDate !== undefined) ? new Date(new Date(element.hotelStayFromDate!.toString()).setHours(5)) : undefined;
+        element.hotelStayToDate = (element.hotelStayToDate !== null && element.hotelStayToDate !== undefined) ? new Date(new Date(element.hotelStayToDate!.toString()).setHours(5)) : undefined;
+      });
 
-      console.log(this.convertFileListToBase64())
-
-      // Not sending with formdata because of MediaType Problems
-      /*let formData = new FormData();
-      if (this.fileList !== null && this.fileList !== undefined && this.fileList.length !== 0) {
-        this.fileList.map(element => element.originFileObj!).forEach(element => {
-          // Adding all Files to the Form
-          //formData.append("files", element!)
-        })
-      }
-
-      formData.append('booking', JSON.stringify(this.inputBooking));*/
+      this.inputBooking.flights.forEach(element => {
+        element.flightDate = (element.flightDate !== null && element.flightDate !== undefined) ? new Date(new Date(element.flightDate!.toString()).setHours(5)) : undefined;
+      });
+      this.inputBooking.carFrom = (this.inputBooking.carFrom !== null && this.inputBooking.carFrom !== undefined) ? new Date(new Date(this.inputBooking.carFrom!.toString()).setHours(5)) : undefined;
 
       this.http.postBookingRequest(this.inputBooking).subscribe({
         next: data => {
           this.getNotification(1);
           this.inputBooking = data;
 
-          if(this.fileList.length !== 0 && data.id !== 0 && data.id !== undefined && data.id !== null){
+          if (this.fileList.length !== 0 && data.id !== 0 && data.id !== undefined && data.id !== null) {
             this.http.postFiles(this.fileUpload, "booking_" + data.id!).subscribe();
           }
 
@@ -367,15 +362,15 @@ export class BookingRequestComponent implements OnInit {
 
   }
 
-  convertFileListToBase64(){
-    var multipleFileUpload: MultipleFileUploadRequest = {files: []};
+  convertFileListToBase64() {
+    var multipleFileUpload: MultipleFileUploadRequest = { files: [] };
 
     this.fileList.forEach((file) => {
       const fileReader = new FileReader();
       fileReader.onload = () => {
         const base64Data = (fileReader.result as string).split(',')[1]; // Entferne den Base64-Header
 
-        var tmpFile: FileUploadRequest = {fileContent: base64Data, fileName: file.name}
+        var tmpFile: FileUploadRequest = { fileContent: base64Data, fileName: file.name }
         multipleFileUpload.files!.push(tmpFile);
       };
       fileReader.readAsDataURL(file.originFileObj as File); // Konvertiere Datei zu base64
