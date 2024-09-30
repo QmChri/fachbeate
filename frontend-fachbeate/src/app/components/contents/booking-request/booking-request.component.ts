@@ -160,7 +160,6 @@ export class BookingRequestComponent implements OnInit {
 
   release(department: string) {
     if (department === 'gl' && this.checkRequired()) {
-      this.getNotification(10);
       this.inputBooking.releaseManagement = new Date();
       this.inputBooking.releaserManagement = this.roleService.getUserName()
       this.postBooking();
@@ -174,7 +173,6 @@ export class BookingRequestComponent implements OnInit {
       this.getNotification(10)
     }
     else if (department === 'al' && this.checkRequired()) {
-      this.getNotification(11);
       this.inputBooking.releaseSupervisor = new Date();
       this.inputBooking.releaserSupervisor = this.roleService.getUserName()
       this.postBooking();
