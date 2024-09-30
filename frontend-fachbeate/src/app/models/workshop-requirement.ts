@@ -49,19 +49,6 @@ export interface WorkshopRequirement{
 
     hotelBookings?: Hotelbooking[];    
     
-    locationAndDesiredPlace?: string;
-    locationFromDate?: Date;
-    locationToDate?: Date;
-    amountSingleRooms?: number;
-    amountDoubleRooms?: number;
-
-    
-    flightHereDateTime?: Date;
-    flightReturnDateTime?: Date;
-    flightFrom?: string;
-    flightTo?: string;
-    otherTravelRequests?: string;
-
     trip?: boolean;
     tripDate?: Date;
     tripTime?: string;

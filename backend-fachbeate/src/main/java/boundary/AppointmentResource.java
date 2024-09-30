@@ -170,7 +170,7 @@ public class AppointmentResource {
             ).list();
         }
 
-        finalReports.forEach(element -> element.files = fileService.getFileList(FileSaveDir + "final\\" + element.id));
+        finalReports.forEach(element -> element.files = fileService.getFileList(FileSaveDir + "final/" + element.id));
 
         return Response.ok(finalReports).build();
     }
