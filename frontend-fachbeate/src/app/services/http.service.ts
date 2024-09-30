@@ -17,6 +17,7 @@ import { Booking } from '../models/booking';
 import { Support } from '../models/support';
 import { MailRequest } from '../models/mail-request';
 import { log } from './logger.service';
+import { MultipleFileUploadRequest } from '../models/multiple-file-upload-request';
 const API_URL = environment.backendApi
 
 @Injectable({
@@ -157,11 +158,6 @@ export class HttpService {
     return this.http.post<FinalReport>(API_URL + "appointment/finalReport", finalReport);
   }
 
-  postFinalReportMultiPart(formData: FormData): Observable<FinalReport> {
-
-    return this.http.post<FinalReport>(API_URL + "appointment/finalReportMulti", formData);
-  }
-
 
   getAllArticles(): Observable<Article[]> {
     return this.http.get<Article[]>(API_URL + "appointment/article");
@@ -174,10 +170,6 @@ export class HttpService {
 
   postBookingRequest(booking: Booking): Observable<Booking> {
     return this.http.post<Booking>(API_URL + "booking", booking);
-  }
-
-  postBookingMultiPart(formData: FormData): Observable<Booking> {
-    return this.http.post<Booking>(API_URL + "booking/bookingMulti", formData);
   }
 
 
@@ -244,6 +236,12 @@ export class HttpService {
   sendToAdress(adress: string, message: string, subject: string) {
     var mailRequest: MailRequest = { groups: [adress], id: undefined!, text: message, subject: subject }
     return this.http.post(API_URL + "mail/sendToAddress", mailRequest);
+  }
+
+  postFiles(files: MultipleFileUploadRequest, id: string){
+    console.log("http");
+
+    return this.http.post(API_URL + "appointment/upload/"+id, files)
   }
 
 }

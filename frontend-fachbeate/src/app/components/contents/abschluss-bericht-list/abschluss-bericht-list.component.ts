@@ -11,6 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AbschlussBerichtComponent } from '../abschluss-bericht/abschluss-bericht.component';
 import { Company } from '../../../models/company';
 import { LoggerService, log } from '../../../services/logger.service';
+import { MultipleFileUploadRequest } from '../../../models/multiple-file-upload-request';
 
 @Component({
   selector: 'abschluss-bericht-list',
@@ -248,7 +249,7 @@ export class AbschlussBerichtListComponent {
     // endregion
 
     dialogRef.afterClosed().subscribe(
-      (data: {finalReport: FinalReport, save: boolean}) => {
+      (data: {finalReport: FinalReport, files: MultipleFileUploadRequest, save: boolean}) => {
         //region When the popup is closed, this data is transferred
 
         if (data.save) {
@@ -269,6 +270,13 @@ export class AbschlussBerichtListComponent {
                 customerContactDate: finalRep.customerContactDate!,
                 abschlussberichtFinished: (finalRep.requestCompleted) ? "Ja" : "Nein",
                 article: []
+              }
+
+              if(data.files !== null && data.files !== undefined && data.files.files !== null 
+                && data.files.files !== undefined && data.files.files!.length !== 0
+                && finalRep.id !== null && finalRep.id !== undefined && finalRep.id !== 0
+              ){
+                this.http.postFiles(data.files, "final_" + finalRep.id!).subscribe();
               }
 
               finalRep.reasonReports!.forEach(element => {

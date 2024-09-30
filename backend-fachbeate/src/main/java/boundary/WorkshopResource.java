@@ -93,7 +93,7 @@ public class WorkshopResource {
         }else if(user == 3){
             Representative representative = Representative.find("email", fullname.get(1)).firstResult();
 
-            mapList = WorkshopRequirement.find("SELECT w FROM WorkshopRequirement w JOIN w.requestedTechnologist tech WHERE (w.representative.email = ?1 or w.creator = ?2 or w.representative.email in ?3 or tech.email in ?4) and w.showUser = true and endDate >= ?3",
+            mapList = WorkshopRequirement.find("SELECT w FROM WorkshopRequirement w JOIN w.requestedTechnologist tech WHERE (w.representative.email = ?1 or w.creator = ?2 or w.representative.email in ?3 or tech.email in ?4) and w.showUser = true and endDate >= ?5",
                     fullname.get(1),
                     fullname.get(0),
                     representative.groupMembersRepresentatives.stream().map(rep->rep.email).toList(),

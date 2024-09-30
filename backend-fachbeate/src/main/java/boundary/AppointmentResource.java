@@ -3,6 +3,8 @@ package boundary;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import control.FileService;
 import entity.*;
+import entity.dto.FileUploadRequest;
+import entity.dto.MultipleFileUploadRequest;
 import io.quarkus.security.Authenticated;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -15,7 +17,10 @@ import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +33,7 @@ public class AppointmentResource {
     @Inject
     FileService fileService;
 
-    String FileSaveDir = "uploads\\final\\";
+    String FileSaveDir = "/opt/almi/daten/requesttooldaten/";
 
     /***
      * This method persists a calendar entry
@@ -165,7 +170,7 @@ public class AppointmentResource {
             ).list();
         }
 
-        finalReports.forEach(element -> element.files = fileService.getFileList(FileSaveDir + element.id));
+        finalReports.forEach(element -> element.files = fileService.getFileList(FileSaveDir + "final\\" + element.id));
 
         return Response.ok(finalReports).build();
     }
@@ -173,6 +178,7 @@ public class AppointmentResource {
     @GET
     @Path("/finalReport/file/{finalReportId}/{fileName}")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    @Authenticated
     public Response getFile(@PathParam("finalReportId") String finalReportId, @PathParam("fileName") String filename) throws FileNotFoundException {
         File file = new File(FileSaveDir+finalReportId, filename);
 
@@ -198,39 +204,6 @@ public class AppointmentResource {
     @Transactional
     public Response postFinalReport(FinalReport finalReport){
         return Response.ok(finalReport.persistOrUpdate()).build();
-    }
-
-
-    @POST
-    @Path("/finalReportMulti")
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
-    @Authenticated
-    @Transactional
-    public Response finalWithFiles(MultipartFormDataInput input) throws IOException {
-        Map<String, List<InputPart>> inputStreams = input.getFormDataMap();
-
-        // Extract the 'finalReport' from the input
-        InputPart finalReportPart = inputStreams.get("finalReport").get(0);
-
-        // Convert the 'finalReport' to a FinalReport object (assuming JSON is sent)
-        String finalReportJson = finalReportPart.getBodyAsString();
-        FinalReport finalReport = new ObjectMapper().readValue(finalReportJson, FinalReport.class);
-
-        // Persist or update the final report
-        finalReport.persistOrUpdate();
-
-        if (finalReport.id == null) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Failed to retrieve FinalReport ID").build();
-        }
-
-        // Handle file uploads (if any)
-        if (inputStreams.containsKey("files")) {
-            if (!fileService.saveFilesToDir(input, finalReport.id, FileSaveDir)) {
-                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-            }
-        }
-
-        return Response.ok(finalReport).build();
     }
 
 
@@ -275,6 +248,16 @@ public class AppointmentResource {
         return Response.notModified().build();
     }
 
+    @POST
+    @Path("upload/{savePath}")
+    @Authenticated
+    @Transactional
+    public void uploadFiles(MultipleFileUploadRequest request, @PathParam("savePath") String savePath) throws IOException {
+
+        fileService.saveFilesToDir(request, savePath, FileSaveDir);
+
+
+    }
 
 
 }
