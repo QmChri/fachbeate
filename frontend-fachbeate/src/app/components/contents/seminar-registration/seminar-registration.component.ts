@@ -296,17 +296,7 @@ export class SeminarRegistrationComponent implements OnInit {
         this.inputWorkshop.creator = this.roleService.getUserName();
       }
 
-      this.inputWorkshop.startDate = this.adjustDate(this.inputWorkshop.startDate);
-      this.inputWorkshop.endDate = this.adjustDate(this.inputWorkshop.endDate);
-      this.inputWorkshop.flights!.forEach(element => { element.flightDate = this.adjustDate(element.flightDate); });
-      this.inputWorkshop.hotelBookings!.forEach(element => {
-        element.hotelStayFromDate = this.adjustDate(element.hotelStayFromDate);
-        element.hotelStayToDate = this.adjustDate(element.hotelStayToDate);
-      });
-      this.inputWorkshop.tripDate = this.adjustDate(this.inputWorkshop.tripDate);
-      this.inputWorkshop.tourDate = this.adjustDate(this.inputWorkshop.tourDate);
-      this.inputWorkshop.mealDateFrom = this.adjustDate(this.inputWorkshop.mealDateFrom);
-      this.inputWorkshop.mealDateTo = this.adjustDate(this.inputWorkshop.mealDateTo);
+      this.adjustDates();
 
       this.inputWorkshop.lastEditor = this.inputWorkshop.lastEditor;
 
@@ -434,7 +424,21 @@ export class SeminarRegistrationComponent implements OnInit {
     return (date !== null && date !== undefined) ? new Date(date.toString()) : undefined;
   }
 
-  adjustDate(date: any) {
+  adjustDates() {
+    this.inputWorkshop.startDate = this.setHours(this.inputWorkshop.startDate);
+    this.inputWorkshop.endDate = this.setHours(this.inputWorkshop.endDate);
+    this.inputWorkshop.flights!.forEach(element => { element.flightDate = this.setHours(element.flightDate); });
+    this.inputWorkshop.hotelBookings!.forEach(element => {
+      element.hotelStayFromDate = this.setHours(element.hotelStayFromDate);
+      element.hotelStayToDate = this.setHours(element.hotelStayToDate);
+    });
+    this.inputWorkshop.tripDate = this.setHours(this.inputWorkshop.tripDate);
+    this.inputWorkshop.tourDate = this.setHours(this.inputWorkshop.tourDate);
+    this.inputWorkshop.mealDateFrom = this.setHours(this.inputWorkshop.mealDateFrom);
+    this.inputWorkshop.mealDateTo = this.setHours(this.inputWorkshop.mealDateTo);
+
+  }
+  setHours(date: any) {
     return (date !== null && date !== undefined) ? new Date(new Date(new Date(date.toString()).setHours(5))) : undefined;
   }
 }
