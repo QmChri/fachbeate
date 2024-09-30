@@ -202,23 +202,7 @@ export class CustomerRequirementsComponent implements OnInit {
       this.inputCustomerRequirement.showUser = true;
       this.inputCustomerRequirement.dateOfCreation = new Date();
 
-      if (this.inputCustomerRequirement.startDate !== null && this.inputCustomerRequirement.startDate !== undefined) {
-        if (typeof this.inputCustomerRequirement.startDate === 'string' || typeof this.inputCustomerRequirement.startDate === 'number') {
-          this.inputCustomerRequirement.startDate = new Date(this.inputCustomerRequirement.startDate);
-        }
-        if (this.inputCustomerRequirement.startDate instanceof Date) {
-          this.inputCustomerRequirement.startDate?.setHours(5);
-        }
-      }
-
-      if (this.inputCustomerRequirement.endDate !== null && this.inputCustomerRequirement.endDate !== undefined) {
-        if (typeof this.inputCustomerRequirement.endDate === 'string' || typeof this.inputCustomerRequirement.endDate === 'number') {
-          this.inputCustomerRequirement.endDate = new Date(this.inputCustomerRequirement.endDate);
-        }
-        if (this.inputCustomerRequirement.endDate instanceof Date) {
-          this.inputCustomerRequirement.endDate?.setHours(5);
-        }
-      }
+      this.adjustDates();
 
       this.inputCustomerRequirement.customerVisits.forEach(element => {
         element.fromDateOfVisit = element.dateSelect![0];
@@ -512,6 +496,18 @@ export class CustomerRequirementsComponent implements OnInit {
     document.body.appendChild(a); a.click();
     window.URL.revokeObjectURL(url);
     a.remove();
+  }
+
+  adjustDates() {
+    this.inputCustomerRequirement.startDate = this.setHours(this.inputCustomerRequirement.startDate);
+    this.inputCustomerRequirement.endDate = this.setHours(this.inputCustomerRequirement.endDate);
+    this.inputCustomerRequirement.customerVisits!.forEach(element => { 
+      element.toDateOfVisit = this.setHours(element.toDateOfVisit); 
+      element.fromDateOfVisit = this.setHours(element.fromDateOfVisit); 
+    });
+  }
+  setHours(date: any) {
+    return (date !== null && date !== undefined) ? new Date(new Date(new Date(date.toString()).setHours(5))) : undefined;
   }
 }
 

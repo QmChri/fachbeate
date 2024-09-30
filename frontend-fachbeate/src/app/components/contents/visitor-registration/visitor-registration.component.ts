@@ -303,15 +303,12 @@ export class VisitorRegistrationComponent implements OnInit {
     this.inputVisitRegistration.reason = "VisitorRegistration"
     this.inputVisitRegistration.plannedDepartmentVisits = [];
 
-    this.inputVisitRegistration.fromDate = (this.inputVisitRegistration.fromDate !== null && this.inputVisitRegistration.fromDate !== undefined) ? new Date(this.inputVisitRegistration.fromDate?.setHours(5)) : this.inputVisitRegistration.fromDate;
-    this.inputVisitRegistration.toDate = (this.inputVisitRegistration.toDate !== null && this.inputVisitRegistration.toDate !== undefined) ? new Date(this.inputVisitRegistration.toDate?.setHours(5)) : this.inputVisitRegistration.toDate;
+    this.adjustDates()
     if (this.inputVisitRegistration.fromDate! > this.inputVisitRegistration.toDate!) {
       this.getNotification(10)
       return
     }
 
-    (this.inputVisitRegistration.stayFromDate !== null && this.inputVisitRegistration.stayFromDate !== undefined) ? new Date(this.inputVisitRegistration.stayFromDate).setHours(5) : "";
-    (this.inputVisitRegistration.stayToDate !== null && this.inputVisitRegistration.stayToDate !== undefined) ? new Date(this.inputVisitRegistration.stayToDate).setHours(5) : "";
     if (this.inputVisitRegistration.stayFromDate! > this.inputVisitRegistration.stayToDate!) {
       this.getNotification(10)
       return
@@ -325,12 +322,6 @@ export class VisitorRegistrationComponent implements OnInit {
       }
       ]
     });
-
-    this.inputVisitRegistration.hotelBookings.forEach(s => {
-      s!.hotelStayFromDate = (s.hotelStayFromDate !== null && s.hotelStayFromDate !== undefined) ? new Date(new Date(s.hotelStayFromDate.toString()).setHours(5)) : undefined!;
-      s!.hotelStayToDate = (s.hotelStayToDate !== null && s.hotelStayToDate !== undefined) ? new Date(new Date(s.hotelStayToDate.toString()).setHours(5)) : undefined;
-    }
-    );
 
     this.http.postVisitorRegistration(this.inputVisitRegistration).subscribe({
       next: data => {
@@ -523,4 +514,31 @@ export class VisitorRegistrationComponent implements OnInit {
   convertToDate(date: any): Date | undefined {
     return (date !== null && date !== undefined) ? new Date(date.toString()) : undefined;
   }
+
+  adjustDates() {
+    this.inputVisitRegistration.fromDate = this.setHours(this.inputVisitRegistration.fromDate);
+    this.inputVisitRegistration.toDate = this.setHours(this.inputVisitRegistration.toDate);
+    this.inputVisitRegistration.stayFromDate = this.setHours(this.inputVisitRegistration.stayFromDate);
+    this.inputVisitRegistration.stayToDate = this.setHours(this.inputVisitRegistration.stayToDate);
+    this.inputVisitRegistration.tourDate = this.setHours(this.inputVisitRegistration.tourDate);
+    this.inputVisitRegistration.meetingRoomReservations!.forEach(element => {
+      element.meetingRoomDate = this.setHours(element.meetingRoomDate);
+    });
+    this.inputVisitRegistration.hotelBookings!.forEach(element => {
+      element.hotelStayFromDate = this.setHours(element.hotelStayFromDate);
+      element.hotelStayToDate = this.setHours(element.hotelStayToDate);
+    });
+    this.inputVisitRegistration.mealDateFrom = this.setHours(this.inputVisitRegistration.mealDateFrom);
+    this.inputVisitRegistration.mealDateTo = this.setHours(this.inputVisitRegistration.mealDateTo);
+    this.inputVisitRegistration.plannedDepartmentVisits!.forEach(element => {
+      element.dateOfVisit = this.setHours(element.dateOfVisit);
+    });
+    this.inputVisitRegistration.flights!.forEach(element => {
+      element.flightDate = this.setHours(element.flightDate);
+    });
+  }
+  setHours(date: any) {
+    return (date !== null && date !== undefined) ? new Date(new Date(new Date(date.toString()).setHours(5))) : undefined;
+  }
+
 }

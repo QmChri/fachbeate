@@ -231,19 +231,9 @@ export class BookingRequestComponent implements OnInit {
 
       this.inputBooking.showUser = true;
 
-      (this.inputBooking.mainStartDate !== null && this.inputBooking.mainStartDate !== undefined) ? new Date(this.inputBooking.mainStartDate!.toString()).setHours(5) : "";
-      (this.inputBooking.mainEndDate !== null && this.inputBooking.mainEndDate !== undefined) ? new Date(this.inputBooking.mainStartDate!.toString()).setHours(5) : "";
       this.inputBooking.lastEditor = this.inputBooking.lastEditor;
 
-      this.inputBooking.hotelBookings.forEach(element => {
-        element.hotelStayFromDate = (element.hotelStayFromDate !== null && element.hotelStayFromDate !== undefined) ? new Date(new Date(element.hotelStayFromDate!.toString()).setHours(5)) : undefined;
-        element.hotelStayToDate = (element.hotelStayToDate !== null && element.hotelStayToDate !== undefined) ? new Date(new Date(element.hotelStayToDate!.toString()).setHours(5)) : undefined;
-      });
-
-      this.inputBooking.flights.forEach(element => {
-        element.flightDate = (element.flightDate !== null && element.flightDate !== undefined) ? new Date(new Date(element.flightDate!.toString()).setHours(5)) : undefined;
-      });
-      this.inputBooking.carFrom = (this.inputBooking.carFrom !== null && this.inputBooking.carFrom !== undefined) ? new Date(new Date(this.inputBooking.carFrom!.toString()).setHours(5)) : undefined;
+      this.adjustDates()
 
       this.http.postBookingRequest(this.inputBooking).subscribe({
         next: data => {
@@ -485,5 +475,20 @@ export class BookingRequestComponent implements OnInit {
     }
   }
 
-
+  adjustDates() {
+    this.inputBooking.mainStartDate = this.setHours(this.inputBooking.mainStartDate);
+    this.inputBooking.mainEndDate = this.setHours(this.inputBooking.mainEndDate);
+    this.inputBooking.flights!.forEach(element => { element.flightDate = this.setHours(element.flightDate); });
+    this.inputBooking.trainStartDate = this.setHours(this.inputBooking.trainStartDate);
+    this.inputBooking.trainEndDate = this.setHours(this.inputBooking.trainEndDate);
+    this.inputBooking.hotelBookings!.forEach(element => {
+      element.hotelStayFromDate = this.setHours(element.hotelStayFromDate);
+      element.hotelStayToDate = this.setHours(element.hotelStayToDate);
+    });
+    this.inputBooking.carFrom = this.setHours(this.inputBooking.carFrom);
+    this.inputBooking.carTo = this.setHours(this.inputBooking.carTo);
+  }
+  setHours(date: any) {
+    return (date !== null && date !== undefined) ? new Date(new Date(new Date(date.toString()).setHours(5))) : undefined;
+  }
 }
