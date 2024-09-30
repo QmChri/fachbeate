@@ -339,17 +339,13 @@ export class BookingRequestComponent implements OnInit {
       this.getNotification(3);
       return false;
     }
-    // Datei zur Liste hinzufügen
-    this.fileList = [...this.fileList, file];
     this.getNotification(0);
     return true;
   };
 
   handleChange(info: { fileList: NzUploadFile[] }): void {
     this.fileList = info.fileList;
-
     this.fileUpload = this.convertFileListToBase64()
-
   }
 
   convertFileListToBase64() {

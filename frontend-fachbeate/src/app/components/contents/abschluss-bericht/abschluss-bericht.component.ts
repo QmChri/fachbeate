@@ -430,8 +430,6 @@ export class AbschlussBerichtComponent implements OnInit {
       this.getNotification(3);
       return false;
     }
-    // Datei zur Liste hinzufügen
-    this.fileList = [...this.fileList, file];
     this.getNotification(0);
     return true;
   };
