@@ -10,4 +10,5 @@ export interface TechnologistAppointment {
     flightBooking?: boolean;
     hotelBooking?: boolean;
     reason?: string;
+    creator?: string;
 }

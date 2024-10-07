@@ -105,6 +105,7 @@ export class NewDateEntryComponent implements OnInit {
 
       this.inputDate.startDate?.setHours(5);
       this.inputDate.endDate?.setHours(5);
+      this.inputDate.creator = this.roleService.getUserName();
 
       this.http.postOtherDate(this.inputDate).subscribe({
         next: data => {
