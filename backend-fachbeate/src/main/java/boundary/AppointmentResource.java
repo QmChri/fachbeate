@@ -108,9 +108,11 @@ public class AppointmentResource {
         if (user==7) {
             return getOtherAppointments();
         }else if(user == 4) {
-            return Response.ok(TechnologistAppointment.find(
-                    "requestedTechnologist.email = ?2 or creator = ?1", fullname.get(1), fullname.get(0)
-                    ).list()).build();
+            List<TechnologistAppointment> result = TechnologistAppointment.find(
+                    "requestedTechnologist.email = ?1 or creator = ?2", fullname.get(1), fullname.get(0)
+            ).list();
+
+            return Response.ok(result).build();
         }
         return Response.ok().build();
     }
