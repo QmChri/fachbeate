@@ -36,7 +36,7 @@ export const navbarData: INavbarData[] = [
         routeLink: 'booking-request',
         icon: 'fal fa-plane',
         label: 'bookingRequest',
-        role: [1, 5, 7]
+        role: [1, 2, 3, 4, 5, 7]
     },
     {
         routeLink: 'abschluss-bericht-list',

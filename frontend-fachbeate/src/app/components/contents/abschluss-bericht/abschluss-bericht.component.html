@@ -258,6 +258,7 @@
                 </mat-button-toggle-group>
             </div>
         </div>
+        <!--
         <div class="col-md-4 paddingBottom">
             <div class="card" style="min-height: 19rem;">
                 <div class="card-header text-white bg-danger">{{"ABSCHLUSSBERICHT.header_upload" | translate}}</div>
@@ -272,6 +273,7 @@
                 </div>
             </div>
         </div>
+        -->
         <ng-container *ngFor="let reasonReport of inputFinalReport.reasonReports">
             <div class="col-md-4 paddingBottom" *ngIf="reasonReport.reason === 1">
                 <div class="card" hideToggle>
@@ -286,7 +288,7 @@
                                 <input [disabled]="roleService.checkPermission([6])" matInput
                                     [(ngModel)]="article.articleNr" name="articleNumber{{reasonReport.reason}}"
                                     (ngModelChange)="insertOther(article, reasonReport.reason)" type="number"
-                                    maxlength="7" min="0" max="9999999" 
+                                    maxlength="7" min="0" max="9999999"
                                     oninput="this.value = this.value.slice(0, this.maxLength)" required>
                                 @if (control.hasError('required')) {
                                 <mat-error>
@@ -384,7 +386,7 @@
                                 <input [disabled]="roleService.checkPermission([6])" matInput
                                     [(ngModel)]="article.articleNr" name="articleNumber{{reasonReport.reason}}"
                                     (ngModelChange)="insertOther(article, reasonReport.reason)" type="number"
-                                    maxlength="7" min="0" max="9999999" 
+                                    maxlength="7" min="0" max="9999999"
                                     oninput="this.value = this.value.slice(0, this.maxLength)" required>
                                 @if (control.hasError('required')) {
                                 <mat-error>
@@ -434,8 +436,7 @@
                                     name="articleNumber{{reasonReport.reason}}"
                                     (ngModelChange)="insertOther(article, reasonReport.reason)"
                                     [(ngModel)]="article.articleNr" type="number" maxlength="7" min="0" max="9999999"
-                                     oninput="this.value = this.value.slice(0, this.maxLength)"
-                                    required>
+                                    oninput="this.value = this.value.slice(0, this.maxLength)" required>
                                 @if (control.hasError('required')) {
                                 <mat-error>
                                     {{ "ABSCHLUSSBERICHT.article_length" | translate }}
@@ -476,10 +477,7 @@
         <div> <button (click)="closeDialog(false)" class="btn btn-secondary">{{"DASHBOARD.cancel" |
                 translate}}</button></div>
         <div>
-            <button *ngIf="(inputFinalReport.creator === undefined && roleService.checkPermission([3,4,6]))
-                || (!inputFinalReport.representativeEntered && roleService.checkPermission([3]))
-                || (!inputFinalReport.technologistEntered && roleService.checkPermission([4]))
-                || (roleService.checkPermission([1,2,5,7]))" (click)="closeDialog(true)" class="btn btn-success">
+            <button *ngIf="!roleService.checkPermission([5,6])" (click)="closeDialog(true)" class="btn btn-success">
                 {{"STANDARD.save" |
                 translate}}
             </button>
