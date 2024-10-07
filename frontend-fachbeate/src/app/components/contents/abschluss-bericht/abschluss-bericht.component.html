@@ -477,7 +477,7 @@
         <div> <button (click)="closeDialog(false)" class="btn btn-secondary">{{"DASHBOARD.cancel" |
                 translate}}</button></div>
         <div>
-            <button *ngIf="!roleService.checkPermission([5,6])" (click)="closeDialog(true)" class="btn btn-success">
+            <button *ngIf="roleService.checkPermission([1,2,3,4,7])" (click)="closeDialog(true)" class="btn btn-success">
                 {{"STANDARD.save" |
                 translate}}
             </button>
