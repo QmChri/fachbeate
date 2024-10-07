@@ -23,6 +23,7 @@ public class TechnologistAppointment extends PanacheEntity {
     public boolean hotelBooking;
     public boolean flightBooking;
     public String reason;
+    public String creator;
 
 
     public TechnologistAppointment() {
@@ -38,6 +39,7 @@ public class TechnologistAppointment extends PanacheEntity {
         this.hotelBooking = newTechnologistAppointment.hotelBooking;
         this.flightBooking = newTechnologistAppointment.flightBooking;
         this.reason = newTechnologistAppointment.reason;
+        this.creator = newTechnologistAppointment.creator;
 
         if(newTechnologistAppointment.requestedTechnologist.id != null && newTechnologistAppointment.requestedTechnologist.id != 0) {
             this.requestedTechnologist = Technologist.findById(newTechnologistAppointment.requestedTechnologist.id);
