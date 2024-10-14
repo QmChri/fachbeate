@@ -228,6 +228,17 @@ export class AbschlussBerichtListComponent {
     //endregion
   }
 
+  getNotification(type: number) {
+    switch (type) {
+      case 0: { //Abschlussbericht hinzugefügt
+        this.translate.get('STANDARD.final_report_added').subscribe((translatedMessage: string) => {
+          this.notificationService.createBasicNotification(0, translatedMessage, '', 'topRight');
+        });
+        break;
+      }
+    }
+  }
+
   loadTechnologists() {
     this.http.getAllTechnologist().subscribe({
       next: data => { this.technologistList = data },
@@ -282,7 +293,7 @@ export class AbschlussBerichtListComponent {
               finalRep.reasonReports!.forEach(element => {
                 newEntity.article = [...newEntity.article, ...element.presentedArticle]
               });
-
+              this.getNotification(0);
               this.listOfDisplayData = this.listOfDisplayData.map(entity => entity.id === finalRep.id ? newEntity : entity)
             },
             error: (error) => {

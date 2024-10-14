@@ -248,7 +248,11 @@ export class AbschlussBerichtComponent implements OnInit {
   }
 
   deleteArticle(reason: number) {
-    this.inputFinalReport.reasonReports?.find(element => element.reason === reason)?.presentedArticle.pop();
+    var reasonReport = this.inputFinalReport.reasonReports?.find(element => element.reason === reason);
+
+    if(reasonReport!.presentedArticle.length > 1){
+      this.inputFinalReport.reasonReports?.find(element => element.reason === reason)?.presentedArticle.pop();
+    }
   }
 
   getTechnologist() {

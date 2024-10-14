@@ -23,7 +23,7 @@ import java.util.List;
 @Path("/workshop")
 public class WorkshopResource {
 
-    final Date FIVE_DAYS_AGO = Date.from(LocalDate.now().minusDays(5).atStartOfDay(ZoneId.systemDefault()).toInstant());
+    final Date FIVE_DAYS_AGO = Date.from(LocalDate.now().minusDays(14).atStartOfDay(ZoneId.systemDefault()).toInstant());
 
 
     @Inject

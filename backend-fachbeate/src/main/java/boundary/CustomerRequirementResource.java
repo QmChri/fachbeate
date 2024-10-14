@@ -19,7 +19,7 @@ import java.util.List;
 @Path("customerRequirement")
 public class CustomerRequirementResource {
 
-    final Date FIVE_DAYS_AGO = Date.from(LocalDate.now().minusDays(5).atStartOfDay(ZoneId.systemDefault()).toInstant());
+    final Date FIVE_DAYS_AGO = Date.from(LocalDate.now().minusDays(14).atStartOfDay(ZoneId.systemDefault()).toInstant());
 
     /**
      * Post a new Fachberateranforderung
