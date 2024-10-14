@@ -32,15 +32,11 @@ export class AbschlussBerichtComponent implements OnInit {
   multiSelect: number[] = [];
   reasonSelect: number[] = [];
 
-  existingArticles: Article[] = []
   technologists: TechDateDTO[] = [];
   representative: Representative[] = [];
 
   fileList: NzUploadFile[] = [];
 
-  article = {
-    articleNr: ''
-  };
   todoList = [
     { id: 1, name: 'ABSCHLUSSBERICHT.information' },
     { id: 2, name: 'ABSCHLUSSBERICHT.recipe_optimization' },
@@ -113,7 +109,7 @@ export class AbschlussBerichtComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAllArticles();
+    //this.getAllArticles();
     this.getTechnologist();
     this.getRepresentative();
   }
@@ -150,7 +146,7 @@ export class AbschlussBerichtComponent implements OnInit {
       );
     }
   }
-
+/*
   getAllArticles() {
     this.http.getAllArticles().subscribe({
       next: data => this.existingArticles = data,
@@ -181,7 +177,7 @@ export class AbschlussBerichtComponent implements OnInit {
     }
     //endregion
 
-  }
+  }*/
 
   closeDialog(save: boolean) {
     var sendmail: boolean = false;
@@ -305,8 +301,7 @@ export class AbschlussBerichtComponent implements OnInit {
   }
 
   changeTechnolgist($event: any) {
-    this.inputFinalReport.technologist = this.technologists.find(elemnt => elemnt.technologist.id === $event)!.technologist
-      ;
+    this.inputFinalReport.technologist = this.technologists.find(elemnt => elemnt.technologist.id === $event)!.technologist;
   }
 
   changeRepresentative($event: any) {
